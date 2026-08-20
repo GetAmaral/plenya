@@ -14,9 +14,14 @@
 -- cada camada referencia a anterior. Todo bloco e idempotente (WHERE NOT EXISTS / ON CONFLICT),
 -- entao rodar de novo nao duplica.
 --
--- Conferido carregando do zero num banco vazio ate bater com o de desenvolvimento:
--- 290 substancias, 132 formulas, 653 componentes, 54 regras, 167 faixas, 161 tetos, 12 pares,
--- 8 regras de base.
+-- Conferido de duas formas: carga do zero num banco vazio batendo com o desenvolvimento
+-- (290 substancias, 132 formulas, 653 componentes, 54 regras, 167 faixas, 161 tetos, 12 pares,
+-- 8 regras de base), e TRES passadas seguidas no mesmo banco devolvendo sempre os mesmos numeros.
+--
+-- A segunda conferencia achou um defeito real: um seed inseria "Aakg" e um arquivo seguinte
+-- renomeava para "AAKG"; na segunda passada o insert recriava o nome antigo e a renomeacao
+-- colidia. Os seeds passaram a inserir ja com o nome canonico — carga declarativa, sem etapa de
+-- migracao de nome no meio.
 --
 -- BEGIN/COMMIT dos arquivos de origem foram removidos: goose ja envolve a migration inteira numa
 -- transacao, e transacao aninhada quebraria a carga no meio.
@@ -707,26 +712,26 @@ WHERE lower(public.immutable_unaccent(c.name)) = lower(public.immutable_unaccent
 INSERT INTO magistral_components (id, name, synonyms, default_unit, bulk_density, density_source,
   eutectic_former, hygroscopic, oxidizing, oxidation_sensitive, photosensitive, sachet_ok,
   source, evidence_status, notes, is_active, created_at, updated_at) VALUES
-  (uuid_generate_v7(), 'Aakg', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'AAKG', 'arginina alfa-cetoglutarato', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Abacateiro', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Alfa amilase', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Alfa-amilase', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Altilix', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Asiaticoside', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Ásiaticosídeo', 'ASIATICOSIDE, asiaticoside', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Astragalus', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Bcaa', '', 'g', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Beta alanina', '', 'mg', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'BCAA', 'aminoácidos de cadeia ramificada', 'g', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Beta-alanina', '', 'mg', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Betacaroteno', 'BETACAROTENO', 'mg', 0.75, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como vitamina; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Betaína anidra', 'BETAÍNA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Bifidob bifidum', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Bifidob breve', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Bifidob longum', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Bifidobacterium bifidum', 'BIFIDOB BIFIDUM', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Bifidobacterium breve', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Bifidobacterium longum', 'BIFIDOB LONGUM', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Boro', 'BORO QUELATO', 'mg', 0.75, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como mineral; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Boswellia', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Bromelina', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Buclizina', 'BUCLISINA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Capsiate', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Cassia angustifolia', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Castanha da india', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Cássia angustifólia', 'sene', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Castanha-da-índia', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Cavalinha', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Centella asiatica', 'CENTELA ASIATICA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Chia', 'CHIA', 'g', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
@@ -745,12 +750,12 @@ INSERT INTO magistral_components (id, name, synonyms, default_unit, bulk_density
   (uuid_generate_v7(), 'Dong quai', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Enzimas pancreáticas', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Epicor', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Equinacea', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Equinácea', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Extrato de semente de uva', 'EXT SEMENTE UVA, VITIS VINIFERA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Faseolamina', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Folha de oliveira', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Fosfolipideos de caviar', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Gama orizanol', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Fosfolipídeos de caviar', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Gama-orizanol', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Gengibre', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Ginseng', 'EXT SECO DE GINSENG', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Glisodim', 'GLISODIN', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
@@ -759,7 +764,7 @@ INSERT INTO magistral_components (id, name, synonyms, default_unit, bulk_density
   (uuid_generate_v7(), 'HMB', 'HMB CALCIO', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Hesperidina', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Hibisco', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Id alg', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'ID-alG', 'ID ALG, id alg', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Kava-kava', 'KAWA-KAWA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'L-arginina', 'L ARGININA, L-ARGININA', 'mg', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'L-citrulina malato', 'L CITRULINA MALATO', 'mg', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
@@ -771,16 +776,16 @@ INSERT INTO magistral_components (id, name, synonyms, default_unit, bulk_density
   (uuid_generate_v7(), 'L-prolina', '', 'mg', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'L-valina', '', 'mg', 0.65, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como aminoácido; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Lactase', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob acidophillus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob bulgaricus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob casei', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob delbrueckii', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob gasseri', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob plantarum', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob reuteri', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob rhamnosus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob salivarus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Lactob thermophilus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus acidophilus', 'LACTOB ACIDOPHILLUS', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus bulgaricus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus casei', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus delbrueckii', 'LACTOB DELBRUECKII', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus gasseri', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus plantarum', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus reuteri', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus rhamnosus', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Lactobacillus salivarius', '', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Streptococcus thermophilus', 'LACTOB THERMOPHILUS', 'bilhões UFC', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como probiótico; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Lecitina', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Lipase', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Lowat', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
@@ -793,28 +798,28 @@ INSERT INTO magistral_components (id, name, synonyms, default_unit, bulk_density
   (uuid_generate_v7(), 'Mulungu', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Nattoquinase', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Nutricolin', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Oli ola', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Oli-Ola', 'OLI OLA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Palatinose', '', 'g', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Papaina', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Papaína', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Phosfator', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Picnogenol', 'PICNOGENOOL', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Polidextrose', '', 'g', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Polypodium leucotomos', 'POLYPODIUM LEUCOTOMOS', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Pomegranate', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Romã', 'POMEGRANATE, pomegranate, Punica granatum', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Potássio', 'CLORETO DE POTÁSSIO, POTÁSSIO QUELATO', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Pregnenolona', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Protease', '', 'mg', 0.5, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como enzima; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Psyllium', 'PLANTAGO OVATE, PSILLYUM', 'g', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Pygeum africanum', 'PYGEUM AFRICANUM', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Red clover', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Trevo-vermelho', 'RED CLOVER, red clover, Trifolium pratense', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Rutina', 'RUTINA', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Sinetrol', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Sucupira', '', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Tint alcachofra', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Tint alecrim', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Tint espinheira santa', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Tint funcho', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
-  (uuid_generate_v7(), 'Tint hortela', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Tintura de alcachofra', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Tintura de alecrim', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Tintura de espinheira-santa', 'TINT ESPINHEIRA SANTA', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Tintura de funcho', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
+  (uuid_generate_v7(), 'Tintura de hortelã', '', 'ml', 1.0, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como tintura; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Tribulus terrestris', 'TRIBULUS TERRESTRE', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Vanádio', 'VANADIO QUELADO, VANÁDIO QUELATO', 'mg', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
   (uuid_generate_v7(), 'Veiculo oleoso qsp', '', 'Gotas', 0.45, 'classe', false, false, false, false, false, true, 'parceiro', 'pending', 'Classificada como fitoterápico ou ativo patenteado; densidade aproximada por classe. Sem faixa de dose até conferência.', true, now(), now()),
@@ -910,49 +915,86 @@ INSERT INTO magistral_components (id, name, synonyms, default_unit, bulk_density
 ON CONFLICT DO NOTHING;
 
 -- ═══ magistral-substancias-nomes.sql ═══
+-- A guarda "AND NOT EXISTS" em cada renomeação existe porque este arquivo roda depois de um seed
+-- que insere os nomes ANTIGOS: numa segunda passada o insert recria "Aakg" e a renomeação para
+-- "AAKG" colidia com a linha que já estava lá. Com a guarda, a segunda passada não faz nada.
+--
 -- Ajuste dos nomes gerados a partir do formulário: o formulário escreve tudo em caixa alta e
 -- abreviado, e a capitalização automática produz "Bcaa" e "Lactob plantarum". Aqui os nomes ficam
 -- como se escreve de verdade, e as siglas voltam a ser siglas.
 --
 -- O veículo sai do catálogo de ativos: "veículo oleoso qsp" é base, não substância.
 
-UPDATE magistral_components SET name = 'AAKG', synonyms = 'arginina alfa-cetoglutarato' WHERE name = 'Aakg';
-UPDATE magistral_components SET name = 'BCAA', synonyms = 'aminoácidos de cadeia ramificada' WHERE name = 'Bcaa';
-UPDATE magistral_components SET name = 'ID-alG', synonyms = 'ID ALG, id alg' WHERE name = 'Id alg';
-UPDATE magistral_components SET name = 'Oli-Ola', synonyms = 'OLI OLA' WHERE name = 'Oli ola';
-UPDATE magistral_components SET name = 'Beta-alanina' WHERE name = 'Beta alanina';
-UPDATE magistral_components SET name = 'Alfa-amilase' WHERE name = 'Alfa amilase';
-UPDATE magistral_components SET name = 'Gama-orizanol' WHERE name = 'Gama orizanol';
-UPDATE magistral_components SET name = 'Castanha-da-índia' WHERE name = 'Castanha da india';
-UPDATE magistral_components SET name = 'Fosfolipídeos de caviar' WHERE name = 'Fosfolipideos de caviar';
-UPDATE magistral_components SET name = 'Papaína' WHERE name = 'Papaina';
-UPDATE magistral_components SET name = 'Equinácea' WHERE name = 'Equinacea';
-UPDATE magistral_components SET name = 'Ásiaticosídeo', synonyms = 'ASIATICOSIDE, asiaticoside' WHERE name = 'Asiaticoside';
-UPDATE magistral_components SET name = 'Cássia angustifólia', synonyms = 'sene' WHERE name = 'Cassia angustifolia';
-UPDATE magistral_components SET name = 'Romã', synonyms = 'POMEGRANATE, pomegranate, Punica granatum' WHERE name = 'Pomegranate';
-UPDATE magistral_components SET name = 'Trevo-vermelho', synonyms = 'RED CLOVER, red clover, Trifolium pratense' WHERE name = 'Red clover';
+UPDATE magistral_components SET name = 'AAKG', synonyms = 'arginina alfa-cetoglutarato' WHERE name = 'Aakg'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'AAKG');
+UPDATE magistral_components SET name = 'BCAA', synonyms = 'aminoácidos de cadeia ramificada' WHERE name = 'Bcaa'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'BCAA');
+UPDATE magistral_components SET name = 'ID-alG', synonyms = 'ID ALG, id alg' WHERE name = 'Id alg'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'ID-alG');
+UPDATE magistral_components SET name = 'Oli-Ola', synonyms = 'OLI OLA' WHERE name = 'Oli ola'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Oli-Ola');
+UPDATE magistral_components SET name = 'Beta-alanina' WHERE name = 'Beta alanina'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Beta-alanina');
+UPDATE magistral_components SET name = 'Alfa-amilase' WHERE name = 'Alfa amilase'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Alfa-amilase');
+UPDATE magistral_components SET name = 'Gama-orizanol' WHERE name = 'Gama orizanol'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Gama-orizanol');
+UPDATE magistral_components SET name = 'Castanha-da-índia' WHERE name = 'Castanha da india'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Castanha-da-índia');
+UPDATE magistral_components SET name = 'Fosfolipídeos de caviar' WHERE name = 'Fosfolipideos de caviar'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Fosfolipídeos de caviar');
+UPDATE magistral_components SET name = 'Papaína' WHERE name = 'Papaina'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Papaína');
+UPDATE magistral_components SET name = 'Equinácea' WHERE name = 'Equinacea'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Equinácea');
+UPDATE magistral_components SET name = 'Ásiaticosídeo', synonyms = 'ASIATICOSIDE, asiaticoside' WHERE name = 'Asiaticoside'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Ásiaticosídeo');
+UPDATE magistral_components SET name = 'Cássia angustifólia', synonyms = 'sene' WHERE name = 'Cassia angustifolia'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Cássia angustifólia');
+UPDATE magistral_components SET name = 'Romã', synonyms = 'POMEGRANATE, pomegranate, Punica granatum' WHERE name = 'Pomegranate'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Romã');
+UPDATE magistral_components SET name = 'Trevo-vermelho', synonyms = 'RED CLOVER, red clover, Trifolium pratense' WHERE name = 'Red clover'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Trevo-vermelho');
 
 -- probióticos com o gênero por extenso
-UPDATE magistral_components SET name = 'Lactobacillus acidophilus', synonyms = 'LACTOB ACIDOPHILLUS' WHERE name = 'Lactob acidophillus';
-UPDATE magistral_components SET name = 'Lactobacillus bulgaricus',  synonyms = 'LACTOB BULGARICUS'  WHERE name = 'Lactob bulgaricus';
-UPDATE magistral_components SET name = 'Lactobacillus casei',       synonyms = 'LACTOB CASEI'       WHERE name = 'Lactob casei';
-UPDATE magistral_components SET name = 'Lactobacillus delbrueckii', synonyms = 'LACTOB DELBRUECKII' WHERE name = 'Lactob delbrueckii';
-UPDATE magistral_components SET name = 'Lactobacillus gasseri',     synonyms = 'LACTOB GASSERI'     WHERE name = 'Lactob gasseri';
-UPDATE magistral_components SET name = 'Lactobacillus plantarum',   synonyms = 'LACTOB PLANTARUM'   WHERE name = 'Lactob plantarum';
-UPDATE magistral_components SET name = 'Lactobacillus reuteri',     synonyms = 'LACTOB REUTERI'     WHERE name = 'Lactob reuteri';
-UPDATE magistral_components SET name = 'Lactobacillus rhamnosus',   synonyms = 'LACTOB RHAMNOSUS'   WHERE name = 'Lactob rhamnosus';
-UPDATE magistral_components SET name = 'Lactobacillus salivarius',  synonyms = 'LACTOB SALIVARUS'   WHERE name = 'Lactob salivarus';
-UPDATE magistral_components SET name = 'Streptococcus thermophilus', synonyms = 'LACTOB THERMOPHILUS' WHERE name = 'Lactob thermophilus';
-UPDATE magistral_components SET name = 'Bifidobacterium bifidum', synonyms = 'BIFIDOB BIFIDUM' WHERE name = 'Bifidob bifidum';
-UPDATE magistral_components SET name = 'Bifidobacterium breve',  synonyms = 'BIFIDOB BREVE'  WHERE name = 'Bifidob breve';
-UPDATE magistral_components SET name = 'Bifidobacterium longum', synonyms = 'BIFIDOB LONGUM' WHERE name = 'Bifidob longum';
+UPDATE magistral_components SET name = 'Lactobacillus acidophilus', synonyms = 'LACTOB ACIDOPHILLUS' WHERE name = 'Lactob acidophillus'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus acidophilus');
+UPDATE magistral_components SET name = 'Lactobacillus bulgaricus',  synonyms = 'LACTOB BULGARICUS'  WHERE name = 'Lactob bulgaricus'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus bulgaricus');
+UPDATE magistral_components SET name = 'Lactobacillus casei',       synonyms = 'LACTOB CASEI'       WHERE name = 'Lactob casei'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus casei');
+UPDATE magistral_components SET name = 'Lactobacillus delbrueckii', synonyms = 'LACTOB DELBRUECKII' WHERE name = 'Lactob delbrueckii'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus delbrueckii');
+UPDATE magistral_components SET name = 'Lactobacillus gasseri',     synonyms = 'LACTOB GASSERI'     WHERE name = 'Lactob gasseri'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus gasseri');
+UPDATE magistral_components SET name = 'Lactobacillus plantarum',   synonyms = 'LACTOB PLANTARUM'   WHERE name = 'Lactob plantarum'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus plantarum');
+UPDATE magistral_components SET name = 'Lactobacillus reuteri',     synonyms = 'LACTOB REUTERI'     WHERE name = 'Lactob reuteri'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus reuteri');
+UPDATE magistral_components SET name = 'Lactobacillus rhamnosus',   synonyms = 'LACTOB RHAMNOSUS'   WHERE name = 'Lactob rhamnosus'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus rhamnosus');
+UPDATE magistral_components SET name = 'Lactobacillus salivarius',  synonyms = 'LACTOB SALIVARUS'   WHERE name = 'Lactob salivarus'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Lactobacillus salivarius');
+UPDATE magistral_components SET name = 'Streptococcus thermophilus', synonyms = 'LACTOB THERMOPHILUS' WHERE name = 'Lactob thermophilus'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Streptococcus thermophilus');
+UPDATE magistral_components SET name = 'Bifidobacterium bifidum', synonyms = 'BIFIDOB BIFIDUM' WHERE name = 'Bifidob bifidum'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Bifidobacterium bifidum');
+UPDATE magistral_components SET name = 'Bifidobacterium breve',  synonyms = 'BIFIDOB BREVE'  WHERE name = 'Bifidob breve'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Bifidobacterium breve');
+UPDATE magistral_components SET name = 'Bifidobacterium longum', synonyms = 'BIFIDOB LONGUM' WHERE name = 'Bifidob longum'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Bifidobacterium longum');
 
 -- tinturas
-UPDATE magistral_components SET name = 'Tintura de alcachofra',       synonyms = 'TINT ALCACHOFRA'       WHERE name = 'Tint alcachofra';
-UPDATE magistral_components SET name = 'Tintura de alecrim',          synonyms = 'TINT ALECRIM'          WHERE name = 'Tint alecrim';
-UPDATE magistral_components SET name = 'Tintura de espinheira-santa', synonyms = 'TINT ESPINHEIRA SANTA' WHERE name = 'Tint espinheira santa';
-UPDATE magistral_components SET name = 'Tintura de funcho',           synonyms = 'TINT FUNCHO'           WHERE name = 'Tint funcho';
-UPDATE magistral_components SET name = 'Tintura de hortelã',          synonyms = 'TINT HORTELA'          WHERE name = 'Tint hortela';
+UPDATE magistral_components SET name = 'Tintura de alcachofra',       synonyms = 'TINT ALCACHOFRA'       WHERE name = 'Tint alcachofra'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Tintura de alcachofra');
+UPDATE magistral_components SET name = 'Tintura de alecrim',          synonyms = 'TINT ALECRIM'          WHERE name = 'Tint alecrim'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Tintura de alecrim');
+UPDATE magistral_components SET name = 'Tintura de espinheira-santa', synonyms = 'TINT ESPINHEIRA SANTA' WHERE name = 'Tint espinheira santa'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Tintura de espinheira-santa');
+UPDATE magistral_components SET name = 'Tintura de funcho',           synonyms = 'TINT FUNCHO'           WHERE name = 'Tint funcho'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Tintura de funcho');
+UPDATE magistral_components SET name = 'Tintura de hortelã',          synonyms = 'TINT HORTELA'          WHERE name = 'Tint hortela'
+   AND NOT EXISTS (SELECT 1 FROM magistral_components m WHERE m.name = 'Tintura de hortelã');
 
 -- veículo não é ativo
 DELETE FROM magistral_components WHERE name = 'Veiculo oleoso qsp';

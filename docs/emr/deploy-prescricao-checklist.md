@@ -44,15 +44,23 @@ idempotente. O `Down` **não apaga nada** de propósito: depois que o médico co
 criar a dele, não dá para distinguir o que veio da carga do que é trabalho dele. Para desfazer,
 reverte-se até a 00069, que derruba as tabelas — aí a intenção de perder o conteúdo está explícita.
 
-### O que continua manual: o catálogo de industrializados
+### O catálogo de industrializados também vai junto, na 00082
+
+As 26.001 apresentações da lista ANVISA/CMED (edição 202608) entram como base, com a
+classificação deduzida (19.364 simples, 4.367 C1, 1.421 antimicrobianos, 727 tarja preta, 94
+GLP-1, 28 C5) e as 5.872 marcadas `needs_review` — que é o sistema dizendo onde não sabe.
+
+Vai junto o `curated_at` das **147 linhas conferidas à mão**: é esse campo que impede o reimport
+mensal de sobrescrever a curadoria. Não vai o `curated_by`, que aponta para um usuário do banco
+de desenvolvimento inexistente em produção e tem chave estrangeira — perde-se a autoria, não a
+curadoria.
+
+A **atualização mensal** continua sendo `cmd/import-cmed`, rodada quando houver vontade: o upsert
+casa por `ggrem` e só sobrescreve campo de fonte, preservando o que foi curado.
 
 ```bash
 docker exec <api> go run ./cmd/import-cmed --file <xls_conformidade_site_AAAAMM.xlsx>
 ```
-
-São ~26 mil apresentações que vêm de uma planilha da ANVISA atualizada mensalmente — dado que
-muda por fora e não cabe numa migration versionada. Sem esse import, a busca de medicamento
-industrializado fica vazia; o magistral funciona normalmente.
 
 ## 3.1 Ensaio do deploy, feito
 
@@ -61,9 +69,21 @@ dele — literalmente o que o container vai fazer:
 
 | | |
 |---|---|
-| Migration final | 81 |
-| Catálogo carregado | 290 / 132 / 653 / 54 / 167 / 161 / 12 / 8 — **idêntico ao dev** |
-| Dado de produção | 27 pacientes, 1.282 itens de escore, 12 anamneses, 1.906 resultados, 28 usuários — intactos |
+| Migration final | 82 |
+| Catálogo magistral | 290 substâncias / 132 fórmulas / 653 componentes / 54 regras / 167 faixas |
+| Catálogo CMED | 26.001 apresentações, 147 com curadoria preservada |
+| Norma e regras | 161 tetos da IN 28, 12 pares, 8 regras de base |
+| Dado de produção | 27 pacientes, 1.282 itens de escore, 1.906 resultados, 28 usuários — **intactos** |
+
+O ensaio foi refeito do zero depois de uma correção de idempotência (abaixo) e deu os mesmos
+números. Três passadas seguidas da carga no mesmo banco também devolvem sempre 290/132/653/54.
+
+### O defeito que o ensaio achou
+
+Um seed inseria a substância como `Aakg` e um arquivo seguinte renomeava para `AAKG`. Numa segunda
+passada o insert recriava o nome antigo e a renomeação colidia com a linha já existente — carga
+que só funciona uma vez. Os seeds passaram a inserir **já com o nome canônico**: carga
+declarativa, sem etapa de migração de nome no meio.
 
 Antes disso, uma carga limpa num banco vazio achou 9 substâncias e 10 fórmulas que existiam só no
 dev, criadas por comandos avulsos e nunca capturadas em arquivo. Estão em
