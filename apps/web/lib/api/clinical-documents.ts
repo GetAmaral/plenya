@@ -57,6 +57,25 @@ export function useClinicalDocuments(patientId?: string, enabled = true) {
   });
 }
 
+/**
+ * Envio por e-mail do link seguro do documento.
+ *
+ * Separado do WhatsApp de propósito: são dois atos distintos, cada um com seu botão. Assinar uma
+ * receita não dispara nenhum dos dois — gera o PDF e publica no portal, e só.
+ */
+export function useSendClinicalDocEmail(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (vars: { docType: ClinicalDocType; docId: string }) =>
+      apiClient.post(`/api/v1/patients/${patientId}/clinical-documents/send-email`, vars),
+    onSuccess: () => {
+      // O envio entra no mesmo histórico do paciente onde o WhatsApp aparece.
+      qc.invalidateQueries({ queryKey: ['conversation'] });
+      qc.invalidateQueries({ queryKey: ['conversations'] });
+    },
+  });
+}
+
 export function useSendClinicalDocWhatsApp(patientId: string) {
   const qc = useQueryClient();
   return useMutation({

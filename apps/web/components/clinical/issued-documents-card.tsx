@@ -10,6 +10,7 @@
 import { useState } from 'react';
 import { FileSignature, Plus, Loader2, Download, ShieldCheck, PenLine, Pencil, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { SendDocumentEmailButton } from '@/components/clinical/send-document-email-button';
 import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -284,6 +285,11 @@ export function IssuedDocumentsCard({
                         <Download className="mr-1 h-4 w-4" /> PDF
                       </Button>
                       <SendDocumentWhatsAppButton
+                        patientId={patientId}
+                        docType="issued_document"
+                        docId={doc.id}
+                      />
+                      <SendDocumentEmailButton
                         patientId={patientId}
                         docType="issued_document"
                         docId={doc.id}

@@ -53,6 +53,7 @@ import {
 
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
 import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
+import { SendDocumentEmailButton } from '@/components/clinical/send-document-email-button'
 import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
 import { deletePrescription, listPrescriptions, openPrescriptionPdf } from '@/lib/api/prescriptions'
 import type { Prescription, PrescriptionStatus } from '@/lib/api/prescriptions'
@@ -409,13 +410,20 @@ function PrescriptionActions({
         </Button>
       )}
 
-      {/* Enviar por WhatsApp (receita assinada/publicada) */}
+      {/* Enviar: um botão por canal, sempre por ato explícito. Assinar não manda nada. */}
       {isSigned && prescription.patientId && (
-        <SendDocumentWhatsAppButton
-          patientId={prescription.patientId}
-          docType="prescription"
-          docId={prescription.id}
-        />
+        <>
+          <SendDocumentWhatsAppButton
+            patientId={prescription.patientId}
+            docType="prescription"
+            docId={prescription.id}
+          />
+          <SendDocumentEmailButton
+            patientId={prescription.patientId}
+            docType="prescription"
+            docId={prescription.id}
+          />
+        </>
       )}
 
       {/* Edit (if not signed) */}

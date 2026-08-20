@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { SendDocumentEmailButton } from '@/components/clinical/send-document-email-button'
 import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
 import { formatDate, formatDateOnly, formatDateTime } from '@/lib/format-date'
 import { openPrescriptionPdf, type Prescription } from '@/lib/api/prescriptions'
@@ -235,12 +236,21 @@ export function PrescriptionDetail({ prescription }: { prescription: Prescriptio
                 Baixar PDF
               </Button>
             )}
+            {/* Envio é ato explícito e por canal: assinar gera o PDF e publica no portal, e não
+                dispara e-mail nem WhatsApp. Quem manda é quem clica, e cada canal tem seu botão. */}
             {isSigned && prescription.patientId && (
-              <SendDocumentWhatsAppButton
-                patientId={prescription.patientId}
-                docType="prescription"
-                docId={prescription.id}
-              />
+              <>
+                <SendDocumentWhatsAppButton
+                  patientId={prescription.patientId}
+                  docType="prescription"
+                  docId={prescription.id}
+                />
+                <SendDocumentEmailButton
+                  patientId={prescription.patientId}
+                  docType="prescription"
+                  docId={prescription.id}
+                />
+              </>
             )}
             {!isSigned && (
               <Button

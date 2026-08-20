@@ -230,6 +230,59 @@ Se você não esperava este convite, ignore este email.
 	return s.send(toEmail, subject, bodyText, bodyHTML)
 }
 
+// SendClinicalDocument manda ao paciente o LINK seguro de um documento clínico (receita, pedido
+// de exames, documento emitido) por e-mail.
+//
+// Vai LINK, não anexo, de propósito: o PDF traz dado clínico identificável e e-mail comum atravessa
+// servidores que não controlamos e fica no histórico da caixa do paciente para sempre. O link é
+// assinado, expira, e é o mesmo mecanismo que o envio por WhatsApp já usa.
+func (s *EmailService) SendClinicalDocument(toEmail, patientName, label, link string, validade time.Duration) error {
+	subject := fmt.Sprintf("%s disponível — Plenya", label)
+	prazo := formatValidade(validade)
+	bodyText := fmt.Sprintf(`Olá, %s.
+
+Seu documento está disponível: %s.
+
+Acesse pelo link abaixo (válido por %s):
+
+%s
+
+O link é pessoal. Se você não esperava este e-mail, ignore.
+
+— Equipe Plenya
+`, patientName, label, prazo, link)
+
+	bodyHTML, err := s.renderTemplate("clinical_document", map[string]string{
+		"NAME":  patientName,
+		"LABEL": label,
+		"LINK":  link,
+		"PRAZO": prazo,
+	})
+	if err != nil {
+		// Template ainda não criado — segue só com texto plano, como os demais envios.
+		bodyHTML = ""
+	}
+	return s.send(toEmail, subject, bodyText, bodyHTML)
+}
+
+// formatValidade escreve o prazo do jeito que se fala: "7 dias", "12 horas".
+func formatValidade(d time.Duration) string {
+	if d <= 0 {
+		return "tempo limitado"
+	}
+	if dias := int(d.Hours() / 24); dias >= 1 {
+		if dias == 1 {
+			return "1 dia"
+		}
+		return fmt.Sprintf("%d dias", dias)
+	}
+	horas := int(d.Hours())
+	if horas <= 1 {
+		return "1 hora"
+	}
+	return fmt.Sprintf("%d horas", horas)
+}
+
 // SendPatientMagicLink envia magic link de login pra paciente já cadastrado.
 // Usado em "entrar com link mágico" e "esqueci a senha".
 func (s *EmailService) SendPatientMagicLink(toEmail, patientName, link string) error {
@@ -537,11 +590,11 @@ func (s *EmailService) SendConversationReply(ctx context.Context, in SendConvers
 
 	// Resolve destinatário (email + nome) e identidade pra threading
 	var (
-		to         string
-		toName     string
-		ownerID    uuid.UUID
-		leadIDPtr  *uuid.UUID
-		patIDPtr   *uuid.UUID
+		to        string
+		toName    string
+		ownerID   uuid.UUID
+		leadIDPtr *uuid.UUID
+		patIDPtr  *uuid.UUID
 	)
 	if hasLead {
 		lead := in.Owner.Lead
@@ -666,12 +719,12 @@ func (s *EmailService) SendConversationReply(ctx context.Context, in SendConvers
 
 	// 3) Cria LeadActivity message_sent
 	metadata := map[string]any{
-		"subject":            subject,
-		"message_id":         messageID,
-		"recipient":          to,
-		"resend_id":          resendID,
-		"sent_at":            time.Now().UTC(),
-		"source":             XPlenyaSourceEMR,
+		"subject":    subject,
+		"message_id": messageID,
+		"recipient":  to,
+		"resend_id":  resendID,
+		"sent_at":    time.Now().UTC(),
+		"source":     XPlenyaSourceEMR,
 	}
 	if in.InReplyTo != "" {
 		metadata["in_reply_to"] = in.InReplyTo

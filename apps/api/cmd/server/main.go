@@ -482,7 +482,7 @@ func setupRoutes(
 	// "Enviar por WhatsApp" de documentos clínicos ao paciente (arquivo inline ou link via template),
 	// sem o round-trip de baixar+reanexar. Resolve qualquer doc (pedido/emitido/receita/prontuário)
 	// p/ um PatientDocument e reusa ConversationService (janela 24h + persistência).
-	clinicalDocumentService := services.NewClinicalDocumentService(database.DB, patientDocumentsService, conversationService, "/app/uploads")
+	clinicalDocumentService := services.NewClinicalDocumentService(database.DB, patientDocumentsService, conversationService, emailService, "/app/uploads")
 	clinicalDocumentHandler := handlers.NewClinicalDocumentHandler(clinicalDocumentService, cfg.MagicLink.Secret, 30*24*time.Hour)
 
 	// Plano de cuidado AGIR (P3 frente 3) + relatório longitudinal (3b) reusando go-rod + assinatura.
@@ -777,6 +777,9 @@ func setupRoutes(
 	patients.Get("/:id/clinical-documents", clinicalDocRoles, clinicalDocumentHandler.ListDocuments)
 	patients.Get("/:id/clinical-documents/whatsapp-window", clinicalDocRoles, clinicalDocumentHandler.WhatsAppWindow)
 	patients.Post("/:id/clinical-documents/send-whatsapp", clinicalDocRoles, clinicalDocumentHandler.SendWhatsApp)
+	// Envio por e-mail: ato explícito, igual ao de WhatsApp. Assinar não manda nada.
+	// (o grupo /patients já aplica AuditLog)
+	patients.Post("/:id/clinical-documents/send-email", clinicalDocRoles, clinicalDocumentHandler.SendEmail)
 
 	// Endpoints autenticados como paciente (minha.plenyasaude.com.br)
 	// Rate limit geral pra área do paciente — proteção contra conta comprometida

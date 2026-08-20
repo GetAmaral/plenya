@@ -24,11 +24,12 @@ type ClinicalDocumentService struct {
 	db            *gorm.DB
 	patientDocs   *PatientDocumentsService
 	conversations *ConversationService
+	email         *EmailService
 	uploadsRoot   string
 }
 
-func NewClinicalDocumentService(db *gorm.DB, patientDocs *PatientDocumentsService, conversations *ConversationService, uploadsRoot string) *ClinicalDocumentService {
-	return &ClinicalDocumentService{db: db, patientDocs: patientDocs, conversations: conversations, uploadsRoot: uploadsRoot}
+func NewClinicalDocumentService(db *gorm.DB, patientDocs *PatientDocumentsService, conversations *ConversationService, email *EmailService, uploadsRoot string) *ClinicalDocumentService {
+	return &ClinicalDocumentService{db: db, patientDocs: patientDocs, conversations: conversations, email: email, uploadsRoot: uploadsRoot}
 }
 
 // ClinicalDocType — origem do documento clínico a enviar.
@@ -161,6 +162,43 @@ func (s *ClinicalDocumentService) SendLink(ctx context.Context, patientID uuid.U
 		Language:     "pt_BR",
 		Params:       []string{firstName, label, url},
 	})
+}
+
+// ErrClinicalDocNoEmail — paciente sem e-mail cadastrado.
+var ErrClinicalDocNoEmail = errors.New("clinical-doc: paciente não tem e-mail cadastrado")
+
+// SendEmail manda o link seguro do documento por e-mail e registra no mesmo histórico onde o
+// envio por WhatsApp aparece — a pergunta "isso já foi enviado?" tem que ter uma resposta só.
+//
+// Envio é sempre ATO EXPLÍCITO: assinar uma receita gera o PDF e publica no portal, e não dispara
+// nada. Quem manda é quem clica.
+func (s *ClinicalDocumentService) SendEmail(patientID uuid.UUID, label, url string, validade time.Duration, actorID uuid.UUID) (*models.LeadActivity, error) {
+	var p models.Patient
+	if err := s.db.Select("name, email").First(&p, "id = ?", patientID).Error; err != nil {
+		return nil, err
+	}
+	if p.Email == nil || strings.TrimSpace(*p.Email) == "" {
+		return nil, ErrClinicalDocNoEmail
+	}
+	destino := strings.TrimSpace(*p.Email)
+
+	if err := s.email.SendClinicalDocument(destino, s.patientFirstName(patientID), label, url, validade); err != nil {
+		return nil, err
+	}
+
+	texto := fmt.Sprintf("%s enviado por e-mail para %s", label, destino)
+	atividade := &models.LeadActivity{
+		PatientID:   &patientID,
+		Type:        models.LeadActivityMessageSent,
+		Channel:     models.LeadChannelEmail,
+		Content:     &texto,
+		ActorUserID: &actorID,
+	}
+	if err := s.db.Create(atividade).Error; err != nil {
+		// O e-mail já saiu: falhar aqui esconderia um envio que aconteceu.
+		return atividade, nil
+	}
+	return atividade, nil
 }
 
 func (s *ClinicalDocumentService) patientFirstName(patientID uuid.UUID) string {

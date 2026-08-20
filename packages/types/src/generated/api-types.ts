@@ -15196,6 +15196,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/patients/{id}/clinical-documents/send-email": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Envia documento clínico por e-mail */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Patient ID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description documento a enviar */
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["handlers.sendDocEmailRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "*/*": components["schemas"]["models.LeadActivity"];
+                    };
+                };
+                /** @description Unprocessable Entity */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "*/*": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/patients/{id}/score-items/{scoreItemId}/history": {
         parameters: {
             query?: never;
@@ -17535,6 +17588,11 @@ export interface components {
         };
         "handlers.VerifyPasswordRequest": {
             password: string;
+        };
+        "handlers.sendDocEmailRequest": {
+            docId?: string;
+            /** @description lab_request | issued_document | prescription | patient_document */
+            docType?: string;
         };
         "handlers.webPushSubscribeRequest": {
             deviceLabel?: string;
