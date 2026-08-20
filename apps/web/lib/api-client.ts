@@ -1,4 +1,4 @@
-import { useAuthStore } from "./auth-store";
+import { useAuthStore, waitForAuthHydration } from "./auth-store";
 import { toast } from "sonner";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -9,8 +9,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
  * - "invalid": o servidor RECUSOU o refresh (401/403) — a sessão morreu de verdade.
  * - "offline": não deu pra falar com o servidor (rede caiu, app voltou do background,
  *   5xx). A sessão continua válida; insistir depois resolve.
+ * - "no-session": não há refresh token neste aparelho. NÃO é o servidor recusando, e por isso
+ *   não apaga nada — quem trata é a guarda de rota, mandando para o login.
  */
-type RefreshOutcome = "ok" | "invalid" | "offline";
+type RefreshOutcome = "ok" | "invalid" | "offline" | "no-session";
 
 class APIClient {
   private baseURL: string;
@@ -40,10 +42,16 @@ class APIClient {
   }
 
   private async _doRefresh(): Promise<RefreshOutcome> {
+    // Espera a store terminar de ler o localStorage. Sem isto, o boot do PWA dispara requisição
+    // antes da leitura, encontra a store vazia e conclui que a sessão acabou — apagando um token
+    // que estava válido no aparelho E no servidor. Era a causa do "deslogou sozinho" do iPhone.
+    await waitForAuthHydration();
+
     const { refreshToken } = useAuthStore.getState();
 
     if (!refreshToken) {
-      return "invalid";
+      // Ausência de token não é recusa do servidor: não destrói nada.
+      return "no-session";
     }
 
     // Uma segunda tentativa cobre o caso mais comum no celular: o PWA volta do background
@@ -122,6 +130,10 @@ class APIClient {
       if (outcome === "ok") {
         // Retry com novo token
         response = await this.fetchWithAuth(endpoint, options);
+      } else if (outcome === "no-session") {
+        // Não há sessão neste aparelho para renovar. Nada a apagar e nada a avisar: a guarda de
+        // rota leva para o login. Apagar aqui era o que matava sessão boa em corrida de boot.
+        throw new Error("Not authenticated");
       } else if (outcome === "invalid") {
         // O servidor recusou o refresh: a sessão acabou mesmo.
         useAuthStore.getState().clearAuth();

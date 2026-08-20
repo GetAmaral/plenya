@@ -47,6 +47,15 @@ interface AuthState {
   user: User | null;
   accessToken: string | null;
   refreshToken: string | null;
+  /**
+   * A store já leu o localStorage?
+   *
+   * Antes de ser true, "sem token" NÃO significa "sem sessão" — significa que a leitura ainda não
+   * aconteceu. Confundir as duas coisas era o que derrubava o login do PWA: uma requisição saía
+   * antes da hidratação, tomava 401, ia renovar, achava a store vazia e concluía que a sessão
+   * tinha acabado — apagando um refresh token que estava válido no aparelho e no servidor.
+   */
+  hasHydrated: boolean;
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   clearAuth: () => void;
   updateAccessToken: (accessToken: string) => void;
@@ -76,6 +85,8 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       ...initialState,
+      // Com bypass de dev não há leitura de storage a esperar.
+      hasHydrated: DEV_BYPASS_AUTH,
       setAuth: (user, accessToken, refreshToken) =>
         set({ user, accessToken, refreshToken }),
       clearAuth: () => {
@@ -92,6 +103,38 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "plenya-auth",
       storage: createJSONStorage(() => localStorage),
+      // hasHydrated é estado de runtime, não da sessão: não vai para o storage.
+      partialize: ({ user, accessToken, refreshToken }) => ({ user, accessToken, refreshToken }),
+      // Marca a hidratação inclusive quando ela FALHA (storage bloqueado no iOS, por exemplo):
+      // o app precisa sair do limbo de qualquer jeito, e aí "sem token" vira resposta legítima.
+      onRehydrateStorage: () => () => {
+        useAuthStore.setState({ hasHydrated: true });
+      },
     }
   )
 );
+
+/**
+ * Resolve quando a store terminou de ler o localStorage.
+ *
+ * Quem decide "esta sessão acabou" precisa esperar por isto. Sem a espera, o boot do PWA no
+ * celular — mais lento que o do desktop — dispara requisição antes da leitura e conclui que não
+ * há sessão, apagando a que existia.
+ */
+export function waitForAuthHydration(timeoutMs = 3000): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (useAuthStore.getState().hasHydrated) return Promise.resolve();
+
+  return new Promise((resolve) => {
+    const done = () => {
+      clearTimeout(timer);
+      unsubscribe();
+      resolve();
+    };
+    // Teto de segurança: se a hidratação nunca sinalizar, o app não pode ficar preso.
+    const timer = setTimeout(done, timeoutMs);
+    const unsubscribe = useAuthStore.subscribe((state) => {
+      if (state.hasHydrated) done();
+    });
+  });
+}

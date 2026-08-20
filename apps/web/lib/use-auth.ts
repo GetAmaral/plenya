@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "./auth-store";
 
@@ -13,19 +13,16 @@ export function useRequireAuth() {
 
   const router = useRouter();
   const { user, accessToken } = useAuthStore();
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  // Wait for zustand to hydrate from localStorage
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
+  // hasHydrated vem da própria store: é o sinal de que o localStorage FOI LIDO. O efeito de
+  // montagem que existia aqui só dizia "estamos no cliente", que é outra coisa — no boot lento do
+  // PWA ele marcava "hidratado" antes da leitura e mandava para o login com sessão válida guardada.
+  const hasHydrated = useAuthStore((s) => s.hasHydrated);
 
   useEffect(() => {
-    // Only redirect after hydration is complete
-    if (isHydrated && (!user || !accessToken)) {
+    if (hasHydrated && (!user || !accessToken)) {
       router.push("/login");
     }
-  }, [isHydrated, user, accessToken, router]);
+  }, [hasHydrated, user, accessToken, router]);
 
   return { user, accessToken, isAuthenticated: !!user && !!accessToken };
 }

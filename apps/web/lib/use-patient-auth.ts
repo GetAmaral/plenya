@@ -13,8 +13,12 @@ import { useAuthStore, isGranted } from "@/lib/auth-store";
 export function useRequirePatientAuth() {
   const router = useRouter();
   const { user, accessToken } = useAuthStore();
+  // Espera a leitura do localStorage antes de concluir que não há sessão. Sem isto, o primeiro
+  // render (store ainda vazia) mandava para o login em todo boot frio do PWA.
+  const hasHydrated = useAuthStore((s) => s.hasHydrated);
 
   useEffect(() => {
+    if (!hasHydrated) return;
     if (!accessToken || !user) {
       router.replace("/login");
       return;
@@ -23,7 +27,7 @@ export function useRequirePatientAuth() {
       router.replace("/login");
       return;
     }
-  }, [accessToken, user, router]);
+  }, [hasHydrated, accessToken, user, router]);
 
   return { user, accessToken, ready: !!user && isGranted(user, "patient") };
 }
