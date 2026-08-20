@@ -20,6 +20,8 @@ export interface MagistralComponent {
   brand?: string
   /** Percentual de ativo no insumo (bisglicinato 30%, selenometionina 1%). */
   elementalPercent?: number
+  /** Mineral: a dose se prescreve em elemento, e a farmácia converte para massa de insumo. */
+  doseAsElemental?: boolean
   correctionNote?: string
   preferredAlternativeId?: string
   preferenceNote?: string
@@ -103,6 +105,7 @@ export interface MagistralComponentMatch {
   doseBullets?: string
   evidenceStatus?: 'pending' | 'suggested' | 'confirmed'
   elementalPercent?: number
+  doseAsElemental?: boolean
   /** Massa do insumo correspondente à dose do elemento, em mg. */
   rawMaterialMg?: number
   correctionNote?: string

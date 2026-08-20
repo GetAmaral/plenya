@@ -89,6 +89,11 @@ type MagistralComponent struct {
 	ElementalPercent *float64 `gorm:"type:numeric(7,3)" json:"elementalPercent,omitempty"`
 	CorrectionNote   *string  `gorm:"type:varchar(300)" json:"correctionNote,omitempty"`
 
+	// Mineral se prescreve em ELEMENTO: "cobre 1 mg" é 1 mg de cobre, e a farmácia pesa o quelato
+	// que entrega isso. Não dá para deduzir de ElementalPercent — quelato de cobre não tem
+	// percentual fixo (muda de fornecedor) e mesmo assim a dose é do elemento.
+	DoseAsElemental bool `gorm:"not null;default:false" json:"doseAsElemental"`
+
 	// Forma que o prescritor usa no lugar desta. A tela sugere a troca em vez de depender da
 	// memória de quem prescreve.
 	PreferredAlternativeID *uuid.UUID          `gorm:"type:uuid" json:"preferredAlternativeId,omitempty"`

@@ -106,15 +106,18 @@ func formulasHTML(formulas []Formula) string {
 		b.WriteString(`</div>`)
 
 		for _, c := range f.Components {
-			b.WriteString(`<div class="comp"><span class="compname">` + esc(c.Substance))
-			if c.Note != "" {
-				b.WriteString(` <span class="compnote">` + esc(c.Note) + `</span>`)
-			}
 			qty := esc(c.Quantity)
 			if c.AsElemental {
 				qty += ` <span class="compelem">(do elemento)</span>`
 			}
-			b.WriteString(`</span><span class="dots"></span><span class="compqty">` + qty + `</span></div>`)
+			b.WriteString(`<div class="comp"><span class="compname">` + esc(c.Substance) +
+				`</span><span class="dots"></span><span class="compqty">` + qty + `</span></div>`)
+			// A observação vai EMBAIXO, não no meio da linha. Inline, ela empurrava o pontilhado e
+			// a quantidade para a direita — "Palmitato de ascorbila <nota de duas linhas> 100 mg"
+			// deixava de parecer receituário.
+			if c.Note != "" {
+				b.WriteString(`<div class="compnote">` + esc(c.Note) + `</div>`)
+			}
 		}
 		if f.Vehicle != "" {
 			b.WriteString(`<div class="fveh"><span class="compname">` + esc(f.Vehicle) + `</span><span class="dots"></span></div>`)

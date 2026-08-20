@@ -55,6 +55,8 @@ export interface FormulaTemplateComponent {
   quantity: number
   unit: string
   category?: MedicationCategory
+  /** Mineral: a dose da base é do elemento, e a receita precisa herdar isso. */
+  asElemental?: boolean
   note?: string
   rule?: DoseRule | null
 }

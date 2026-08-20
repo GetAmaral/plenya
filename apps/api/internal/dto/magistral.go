@@ -22,6 +22,7 @@ type MagistralComponentRequest struct {
 	DensitySource    *string  `json:"densitySource,omitempty" validate:"omitempty,max=60"`
 	Brand            *string  `json:"brand,omitempty" validate:"omitempty,max=60"`
 	ElementalPercent *float64 `json:"elementalPercent,omitempty" validate:"omitempty,gt=0,lte=100"`
+	DoseAsElemental  *bool    `json:"doseAsElemental,omitempty"`
 	CorrectionNote   *string  `json:"correctionNote,omitempty" validate:"omitempty,max=300"`
 
 	EutecticFormer     bool `json:"eutecticFormer"`
@@ -109,6 +110,7 @@ type MagistralComponentMatch struct {
 
 	// Conversão elemento ↔ insumo, quando o insumo é diluído ou quelado.
 	ElementalPercent *float64 `json:"elementalPercent,omitempty"`
+	DoseAsElemental  bool     `json:"doseAsElemental"`
 	RawMaterialMg    *float64 `json:"rawMaterialMg,omitempty"`
 	CorrectionNote   *string  `json:"correctionNote,omitempty"`
 

@@ -137,10 +137,36 @@ export function FormulaCard({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-2">
             <Label>Nome da fórmula (opcional)</Label>
             <Input placeholder="Ex: Fórmula do sono" {...form.register(`formulas.${index}.name`)} />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Tipo de receita</Label>
+            {/* Um seletor por FÓRMULA, não por componente: a receita é do conjunto, e repetir a
+                pergunta em cada substância só dava chance de divergirem entre si. */}
+            <Select
+              value={category}
+              onValueChange={(v) => {
+                const comps = form.getValues(`formulas.${index}.components`) ?? []
+                comps.forEach((_, ci) =>
+                  form.setValue(`formulas.${index}.components.${ci}.category`, v as never)
+                )
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORY_OPTIONS_SHORT.map((c) => (
+                  <SelectItem key={c.value} value={c.value}>
+                    {c.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
@@ -208,9 +234,15 @@ export function FormulaCard({
                     if (comp.defaultUnit) {
                       form.setValue(`formulas.${index}.components.${ci}.unit`, comp.defaultUnit)
                     }
-                    // Insumo diluído ou quelado: a dose padrão do catálogo é do ELEMENTO, que é
-                    // como o médico prescreve e como a ficha técnica fala.
-                    if (comp.elementalPercent) {
+                    // Mineral se prescreve em ELEMENTO. O sinal vem do catálogo e não do
+                    // percentual: quelato de cobre não tem percentual fixo (muda de fornecedor) e
+                    // mesmo assim a dose é do elemento. Enquanto isso era deduzido de
+                    // `elementalPercent`, justamente cobre, boro, manganês e vanádio entravam na
+                    // receita como se a dose fosse do pó.
+                    // Só `doseAsElemental` decide. Deduzir de `elementalPercent` marcava também
+                    // o palmitato de ascorbila, que tem percentual de ativo conhecido (43%) mas
+                    // se prescreve pela substância nomeada: "100 mg" viravam 233 mg de insumo.
+                    if (comp.doseAsElemental) {
                       form.setValue(`formulas.${index}.components.${ci}.asElemental`, true)
                     }
                     // Dose escolhida no painel manda; sem ela, a dose usual só preenche campo
@@ -254,24 +286,32 @@ export function FormulaCard({
                   </SelectContent>
                 </Select>
               </div>
-              <div className="sm:col-span-2">
-                <Select
-                  value={form.watch(`formulas.${index}.components.${ci}.category`)}
-                  onValueChange={(v) =>
-                    form.setValue(`formulas.${index}.components.${ci}.category`, v as never)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {CATEGORY_OPTIONS_SHORT.map((c) => (
-                      <SelectItem key={c.value} value={c.value}>
-                        {c.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              {/* Mineral quelado/diluído: a dose é do ELEMENTO, e isso precisa estar dito na
+                  linha — é o que a farmácia converte para a massa do insumo. */}
+              <div className="flex items-center sm:col-span-2">
+                {form.watch(`formulas.${index}.components.${ci}.asElemental`) ? (
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer border-sky-200 bg-sky-50 text-[11px] text-sky-700"
+                    onClick={() =>
+                      form.setValue(`formulas.${index}.components.${ci}.asElemental`, false)
+                    }
+                    title="A dose é do elemento. Clique para passar a contar como insumo."
+                  >
+                    dose do elemento
+                  </Badge>
+                ) : (
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer text-[11px] text-muted-foreground"
+                    onClick={() =>
+                      form.setValue(`formulas.${index}.components.${ci}.asElemental`, true)
+                    }
+                    title="A dose é do insumo. Clique para marcar que é do elemento."
+                  >
+                    dose do insumo
+                  </Badge>
+                )}
               </div>
               <div className="flex items-center justify-end gap-1 sm:col-span-1">
                 {fields.length > 1 && (

@@ -127,7 +127,7 @@ html,body{ background:#fff; }
 .fuse{ flex:0 0 auto; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; font-weight:700; color:var(--gold); border:1px solid rgba(179,134,69,.5); border-radius:3px; padding:2px 7px; white-space:nowrap; }
 .comp{ display:flex; align-items:baseline; gap:6px; margin-top:5px; font-size:12.8px; color:var(--petrol); }
 .compname{ flex:0 1 auto; }
-.compnote{ color:var(--ink2); font-size:10.8px; font-style:italic; }
+.compnote{ color:var(--ink2); font-size:10.8px; font-style:italic; margin:1px 0 0 14px; }
 /* "(do elemento)" vai colado na quantidade e em peso, porque muda o que a farmácia pesa. */
 .compelem{ font-size:10.5px; font-weight:600; }
 .dots{ flex:1 1 auto; border-bottom:1px dotted rgba(6,59,79,.35); transform:translateY(-3px); min-width:14px; }

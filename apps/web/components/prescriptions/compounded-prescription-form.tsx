@@ -119,6 +119,9 @@ export function CompoundedPrescriptionForm({
         quantity: doses[c.substance] ?? c.quantity,
         unit: c.unit,
         category: (c.category ?? 'simple') as FormulaFormData['components'][number]['category'],
+        // A base já sabe que a dose do mineral é do elemento; sem carregar a marca, a receita
+        // saía dizendo que a quantidade era do insumo.
+        asElemental: c.asElemental,
         note: c.note ?? '',
         suggestedQuantity: suggested[c.substance],
       })),

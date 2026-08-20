@@ -562,3 +562,29 @@ func TestCheckFormulaFaixaConverteUnidade(t *testing.T) {
 		t.Errorf("UI não converte para mcg: %v", semMassa)
 	}
 }
+
+// O corte da nota de rodapé do Anexo IV já errou: varrendo sufixos numa lista, "…) viii" batia
+// primeiro em "iii" e sobrava um " v" no nome do nutriente dentro do alerta.
+func TestNomeLimpoIN28(t *testing.T) {
+	casos := []struct{ entrada, quer string }{
+		{"Cálciov", "Cálcio"},
+		{"Vitamina Ai", "Vitamina A"},
+		{"Vitamina Dii", "Vitamina D"},
+		{"Vitamina Eiii", "Vitamina E"},
+		{"Ácido fólico iv", "Ácido fólico"},
+		{"Niacina ix", "Niacina"},
+		{"Extrato de cacauviii", "Extrato de cacau"},
+		{"Beta-glucana (Euglena gracilis) viii", "Beta-glucana (Euglena gracilis)"},
+		{"Colostro bovino integral viii", "Colostro bovino integral"},
+		// Sem marcador: nome passa inteiro.
+		{"Coenzima Q10", "Coenzima Q10"},
+		{"Magnésio", "Magnésio"},
+		// Maiúscula não é nota de rodapé — é cepa de probiótico.
+		{"Bifidobacterium breve M-16V", "Bifidobacterium breve M-16V"},
+	}
+	for _, c := range casos {
+		if got := nomeLimpoIN28(c.entrada); got != c.quer {
+			t.Errorf("nomeLimpoIN28(%q) = %q, queria %q", c.entrada, got, c.quer)
+		}
+	}
+}

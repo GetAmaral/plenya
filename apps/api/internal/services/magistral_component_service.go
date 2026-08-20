@@ -182,6 +182,9 @@ func (s *MagistralComponentService) Upsert(id *uuid.UUID, req *dto.MagistralComp
 	c.BulkDensity = req.BulkDensity
 	c.Brand = req.Brand
 	c.ElementalPercent = req.ElementalPercent
+	if req.DoseAsElemental != nil {
+		c.DoseAsElemental = *req.DoseAsElemental
+	}
 	c.CorrectionNote = req.CorrectionNote
 	// Editar a densidade à mão é informar medida, não classe: o rótulo acompanha.
 	if req.DensitySource != nil {
@@ -474,6 +477,7 @@ func (s *MagistralComponentService) CheckFormula(req *dto.MagistralCheckRequest)
 				m.RegulatoryNote = strings.TrimSpace(*c.Catalog.RegulatoryNote)
 			}
 			m.ElementalPercent = c.Catalog.ElementalPercent
+			m.DoseAsElemental = c.Catalog.DoseAsElemental
 			m.CorrectionNote = c.Catalog.CorrectionNote
 			// Conversão pronta para a tela, só quando a dose declarada é do elemento.
 			if asElemental[strings.ToLower(c.Substance)] && c.Catalog.ElementalPercent != nil &&

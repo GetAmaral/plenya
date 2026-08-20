@@ -17031,6 +17031,7 @@ export interface components {
             /** @description Categoria de receita que a substância carrega, para a tela preencher o componente. */
             defaultCategory?: string;
             defaultUnit?: string;
+            doseAsElemental?: boolean;
             doseBullets?: string;
             doseReference?: string;
             /** @description Conversão elemento ↔ insumo, quando o insumo é diluído ou quelado. */
@@ -17066,6 +17067,7 @@ export interface components {
             dcbCode?: string;
             defaultUnit?: string;
             densitySource?: string;
+            doseAsElemental?: boolean;
             doseBullets?: string;
             doseReference?: string;
             elementalPercent?: number;
@@ -18764,6 +18766,12 @@ export interface components {
              *     medida — o cálculo é o mesmo, a confiança não.
              */
             densitySource?: string;
+            /**
+             * @description Mineral se prescreve em ELEMENTO: "cobre 1 mg" é 1 mg de cobre, e a farmácia pesa o quelato
+             *     que entrega isso. Não dá para deduzir de ElementalPercent — quelato de cobre não tem
+             *     percentual fixo (muda de fornecedor) e mesmo assim a dose é do elemento.
+             */
+            doseAsElemental?: boolean;
             /**
              * @description DoseBasis diz se a faixa acima é do DIA ou de UMA tomada. Sem isto o painel comparava a
              *     dose de uma cápsula contra faixa diária numas substâncias e contra faixa por tomada em

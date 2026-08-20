@@ -9,6 +9,8 @@ import { FileCheck, Loader2 } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { SendDocumentEmailButton } from '@/components/clinical/send-document-email-button'
+import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
 import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
 import { CommercialPrescriptionForm } from '@/components/prescriptions/commercial-prescription-form'
 import { CompoundedPrescriptionForm } from '@/components/prescriptions/compounded-prescription-form'
@@ -171,6 +173,7 @@ export default function NewPrescriptionPage() {
           <CardContent className="space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
               <Button
+                size="lg"
                 onClick={() =>
                   openPrescriptionPdf(signedPrescriptionId).catch((e) =>
                     toast.error(e?.message ?? 'Falha ao baixar o PDF')
@@ -180,12 +183,35 @@ export default function NewPrescriptionPage() {
               >
                 {isManual ? 'Baixar para imprimir' : 'Baixar PDF assinado'}
               </Button>
-              <Button variant="outline" onClick={() => router.push('/prescriptions')}>
+              <Button size="lg" variant="outline" onClick={() => router.push('/prescriptions')}>
                 Ver todas as prescrições
               </Button>
             </div>
+
+            {/* Enviar daqui mesmo. Antes era preciso voltar para a lista de prescrições só para
+                achar os botões — a receita acabou de ser emitida, o paciente está na frente. */}
+            {selectedPatient?.id && (
+              <div className="flex flex-col gap-2 rounded-lg border border-dashed p-3 sm:flex-row sm:items-center">
+                <span className="text-sm text-muted-foreground sm:flex-1">
+                  Enviar ao paciente
+                </span>
+                <div className="flex gap-2">
+                  <SendDocumentWhatsAppButton
+                    patientId={selectedPatient.id}
+                    docType="prescription"
+                    docId={signedPrescriptionId}
+                  />
+                  <SendDocumentEmailButton
+                    patientId={selectedPatient.id}
+                    docType="prescription"
+                    docId={signedPrescriptionId}
+                  />
+                </div>
+              </div>
+            )}
             <Button
               variant="ghost"
+              size="lg"
               className="w-full"
               onClick={() => {
                 setSignedPrescriptionId(null)

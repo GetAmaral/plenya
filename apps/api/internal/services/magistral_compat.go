@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -67,16 +68,22 @@ func doseNaUnidadeDoCatalogo(c FormulaCheckComponent) (float64, bool) {
 	return ConverteDose(c.Quantity, c.Unit, c.Catalog.DefaultUnit)
 }
 
-// nomeLimpoIN28 tira a letra de nota de rodapé que a norma cola no nome ("Cálciov",
-// "Vitamina Ai"): ela é referência do rodapé do Anexo IV e não faz sentido na tela.
+// nomeLimpoIN28 tira o número de nota de rodapé que a norma cola no nome ("Cálciov",
+// "Vitamina Ai", "Extrato de cacauviii"): é referência do rodapé do Anexo IV e não faz sentido na
+// tela. A carga em produção já entra limpa; isto é rede para as próximas.
+//
+// Corta o romano inteiro de uma vez. A versão anterior varria sufixos numa lista e o primeiro que
+// casasse vencia, então "…(Euglena gracilis) viii" batia em "iii" e sobrava um " v" pendurado.
+// Só minúsculas: cepa de probiótico termina em maiúscula ("M-16V") e não é nota de rodapé.
 func nomeLimpoIN28(n string) string {
-	for _, sufixo := range []string{" iv", " ix", "iii", "ii", "i", "v"} {
-		if strings.HasSuffix(n, sufixo) && len(n) > len(sufixo)+3 {
-			return strings.TrimSpace(strings.TrimSuffix(n, sufixo))
-		}
+	corte := reNotaRodapeIN28.ReplaceAllString(n, "")
+	if len([]rune(corte)) < 4 {
+		return n
 	}
-	return n
+	return strings.TrimSpace(corte)
 }
+
+var reNotaRodapeIN28 = regexp.MustCompile(`\s?[ivx]+$`)
 
 // componentesQueCasam devolve os componentes alcançados pela regra de base. Regra sem padrão de
 // substância vale para a fórmula toda; regra com percentual mínimo só dispara acima dele, e só
