@@ -32,23 +32,42 @@ a migration 00067, que apaga essas colunas, **não tem risco de perda de dado**:
 Ordem obrigatória: **api primeiro, web depois**. Front novo mandando `formulas` para backend
 velho cria receita vazia.
 
-## 3. O que o deploy NÃO faz — e sem isso a tela nasce vazia
+## 3. O conteúdo do catálogo vai junto, na migration 00081
 
-As migrations criam as TABELAS. O CONTEÚDO mora em seeds que nada executa:
+O catálogo magistral **não é passo manual**: virou a migration `00081_dados_catalogo_magistral`,
+que entra com as outras no start do container. Deploy que depende de alguém lembrar de rodar um
+script é deploy que uma hora nasce com a tela vazia.
+
+Ela carrega 290 substâncias, 132 fórmulas-base, 653 componentes, 54 regras de dose, 167 faixas,
+os 161 tetos do Anexo IV da IN 28, 12 pares de incompatibilidade e 8 regras de base. Todo bloco é
+idempotente. O `Down` **não apaga nada** de propósito: depois que o médico conferir uma fórmula ou
+criar a dele, não dá para distinguir o que veio da carga do que é trabalho dele. Para desfazer,
+reverte-se até a 00069, que derruba as tabelas — aí a intenção de perder o conteúdo está explícita.
+
+### O que continua manual: o catálogo de industrializados
 
 ```bash
-# catálogo magistral: 290 substâncias, 132 fórmulas, 54 regras, tetos da IN 28
-docs/emr/magistral-carga-prod.sh          # 27 arquivos, na ordem de dependência
-
-# catálogo de industrializados (ANVISA/CMED): ~26 mil apresentações
 docker exec <api> go run ./cmd/import-cmed --file <xls_conformidade_site_AAAAMM.xlsx>
 ```
 
-A ordem do primeiro foi validada carregando **do zero num banco vazio** e comparando com o
-dev até bater exatamente: 290 substâncias, 132 fórmulas, 653 componentes, 54 regras, 167
-faixas, 161 tetos, 12 pares, 8 regras de base. Esse teste achou 9 substâncias e 10 fórmulas
-que existiam só no dev, criadas por comandos avulsos e nunca capturadas em arquivo — estão
-em `magistral-avulsos-capturados.sql`.
+São ~26 mil apresentações que vêm de uma planilha da ANVISA atualizada mensalmente — dado que
+muda por fora e não cabe numa migration versionada. Sem esse import, a busca de medicamento
+industrializado fica vazia; o magistral funciona normalmente.
+
+## 3.1 Ensaio do deploy, feito
+
+O dump de produção de hoje foi restaurado num banco local e as migrations 66 a 81 rodaram em cima
+dele — literalmente o que o container vai fazer:
+
+| | |
+|---|---|
+| Migration final | 81 |
+| Catálogo carregado | 290 / 132 / 653 / 54 / 167 / 161 / 12 / 8 — **idêntico ao dev** |
+| Dado de produção | 27 pacientes, 1.282 itens de escore, 12 anamneses, 1.906 resultados, 28 usuários — intactos |
+
+Antes disso, uma carga limpa num banco vazio achou 9 substâncias e 10 fórmulas que existiam só no
+dev, criadas por comandos avulsos e nunca capturadas em arquivo. Estão em
+`magistral-avulsos-capturados.sql` e entraram na migration.
 
 ## 4. Antes de disparar
 

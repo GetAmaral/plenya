@@ -2,10 +2,10 @@
 # Carga do catálogo magistral em um banco Plenya, na ordem em que os arquivos dependem uns dos
 # outros.
 #
-# POR QUE ESTE ARQUIVO EXISTE: as migrations goose criam as TABELAS e rodam sozinhas no deploy do
-# api (RUN_MIGRATIONS=true). O CONTEÚDO — 290 substâncias, 132 fórmulas-base, 54 regras de dose,
-# os tetos da IN 28 — mora em seeds SQL que nada executa automaticamente. Deployar só o código
-# entrega a tela da prescrição magistral com o catálogo vazio.
+# PRODUÇÃO NÃO USA ESTE SCRIPT: o conteúdo vai na migration 00081_dados_catalogo_magistral, que
+# roda sozinha no deploy. Este arquivo é a FONTE dela — a ordem de dependência mora aqui, e a
+# migration é gerada concatenando estes arquivos nesta ordem. Serve para recarregar um banco de
+# desenvolvimento e para conferir a ordem antes de regerar a migration.
 #
 # Todos os arquivos são idempotentes: rodar duas vezes não duplica. A ordem importa porque as
 # fórmulas referenciam substâncias e as regras referenciam componentes de fórmula.
