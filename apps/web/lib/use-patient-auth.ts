@@ -12,14 +12,15 @@ import { useAuthStore, isGranted } from "@/lib/auth-store";
  */
 export function useRequirePatientAuth() {
   const router = useRouter();
-  const { user, accessToken } = useAuthStore();
+  const { user, accessToken, refreshToken } = useAuthStore();
   // Espera a leitura do localStorage antes de concluir que não há sessão. Sem isto, o primeiro
   // render (store ainda vazia) mandava para o login em todo boot frio do PWA.
   const hasHydrated = useAuthStore((s) => s.hasHydrated);
 
   useEffect(() => {
     if (!hasHydrated) return;
-    if (!accessToken || !user) {
+    // Sessão é o refresh token: o access dura 30min e está sempre vencido ao reabrir o app.
+    if ((!accessToken && !refreshToken) || !user) {
       router.replace("/login");
       return;
     }
@@ -27,7 +28,7 @@ export function useRequirePatientAuth() {
       router.replace("/login");
       return;
     }
-  }, [hasHydrated, accessToken, user, router]);
+  }, [hasHydrated, accessToken, refreshToken, user, router]);
 
   return { user, accessToken, ready: !!user && isGranted(user, "patient") };
 }

@@ -12,6 +12,7 @@
 import { usePathname } from "next/navigation";
 import { PatientSidebar } from "@/components/patient-portal/sidebar";
 import { PatientBottomNav } from "@/components/patient-portal/bottom-nav";
+import { SessionKeepAlive } from "@/components/auth/session-keep-alive";
 
 const PUBLIC_PATHS = ["/login", "/auth", "/esqueci-senha", "/escore-light"];
 
@@ -37,6 +38,7 @@ export default function PatientPortalLayout({ children }: { children: React.Reac
 
   return (
     <div className="min-h-screen bg-background">
+      <SessionKeepAlive />
       <PatientSidebar />
       <div className="lg:pl-64">
         <main className="px-4 pb-20 pt-6 lg:px-8 lg:pb-8">{children}</main>

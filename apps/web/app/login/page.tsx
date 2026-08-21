@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -14,7 +14,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { touchActivity } from "@/components/auth/inactivity-lock";
 import { apiClient } from "@/lib/api-client";
-import { useAuthStore, type UserRole } from "@/lib/auth-store";
+import { useAuthStore, waitForAuthHydration, type UserRole } from "@/lib/auth-store";
+import { homeFor } from "@/lib/auth-routes";
 import { useFormNavigation } from "@/lib/use-form-navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { PlenyaMark } from "@/components/layout/plenya-mark";
@@ -42,6 +43,16 @@ interface LoginResponse {
 export default function LoginPage() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
+  /**
+   * Enquanto true, esta tela ainda não sabe se já existe sessão neste aparelho — e por isso não
+   * mostra o formulário.
+   *
+   * Era ESTE o "logout" do iPhone: o PWA abre sempre na start_url `/`, que mandava direto para
+   * cá, e o login não olhava se já havia sessão. A sessão continuava viva no servidor (os
+   * tokens antigos estão lá, válidos e nunca usados) — o app é que pedia a senha de novo a cada
+   * abertura, e digitar a senha abria mais uma sessão. Ver docs/emr/estudo-sessao-login-persistente.md.
+   */
+  const [checkingSession, setCheckingSession] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   // "Manter conectado": sessão longa deslizante (30 dias) neste aparelho. Marcado por padrão
   // pra resolver o logout rápido no PWA; o aviso pede pra desmarcar em aparelho compartilhado.
@@ -50,6 +61,30 @@ export default function LoginPage() {
 
   // Navegação por Enter nos campos do formulário
   useFormNavigation({ formRef });
+
+  // Já logado? Renova a sessão (desliza os 7 dias) e entra direto, sem pedir senha.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      await waitForAuthHydration();
+      const { user, refreshToken } = useAuthStore.getState();
+      if (!user || !refreshToken) {
+        if (!cancelled) setCheckingSession(false);
+        return;
+      }
+      const alive = await apiClient.ensureFreshSession();
+      if (cancelled) return;
+      if (alive) {
+        touchActivity();
+        router.replace(homeFor(useAuthStore.getState().user));
+        return;
+      }
+      setCheckingSession(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   const {
     register,
@@ -77,13 +112,7 @@ export default function LoginPage() {
 
       // Secretaria (sem papel clinico) cai direto na Recepcao. Demais papeis
       // mantem o destino padrao /dashboard.
-      const roles = response.user.roles ?? [];
-      const secretaryOnly =
-        roles.includes("secretary") &&
-        !roles.some((r) =>
-          ["doctor", "nurse", "nutritionist", "psychologist", "physicalEducator"].includes(r),
-        );
-      router.push(secretaryOnly ? "/recepcao" : "/dashboard");
+      router.push(homeFor(response.user));
     } catch (err) {
       toast.error("Erro ao fazer login", {
         description: err instanceof Error ? err.message : "Credenciais inválidas",
@@ -92,6 +121,17 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   };
+
+  if (checkingSession) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-cream via-paper to-sage-100 dark:from-petrol-800 dark:via-petrol dark:to-petrol-700">
+        <div className="flex flex-col items-center gap-4">
+          <PlenyaMark className="h-14 w-14" />
+          <Loader2 className="h-5 w-5 animate-spin text-petrol/60 dark:text-cream/60" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-br from-cream via-paper to-sage-100 dark:from-petrol-800 dark:via-petrol dark:to-petrol-700">

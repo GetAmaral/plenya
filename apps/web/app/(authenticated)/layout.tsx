@@ -9,6 +9,7 @@ import { TopBar } from "@/components/layout/top-bar";
 import { PatientContextBar } from "@/components/layout/patient-context-bar";
 import { WhatsAppDock } from "@/components/conversations/whatsapp-dock";
 import { InactivityLock } from "@/components/auth/inactivity-lock";
+import { SessionKeepAlive } from "@/components/auth/session-keep-alive";
 import { WebPushSync } from "@/components/notifications/WebPushSync";
 import { PageHeaderProvider } from "@/lib/page-context";
 
@@ -28,6 +29,7 @@ export default function AuthenticatedLayout({
 
   return (
     <PageHeaderProvider>
+      <SessionKeepAlive />
       <WebPushSync />
       <InactivityLock>
       <div className="min-h-screen bg-background">

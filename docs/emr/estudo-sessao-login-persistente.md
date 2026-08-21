@@ -156,3 +156,61 @@ Pendências/decisões pro Getúlio: duração do refresh confiável (30/60/90d?)
 ### Fora deste escopo (débito registrado)
 - Refresh token em cookie HttpOnly no domínio raiz — melhoria de segurança/durabilidade futura.
 - Biometria/PIN no desbloqueio (hoje é senha) — possível evolução.
+
+---
+
+## 2026-08-21 — a causa real do "logout" do PWA no iPhone
+
+Depois de três rodadas mexendo em TTL, rotação e corrida de boot, a queixa continuava: abrir o
+app no iPhone pedia senha de novo. A causa não estava na sessão. **A sessão nunca expirou.**
+
+### O que o dado de produção mostrou
+
+Amostra da tabela `refresh_tokens` de produção (dump de 20/08 + consulta ao vivo):
+
+- **185 famílias** de refresh token para o mesmo usuário — 185 logins desde 28/04.
+- Vida média de uma família em agosto: **~1 hora**; a maioria com **1 único token**, nunca
+  rotacionado (`last_used_at == created_at`).
+- Estado do último token de **todas** as 34 famílias de agosto: **vivo no servidor** — não
+  revogado, não expirado, `remember` correto. Nenhuma revogação por logout, nenhuma revogação por
+  detecção de reuso, nenhuma expiração.
+- Intervalos entre logins: 400, 811, 1131, 284, 293, 708 minutos. Ou seja: **um login novo a cada
+  vez que o aparelho ficava algumas horas parado**.
+
+Token vivo no servidor + login novo = o aparelho nunca tentou renovar. Não era o servidor
+derrubando ninguém.
+
+### O buraco
+
+1. `manifest.webmanifest` tem `start_url: "/"` — **toda** abertura pelo ícone do PWA entra pela raiz.
+2. `app/page.tsx` era um `redirect("/login")` de servidor, incondicional.
+3. `app/login/page.tsx` nunca olhava se já existia sessão: mostrava o formulário.
+
+Logo, abrir o app pelo ícone **garantidamente** mostrava a tela de login, com sessão válida ou
+não. Digitar a senha ali abria mais uma sessão e abandonava a anterior — que ficava viva no banco
+até vencer sozinha. No desktop o sintoma não aparecia porque a aba já estava numa rota interna.
+
+Some-se a isto que as duas guardas de rota (`useRequireAuth`, `useRequirePatientAuth`) exigiam
+**access token** para considerar alguém logado. O access dura 30min: depois de qualquer pausa ele
+está vencido, e a guarda mandava para o login um usuário perfeitamente logado.
+
+### O que foi feito
+
+- **`app/page.tsx`** virou porta de entrada de verdade: espera a leitura do storage, renova a
+  sessão e manda para o destino do papel; só vai para `/login` quem não tem sessão.
+- **`app/login/page.tsx`** entra direto quando já há sessão (mostra splash enquanto decide, nunca
+  o formulário).
+- **`apiClient.ensureFreshSession()`** — renova quando o access está vencido/perto de vencer ou
+  quando já passaram 12h da última renovação. Sem rede **mantém** a sessão (só 401/403 encerram).
+- **`SessionKeepAlive`** nos dois layouts (EMR e portal): renova ao abrir o app e toda vez que ele
+  volta do segundo plano. É isso que cumpre "entrou = mais 7 dias", já que a validade deslizante
+  do servidor só desliza quando alguém chama `/auth/refresh`.
+- **Guardas de rota** passam a tratar *refresh token* como prova de sessão, não o access.
+
+### Efeito colateral útil: o diagnóstico fica falsificável
+
+A partir daqui, toda abertura do app gera uma renovação. Se ainda assim aparecer um login novo,
+o banco diz qual dos dois mundos é: **com** rotação antes do login → o servidor recusou; **sem**
+rotação nenhuma → o aparelho perdeu o `localStorage` (evicção do iOS), e aí o caminho é o débito
+já registrado — refresh token em cookie HttpOnly no domínio raiz, que não sofre a poda de storage
+script-writable do WebKit.

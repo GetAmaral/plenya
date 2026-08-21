@@ -2,6 +2,41 @@ import { useAuthStore, waitForAuthHydration } from "./auth-store";
 import { toast } from "sonner";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const DEV_BYPASS_AUTH = process.env.NEXT_PUBLIC_DEV_BYPASS_AUTH === "true";
+
+/** Quando o access token está a menos disto de vencer, já vale renovar. */
+const ACCESS_SKEW_MS = 5 * 60 * 1000;
+/**
+ * De quanto em quanto tempo a sessão é renovada só para deslizar a validade.
+ *
+ * O refresh do servidor é deslizante: cada renovação empurra os 7 dias para frente. Mas ele só
+ * desliza quando alguém chama /auth/refresh — e o access token dura 30min, então quem entra,
+ * usa e sai rápido podia passar dias sem nunca renovar. Uma renovação a cada 12h de uso garante
+ * a promessa "entrou = mais 7 dias".
+ */
+const SLIDE_EVERY_MS = 12 * 60 * 60 * 1000;
+const LAST_REFRESH_KEY = "plenya-last-refresh";
+
+/** Lê o `exp` de um JWT (epoch em ms) sem validar assinatura — só para saber se já venceu. */
+function jwtExpiresAt(token: string): number | null {
+  const payload = token.split(".")[1];
+  if (!payload) return null;
+  try {
+    const json = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
+    const exp = JSON.parse(json)?.exp;
+    return typeof exp === "number" ? exp * 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
+function markRefreshed() {
+  try {
+    localStorage.setItem(LAST_REFRESH_KEY, String(Date.now()));
+  } catch {
+    /* storage indisponível */
+  }
+}
 
 /**
  * Resultado de uma tentativa de renovar a sessão.
@@ -69,6 +104,7 @@ class APIClient {
           useAuthStore
             .getState()
             .setAuth(data.user, data.accessToken, data.refreshToken);
+          markRefreshed();
           return "ok";
         }
 
@@ -88,6 +124,46 @@ class APIClient {
     }
 
     return "offline";
+  }
+
+  /**
+   * Garante que a sessão deste aparelho está viva e com a validade renovada.
+   *
+   * Chamada quando o app abre e quando volta do segundo plano. É o que cumpre o combinado:
+   * **entrou, renovou por mais 7 dias**. Devolve `true` enquanto houver sessão utilizável —
+   * inclusive sem rede, porque sinal ruim não é motivo para pedir senha de novo. Só devolve
+   * `false` quando não há sessão neste aparelho ou quando o servidor recusou a renovação.
+   */
+  async ensureFreshSession(): Promise<boolean> {
+    if (DEV_BYPASS_AUTH) return true;
+    await waitForAuthHydration();
+
+    const { accessToken, refreshToken } = useAuthStore.getState();
+    if (!refreshToken) return false;
+
+    const expiresAt = accessToken ? jwtExpiresAt(accessToken) : null;
+    const accessUsable = expiresAt !== null && expiresAt - Date.now() > ACCESS_SKEW_MS;
+
+    let lastRefresh = 0;
+    try {
+      lastRefresh = Number(localStorage.getItem(LAST_REFRESH_KEY) || 0);
+    } catch {
+      /* storage indisponível: trata como "nunca renovou" */
+    }
+    const slideDue = Date.now() - lastRefresh > SLIDE_EVERY_MS;
+
+    if (accessUsable && !slideDue) return true;
+
+    const outcome = await this.tryRefreshToken();
+    if (outcome === "invalid") {
+      // O servidor recusou: a sessão morreu mesmo. Limpa em silêncio — quem chamou decide
+      // para onde levar (a tela de login já é o destino natural).
+      useAuthStore.getState().clearAuth();
+      return false;
+    }
+    if (outcome === "no-session") return false;
+    // "ok" ou "offline": segue logado. Sem rede, o próximo request renova.
+    return true;
   }
 
   private async fetchWithAuth(
