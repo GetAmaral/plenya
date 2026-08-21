@@ -5,6 +5,7 @@ import { useRequireAuth } from '@/lib/use-auth'
 import { PageHeader } from '@/components/layout/page-header'
 import { ProfileForm } from '@/components/profile/ProfileForm'
 import { SessionsCard } from '@/components/auth/sessions-card'
+import { WebPushCard } from '@/components/notifications/WebPushCard'
 import { User as UserIcon } from 'lucide-react'
 
 export default function ProfilePage() {
@@ -29,6 +30,7 @@ export default function ProfilePage() {
 
       <div className="max-w-3xl space-y-8">
         <ProfileForm user={user as any} onSuccess={handleSuccess} />
+        <WebPushCard />
         <SessionsCard />
       </div>
     </div>

@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -58,7 +59,9 @@ func (s *NotificationService) dispatchPush(n *models.Notification) {
 	}
 
 	go func() {
-		_ = s.push.Send(n.UserID, PushPayload{
+		// O erro do envio era descartado aqui: quando o aviso não chegava, não havia nada em
+		// lugar nenhum dizendo se o servidor tinha sequer tentado.
+		if err := s.push.Send(n.UserID, PushPayload{
 			Title: n.Title,
 			Body:  SanitizeBody(n.Message),
 			URL:   url,
@@ -67,7 +70,9 @@ func (s *NotificationService) dispatchPush(n *models.Notification) {
 				"notificationId": n.ID.String(),
 				"type":           string(n.Type),
 			},
-		})
+		}); err != nil {
+			log.Printf("[push] falha ao enviar aviso %s (tipo=%s, user=%s): %v", n.ID, n.Type, n.UserID, err)
+		}
 	}()
 }
 

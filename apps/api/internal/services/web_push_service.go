@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
+	"net/url"
 	"strings"
 
 	webpush "github.com/SherClockHolmes/webpush-go"
@@ -51,6 +53,15 @@ func normalizeVAPIDSubject(s string) string {
 		t = t[len("mailto:"):]
 	}
 	return t
+}
+
+// endpointHost devolve só o host do endpoint, pro log identificar o serviço de push
+// (web.push.apple.com, fcm.googleapis.com) sem despejar o token do aparelho.
+func endpointHost(endpoint string) string {
+	if u, err := url.Parse(endpoint); err == nil && u.Host != "" {
+		return u.Host
+	}
+	return "?"
 }
 
 // Enabled indica se há chaves VAPID configuradas.
@@ -122,11 +133,17 @@ func (s *WebPushService) sendOne(sub models.WebPushSubscription, body []byte) er
 	switch {
 	case resp.StatusCode == http.StatusNotFound || resp.StatusCode == http.StatusGone:
 		// Endpoint morto — limpa a inscrição pra não tentar de novo.
+		log.Printf("[webpush] inscrição expirada (%d), removendo: user=%s host=%s", resp.StatusCode, sub.UserID, endpointHost(sub.Endpoint))
 		_ = s.db.Delete(&models.WebPushSubscription{}, "id = ?", sub.ID).Error
 		return nil
 	case resp.StatusCode >= 400:
 		return fmt.Errorf("web push error %d (endpoint=%.40s)", resp.StatusCode, sub.Endpoint)
 	}
+
+	// Log de entrega: sem isto, "o push não chegou" vira adivinhação — não dá pra separar
+	// "o servidor não mandou" de "o aparelho não mostrou". Duas investigações já se perderam
+	// aqui. Ver docs/emr/plano-webpush-notificacoes.md.
+	log.Printf("[webpush] entregue %d: user=%s host=%s", resp.StatusCode, sub.UserID, endpointHost(sub.Endpoint))
 
 	// Sucesso — marca atividade (best-effort).
 	_ = s.db.Model(&models.WebPushSubscription{}).
