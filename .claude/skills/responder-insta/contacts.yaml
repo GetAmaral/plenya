@@ -19,13 +19,161 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-07-11'  # 15ª iteração — varredura COMPLETA (46 posts + ads IG/FB + 50 DMs + Messenger); reautenticação IG Composio no início (todas EXPIRED). +nil_negro, +jaquelinecarrador, +ritakassia74, +karina.fiorii, +robertaadami15, +cidabastos122, +tatiana.saliba.7, +dirceschilipack, +magnalucia.silva, +elisanee
+last_updated: '2026-08-25'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
+# last_updated anterior: '2026-07-11'  # 15ª iteração — varredura COMPLETA (46 posts + ads IG/FB + 50 DMs + Messenger); reautenticação IG Composio no início (todas EXPIRED). +nil_negro, +jaquelinecarrador, +ritakassia74, +karina.fiorii, +robertaadami15, +cidabastos122, +tatiana.saliba.7, +dirceschilipack, +magnalucia.silva, +elisanee
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
 # Gêmeos a caminho (anunciado em 10/05/2026 — Reel Dia das Mães).
 # Madrinha da Bianca = @jeane_clucena (prima do Dr).
 
 contacts:
+
+  # ============================================
+  # NOVOS (cadastrados 2026-08-25)
+  # ============================================
+
+  '@josilenegnr':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou se GLP-1 ajuda a reduzir placa nas carótidas (post GLP1 Ep2 orgânico).
+      Respondida com honestidade: GLP-1 reduz espessura íntima-média e risco de
+      infarto/AVC, MAS ECR com exenatida (631 pessoas/18 meses) não mostrou mudança
+      no volume nem na composição da placa. Quem move placa é LDL baixo + PA + parar
+      de fumar. Se voltar, provável interesse em prevenção cardiovascular.
+    last: "2026-08-25 — reply post GLP1 Ep2 (placa de carótida)"
+
+  '@andreacasinilucas':
+    rel: seguidora (esposa de paciente potencial)
+    tone: clínico-respeitoso / acolhedor
+    notes: |
+      Marido teve CA de rim JÁ RETIRADO (nefrectomia) e usa Ozivy (semaglutida) por
+      indicação do endocrinologista dele. Perguntou se o CA muda alguma coisa.
+      Respondida: CA renal retirado não contraindica; contraindicação da classe é só
+      CA medular de tireoide/NEM2. Ênfase nefrológica (território do Dr): rim único
+      hiperfiltra, risco de HAS/albuminúria/DRC, monitorar creatinina+TFG+albuminúria
+      anual, hidratação reforçada no início.
+    avoid:
+      - especular por que o colega escolheu semaglutida em vez de tirzepatida
+      - dar número de proteína sem saber a função renal dele
+    last: "2026-08-25 — reply post GLP1 Ep1 (CA de rim + Ozivy, rim único)"
+
+  '@silvia.helenaa64':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Pedra na vesícula, perguntou se pode tomar (ad GLP1 Ep2 lado IG). Respondida na
+      MESMA linha já usada com @naircristinaborgesmartins: não é contraindicação
+      absoluta, mas exige avaliação; risco biliar ~1/3 maior (JAMA Intern Med 2022);
+      dose baixa subindo devagar; se já teve cólica, conversar sobre retirar antes.
+    last: "2026-08-25 — reply ad GLP1 Ep2 IG (pedra na vesícula)"
+
+  '@carmothais2022':
+    rel: seguidora em tratamento
+    tone: clínico-respeitoso / encorajador
+    notes: |
+      Usa Poviztra (semaglutida) 1,0 mg. Relatou diarreia 3x no mês e identificou
+      sozinha que gordura é o gatilho. Respondida validando a observação
+      (esvaziamento lento + gordura), medidas práticas e sinais de alerta (diarreia
+      persistente; dor à direita pós-gordura = checar vesícula).
+    avoid:
+      - usar primeiro nome (handle sugere "Thais" mas grafia/ordem não confirmadas)
+    last: "2026-08-25 — reply ad GLP1 Ep2 IG (diarreia com gordura, Poviztra 1.0)"
+
+  '@josemanoelamaral':
+    rel: seguidor (sobrenome Amaral — parentesco NÃO confirmado)
+    name: José Manoel
+    tone: clínico-respeitoso / caloroso
+    notes: |
+      78 anos, treina com peso. Sem problema renal. EM BLOQUEIO HORMONAL (privação
+      androgênica) por câncer de próstata — atenção: é o oposto de repor testosterona,
+      e acelera sarcopenia + perda óssea. Perguntou sobre creatina e whey; ambos
+      liberados. Dr Getúlio é FRANCAMENTE FAVORÁVEL à creatina pelos benefícios além
+      do músculo (osso e cognição), que é justamente o que o bloqueio ataca.
+    avoid:
+      - presumir parentesco só pelo sobrenome Amaral
+      - dizer que creatina "não acrescenta" (há ECR em ADT nesse sentido, mas a
+        posição editorial do Dr é pró-creatina pelos benefícios extra-musculares)
+    last: "2026-08-25 — reply post Whey (creatina+whey sob bloqueio hormonal, 78 anos)"
+
+  '@daianevieiraeleo':
+    rel: seguidora em tratamento
+    name: Daiane
+    call_dr: "Dr Túlio"
+    tone: clínico-respeitoso / atento
+    notes: |
+      Colecistectomizada (sem vesícula). Relatou empachamento, arrotos e refluxo
+      noturno após 4 dias de Wegovy, dizendo dose 2,4 mg — que é a dose MÁXIMA.
+      Respondida sinalizando que 2,4 de largada foge do escalonamento padrão
+      (0,25→0,5→1→1,7→2,4) e pedindo para confirmar com quem prescreveu, sem acusar
+      erro. PENDENTE DE DESFECHO: se ela responder, vale acompanhar.
+    last: "2026-08-25 — reply post GLP1 Ep5 (refluxo + possível início em dose máxima)"
+
+  '@edilenysilvaventura_ncs':
+    rel: seguidora / lead
+    tone: acolhedor
+    notes: |
+      DM de desabafo: "meu sonho poder ficar bem e perder pelo menos 10 quilos".
+      Respondida (Dr colou no app, janela 24h fechada) com acolhimento + básico
+      (proteína/treino de força/sono) + convite implícito a avaliação, SEM telefone
+      e sem tom comercial.
+    last: "2026-08-25 — DM respondida no app (desabafo/meta de 10 kg)"
+
+  '@adriana.platz2':
+    rel: seguidora
+    name: Adriana
+    tone: cordial
+    notes: |
+      Pediu por DM conteúdo sobre o Olire (liraglutida). Respondida (Dr colou no app)
+      com adiantamento: liraglutida, diária, titula até 3 mg, perda média 6-10%.
+      SUGESTÃO DE PAUTA EM ABERTO: vídeo sobre Olire ainda não foi feito.
+    last: "2026-08-25 — DM respondida no app (pauta Olire)"
+
+  '@elizabethveronezi':
+    rel: seguidora fiel
+    tone: cordial / leve
+    notes: |
+      Acompanha os vídeos e mandou DM estranhando desinformação que viu na internet
+      ("usou e aumentou a vontade de usar perfume"). Respondida (Dr colou no app)
+      agradecendo + separando o que é real (GLP-1 age em vias de recompensa e pode
+      reduzir impulsos) do exagero.
+    last: "2026-08-25 — DM respondida no app (elogio + desinformação)"
+
+  '@prof.diego.fogaca':
+    rel: lead
+    name: Diego
+    tone: profissional-caloroso
+    notes: |
+      DM em 17/08 perguntando se o Dr atende online. LEAD NÃO RESPONDIDO — o Dr
+      optou por PULAR na sessão de 25/08. Não re-flaggar como pendência sem ordem.
+    last: "2026-08-25 — triado e PULADO por decisão do Dr (DM 17/08, lead teleconsulta)"
+
+  '@vanessamathias304':
+    rel: seguidora (provável ex-paciente ou contato de diálise)
+    tone: cordial
+    notes: |
+      DM em 18/08: "vc está trabalhando na Davita ainda?". NÃO RESPONDIDA — falta
+      dado que só o Dr tem (vínculo atual com a DaVita). Não chutar.
+    last: "2026-08-25 — triada, resposta BLOQUEADA aguardando info do Dr (DaVita)"
+
+  '@jussara.costa63':
+    rel: seguidora
+    tone: cordial
+    notes: |
+      Feedback no ad GLP1 Ep1 (IG): "fala muito rápido, não dá pra acompanhar".
+      Mesma queixa apareceu no lado FB do mesmo ad (anônimo, 12/08: "falar com calma
+      ajudaria, e diminuir o som de fundo"). DOIS relatos independentes sobre ritmo
+      e áudio dos vídeos. Não respondida (Dr optou por pular a trilha de feedback).
+    last: "2026-08-25 — triada, PULADA por decisão do Dr (feedback de ritmo)"
+
+  '@silsime':
+    rel: seguidora
+    tone: cordial
+    notes: |
+      Ad GLP1 Ep1 (IG), 04/08: elogia e pergunta quando saem os demais vídeos da
+      série. Mesma pergunta de @luciana_de_fatima_magalhaes no Ep1 orgânico (14/07).
+      Não respondida nesta sessão.
+    last: "2026-08-25 — triada, não respondida (pergunta sobre próximos vídeos)"
 
   # ============================================
   # NOVOS (cadastrados 2026-07-11)
@@ -265,10 +413,10 @@ contacts:
       Esposa dele = Ju. Eles se veem toda semana.
     avoid:
       - "ocupar espaço público com responsabilidade"
-      - "missão", "projeto", "evidência sem firula" (soa marketing)
-      - "vindas de você pesam dobrado" (soa político/transacional)
-      - "Conta comigo pro que precisar" (networking)
-      - "Marca logo de vermos vocês / Saudade" (eles se veem toda semana)
+      - 'as palavras "missão", "projeto", "evidência sem firula" (soa marketing)'
+      - '"vindas de você pesam dobrado" (soa político/transacional)'
+      - '"Conta comigo pro que precisar" (networking)'
+      - '"Marca logo de vermos vocês / Saudade" (eles se veem toda semana)'
     last: "2026-05-11 - reply Dia das Mães (versão v6 aprovada após 5 iterações)"
 
   '@mateusamaral10':
@@ -434,7 +582,7 @@ contacts:
       Piada recorrente sobre placar de filhos: ele 3, Dr está em 2 com 2 chegando (vai
       ultrapassar para 4).
     avoid:
-      - "tropa" para se referir aos filhos dele (são meninas) — usar "as meninas"
+      - '"tropa" para se referir aos filhos dele (são meninas) — usar "as meninas"'
     last: "2026-05-11 - reply Rota MTB + reply Dia das Mães (com piada 4 vs 3)"
 
   '@thaisxavierchikazawa':
@@ -450,7 +598,7 @@ contacts:
     rel: colega médico íntimo
     name: Danilo
     title: Dr (médico)
-    call_dr: "Monstro" (apelido)
+    call_dr: '"Monstro" (apelido)'
     tone: brother descontraído
     notes: |
       Colega médico íntimo. Usa "Monstro" como apelido afetuoso.
@@ -622,7 +770,7 @@ contacts:
       Paciente do Dr. Tratamento mais formal — usar nome completo "Gisele", evitar
       apelidos íntimos. Tom respeitoso mas afetuoso.
     avoid:
-      - "querida" em demasia (manter formalidade adequada a relação médico-paciente)
+      - '"querida" em demasia (manter formalidade adequada a relação médico-paciente)'
       - referências íntimas tipo "casa cheia" / piadinhas
     last: "2026-05-11 - reply Dia das Mães (formal)"
 

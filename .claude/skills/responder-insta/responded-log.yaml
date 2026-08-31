@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-07-11'
+last_updated: '2026-08-25'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -86,13 +86,21 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-07-11'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
+comments_baseline_swept_through: '2026-08-25'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
+
+# Varredura 2026-08-25 (16a iteracao): 60 posts organicos (3 paginas, TODOS com
+# comments_count>0), 4 ads (GLP1 Ep1/Ep2 ATIVOS + Ep1/Ep2 novos PAUSADOS) nos DOIS
+# lados, 69 conversas DM (2 paginas, ate 12/07) e FB Messenger (1 conversa, ja
+# respondida). Descoberta importante: alguem varreu e respondeu PELA PAGINA/API em
+# 04/08 (CTAs do post Ansiedade, ads FB, DMs) - a baseline real era MISTA, 11/07 no
+# IG organico e 04/08 em parte dos ads.
 
 # Itens que ficaram ABERTOS em 2026-05-23 (decisão do Dr sobre responder ou não):
 open_as_of_2026-05-23:
   organic: []   # C1 resolvido em 23/05 (ver answered abaixo)
 
-answered_this_session:
+answered_this_session:   # 2026-05-23 (estrutura normalizada em 25/08: era sequencia+mapa misturados, YAML invalido)
+  comments:
   - post: Magnésio (id 17970084240062620)
     comment_id: 17924959080122185
     who: '@marciojosecoutinhofreitas'
@@ -437,6 +445,238 @@ answered_2026-07-11:  # varredura COMPLETA: 46 posts + ads IG/FB + 50 DMs + Mess
     - "@franciele.fabio984 'VV.' (ad Ep1 IG) — spam/sem sentido"
     - "@magcrissosa DM 'Jorge' (28/06) — palavra solta ambígua, sem pergunta"
     - "@dirceschilipack DM 'obrigada Dr' (10/07 fechamento fora janela) — provável dr_app"
+
+answered_2026-08-25:  # 16a iteracao. 7 clinicas via API + 3 DMs coladas no app pelo Dr.
+  comments:
+    - post: Whey/rins (18172018732428558)
+      comment_id: 17991362850001024
+      who: '@josemanoelamaral'
+      reply_id: '18049609418641159'
+      texto: |
+        Que bom ver alguém treinando com peso aos 78 anos, isso vale muito.
+
+        Sobre o whey: pode, e no seu caso é ainda mais importante. O bloqueio hormonal usado no tratamento da próstata acelera a perda de músculo, aumenta a gordura e cansa mais. Proteína suficiente ao longo do dia é justamente uma das defesas contra isso. Como o rim está bem, não há restrição.
+
+        Sobre a creatina: pode também, e eu sou francamente favorável. Ela não é hormônio, não mexe na testosterona e não interfere no PSA, que é a dúvida que mais aparece em quem trata a próstata.
+
+        E no seu caso ela interessa por mais do que músculo. Além da evidência sólida para força e massa magra junto com o treino, dois pontos conversam direto com o bloqueio hormonal. O primeiro é o osso: o bloqueio tira cálcio, e a creatina combinada com treino de força tem evidência para densidade óssea. O segundo é a cabeça: o tratamento costuma trazer cansaço e névoa mental, e as revisões recentes em pessoas mais velhas apontam ganho em memória e atenção, principalmente em quem tem níveis mais baixos. A dose usual é 3 a 5 gramas por dia, todo dia, sem precisar ciclar.
+
+        Um aviso prático: a creatina eleva um pouco a creatinina no exame de sangue sem que exista lesão no rim, então avise seu médico que você usa, para ninguém se assustar com o resultado. E vale conversar sobre densitometria óssea, vitamina D e cálcio com quem acompanha sua próstata.
+
+        Segue firme no treino. É o melhor remédio que você tem nas mãos. 💙
+      by: dr_api
+      re: |
+        78 anos, treina com peso, sem problema renal, EM BLOQUEIO HORMONAL por CA de
+        prostata. Whey liberado e ainda mais importante (bloqueio acelera sarcopenia).
+        Creatina liberada e recomendada - Dr pediu explicitamente para NAO dizer que
+        creatina "nao acrescenta" (v1 citava ECR em ADT); posicao editorial e
+        PRO-CREATINA pelos beneficios alem do musculo (osso + cognicao), ancorada em
+        Marshall/Nutrition Reviews 2026 e Candow/JISSN 2025 (refs que o proprio Dr ja
+        citou no Reel Ultima Danca Ep2). Avisos: creatina eleva creatinina sem lesao;
+        densitometria + vitamina D + calcio.
+    - post: GLP1 Ep5 efeitos colaterais (17890054353438587)
+      comment_id: 17950786758215790
+      who: '@daianevieiraeleo'
+      reply_id: '18140040223515918'
+      texto: |
+        Daiane, o que você descreve é bem típico do começo: sensação de estômago cheio, arrotos e refluxo ao deitar. A semaglutida deixa o estômago mais lento de propósito, e quando você deita o conteúdo sobe com mais facilidade. Costuma melhorar conforme o corpo se adapta.
+
+        Mas tem um ponto na sua mensagem que eu preciso destacar. A dose de 2,4 mg é a dose máxima do Wegovy, e normalmente só se chega nela depois de subir aos poucos, começando em 0,25 mg e passando por 0,5, 1 e 1,7, cada etapa por cerca de quatro semanas. Se você começou direto no 2,4, isso sozinho explica a intensidade do que está sentindo, e vale confirmar com quem prescreveu, hoje se possível. Se foi só a apresentação da caneta e você está numa dose menor, aí fica mais tranquilo.
+
+        Sobre não ter mais vesícula: uma boa notícia é que o risco de cálculo e de crise de vesícula, que existe com esses remédios, deixa de te preocupar. Por outro lado, sem a vesícula a bile chega ao intestino de forma contínua, e isso pode somar no desconforto digestivo.
+
+        O que ajuda agora: pratos pequenos, comer devagar, segurar na gordura, não deitar nas duas a três horas depois de comer e elevar a cabeceira da cama.
+
+        Procure atendimento se vier vômito que não para, se você não conseguir manter líquidos ou se surgir dor forte na barriga. E fala com seu médico sobre esses sintomas, porque reduzir a dose por um tempo é uma opção legítima e comum. 💙
+      by: dr_api
+      re: |
+        ALERTA: relatou 4 dias de Wegovy dizendo dose 2,4 mg (dose MAXIMA; escalonamento
+        padrao e 0,25->0,5->1->1,7->2,4). Sem vesicula. Sintomas de esvaziamento lento
+        (empachamento, arrotos, refluxo noturno). Resposta sinaliza a questao da dose SEM
+        acusar erro de prescricao, pede confirmacao com quem prescreveu, da medidas
+        praticas e sinais de alerta. ACOMPANHAR se ela responder.
+    - post: GLP1 Ep1 organic (18091184708043047)
+      comment_id: 17888373063612129
+      who: '@andreacasinilucas'
+      reply_id: '17997352877806356'
+      texto: |
+        Pergunta muito pertinente, e como nefrologista te digo que esse é um caso em que o medicamento tem bastante a oferecer.
+
+        Primeiro para tranquilizar: a contraindicação dessa classe é específica para câncer medular de tireoide e para a síndrome NEM2, o que não é o caso dele. Câncer de rim já retirado não impede o uso. Inclusive, estudos recentes em pessoas que retiraram o rim por câncer mostraram menos complicações depois da cirurgia e melhor sobrevida entre quem usava esses medicamentos.
+
+        Sobre a escolha do Ozivy no lugar do Mounjaro, o endocrinologista dele tem os motivos olhando o caso completo. Vale saber que o Ozivy é semaglutida, a mesma molécula do Ozempic e do Wegovy, e é a que tem mais tempo de estrada e os dados mais consolidados de proteção do rim. Faz sentido.
+
+        O que eu acrescentaria, pensando no rim que sobrou: ele passa a trabalhar dobrado, e com o tempo isso cobra um preço, com mais chance de pressão alta, de perda de proteína na urina e de doença renal crônica. A obesidade acelera esse processo, então emagrecer é dos cuidados mais protetores que ele pode ter agora.
+
+        Na prática, peça ao médico para acompanhar creatinina, taxa de filtração e albuminúria pelo menos uma vez por ano, e reforce a hidratação nas primeiras semanas, porque enjoo que corta a ingestão de água pesa mais em quem tem um rim só. E manter o seguimento com o urologista.
+
+        Ele está em boas mãos. 💙
+      by: dr_api
+      re: |
+        Marido com CA de rim ja retirado, endocrino indicou Ozivy e nao Mounjaro.
+        CA renal retirado nao contraindica (contraindicacao e CA medular tireoide/NEM2);
+        estudos TriNetX mostram menos complicacoes pos-nefrectomia e melhor sobrevida com
+        GLP-1. Bloco nefrologico (RAG): rim unico hiperfiltra, TFG 60-70% do basal,
+        albuminuria 25-30% em 10 anos, HAS dobra, DRC pos-nefrectomia 20-40%. Monitorar
+        creatinina+TFG+albuminuria anual, hidratar no inicio.
+    - post: GLP1 Ep2 organic (18337463062212973)
+      comment_id: 17977182573085996
+      who: '@josilenegnr'
+      reply_id: '18096971774635540'
+      texto: |
+        Pergunta ótima, e vou ser honesto com você porque a resposta tem duas partes.
+
+        O que a ciência já mostra é que essa classe de medicamento melhora o ambiente onde a placa cresce: reduz a inflamação, o açúcar, a pressão, o peso e melhora o colesterol. Em estudos houve redução da espessura da parede da carótida, que é um marcador precoce de aterosclerose. E, olhando desfecho de verdade, esses remédios reduzem o risco de infarto e de AVC.
+
+        O que ainda não dá para afirmar é que eles diminuam a placa que já está formada. Um ensaio com mais de 600 pessoas acompanhadas por um ano e meio não encontrou mudança no volume nem na composição da placa da carótida.
+
+        Quem move o ponteiro da placa mesmo é outro conjunto: baixar bastante o LDL, o colesterol ruim, com estatina e o que mais for preciso, controlar a pressão, parar de fumar e manter atividade física. Aí sim existem estudos de imagem mostrando estabilização e até alguma regressão.
+
+        Esse medicamento soma, mas não substitui o tratamento da placa. Vale levar seu exame da carótida e seu colesterol pro seu médico e montar o plano completo. 💙
+      by: dr_api
+      re: |
+        "Ajuda a reduzir as placas nas carotidas?" Resposta HONESTA (contraria em parte a
+        expectativa do Reel): GLP-1 reduz espessura intima-media e risco de infarto/AVC,
+        mas ECR com exenatida (631 pessoas/18 meses) NAO mostrou mudanca de volume nem
+        composicao da placa. Quem move placa e LDL baixo + PA + parar de fumar + atividade.
+  ad_ig_side:
+    - ad: GLP1 Ep2 lado IG (18100461958813577)
+      comment_id: 17864470899659924
+      who: '@silvia.helenaa64'
+      reply_id: '17866535814644638'
+      texto: |
+        Pergunta importante, e aqui vale atenção redobrada.
+
+        Quem já tem pedra na vesícula não está proibido de usar, mas precisa de avaliação antes. Esses medicamentos aumentam um pouco o risco de problema de vesícula por dois motivos: deixam a vesícula mais preguiçosa para esvaziar, e a própria perda de peso rápida favorece a formação de cálculo. Numa revisão grande, com dezenas de estudos e mais de cem mil pessoas, o risco de doença biliar foi cerca de um terço maior.
+
+        Na prática, o que costumo fazer é avaliar antes com o cirurgião, principalmente se você já teve cólica, começar com a dose mais baixa e subir devagar, e não deixar o emagrecimento vir rápido demais.
+
+        Se a pedra nunca deu sintoma, muitas vezes dá para seguir com acompanhamento de perto. Se já deu cólica, aí a conversa sobre retirar a vesícula antes costuma vir primeiro.
+
+        Leva isso pro seu médico e decidam juntos, olhando seu ultrassom. 💙
+      by: dr_api
+      re: |
+        Pedra na vesicula. Mesma linha ja usada com @naircristinaborgesmartins: nao e
+        contraindicacao absoluta, exige avaliacao; risco biliar ~1/3 maior (He L, JAMA
+        Intern Med 2022); dose baixa subindo devagar; sem sintoma da p/ acompanhar, com
+        colica previa conversar sobre retirar antes. DOSE OMITIDA de proposito (ela nao
+        disse qual molecula).
+    - ad: GLP1 Ep2 lado IG (18100461958813577)
+      comment_id: 17989045223846306
+      who: '@carmothais2022'
+      reply_id: '18010184168756615'
+      texto: |
+        Sua observação está certíssima, e é uma das mais úteis que alguém pode fazer no começo do tratamento.
+
+        A explicação é simples: o Poviztra é semaglutida, e ela deixa o estômago mais lento de propósito, para você sentir saciedade por mais tempo. Só que a gordura já é naturalmente o alimento que mais demora para ser digerido. Quando os dois se somam, o sistema engasga, e aparece o desconforto, o enjoo ou a diarreia. Refeição gordurosa é o gatilho mais comum de todos.
+
+        Diarreia esporádica na dose de 1 mg é frequente e costuma diminuir conforme o corpo se adapta. O que ajuda no dia a dia: pratos menores e mais espaçados, comer devagar, segurar na fritura e nos molhos gordurosos, e caprichar na água nos dias em que soltar, para não desidratar.
+
+        Dois sinais que merecem ligar pro seu médico: diarreia forte que não passa em poucos dias, ou dor forte na barriga, principalmente do lado direito e depois de comer gordura, que aí vale checar a vesícula.
+
+        E quando for subir a dose, comenta esses episódios com quem te acompanha, porque isso ajuda a decidir o ritmo do aumento. Você está lendo bem os sinais do seu corpo. 💙
+      by: dr_api
+      re: |
+        Poviztra 1,0 mg, diarreia 3x no mes, identificou sozinha que gordura e o gatilho.
+        Validado (esvaziamento lento + gordura), medidas praticas, sinais de alerta
+        (diarreia persistente; dor a direita pos-gordura = checar vesicula), avisar medico
+        antes de subir dose.
+  ad_fb_side:  # FACEBOOK_CREATE_COMMENT com comment_id ISOLADO (confirmado de novo)
+    - ad: GLP1 Ep2 lado FB (story 1046561478538408_1646264863054912)
+      comment_id: 1592722105534047
+      who: anonimo
+      reply_id: '1592722105534047_1257443589792240'
+      texto: |
+        Pergunta importante, e aqui o cuidado é maior justamente pelo conjunto.
+
+        Sobre o diabetes, essa é a indicação principal dessa classe de medicamento, então nesse ponto ela conversa bem com o seu caso.
+
+        Sobre o AVC, ter tido um AVC não impede o uso. Os estudos grandes com essa família de medicamentos mostram redução do risco de novos eventos, inclusive de novo AVC, em quem já tem doença cardiovascular. Mas existe uma diferença que muda tudo: se o AVC foi agora, na fase aguda ou nas primeiras semanas, o momento é de estabilizar primeiro, e quem dá esse tempo é o neurologista.
+
+        A pressão oscilando muito é o que eu olharia antes de qualquer coisa. Oscilação pede investigação, e vale entender a causa antes de somar um remédio novo.
+
+        Dois cuidados práticos: se você usa insulina ou remédios como glibenclamida, gliclazida ou glimepirida, a dose costuma precisar de ajuste para evitar hipoglicemia. E se o AVC deixou alguma sequela de força ou de engolir, atenção redobrada com enjoo, hidratação e proteína, para não perder músculo.
+
+        No seu caso, a princípio vale considerar, mas com neurologista e endocrinologista avaliando juntos, com seus exames na mão. Leva essa conversa pra eles. Melhoras 💙
+      by: dr_api
+      re: |
+        MAIS URGENTE DA SESSAO (postado 24/08, respondido 25/08): "sou diabetica, pressao
+        oscila mt, to com AVC, posso tomar monjaro?". Tratada a ambiguidade de "to com AVC"
+        (sequela x evento recente) cobrindo os dois cenarios. DM2 e a indicacao principal;
+        AVC previo nao impede (SELECT incluiu AVC previo; meta-analise SELECT+FLOW: -15% de
+        AVC; SURPASS-CVOT/NEJM dez-2025: tirzepatida nao-inferior a dulaglutida em MACE-3,
+        12,2% vs 13,1%). AVC agudo/recente = estabilizar primeiro com neurologista. Pressao
+        oscilando = investigar antes. Ajuste de insulina/sulfonilureia. Sequela de forca ou
+        de deglutir = cuidado com enjoo/desidratacao/proteina.
+  dms_postadas_manual_dr_app:  # janela 24h fechada via API (2534022 confirmado em @edilenysilvaventura_ncs)
+    - who: '@edilenysilvaventura_ncs'
+      texto: |
+        Seu sonho é totalmente possível, e 10 quilos é uma meta bem realista.
+
+        O que costuma travar as pessoas não é falta de força de vontade, é tentar sozinha e sem saber o que está acontecendo no próprio corpo. Quando se entende o que está por trás, sono, hormônios, resistência à insulina e alimentação, o caminho fica bem mais claro.
+
+        Comece pelo básico, que já muda muita coisa: proteína em todas as refeições, treino de força pelo menos duas vezes por semana e sono de verdade. E vale uma avaliação médica para olhar o conjunto e montar um plano que caiba na sua rotina.
+
+        Você já deu o primeiro passo, que é querer. Tô na torcida ☺️💙
+      re: "Desabafo 'meu sonho perder 10 kg'. Acolhimento + basico (proteina/treino de forca/sono) + convite implicito a avaliacao, sem telefone e sem tom comercial."
+    - who: '@adriana.platz2'
+      texto: |
+        Anotado, Adriana! Vou trazer sim.
+
+        Adiantando um pouco: o Olire é liraglutida, da mesma família das canetas, e foi a primeira aprovada para obesidade, então é a que tem mais tempo de estrada. Duas diferenças práticas em relação às mais novas: a aplicação é diária, não semanal, e a dose sobe aos poucos até 3 mg para o corpo se adaptar. A perda de peso média fica em torno de 6 a 10%, um pouco abaixo das mais recentes, mas 8% do peso já muda pressão, colesterol e glicose de verdade.
+
+        Obrigado pela sugestão, é assim que escolho os próximos temas ☺️💙
+      re: "Pedido de pauta sobre Olire. Adiantamento (liraglutida, diaria, titula ate 3 mg, perda 6-10%) + promessa de conteudo. PAUTA EM ABERTO."
+    - who: '@elizabethveronezi'
+      texto: |
+        Que bom saber que os vídeos ajudam, obrigado de coração ❤️
+
+        E você tem razão em estranhar. Nessa área aparece de tudo, e o que mais confunde é quando misturam uma coisa real com um exagero. Existe pesquisa séria mostrando que esses medicamentos podem reduzir vontades e impulsos, porque agem também em áreas do cérebro ligadas à recompensa. Daí até "aumentar a vontade de usar perfume" vai uma distância enorme.
+
+        Por isso insisto tanto em mostrar de onde vem a informação. Seguimos juntos ☺️💙
+      re: "Elogio + estranhou desinformacao ('usou e aumentou a vontade de usar perfume'). Agradecimento + separacao entre o real (GLP-1 age em vias de recompensa, pode reduzir impulsos) e o exagero."
+  pulados_por_decisao_do_dr:
+    - who: '@prof.diego.fogaca'
+      tipo: DM / LEAD
+      re: "17/08, 'o senhor atende online?'. Draft pronto no template dele (Rose, 43 99638-0044). Dr mandou PULAR. Nao re-flaggar sem ordem."
+    - tipo: elogios/emoji
+      re: "~90 comentarios de elogio sem resposta acumulados desde 11/07 (Dia do Nefrologista 18, Bastidores 12, 10mil 11, Whey 7, Biotipo 7, Origem 6 e outros). Dr mandou PULAR nesta sessao."
+    - tipo: trilha HOAM / feedback de conteudo
+      re: "Dr mandou PULAR. Ver 'pendencias_abertas' abaixo - o feedback segue valido e nao foi comunicado a agencia."
+  ignorados:
+    - "@f_lorentz (ad Ep1 IG, 01/08): link de YouTube de terceiro + planilha de custos de canetas. SPAM."
+    - "FB Ep1 ad: comentario 'Marcilio Lopes' (1988884911990172) - marcacao de terceiro, sem conteudo."
+    - "@izaiasfirmino (ad Ep2 PAUSADO, 30/06): banter de futebol, nao clinico."
+
+# ---- PENDENCIAS ABERTAS ao fim da sessao de 2026-08-25 ----
+pendencias_abertas_2026-08-25:
+  bloqueada_por_falta_de_info:
+    - who: '@vanessamathias304'
+      tipo: DM
+      quando: '2026-08-18'
+      re: "'Vc esta trabalhando na Davita ainda?'. NAO respondida: depende de dado que so o Dr tem (vinculo atual com a DaVita). Nao chutar. Existe thread DM com @davitatratamentorenal (ultima msg do Dr em 30/07), mas isso nao define vinculo."
+  feedback_de_conteudo_nao_comunicado:
+    - re: |
+        DOIS relatos independentes sobre o MESMO ad (GLP1 Ep1) reclamando de ritmo e audio:
+        @jussara.costa63 (lado IG, 07/08) "fala muito rapido, nao da pra acompanhar" e
+        anonimo (lado FB, 12/08, comment 1743530376980691) "falar com calma ajudaria
+        bastante, e diminuir o som de fundo tambem, atrapalha a mensagem". Ha ainda dois
+        registros mais antigos no mesmo sentido no lado FB (30/05 e 05/06), esses ja
+        respondidos. Sinal recorrente, nao pontual. NAO comunicado a HOAM por decisao do Dr.
+  perguntas_simples_nao_respondidas:
+    - "@silsime (ad Ep1 IG, 04/08): 'quando serao liberados os demais videos?'"
+    - "@luciana_de_fatima_magalhaes (Ep1 organico, 14/07): 'cade os outros videos?'"
+  gaps_de_varredura:
+    - "MENTIONS/TAGS NAO VARRIDOS: a tool INSTAGRAM_GET_IG_USER_TAGS NAO EXISTE nesta build do Composio (erro 'No such tool available'). Gap declarado, nao silencioso. Se voltar a existir, varrer."
+    - "2 conversas DM inacessiveis (subcode 33), padrao de ID 281152... = PEDIDOS DE MENSAGEM de nao-seguidores. Checar aba 'Solicitacoes' no app. Ver memoria responder_insta_message_requests_first."
+  conversas_inacessiveis_vistas_em_2026-08-25:
+    - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTAzNjY5NzI4MDgzMzc2
+      updated_time: '2026-08-24T00:47'
+      nota: "Mesma conversa ja vista em 26/05 e 11/07, agora com mensagem NOVA de 24/08. Persistente e nunca acessada via API."
+    - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyMzU1Mzg3NTE2NzQzMzg1
+      updated_time: '2026-08-07T20:47'
+      nota: "Ja vista em 05/06. Mensagem nova em 07/08."
+
 
 # RESOLVIDO pelo Dr pessoalmente no app (confirmado pelo usuário em 23/06) — NÃO re-flaggar:
 resolvido_dr_app_2026-06-23:
