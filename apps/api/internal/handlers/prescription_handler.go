@@ -17,6 +17,7 @@ import (
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/utils"
 )
 
 type PrescriptionHandler struct {
@@ -409,7 +410,9 @@ func (h *PrescriptionHandler) Download(c *fiber.Ctx) error {
 	}
 
 	c.Set("Content-Type", contentType)
-	c.Set("Content-Disposition", `inline; filename="`+fileName+`"`)
+	// Mesmo padrão do pedido de exames: filename= em ASCII puro para cliente antigo e
+	// filename*=UTF-8 com o nome real acentuado. Sem isso, "José" quebrava o cabeçalho.
+	c.Set("Content-Disposition", utils.ContentDisposition(fileName, "receita.pdf"))
 	return c.SendFile(full)
 }
 

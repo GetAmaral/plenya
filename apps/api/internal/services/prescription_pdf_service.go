@@ -14,6 +14,7 @@ import (
 	"gorm.io/gorm/clause"
 
 	"github.com/plenya/api/internal/models"
+	"github.com/plenya/api/internal/utils"
 )
 
 type PrescriptionPDFService struct {
@@ -136,7 +137,7 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	patientDoc, err := s.documents.CreateFromBytes(CreateFromBytesInput{
 		PatientID:  prescription.PatientID,
 		Bytes:      finalPDF,
-		Filename:   fmt.Sprintf("receita_%s.pdf", prescriptionID),
+		Filename:   prescriptionFileName(&prescription),
 		Title:      documentTitleFor(&prescription) + " - " + now.Format("02/01/2006"),
 		Type:       models.DocumentTypePrescription,
 		Source:     models.DocumentSourceStaffUpload,
@@ -182,7 +183,10 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 // GetForDownload resolve o PDF da prescrição (via PatientDocument) para download autenticado.
 func (s *PrescriptionPDFService) GetForDownload(prescriptionID uuid.UUID) (fullPath, fileName, contentType string, err error) {
 	var p models.Prescription
-	if e := s.db.First(&p, prescriptionID).Error; e != nil {
+	// Patient entra junto porque o nome do arquivo é montado na hora, e não lido do
+	// PatientDocument: assim as receitas geradas antes deste padrão também baixam com nome
+	// legível, em vez do "receita_<uuid>.pdf" que ficou gravado nelas.
+	if e := s.db.Preload("Patient").First(&p, prescriptionID).Error; e != nil {
 		return "", "", "", e
 	}
 	if p.PatientDocumentID == nil {
@@ -192,7 +196,22 @@ func (s *PrescriptionPDFService) GetForDownload(prescriptionID uuid.UUID) (fullP
 	if e != nil {
 		return "", "", "", e
 	}
-	return full, pdoc.FileName, pdoc.ContentType, nil
+	return full, prescriptionFileName(&p), pdoc.ContentType, nil
+}
+
+// prescriptionFileName monta "Ana-Claudia-Correa_ReceitaManipulado_2026-08-31_01a0592b.pdf", no
+// mesmo padrão do pedido de exames. Manipulado e industrializado saem com rótulos diferentes
+// porque chegam misturados na mesma pasta de quem recebe.
+func prescriptionFileName(p *models.Prescription) string {
+	kind := "Receita"
+	if p.Type == models.PrescriptionCompounded {
+		kind = "ReceitaManipulado"
+	}
+	date := p.CreatedAt
+	if !p.PrescriptionDate.IsZero() {
+		date = p.PrescriptionDate
+	}
+	return utils.DocumentFileName(p.Patient.Name, kind, date, p.ID)
 }
 
 // ReadSignedPDF lê os bytes do PDF assinado (para validação pública por hash/assinatura).

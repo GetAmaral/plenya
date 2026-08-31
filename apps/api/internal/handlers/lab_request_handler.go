@@ -2,11 +2,9 @@ package handlers
 
 import (
 	"fmt"
-	"net/url"
 	"os"
 	"strings"
 	"time"
-	"unicode"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -15,10 +13,8 @@ import (
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/utils"
 	"github.com/skip2/go-qrcode"
-	"golang.org/x/text/runes"
-	"golang.org/x/text/transform"
-	"golang.org/x/text/unicode/norm"
 )
 
 // LabRequestHandler handles HTTP requests for lab requests
@@ -525,8 +521,7 @@ func (h *LabRequestHandler) DownloadPDF(c *fiber.Ctx) error {
 
 	c.Set("Content-Type", "application/pdf")
 	// filename= com ASCII puro (compatibilidade) + filename*= com o nome real acentuado.
-	c.Set("Content-Disposition", fmt.Sprintf(`inline; filename="%s"; filename*=UTF-8''%s`,
-		asciiFallback(download), url.PathEscape(download)))
+	c.Set("Content-Disposition", utils.ContentDisposition(download, "pedido-exame.pdf"))
 	return c.SendFile(fullPath)
 }
 
@@ -534,74 +529,15 @@ func (h *LabRequestHandler) DownloadPDF(c *fiber.Ctx) error {
 // O sufixo curto do UUID evita colisão entre pedidos do mesmo paciente no mesmo dia e
 // permite achar o registro a partir do arquivo.
 func labRequestFileName(req *models.LabRequest) string {
-	patient := "Paciente"
+	name := ""
 	if req.Patient != nil {
-		if n := compactName(req.Patient.Name); n != "" {
-			patient = n
-		}
+		name = req.Patient.Name
 	}
-
 	date := req.CreatedAt
 	if !req.Date.IsZero() {
 		date = req.Date
 	}
-
-	return fmt.Sprintf("%s_PedidoExame_%s_%s.pdf",
-		patient, date.Format("2006-01-02"), req.ID.String()[:8])
-}
-
-// compactName transforma "Luiz Gustavo José Carvalho" em "Luiz-Gustavo-José-Carvalho": une as
-// partes do nome com hífen e descarta o que não for letra/dígito, para o nome do arquivo não
-// depender de espaço nem de pontuação.
-//
-// O hífen entrou no lugar do CamelCase porque "LuizGustavoJoséCarvalho" só se lê com esforço, e
-// esse nome vai parar no WhatsApp e na pasta de downloads de quem recebe.
-func compactName(name string) string {
-	var partes []string
-	var atual strings.Builder
-	fecha := func() {
-		if atual.Len() > 0 {
-			partes = append(partes, atual.String())
-			atual.Reset()
-		}
-	}
-	primeiraDaParte := true
-	for _, r := range name {
-		switch {
-		case unicode.IsLetter(r) || unicode.IsDigit(r):
-			if primeiraDaParte {
-				atual.WriteRune(unicode.ToUpper(r))
-				primeiraDaParte = false
-			} else {
-				atual.WriteRune(r)
-			}
-		default:
-			fecha()
-			primeiraDaParte = true
-		}
-	}
-	fecha()
-	return strings.Join(partes, "-")
-}
-
-// asciiFallback tira acentos e qualquer caractere fora do ASCII imprimível — é o nome que
-// vai no filename= "clássico", para cliente antigo que ignora o filename*=UTF-8.
-func asciiFallback(s string) string {
-	normalized, _, err := transform.String(
-		transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC), s)
-	if err != nil {
-		normalized = s
-	}
-	var b strings.Builder
-	for _, r := range normalized {
-		if r > 32 && r < 127 && r != '"' && r != '\\' {
-			b.WriteRune(r)
-		}
-	}
-	if b.Len() == 0 {
-		return "pedido-exame.pdf"
-	}
-	return b.String()
+	return utils.DocumentFileName(name, "PedidoExame", date, req.ID)
 }
 
 // ValidatePublic validates a lab request publicly (no authentication required)

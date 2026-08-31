@@ -34,27 +34,3 @@ func TestLabRequestFileName_SemPaciente(t *testing.T) {
 		t.Fatalf("sem paciente carregado o nome deveria cair no genérico, veio %q", got)
 	}
 }
-
-func TestCompactName(t *testing.T) {
-	cases := map[string]string{
-		"maria da silva":     "Maria-Da-Silva",
-		"  ana  clara  ":     "Ana-Clara",
-		"José-Maria D'Ávila": "José-Maria-D-Ávila",
-		"":                   "",
-	}
-	for in, want := range cases {
-		if got := compactName(in); got != want {
-			t.Fatalf("compactName(%q) = %q, esperado %q", in, got, want)
-		}
-	}
-}
-
-// filename= não aceita acento; o nome acentuado vai no filename*=UTF-8.
-func TestAsciiFallback(t *testing.T) {
-	if got := asciiFallback("Luiz-Gustavo-José-Carvalho_PedidoExame_2026-08-19_01a016a2.pdf"); got != "Luiz-Gustavo-Jose-Carvalho_PedidoExame_2026-08-19_01a016a2.pdf" {
-		t.Fatalf("asciiFallback não removeu o acento: %q", got)
-	}
-	if got := asciiFallback("氏名"); got != "pedido-exame.pdf" {
-		t.Fatalf("nome sem nenhum caractere ASCII deveria cair no genérico, veio %q", got)
-	}
-}
