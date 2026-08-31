@@ -105,6 +105,12 @@ type Patient struct {
 	// @example true
 	Menopause *bool `gorm:"type:boolean" json:"menopause,omitempty"`
 
+	// Indica se a paciente faz terapia de reposição hormonal (apenas para gender=female).
+	// Muda a faixa de referência de hormônios: estradiol de 5 pg/mL é normal em pós-menopausa
+	// sem TRH e baixo em quem repõe. NULL = não informado.
+	// @example false
+	HormoneTherapy *bool `gorm:"type:boolean" json:"hormoneTherapy,omitempty"`
+
 	// Idade em anos (calculado automaticamente)
 	// @example 35
 	Age int `gorm:"type:int;not null;default:0" json:"age"`

@@ -17165,6 +17165,7 @@ export interface components {
             fatherName?: string;
             gender?: components["schemas"]["models.Gender"];
             height?: number;
+            hormoneTherapy?: boolean;
             id?: string;
             maritalStatus?: components["schemas"]["models.MaritalStatus"];
             menopause?: boolean;
@@ -17359,8 +17360,10 @@ export interface components {
             /** @enum {unknown} */
             gender?: "male" | "female" | "other";
             height?: number;
+            hormoneTherapy?: boolean;
             /** @enum {unknown} */
             maritalStatus?: "single" | "married" | "divorced" | "widowed" | "other";
+            menopause?: boolean;
             motherName?: string;
             municipality?: string;
             name?: string;
@@ -19361,6 +19364,13 @@ export interface components {
              */
             height?: number;
             /**
+             * @description Indica se a paciente faz terapia de reposição hormonal (apenas para gender=female).
+             *     Muda a faixa de referência de hormônios: estradiol de 5 pg/mL é normal em pós-menopausa
+             *     sem TRH e baixo em quem repõe. NULL = não informado.
+             *     @example false
+             */
+            hormoneTherapy?: boolean;
+            /**
              * @description ID único do paciente
              *     @example 550e8400-e29b-41d4-a716-446655440000
              */
@@ -19820,6 +19830,13 @@ export interface components {
              * @enum {string}
              */
             gender?: "not_applicable" | "male" | "female";
+            /**
+             * @description Restringe o item por uso de terapia de reposição hormonal: true = só para quem repõe,
+             *     false = só para quem não repõe, NULL = não filtra por isso. Existe porque o mesmo
+             *     analito tem faixas diferentes com e sem TRH (estradiol pós-menopausa é o caso).
+             *     @example false
+             */
+            hormoneTherapy?: boolean;
             /** @description @example 550e8400-e29b-41d4-a716-446655440000 */
             id?: string;
             /**

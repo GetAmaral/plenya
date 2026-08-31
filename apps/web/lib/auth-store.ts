@@ -13,6 +13,7 @@ export interface Patient {
   gender: "male" | "female" | "other";
   age?: number;
   menopause?: boolean;
+  hormoneTherapy?: boolean;
   phone?: string;
   address?: string;
   municipality?: string;

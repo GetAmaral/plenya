@@ -38,6 +38,8 @@ type UpdatePatientRequest struct {
 	BirthDate        *string               `json:"birthDate,omitempty"` // formato: YYYY-MM-DD
 	Gender           *models.Gender        `json:"gender,omitempty" validate:"omitempty,oneof=male female other"`
 	SocialGender     *models.SocialGender  `json:"socialGender,omitempty" validate:"omitempty,oneof=male female non_binary trans_male trans_female other prefer_not_to_say"`
+	Menopause        *bool                 `json:"menopause,omitempty"`
+	HormoneTherapy   *bool                 `json:"hormoneTherapy,omitempty"`
 	Email            *string               `json:"email,omitempty" validate:"omitempty,email,max=200"`
 	Phone            *string               `json:"phone,omitempty" validate:"omitempty,min=10,max=20"`
 	Address          *string               `json:"address,omitempty" validate:"omitempty,max=500"`
@@ -67,6 +69,7 @@ type PatientResponse struct {
 	Age              int                   `json:"age"`
 	AgeText          string                `json:"ageText"`
 	Menopause        *bool                 `json:"menopause,omitempty"`
+	HormoneTherapy   *bool                 `json:"hormoneTherapy,omitempty"`
 	Email            *string               `json:"email,omitempty"`
 	Phone            *string               `json:"phone,omitempty"`
 	Address          *string               `json:"address,omitempty"`

@@ -60,6 +60,12 @@ type ScoreItem struct {
 	// @example true
 	PostMenopause *bool `gorm:"type:boolean" json:"postMenopause,omitempty"`
 
+	// Restringe o item por uso de terapia de reposição hormonal: true = só para quem repõe,
+	// false = só para quem não repõe, NULL = não filtra por isso. Existe porque o mesmo
+	// analito tem faixas diferentes com e sem TRH (estradiol pós-menopausa é o caso).
+	// @example false
+	HormoneTherapy *bool `gorm:"type:boolean" json:"hormoneTherapy,omitempty"`
+
 	// Se true, um template de anamnese que inclui este item deve pré-selecionar o nível 5
 	// por padrão (útil para histórico de doença / uso de medicação: padrão = "sem doença" / "sem uso").
 	// @example false
@@ -226,6 +232,18 @@ func (si *ScoreItem) AppliesToPatient(patient *Patient) bool {
 		}
 		// O scoreItem requer status específico de menopausa
 		if *si.PostMenopause != *patient.Menopause {
+			return false
+		}
+	}
+
+	// Filtro de terapia de reposição hormonal (apenas para mulheres). Mesma regra do
+	// filtro acima: item que não declara TRH não filtra por isso; item que declara exige
+	// o dado na paciente e exige que bata.
+	if patient.Gender == "female" && si.HormoneTherapy != nil {
+		if patient.HormoneTherapy == nil {
+			return false
+		}
+		if *si.HormoneTherapy != *patient.HormoneTherapy {
 			return false
 		}
 	}

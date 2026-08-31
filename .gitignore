@@ -196,3 +196,7 @@ apps/api/fix-score-boundaries
 # ("security.txt", "senhas.md", um dump do webadmin) nasceria versionável e um `git add -A` de
 # outra sessão o publicaria. Doc de e-mail que PODE ser versionado mora em docs/infra/.
 /docs/mail/
+
+# Cache do Python — artefato de build, nunca versionado (a regra antiga só cobria scripts/linkedin).
+__pycache__/
+*.pyc

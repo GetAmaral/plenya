@@ -33,6 +33,7 @@ interface Patient {
   gender: "male" | "female" | "other";
   socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
   menopause?: boolean;
+  hormoneTherapy?: boolean;
   age: number;
   ageText: string;
   phone?: string;
@@ -62,6 +63,7 @@ interface UpdatePatientForm {
   gender: "male" | "female" | "other";
   socialGender?: "male" | "female" | "non_binary" | "trans_male" | "trans_female" | "other" | "prefer_not_to_say";
   menopause?: boolean;
+  hormoneTherapy?: boolean;
   email?: string;
   phone?: string;
   address?: string;
@@ -111,6 +113,7 @@ export default function EditPatientPage() {
       gender: patient?.gender || "male",
       socialGender: patient?.socialGender || undefined,
       menopause: patient?.menopause || undefined,
+      hormoneTherapy: patient?.hormoneTherapy || undefined,
       email: patient?.email || "",
       phone: patient?.phone || "",
       address: patient?.address || "",
@@ -138,6 +141,7 @@ export default function EditPatientPage() {
       setValue("gender", patient.gender, { shouldDirty: false });
       setValue("socialGender", patient.socialGender, { shouldDirty: false });
       setValue("menopause", patient.menopause, { shouldDirty: false });
+      setValue("hormoneTherapy", patient.hormoneTherapy, { shouldDirty: false });
       setValue("email", patient.email || "", { shouldDirty: false });
       setValue("phone", patient.phone || "", { shouldDirty: false });
       setValue("address", patient.address || "", { shouldDirty: false });
@@ -196,6 +200,7 @@ export default function EditPatientPage() {
       gender: data.gender,
       socialGender: data.socialGender,
       menopause: data.menopause,
+      hormoneTherapy: data.hormoneTherapy,
       email: data.email && data.email.trim() !== "" ? data.email : undefined,
       phone: data.phone && data.phone.trim() !== "" ? data.phone : undefined,
       address: data.address && data.address.trim() !== "" ? data.address : undefined,
@@ -370,6 +375,30 @@ export default function EditPatientPage() {
                         <SelectItem value="false">Não</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+                )}
+
+                {selectedGender === "female" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="hormoneTherapy">Terapia de reposição hormonal</Label>
+                    <Select
+                      value={watch("hormoneTherapy") === undefined ? "undefined" : watch("hormoneTherapy") ? "true" : "false"}
+                      onValueChange={(value) =>
+                        setValue("hormoneTherapy", value === "undefined" ? undefined : value === "true")
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="undefined">Não informado</SelectItem>
+                        <SelectItem value="true">Sim</SelectItem>
+                        <SelectItem value="false">Não</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                      Muda a faixa de referência dos hormônios no escore.
+                    </p>
                   </div>
                 )}
 

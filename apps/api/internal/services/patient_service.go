@@ -302,6 +302,12 @@ func (s *PatientService) Update(patientID, userID uuid.UUID, userRole models.Rol
 	if req.SocialGender != nil {
 		patient.SocialGender = req.SocialGender
 	}
+	if req.Menopause != nil {
+		patient.Menopause = req.Menopause
+	}
+	if req.HormoneTherapy != nil {
+		patient.HormoneTherapy = req.HormoneTherapy
+	}
 	if req.Email != nil {
 		patient.Email = req.Email
 	}
@@ -393,6 +399,8 @@ func (s *PatientService) toDTO(patient *models.Patient) *dto.PatientResponse {
 		SocialGender:     patient.SocialGender,
 		Age:              patient.Age,
 		AgeText:          patient.AgeText,
+		Menopause:        patient.Menopause,
+		HormoneTherapy:   patient.HormoneTherapy,
 		Email:            patient.Email,
 		Phone:            patient.Phone,
 		Address:          patient.Address,

@@ -586,8 +586,8 @@ func (s *AuthService) ChangePassword(userID uuid.UUID, current, next string) err
 // Enable2FAResult — payload retornado por StartEnable2FA pra o frontend
 // montar o QR code. Secret é exibido uma única vez (caso QR scan falhe).
 type Enable2FAResult struct {
-	Secret      string `json:"secret"`
-	OTPAuthURL  string `json:"otpAuthUrl"`
+	Secret     string `json:"secret"`
+	OTPAuthURL string `json:"otpAuthUrl"`
 }
 
 // StartEnable2FA — gera secret + URL de provisioning. Persiste o secret
@@ -696,24 +696,25 @@ func (s *AuthService) userToDTO(user *models.User) *dto.UserDTO {
 	// Adicionar selectedPatient se foi carregado
 	if user.SelectedPatient != nil {
 		userDTO.SelectedPatient = &dto.PatientResponse{
-			ID:           user.SelectedPatient.ID.String(),
-			UserID:       user.SelectedPatient.UserID.String(),
-			Name:         user.SelectedPatient.Name,
-			BirthDate:    user.SelectedPatient.BirthDate.Format("2006-01-02"),
-			Gender:       user.SelectedPatient.Gender,
-			Age:          user.SelectedPatient.Age,
-			AgeText:      user.SelectedPatient.AgeText,
-			Menopause:    user.SelectedPatient.Menopause,
-			Phone:        user.SelectedPatient.Phone,
-			Address:      user.SelectedPatient.Address,
-			Municipality: user.SelectedPatient.Municipality,
-			State:        user.SelectedPatient.State,
-			MotherName:   user.SelectedPatient.MotherName,
-			FatherName:   user.SelectedPatient.FatherName,
-			Height:       user.SelectedPatient.Height,
-			Weight:       user.SelectedPatient.Weight,
-			CreatedAt:    user.SelectedPatient.CreatedAt.Format(time.RFC3339),
-			UpdatedAt:    user.SelectedPatient.UpdatedAt.Format(time.RFC3339),
+			ID:             user.SelectedPatient.ID.String(),
+			UserID:         user.SelectedPatient.UserID.String(),
+			Name:           user.SelectedPatient.Name,
+			BirthDate:      user.SelectedPatient.BirthDate.Format("2006-01-02"),
+			Gender:         user.SelectedPatient.Gender,
+			Age:            user.SelectedPatient.Age,
+			AgeText:        user.SelectedPatient.AgeText,
+			Menopause:      user.SelectedPatient.Menopause,
+			HormoneTherapy: user.SelectedPatient.HormoneTherapy,
+			Phone:          user.SelectedPatient.Phone,
+			Address:        user.SelectedPatient.Address,
+			Municipality:   user.SelectedPatient.Municipality,
+			State:          user.SelectedPatient.State,
+			MotherName:     user.SelectedPatient.MotherName,
+			FatherName:     user.SelectedPatient.FatherName,
+			Height:         user.SelectedPatient.Height,
+			Weight:         user.SelectedPatient.Weight,
+			CreatedAt:      user.SelectedPatient.CreatedAt.Format(time.RFC3339),
+			UpdatedAt:      user.SelectedPatient.UpdatedAt.Format(time.RFC3339),
 		}
 	}
 
