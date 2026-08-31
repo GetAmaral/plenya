@@ -71,13 +71,14 @@ func usageLabel(u models.FormulaUsage) string {
 	return "Uso interno"
 }
 
-// formulaDispenseLine — "Aviar 60 (sessenta) cápsulas".
+// formulaDispenseLine — "60 (sessenta) cápsulas". Sem o "Aviar": no layout do receituário a
+// palavra é a etiqueta da linha, impressa pelo pdfdoc, e viria duplicada se saísse daqui.
 func formulaDispenseLine(f models.PrescriptionFormula) string {
 	qty := formatQuantityPT(f.QuantityToDispense)
 	if w := strings.TrimSpace(f.QuantityInWords); w != "" {
 		qty += " (" + w + ")"
 	}
-	return strings.TrimSpace("Aviar " + qty + " " + f.QuantityUnit)
+	return strings.TrimSpace(qty + " " + f.QuantityUnit)
 }
 
 // formulaPosologyLine — posologia + duração, no mesmo formato do industrializado.

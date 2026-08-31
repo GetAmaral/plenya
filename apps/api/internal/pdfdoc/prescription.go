@@ -29,9 +29,11 @@ type Formula struct {
 	Form         string // "cápsula"
 	UsageLabel   string // "USO INTERNO" / "USO EXTERNO"
 	Components   []FormulaComponent
-	Vehicle      string // "Excipiente qsp 1 cápsula" (opcional)
-	Dispense     string // "Aviar 60 (sessenta) cápsulas"
-	Posology     string // "1 cápsula ao deitar · por 60 dias"
+	Vehicle string // "Excipiente qsp 1 cápsula" (opcional)
+	// Dispense e Posology são VALORES, sem rótulo: o layout imprime "AVIAR" e "POSOLOGIA" como
+	// etiqueta na coluna da esquerda. Mandar "Aviar 60 cápsulas" aqui duplicaria a palavra.
+	Dispense string // "60 (sessenta) cápsulas"
+	Posology string // "1 cápsula ao deitar · por 60 dias"
 	Instructions string // orientação específica (opcional)
 }
 
@@ -88,23 +90,27 @@ func medsHTML(meds []Med) string {
 func formulasHTML(formulas []Formula) string {
 	var b strings.Builder
 	for i, f := range formulas {
-		b.WriteString(`<div class="formula"><div class="fhead"><div class="fname">`)
-		b.WriteString(itoa(i + 1))
-		b.WriteString(`. `)
-		if f.Name != "" {
-			b.WriteString(esc(f.Name))
-			if f.Form != "" {
-				b.WriteString(` <span class="fform">` + esc(f.Form) + `</span>`)
-			}
-		} else if f.Form != "" {
-			b.WriteString(esc(f.Form))
+		b.WriteString(`<div class="formula">`)
+
+		// Cabeçalho: número em dourado, nome em serifa, forma farmacêutica embaixo e a tarja de
+		// uso à direita. A régua dourada fecha o cabeçalho e abre a composição.
+		b.WriteString(`<div class="fhead"><div class="ftitle"><span class="fnum">` + itoa(i+1) + `</span>`)
+		name := f.Name
+		if name == "" {
+			name = f.Form
+		}
+		b.WriteString(`<span class="fname">` + esc(name) + `</span>`)
+		if f.Name != "" && f.Form != "" {
+			b.WriteString(`<span class="fform">` + esc(f.Form) + `</span>`)
 		}
 		b.WriteString(`</div>`)
 		if f.UsageLabel != "" {
 			b.WriteString(`<div class="fuse">` + esc(f.UsageLabel) + `</div>`)
 		}
-		b.WriteString(`</div>`)
+		b.WriteString(`</div><div class="frule"></div>`)
 
+		// Composição: substância à esquerda, quantidade à direita, pontilhado ligando as duas.
+		b.WriteString(`<div class="fcomps">`)
 		for _, c := range f.Components {
 			qty := esc(c.Quantity)
 			if c.AsElemental {
@@ -122,15 +128,24 @@ func formulasHTML(formulas []Formula) string {
 		if f.Vehicle != "" {
 			b.WriteString(`<div class="fveh"><span class="compname">` + esc(f.Vehicle) + `</span><span class="dots"></span></div>`)
 		}
-		if f.Dispense != "" {
-			b.WriteString(`<div class="fdisp">` + esc(f.Dispense) + `</div>`)
+		b.WriteString(`</div>`)
+
+		// Aviamento e posologia num painel próprio: é o que a farmácia e a paciente procuram, e
+		// solto no meio do texto virava mais três linhas iguais às outras.
+		if f.Dispense != "" || f.Posology != "" || f.Instructions != "" {
+			b.WriteString(`<div class="fbox">`)
+			if f.Dispense != "" {
+				b.WriteString(`<div class="frow"><span class="flabel">Aviar</span><span class="fvalue">` + esc(f.Dispense) + `</span></div>`)
+			}
+			if f.Posology != "" {
+				b.WriteString(`<div class="frow"><span class="flabel">Posologia</span><span class="fvalue">` + esc(f.Posology) + `</span></div>`)
+			}
+			if f.Instructions != "" {
+				b.WriteString(`<div class="finstr">` + esc(f.Instructions) + `</div>`)
+			}
+			b.WriteString(`</div>`)
 		}
-		if f.Posology != "" {
-			b.WriteString(`<div class="fpos">` + esc(f.Posology) + `</div>`)
-		}
-		if f.Instructions != "" {
-			b.WriteString(`<div class="finstr">` + esc(f.Instructions) + `</div>`)
-		}
+
 		b.WriteString(`</div>`)
 	}
 	return b.String()

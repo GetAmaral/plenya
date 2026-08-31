@@ -90,13 +90,23 @@ html,body{ background:#fff; }
 .titlerow{ display:flex; align-items:baseline; justify-content:space-between; }
 .title{ font-family:'Cormorant',serif; font-size:34px; font-weight:600; letter-spacing:.2px; color:var(--petrol); line-height:1.1; }
 .title-rule{ width:44px; height:2px; background:var(--gold); margin-top:12px; }
-.patient{ margin-top:20px; }
-.pname{ font-size:17px; font-weight:600; color:var(--petrol); }
-.pmeta{ font-size:13px; color:var(--ink2); margin-top:4px; }
+/* Bloco de identificação: é uma FICHA, não a primeira linha do conteúdo. Sem a moldura, o nome
+   do paciente encostava no miolo e o receituário lia como uma coluna só de texto. Ele se repete no
+   topo de toda página, então a separação precisa valer em todas. */
+.patient{ margin-top:22px; margin-bottom:22px; padding:12px 16px; background:rgba(255,255,255,.5);
+  border-left:3px solid var(--gold); border-radius:2px; }
+/* O espaço abaixo da ficha pertence ao CABEÇALHO, que se repete em toda página. Se ficasse no
+   primeiro bloco do miolo, a página 2 de um receituário começaria com a fórmula colada na ficha:
+   o rótulo "Prescrição magistral" só existe na página 1. Por isso o primeiro bloco de cada página
+   tem a margem do topo zerada — quem separa é sempre a ficha. */
+.pagebody > :first-child{ margin-top:0; }
+.patient .eyebrow{ display:block; margin-bottom:6px; color:var(--ink3); }
+.pname{ font-size:16.5px; font-weight:600; color:var(--petrol); }
+.pmeta{ font-size:12.5px; color:var(--ink2); margin-top:3px; }
 .pmeta .k{ color:var(--petrol); text-transform:uppercase; letter-spacing:.6px; font-size:10.5px; font-weight:600; margin-right:5px; }
 .indic{ margin-top:16px; font-size:13.3px; line-height:1.55; color:var(--ink2); max-width:166mm; }
 .indic .eyebrow{ display:block; margin-bottom:4px; }
-.sec{ margin-top:18px; }
+.sec{ margin-top:22px; }
 .sec .eyebrow{ display:block; margin-bottom:10px; }
 .exwrap{ display:flex; gap:48px; }
 .excol{ list-style:none; flex:1; }
@@ -118,24 +128,43 @@ html,body{ background:#fff; }
 .medinstr{ font-size:11.5px; color:var(--ink2); margin-top:2px; font-style:italic; }
 /* ---- Receituário magistral (manipulado). Cada .formula é um bloco atômico de paginação, por
    isso o número de componentes é limitado na validação: um bloco maior que a página não é
-   quebrado pelo paginador, ele transborda em silêncio. */
-.formula{ padding:10px 0 4px; border-top:1px solid rgba(6,59,79,.08); }
-.formula:first-child{ border-top:none; padding-top:2px; }
-.fhead{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
-.fname{ font-size:13.5px; font-weight:600; color:var(--petrol); }
-.fform{ color:var(--ink2); font-weight:600; }
-.fuse{ flex:0 0 auto; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; font-weight:700; color:var(--gold); border:1px solid rgba(179,134,69,.5); border-radius:3px; padding:2px 7px; white-space:nowrap; }
-.comp{ display:flex; align-items:baseline; gap:6px; margin-top:5px; font-size:12.8px; color:var(--petrol); }
+   quebrado pelo paginador, ele transborda em silêncio.
+
+   O que separa uma fórmula da outra é ESPAÇO, não um filete. Com as fórmulas encostadas, a
+   composição de uma lia como continuação da anterior — e num manipulado isso é erro de
+   dispensação, não questão de gosto. Cada fórmula é: cabeçalho + régua dourada, composição
+   indentada sob o nome, e o painel de aviamento/posologia destacado no fim. */
+.formula{ margin-top:30px; }
+.sec + .formula{ margin-top:0; }
+.fhead{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
+.ftitle{ min-width:0; }
+/* Numeral em Inter, não em Cormorant: a serifa usa algarismos old-style e o "1" saía idêntico a
+   um "I" maiúsculo. Numerar fórmula errado numa receita não é detalhe tipográfico. */
+.fnum{ font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.4px; margin-right:14px; }
+.fname{ font-family:'Cormorant',serif; font-size:20px; font-weight:600; color:var(--petrol); line-height:1.15; }
+.fform{ display:block; margin:4px 0 0 34px; font-size:9.5px; letter-spacing:1.2px;
+  text-transform:uppercase; color:var(--ink3); font-weight:600; }
+.fuse{ flex:0 0 auto; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; font-weight:700; color:var(--gold); border:1px solid rgba(179,134,69,.5); border-radius:3px; padding:3px 8px; white-space:nowrap; }
+.frule{ height:1px; background:rgba(179,134,69,.4); margin:11px 0 13px; }
+/* A composição recua para a coluna do nome: o número dourado fica como marcador na margem. */
+.fcomps{ margin-left:34px; }
+.comp{ display:flex; align-items:baseline; gap:7px; padding:4px 0; font-size:12.8px; color:var(--petrol); }
 .compname{ flex:0 1 auto; }
-.compnote{ color:var(--ink2); font-size:10.8px; font-style:italic; margin:1px 0 0 14px; }
+.compnote{ color:var(--ink2); font-size:10.6px; font-style:italic; margin:0 0 5px 13px; line-height:1.4; }
 /* "(do elemento)" vai colado na quantidade e em peso, porque muda o que a farmácia pesa. */
 .compelem{ font-size:10.5px; font-weight:600; }
-.dots{ flex:1 1 auto; border-bottom:1px dotted rgba(6,59,79,.35); transform:translateY(-3px); min-width:14px; }
+.dots{ flex:1 1 auto; border-bottom:1px dotted rgba(6,59,79,.32); transform:translateY(-3px); min-width:14px; }
 .compqty{ flex:0 0 auto; font-weight:600; white-space:nowrap; }
-.fveh{ display:flex; align-items:baseline; gap:6px; margin-top:5px; font-size:12.8px; color:var(--ink2); }
-.fdisp{ margin-top:8px; font-size:12.8px; color:var(--petrol); font-weight:600; }
-.fpos{ margin-top:4px; font-size:12.5px; color:var(--petrol); }
-.finstr{ margin-top:2px; font-size:11.5px; color:var(--ink2); font-style:italic; }
+.fveh{ display:flex; align-items:baseline; gap:7px; margin-top:8px; padding-top:9px;
+  border-top:1px dotted rgba(6,59,79,.16); font-size:12.5px; color:var(--ink2); }
+/* Painel de aviamento: etiqueta em dourado à esquerda, valor em petrol. É a linha que a farmácia
+   procura primeiro e a paciente relê depois. */
+.fbox{ margin:15px 0 0 34px; padding:12px 15px; background:rgba(255,255,255,.5); border-radius:2px; }
+.frow{ display:flex; align-items:baseline; gap:13px; }
+.frow + .frow{ margin-top:6px; }
+.flabel{ flex:0 0 74px; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--gold); font-weight:700; }
+.fvalue{ font-size:12.6px; color:var(--petrol); font-weight:600; }
+.finstr{ margin-top:8px; padding-left:87px; font-size:11.4px; line-height:1.45; color:var(--ink2); font-style:italic; }
 .validity{ margin-top:14px; font-size:12px; color:var(--ink2); }
 .validity b{ color:var(--petrol); font-weight:700; }
 .docbody{ margin-top:20px; font-size:13.5px; line-height:1.75; color:var(--petrol); max-width:170mm; text-align:justify; }
@@ -230,7 +259,9 @@ func patientHTML(p Patient) string {
 	if len(meta) > 0 {
 		metaHTML = `<div class="pmeta">` + strings.Join(meta, `<span class="sep">·</span>`) + `</div>`
 	}
-	return `<div class="patient"><div class="pname">` + esc(p.Name) + `</div>` + metaHTML + `</div>`
+	// A tarja "Paciente" nomeia o bloco. Sem ela, o nome do paciente e o nome da primeira fórmula
+	// são duas linhas em petrol seguidas, e o leitor não sabe onde a identificação acaba.
+	return `<div class="patient"><span class="eyebrow">Paciente</span><div class="pname">` + esc(p.Name) + `</div>` + metaHTML + `</div>`
 }
 
 func indicationHTML(s string) string {

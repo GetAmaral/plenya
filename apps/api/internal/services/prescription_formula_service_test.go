@@ -132,7 +132,9 @@ func TestBuildFormulasPDF(t *testing.T) {
 	}
 
 	out := buildFormulasPDF([]models.PrescriptionFormula{f})[0]
-	if out.Dispense != "Aviar 60 (sessenta) cápsulas" {
+	// Sem o "Aviar": a palavra virou etiqueta do layout, impressa pelo pdfdoc. Mandá-la daqui
+	// imprimiria "AVIAR  Aviar 60 (sessenta) cápsulas".
+	if out.Dispense != "60 (sessenta) cápsulas" {
 		t.Errorf("linha de aviamento errada: %q", out.Dispense)
 	}
 	if out.Posology != "1 cápsula ao deitar · por 60 dias" {
