@@ -1,0 +1,339 @@
+% =====================================================================
+%  ANTES — Print template for BROCHURA COM ORELHAS (gráfica nacional)
+%  Engine: XeLaTeX
+%  Body  : TeX Gyre Pagella 11/14
+%  Trim  : 16 × 23 cm (160 × 230 mm) + 2,5 mm de sangria → página 165 × 235 mm
+%  Color : miolo P&B (figuras vetoriais B&W); a cor vive só na capa
+%  Sans  : Inter (titles, captions)
+%  Lang  : Brazilian Portuguese (polyglossia)
+% =====================================================================
+\documentclass[11pt,openright,twoside]{book}
+
+% --- Página = trim 16×23 cm + 2,5 mm de sangria em cada lado = 165×235 mm ---
+% As margens são medidas a partir da borda da PÁGINA, então já incluem a faixa
+% de sangria. A menor margem usada aqui é 22 mm (= 2,5 de sangria + 19,5 de
+% recuo), o que mantém ≥ 0,5 cm de segurança da linha de corte.
+% bindingoffset maior que o da capa dura: lombada colada (hot melt) abre menos
+% que costurada, então o miolo precisa de mais medianiz.
+\usepackage[
+  paperwidth=165mm, paperheight=235mm,
+  inner=22mm,
+  outer=18mm,
+  top=22mm,
+  bottom=22mm,
+  headsep=5mm,
+  footskip=8mm,
+  bindingoffset=6mm,
+]{geometry}
+
+% --- Language / typography ---
+\usepackage{polyglossia}
+\setdefaultlanguage[variant=brazilian]{portuguese}
+\usepackage{fontspec}
+\usepackage{microtype}
+
+% Body: TeX Gyre Pagella (Palatino clone) — full Latin coverage, classic book look.
+% EB Garamond on Debian has incomplete Bold variant for accented Portuguese.
+\setmainfont{TeX Gyre Pagella}[
+  Ligatures={Common,TeX}
+]
+\setsansfont{Inter}[
+  Scale=0.92,
+  Numbers={Lining,Proportional}
+]
+\newfontfamily\dropfont{TeX Gyre Pagella}
+
+% --- Glifos que a Pagella não tem -------------------------------------------
+% TeX Gyre Pagella não traz U+2080..U+2089 (dígitos subscritos). Sem
+% mapeamento o XeLaTeX imprime o .notdef box e "VO₂ max" sai como "VO□ max"
+% — foram 31 ocorrências na prova de 2026-08-24. Mapear para \textsubscript
+% compõe o dígito na PRÓPRIA Pagella, rebaixado e reduzido: fica correto
+% tipograficamente e não puxa fonte de fallback (que mudaria a cor do texto).
+% Superscritos idem, por simetria — a fonte tem ¹²³ mas não ⁴..⁹.
+\usepackage{newunicodechar}
+\newunicodechar{₀}{\textsubscript{0}}
+\newunicodechar{₁}{\textsubscript{1}}
+\newunicodechar{₂}{\textsubscript{2}}
+\newunicodechar{₃}{\textsubscript{3}}
+\newunicodechar{₄}{\textsubscript{4}}
+\newunicodechar{₅}{\textsubscript{5}}
+\newunicodechar{₆}{\textsubscript{6}}
+\newunicodechar{₇}{\textsubscript{7}}
+\newunicodechar{₈}{\textsubscript{8}}
+\newunicodechar{₉}{\textsubscript{9}}
+\newunicodechar{⁴}{\textsuperscript{4}}
+\newunicodechar{⁵}{\textsuperscript{5}}
+\newunicodechar{⁶}{\textsuperscript{6}}
+\newunicodechar{⁷}{\textsuperscript{7}}
+\newunicodechar{⁸}{\textsuperscript{8}}
+\newunicodechar{⁹}{\textsuperscript{9}}
+
+% Títulos e legendas são ragged-right: hifenizar ali não economiza nada, só
+% deixa a palavra partida no meio de um display. \notitlehyphen desliga a
+% hifenização no escopo do título (não vaza para o corpo).
+\newcommand{\notitlehyphen}{\hyphenpenalty=10000\exhyphenpenalty=10000\relax}
+
+% --- Colors (Plenya palette) ---
+\usepackage[table]{xcolor}   % [table] habilita \rowcolor (tabelas nativas)
+\definecolor{petrol}{HTML}{063b4f}
+\definecolor{gold}{HTML}{b38645}
+\definecolor{ink}{HTML}{1a1a1a}
+
+% --- Drop caps ---
+\usepackage{lettrine}
+\renewcommand{\LettrineFontHook}{\dropfont\color{petrol}}
+\setlength{\DefaultNindent}{0pt}
+\renewcommand{\DefaultLraise}{0.05}
+
+% --- Title structure ---
+\usepackage{titlesec}
+\titleformat{\part}[display]
+  {\sffamily\filcenter\color{petrol}\notitlehyphen}
+  {\normalfont\sffamily\color{gold}\fontsize{12}{14}\selectfont\MakeUppercase{Parte~\thepart}}
+  {2em}
+  {\fontsize{38}{44}\selectfont\bfseries}
+\titlespacing*{\part}{0pt}{80pt}{40pt}
+
+\titleformat{\chapter}[display]
+  {\sffamily\bfseries\color{petrol}\filright\notitlehyphen}
+  {\normalfont\sffamily\color{gold}\fontsize{12}{14}\selectfont CAPÍTULO~\thechapter}
+  {1.2em}
+  {\fontsize{28}{34}\selectfont}
+\titlespacing*{\chapter}{0pt}{30pt}{30pt}
+
+\titleformat{\section}
+  {\sffamily\bfseries\color{petrol}\large\notitlehyphen}{\thesection}{0.6em}{}
+\titleformat{\subsection}
+  {\sffamily\bfseries\color{ink}\normalsize\notitlehyphen}{\thesubsection}{0.6em}{}
+
+% \titlespacing SEM estrela = o primeiro parágrafo depois do título entra com
+% recuo. É a norma brasileira de diagramação e o editor apontou a ausência em
+% quatro trechos diferentes (2026-08-26). No \chapter continua COM estrela: ali
+% quem abre é a capitular, que não leva recuo.
+\titlespacing{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% --- Headers / footers ---
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+% Recto and verso both show the chapter title (no section names).
+% \leftmark holds the chapter title (set by \chaptermark below); \rightmark
+% would normally hold the section title — we override \sectionmark to a no-op
+% so the chapter title persists across the whole chapter on every page.
+\fancyhead[LE]{\sffamily\footnotesize\color{ink}\thepage\quad\textcolor{gray}{·}\quad ANTES}
+\fancyhead[RO]{\sffamily\footnotesize\color{ink}\nouppercase{\leftmark}\quad\textcolor{gray}{·}\quad\thepage}
+% Chapter mark for headers: keep only the short title (text before the
+% first em-dash), to avoid long chapter titles overflowing the right margin.
+\makeatletter
+\def\@firstdash#1 — #2\@nil{#1}
+\renewcommand{\chaptermark}[1]{\markboth{\@firstdash#1 — \@nil}{}}
+\makeatother
+\renewcommand{\sectionmark}[1]{}
+
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\renewcommand{\footrulewidth}{0pt}}
+
+% --- Spacing / paragraphs ---
+% Medida de linha de 125 mm (4,92") pede corpo 11pt: 10,5pt daria ~75
+% caracteres por linha, acima da faixa confortável de leitura.
+\linespread{1.10}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{1.2em}
+% ATENÇÃO: este \frenchspacing NÃO pega. O polyglossia troca o idioma dentro
+% de \begin{document} e restaura o \nonfrenchspacing (sfcode 3000 depois de
+% ponto, 2000 depois de dois-pontos), então o miolo sai com espaço dobrado no
+% fim de frase — medido em 2026-08-27: 4,33pt depois de ponto contra 3,27pt
+% entre palavras. Um \frenchspacing logo depois do \begin{document} corrige,
+% mas mexe no cinza de TODAS as páginas e custa hífens (o espaço extra é
+% elasticidade que o TeX usa para fechar a linha sem hifenizar: 339 → 424).
+% Fica como está até o autor decidir — e, se decidir, vale para as três
+% edições juntas (KDP, capa dura e brochura), não só para esta.
+\frenchspacing
+% Penalidades de quebra. Segunda rodada, medida em 2026-08-27 sobre a prova
+% da brochura com build/analyze-hyphenation.py (varredura BASE/A..E; a rodada
+% de 2026-08-23 tinha deixado 8,2% das linhas do corpo terminando em hífen,
+% que o autor recusou). Os números abaixo são do miolo P&B, 352 páginas:
+%
+%              hífens no corpo   espaço p99   linhas >2,5x   páginas
+%   antes           8,2%            2,05          0,1%         352
+%   agora           3,5%            2,46          0,5%         352
+%
+%   brokenpenalty=10000  proíbe hífen na ÚLTIMA linha da página — a sílaba
+%     ficaria órfã na página seguinte.
+%   hyphenpenalty=8000 (era 1000) é o que derruba a taxa pela metade. Acima
+%     disso (10000 = hifenização desligada) a conta vira ruim: 0% de hífens,
+%     mas 22% das linhas frouxas e 4% delas acima de 2,5x o espaço natural —
+%     rio branco visível na página. 8000 mantém a cauda em 0,5%.
+%   exhyphenpenalty=10000 proíbe quebrar DEPOIS de um hífen que já existe na
+%     palavra. É o que tirava "check-/up", "pós-/graduação", "terça-/feira":
+%     em português composto isso é o hífen mais feio dos que sobravam.
+%   lefthyphenmin=3 / righthyphenmin=4 (era 2/3) removem os pedaços curtos
+%     ("in-", "as-", "-me") — os cortes que mais custam ao leitor.
+%   emergencystretch=1.5em: com 1em o TeX não completa as linhas que sobram
+%     sem hifenizar; com 2em ele ganha licença demais e a cauda estoura.
+\widowpenalty=10000
+\clubpenalty=10000
+\brokenpenalty=10000
+\hyphenpenalty=8000
+\exhyphenpenalty=10000
+\doublehyphendemerits=10000
+\finalhyphendemerits=10000
+% \lefthyphenmin / \righthyphenmin vivem depois do \begin{document} (ver lá):
+% o polyglossia troca o idioma dentro do \begin{document} e restaura os valores
+% do padrão de hifenização (2/3), apagando qualquer ajuste feito aqui no
+% preâmbulo. Medido em 2026-08-27 com \typeout.
+\tolerance=3000
+\emergencystretch=1.5em
+
+% --- Quotes / blockquote ---
+\usepackage{quoting}
+\quotingsetup{
+  vskip=0.6\baselineskip,
+  leftmargin=1.2em,
+  rightmargin=0pt,
+  font=itshape,
+}
+\renewenvironment{quote}{\begin{quoting}}{\end{quoting}}
+
+% --- Tables (calc required by Pandoc 3.x p{} column-spec arithmetic) ---
+\usepackage{calc}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.15}
+
+% --- Images ---
+\usepackage{graphicx}
+\usepackage{float}
+% Com os defaults do book (\topfraction 0.7, \textfraction 0.2,
+% \floatpagefraction 0.5) uma figura de meia página não cabia junto do texto e
+% ia parar numa página de float só dela, com dois terços em branco — e caía
+% duas páginas depois do parágrafo que a chama. O editor apontou os dois
+% efeitos (2026-08-26: "ficou totalmente isolado porque se refere ao texto da
+% página 36"). Afrouxar as frações deixa a figura ficar na página do texto.
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.80}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\floatplacement{figure}{htbp}
+% Cap every \includegraphics at the printable area so figures never bleed past
+% the page. keepaspectratio preserves geometry; width=\linewidth shrinks wide
+% figures; height limit prevents tall portrait figures from overflowing.
+\setkeys{Gin}{width=\linewidth, height=0.82\textheight, keepaspectratio}
+\usepackage{caption}
+\DeclareCaptionFont{nohyph}{\notitlehyphen}
+\captionsetup{
+  font={small,sf,nohyph},
+  labelfont={bf,color=petrol},
+  labelsep=period,
+  justification=justified,   % editor 2026-08-26: legenda de figura
+                             % alinhada à esquerda destoa do miolo
+  singlelinecheck=false,
+  skip=4pt
+}
+
+% --- Hyperref last ---
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  colorlinks=false,
+  pdfborder={0 0 0},
+  pdftitle={ANTES — A Janela Silenciosa entre o Normal e o Ótimo — onde a saúde é decidida},
+  pdfauthor={Dr. Getulio Amaral Filho},
+  pdfsubject={Medicina preventiva e longevidade — edição brochura com orelhas},
+  pdfkeywords={longevidade, biomarcadores, AGIR, medicina preventiva, brochura}
+}
+
+% --- Pandoc compatibility ---
+% \textsubscript/\textsuperscript vindos do \newunicodechar acima não podem
+% entrar cru na string de bookmark do PDF — hyperref reclama. Na outline o
+% dígito vira texto normal ("VO2 Max"), que é o comportamento certo.
+\pdfstringdefDisableCommands{%
+  \def\textsubscript#1{#1}%
+  \def\textsuperscript#1{#1}%
+}
+
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\providecommand{\real}[1]{#1}
+
+% --- TOC depth: chapters only (no sections / subsections) ---
+% Per author's call (2026-04-25): keep TOC short, "Outlive-like" — readers folheiam
+% para ver o arco do livro, não para navegar microestrutura. Sections still numbered
+% in the body via secnumdepth=2 below.
+\setcounter{tocdepth}{0}      % \chapter (and \part) only in TOC
+\setcounter{secnumdepth}{2}   % keep numbering for sections + subsections in body
+
+% --- TOC formatting: long chapter titles wrap to next line and respect
+%     minimum spacing before the page number. Reserves 2.5em on the right
+%     for the page number ("rmargin"), so even a 3-digit page (e.g. 411)
+%     never collides with the title text.
+\usepackage{titletoc}
+\titlecontents{chapter}[2.4em]                          % left indent for title body
+  {\addvspace{0.7em}\bfseries\sffamily\color{petrol}\notitlehyphen\raggedright}
+  {\contentslabel[\thecontentslabel]{2.4em}}             % numbered label box
+  {\hspace*{-2.4em}}                                     % unnumbered (Introdução etc.)
+  % \raggedright acima deixa a 1ª linha de um título de duas linhas em bandeira
+  % em vez de esticada de margem a margem. O preenchimento até o número da
+  % página tem de ser de ordem MAIOR (filll) que a elasticidade do \rightskip
+  % (fil) do \raggedright, senão os dois empatam e o número desgruda da margem.
+  {\hspace{1em}\nobreak\hskip 0pt plus 1filll\nobreak\contentspage}
+  [\vspace{0.1em}]                                       % space after
+
+% (right margin reserved for page numbers is handled inside titlecontents above
+% via \hspace{1em}\hfill — adequate breathing room without touching @tocrmarg)
+
+% --- Pandoc title vars hook ---
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+
+\begin{document}
+% Tem de ser AQUI, depois que o polyglossia já escolheu o idioma. 3/4 remove os
+% cortes curtos ("in-", "as-", "-me"), os que mais custam ao leitor.
+\lefthyphenmin=3
+\righthyphenmin=4
+
+% =====================================================================
+%  FRONT MATTER (Roman numerals i, ii, iii…)
+% =====================================================================
+\frontmatter
+\pagestyle{empty}
+
+% --- HALF TITLE (i) ---
+\thispagestyle{empty}
+\vspace*{4cm}
+\begin{center}
+{\sffamily\fontsize{36}{42}\selectfont\color{petrol} ANTES}
+\end{center}
+\clearpage
+
+% --- BLANK (ii) ---
+\thispagestyle{empty}\null\clearpage
+
+% --- TITLE PAGE (iii) ---
+\thispagestyle{empty}
+\vspace*{3cm}
+\begin{center}
+{\sffamily\fontsize{52}{58}\selectfont\color{petrol} ANTES}\\[2.2em]
+{\itshape\fontsize{16}{22}\selectfont A Janela Silenciosa\\[0.1em]
+entre o Normal e o Ótimo\\[0.3em]
+— onde a saúde é decidida}\\[5em]
+{\sffamily\fontsize{14}{18}\selectfont\color{ink} Dr. Getulio Amaral Filho}\\[6em]
+\vfill
+{\sffamily\footnotesize\color{gold} PLENYA}\\[0.4em]
+{\sffamily\footnotesize\color{ink} Edição do Autor \quad·\quad 2026}
+\end{center}
+\clearpage
+
+% --- Body of frontmatter (copyright, dedication, epigraph, TOC) comes from Pandoc ---
+$body$
+
+\end{document}

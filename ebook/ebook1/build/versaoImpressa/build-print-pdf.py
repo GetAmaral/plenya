@@ -41,7 +41,7 @@ MD_DIR       = BOOK_ROOT / "md" / LANG                  # markdown source (compa
 FIG_DIR      = BOOK_ROOT / "figuras" / LANG             # figuras coloridas originais (fallback)
 FIG_BW_DIR   = BUILD_DIR / "figuras-bw"                 # overrides B&W (PDF vetorial ou PNG)
 TABLES_DIR   = BUILD_DIR / "tabelas-nativas"            # substituições LaTeX vetoriais
-AUTHOR_PHOTO = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_1000.jpg"
+AUTHOR_PHOTO = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_fullres.jpg"
 WORK_DIR     = BUILD_DIR / f"work-print-{LANG}"
 TEMPLATE     = BUILD_DIR / "print-template.tex"
 DROPCAP_LUA  = BUILD_DIR / "print-dropcaps.lua"
@@ -423,8 +423,16 @@ def prepare_images(out_dir):
     return count_copy + count_override, overrides_map
 
 
+# Imagens que NÃO são impressas na largura total do bloco de texto. O valor é a
+# fração de \linewidth usada no LaTeX; sem isso o audit acusa DPI baixo em
+# imagens que na página saem pequenas (e nítidas).
+PRINT_WIDTH_FRACTION = {
+    "autor.jpg": 0.24,   # \includegraphics[width=0.24\linewidth] em "Sobre o Autor"
+}
+
+
 def audit_image_dpi(img_dir, text_width_in=4.25, soft_dpi=300, hard_dpi=200):
-    """Auditoria DPI vs largura de bloco de texto.
+    """Auditoria DPI vs largura REAL de impressão de cada imagem.
     PDFs vetoriais ficam fora do audit (DPI infinito por definição)."""
     result = {"ok": [], "soft": [], "hard": [], "vector": []}
     for img in sorted(img_dir.iterdir()):
@@ -437,7 +445,8 @@ def audit_image_dpi(img_dir, text_width_in=4.25, soft_dpi=300, hard_dpi=200):
         try:
             with Image.open(img) as im:
                 px = im.width
-                dpi = int(px / text_width_in)
+                printed_in = text_width_in * PRINT_WIDTH_FRACTION.get(img.name, 1.0)
+                dpi = int(px / printed_in)
                 entry = (img.name, px, dpi)
                 if dpi >= soft_dpi:
                     result["ok"].append(entry)

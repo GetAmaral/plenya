@@ -12,17 +12,17 @@ last_reviewed: 2026-04-20
 
 Nos seis capítulos anteriores, construímos o mapa: o que está matando as pessoas depois dos 40, como o corpo envelhece por dentro, quais números realmente importam, o que as artérias e o metabolismo revelam quando se sabe onde olhar. A partir de agora, o livro muda de diagnóstico para ação.
 
-Ao longo dos anos de prática clínica, organizei as intervenções que prescrevo em quatro pilares — e percebi que, juntos, formavam um acrônimo que resumia exatamente o que peço a cada paciente: **AGIR**.
+Ao longo dos anos de prática clínica, organizei as intervenções que prescrevo em quatro pilares, e percebi que, juntos, formavam um acrônimo que resumia exatamente o que peço a cada paciente: **AGIR**.
 
-**A — Atividade Física, Alimentação e Suplementação Inteligente.** Os motores do estilo de vida que nenhuma medicação substitui — e a camada visível (pele, cabelo, unhas) que traduz, por fora, a saúde que se constrói por dentro. Capítulos 7 e 8.
+**A — Atividade Física, Alimentação e Suplementação Inteligente.** Os motores do estilo de vida que nenhuma medicação substitui, e a camada visível (pele, cabelo, unhas) que traduz, por fora, a saúde que se constrói por dentro. Capítulos 7 e 8.
 
 **G — Gestão Clínica e Metabólica.** Três camadas. Os sistemas cardio-reno-hepático-metabólicos lidos como uma rede única (Cap. 9). Os painéis bioquímicos e hormonais que antecedem o sintoma (Cap. 10). A genômica, a epigenética e as exposições ambientais silenciosas (Cap. 11).
 
-**I — Integração Mente-Corpo.** Dividido em dois capítulos. O primeiro (Cap 12) trata do trabalho interno — psiconeuroimunologia, trauma, avaliação psicológica, técnicas de regulação do sistema nervoso, função cognitiva. O segundo (Cap 13) trata da dimensão relacional e existencial — vida sexual, vínculos sociais, telas, propósito/ikigai, espiritualidade, bidirecionalidade ansiedade-inflamação. Ana abre o primeiro; Ricardo (o paciente do Capítulo 1), pós-infarto, abre o segundo.
+**I — Integração Mente-Corpo.** Dividido em dois capítulos. O primeiro (Cap 12) trata do trabalho interno: psiconeuroimunologia, trauma, avaliação psicológica, técnicas de regulação do sistema nervoso, função cognitiva. O segundo (Cap 13) trata da dimensão relacional e existencial: vida sexual, vínculos sociais, telas, propósito/ikigai, espiritualidade, bidirecionalidade ansiedade-inflamação. Ana abre o primeiro; Ricardo (o paciente do Capítulo 1), pós-infarto, abre o segundo.
 
-**R — Ritmo Circadiano e Repouso.** Sono, cronobiologia e os relógios internos que sincronizam tudo — da sensibilidade insulínica à consolidação de memória. Capítulo 14.
+**R — Ritmo Circadiano e Repouso.** Sono, cronobiologia e os relógios internos que sincronizam tudo, da sensibilidade insulínica à consolidação de memória. Capítulo 14.
 
-Os quatro pilares não funcionam isolados. Alimentação sem exercício é incompleta. Exercício sem sono é *overtraining*. Gestão hormonal sem saúde mental é otimização sobre areia. A força do método está na integração — e na personalização de cada pilar conforme o que os biomarcadores de cada paciente exigem.
+Os quatro pilares não funcionam isolados. Alimentação sem exercício é incompleta. Exercício sem sono é *overtraining*. Gestão hormonal sem saúde mental é otimização sobre areia. A força do método está na integração, e na personalização de cada pilar conforme o que os biomarcadores de cada paciente exigem.
 
 > Começamos pelo pilar que mais depende de você.
 

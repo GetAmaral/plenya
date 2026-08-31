@@ -16,11 +16,11 @@ Texto pronto para diagramação.
 
 > *Ricardo fez o check-up anual. "Está tudo normal", disse o médico. Oito meses depois, quase morreu num estacionamento.*
 >
-> *O que ninguém havia investigado: entre o "normal" que o laboratório imprime e o ótimo que seu corpo consegue, existe uma janela silenciosa. Dez, quinze, vinte anos em que a doença cresce sem aparecer em nenhum exame de rotina. É nessa janela que a longevidade é construída — ou perdida.*
+> *O que ninguém havia investigado: entre o "normal" que o laboratório imprime e o ótimo que seu corpo consegue, existe uma janela silenciosa. Dez, quinze, vinte anos em que a doença cresce sem aparecer em nenhum exame de rotina. É nessa janela que a longevidade é construída, ou perdida.*
 >
 > *Este livro é o mapa dela.*
 >
-> *Escrito por um nefrologista brasileiro que atende pacientes de medicina preventiva todos os dias, apresenta o painel ampliado de biomarcadores que o check-up convencional não inclui, o Método AGIR — quatro pilares de prevenção real — e o placar trimestral para o leitor acompanhar a própria trajetória. Com seis casos clínicos reais atravessando o livro inteiro.*
+> *Escrito por um nefrologista brasileiro que atende pacientes de medicina preventiva todos os dias, apresenta o painel ampliado de biomarcadores que o check-up convencional não inclui, o Método AGIR (quatro pilares de prevenção real) e o placar trimestral para o leitor acompanhar a própria trajetória. Com seis casos clínicos reais atravessando o livro inteiro.*
 >
 > *Porque viver bem e viver mais não começa depois do diagnóstico. Começa antes.*
 

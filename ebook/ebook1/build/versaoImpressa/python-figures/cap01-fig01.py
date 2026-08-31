@@ -32,16 +32,22 @@ xs = [1, 2, 3, 4]
 hba1c = [4.9, 5.2, 5.4, 5.7]
 
 # ---------- figura ----------
-fig = plt.figure(figsize=(11.0, 6.2))
+# Aspecto 1.802, igual ao da arte original (1683×934). Era 1.774.
+fig = plt.figure(figsize=(11.0, 6.104))
 fig.patch.set_facecolor(BG)
 
-ax = fig.add_axes([0.085, 0.22, 0.78, 0.58])
+# Caixa de plotagem MEDIDA na arte original: x 0.100–0.837, y 0.126–0.740
+# (a partir do topo). A anterior era mais curta e começava mais abaixo, o que
+# comprimia as faixas e desalinhava os rótulos de zona à direita.
+ax = fig.add_axes([0.100, 0.260, 0.737, 0.614])
 ax.set_facecolor(BG)
 
 # ---------- bandas de fundo (3 tons de cinza sólidos, gradação do ótimo ao pior) ----------
 ax.axhspan(5.7, 6.1, facecolor=BAND_BAD, edgecolor="none", linewidth=0, zorder=1)
-ax.axhspan(5.0, 5.7, facecolor=BAND_MID, edgecolor="none", linewidth=0, zorder=1)
-ax.axhspan(4.45, 5.0, facecolor=BAND_OK,  edgecolor="none", linewidth=0, zorder=1)
+ax.axhspan(5.2, 5.7, facecolor=BAND_MID, edgecolor="none", linewidth=0, zorder=1)
+# Fronteira ótima/subótima em 5,2%, como na arte original — o gerador usava
+# 5,0%, o que fazia a zona ótima invadir a faixa subótima.
+ax.axhspan(4.45, 5.2, facecolor=BAND_OK,  edgecolor="none", linewidth=0, zorder=1)
 
 # ---------- linha tracejada de referência em 5,7% ----------
 ax.axhline(5.7, color=INK, linewidth=0.9,

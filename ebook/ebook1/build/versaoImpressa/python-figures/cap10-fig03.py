@@ -63,8 +63,12 @@ TIME_RIGHT_PX = 1394
 def year_to_px(y):
     return TIME_LEFT_PX + y / 20 * (TIME_RIGHT_PX - TIME_LEFT_PX)
 
-TIMELINE_Y = 533  # main horizontal line
-ZONE_TOP   = 370  # top da banda de zonas
+# Linha do tempo em y 0.494 de 1024 px = 506 na arte original (era 533).
+TIMELINE_Y = 506  # main horizontal line
+# Topo da banda de zonas MEDIDO na arte original: y 0.302 de 1024 px = 309.
+# Estava em 370, o que encurtava as três faixas e as descolava do cartão da
+# Fernanda, que na arte encosta nelas.
+ZONE_TOP   = 309
 ZONE_BOT   = TIMELINE_Y  # zonas vão até a linha
 
 # Zone boundaries — ALINHADOS com year ticks 10 e 15

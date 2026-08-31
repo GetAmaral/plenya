@@ -34,7 +34,7 @@ LANG = sys.argv[1] if len(sys.argv) > 1 else "pt-BR"
 
 MD_DIR    = BOOK_ROOT / "md" / LANG
 FIG_DIR   = BOOK_ROOT / "figuras" / LANG
-AUTHOR_PHOTO = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_1000.jpg"
+AUTHOR_PHOTO = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_fullres.jpg"
 WORK_DIR  = THIS_DIR / f"work-hardcover-{LANG}"
 TEMPLATE  = THIS_DIR / "hardcover-template.tex"
 OUT_PDF   = THIS_DIR / f"Antes-{LANG}-hardcover-miolo.pdf"

@@ -51,7 +51,8 @@ diseases = [
 ]
 
 # ---------- figura ----------
-fig = plt.figure(figsize=(11.0, 6.4))
+# Aspecto 1.777, igual ao da arte original (1672×941). Era 1.719.
+fig = plt.figure(figsize=(11.0, 6.19))
 fig.patch.set_facecolor(BG)
 
 LEFT_MARGIN  = 0.025
@@ -107,14 +108,19 @@ fig.lines.append(plt.Line2D(
 ))
 
 # ---------- linhas de doenças ----------
-ROW_TOP    = 0.730
-ROW_BOTTOM = 0.250
+# Centro de cada linha MEDIDO na arte original (a faixa verde da janela de
+# intervenção ocupa y 0.332–0.407, 0.467–0.540, 0.597–0.668 e 0.728–0.800,
+# contando do topo). A grade anterior punha as quatro linhas mais acima e com
+# passo diferente, o que desalinhava tudo em relação ao original.
+LINHA_Y    = [0.370, 0.504, 0.633, 0.764]
+ROW_TOP    = 1.0 - LINHA_Y[0]
+ROW_BOTTOM = 1.0 - LINHA_Y[-1]
 ROW_SPACE  = (ROW_TOP - ROW_BOTTOM) / (len(diseases) - 1)
 BAR_HEIGHT = 0.058
 
 for i, (name, silent_start, jan_start, jan_end, diag_start, diag_end,
         label_left, label_right, has_arrow) in enumerate(diseases):
-    y = ROW_TOP - i * ROW_SPACE
+    y = 1.0 - LINHA_Y[i]
 
     # Bullet à esquerda
     fig.text(LEFT_MARGIN + 0.000, y, "●",
@@ -182,11 +188,13 @@ out_dir.mkdir(parents=True, exist_ok=True)
 pdf_path = out_dir / "Cap02_Fig01.pdf"
 png_path = out_dir / "_preview_Cap02_Fig01.png"
 # Tight crop sem padding lateral/topo; 0.08" no inferior pra não colar na legenda.
+# recorte automático removido: as posições agora são as medidas na arte
+# original em fração de figura, e recortar o branco muda a proporção final
 from matplotlib.transforms import Bbox as _Bbox
 fig.canvas.draw()
 _tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
 _bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
-plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
-plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+plt.savefig(pdf_path, facecolor=BG)
+plt.savefig(png_path, dpi=170, facecolor=BG)
 print(f"saved → {pdf_path}")
 print(f"preview → {png_path}")

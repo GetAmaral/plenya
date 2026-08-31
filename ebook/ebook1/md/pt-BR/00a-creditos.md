@@ -16,7 +16,7 @@ last_reviewed: 2026-04-20
 
 Copyright © 2026 Getúlio José Mattos do Amaral Filho
 
-Todos os direitos reservados. Nenhuma parte desta obra pode ser reproduzida, armazenada em sistema de recuperação ou transmitida, por qualquer forma ou meio — eletrônico, mecânico, fotocópia, gravação ou outros —, sem prévia autorização, por escrito, do autor, exceto em citações breves em resenhas, artigos acadêmicos e usos previstos em lei.
+Todos os direitos reservados. Nenhuma parte desta obra pode ser reproduzida, armazenada em sistema de recuperação ou transmitida, por qualquer forma ou meio (eletrônico, mecânico, fotocópia, gravação ou outros), sem prévia autorização, por escrito, do autor, exceto em citações breves em resenhas, artigos acadêmicos e usos previstos em lei.
 
 Edição do Autor.
 1ª edição — 2026.

@@ -81,8 +81,14 @@ fig.text(0.031, 0.732, "Glicose (mg/dL)",
 fig.text(0.953, 0.740, "Insulina (µIU/mL)",
          fontsize=10.5, color=INS, weight="bold", va="center", ha="right")
 
-# =================== BANDA FAIXA NORMAL (glicose 70-140) ===================
-ax1.axhspan(70, 140, facecolor=BAND, edgecolor="none", zorder=0)
+# =================== BANDA FAIXA NORMAL (glicose 120-140) ===================
+# A arte original NÃO leva a faixa até o piso do gráfico: ela marca a tira
+# imediatamente abaixo do corte de 140. Medido em 2026-08-24 — os rótulos do
+# eixo esquerdo caem em y_fig 0.703/0.615/0.525/0.431/0.339/0.245 (180…80) e a
+# faixa ocupa 0.428–0.525, isto é, 120 a 140. Ia de 70 (o piso do ylim), o que
+# deixava o marker de 92 mg/dL dentro do verde — justamente o valor que o
+# gráfico quer mostrar como "aparentemente normal", não como faixa-alvo.
+ax1.axhspan(120, 140, facecolor=BAND, edgecolor="none", zorder=0)
 
 # =================== CURVAS ===================
 # Glicose: linha sólida + círculos cheios pretos
@@ -134,23 +140,29 @@ for cx, cy_top, txt in glicose_labels:
 fig.text(0.498, 0.640, "(pico)", fontsize=10, color=INK, style="italic",
          ha="center", va="top")
 
-# =================== VALORES INSULINA (cinza) abaixo dos markers ===================
-# t=30 marker em cy=0.436; t=90 em 0.560; t=120 em 0.429
-fig.text(0.321, 0.413, "78", fontsize=12, color=INS, weight="bold",
-         ha="center", va="top")
-fig.text(0.676, 0.537, "118", fontsize=12, color=INS, weight="bold",
-         ha="center", va="top")
-fig.text(0.846, 0.405, "89", fontsize=12, color=INS, weight="bold",
-         ha="center", va="top")
+# =================== VALORES INSULINA abaixo dos markers ===================
+# Posições MEDIDAS no render (2026-08-24), não estimadas: os markers de
+# insulina caem em x = 0.133 / 0.322 / 0.511 / 0.700 / 0.889 e
+# y = 0.230 / 0.415 / 0.538 / 0.522 / 0.444, com raio ≈ 0.008 em fração de
+# figura. Os valores antigos vinham de um comentário desatualizado (dizia
+# t=90 em cy=0.560 quando o marker está em 0.522) e o rótulo "118" saía
+# impresso POR CIMA do próprio marker — o "1" desaparecia dentro do ponto.
+# O "89" também cruzava a linha do bracket inferior (cy=0.395).
+# Regra: topo do rótulo = y_marker − raio − folga = y_marker − 0.014.
+INS_MARKERS = {"78": (0.322, 0.415), "118": (0.700, 0.522), "89": (0.889, 0.444)}
+for txt, (mx, my) in INS_MARKERS.items():
+    fig.text(mx, my - 0.014, txt, fontsize=12, color=INS, weight="bold",
+             ha="center", va="top")
 
 # =================== ANOTAÇÕES PICO INSULINA — STACK abaixo do hollow marker ===================
 # Hollow marker em fig cy ≈ 0.553
 # Pequena seta apontando UP pra marker
-fig.patches.append(FancyArrowPatch(
-    (0.498, 0.535), (0.498, 0.555),
-    arrowstyle="-|>", color=INS, lw=1.0, mutation_scale=8,
-    transform=fig.transFigure, zorder=8,
-))
+# Sem seta para o hollow marker do pico. A que existia aqui caía sobre a barra
+# do "/" de "124 µIU/mL" — verificado em 2026-08-24 renderizando com e sem ela
+# — e o defeito valia também para a edição P&B. Entre a borda inferior do
+# marker (y ≈ 0.527) e o topo do texto (0.520) sobram 0.007 em fração de
+# figura, que não comportam seta legível. O texto fica imediatamente abaixo do
+# marker, então a associação continua clara sem ela.
 fig.text(0.498, 0.520, "124 µIU/mL", fontsize=11, color=INS, weight="bold",
          ha="center", va="top")
 fig.text(0.498, 0.496, "(pico)", fontsize=10, color=INS, style="italic",

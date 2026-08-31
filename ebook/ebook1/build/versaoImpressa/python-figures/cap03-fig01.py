@@ -31,7 +31,9 @@ DASH     = "#A0A0A0"
 BAND     = "#EDEDED"
 
 # Aspect ratio idêntico ao original (1.5:1)
-fig = plt.figure(figsize=(11.0, 7.33))
+# Aspecto 1.500, igual ao da arte original (1536×1024).
+# Era 1.501.
+fig = plt.figure(figsize=(11.0, 7.333))
 fig.patch.set_facecolor(BG)
 
 # Coordenadas EXATAS dos markers em figure-fraction (do original)
@@ -151,7 +153,7 @@ from matplotlib.transforms import Bbox as _Bbox
 fig.canvas.draw()
 _tb = fig.get_tightbbox(fig.canvas.get_renderer())
 _bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
-plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
-plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+plt.savefig(pdf_path, facecolor=BG)
+plt.savefig(png_path, dpi=170, facecolor=BG)
 print(f"saved → {pdf_path}")
 print(f"preview → {png_path}")

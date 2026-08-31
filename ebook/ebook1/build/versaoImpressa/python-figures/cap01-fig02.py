@@ -45,16 +45,27 @@ biomarkers = [
 ]
 
 # ---------- figura ----------
-fig = plt.figure(figsize=(11.0, 7.4))
+# Aspecto 1.645, igual ao da arte original (1609×978). Era 1.486.
+fig = plt.figure(figsize=(11.0, 6.687))
 fig.patch.set_facecolor(BG)
 
 # Layout: linhas empilhadas, eixos invisíveis, tudo controlado manualmente.
 # Coordenadas em fração da figura.
 LEFT_MARGIN  = 0.03
 RIGHT_MARGIN = 0.97
-BAR_LEFT     = 0.18   # onde começa a barra (apertado contra o label, como no original)
-BAR_RIGHT    = 0.81   # onde termina a barra (mesmo ponto para todas as linhas)
-VALUE_X      = 0.90   # posição da coluna "Valor de Ricardo"
+# Geometria MEDIDA na arte original. Ao contrário da 4.1, aqui as fronteiras
+# das zonas variam por linha — o conceito do gerador estava certo, erradas
+# estavam as posições. Todos os valores abaixo saíram da detecção de cor:
+BAR_LEFT     = 0.155
+BAR_RIGHT    = 0.939
+VALUE_X      = 0.930
+LINHA_Y      = [0.246, 0.356, 0.462, 0.568, 0.667]        # centro de cada barra
+ZONA_OTIMA_X = [0.378, 0.369, 0.369, 0.378, 0.378]        # fim do verde
+ZONA_LAB_X   = [0.687, 0.731, 0.731, 0.697, 0.843]        # início do cinza
+ALVO_X       = [0.301, 0.374, 0.365, 0.435, 0.302]        # marcador de alvo
+VALOR_X      = [0.508, 0.673, 0.667, 0.662, 0.756]        # marcador do paciente
+# Réguas horizontais entre linhas, que a versão anterior não desenhava.
+REGUAS_Y     = [0.196, 0.302, 0.409, 0.516, 0.618, 0.716]
 
 # ---------- título ----------
 fig.text(LEFT_MARGIN, 0.945,
@@ -64,9 +75,9 @@ fig.text(LEFT_MARGIN, 0.945,
 # ---------- legenda no topo (markers explanation) ----------
 LEG_Y = 0.880
 # marcadores: triângulo = Valor de Ricardo (como no original), círculo = Alvo ótimo
-fig.text(LEFT_MARGIN,        LEG_Y, "▲  Valor de Ricardo",
+fig.text(LEFT_MARGIN,        LEG_Y, "●  Valor do Ricardo",
          fontsize=9.5, color=INK, weight="bold", va="center")
-fig.text(LEFT_MARGIN + 0.22, LEG_Y, "●  Alvo ótimo para longevidade",
+fig.text(LEFT_MARGIN + 0.22, LEG_Y, "▲  Alvo ótimo para longevidade",
          fontsize=9.5, color=INK_SOFT, va="center")
 fig.text(LEFT_MARGIN + 0.50, LEG_Y, "|  Limite de normalidade (laboratório)",
          fontsize=9.5, color=INK_SOFT, va="center")
@@ -84,9 +95,14 @@ ROW_BOTTOM = 0.255
 ROW_SPACE  = (ROW_TOP - ROW_BOTTOM) / (len(biomarkers) - 1) if len(biomarkers) > 1 else 0
 BAR_HEIGHT = 0.030
 
+for _ry in REGUAS_Y:
+    fig.lines.append(plt.Line2D(
+        [0.028, 0.975], [1.0 - _ry, 1.0 - _ry],
+        color="#D6D6D6", linewidth=0.7, transform=fig.transFigure, zorder=0))
+
 for i, (name, unit, otimo_lab, ricardo_lab, limit_lab,
         otimo_pos, ricardo_pos, limit_pos, ricardo_value, comment) in enumerate(biomarkers):
-    y = ROW_TOP - i * ROW_SPACE
+    y = 1.0 - LINHA_Y[i]
     bar_w = BAR_RIGHT - BAR_LEFT
 
     # --- nome do biomarcador (esquerda) ---
@@ -99,8 +115,8 @@ for i, (name, unit, otimo_lab, ricardo_lab, limit_lab,
     # otimo zone:    BAR_LEFT          → BAR_LEFT + bar_w * otimo_pos
     # subotimo zone: ... otimo_pos     → BAR_LEFT + bar_w * limit_pos
     # acima limite:  ... limit_pos     → BAR_RIGHT
-    x_otimo = BAR_LEFT + bar_w * otimo_pos
-    x_limit = BAR_LEFT + bar_w * limit_pos
+    x_otimo = ZONA_OTIMA_X[i]
+    x_limit = ZONA_LAB_X[i]
 
     # ax = fig in normalized coords; usar fig.add_axes seria mais limpo, mas
     # patches via fig.patches dá controle direto sem axes overhead.
@@ -126,15 +142,15 @@ for i, (name, unit, otimo_lab, ricardo_lab, limit_lab,
                  fontsize=8, color=INK_SOFT, ha="center", va="top")
 
     # --- marker: alvo ótimo (CÍRCULO — como no original) ---
-    x_otimo_marker = BAR_LEFT + bar_w * otimo_pos
-    fig.text(x_otimo_marker, y, "●", fontsize=12, color=INK_SOFT,
+    x_otimo_marker = ALVO_X[i]
+    fig.text(x_otimo_marker, y, "▲", fontsize=12, color=INK_SOFT,
              ha="center", va="center", zorder=5)
     fig.text(x_otimo_marker, y + BAR_HEIGHT*0.85 + 0.005, otimo_lab,
              fontsize=8, color=INK_SOFT, ha="center", va="bottom")
 
     # --- marker: valor Ricardo (TRIÂNGULO — como no original) ---
-    x_ricardo_marker = BAR_LEFT + bar_w * ricardo_pos
-    fig.text(x_ricardo_marker, y, "▲", fontsize=12, color=INK,
+    x_ricardo_marker = VALOR_X[i]
+    fig.text(x_ricardo_marker, y, "●", fontsize=12, color=INK,
              ha="center", va="center", zorder=6)
     fig.text(x_ricardo_marker, y + BAR_HEIGHT*0.85 + 0.005, ricardo_lab,
              fontsize=8, color=INK, weight="bold", ha="center", va="bottom")
@@ -185,7 +201,7 @@ for i, (label, desc, color) in enumerate(zones):
 
 # ---------- footer ----------
 foot_lines = [
-    "Triângulo (▲): valores reais de Ricardo. Círculo (●): alvo ótimo em estudos de longevidade e centenários.",
+    "Círculo (●): valores reais de Ricardo. Triângulo (▲): alvo ótimo em estudos de longevidade e centenários.",
     "A linha tracejada marca o limite de \"normalidade\" usado pelo laboratório.",
 ]
 for i, line in enumerate(foot_lines):
@@ -202,7 +218,10 @@ from matplotlib.transforms import Bbox as _Bbox
 fig.canvas.draw()
 _tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
 _bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
-plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
-plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+# Salva a TELA CHEIA, sem recorte automático: as posições agora são as medidas
+# na arte original em fração de figura, e recortar o branco mudaria a proporção
+# final (o recorte devolvia 1.744 em vez dos 1.645 do original).
+plt.savefig(pdf_path, facecolor=BG)
+plt.savefig(png_path, dpi=170, facecolor=BG)
 print(f"saved → {pdf_path}")
 print(f"preview → {png_path}")

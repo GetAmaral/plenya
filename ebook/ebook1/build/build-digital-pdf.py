@@ -27,7 +27,7 @@ LANG = sys.argv[1] if len(sys.argv) > 1 else "pt-BR"
 
 MD_DIR    = BOOK_ROOT / "md" / LANG
 FIG_DIR   = BOOK_ROOT / "figuras" / LANG
-AUTHOR_PHOTO = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_1000.jpg"
+AUTHOR_PHOTO = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_fullres.jpg"
 BUILD_DIR = BOOK_ROOT / "build"
 WORK_DIR  = BUILD_DIR / f"work-digital-{LANG}"
 TEMPLATE  = BUILD_DIR / "digital-template.tex"

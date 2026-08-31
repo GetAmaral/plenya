@@ -71,6 +71,58 @@ for i in range(3):
         transform=fig.transFigure, zorder=0
     ))
 
+# --- Quebra de linha medida -------------------------------------------------
+# fig.text não quebra linha sozinho: as quebras só existem onde alguém digitou
+# \n no conteúdo. Foi assim que as frases de "FOCO DA DÉCADA" saíram da coluna
+# (a de 60+ passava 5,1 mm da borda na página impressa; a de 50-59 ficava com
+# 8 px de margem contra os ~35 px das demais). As funções abaixo medem a
+# largura real com o renderer e quebram só o que não couber, preservando as
+# quebras manuais já existentes.
+
+TEXT_PAD = 0.012                      # recuo interno usado no x das seções
+USABLE_W = COL_W - 2 * TEXT_PAD       # largura útil da coluna, fração da figura
+
+
+def _renderer():
+    fig.canvas.draw()
+    return fig.canvas.get_renderer()
+
+
+def text_width(s, fontsize, weight="normal"):
+    """Largura de `s` em fração da largura da figura."""
+    probe = fig.text(0, 0, s, fontsize=fontsize, weight=weight)
+    bb = probe.get_window_extent(renderer=_renderer())
+    probe.remove()
+    return bb.width / fig.bbox.width
+
+
+def wrap_to_column(text, fontsize, weight="normal", max_w=USABLE_W):
+    """Quebra as linhas que estouram `max_w`, mantendo as quebras manuais.
+
+    Continuação de item de lista ("• ...") herda o recuo de dois espaços que o
+    conteúdo já usa, pra alinhar sob o texto do bullet e não sob a bolinha.
+    """
+    out = []
+    for line in text.split("\n"):
+        if text_width(line, fontsize, weight) <= max_w:
+            out.append(line)
+            continue
+        stripped = line.lstrip()
+        lead = line[: len(line) - len(stripped)]
+        cont = "  " if stripped.startswith("•") else lead
+        cur, prefix = "", lead
+        for word in stripped.split():
+            cand = word if not cur else f"{cur} {word}"
+            if cur and text_width(prefix + cand, fontsize, weight) > max_w:
+                out.append(prefix + cur)
+                prefix, cur = cont, word
+            else:
+                cur = cand
+        if cur:
+            out.append(prefix + cur)
+    return "\n".join(out)
+
+
 # Conteúdo em texto único por coluna, com seções marcadas
 content = [
     # Coluna 1: 40-49
@@ -129,8 +181,8 @@ for col_idx, col_content in enumerate(content):
                  va="top")
         y_current -= 0.018
 
-        # Texto da seção
-        # Conta linhas pra calcular altura
+        # Texto da seção (quebrado à largura da coluna antes de medir a altura)
+        section_text = wrap_to_column(section_text, 7.5)
         n_lines = section_text.count("\n") + 1
         fig.text(x, y_current, section_text,
                  fontsize=7.5, color=INK, va="top",
@@ -153,6 +205,26 @@ fig.text(LEFT, 0.060,
 fig.text(LEFT, 0.040,
          "A lógica: cada década adiciona exames à lista anterior — ela se aprofunda, não diminui.",
          fontsize=8, color=INK, weight="bold", style="italic")
+
+# --- Verificação: nenhum texto pode passar da borda da sua coluna -----------
+# Roda antes de salvar. Se falhar, o conteúdo mudou e a figura NÃO é gravada —
+# melhor quebrar o build do que mandar pro miolo uma caixa estourada.
+_r = _renderer()
+_falhas = []
+for _t in fig.texts:
+    _bb = _t.get_window_extent(renderer=_r)
+    _x0, _x1 = _bb.x0 / fig.bbox.width, _bb.x1 / fig.bbox.width
+    for _i, _cx in enumerate(COL_X):
+        if _cx <= _x0 < _cx + COL_W:
+            _limite = _cx + COL_W - TEXT_PAD
+            if _x1 > _limite + 1e-4:
+                _falhas.append((_i + 1, _t.get_text().split("\n")[0][:52],
+                                (_x1 - _limite) * fig.get_size_inches()[0] * 25.4))
+if _falhas:
+    for _c, _txt, _mm in _falhas:
+        print(f"  ✗ coluna {_c}: estoura {_mm:.1f} mm — {_txt!r}")
+    raise SystemExit("Texto fora da coluna — ajuste o conteúdo ou COL_W.")
+print("✓ bbox: todo texto dentro das colunas")
 
 out_dir = Path(__file__).resolve().parents[1] / "figuras-bw"
 out_dir.mkdir(parents=True, exist_ok=True)

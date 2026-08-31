@@ -43,7 +43,7 @@ SPINE_MM_ARG = float(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_SPINE_MM
 # --- Paths ---
 CAPA_FRONT    = BOOK_ROOT / "capas" / LANG / "capa.jpg"
 BARCODE       = BOOK_ROOT / "capas" / LANG / "isbn-barcode-978-65-02-07691-0.png"
-AUTHOR_BW     = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_1000.jpg"
+AUTHOR_BW     = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_fullres.jpg"
 SYMBOL_GOLD   = BOOK_ROOT.parent.parent / "apps" / "site" / "public" / "brand" / "symbol" / "gold.png"
 WORDMARK_GOLD = BOOK_ROOT.parent.parent / "apps" / "site" / "public" / "brand" / "wordmark" / "gold.png"
 OUT_PDF       = THIS_DIR / f"Antes-{LANG}-hardcover-capa.pdf"
@@ -251,17 +251,17 @@ def main():
         "Entre o que o seu laboratório chama de normal e "
         "o que a ciência da longevidade chama de ótimo "
         "existe uma janela silenciosa de dez a vinte anos. "
-        "É nela que a doença é construída — e é nela que "
+        "É nela que a doença é construída, e é nela que "
         "ainda dá para mudar a trajetória.\n\n"
         "Em ANTES, Dr. Getulio Amaral Filho reúne vinte "
         "anos de prática clínica num mapa que o check-up "
         "convencional não desenha: 16 biomarcadores em 4 "
         "grupos que separam o normal do ótimo, o método "
-        "AGIR de quatro pilares e a Regra dos Dois — a "
+        "AGIR de quatro pilares e a Regra dos Dois (a "
         "cada trimestre, dois focos com maior potencial "
-        "de mover trajetória.\n\n"
+        "de mover trajetória).\n\n"
         "Não é wellness. É medicina baseada em evidência, "
-        "vinte anos de consultório, casos reais — para "
+        "vinte anos de consultório, casos reais. Para "
         "quem ainda tem a década inteira pela frente, e "
         "para quem só tem a próxima."
     )
@@ -308,7 +308,7 @@ def main():
     bio = (
         "Nefrologista (CRM-PR 21.876), coordena a Residência de "
         "Nefrologia da Santa Casa de Londrina. Fundador da "
-        "Plenya — clínica de medicina integrada em saúde, "
+        "Plenya, clínica de medicina integrada em saúde, "
         "performance e longevidade."
     )
     draw_wrapped(draw, bio, bio_x, bio_y, bio_w, f_bio, CREAM, line_h_mult=1.35)

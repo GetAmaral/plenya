@@ -18,7 +18,7 @@ PAGECOUNT = int(sys.argv[1]) if len(sys.argv) > 1 else 411
 # --- Paths ---
 CAPA_FRONT  = BOOK_ROOT / "capas" / LANG / "capa.jpg"
 BARCODE     = BOOK_ROOT / "capas" / LANG / "isbn-barcode-978-65-975814-1-2.png"
-AUTHOR_BW   = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_1000.jpg"
+AUTHOR_BW   = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_fullres.jpg"
 SYMBOL_GOLD = BOOK_ROOT.parent.parent / "apps" / "site" / "public" / "brand" / "symbol" / "gold.png"
 WORDMARK_GOLD = BOOK_ROOT.parent.parent / "apps" / "site" / "public" / "brand" / "wordmark" / "gold.png"
 BUILD_DIR   = BOOK_ROOT / "build"

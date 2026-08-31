@@ -38,14 +38,27 @@ biomarkers = [
     ("TG/HDL*",           "(—)",      "< 2,0",   "3,9",  "< 3,5\n(limite de risco)", 0.18, 0.88, 0.78, "3,9\n(calculado do\nlipidograma existente)", False),
 ]
 
-fig = plt.figure(figsize=(11.0, 8.6))
+# Aspecto 1.500, igual ao da arte original (1536×1024). Era 1.279, o que
+# esticava a figura verticalmente e sobrava faixa branca no rodapé.
+fig = plt.figure(figsize=(11.0, 7.333))
 fig.patch.set_facecolor(BG)
 
 LEFT_MARGIN  = 0.03
 RIGHT_MARGIN = 0.97
-BAR_LEFT     = 0.18
-BAR_RIGHT    = 0.78
-VALUE_X      = 0.88
+# Geometria MEDIDA na arte original: a barra vai de x 0.182 a 0.835 e as três
+# zonas têm fronteiras FIXAS em todas as linhas (0.383 e 0.684) — o gerador
+# calculava a largura de cada zona por linha, o que fazia cada barra ter uma
+# escala diferente. Os triângulos de alvo ficam todos alinhados em x 0.302 e
+# só o círculo do valor varia. Não há linha invertida: a Vitamina D segue o
+# mesmo arranjo das demais.
+BAR_LEFT     = 0.182
+BAR_RIGHT    = 0.835
+ZONA_OTIMA_X = 0.383
+ZONA_LAB_X   = 0.684
+TRI_X        = 0.302
+CIRC_X       = [0.549, 0.526, 0.606, 0.545, 0.587, 0.684, 0.775]
+LINHA_Y      = [0.246, 0.341, 0.433, 0.520, 0.605, 0.687, 0.767]
+VALUE_X      = 0.915
 
 # Título
 fig.text(LEFT_MARGIN, 0.96,
@@ -68,6 +81,19 @@ fig.text((BAR_LEFT + BAR_RIGHT) / 2, HEAD_Y, "Escala de referência",
 fig.text(VALUE_X, HEAD_Y, "Valor de Fernanda",
          fontsize=8.5, color=TICK, ha="center", style="italic")
 
+# Réguas horizontais: uma sob o cabeçalho e uma entre cada par de linhas.
+# Posições MEDIDAS na arte original — a versão anterior não tinha nenhuma, o
+# que deixava as sete linhas soltas no branco.
+REGUAS_Y = [0.195, 0.287, 0.380, 0.468, 0.554, 0.639, 0.718]
+for _ry in REGUAS_Y:
+    fig.lines.append(plt.Line2D(
+        [0.028, 0.965], [1.0 - _ry, 1.0 - _ry],
+        color="#D6D6D6", linewidth=0.7, transform=fig.transFigure, zorder=0))
+
+# Cabeçalho da tabela (a arte original nomeia as três colunas)
+fig.text(0.045, 1.0 - 0.176, "Biomarcador",
+         fontsize=9, color=TICK, va="center")
+
 # Linhas de dados
 ROW_TOP = 0.830
 ROW_BOTTOM = 0.260
@@ -76,7 +102,7 @@ BAR_HEIGHT = 0.026
 
 for i, (name, unit, otimo_lab, fer_lab, lim_lab,
         otimo_pos, fer_pos, lim_pos, fer_value, inverted) in enumerate(biomarkers):
-    y = ROW_TOP - i * ROW_SPACE
+    y = 1.0 - LINHA_Y[i]          # posições de linha medidas no original
     bar_w = BAR_RIGHT - BAR_LEFT
 
     # Nome
@@ -85,35 +111,22 @@ for i, (name, unit, otimo_lab, fer_lab, lim_lab,
     fig.text(LEFT_MARGIN, y - 0.018, unit,
              fontsize=8, color=TICK, va="center")
 
-    # Barra — 3 zonas (com layout invertido para Vit D)
-    if not inverted:
-        # Normal: ótima esquerda, subótima meio, "lab" direita
-        x_otimo = BAR_LEFT + bar_w * otimo_pos
-        x_limit = BAR_LEFT + bar_w * (lim_pos if lim_pos else 0.85)
-        fig.patches.extend([
-            Rectangle((BAR_LEFT, y - BAR_HEIGHT/2), x_otimo - BAR_LEFT, BAR_HEIGHT,
-                      facecolor=BAND_OK, edgecolor="none", transform=fig.transFigure, zorder=1),
-            Rectangle((x_otimo, y - BAR_HEIGHT/2), x_limit - x_otimo, BAR_HEIGHT,
-                      facecolor=BAND_MID, edgecolor="none", transform=fig.transFigure, zorder=1),
-            Rectangle((x_limit, y - BAR_HEIGHT/2), BAR_RIGHT - x_limit, BAR_HEIGHT,
-                      facecolor=BAND_BAD, edgecolor="none", transform=fig.transFigure, zorder=1),
-        ])
-    else:
-        # Invertido: BAD esquerda, MID meio, OK direita
-        x_limit = BAR_LEFT + bar_w * lim_pos
-        x_otimo = BAR_LEFT + bar_w * otimo_pos
-        fig.patches.extend([
-            Rectangle((BAR_LEFT, y - BAR_HEIGHT/2), x_limit - BAR_LEFT, BAR_HEIGHT,
-                      facecolor=BAND_BAD, edgecolor="none", transform=fig.transFigure, zorder=1),
-            Rectangle((x_limit, y - BAR_HEIGHT/2), x_otimo - x_limit, BAR_HEIGHT,
-                      facecolor=BAND_MID, edgecolor="none", transform=fig.transFigure, zorder=1),
-            Rectangle((x_otimo, y - BAR_HEIGHT/2), BAR_RIGHT - x_otimo, BAR_HEIGHT,
-                      facecolor=BAND_OK, edgecolor="none", transform=fig.transFigure, zorder=1),
-        ])
+    # Barra — 3 zonas de fronteira fixa, como na arte original
+    fig.patches.extend([
+        Rectangle((BAR_LEFT, y - BAR_HEIGHT/2), ZONA_OTIMA_X - BAR_LEFT, BAR_HEIGHT,
+                  facecolor=BAND_OK, edgecolor="none", transform=fig.transFigure, zorder=1),
+        Rectangle((ZONA_OTIMA_X, y - BAR_HEIGHT/2), ZONA_LAB_X - ZONA_OTIMA_X, BAR_HEIGHT,
+                  facecolor=BAND_MID, edgecolor="none", transform=fig.transFigure, zorder=1),
+        Rectangle((ZONA_LAB_X, y - BAR_HEIGHT/2), BAR_RIGHT - ZONA_LAB_X, BAR_HEIGHT,
+                  facecolor=BAND_BAD, edgecolor="none", transform=fig.transFigure, zorder=1),
+    ])
 
     # Linha tracejada do limite
     if lim_lab and lim_pos is not None:
-        x_lim_line = BAR_LEFT + bar_w * lim_pos
+        # A tracejada do limite de laboratório fica em x 0.716 na arte
+        # original, à direita da fronteira das zonas (0.684) — deixá-la sobre
+        # a fronteira fazia o círculo da Vitamina D cair em cima dela.
+        x_lim_line = 0.716
         fig.lines.append(plt.Line2D(
             [x_lim_line, x_lim_line], [y - BAR_HEIGHT*1.0, y + BAR_HEIGHT*1.0],
             color=INK, linewidth=0.8, linestyle=(0, (3, 2)),
@@ -124,14 +137,14 @@ for i, (name, unit, otimo_lab, fer_lab, lim_lab,
                  linespacing=1.1)
 
     # Marker ótimo (triangulo)
-    x_otimo_m = BAR_LEFT + bar_w * otimo_pos
+    x_otimo_m = TRI_X
     fig.text(x_otimo_m, y, "▲", fontsize=12, color=INK_SOFT,
              ha="center", va="center", zorder=5)
     fig.text(x_otimo_m, y + BAR_HEIGHT*1.0 + 0.004, otimo_lab,
              fontsize=8, color=INK_SOFT, ha="center", va="bottom")
 
     # Marker Fernanda (círculo)
-    x_fer_m = BAR_LEFT + bar_w * fer_pos
+    x_fer_m = CIRC_X[i]
     fig.text(x_fer_m, y, "●", fontsize=12, color=INK,
              ha="center", va="center", zorder=6)
     fig.text(x_fer_m, y + BAR_HEIGHT*1.0 + 0.004, fer_lab,
@@ -143,7 +156,7 @@ for i, (name, unit, otimo_lab, fer_lab, lim_lab,
              ha="center", va="center", linespacing=1.15)
 
 # Separador
-SEP_Y = ROW_BOTTOM - 0.045
+SEP_Y = 1.0 - LINHA_Y[-1] - 0.055
 fig.lines.append(plt.Line2D(
     [LEFT_MARGIN, RIGHT_MARGIN], [SEP_Y, SEP_Y],
     color="#CFCFCF", linewidth=0.5, transform=fig.transFigure

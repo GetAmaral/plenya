@@ -27,6 +27,20 @@ GRAY1 = "#9E9E9E"
 GRAY2 = "#D9D9D9"
 GRAY3 = "#F2F2F2"
 
+# --- Modo colorido (opt-in) -------------------------------------------------
+# FIG_COR=1 gera na paleta da arte original, em figuras-cor/. Sem a variável a
+# saída é a de antes, em figuras-bw/. Cores medidas na arte em 2026-08-24:
+# o ramo SIM é verde (#1f562b sobre fundo #f2f7f1) e o ramo NÃO é vermelho
+# (#bd181b sobre #fdf3f1). O redesenho tinha as duas famílias em preto sobre
+# branco, o que apagava a leitura "pode / não pode" que a figura inteira faz.
+import os
+COR    = os.environ.get("FIG_COR") == "1"
+SIM_FG = "#1f562b" if COR else INK
+SIM_BG = "#f2f7f1" if COR else BG
+NAO_FG = "#bd181b" if COR else INK
+NAO_BG = "#fdf3f1" if COR else BG
+LOSANGO = "#f5c98a" if COR else GRAY2   # o losango de decisão é âmbar na arte
+
 W_IMG, H_IMG = 1536, 1024
 _FIG_W = 10.0
 _FIG_H = _FIG_W * H_IMG / W_IMG
@@ -89,7 +103,7 @@ DCX, DCY = 716, 370
 DW, DH = 244, 124
 diamond_pts = [(DCX, DCY-DH/2), (DCX+DW/2, DCY), (DCX, DCY+DH/2), (DCX-DW/2, DCY)]
 ax.add_patch(Polygon(diamond_pts, closed=True,
-                     facecolor=GRAY2, edgecolor=INK, linewidth=1.6, zorder=3))
+                     facecolor=LOSANGO, edgecolor=INK, linewidth=1.6, zorder=3))
 ax.text(DCX, DCY-22, "Tem HPB",
         fontsize=11, color=INK, weight="bold", va="center", ha="center", zorder=4)
 ax.text(DCX, DCY, "sintomática",
@@ -102,18 +116,18 @@ ax.text(DCX, DCY+22, "(IPSS ≥ 8)?",
 # ============================================================
 # SIM: diamante esquerdo (594, 370) → horizontal pra (359, 370) → desce pra box1 top (359, 450)
 # Label SIM ACIMA do segmento horizontal
-ax.text(490, 350, "SIM",
-        fontsize=16, color=INK, weight="bold", va="center", ha="center", zorder=4)
-ax.plot([DCX-DW/2, 359], [DCY, DCY], color=INK, linewidth=1.4, zorder=2)
-ax.plot([359, 359], [DCY, 445], color=INK, linewidth=1.4, zorder=2)
+ax.text(490, 350, "SIM",   # rótulo do ramo
+        fontsize=16, color=SIM_FG, weight="bold", va="center", ha="center", zorder=4)
+ax.plot([DCX-DW/2, 359], [DCY, DCY], color=SIM_FG, linewidth=1.4, zorder=2)
+ax.plot([359, 359], [DCY, 445], color=SIM_FG, linewidth=1.4, zorder=2)
 ax.add_patch(Polygon([(355, 445), (363, 445), (359, 453)],
                      closed=True, facecolor=INK, edgecolor="none", zorder=4))
 
 # NÃO: diamante direito (838, 370) → horizontal (1108, 370) → desce pra red box top (1108, 450)
 ax.text(940, 350, "NÃO",
-        fontsize=16, color=INK, weight="bold", va="center", ha="center", zorder=4)
-ax.plot([DCX+DW/2, 1108], [DCY, DCY], color=INK, linewidth=1.4, zorder=2)
-ax.plot([1108, 1108], [DCY, 445], color=INK, linewidth=1.4, zorder=2)
+        fontsize=16, color=NAO_FG, weight="bold", va="center", ha="center", zorder=4)
+ax.plot([DCX+DW/2, 1108], [DCY, DCY], color=NAO_FG, linewidth=1.4, zorder=2)
+ax.plot([1108, 1108], [DCY, 445], color=NAO_FG, linewidth=1.4, zorder=2)
 ax.add_patch(Polygon([(1104, 445), (1112, 445), (1108, 453)],
                      closed=True, facecolor=INK, edgecolor="none", zorder=4))
 
@@ -126,18 +140,18 @@ gb1_x, gb1_y, gb1_w, gb1_h = 169, 453, 381, 175
 ax.add_patch(FancyBboxPatch(
     (gb1_x+6, gb1_y+6), gb1_w-12, gb1_h-12,
     boxstyle="round,pad=4,rounding_size=10",
-    facecolor=BG, edgecolor=INK, linewidth=1.4))
+    facecolor=SIM_BG, edgecolor=SIM_FG, linewidth=1.4))
 
 # Icon top-left
 icx, icy = gb1_x + 40, gb1_y + 40
-ax.add_patch(Circle((icx, icy), 20, facecolor=INK, edgecolor="none"))
+ax.add_patch(Circle((icx, icy), 20, facecolor=SIM_FG, edgecolor="none"))
 ax.plot([icx-10, icx-2, icx+11], [icy, icy+8, icy-9],
         color="white", linewidth=3, solid_capstyle="round", zorder=5)
 
 # Título à direita do ícone (mesmo y do ícone)
 TEXT_X = gb1_x + 75
 ax.text(TEXT_X, gb1_y + 40, "Indicação clínica consistente",
-        fontsize=9.5, color=INK, weight="bold", va="center", ha="left")
+        fontsize=9.5, color=SIM_FG, weight="bold", va="center", ha="left")
 # Body alinhado no mesmo x do título
 ax.text(TEXT_X, gb1_y + 80, "Finasterida 5 mg/dia OU",
         fontsize=10, color=SOFT, va="center", ha="left")
@@ -147,8 +161,8 @@ ax.text(TEXT_X, gb1_y + 130, "décadas de evidência.",
         fontsize=10, color=SOFT, va="center", ha="left")
 
 # Conector box1 → box2
-ax.plot([359, 359], [gb1_y + gb1_h, 648], color=INK, linewidth=1.2, zorder=2)
-ax.add_patch(Circle((359, 648), 4, facecolor=INK, edgecolor="none", zorder=3))
+ax.plot([359, 359], [gb1_y + gb1_h, 648], color=SIM_FG, linewidth=1.2, zorder=2)
+ax.add_patch(Circle((359, 648), 4, facecolor=SIM_FG, edgecolor="none", zorder=3))
 
 # ============================================================
 # CAIXA SIM 2 — Consentimento informado
@@ -158,11 +172,11 @@ gb2_x, gb2_y, gb2_w, gb2_h = 170, 648, 379, 135
 ax.add_patch(FancyBboxPatch(
     (gb2_x+6, gb2_y+6), gb2_w-12, gb2_h-12,
     boxstyle="round,pad=4,rounding_size=10",
-    facecolor=BG, edgecolor=INK, linewidth=1.4))
+    facecolor=SIM_BG, edgecolor=SIM_FG, linewidth=1.4))
 
 # Icon vertical center
 icx, icy = gb2_x + 40, gb2_y + gb2_h/2
-ax.add_patch(Circle((icx, icy), 20, facecolor=INK, edgecolor="none"))
+ax.add_patch(Circle((icx, icy), 20, facecolor=SIM_FG, edgecolor="none"))
 ax.add_patch(Circle((icx, icy-6), 5, facecolor="white", edgecolor="none"))
 ax.add_patch(Polygon([
     (icx-9, icy+10), (icx+9, icy+10), (icx+6, icy+1), (icx-6, icy+1)
@@ -171,7 +185,7 @@ ax.add_patch(Polygon([
 # Todos os 3 textos à direita do ícone, alinhados em coluna
 TEXT_X = gb2_x + 75
 ax.text(TEXT_X, gb2_y + 38, "Consentimento informado",
-        fontsize=9.5, color=INK, weight="bold", va="center", ha="left")
+        fontsize=9.5, color=SIM_FG, weight="bold", va="center", ha="left")
 ax.text(TEXT_X, gb2_y + 70, "inclui conversa sobre",
         fontsize=9.5, color=SOFT, va="center", ha="left")
 ax.text(TEXT_X, gb2_y + 92, "efeitos sexuais possíveis.",
@@ -184,11 +198,11 @@ rb_x, rb_y, rb_w, rb_h = 882, 453, 453, 200
 ax.add_patch(FancyBboxPatch(
     (rb_x+6, rb_y+6), rb_w-12, rb_h-12,
     boxstyle="round,pad=4,rounding_size=10",
-    facecolor=BG, edgecolor=INK, linewidth=2.2))
+    facecolor=NAO_BG, edgecolor=NAO_FG, linewidth=2.2))
 
 # Icon top-left
 picx, picy = rb_x + 40, rb_y + 40
-ax.add_patch(Circle((picx, picy), 20, facecolor=BG, edgecolor=INK, linewidth=3.0))
+ax.add_patch(Circle((picx, picy), 20, facecolor=NAO_BG, edgecolor=NAO_FG, linewidth=3.0))
 slash = 15
 ax.plot([picx - slash*0.707, picx + slash*0.707],
         [picy + slash*0.707, picy - slash*0.707],
@@ -212,21 +226,23 @@ ax.text(TEXT_X, rb_y + 185, "estético.",
         fontsize=9, color=SOFT, va="center", ha="left")
 
 # Conector red → leaf
-ax.plot([1108, 1108], [rb_y + rb_h, 670], color=INK, linewidth=1.2, zorder=2)
-ax.add_patch(Circle((1108, 670), 4, facecolor=INK, edgecolor="none", zorder=3))
+ax.plot([1108, 1108], [rb_y + rb_h, 670], color=NAO_FG, linewidth=1.2, zorder=2)
+ax.add_patch(Circle((1108, 670), 4, facecolor=NAO_FG, edgecolor="none", zorder=3))
 
 # ============================================================
+# CAIXA "ALTERNATIVAS COM EVIDÊNCIA" — verde na arte original: é a
+# recomendação que substitui a prescrição, não a proibição.
 # CAIXA NÃO 2 — Alternativas com evidência (leaf)
 # ============================================================
 glb_x, glb_y, glb_w, glb_h = 870, 670, 465, 132
 ax.add_patch(FancyBboxPatch(
     (glb_x+6, glb_y+6), glb_w-12, glb_h-12,
     boxstyle="round,pad=4,rounding_size=10",
-    facecolor=BG, edgecolor=INK, linewidth=1.4))
+    facecolor=SIM_BG, edgecolor=SIM_FG, linewidth=1.4))
 
 # Icon vertical center
 lcx, lcy = glb_x + 40, glb_y + glb_h/2
-ax.add_patch(Circle((lcx, lcy), 20, facecolor=INK, edgecolor="none"))
+ax.add_patch(Circle((lcx, lcy), 20, facecolor=SIM_FG, edgecolor="none"))
 ax.add_patch(Ellipse((lcx, lcy), 24, 11, angle=-35,
                      facecolor="white", edgecolor="none"))
 ax.plot([lcx-8, lcx+10], [lcy+7, lcy-7],
@@ -315,7 +331,7 @@ ax.text(43, 1000,
 # ============================================================
 # EXPORT
 # ============================================================
-out_dir = _Path(__file__).resolve().parents[1] / "figuras-bw"
+out_dir = _Path(__file__).resolve().parents[1] / ("figuras-cor" if COR else "figuras-bw")
 out_dir.mkdir(parents=True, exist_ok=True)
 pdf_path = out_dir / "Cap08_Fig02.pdf"
 png_path = out_dir / "_preview_Cap08_Fig02.png"

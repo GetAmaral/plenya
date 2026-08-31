@@ -74,7 +74,9 @@ FOOT     = "#666666"
 BAND     = "#EDEDED"   # banda janela de intervenção
 
 # Figsize reduzido: original tem proporção mais compacta vertical.
-fig = plt.figure(figsize=(11.0, 6.2))
+# Aspecto 1.500, igual ao da arte original (1536×1024).
+# Era 1.774.
+fig = plt.figure(figsize=(11.0, 7.333))
 fig.patch.set_facecolor(BG)
 
 LEFT = 0.025
@@ -243,7 +245,7 @@ from matplotlib.transforms import Bbox as _Bbox
 fig.canvas.draw()
 _tb = fig.get_tightbbox(fig.canvas.get_renderer())  # já em inches
 _bbox_in = _Bbox.from_extents(_tb.x0, _tb.y0 - 0.08, _tb.x1, _tb.y1)
-plt.savefig(pdf_path, facecolor=BG, bbox_inches=_bbox_in)
-plt.savefig(png_path, dpi=170, facecolor=BG, bbox_inches=_bbox_in)
+plt.savefig(pdf_path, facecolor=BG)
+plt.savefig(png_path, dpi=170, facecolor=BG)
 print(f"saved → {pdf_path}")
 print(f"preview → {png_path}")

@@ -14,7 +14,7 @@ last_reviewed: 2026-04-20
 
 **Dr. Getulio Amaral Filho** é médico nefrologista e clínico com mais de 20 anos de prática, formado em Medicina pela Universidade Estadual de Londrina em 2004. Especializou-se em Clínica Médica (2006) e em Nefrologia (2008) pela Santa Casa de Londrina, onde hoje coordena a Residência Médica de Nefrologia e fundou a Residência de Clínica Médica. É Responsável Técnico da DaVita Intra-hospitalar de Londrina e concluiu em 2026 pós-graduação em Medicina Funcional Integrativa pela ABMFI.
 
-É palestrante nacional em saúde, nefrologia e longevidade, traduzindo ciência complexa em linguagem acessível para público leigo e médico. Ao longo de duas décadas atendeu milhares de pacientes — e foi dessa prática que nasceram o Método AGIR e a convicção de que a saúde se decide na janela silenciosa entre o normal e o ótimo. É dessa mesma prática que nasce este livro.
+É palestrante nacional em saúde, nefrologia e longevidade, traduzindo ciência complexa em linguagem acessível para público leigo e médico. Ao longo de duas décadas atendeu milhares de pacientes, e foi dessa prática que nasceram o Método AGIR e a convicção de que a saúde se decide na janela silenciosa entre o normal e o ótimo. É dessa mesma prática que nasce este livro.
 
 ---
 
@@ -84,13 +84,15 @@ Pasta: `../fotos/`
 
 | Arquivo | Dimensão | Uso |
 |---|---|---|
-| `getulio_bw_halfbody_1000.jpg` | 1000×1339 · P&B | **Página "Sobre o Autor" no EPUB/livro** |
-| `getulio_bw_halfbody_fullres.jpg` | 1508×2020 · P&B | Orelha / contracapa versão impressa |
+| `getulio_bw_halfbody_fullres.jpg` | 1508×2020 · P&B · q96 | **Impresso (miolo + capa), capa dura, PDF digital** |
+| `getulio_bw_halfbody_1000.jpg` | 1000×1340 · P&B · q92 | EPUB PT e EN (payload menor na entrega Amazon) |
 | `getulio_color_halfbody_1200.jpg` | 1200×1607 · Cor | Author Central Amazon (perfil) |
 | `getulio_color_square_1200.jpg` | 1200×1200 · Cor | Avatar / redes sociais |
 | `getulio_color_fullbody.jpg` | 2148×3223 · Cor | Material institucional / press kit |
 
-Foto-base: `docs/site/images/Getulio01.png` (corpo inteiro, terno azul marinho, camisa branca sem gravata, corredor de fundo neutro desfocado). Processamento aplicado: crop meio-corpo (cintura para cima), conversão P&B com curva editorial suave, unsharp mask discreto, DPI 300, sRGB embutido.
+Foto-base: `docs/site/images/FotosHd/Getulio01.png` (2148×3223, PNG sem perdas; corpo inteiro, terno azul marinho, camisa branca sem gravata, corredor de fundo neutro desfocado). Processamento aplicado: recorte meio-corpo nativo (320,0)+1508×2020, luminância ITU-R 709, curva editorial reproduzida por histogram matching contra a versão aprovada em 2026-04, unsharp discreto depois de cada redimensionamento, DPI 300, escala de cinza.
+
+As duas derivadas são geradas por `build/make-author-photo.py` — sempre a partir do PNG, nunca de um JPEG intermediário, para não acumular perda de geração. Rodar com `./versaoImpressa/runpy make-author-photo.py` a partir de `build/`.
 
 ---
 

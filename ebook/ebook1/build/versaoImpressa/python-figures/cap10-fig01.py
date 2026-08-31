@@ -70,8 +70,12 @@ ax_bg.text(45, 180,
 # Use fig.add_axes with normalized coords
 chart_left_px  = 110
 chart_right_px = 1430
-chart_top_px   = 240
-chart_bot_px   = 830
+# MEDIDO pelos rótulos do eixo y da arte original: as onze marcas vão de 750
+# em y 0.267 a 250 em y 0.707 (de 1024 px). A caixa resolvida a partir disso é
+# 264..769 (com ylim 200–760); estava em 240..830, o que esticava o gráfico para baixo e fazia o
+# colchete "+30 anos" encavalar nos rótulos do eixo.
+chart_top_px   = 264
+chart_bot_px   = 769
 
 # Convert to fig fraction (note: matplotlib origin bottom-left)
 ax_x0 = chart_left_px / W_IMG
