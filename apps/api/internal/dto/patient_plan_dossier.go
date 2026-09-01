@@ -187,6 +187,11 @@ type PlanDossierResponse struct {
 
 // SavePatientPlanRequest — cria ou reescreve o plano. `content` é a lista de slides.
 type SavePatientPlanRequest struct {
+	// ExpectedRevision — a revisão que o cliente acha ser a corrente. Quando vem e não bate, a
+	// gravação é recusada com 409 em vez de sobrescrever escrita que o cliente não viu. Ausente
+	// significa "não sei", e passa: cliente antigo não é bloqueado.
+	ExpectedRevision *int `json:"expectedRevision,omitempty"`
+
 	Title            string             `json:"title" validate:"omitempty,max=300"`
 	Content          []pdfdoc.DeckSlide `json:"content"`
 	SourceSnapshotID *string            `json:"sourceSnapshotId,omitempty" validate:"omitempty,uuid"`
@@ -194,12 +199,16 @@ type SavePatientPlanRequest struct {
 
 // PatientPlanResponse — o plano como o EMR o mostra.
 type PatientPlanResponse struct {
-	ID        string             `json:"id"`
-	PatientID string             `json:"patientId"`
-	Title     string             `json:"title"`
-	Status    string             `json:"status"`
-	Version   int                `json:"version"`
-	Content   []pdfdoc.DeckSlide `json:"content"`
+	ID        string `json:"id"`
+	PatientID string `json:"patientId"`
+	Title     string `json:"title"`
+	Status    string `json:"status"`
+	Version   int    `json:"version"`
+	// RevisionSeq — a última edição do rascunho, e o token que o cliente devolve em
+	// `expectedRevision` para não sobrescrever escrita que não viu. Conta edições; `Version`
+	// conta publicações.
+	RevisionSeq int                `json:"revisionSeq"`
+	Content     []pdfdoc.DeckSlide `json:"content"`
 
 	SourceSnapshotID *string `json:"sourceSnapshotId,omitempty"`
 	AuthorUserID     string  `json:"authorUserId"`

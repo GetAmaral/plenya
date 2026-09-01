@@ -155,7 +155,7 @@ func (h *PatientPlanHandler) Update(c *fiber.Ctx) error {
 	if err := h.validator.Struct(&req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "validation failed", Details: formatValidationErrors(err)})
 	}
-	out, err := h.plans.Update(planID, patientID, &req)
+	out, err := h.plans.Update(planID, patientID, middleware.GetUserID(c), &req)
 	if err != nil {
 		return h.fail(c, err, "falha ao salvar o plano")
 	}
@@ -296,6 +296,10 @@ func (h *PatientPlanHandler) fail(c *fiber.Ctx, err error, msg string) error {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{Error: "paciente não encontrado", Message: err.Error()})
 	case errors.Is(err, services.ErrPatientPlanEmpty):
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "plano vazio", Message: err.Error()})
+	case errors.Is(err, services.ErrPlanRevisionConflict):
+		// 409 e não 500: a tela precisa distinguir "deu erro" de "alguém escreveu antes de você",
+		// que tem tratamento próprio (recarregar e mostrar o que mudou).
+		return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{Error: "o plano mudou", Message: err.Error()})
 	}
 	return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: msg, Message: err.Error()})
 }

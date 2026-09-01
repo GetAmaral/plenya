@@ -17872,6 +17872,12 @@ export interface components {
             id?: string;
             patientId?: string;
             publishedAt?: string;
+            /**
+             * @description RevisionSeq — a última edição do rascunho, e o token que o cliente devolve em
+             *     `expectedRevision` para não sobrescrever escrita que não viu. Conta edições; `Version`
+             *     conta publicações.
+             */
+            revisionSeq?: number;
             sourceSnapshotId?: string;
             status?: string;
             title?: string;
@@ -18159,6 +18165,12 @@ export interface components {
         };
         "dto.SavePatientPlanRequest": {
             content?: components["schemas"]["pdfdoc.DeckSlide"][];
+            /**
+             * @description ExpectedRevision — a revisão que o cliente acha ser a corrente. Quando vem e não bate, a
+             *     gravação é recusada com 409 em vez de sobrescrever escrita que o cliente não viu. Ausente
+             *     significa "não sei", e passa: cliente antigo não é bloqueado.
+             */
+            expectedRevision?: number;
             sourceSnapshotId?: string;
             title?: string;
         };
@@ -21150,6 +21162,18 @@ export interface components {
         "pdfdoc.DeckSlide": {
             cards?: components["schemas"]["pdfdoc.DeckCard"][];
             eyebrow?: string;
+            /**
+             * @description ID — identidade estável do slide, opaca, atribuída no servidor.
+             *
+             *     Sem ela o slide só é endereçável pelo índice no array, e índice muda quando alguém
+             *     reordena. Uma sugestão criada sobre "o slide 6" e aceita depois de um reorder escreveria
+             *     no slide errado, sem erro e sem log, num documento que o paciente lê. É a mesma classe de
+             *     falha do `overflow:hidden`, que engole conteúdo em silêncio.
+             *
+             *     Vazio na entrada é tolerado (deck escrito à mão, plano antigo): o serviço preenche ao
+             *     carregar. Quem edita nunca inventa um ID: copia o que veio.
+             */
+            id?: string;
             kicker?: string;
             kind?: components["schemas"]["pdfdoc.DeckSlideKind"];
             lede?: string;
@@ -21179,6 +21203,18 @@ export interface components {
             tone?: string;
         };
         "pdfdoc.DeckSummaryLine": {
+            /**
+             * @description Code — o exame de onde `Value` saiu, no vocabulário de `lab_test_definitions.code`.
+             *
+             *     É o que torna o número da linha auditável. Sem ele `Value` é uma string solta sem âncora
+             *     no dossiê, e conferir a proveniência do número passa a ser impossível — não difícil,
+             *     impossível. A linha de resumo é justamente onde o deck concentra mais número por
+             *     centímetro, então é o pior lugar para não ter âncora.
+             *
+             *     Opcional por compatibilidade com os planos que já existem; obrigatório em linha nova
+             *     criada pelo assistente.
+             */
+            code?: string;
             name?: string;
             plot?: number;
             /** @description Ruler é a escala para a mini-régua; sem ela a linha sai sem barra. */

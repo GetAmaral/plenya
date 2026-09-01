@@ -49,10 +49,14 @@ type PatientPlanService struct {
 	db        *gorm.DB
 	documents *PatientDocumentsService
 	signature *SignatureService
+	revisions *PatientPlanRevisionService
 }
 
 func NewPatientPlanService(db *gorm.DB, documents *PatientDocumentsService, signature *SignatureService) *PatientPlanService {
-	return &PatientPlanService{db: db, documents: documents, signature: signature}
+	return &PatientPlanService{
+		db: db, documents: documents, signature: signature,
+		revisions: NewPatientPlanRevisionService(db),
+	}
 }
 
 func (s *PatientPlanService) ListByPatient(patientID uuid.UUID) ([]dto.PatientPlanResponse, error) {
@@ -138,23 +142,49 @@ func (s *PatientPlanService) Create(patientID, authorID uuid.UUID, req *dto.Save
 		}
 		plan.SourceSnapshotID = &id
 	}
-	if err := s.db.Create(&plan).Error; err != nil {
+	plan.Content, _ = EnsureSlideIDs(plan.Content)
+
+	// O plano nasce já com a revisão 1: histórico que começa vazio faz o `revision_seq` mentir e
+	// deixa a primeira edição sem base de comparação.
+	err := s.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&plan).Error; err != nil {
+			return err
+		}
+		seq, err := s.revisions.Record(tx, RecordRevisionInput{
+			Plan: &plan, Title: plan.Title, Content: plan.Content,
+			AuthorKind: models.PlanAuthorHuman, CreatedByID: authorID,
+			Reason: models.PlanRevisionEdit,
+		})
+		if err != nil {
+			return err
+		}
+		plan.RevisionSeq = seq
+		return tx.Model(&plan).Update("revision_seq", seq).Error
+	})
+	if err != nil {
 		return nil, err
 	}
 	return toPatientPlanDTO(&plan), nil
 }
 
 // Update reescreve o conteúdo do plano. Publicar de novo é o que fecha uma versão nova.
-func (s *PatientPlanService) Update(planID, patientID uuid.UUID, req *dto.SavePatientPlanRequest) (*dto.PatientPlanResponse, error) {
+//
+// Toda gravação passa a deixar revisão. `req.ExpectedRevision`, quando vem, é o token de
+// concorrência: cliente que carregou o plano antes de outra escrita (a do assistente, tipicamente)
+// leva conflito em vez de apagar o que não viu.
+func (s *PatientPlanService) Update(planID, patientID, userID uuid.UUID, req *dto.SavePatientPlanRequest) (*dto.PatientPlanResponse, error) {
 	plan, err := s.load(planID, patientID)
 	if err != nil {
+		return nil, err
+	}
+	if err := CheckExpected(plan, req.ExpectedRevision); err != nil {
 		return nil, err
 	}
 	if t := strings.TrimSpace(req.Title); t != "" {
 		plan.Title = t
 	}
 	if req.Content != nil {
-		plan.Content = req.Content
+		plan.Content, _ = EnsureSlideIDs(req.Content)
 	}
 	// Editar volta o plano para rascunho e solta os ponteiros de documento: o conteúdo mudou, então
 	// aqueles PDFs não representam mais este rascunho. O que o PACIENTE vê não se mexe —
@@ -163,7 +193,19 @@ func (s *PatientPlanService) Update(planID, patientID uuid.UUID, req *dto.SavePa
 	plan.Status = models.PatientPlanDraft
 	plan.Document16x9ID = nil
 	plan.DocumentA4ID = nil
-	if err := s.db.Save(plan).Error; err != nil {
+
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		seq, err := s.revisions.Record(tx, RecordRevisionInput{
+			Plan: plan, Title: plan.Title, Content: plan.Content,
+			AuthorKind: models.PlanAuthorHuman, CreatedByID: userID,
+			Reason: models.PlanRevisionEdit,
+		})
+		if err != nil {
+			return err
+		}
+		plan.RevisionSeq = seq
+		return tx.Save(plan).Error
+	}); err != nil {
 		return nil, err
 	}
 	return toPatientPlanDTO(plan), nil
@@ -315,7 +357,22 @@ func (s *PatientPlanService) Publish(planID, patientID, publisherID uuid.UUID) (
 	plan.PublishedContent = plan.Content
 	plan.Document16x9ID = doc169
 	plan.DocumentA4ID = docA4
-	if err := s.db.Save(plan).Error; err != nil {
+
+	// A revisão de publicação é o que preserva os bytes exatos de CADA versão. `PublishedContent`
+	// guarda só a última: sem esta linha, republicar apagava para sempre o que o paciente leu na
+	// versão anterior — o PDF continuava no portal, mas o banco deixava de saber o que havia nele.
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		seq, err := s.revisions.Record(tx, RecordRevisionInput{
+			Plan: plan, Title: plan.Title, Content: plan.Content,
+			AuthorKind: models.PlanAuthorHuman, CreatedByID: publisherID,
+			Reason: models.PlanRevisionPublish, IsPublication: true,
+		})
+		if err != nil {
+			return err
+		}
+		plan.RevisionSeq = seq
+		return tx.Save(plan).Error
+	}); err != nil {
 		return nil, err
 	}
 	return toPatientPlanDTO(plan), nil
@@ -334,6 +391,14 @@ func (s *PatientPlanService) load(planID, patientID uuid.UUID) (*models.PatientP
 	}
 	if err != nil {
 		return nil, err
+	}
+	// Deck escrito fora da tela (a skill, um PUT direto) chega sem id de slide. Preencher aqui, e
+	// não só na migration, é o que garante alvo estável para toda operação e sugestão.
+	if slides, mudou := EnsureSlideIDs(plan.Content); mudou {
+		plan.Content = slides
+		if err := s.db.Model(&plan).Update("content", plan.Content).Error; err != nil {
+			return nil, err
+		}
 	}
 	return &plan, nil
 }
@@ -357,6 +422,7 @@ func toPatientPlanDTO(p *models.PatientPlan) *dto.PatientPlanResponse {
 		Title:        p.Title,
 		Status:       string(p.Status),
 		Version:      p.Version,
+		RevisionSeq:  p.RevisionSeq,
 		Content:      p.Content,
 		AuthorUserID: p.AuthorUserID.String(),
 		CreatedAt:    p.CreatedAt.Format(time.RFC3339),

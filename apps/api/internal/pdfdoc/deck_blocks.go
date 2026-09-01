@@ -39,6 +39,17 @@ const (
 // preenchidos conforme o Kind. É esta struct que vai e volta do `patient_plans.content` (JSONB),
 // então os nomes JSON são o contrato com o front e com a skill que escreve o plano.
 type DeckSlide struct {
+	// ID — identidade estável do slide, opaca, atribuída no servidor.
+	//
+	// Sem ela o slide só é endereçável pelo índice no array, e índice muda quando alguém
+	// reordena. Uma sugestão criada sobre "o slide 6" e aceita depois de um reorder escreveria
+	// no slide errado, sem erro e sem log, num documento que o paciente lê. É a mesma classe de
+	// falha do `overflow:hidden`, que engole conteúdo em silêncio.
+	//
+	// Vazio na entrada é tolerado (deck escrito à mão, plano antigo): o serviço preenche ao
+	// carregar. Quem edita nunca inventa um ID: copia o que veio.
+	ID string `json:"id,omitempty"`
+
 	Kind    DeckSlideKind `json:"kind"`
 	Variant string        `json:"variant,omitempty"`
 
@@ -108,8 +119,18 @@ type DeckRulerBlock struct {
 
 // DeckSummaryLine — uma linha do resumo: nome, mini-régua e valor.
 type DeckSummaryLine struct {
-	Name  string `json:"name"`
-	Sub   string `json:"sub,omitempty"`
+	Name string `json:"name"`
+	Sub  string `json:"sub,omitempty"`
+	// Code — o exame de onde `Value` saiu, no vocabulário de `lab_test_definitions.code`.
+	//
+	// É o que torna o número da linha auditável. Sem ele `Value` é uma string solta sem âncora
+	// no dossiê, e conferir a proveniência do número passa a ser impossível — não difícil,
+	// impossível. A linha de resumo é justamente onde o deck concentra mais número por
+	// centímetro, então é o pior lugar para não ter âncora.
+	//
+	// Opcional por compatibilidade com os planos que já existem; obrigatório em linha nova
+	// criada pelo assistente.
+	Code  string `json:"code,omitempty"`
 	Value string `json:"value"`
 	Unit  string `json:"unit,omitempty"`
 	// Ruler é a escala para a mini-régua; sem ela a linha sai sem barra.

@@ -47,7 +47,16 @@ type PatientPlan struct {
 	PublishedContent []pdfdoc.DeckSlide `gorm:"type:jsonb;serializer:json" json:"publishedContent,omitempty"`
 
 	SourceSnapshotID *uuid.UUID `gorm:"type:uuid" json:"sourceSnapshotId,omitempty"`
-	AuthorUserID     uuid.UUID  `gorm:"type:uuid;not null" json:"authorUserId"`
+
+	// RevisionSeq — número da última revisão do rascunho, e o token de concorrência otimista.
+	// Quem grava manda o valor que acha ser o corrente e leva conflito se não bater. Não confundir
+	// com `Version`, que conta publicações.
+	RevisionSeq int `gorm:"not null;default:0" json:"revisionSeq"`
+
+	// PublishedRevisionID — a revisão que virou a publicação corrente. É por ela que se recupera
+	// o conteúdo exato de uma versão anterior: `PublishedContent` guarda só a última.
+	PublishedRevisionID *uuid.UUID `gorm:"type:uuid" json:"publishedRevisionId,omitempty"`
+	AuthorUserID        uuid.UUID  `gorm:"type:uuid;not null" json:"authorUserId"`
 
 	PublishedAt    *time.Time `gorm:"type:timestamptz" json:"publishedAt,omitempty"`
 	Document16x9ID *uuid.UUID `gorm:"type:uuid;column:document_16x9_id" json:"document16x9Id,omitempty"`
