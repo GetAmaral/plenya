@@ -131,10 +131,56 @@ func serveMedia(c *fiber.Ctx, res *services.ActivityMediaResult) error {
 	if res.MIME != "" {
 		c.Set("Content-Type", res.MIME)
 	}
-	if res.Filename != "" {
-		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
-	}
+	setContentDisposition(c, res)
 	return c.Send(res.Bytes)
+}
+
+// setContentDisposition escreve o nome do arquivo com acento preservado.
+// `filename=` leva a versão ASCII (fallback); o `filename*` em UTF-8 leva o nome real —
+// sem ele "Laboratório.pdf" chegava ao médico como "Laboratrio.pdf". O valor é
+// percent-encoded, então não há como injetar CR/LF nem aspas no header.
+func setContentDisposition(c *fiber.Ctx, res *services.ActivityMediaResult) {
+	if res.Filename == "" {
+		return
+	}
+	v := "inline; filename=\"" + res.Filename + "\""
+	if display := headerSafeName(res.DisplayFilename); display != "" && display != res.Filename {
+		v += "; filename*=UTF-8''" + rfc5987Escape(display)
+	}
+	c.Set("Content-Disposition", v)
+}
+
+// headerSafeName tira diretório e limita o tamanho do nome que vai pro header — o
+// nome vem do remetente (WhatsApp/e-mail), então nunca entra inteiro nem com caminho.
+func headerSafeName(name string) string {
+	if i := strings.LastIndexAny(name, "/\\"); i >= 0 {
+		name = name[i+1:]
+	}
+	r := []rune(name)
+	if len(r) > 120 {
+		name = string(r[:120])
+	}
+	return name
+}
+
+// rfc5987Escape percent-encoda tudo que não seja attr-char da RFC 5987. url.PathEscape
+// não serve: ele deixa `;` e `,` passarem, e aí o resto do header vira "outro parâmetro".
+func rfc5987Escape(s string) string {
+	const hex = "0123456789ABCDEF"
+	var b strings.Builder
+	for i := 0; i < len(s); i++ {
+		ch := s[i]
+		switch {
+		case ch >= 'a' && ch <= 'z', ch >= 'A' && ch <= 'Z', ch >= '0' && ch <= '9',
+			strings.IndexByte("!#$&+-.^_`|~", ch) >= 0:
+			b.WriteByte(ch)
+		default:
+			b.WriteByte('%')
+			b.WriteByte(hex[ch>>4])
+			b.WriteByte(hex[ch&0x0f])
+		}
+	}
+	return b.String()
 }
 
 // SignedMediaURL — GET /conversations/:type/:id/media/:activityId/signed (autenticado)
@@ -190,9 +236,7 @@ func serveMediaRanged(c *fiber.Ctx, res *services.ActivityMediaResult) error {
 	// Documento aberto por esta rota (PDF de exame) tem que chegar com nome: sem o
 	// Content-Disposition o navegador salva com o UUID do storage. `inline` mantém a
 	// pré-visualização (iOS abre o PDF e o usuário salva/compartilha de lá).
-	if res.Filename != "" {
-		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
-	}
+	setContentDisposition(c, res)
 	total := len(res.Bytes)
 	spec := strings.TrimPrefix(c.Get("Range"), "bytes=")
 	if spec == c.Get("Range") || spec == "" { // sem Range válido → corpo inteiro

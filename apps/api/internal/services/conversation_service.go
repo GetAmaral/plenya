@@ -201,7 +201,7 @@ func (s *ConversationService) GetAttachmentFile(ownerType string, ownerID, activ
 	// Re-deriva e clampa o MIME dos bytes reais (não confia no content_type do metadata)
 	// e sanitiza o filename antes de virar header — evita XSS/header-injection.
 	mime := clampMediaMIME(DetectBytesMime(data).ContentType)
-	return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(att.Filename)}, nil
+	return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(att.Filename), DisplayFilename: att.Filename}, nil
 }
 
 // SaveActivityMediaToProntuario salva uma mídia/anexo (e-mail ou WhatsApp) de uma
@@ -361,7 +361,12 @@ type ActivityMediaResult struct {
 	FilePath string
 	Bytes    []byte
 	MIME     string
+	// Filename é o nome já sanitizado pra ASCII — serve de fallback no
+	// Content-Disposition pra cliente antigo.
 	Filename string
+	// DisplayFilename é o nome como o remetente mandou ("Laboratório.pdf"), usado no
+	// `filename*=UTF-8''…`. Sem ele o acento some e o exame chega como "Laboratrio.pdf".
+	DisplayFilename string
 }
 
 // GetActivityMedia resolve a mídia de uma LeadActivity após validar que ela
@@ -406,7 +411,7 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 			filename = doc.FileName
 		}
 		// ContentType do prontuário já validado por magic bytes (pdf/jpg/png) na criação.
-		return &ActivityMediaResult{Bytes: data, MIME: clampMediaMIME(doc.ContentType), Filename: sanitizeDocFilename(filename)}, nil
+		return &ActivityMediaResult{Bytes: data, MIME: clampMediaMIME(doc.ContentType), Filename: sanitizeDocFilename(filename), DisplayFilename: filename}, nil
 	}
 
 	// Mídia no bucket cifrado da conversa.
@@ -434,10 +439,10 @@ func (s *ConversationService) GetActivityMedia(ownerType string, ownerID, activi
 		// faltar ou falhar, cai pro original (toca em Chrome/Firefox/desktop).
 		if mime == "audio/ogg" {
 			if aac, ok := s.waMedia.OpenTranscodedAAC(*act.MediaStorageKey, data); ok {
-				return &ActivityMediaResult{Bytes: aac, MIME: "audio/mp4", Filename: sanitizeDocFilename(swapExt(filename, ".m4a"))}, nil
+				return &ActivityMediaResult{Bytes: aac, MIME: "audio/mp4", Filename: sanitizeDocFilename(swapExt(filename, ".m4a")), DisplayFilename: swapExt(filename, ".m4a")}, nil
 			}
 		}
-		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(filename)}, nil
+		return &ActivityMediaResult{Bytes: data, MIME: mime, Filename: sanitizeDocFilename(filename), DisplayFilename: filename}, nil
 	}
 
 	return nil, ErrConversationAttachmentInvalid
