@@ -48,10 +48,11 @@ func maxF(a, b float64) float64 {
 type PatientPlanService struct {
 	db        *gorm.DB
 	documents *PatientDocumentsService
+	signature *SignatureService
 }
 
-func NewPatientPlanService(db *gorm.DB, documents *PatientDocumentsService) *PatientPlanService {
-	return &PatientPlanService{db: db, documents: documents}
+func NewPatientPlanService(db *gorm.DB, documents *PatientDocumentsService, signature *SignatureService) *PatientPlanService {
+	return &PatientPlanService{db: db, documents: documents, signature: signature}
 }
 
 func (s *PatientPlanService) ListByPatient(patientID uuid.UUID) ([]dto.PatientPlanResponse, error) {
@@ -65,6 +66,37 @@ func (s *PatientPlanService) ListByPatient(patientID uuid.UUID) ([]dto.PatientPl
 		out[i] = *toPatientPlanDTO(&rows[i])
 	}
 	return out, nil
+}
+
+// ListPublished — o que o PACIENTE pode ver. Rascunho é trabalho em andamento do médico e nunca
+// aparece no portal, mesmo que o paciente saiba o id.
+func (s *PatientPlanService) ListPublished(patientID uuid.UUID) ([]dto.PatientPlanResponse, error) {
+	var rows []models.PatientPlan
+	if err := s.db.
+		Where("patient_id = ? AND status = ?", patientID, models.PatientPlanPublished).
+		Order("published_at DESC").Find(&rows).Error; err != nil {
+		return nil, err
+	}
+	out := make([]dto.PatientPlanResponse, len(rows))
+	for i := range rows {
+		out[i] = *toPatientPlanDTO(&rows[i])
+	}
+	return out, nil
+}
+
+// GetPublished — um plano publicado do próprio paciente. O filtro por status entra na consulta, não
+// depois: um plano em rascunho tem que responder "não existe", não "existe mas você não pode ver".
+func (s *PatientPlanService) GetPublished(patientID, planID uuid.UUID) (*dto.PatientPlanResponse, error) {
+	var plan models.PatientPlan
+	err := s.db.Where("id = ? AND patient_id = ? AND status = ?",
+		planID, patientID, models.PatientPlanPublished).First(&plan).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, ErrPatientPlanNotFound
+	}
+	if err != nil {
+		return nil, err
+	}
+	return toPatientPlanDTO(&plan), nil
 }
 
 func (s *PatientPlanService) Get(planID, patientID uuid.UUID) (*dto.PatientPlanResponse, error) {
@@ -146,6 +178,11 @@ func (s *PatientPlanService) Preview(planID, patientID uuid.UUID) (string, error
 	if err != nil {
 		return "", err
 	}
+	// Rascunho recém-criado ainda não tem slide: é caso normal, e a tela precisa de um 400 com
+	// explicação, não de um 500.
+	if len(plan.Content) == 0 {
+		return "", ErrPatientPlanEmpty
+	}
 	return pdfdoc.DeckHTML(s.deck(plan))
 }
 
@@ -195,10 +232,13 @@ func (s *PatientPlanService) Publish(planID, patientID, publisherID uuid.UUID) (
 		return nil, &ErrPatientPlanOverflow{Slides: over}
 	}
 
-	// Publicar de novo é uma versão nova: o documento antigo continua no portal, e o `source_ref`
-	// da versão nova é diferente, então nada é sobrescrito nem deduplicado por engano.
+	// Publicar depois de EDITAR é uma versão nova: o documento antigo continua no portal e o
+	// `source_ref` novo é diferente, então nada é sobrescrito. Clicar "publicar" duas vezes num
+	// plano intocado não é isso — ali a versão fica onde está, o source_ref bate e o
+	// `CreateFromBytes` devolve os mesmos documentos, sem encher a lista do paciente de PDFs
+	// idênticos. `Update` é quem devolve o plano para rascunho.
 	version := plan.Version
-	if plan.PublishedAt != nil {
+	if plan.PublishedAt != nil && plan.Status == models.PatientPlanDraft {
 		version++
 	}
 	now := time.Now()
@@ -310,4 +350,110 @@ func toPatientPlanDTO(p *models.PatientPlan) *dto.PatientPlanResponse {
 		r.DocumentA4ID = &v
 	}
 	return r
+}
+
+// PublishReport gera o TERCEIRO modo do plano: o relatório A4 assinado.
+//
+// Mesmo conteúdo dos slides, achatado no documento fluido da papelaria e assinado com ICP-Brasil.
+// A separação é deliberada: o deck 16:9/A4 é peça de comunicação e não leva assinatura; o
+// relatório é o documento clínico, e é ele que vale como registro assinado.
+func (s *PatientPlanService) PublishReport(planID, patientID, doctorID uuid.UUID) (string, error) {
+	plan, err := s.load(planID, patientID)
+	if err != nil {
+		return "", err
+	}
+	if len(plan.Content) == 0 {
+		return "", ErrPatientPlanEmpty
+	}
+
+	var patient models.Patient
+	if err := s.db.First(&patient, patientID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return "", ErrPatientNotFound
+		}
+		return "", err
+	}
+	var doctor models.User
+	if err := s.db.First(&doctor, doctorID).Error; err != nil {
+		return "", err
+	}
+
+	// IssuedDocument em rascunho primeiro: o id dele é o que entra no QR de validação impresso.
+	doc := &models.IssuedDocument{
+		PatientID:      patientID,
+		DoctorID:       doctorID,
+		Type:           models.IssuedDocReport,
+		Title:          plan.Title,
+		Body:           "Relatório de devolutiva.",
+		Status:         models.IssuedDocDraft,
+		IssuedByUserID: doctorID,
+	}
+	if err := s.db.Create(doc).Error; err != nil {
+		return "", err
+	}
+
+	validationURL := fmt.Sprintf("https://app.plenyasaude.com.br/documentos/validar/%s", doc.ID)
+	now := time.Now()
+
+	render := func(digital bool) ([]byte, error) {
+		return pdfdoc.RenderPlanReport(pdfdoc.PlanReport{
+			Title:     plan.Title,
+			Patient:   pdfdoc.Patient{Name: patient.Name},
+			Slides:    plan.Content,
+			EmittedAt: now.In(saoPaulo()).Format("02/01/2006"),
+			Doctor:    pdfdoc.Doctor{Name: doctor.Name, Credentials: doctorCredentials(&doctor)},
+			Signature: pdfdoc.Signature{
+				Digital:     digital,
+				SignedAt:    signedAtPT(&now),
+				ValidateURL: validationURL,
+				PlaceDate:   placeDatePT(now),
+			},
+		})
+	}
+
+	out, err := signOrDegrade(s.signature, &doctor, doctorID,
+		"Assinatura Digital de Relatório Médico", "Plenya EMR - Relatório de devolutiva", render)
+	if err != nil {
+		return "", fmt.Errorf("erro ao gerar o relatório do plano: %w", err)
+	}
+
+	// A chave de idempotência é o IssuedDocument, NÃO a versão do plano.
+	//
+	// Cada geração de relatório é um documento assinado novo, com um QR de validação próprio
+	// impresso dentro dele. Chaveando por versão, editar os slides sem republicar o deck (o que não
+	// muda a versão) e gerar o relatório de novo casava com o source_ref antigo: o
+	// `CreateFromBytes` devolvia o PDF ANTIGO, o render novo ia fora, e o paciente ficava com um
+	// arquivo cujo QR aponta para um IssuedDocument diferente do que o banco registrou.
+	sourceRef := "patient_plan_report:" + doc.ID.String()
+	uploadedBy := doctorID
+	patientDoc, err := s.documents.CreateFromBytes(CreateFromBytesInput{
+		PatientID:  patientID,
+		Bytes:      out.Bytes,
+		Filename:   utils.DocumentFileName(patient.Name, "Relatorio", now, doc.ID),
+		Title:      plan.Title,
+		Type:       models.DocumentTypeReport,
+		Source:     models.DocumentSourceStaffUpload,
+		UploadedBy: &uploadedBy,
+		SourceRef:  &sourceRef,
+	})
+	if err != nil {
+		return "", fmt.Errorf("erro ao publicar o relatório: %w", err)
+	}
+
+	updates := map[string]interface{}{
+		"status":                models.IssuedDocSigned,
+		"has_digital_signature": out.Digital,
+		"signed_at":             now,
+		"signed_pdf_hash":       out.Hash,
+		"signed_pdf_path":       patientDoc.FilePath,
+		"qr_code_data":          validationURL,
+		"patient_document_id":   patientDoc.ID,
+	}
+	if out.CertSerial != nil {
+		updates["certificate_serial"] = *out.CertSerial
+	}
+	if err := s.db.Model(doc).Updates(updates).Error; err != nil {
+		return "", err
+	}
+	return doc.ID.String(), nil
 }

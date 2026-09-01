@@ -311,14 +311,100 @@ Revalidado depois de tudo: gabarito do Ricardo segue em **67/68 no eixo e 68/68 
 dossiê do João segue com 111 réguas, e o round-trip de uma régua pelo banco volta com as chaves em
 minúsculas e sem `Dark`.
 
-## 6 · Próximas fases
+---
 
-- **Fase 2** — relatório AGIR como modo do deck + tela no portal do paciente. Limpar o código morto
-  `CarePlanReportService.buildReportHTML` e o campo `pdf *ScorePDFService`, nunca usado.
-- **Fase 3** — skill `.claude/skills/plano-paciente/`, que é onde a autoria do conteúdo mora.
+## 6 · Fase 2 — o relatório como modo, a tela do portal e as três fontes (CONCLUÍDA)
 
-Ainda em aberto para a Fase 2: o `DeckHTML` já serve a tela do portal, mas precisa de uma camada
-responsiva (hoje o slide é fixo em 1920×1080; no celular tem que virar pilha legível, não zoom).
+### O relatório virou o terceiro modo
+
+`pdfdoc/deck_report.go` achata os MESMOS slides no documento A4 fluido da papelaria, assinado com
+ICP-Brasil. Nenhum texto é reescrito e nenhuma régua é redesenhada: a régua é SVG com `viewBox`,
+então encolher de 1714px para os 170mm do miolo é só largura. Rota
+`POST /patients/:id/plans/:planId/report` (`RequireDoctor` — relatório assinado é ato médico).
+
+O deck 16:9 e o A4 paisagem continuam **sem assinatura**: são peça de comunicação. O relatório é o
+documento clínico. Verificado: o mesmo plano gerou `v2:16x9`, `v2:a4` e o relatório, os três a
+partir do mesmo conteúdo.
+
+Limpeza que veio junto: `care_plan_report_service.go` foi de 288 para 165 linhas
+(`buildReportHTML` morto, o mapa `reportLevelColor` que só vivia nele, e o campo
+`pdf *ScorePDFService` injetado e nunca lido). O fluxo "assina ou degrada" virou `signOrDegrade`,
+compartilhado pelos dois relatórios.
+
+### A tela do portal é HTML nativo
+
+`components/patient-portal/plan-deck.tsx` redesenha os 8 blocos para tela vertical: tipografia em
+`clamp`, grades que caem para uma coluna, e a régua com o nome **acima** da barra em vez de numa
+coluna lateral — no celular aquela coluna deixaria a barra com dois centímetros. Não há
+`dangerouslySetInnerHTML`: a ênfase é reconstruída como elemento React, com a MESMA lista de tags do
+servidor (`pdfdoc.inlineAllowed`).
+
+O paciente só vê plano **publicado**, e o filtro está na consulta: um rascunho responde "não
+encontrado", nunca "existe mas você não pode ver".
+
+### As três fontes (consulta, anamnese, exames)
+
+O dossiê lia só exames. Passou a ler as três, **inclusive o que está em rascunho**:
+
+- **Exames** — já lia, e não filtra status do lote. Isso é load-bearing: no dev os 22 lotes estão em
+  `pending`, e um filtro por `completed` devolveria um dossiê vazio.
+- **Anamnese** — `anamnesis_items` liga direto ao `score_item_id`. O nível vem de `selected_level`,
+  NUNCA de `numeric_value` (ler o número cru no lugar do nível já zerou o escore antes). O mesmo
+  item respondido em consultas diferentes vira **histórico**, então tem direção igual a um exame.
+  Não há filtro de "finalizada": a tabela nem tem status, e a anamnese da consulta de hoje é
+  justamente a que interessa.
+- **Consulta** — `consultation_vitals` entra como bloco factual (pressão, frequência, peso, altura,
+  cintura, IMC), com as duas últimas medidas para dar direção. O deck cita esses números direto
+  ("a pressão está em 120 por 70, sem remédio nenhum") e eles não vêm de exame nenhum.
+
+Medido no dev: 102 achados de exame + 3 de anamnese + vitais, todos na mesma lista ordenada.
+
+### A ordenação de "está bem" mudou por causa disso
+
+Ligar a anamnese fez o paciente demo devolver **99 achados** em "está bem", quase todos
+"Adrenalectomia: não" em nível 5 com zero pontos perdidos — a mesma inflação de checklist de
+ausência já conhecida no escore ([[escore_inflacao_e_devolutiva_estudo]]).
+
+A causa é de ordenação: em nível 4-5 ninguém perdeu ponto, então ordenar "está bem" por pontos
+perdidos deixa a lista inteira empatada em zero e sem sinal. Agora **"se movendo" ordena por pontos
+perdidos** (o que se está deixando na mesa) e **"está bem" ordena pelo peso do item** (o marcador
+pesado que está no ótimo). O topo do demo passou a ser doença cardiovascular ausente (25pts),
+câncer (20), tempo de sono (20) — que é o que uma devolutiva de fato diz.
+
+### Rotina de qualidade da Fase 2
+
+Build, `go vet`, `gofmt`, suíte completa, `tsc --noEmit` (0 erros) e casos-limite. A revisão achou
+**9**, todos corrigidos. Os que valem registro:
+
+1. **Republicar o relatório entregava o PDF antigo com o QR errado (ALTA).** O `source_ref` era
+   `patient_plan:<id>:v<n>:report`, mas `Update` não sobe a versão — só `Publish`. Editar os slides
+   e gerar o relatório de novo casava com o ref antigo: `CreateFromBytes` devolvia o PDF velho, o
+   render novo ia fora, e o paciente ficava com um arquivo cujo QR aponta para um `IssuedDocument`
+   diferente do que o banco registrou. A identidade do relatório é o `IssuedDocument`, não a versão
+   do plano — a chave passou a ser `patient_plan_report:<docID>`.
+2. **A régua saía a ~5px no relatório assinado.** As classes `.rg-*` só existiam no `deckCSS`; sem
+   elas o `<text>` herda o corpo do documento, e como o valor é lido em unidades do `viewBox`, 13
+   unidades viram menos de 5px impressos. Repetidas no `reportDeckCSS`, com teste.
+3. **A tela do EMR usava o paciente do SELETOR, não o da rota.** Abrir `/patients/X/plano` com o
+   paciente Y selecionado mostraria os planos de Y — e "Publicar no portal" entregaria a devolutiva
+   de Y. Agora usa o parâmetro da rota, como a tela irmã de `subscriptions`; o seletor continua
+   como guarda de sessão.
+4. **`<br>` e `<small>` apareciam literais na tela** enquanto quebravam linha nos dois PDFs: a lista
+   de tags do portal divergia da do servidor.
+5. **As faixas da régua do portal eram empilhadas em fluxo**, o que assume que cobrem o eixo sem
+   buraco; um nível com limite ilegível é descartado na derivação e todas as faixas seguintes
+   escorregariam, deixando a bolinha do paciente sobre a cor errada. Agora cada faixa é posicionada
+   pelo próprio valor, como no Go.
+6. **A folga do eixo encolhia em valor negativo** (multiplicar -3,5 por 0,96 o aproxima do zero), e
+   o eixo nunca continha o ponto. Passou a crescer pela magnitude.
+7. Publicar duas vezes um plano intocado criava uma versão e um par de PDFs idênticos.
+8. `signOrDegrade` com serviço de assinatura ausente devolvia um PDF que **afirma** ser assinado.
+9. Prévia de rascunho vazio dava 500 em vez de 400.
+
+## 7 · Próxima fase
+
+- **Fase 3** — skill `.claude/skills/plano-paciente/`, que é onde a autoria do conteúdo mora: puxa o
+  dossiê, propõe o arco narrativo e escreve os títulos em voz de paciente.
 
 ### Regra editorial que a evidência impõe
 

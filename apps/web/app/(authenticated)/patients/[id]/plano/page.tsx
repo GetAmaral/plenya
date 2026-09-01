@@ -30,6 +30,7 @@ import {
 
 import { useRequireAuth } from '@/lib/use-auth';
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient';
+import { usePatient } from '@/lib/api/patient-api';
 import { apiClient } from '@/lib/api-client';
 import {
   usePatientPlans,
@@ -63,10 +64,13 @@ export default function PatientPlanPage() {
   const params = useParams();
   const routeId = String(params?.id ?? '');
 
-  // O prontuário é SEMPRE isolado pelo paciente selecionado: toda consulta abaixo é escopada por
-  // ele, e a tela não abre sem ele.
-  const { selectedPatient } = useRequireSelectedPatient();
-  const patientId = selectedPatient?.id ?? '';
+  // O paciente desta tela é o da ROTA, não o do seletor global. A distinção importa aqui mais do
+  // que em qualquer outra tela: abrir /patients/X/plano com o paciente Y selecionado no topo
+  // mostraria os planos de Y sob a URL de X — e "Publicar no portal" entregaria a devolutiva de Y.
+  // O seletor continua sendo exigido como guarda de sessão, igual às telas irmãs.
+  useRequireSelectedPatient();
+  const patientId = routeId;
+  const { data: patient } = usePatient(patientId);
 
   const { data: plans = [], isLoading } = usePatientPlans(patientId || undefined);
   const createPlan = useCreatePatientPlan(patientId);
@@ -190,7 +194,7 @@ export default function PatientPlanPage() {
     }
   };
 
-  if (!selectedPatient) {
+  if (!patientId) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -207,7 +211,7 @@ export default function PatientPlanPage() {
         </Button>
         <div>
           <h1 className="text-xl font-semibold">Plano de devolutiva</h1>
-          <p className="text-sm text-muted-foreground">{selectedPatient.name}</p>
+          <p className="text-sm text-muted-foreground">{patient?.name ?? ''}</p>
         </div>
         <Button className="ml-auto" onClick={handleCreate} disabled={createPlan.isPending}>
           {createPlan.isPending ? (

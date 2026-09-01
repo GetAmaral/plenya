@@ -5078,6 +5078,93 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patient/me/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Meus planos de devolutiva (portal)
+         * @description Só os publicados. Rascunho é trabalho em andamento do médico.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patient/me/plans/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Um plano publicado meu (portal) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do plano (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plan-dossier": {
         parameters: {
             query?: never;
@@ -5508,6 +5595,72 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["dto.PatientPlanOverflowResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publica o relatório A4 assinado do plano
+         * @description Terceiro modo do MESMO conteúdo: os slides achatados no documento fluido da
+         *     papelaria, assinado com ICP-Brasil. O deck 16:9/A4 é peça de comunicação e não leva
+         *     assinatura; este é o documento clínico.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            [key: string]: string;
+                        };
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
                     };
                 };
             };
@@ -17691,11 +17844,23 @@ export interface components {
             };
             snapshot?: components["schemas"]["dto.PlanDossierSnapshot"];
             strong?: components["schemas"]["dto.PlanFinding"][];
+            /** @description Vitals — a medida mais recente da consulta e a anterior, para dar direção ao número. */
+            vitals?: components["schemas"]["dto.PlanDossierVitals"][];
         };
         "dto.PlanDossierSnapshot": {
             calculatedAt?: string;
             id?: string;
             totalPercentage?: number;
+        };
+        "dto.PlanDossierVitals": {
+            bmi?: number;
+            diastolicBp?: number;
+            heartRate?: number;
+            height?: number;
+            measuredAt?: string;
+            systolicBp?: number;
+            waistCircumference?: number;
+            weight?: number;
         };
         "dto.PlanFinding": {
             code?: string;
@@ -17711,6 +17876,7 @@ export interface components {
             pointsLost?: number;
             /** @description Reason — por que este achado entrou nesta lista, em uma frase. */
             reason?: string;
+            source?: components["schemas"]["dto.PlanFindingSource"];
             text?: string;
             trend?: components["schemas"]["dto.PlanFindingTrend"];
             unit?: string;
@@ -17718,6 +17884,8 @@ export interface components {
         };
         /** @enum {string} */
         "dto.PlanFindingKind": "strong" | "moving";
+        /** @enum {string} */
+        "dto.PlanFindingSource": "lab" | "anamnesis";
         /** @enum {string} */
         "dto.PlanFindingTrend": "single" | "stable" | "improving" | "worsening";
         "dto.PlanRuler": {

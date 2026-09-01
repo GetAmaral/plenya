@@ -119,6 +119,7 @@ func (s *PatientPlanDossierService) Build(patientID uuid.UUID) (*dto.PlanDossier
 			Age:    patient.Age,
 		},
 		Rulers:      rulers,
+		Vitals:      []dto.PlanDossierVitals{},
 		CarePlan:    []dto.CarePlanItemResponse{},
 		Medications: []dto.PlanDossierPrescription{},
 		GeneratedAt: time.Now().In(saoPaulo()).Format(time.RFC3339),
@@ -149,7 +150,31 @@ func (s *PatientPlanDossierService) Build(patientID uuid.UUID) (*dto.PlanDossier
 		return nil, sErr
 	}
 
+	// O plano não se monta só com exame. A anamnese responde metade do que vira slide (sono,
+	// tabagismo, histórico familiar, IMC), e a medida de consultório responde o resto (pressão,
+	// cintura). As três fontes entram na MESMA lista de achados, ordenadas pelo mesmo critério:
+	// o que mais pesa aparece primeiro, venha de onde vier.
 	out.Strong, out.Moving = classifyFindings(rulers, lostBySnapshot)
+
+	anamRows, aErr := s.loadAnamnesisRows(patientID)
+	if aErr != nil {
+		return nil, aErr
+	}
+	for _, f := range anamnesisFindings(anamRows, lostBySnapshot) {
+		if f.Kind == dto.PlanFindingStrong {
+			out.Strong = append(out.Strong, f)
+		} else {
+			out.Moving = append(out.Moving, f)
+		}
+	}
+	sortStrong(out.Strong)
+	sortMoving(out.Moving)
+
+	vitals, vErr := s.loadVitals(patientID)
+	if vErr != nil {
+		return nil, vErr
+	}
+	out.Vitals = vitals
 
 	if s.carePlan != nil {
 		items, cErr := s.carePlan.ListByPatient(patientID, false)
@@ -176,6 +201,10 @@ func (s *PatientPlanDossierService) Build(patientID uuid.UUID) (*dto.PlanDossier
 
 // loadLabRows traz os resultados numéricos do paciente já ligados ao código do catálogo. A data
 // efetiva é a do exame quando o laudo traz uma ("Coletado em:" por exame) e a do lote quando não.
+//
+// NÃO filtra por status do lote, de propósito: o dossiê tem que enxergar o que já está no
+// prontuário mesmo que ninguém tenha fechado a revisão. Não é detalhe — no dev os 22 lotes estão
+// em `pending`, e um filtro por `completed` devolveria um dossiê vazio.
 func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, error) {
 	var raw []struct {
 		Code       string
@@ -219,6 +248,182 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		}
 		row.Text = resultDisplayText(row.ResultText, r.Numeric)
 		out = append(out, row)
+	}
+	return out, nil
+}
+
+// anamnesisRow — uma resposta de anamnese já ligada ao item de escore.
+type anamnesisRow struct {
+	ScoreItemID uuid.UUID
+	Code        string
+	Name        string
+	Unit        string
+	Points      float64
+	Level       *int
+	Numeric     *float64
+	Text        string
+	Day         string
+}
+
+// loadAnamnesisRows traz as respostas de anamnese do paciente.
+//
+// O nível vem de `selected_level`, NÃO de `numeric_value`: é o que o motor do escore usa, e ler o
+// número cru no lugar do nível já fez o escore sair zerado antes. O `numeric_value` serve para
+// desenhar a régua quando o item é de medida (IMC, razão cintura/altura), não para classificar.
+//
+// Também não há filtro de "finalizada": a tabela nem tem status, e a anamnese da consulta de hoje é
+// justamente a que mais interessa para a devolutiva de hoje.
+func (s *PatientPlanDossierService) loadAnamnesisRows(patientID uuid.UUID) ([]anamnesisRow, error) {
+	var raw []struct {
+		ScoreItemID uuid.UUID
+		Code        *string
+		Name        string
+		Unit        *string
+		Points      *float64
+		Level       *int
+		Numeric     *float64
+		TextValue   *string
+		Measured    time.Time
+	}
+	err := s.db.
+		Table("anamnesis_items AS ai").
+		Select(`ai.score_item_id      AS score_item_id,
+		        si.anamnese_item_code AS code,
+		        si.name               AS name,
+		        si.unit               AS unit,
+		        si.points             AS points,
+		        ai.selected_level     AS level,
+		        ai.numeric_value      AS numeric,
+		        ai.text_value         AS text_value,
+		        a.consultation_date   AS measured`).
+		Joins("JOIN anamnesis a ON a.id = ai.anamnesis_id AND a.deleted_at IS NULL").
+		Joins("JOIN score_items si ON si.id = ai.score_item_id AND si.deleted_at IS NULL").
+		Where("a.patient_id = ? AND ai.deleted_at IS NULL AND ai.selected_level IS NOT NULL", patientID).
+		Order("measured ASC").
+		Scan(&raw).Error
+	if err != nil {
+		return nil, err
+	}
+
+	out := make([]anamnesisRow, 0, len(raw))
+	for _, r := range raw {
+		row := anamnesisRow{
+			ScoreItemID: r.ScoreItemID,
+			Name:        r.Name,
+			Level:       r.Level,
+			Numeric:     r.Numeric,
+			Day:         collectionDay(r.Measured),
+		}
+		if r.Code != nil {
+			row.Code = *r.Code
+		}
+		if r.Unit != nil {
+			row.Unit = *r.Unit
+		}
+		if r.Points != nil {
+			row.Points = *r.Points
+		}
+		switch {
+		case r.Numeric != nil:
+			row.Text = formatNumberPT(*r.Numeric)
+		case r.TextValue != nil:
+			row.Text = strings.TrimSpace(*r.TextValue)
+		}
+		out = append(out, row)
+	}
+	return out, nil
+}
+
+// anamnesisFindings transforma as respostas em achados, com a MESMA regra de classificação e
+// ordenação dos exames. Uma resposta que muda entre consultas tem direção, igual a um exame que
+// muda entre coletas.
+func anamnesisFindings(rows []anamnesisRow, lostBySnapshot map[uuid.UUID]float64) []dto.PlanFinding {
+	byItem := map[uuid.UUID][]anamnesisRow{}
+	var ordem []uuid.UUID
+	for _, r := range rows {
+		if _, seen := byItem[r.ScoreItemID]; !seen {
+			ordem = append(ordem, r.ScoreItemID)
+		}
+		byItem[r.ScoreItemID] = append(byItem[r.ScoreItemID], r)
+	}
+
+	out := make([]dto.PlanFinding, 0, len(ordem))
+	for _, id := range ordem {
+		hist := byItem[id]
+		last := hist[len(hist)-1]
+		if last.Level == nil {
+			continue
+		}
+		level := *last.Level
+
+		trend := dto.PlanTrendSingle
+		if len(hist) >= 2 {
+			prev := hist[len(hist)-2]
+			switch {
+			case prev.Level == nil:
+			case level > *prev.Level:
+				trend = dto.PlanTrendImproving
+			case level < *prev.Level:
+				trend = dto.PlanTrendWorsening
+			default:
+				trend = dto.PlanTrendStable
+			}
+		}
+
+		lost, ok := lostBySnapshot[id]
+		if !ok {
+			lost = last.Points * float64(5-clampInt(level, 0, 5)) / 5
+		}
+
+		f := dto.PlanFinding{
+			Source: dto.PlanSourceAnamnesis,
+			Code:   last.Code, Name: last.Name, Unit: last.Unit,
+			Level: level, Text: last.Text, Date: last.Day,
+			Points: last.Points, Trend: trend, PointsLost: math.Max(lost, 0),
+		}
+		if last.Numeric != nil {
+			f.Value = *last.Numeric
+		}
+
+		switch {
+		case level <= 2:
+			f.Kind = dto.PlanFindingMoving
+			f.Reason = fmt.Sprintf("nível %d na escala do escore", level)
+		case trend == dto.PlanTrendWorsening:
+			f.Kind = dto.PlanFindingMoving
+			f.Reason = "piorou em relação à consulta anterior"
+		case level >= 4:
+			f.Kind = dto.PlanFindingStrong
+			f.Reason = fmt.Sprintf("nível %d na escala do escore", level)
+		default:
+			continue
+		}
+		out = append(out, f)
+	}
+	return out
+}
+
+// loadVitals traz as duas últimas medidas de consultório. Duas, e não uma, porque um número de
+// pressão sozinho não diz se está subindo.
+func (s *PatientPlanDossierService) loadVitals(patientID uuid.UUID) ([]dto.PlanDossierVitals, error) {
+	var rows []models.ConsultationVitals
+	if err := s.db.Where("patient_id = ?", patientID).
+		Order("measured_at DESC").Limit(2).Find(&rows).Error; err != nil {
+		return nil, err
+	}
+	out := make([]dto.PlanDossierVitals, 0, len(rows))
+	for i := range rows {
+		v := rows[i]
+		out = append(out, dto.PlanDossierVitals{
+			MeasuredAt:  collectionDay(v.MeasuredAt),
+			SystolicBP:  v.SystolicBP,
+			DiastolicBP: v.DiastolicBP,
+			HeartRate:   v.HeartRate,
+			Weight:      v.Weight,
+			Height:      v.Height,
+			Waist:       v.WaistCircumference,
+			BMI:         v.BMI,
+		})
 	}
 	return out, nil
 }
@@ -357,9 +562,14 @@ func rulerAxis(edges []float64, history []dto.PlanRulerPoint) []float64 {
 	pad := rulerAxisPad * span
 	lo, hi := edges[0]-pad, edges[len(edges)-1]+pad
 
+	// A folga cresce pela MAGNITUDE do valor, não por multiplicação: num valor negativo,
+	// multiplicar por 0,96 o aproxima do zero em vez de afastá-lo, e o eixo nunca chegava a
+	// conter o ponto do paciente (T-score de -3,5 dava piso -3,36, e a bolinha ia para a borda).
+	const folga = 1 - rulerHistoryPadLow // 0,04 — o mesmo dos dois lados
 	for _, h := range history {
-		lo = math.Min(lo, h.Value*rulerHistoryPadLow)
-		hi = math.Max(hi, h.Value*rulerHistoryPadHigh)
+		margem := math.Abs(h.Value) * folga
+		lo = math.Min(lo, h.Value-margem)
+		hi = math.Max(hi, h.Value+margem)
 	}
 	// Piso em zero SÓ quando a escala é não-negativa. Exame de sangue não tem valor negativo e um
 	// eixo começando abaixo de zero desperdiçaria metade da barra — mas T-score de densitometria
@@ -519,7 +729,8 @@ func classifyFindings(rulers map[string]dto.PlanRuler, lostBySnapshot map[uuid.U
 		}
 
 		f := dto.PlanFinding{
-			Code: code, Name: r.Name, Unit: r.Unit,
+			Source: dto.PlanSourceLab,
+			Code:   code, Name: r.Name, Unit: r.Unit,
 			Level: level, Value: last.Value, Text: last.Text, Date: last.Date,
 			Points: r.Points, Trend: trend, PointsLost: math.Max(lost, 0),
 		}
@@ -540,17 +751,36 @@ func classifyFindings(rulers map[string]dto.PlanRuler, lostBySnapshot map[uuid.U
 		}
 	}
 
-	sortFindings(moving)
-	sortFindings(strong)
+	sortMoving(moving)
+	sortStrong(strong)
 	return strong, moving
 }
 
-// sortFindings ordena por pontos perdidos (o que mais pesa primeiro) e desempata pelo código, para
-// a saída ser estável entre execuções.
-func sortFindings(f []dto.PlanFinding) {
+// sortMoving ordena o que está se movendo por PONTOS PERDIDOS: o que o paciente mais está deixando
+// na mesa aparece primeiro.
+func sortMoving(f []dto.PlanFinding) {
 	sort.Slice(f, func(i, j int) bool {
 		if f[i].PointsLost != f[j].PointsLost {
 			return f[i].PointsLost > f[j].PointsLost
+		}
+		return f[i].Code < f[j].Code
+	})
+}
+
+// sortStrong ordena o que está bem por PESO DO ITEM, não por pontos perdidos.
+//
+// Em nível 4-5 o paciente não perdeu quase nada por definição, então ordenar por pontos perdidos
+// deixaria a lista inteira empatada em zero e sem sinal nenhum. Pior: boa parte da anamnese é
+// checklist de ausência ("Adrenalectomia: não", "Amputação de membro: não"), tudo em nível 5, o que
+// afoga os achados que valem alguma coisa — é a mesma inflação já conhecida no escore. Ordenar pelo
+// peso do item faz o que de fato importa vir primeiro: o marcador pesado que está no ótimo.
+func sortStrong(f []dto.PlanFinding) {
+	sort.Slice(f, func(i, j int) bool {
+		if f[i].Points != f[j].Points {
+			return f[i].Points > f[j].Points
+		}
+		if f[i].Level != f[j].Level {
+			return f[i].Level > f[j].Level
 		}
 		return f[i].Code < f[j].Code
 	})

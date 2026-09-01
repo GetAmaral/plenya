@@ -299,3 +299,59 @@ func TestCheckDeckOverflowAcusaSlideCheioDemais(t *testing.T) {
 		t.Errorf("estouro mal descrito: %+v", over[0])
 	}
 }
+
+func TestRenderPlanReportAchataOsSlidesNoA4Assinado(t *testing.T) {
+	if !chromiumAvailable() {
+		t.Skip("chromium ausente — pulando render")
+	}
+	pdf, err := RenderPlanReport(PlanReport{
+		Title:     "Relatório de devolutiva",
+		Patient:   Patient{Name: "José Ricardo Mattos do Amaral", BirthInfo: "64 anos"},
+		Slides:    sampleDeck().Slides,
+		EmittedAt: "01/09/2026",
+		Doctor:    Doctor{Name: "Dr. Getúlio José Mattos do Amaral Filho", Credentials: "CRM-PR 21.876 · Nefrologia"},
+		Signature: Signature{Digital: true, SignedAt: "01/09/2026, 10:12 (horário de Brasília)",
+			ValidateURL: "https://app.plenyasaude.com.br/documentos/validar/abc"},
+	})
+	if err != nil {
+		t.Fatalf("render relatório: %v", err)
+	}
+	if len(pdf) < 2000 || string(pdf[:5]) != "%PDF-" {
+		t.Fatalf("saída não parece PDF (len=%d)", len(pdf))
+	}
+	_ = os.WriteFile("/tmp/deck-report-test.pdf", pdf, 0o644)
+	t.Logf("relatório: %d bytes -> /tmp/deck-report-test.pdf", len(pdf))
+}
+
+func TestRenderPlanReportRecusaPlanoVazio(t *testing.T) {
+	if _, err := RenderPlanReport(PlanReport{Title: "x"}); err == nil {
+		t.Error("plano sem slides tem que dar erro, não um relatório em branco")
+	}
+}
+
+func TestRenderPlanReportNaoRepeteONomeDoPacienteDaCapa(t *testing.T) {
+	// A papelaria já imprime o nome no bloco de identificação; a capa do deck o traria de novo
+	// dois centímetros abaixo.
+	html := flattenSlide(DeckSlide{Kind: DeckCover, Eyebrow: "Seus exames · 27/08", Title: "José Ricardo", Lede: "Três anos lidos juntos."})
+	if strings.Contains(html, "José Ricardo") {
+		t.Errorf("o título da capa não deveria sair no relatório: %s", html)
+	}
+	if !strings.Contains(html, "Seus exames") || !strings.Contains(html, "Três anos lidos juntos.") {
+		t.Errorf("data e frase de abertura têm que continuar: %s", html)
+	}
+	outro := flattenSlide(DeckSlide{Kind: DeckRulers, Title: "A ferritina dobrou"})
+	if !strings.Contains(outro, "A ferritina dobrou") {
+		t.Errorf("slide comum perdeu o título: %s", outro)
+	}
+}
+
+func TestRelatorioTrazOsTamanhosDeTextoDaRegua(t *testing.T) {
+	// As classes .rg-* vivem no deckCSS, que o relatório não carrega. Sem repeti-las, o <text> herda
+	// o corpo do documento e, como o valor é lido em unidades do viewBox, o nome do exame sai com
+	// menos de 5px no PDF assinado.
+	for _, cls := range []string{".rg-name", ".rg-sub", ".rg-tick", ".rg-val", ".rg-unit", ".rg-old", ".rg-note"} {
+		if !strings.Contains(reportDeckCSS, cls) {
+			t.Errorf("reportDeckCSS não define %s — a régua sairia ilegível no relatório", cls)
+		}
+	}
+}

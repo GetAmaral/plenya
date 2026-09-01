@@ -558,6 +558,40 @@ export function useMyDocuments() {
   return useQuery({ queryKey: ["patient-documents"], queryFn: patientDocumentsApi.list });
 }
 
+// ============================================================
+// Plano de devolutiva — o que o médico explicou na consulta, para reler em casa.
+// Só os publicados chegam aqui; rascunho é trabalho em andamento do médico.
+// ============================================================
+
+export interface MyPlanView {
+  id: string;
+  title: string;
+  status: "draft" | "published";
+  version: number;
+  content: unknown[];
+  publishedAt?: string;
+  document16x9Id?: string;
+  documentA4Id?: string;
+  updatedAt: string;
+}
+
+export const patientPlansApi = {
+  list: () => apiClient.get<MyPlanView[]>("/api/v1/patient/me/plans"),
+  get: (id: string) => apiClient.get<MyPlanView>(`/api/v1/patient/me/plans/${id}`),
+};
+
+export function useMyPlans() {
+  return useQuery({ queryKey: ["patient-plans"], queryFn: patientPlansApi.list });
+}
+
+export function useMyPlan(id: string | undefined) {
+  return useQuery({
+    queryKey: ["patient-plans", id],
+    enabled: !!id,
+    queryFn: () => patientPlansApi.get(id!),
+  });
+}
+
 export function useSetPatientPassword() {
   return useMutation({
     mutationFn: patientMeApi.setPassword,

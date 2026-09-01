@@ -79,17 +79,27 @@ const (
 	PlanTrendWorsening PlanFindingTrend = "worsening" // caiu de nível
 )
 
+// PlanFindingSource — de onde o achado veio. O plano não se monta só com exame: a leitura da
+// consulta e a anamnese carregam metade do que vira slide.
+type PlanFindingSource string
+
+const (
+	PlanSourceLab       PlanFindingSource = "lab"       // resultado de exame
+	PlanSourceAnamnesis PlanFindingSource = "anamnesis" // resposta de anamnese
+)
+
 // PlanFinding — um achado candidato a virar slide, já classificado e pontuado. É uma PROPOSTA
 // ordenada: quem decide o que entra no deck, em que ordem e com que título é o médico.
 type PlanFinding struct {
-	Code   string  `json:"code"`
-	Name   string  `json:"name"`
-	Unit   string  `json:"unit"`
-	Level  int     `json:"level"`
-	Value  float64 `json:"value"`
-	Text   string  `json:"text"`
-	Date   string  `json:"date"`
-	Points float64 `json:"points"`
+	Source PlanFindingSource `json:"source"`
+	Code   string            `json:"code"`
+	Name   string            `json:"name"`
+	Unit   string            `json:"unit"`
+	Level  int               `json:"level"`
+	Value  float64           `json:"value"`
+	Text   string            `json:"text"`
+	Date   string            `json:"date"`
+	Points float64           `json:"points"`
 
 	Kind  PlanFindingKind  `json:"kind"`
 	Trend PlanFindingTrend `json:"trend"`
@@ -134,14 +144,30 @@ type PlanDossierPrescription struct {
 	SignedAt *string `json:"signedAt,omitempty"`
 }
 
+// PlanDossierVitals — a medida da consulta. O deck cita esses números direto ("a pressão está em
+// 120 por 70, sem remédio nenhum"), e eles não vêm de exame nenhum: vêm de quem mediu no
+// consultório.
+type PlanDossierVitals struct {
+	MeasuredAt  string   `json:"measuredAt"`
+	SystolicBP  *int     `json:"systolicBp,omitempty"`
+	DiastolicBP *int     `json:"diastolicBp,omitempty"`
+	HeartRate   *int     `json:"heartRate,omitempty"`
+	Weight      *float64 `json:"weight,omitempty"`
+	Height      *float64 `json:"height,omitempty"`
+	Waist       *float64 `json:"waistCircumference,omitempty"`
+	BMI         *float64 `json:"bmi,omitempty"`
+}
+
 // PlanDossierResponse — tudo que a montagem do plano consegue derivar sozinha do prontuário.
 //
 // O que NÃO está aqui, e continua sendo escrito à mão, é justamente o que é julgamento clínico:
 // a leitura dos achados, o arco narrativo, os títulos em voz de paciente e as condutas.
 type PlanDossierResponse struct {
-	Patient     PlanDossierPatient        `json:"patient"`
-	Snapshot    *PlanDossierSnapshot      `json:"snapshot,omitempty"`
-	Rulers      map[string]PlanRuler      `json:"rulers"`
+	Patient  PlanDossierPatient   `json:"patient"`
+	Snapshot *PlanDossierSnapshot `json:"snapshot,omitempty"`
+	Rulers   map[string]PlanRuler `json:"rulers"`
+	// Vitals — a medida mais recente da consulta e a anterior, para dar direção ao número.
+	Vitals      []PlanDossierVitals       `json:"vitals"`
 	Strong      []PlanFinding             `json:"strong"`
 	Moving      []PlanFinding             `json:"moving"`
 	CarePlan    []CarePlanItemResponse    `json:"carePlan"`

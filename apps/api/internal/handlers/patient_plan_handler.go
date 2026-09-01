@@ -299,3 +299,68 @@ func (h *PatientPlanHandler) fail(c *fiber.Ctx, err error, msg string) error {
 	}
 	return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: msg, Message: err.Error()})
 }
+
+// PublishReport godoc
+// @Summary Publica o relatório A4 assinado do plano
+// @Description Terceiro modo do MESMO conteúdo: os slides achatados no documento fluido da
+// @Description papelaria, assinado com ICP-Brasil. O deck 16:9/A4 é peça de comunicação e não leva
+// @Description assinatura; este é o documento clínico.
+// @Tags patient-plans
+// @Produce json
+// @Param id path string true "ID do paciente (UUID)"
+// @Param planId path string true "ID do plano (UUID)"
+// @Success 201 {object} map[string]string
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/{planId}/report [post]
+func (h *PatientPlanHandler) PublishReport(c *fiber.Ctx) error {
+	patientID, planID, resp, ok := h.ids(c)
+	if !ok {
+		return resp
+	}
+	docID, err := h.plans.PublishReport(planID, patientID, middleware.GetUserID(c))
+	if err != nil {
+		return h.fail(c, err, "falha ao publicar o relatório")
+	}
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{"issuedDocumentId": docID})
+}
+
+// ---- Portal do paciente ----
+
+// MyPlans godoc
+// @Summary Meus planos de devolutiva (portal)
+// @Description Só os publicados. Rascunho é trabalho em andamento do médico.
+// @Tags patient-portal
+// @Produce json
+// @Success 200 {array} dto.PatientPlanResponse
+// @Security BearerAuth
+// @Router /api/v1/patient/me/plans [get]
+func (h *PatientPlanHandler) MyPlans(c *fiber.Ctx) error {
+	out, err := h.plans.ListPublished(middleware.GetPatientID(c))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{Error: "falha ao listar", Message: err.Error()})
+	}
+	return c.JSON(out)
+}
+
+// MyPlan godoc
+// @Summary Um plano publicado meu (portal)
+// @Tags patient-portal
+// @Produce json
+// @Param id path string true "ID do plano (UUID)"
+// @Success 200 {object} dto.PatientPlanResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patient/me/plans/{id} [get]
+func (h *PatientPlanHandler) MyPlan(c *fiber.Ctx) error {
+	planID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid plan id", Message: err.Error()})
+	}
+	out, gErr := h.plans.GetPublished(middleware.GetPatientID(c), planID)
+	if gErr != nil {
+		return h.fail(c, gErr, "falha ao carregar o plano")
+	}
+	return c.JSON(out)
+}

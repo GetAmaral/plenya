@@ -25,6 +25,7 @@ import {
   Package,
   FileText,
   ClipboardList,
+  Presentation,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -41,6 +42,7 @@ const items: Item[] = [
   { name: "Preparação", href: "/preparacao", icon: ClipboardList },
   { name: "Exames", href: "/exames", icon: Microscope },
   { name: "Escores", href: "/escores", icon: Activity },
+  { name: "Meu plano", href: "/plano", icon: Presentation },
   { name: "Mensagens", href: "/mensagens", icon: MessageSquare },
   { name: "Boxes", href: "/boxes", icon: Package },
   { name: "Documentos", href: "/documentos", icon: FileText },

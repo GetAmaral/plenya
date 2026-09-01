@@ -384,3 +384,63 @@ func TestFormatNumberPTNuncaUsaNotacaoCientifica(t *testing.T) {
 		}
 	}
 }
+
+func TestRulerAxisEsticaDeVerdadeEmValorNegativo(t *testing.T) {
+	// Multiplicar valor negativo por 0,96 o APROXIMA do zero: a folga encolhia em vez de crescer e
+	// o eixo nunca continha o ponto do paciente. T-score de -3,5 numa escala de -2,5 a -1.
+	axis := rulerAxis([]float64{-2.5, -2, -1.5, -1}, []dto.PlanRulerPoint{{Value: -3.5}})
+	if axis[0] > -3.5 {
+		t.Errorf("piso = %v, tem que ficar abaixo de -3,5 para o ponto caber", axis[0])
+	}
+}
+
+func TestAnamnesisFindingsUsaSelectedLevelETemTendencia(t *testing.T) {
+	// O nível vem de selected_level, não de numeric_value: ler o número cru no lugar do nível já
+	// fez o escore sair zerado antes. E uma resposta que muda entre consultas tem direção.
+	id := uuid.Must(uuid.NewV7())
+	rows := []anamnesisRow{
+		{ScoreItemID: id, Code: "SONO", Name: "Sono", Points: 20, Level: ptrI(5), Day: "2026-02-01"},
+		{ScoreItemID: id, Code: "SONO", Name: "Sono", Points: 20, Level: ptrI(2), Day: "2026-02-11"},
+	}
+	got := anamnesisFindings(rows, nil)
+	if len(got) != 1 {
+		t.Fatalf("achados = %d, quer 1 (um por item, com histórico)", len(got))
+	}
+	f := got[0]
+	if f.Source != dto.PlanSourceAnamnesis {
+		t.Errorf("origem = %q, quer anamnesis", f.Source)
+	}
+	if f.Level != 2 {
+		t.Errorf("nível = %d, quer 2 (a resposta mais recente)", f.Level)
+	}
+	if f.Trend != dto.PlanTrendWorsening {
+		t.Errorf("tendência = %q, quer worsening", f.Trend)
+	}
+	if f.Kind != dto.PlanFindingMoving {
+		t.Errorf("nível 2 tem que entrar em 'se movendo', veio %q", f.Kind)
+	}
+}
+
+func TestAnamnesisFindingsIgnoraRespostaSemNivel(t *testing.T) {
+	rows := []anamnesisRow{{ScoreItemID: uuid.Must(uuid.NewV7()), Name: "x", Level: nil}}
+	if got := anamnesisFindings(rows, nil); len(got) != 0 {
+		t.Errorf("resposta sem nível não pode virar achado: %+v", got)
+	}
+}
+
+func TestStrongOrdenaPeloPesoDoItemENaoPelosPontosPerdidos(t *testing.T) {
+	// Em nível 4-5 quase ninguém perdeu ponto, então ordenar por pontos perdidos deixa tudo
+	// empatado em zero — e o checklist de ausência da anamnese ("Adrenalectomia: não", nível 5)
+	// afoga o marcador pesado que está de fato no ótimo.
+	rulers := map[string]dto.PlanRuler{
+		"AUSENCIA": {Code: "AUSENCIA", Name: "Adrenalectomia", Points: 9, History: []dto.PlanRulerPoint{{Level: ptrI(5)}}},
+		"PESADO":   {Code: "PESADO", Name: "Glicose", Points: 35, History: []dto.PlanRulerPoint{{Level: ptrI(5)}}},
+	}
+	strong, _ := classifyFindings(rulers, nil)
+	if len(strong) != 2 {
+		t.Fatalf("strong = %+v, quer 2", strong)
+	}
+	if strong[0].Code != "PESADO" {
+		t.Errorf("primeiro = %s, quer PESADO (35 pontos antes de 9)", strong[0].Code)
+	}
+}

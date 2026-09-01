@@ -487,14 +487,14 @@ func setupRoutes(
 
 	// Plano de cuidado AGIR (P3 frente 3) + relatório longitudinal (3b) reusando go-rod + assinatura.
 	carePlanService := services.NewCarePlanService(database.DB)
-	carePlanReportService := services.NewCarePlanReportService(database.DB, scoreSnapshotRepo, carePlanService, services.NewScorePDFService(), signatureService, patientDocumentsService)
+	carePlanReportService := services.NewCarePlanReportService(database.DB, scoreSnapshotRepo, carePlanService, signatureService, patientDocumentsService)
 	carePlanHandler := handlers.NewCarePlanHandler(carePlanService, carePlanReportService)
 
 	// Dossiê do plano de paciente: deriva do prontuário o insumo da devolutiva (réguas por exame,
 	// achados classificados e ordenados por peso), no lugar do reguas.json montado à mão.
 	patientPlanDossierService := services.NewPatientPlanDossierService(database.DB, scoreSnapshotRepo, carePlanService)
 	// O plano em si (o "deck"): mesmo conteúdo, três saídas — tela do portal, PDF 16:9 e A4.
-	patientPlanService := services.NewPatientPlanService(database.DB, patientDocumentsService)
+	patientPlanService := services.NewPatientPlanService(database.DB, patientDocumentsService, signatureService)
 	patientPlanHandler := handlers.NewPatientPlanHandler(patientPlanDossierService, patientPlanService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
@@ -823,6 +823,9 @@ func setupRoutes(
 	patientMe.Get("/score-snapshots/:id", patientPortalHandler.GetCompleteSnapshot)
 	patientMe.Put("/profile", patientPortalHandler.UpdateProfile)
 	patientMe.Get("/boxes", patientPortalHandler.ListBoxes)
+	// Plano de devolutiva do paciente — só os publicados.
+	patientMe.Get("/plans", patientPlanHandler.MyPlans)
+	patientMe.Get("/plans/:id", patientPlanHandler.MyPlan)
 	patientMe.Get("/documents", patientPortalHandler.ListDocuments)
 	patientMe.Get("/documents/:id/download", patientPortalHandler.DownloadDocument)
 	patientMe.Get("/lgpd/export", patientPortalHandler.LGPDExport)
@@ -1449,6 +1452,8 @@ func setupRoutes(
 	patients.Get("/:id/plans/:planId/preview", middleware.RequireClinician(), patientPlanHandler.Preview)
 	patients.Get("/:id/plans/:planId/overflow", middleware.RequireClinician(), patientPlanHandler.CheckOverflow)
 	patients.Post("/:id/plans/:planId/publish", middleware.RequireClinician(), patientPlanHandler.Publish)
+	// O relatório assinado é ato médico, não de qualquer clínico.
+	patients.Post("/:id/plans/:planId/report", middleware.RequireDoctor(), patientPlanHandler.PublishReport)
 
 	// Catálogo CID-10 (curado) — busca para autocomplete do problem list.
 	cidCodes := v1.Group("/cid-codes")
