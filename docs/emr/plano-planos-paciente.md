@@ -554,7 +554,57 @@ Isso expôs mais dois defeitos, os dois corrigidos:
 
 ---
 
-## 9 · O que fica em aberto
+## 9 · Plano novo × deck aprovado (Ana e José Ricardo, dados de PRODUÇÃO)
+
+Com a api em produção, o dossiê real dos dois foi gerado e comparado com os decks que já haviam
+sido feitos à mão e aprovados.
+
+### O que confirmou
+
+**Ana.** O ranking automático põe no topo glicose, HOMA-IR, insulina e hemoglobina glicada — que é
+exatamente o "ponto central" do deck dela ("a insulina é o número mais importante deste
+relatório"). Tabaco e leucócitos vêm logo abaixo, que é o slide "o que o cigarro está cobrando".
+O arco derivado reproduz o que foi escrito à mão.
+
+**O filtro de aplicabilidade se provou.** O snapshot dela pontua "Progesterona - Gestação 1º/2º/3º
+Trimestre" como nível 0, **82 pontos perdidos numa mulher de 63 anos pós-menopausa**. O dossiê
+exclui os três, porque filtra pela aplicabilidade ATUAL (`AppliesToPatient`). O catálogo está certo
+(os itens têm `post_menopause = false`); o snapshot é que foi calculado antes de a menopausa ser
+registrada na paciente. **O escore dela em prod está distorcido por isso** e precisa ser
+recalculado.
+
+### O que corrigiu (dois defeitos do ranking, não do deck)
+
+1. **Tendência olhava só o número do nível.** LDL do Ricardo: 151 → 115 → 115 → 127, as três
+   últimas todas no nível 3 — "estável" por nível, mas subiu 12 pontos e é manchete do deck
+   ("subindo, sem tratamento"). Pior: a **ferritina**, 239 → 432 → 500, as duas últimas no nível 1,
+   e a API respondia `trend: stable` enquanto o slide inteiro se chama "a ferritina dobrou em dois
+   anos". A direção passou a sair da **distância até a faixa ótima**, que funciona também nas
+   escalas em U (densidade urinária, TSH).
+2. **Medida velha liderava o ranking.** HOMA-IR de 05/2024 em 3º lugar, enquanto o próprio deck o
+   trata como exame A REFAZER. Acima de 18 meses o achado ganha `stale` e vai para o fim: sustenta
+   pedido de exame, não conduta.
+
+### Uma decisão CLÍNICA pendente (não é bug de código)
+
+O ranking do Ricardo abre com **"PSA Livre/Total (%Free PSA)" em nível 0, 28 pontos** — o item mais
+pesado da lista dele. O valor é 8,8% e a escala marca ≤10% como o pior nível. Mas o **PSA total dele
+é 1,81 ng/mL**: a razão livre/total só é interpretável na zona cinzenta de 4 a 10. O deck acertou ao
+pôr PSA em "o que está bem".
+
+Não foi tratado no código com caso especial de PSA. É problema de CATÁLOGO: o item pontua sem
+condicionar ao PSA total. A correção provável é marcá-lo como não aplicável quando o total está fora
+da zona cinzenta, e isso é decisão do Getúlio. Como está, quem seguir o ranking abre a devolutiva
+com um alarme falso de próstata.
+
+### Outro dado de prod
+
+**José Ricardo não tem escore calculado** (0 snapshots, 175 exames). O dossiê dele cai na estimativa
+de pontos perdidos, e o fallback funcionou.
+
+---
+
+## 10 · O que fica em aberto
 
 - **Semear o plano a partir do dossiê na tela do EMR.** Hoje "Novo plano" nasce com capa e fecho
   vazios; a autoria real é pela skill. Um semeador mecânico (capa + réguas dos top achados) é

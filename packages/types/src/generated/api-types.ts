@@ -20764,6 +20764,18 @@ export interface components {
              */
             prepOrder?: number;
             /**
+             * @description RequiresLabCode / RequiresMin / RequiresMax — o item só se aplica quando o resultado mais
+             *     recente de OUTRO exame cai na faixa dada.
+             *
+             *     Existe porque há item cuja escala só é interpretável dentro de um contexto: a razão
+             *     %Free PSA marca ≤10% como o pior nível, mas isso só discrimina quando o PSA TOTAL está entre
+             *     4 e 10 ng/mL. Com PSA total baixo, uma razão de 8,8% não é achado nenhum — e virava o item
+             *     número 1 da devolutiva, com 28 pontos, num paciente sem nada na próstata.
+             */
+            requiresLabCode?: string;
+            requiresMax?: number;
+            requiresMin?: number;
+            /**
              * @description Explicação leiga genérica do item para o site público (≠ PatientExplanation clínica).
              *     @example Fumar acelera o envelhecimento dos vasos e aumenta o risco cardiovascular.
              */

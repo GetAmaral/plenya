@@ -1,6 +1,7 @@
 package models
 
 import (
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -55,6 +56,17 @@ type ScoreItem struct {
 	// @maximum 150
 	// @example 65
 	AgeRangeMax *int `gorm:"type:integer;check:age_range_max >= 0 AND age_range_max <= 150" json:"ageRangeMax,omitempty" validate:"omitempty,gte=0,lte=150"`
+
+	// RequiresLabCode / RequiresMin / RequiresMax — o item só se aplica quando o resultado mais
+	// recente de OUTRO exame cai na faixa dada.
+	//
+	// Existe porque há item cuja escala só é interpretável dentro de um contexto: a razão
+	// %Free PSA marca ≤10% como o pior nível, mas isso só discrimina quando o PSA TOTAL está entre
+	// 4 e 10 ng/mL. Com PSA total baixo, uma razão de 8,8% não é achado nenhum — e virava o item
+	// número 1 da devolutiva, com 28 pontos, num paciente sem nada na próstata.
+	RequiresLabCode *string  `gorm:"type:varchar(100);index;column:requires_lab_code" json:"requiresLabCode,omitempty"`
+	RequiresMin     *float64 `gorm:"column:requires_min" json:"requiresMin,omitempty"`
+	RequiresMax     *float64 `gorm:"column:requires_max" json:"requiresMax,omitempty"`
 
 	// Indica se o score_item é aplicável apenas para mulheres pós-menopausa
 	// @example true
@@ -203,6 +215,50 @@ func (si *ScoreItem) BeforeUpdate(tx *gorm.DB) error {
 	}
 
 	return nil
+}
+
+// RequirementMet diz se a condição de contexto do item está satisfeita.
+//
+// `labValues` é o resultado mais recente de cada exame do paciente, por código. Item sem condição
+// passa sempre. Item COM condição e sem o exame de referência medido **não passa**: sem o PSA total
+// não dá para saber se a razão livre/total quer dizer alguma coisa, e afirmar que quer é pior do
+// que omitir.
+func (si *ScoreItem) RequirementMet(labValues map[string]float64) bool {
+	if si.RequiresLabCode == nil || *si.RequiresLabCode == "" {
+		return true
+	}
+	v, ok := labValues[*si.RequiresLabCode]
+	if !ok {
+		return false
+	}
+	if si.RequiresMin != nil && v < *si.RequiresMin {
+		return false
+	}
+	if si.RequiresMax != nil && v > *si.RequiresMax {
+		return false
+	}
+	return true
+}
+
+// UnitMatches diz se a escala deste item e o exame falam da MESMA grandeza.
+//
+// Três itens do sedimento urinário têm escala em `células/campo` (contagem por campo de
+// microscópio) enquanto o laboratório reporta `/µL` (concentração). Classificar assim compara
+// números que não se comparam: 0,5/µL cai na faixa "≤10 células/campo" e sai como nível ÓTIMO.
+// Falha silenciosa, e a régua da devolutiva a mostraria ao paciente como notícia boa.
+//
+// Unidade vazia dos dois lados não bloqueia: item categórico não tem unidade.
+func (si *ScoreItem) UnitMatches(unidadeDoExame string) bool {
+	norm := func(u string) string { return strings.ToLower(strings.TrimSpace(u)) }
+	item := ""
+	if si.Unit != nil {
+		item = norm(*si.Unit)
+	}
+	exame := norm(unidadeDoExame)
+	if item == "" || exame == "" {
+		return true
+	}
+	return item == exame
 }
 
 // AppliesToPatient verifica se este ScoreItem se aplica ao paciente baseado em gênero, idade e menopausa

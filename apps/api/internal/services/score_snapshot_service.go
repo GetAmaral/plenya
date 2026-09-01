@@ -294,6 +294,18 @@ func (s *ScoreSnapshotService) DeleteSnapshot(id uuid.UUID) error {
 // Private Methods
 // ============================================================
 
+// valoresPorCodigo reduz os resultados do paciente a "código → valor numérico", que é o contexto
+// que `ScoreItem.RequirementMet` consulta.
+func valoresPorCodigo(porCodigo map[string]models.LabResult) map[string]float64 {
+	out := make(map[string]float64, len(porCodigo))
+	for code, r := range porCodigo {
+		if r.ResultNumeric != nil {
+			out[code] = *r.ResultNumeric
+		}
+	}
+	return out
+}
+
 // evaluateScoreItem evaluates a single ScoreItem for the patient
 func (s *ScoreSnapshotService) evaluateScoreItem(
 	patient *models.Patient,
@@ -313,6 +325,17 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	// Set MaxPoints from item
 	if item.Points != nil {
 		result.MaxPoints = *item.Points
+	}
+
+	// 1a. Contexto de outro exame: item cuja escala só vale dentro de uma faixa de outro
+	// resultado (a razão %Free PSA só discrimina com PSA total entre 4 e 10 ng/mL). Fora do
+	// contexto ele não é "ruim", é *inaplicável* — pontuar ali tira ponto do paciente por um
+	// número que não quer dizer nada.
+	if !item.RequirementMet(valoresPorCodigo(labResultsByCode)) {
+		result.Status = models.EvaluationStatusNotApplicable
+		reason := "Item não aplicável: depende de " + *item.RequiresLabCode + " estar na faixa de interpretação"
+		result.NotEvaluatedReason = &reason
+		return result
 	}
 
 	// 1. Check if item applies to this patient

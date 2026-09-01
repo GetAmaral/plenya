@@ -67,6 +67,9 @@ type labRow struct {
 	Day        string
 	Collected  time.Time
 	ResultText string
+	// DefUnit — unidade do exame no catálogo. Serve para conferir se a escala do item de escore
+	// fala da mesma grandeza.
+	DefUnit string
 }
 
 // collectionDay resolve o dia-calendário da coleta, e é mais chato do que parece porque a coluna
@@ -212,6 +215,7 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		Numeric    float64
 		ResultText *string
 		Reference  *string
+		DefUnit    *string
 		Collected  time.Time
 	}
 	err := s.db.
@@ -221,6 +225,7 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		        lr.result_numeric                               AS numeric,
 		        lr.result_text                                  AS result_text,
 		        lr.reference_range                              AS reference,
+		        ltd.unit                                        AS def_unit,
 		        COALESCE(lr.collection_date, b.collection_date) AS collected`).
 		Joins("JOIN lab_result_batches b ON b.id = lr.lab_result_batch_id AND b.deleted_at IS NULL").
 		Joins("JOIN lab_test_definitions ltd ON ltd.id = lr.lab_test_definition_id AND ltd.deleted_at IS NULL").
@@ -245,6 +250,9 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		}
 		if r.ResultText != nil {
 			row.ResultText = strings.TrimSpace(*r.ResultText)
+		}
+		if r.DefUnit != nil {
+			row.DefUnit = strings.TrimSpace(*r.DefUnit)
 		}
 		row.Text = resultDisplayText(row.ResultText, r.Numeric)
 		out = append(out, row)
@@ -454,12 +462,22 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		return nil, err
 	}
 
+	// Valor mais recente por exame: é o contexto que decide se um item condicionado se aplica.
+	ultimoPorCodigo := map[string]float64{}
+	for _, r := range rows {
+		ultimoPorCodigo[r.Code] = r.Numeric // rows vem ordenado por data crescente
+	}
+
 	// Um código pode ter várias variantes (por sexo, faixa etária, menopausa, TRH). O motor de
 	// aplicabilidade do escore é quem escolhe a do paciente — o mesmo usado no cálculo, para a
 	// régua nunca discordar do escore.
+	//
+	// `RequirementMet` é o segundo filtro: item cuja escala só vale dentro do contexto de outro
+	// exame (a razão %Free PSA só discrimina com PSA total entre 4 e 10) some quando o contexto não
+	// bate. Sem isso ele virava o achado número 1 de um paciente sem nada na próstata.
 	applicable := map[string][]models.ScoreItem{}
 	for i := range items {
-		if items[i].AppliesToPatient(patient) {
+		if items[i].AppliesToPatient(patient) && items[i].RequirementMet(ultimoPorCodigo) {
 			code := *items[i].LabTestCode
 			applicable[code] = append(applicable[code], items[i])
 		}
@@ -476,6 +494,13 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 	for code, cands := range applicable {
 		item := pickScoringItem(cands)
 		if item == nil {
+			continue
+		}
+		// Escala e exame têm que falar da mesma grandeza. Três itens do sedimento urinário têm a
+		// escala em células/campo enquanto o laboratório reporta /µL: classificar ali põe um
+		// resultado de 0,5 na faixa "≤10" e o paciente lê "ótimo" sobre um número que ninguém
+		// comparou. Melhor a régua não existir do que existir errada.
+		if len(byCode[code]) > 0 && !item.UnitMatches(byCode[code][0].DefUnit) {
 			continue
 		}
 		ruler, ok := buildRuler(code, item, byCode[code])

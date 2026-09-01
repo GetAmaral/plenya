@@ -549,3 +549,52 @@ func TestFerritinaQueDobraDentroDaMesmaFaixaEhWorsening(t *testing.T) {
 		t.Errorf("tendência = %q, quer worsening", got)
 	}
 }
+
+func TestItemCondicionadoSoValeDentroDoContexto(t *testing.T) {
+	// A razão %Free PSA marca ≤10% como o pior nível, mas isso só discrimina quando o PSA TOTAL
+	// está entre 4 e 10 ng/mL. Num paciente com PSA total 1,81 e razão 8,8% ela virava o achado
+	// nº 1 da devolutiva, com 28 pontos — alarme de próstata onde não há alarme.
+	psaTotal := "PSA_TOTAL"
+	min, max := 4.0, 10.0
+	item := models.ScoreItem{Name: "%Free PSA", RequiresLabCode: &psaTotal, RequiresMin: &min, RequiresMax: &max}
+
+	if item.RequirementMet(map[string]float64{psaTotal: 1.81}) {
+		t.Error("PSA total 1,81 está fora da zona cinzenta: a razão não deveria se aplicar")
+	}
+	if !item.RequirementMet(map[string]float64{psaTotal: 6.2}) {
+		t.Error("PSA total 6,2 está na zona cinzenta: a razão É o exame que decide, tem que aplicar")
+	}
+	if item.RequirementMet(map[string]float64{psaTotal: 22}) {
+		t.Error("PSA total 22 está acima da zona: a razão não acrescenta")
+	}
+	// Sem o exame de referência medido, não dá para saber se a razão quer dizer algo. Afirmar que
+	// quer é pior do que omitir.
+	if item.RequirementMet(map[string]float64{}) {
+		t.Error("sem PSA total medido o item não pode se aplicar")
+	}
+	// Item sem condição passa sempre.
+	if !(&models.ScoreItem{Name: "Ferritina"}).RequirementMet(nil) {
+		t.Error("item sem condição tem que passar")
+	}
+}
+
+func TestEscalaEExameTemQueFalarDaMesmaGrandeza(t *testing.T) {
+	// Sedimento urinário: escala em células/campo (contagem por campo do microscópio) e exame em
+	// /µL (concentração). Classificar assim põe 0,5/µL na faixa "≤10 células/campo" e o paciente
+	// lê "ótimo" sobre um número que ninguém comparou.
+	campo := "células/campo"
+	item := models.ScoreItem{Name: "Leucócitos - Sedimento", Unit: &campo}
+	if item.UnitMatches("/µL") {
+		t.Error("células/campo e /µL são grandezas diferentes: não pode classificar")
+	}
+	if !item.UnitMatches("Células/Campo ") {
+		t.Error("mesma unidade com caixa/espaço diferente tem que casar")
+	}
+	// Item categórico não tem unidade e não pode ser bloqueado por isso.
+	if !(&models.ScoreItem{Name: "Tabagismo"}).UnitMatches("") {
+		t.Error("item sem unidade tem que passar")
+	}
+	if !(&models.ScoreItem{Name: "Tabagismo"}).UnitMatches("qualquer") {
+		t.Error("item sem unidade não deve ser bloqueado pela unidade do exame")
+	}
+}
