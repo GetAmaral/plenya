@@ -104,6 +104,13 @@ type PlanFinding struct {
 	Kind  PlanFindingKind  `json:"kind"`
 	Trend PlanFindingTrend `json:"trend"`
 
+	// DaysAgo — idade da medida mais recente. Um achado de dois anos atrás não é o retrato de hoje.
+	DaysAgo *int `json:"daysAgo,omitempty"`
+	// Stale — a medida é antiga demais para sustentar conduta. Comparado com os decks aprovados,
+	// um HOMA-IR de 2024 liderava o ranking do Ricardo enquanto o próprio deck o tratava como
+	// exame A REFAZER, não como achado atual.
+	Stale bool `json:"stale,omitempty"`
+
 	// PointsLost — quanto do peso do item o paciente está deixando na mesa. É o critério de
 	// ordenação: o que mais pesa aparece primeiro.
 	PointsLost float64 `json:"pointsLost"`

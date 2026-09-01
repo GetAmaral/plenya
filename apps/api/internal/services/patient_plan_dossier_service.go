@@ -713,20 +713,7 @@ func classifyFindings(rulers map[string]dto.PlanRuler, lostBySnapshot map[uuid.U
 		}
 		level := *last.Level
 
-		trend := dto.PlanTrendSingle
-		if len(r.History) >= 2 {
-			prev := r.History[len(r.History)-2]
-			switch {
-			case prev.Level == nil:
-				trend = dto.PlanTrendSingle
-			case level > *prev.Level:
-				trend = dto.PlanTrendImproving
-			case level < *prev.Level:
-				trend = dto.PlanTrendWorsening
-			default:
-				trend = dto.PlanTrendStable
-			}
-		}
+		trend := trendOf(r)
 
 		lost, ok := 0.0, false
 		if itemID, pErr := uuid.Parse(r.ScoreItemID); pErr == nil {
@@ -743,6 +730,10 @@ func classifyFindings(rulers map[string]dto.PlanRuler, lostBySnapshot map[uuid.U
 			Code:   code, Name: r.Name, Unit: r.Unit,
 			Level: level, Value: last.Value, Text: last.Text, Date: last.Date,
 			Points: r.Points, Trend: trend, PointsLost: math.Max(lost, 0),
+		}
+		if dias, ok := diasDesde(last.Date); ok {
+			f.DaysAgo = &dias
+			f.Stale = dias > diasParaEnvelhecer
 		}
 
 		switch {
@@ -766,10 +757,90 @@ func classifyFindings(rulers map[string]dto.PlanRuler, lostBySnapshot map[uuid.U
 	return strong, moving
 }
 
-// sortMoving ordena o que está se movendo por PONTOS PERDIDOS: o que o paciente mais está deixando
-// na mesa aparece primeiro.
+// diasParaEnvelhecer — acima disso a medida deixa de ser o retrato de hoje. Dezoito meses é o que
+// separa "este é o seu exame" de "isto precisa ser refeito antes de decidir".
+const diasParaEnvelhecer = 548
+
+func diasDesde(dia string) (int, bool) {
+	d, err := time.Parse("2006-01-02", dia)
+	if err != nil {
+		return 0, false
+	}
+	n := int(time.Now().In(saoPaulo()).Sub(d).Hours() / 24)
+	if n < 0 {
+		n = 0
+	}
+	return n, true
+}
+
+// trendOf decide a direção olhando a DISTÂNCIA ATÉ O ÓTIMO, não só o número do nível.
+//
+// Comparando com os decks aprovados: o LDL do Ricardo foi 151 → 115 → 115 → 127, e as três últimas
+// medidas estão todas no nível 3. Por nível, "estável"; pelo valor, subiu 12 pontos e é um dos
+// quatro achados de manchete do deck ("subindo, sem tratamento"). Movimento dentro da mesma faixa é
+// movimento, e a direção é o sinal que mais importa.
+func trendOf(r dto.PlanRuler) dto.PlanFindingTrend {
+	if len(r.History) < 2 {
+		return dto.PlanTrendSingle
+	}
+	atual, anterior := r.History[len(r.History)-1], r.History[len(r.History)-2]
+	if atual.Level != nil && anterior.Level != nil && *atual.Level != *anterior.Level {
+		if *atual.Level > *anterior.Level {
+			return dto.PlanTrendImproving
+		}
+		return dto.PlanTrendWorsening
+	}
+	// Mesmo nível: desempata pela distância até a faixa ótima.
+	dA, okA := distanciaAoOtimo(r, atual.Value)
+	dB, okB := distanciaAoOtimo(r, anterior.Value)
+	if !okA || !okB || math.Abs(dA-dB) < 1e-9 {
+		return dto.PlanTrendStable
+	}
+	if dA > dB {
+		return dto.PlanTrendWorsening
+	}
+	return dto.PlanTrendImproving
+}
+
+// distanciaAoOtimo — o quanto o valor está longe da melhor faixa da régua. Zero se está dentro.
+// Funciona com escala que piora para a direita, para a esquerda ou nas duas pontas.
+func distanciaAoOtimo(r dto.PlanRuler, v float64) (float64, bool) {
+	melhor := -1
+	for _, s := range r.Segments {
+		if s.Level > melhor {
+			melhor = s.Level
+		}
+	}
+	if melhor < 0 {
+		return 0, false
+	}
+	dist := math.Inf(1)
+	for _, s := range r.Segments {
+		if s.Level != melhor {
+			continue
+		}
+		switch {
+		case v >= s.A && v <= s.B:
+			return 0, true
+		case v < s.A:
+			dist = math.Min(dist, s.A-v)
+		default:
+			dist = math.Min(dist, v-s.B)
+		}
+	}
+	if math.IsInf(dist, 1) {
+		return 0, false
+	}
+	return dist, true
+}
+
+// sortMoving ordena o que está se movendo por PONTOS PERDIDOS, mas joga para o fim o que está
+// velho: uma medida de dois anos atrás não sustenta conduta hoje, ela sustenta um pedido de exame.
 func sortMoving(f []dto.PlanFinding) {
 	sort.Slice(f, func(i, j int) bool {
+		if f[i].Stale != f[j].Stale {
+			return !f[i].Stale
+		}
 		if f[i].PointsLost != f[j].PointsLost {
 			return f[i].PointsLost > f[j].PointsLost
 		}

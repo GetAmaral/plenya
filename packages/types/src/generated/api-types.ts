@@ -17962,6 +17962,8 @@ export interface components {
         "dto.PlanFinding": {
             code?: string;
             date?: string;
+            /** @description DaysAgo — idade da medida mais recente. Um achado de dois anos atrás não é o retrato de hoje. */
+            daysAgo?: number;
             kind?: components["schemas"]["dto.PlanFindingKind"];
             level?: number;
             name?: string;
@@ -17974,6 +17976,12 @@ export interface components {
             /** @description Reason — por que este achado entrou nesta lista, em uma frase. */
             reason?: string;
             source?: components["schemas"]["dto.PlanFindingSource"];
+            /**
+             * @description Stale — a medida é antiga demais para sustentar conduta. Comparado com os decks aprovados,
+             *     um HOMA-IR de 2024 liderava o ranking do Ricardo enquanto o próprio deck o tratava como
+             *     exame A REFAZER, não como achado atual.
+             */
+            stale?: boolean;
             text?: string;
             trend?: components["schemas"]["dto.PlanFindingTrend"];
             unit?: string;

@@ -462,3 +462,90 @@ func TestLevelSegmentsRespeitaOSinalDoOperador(t *testing.T) {
 		t.Errorf("operador '>=' rotulado como %q, quer \"≥50\"", segs[1].Label)
 	}
 }
+
+func rulerLDL(vals ...float64) dto.PlanRuler {
+	// Escala do LDL: quanto menor, melhor. Nível 5 é a faixa mais baixa.
+	r := dto.PlanRuler{Code: "LDL", Name: "LDL", Points: 18,
+		Segments: []dto.PlanRulerSegment{
+			{Level: 5, A: 0, B: 70}, {Level: 4, A: 70, B: 100},
+			{Level: 3, A: 100, B: 130}, {Level: 2, A: 130, B: 160}, {Level: 1, A: 160, B: 200},
+		}}
+	for _, v := range vals {
+		lv := 3
+		switch {
+		case v <= 70:
+			lv = 5
+		case v <= 100:
+			lv = 4
+		case v <= 130:
+			lv = 3
+		case v <= 160:
+			lv = 2
+		default:
+			lv = 1
+		}
+		r.History = append(r.History, dto.PlanRulerPoint{Value: v, Level: ptrI(lv)})
+	}
+	return r
+}
+
+func TestTendenciaPegaMovimentoDENTRODaMesmaFaixa(t *testing.T) {
+	// Caso real do deck aprovado do Ricardo: LDL 115 → 127, as duas no nível 3. Por nível é
+	// "estável"; pelo valor subiu 12 pontos, e é um dos quatro achados de manchete do deck
+	// ("subindo, sem tratamento"). Tendência por nível sozinha perdia esse sinal.
+	if got := trendOf(rulerLDL(115, 127)); got != dto.PlanTrendWorsening {
+		t.Errorf("115 → 127 no mesmo nível = %q, quer worsening", got)
+	}
+	if got := trendOf(rulerLDL(127, 115)); got != dto.PlanTrendImproving {
+		t.Errorf("127 → 115 = %q, quer improving", got)
+	}
+	if got := trendOf(rulerLDL(115, 115)); got != dto.PlanTrendStable {
+		t.Errorf("sem mudança = %q, quer stable", got)
+	}
+	// Troca de nível continua mandando.
+	if got := trendOf(rulerLDL(95, 101)); got != dto.PlanTrendWorsening {
+		t.Errorf("N4 → N3 = %q, quer worsening", got)
+	}
+}
+
+func TestDistanciaAoOtimoFuncionaNosDoisSentidos(t *testing.T) {
+	// Escala em U: piora nas duas pontas (densidade urinária, TSH).
+	r := dto.PlanRuler{Segments: []dto.PlanRulerSegment{
+		{Level: 0, A: 0, B: 1}, {Level: 5, A: 1, B: 4}, {Level: 0, A: 4, B: 10}}}
+	if d, _ := distanciaAoOtimo(r, 2); d != 0 {
+		t.Errorf("dentro do ótimo = %v, quer 0", d)
+	}
+	if d, _ := distanciaAoOtimo(r, 6); d != 2 {
+		t.Errorf("acima do ótimo = %v, quer 2", d)
+	}
+	if d, _ := distanciaAoOtimo(r, 0.5); d != 0.5 {
+		t.Errorf("abaixo do ótimo = %v, quer 0,5", d)
+	}
+}
+
+func TestAchadoVelhoVaiParaOFimDaFila(t *testing.T) {
+	// O HOMA-IR do Ricardo, medido em 05/2024, liderava o ranking — enquanto o próprio deck o
+	// tratava como exame A REFAZER. Medida velha sustenta pedido de exame, não conduta.
+	novo := dto.PlanFinding{Code: "NOVO", PointsLost: 5}
+	velho := dto.PlanFinding{Code: "VELHO", PointsLost: 20, Stale: true}
+	lista := []dto.PlanFinding{velho, novo}
+	sortMoving(lista)
+	if lista[0].Code != "NOVO" {
+		t.Errorf("primeiro = %s; achado velho não pode liderar mesmo pesando mais", lista[0].Code)
+	}
+}
+
+func TestFerritinaQueDobraDentroDaMesmaFaixaEhWorsening(t *testing.T) {
+	// Caso real medido em produção: 239 → 432 → 500, e as duas últimas caem no nível 1. A lógica
+	// por nível dizia "estável" enquanto a manchete do deck aprovado era "a ferritina dobrou em
+	// dois anos". Era o achado nº 1 do slide e saía sem direção nenhuma.
+	r := dto.PlanRuler{Code: "FER", Name: "Ferritina",
+		Segments: []dto.PlanRulerSegment{
+			{Level: 0, A: 0, B: 15}, {Level: 2, A: 15, B: 30}, {Level: 3, A: 30, B: 50},
+			{Level: 5, A: 50, B: 200}, {Level: 4, A: 200, B: 300}, {Level: 1, A: 300, B: 520}},
+		History: []dto.PlanRulerPoint{
+			{Value: 239.1, Level: ptrI(4)}, {Value: 432, Level: ptrI(1)}, {Value: 500, Level: ptrI(1)}}}
+	if got := trendOf(r); got != dto.PlanTrendWorsening {
+		t.Errorf("tendência = %q, quer worsening", got)
+	}
+}
