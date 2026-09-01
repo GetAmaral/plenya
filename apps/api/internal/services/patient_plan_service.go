@@ -584,3 +584,27 @@ func (s *PatientPlanService) PublishReport(planID, patientID, doctorID uuid.UUID
 	}
 	return doc.ID.String(), nil
 }
+
+// Revisions — o histórico do rascunho.
+//
+// Passa pelo `load` de propósito: sem ele, um id de plano de OUTRO paciente devolveria o histórico
+// desse outro paciente. É a mesma regra de isolamento que vale em todo o prontuário.
+func (s *PatientPlanService) Revisions(planID, patientID uuid.UUID, limite int) ([]PlanRevisionSummary, error) {
+	plan, err := s.load(planID, patientID)
+	if err != nil {
+		return nil, err
+	}
+	return s.revisions.ListRevisions(plan.ID, limite)
+}
+
+// RestoreRevision devolve o rascunho ao estado de uma revisão e retorna o plano resultante.
+func (s *PatientPlanService) RestoreRevision(planID, patientID, revisionID, userID uuid.UUID) (*dto.PatientPlanResponse, error) {
+	plan, err := s.load(planID, patientID)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := s.revisions.Restore(plan, revisionID, userID); err != nil {
+		return nil, err
+	}
+	return s.Get(planID, patientID)
+}

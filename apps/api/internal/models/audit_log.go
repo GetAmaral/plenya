@@ -27,7 +27,11 @@ const (
 	ResourcePrescriptions AuditResource = "prescriptions"
 	ResourceLabResults    AuditResource = "lab_results"
 	ResourceHealthScores  AuditResource = "health_scores"
-	ResourceUsers         AuditResource = "users"
+	// ResourcePlans — a devolutiva do paciente. Separado de `patients` porque é o documento que o
+	// paciente lê, e parte do conteúdo dele pode ter sido escrita por uma ferramenta: as perguntas
+	// que se faz sobre ele são de outra natureza.
+	ResourcePlans AuditResource = "patient_plans"
+	ResourceUsers AuditResource = "users"
 )
 
 // AuditLog representa um log de auditoria no sistema

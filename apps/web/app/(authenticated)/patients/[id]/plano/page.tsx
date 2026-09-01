@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * /patients/[id]/plano — a devolutiva de resultados do paciente (o "deck").
@@ -11,16 +11,28 @@
  * couber: o slide tem altura fixa e overflow:hidden, então conteúdo demais não dá erro — ele
  * simplesmente some do PDF que o paciente recebe.
  */
-import { useEffect, useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { formatDate } from '@/lib/format-date';
-import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, CheckCircle2, Eye, FileText, Loader2, MessageSquare, Plus, Ruler, Send, Trash2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { formatDate } from "@/lib/format-date";
+import { toast } from "sonner";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  CheckCircle2,
+  Eye,
+  FileText,
+  Loader2,
+  MessageSquare,
+  Plus,
+  Ruler,
+  Send,
+  Trash2,
+} from "lucide-react";
 
-import { useRequireAuth } from '@/lib/use-auth';
-import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient';
-import { usePatient } from '@/lib/api/patient-api';
-import { apiClient } from '@/lib/api-client';
+import { useRequireAuth } from "@/lib/use-auth";
+import { useRequireSelectedPatient } from "@/lib/use-require-selected-patient";
+import { usePatient } from "@/lib/api/patient-api";
+import { apiClient } from "@/lib/api-client";
 import {
   usePatientPlans,
   useCreatePatientPlan,
@@ -31,6 +43,8 @@ import {
   usePlanConversation,
   usePlanDossier,
   usePlanDossierStaleness,
+  usePlanRevisions,
+  useRestorePlanRevision,
   usePlanSuggestions,
   useResolveSuggestions,
   useSendPlanMessage,
@@ -40,30 +54,42 @@ import {
   type PatientPlan,
   type DeckOverflow,
   type DeckSlide,
-} from '@/lib/api/patient-plans';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { DossierColumn } from '@/components/plan/dossier-column';
-import { SlideList } from '@/components/plan/deck/slide-list';
-import { PlanChatPanel } from '@/components/plan/chat/plan-chat-panel';
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
+} from "@/lib/api/patient-plans";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { DossierColumn } from "@/components/plan/dossier-column";
+import { SlideList } from "@/components/plan/deck/slide-list";
+import { PlanHistoryPanel } from "@/components/plan/history-panel";
+import { PlanChatPanel } from "@/components/plan/chat/plan-chat-panel";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 /** Um plano novo já nasce com a gramática dos decks que existem, para não começar do zero. */
 const SLIDES_INICIAIS: DeckSlide[] = [
-  { kind: 'cover', variant: 'deep', eyebrow: 'Seus exames', title: '', lede: '' },
-  { kind: 'closing', variant: 'deep', eyebrow: 'Em uma página', title: '' },
+  {
+    kind: "cover",
+    variant: "deep",
+    eyebrow: "Seus exames",
+    title: "",
+    lede: "",
+  },
+  { kind: "closing", variant: "deep", eyebrow: "Em uma página", title: "" },
 ];
 
 export default function PatientPlanPage() {
   useRequireAuth();
   const router = useRouter();
   const params = useParams();
-  const routeId = String(params?.id ?? '');
+  const routeId = String(params?.id ?? "");
 
   // O paciente desta tela é o da ROTA, não o do seletor global. A distinção importa aqui mais do
   // que em qualquer outra tela: abrir /patients/X/plano com o paciente Y selecionado no topo
@@ -73,7 +99,9 @@ export default function PatientPlanPage() {
   const patientId = routeId;
   const { data: patient } = usePatient(patientId);
 
-  const { data: plans = [], isLoading } = usePatientPlans(patientId || undefined);
+  const { data: plans = [], isLoading } = usePatientPlans(
+    patientId || undefined,
+  );
   const createPlan = useCreatePatientPlan(patientId);
   const updatePlan = useUpdatePatientPlan(patientId);
   const deletePlan = useDeletePatientPlan(patientId);
@@ -87,14 +115,28 @@ export default function PatientPlanPage() {
     patientId,
     selectedId ?? undefined,
   );
-  const { data: envelhecimento } = usePlanDossierStaleness(patientId, selectedId ?? undefined);
+  const { data: envelhecimento } = usePlanDossierStaleness(
+    patientId,
+    selectedId ?? undefined,
+  );
   const refrescarDossie = useRefreshPlanDossier(patientId);
-  const { data: conversa = [] } = usePlanConversation(patientId, selectedId ?? undefined);
-  const { data: sugestoes = [] } = usePlanSuggestions(patientId, selectedId ?? undefined);
+  const { data: conversa = [] } = usePlanConversation(
+    patientId,
+    selectedId ?? undefined,
+  );
+  const { data: sugestoes = [] } = usePlanSuggestions(
+    patientId,
+    selectedId ?? undefined,
+  );
+  const { data: revisoes = [], isLoading: carregandoRevisoes } =
+    usePlanRevisions(patientId, selectedId ?? undefined);
+  const restaurar = useRestorePlanRevision(patientId ?? "");
   const enviarMensagem = useSendPlanMessage(patientId);
   const resolverSugestao = useResolveSuggestions(patientId);
-  const [ultimoTurno, setUltimoTurno] = useState<PlanAssistantTurn | null>(null);
-  const [title, setTitle] = useState('');
+  const [ultimoTurno, setUltimoTurno] = useState<PlanAssistantTurn | null>(
+    null,
+  );
+  const [title, setTitle] = useState("");
   // Os slides viram estado estruturado. O texto do JSON some daqui: a escotilha por slide vive
   // dentro do próprio cartão, onde ela é útil sem ser a única forma de editar.
   const [slides, setSlides] = useState<DeckSlide[]>([]);
@@ -142,7 +184,9 @@ export default function PatientPlanPage() {
 
   const exigeSalvar = () => {
     if (sujo) {
-      toast.error('Salve as alterações antes: conferir e publicar usam o que está gravado.');
+      toast.error(
+        "Salve as alterações antes: conferir e publicar usam o que está gravado.",
+      );
       return true;
     }
     return false;
@@ -163,13 +207,16 @@ export default function PatientPlanPage() {
       });
       setUltimoTurno(r);
       if (r.plan?.content) setSlides(r.plan.content as DeckSlide[]);
-      if (r.failed) toast.error(r.error ?? 'A rodada falhou e nada foi alterado.');
+      if (r.failed)
+        toast.error(r.error ?? "A rodada falhou e nada foi alterado.");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha no turno do assistente');
+      toast.error(
+        e instanceof Error ? e.message : "Falha no turno do assistente",
+      );
     }
   };
 
-  const resolver = (action: 'accept' | 'reject') => async (id: string) => {
+  const resolver = (action: "accept" | "reject") => async (id: string) => {
     if (!selectedId || !selected) return;
     try {
       const r = await resolverSugestao.mutateAsync({
@@ -180,10 +227,13 @@ export default function PatientPlanPage() {
       });
       if (r.plan?.content) setSlides(r.plan.content as DeckSlide[]);
       const pulou = r.skipped ?? [];
-      if (pulou.length > 0) toast.warning(pulou[0].reason ?? 'Sugestão não aplicada');
-      else if (action === 'accept') toast.success('Sugestão aplicada');
+      if (pulou.length > 0)
+        toast.warning(pulou[0].reason ?? "Sugestão não aplicada");
+      else if (action === "accept") toast.success("Sugestão aplicada");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha ao resolver a sugestão');
+      toast.error(
+        e instanceof Error ? e.message : "Falha ao resolver a sugestão",
+      );
     }
   };
 
@@ -195,29 +245,33 @@ export default function PatientPlanPage() {
       const r = await refrescarDossie.mutateAsync(selectedId);
       const mudou = r.changed ?? [];
       if (mudou.length === 0) {
-        toast.success('Dossiê atualizado. Nenhum exame citado no deck mudou de valor.');
+        toast.success(
+          "Dossiê atualizado. Nenhum exame citado no deck mudou de valor.",
+        );
         return;
       }
       toast.warning(
-        `${mudou.length} exame${mudou.length > 1 ? 's' : ''} citado${mudou.length > 1 ? 's' : ''} mudou de valor: ` +
-          mudou.map((c) => `${c.name} ${c.was} → ${c.now}`).join('; '),
+        `${mudou.length} exame${mudou.length > 1 ? "s" : ""} citado${mudou.length > 1 ? "s" : ""} mudou de valor: ` +
+          mudou.map((c) => `${c.name} ${c.was} → ${c.now}`).join("; "),
         { duration: 12000 },
       );
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha ao atualizar o dossiê');
+      toast.error(
+        e instanceof Error ? e.message : "Falha ao atualizar o dossiê",
+      );
     }
   };
 
   const handleCreate = async () => {
     try {
       const plan = await createPlan.mutateAsync({
-        title: 'Seus exames',
+        title: "Seus exames",
         content: SLIDES_INICIAIS,
       });
       setSelectedId(plan.id);
-      toast.success('Rascunho criado');
+      toast.success("Rascunho criado");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha ao criar o rascunho');
+      toast.error(e instanceof Error ? e.message : "Falha ao criar o rascunho");
     }
   };
 
@@ -226,7 +280,10 @@ export default function PatientPlanPage() {
     const content = parsedContent();
     if (!content) return;
     try {
-      const salvo = await updatePlan.mutateAsync({ id: selected.id, payload: { title, content } });
+      const salvo = await updatePlan.mutateAsync({
+        id: selected.id,
+        payload: { title, content },
+      });
       // Reescreve a caixa com o que o SERVIDOR gravou. Sem isto, "sujo" ficava true para sempre
       // depois de salvar — o Go normaliza a ordem das chaves e derruba campo vazio (`omitempty`),
       // então o texto colado nunca voltava a bater com o salvo, e Prévia/Conferir/Publicar ficavam
@@ -234,10 +291,10 @@ export default function PatientPlanPage() {
       setTitle(salvo.title);
       setSlides(salvo.content ?? []);
       setOverflow(null);
-      toast.success('Plano salvo');
+      toast.success("Plano salvo");
     } catch (e) {
       // Salvar que falha em silêncio é o pior caso: o médico segue achando que gravou.
-      toast.error(e instanceof Error ? e.message : 'Falha ao salvar o plano');
+      toast.error(e instanceof Error ? e.message : "Falha ao salvar o plano");
     }
   };
 
@@ -247,10 +304,12 @@ export default function PatientPlanPage() {
       // A prévia é HTML autenticado, então não dá para apontar o iframe direto para a URL: o token
       // vai no header. E não dá para usar apiClient.get, que sempre faz response.json(). O getBlob
       // é o caminho que já leva o token e devolve o corpo cru; daí entra por srcdoc, isolado.
-      const blob = await apiClient.getBlob(patientPlansApi.previewURL(patientId, selected.id));
+      const blob = await apiClient.getBlob(
+        patientPlansApi.previewURL(patientId, selected.id),
+      );
       setPreviewHTML(await blob.text());
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha ao montar a prévia');
+      toast.error(e instanceof Error ? e.message : "Falha ao montar a prévia");
     }
   };
 
@@ -259,9 +318,9 @@ export default function PatientPlanPage() {
     try {
       const res = await checkOverflow.mutateAsync(selected.id);
       setOverflow(res.slides);
-      if (res.slides.length === 0) toast.success('Todos os slides cabem');
+      if (res.slides.length === 0) toast.success("Todos os slides cabem");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha ao medir os slides');
+      toast.error(e instanceof Error ? e.message : "Falha ao medir os slides");
     }
   };
 
@@ -273,13 +332,34 @@ export default function PatientPlanPage() {
       toast.success(`Publicado no portal (versão ${plan.version})`);
     } catch (e) {
       // 422 = conteúdo que não cabe. Vale mostrar QUAIS slides, não só que falhou.
-      const slides = (e as { data?: { slides?: DeckOverflow[] } })?.data?.slides;
+      const slides = (e as { data?: { slides?: DeckOverflow[] } })?.data
+        ?.slides;
       if (slides?.length) {
         setOverflow(slides);
-        toast.error('Há slides que não cabem — corrija antes de publicar');
+        toast.error("Há slides que não cabem — corrija antes de publicar");
         return;
       }
-      toast.error(e instanceof Error ? e.message : 'Falha ao publicar');
+      toast.error(e instanceof Error ? e.message : "Falha ao publicar");
+    }
+  };
+
+  const handleRestore = async (revisionId: string) => {
+    if (!selected) return;
+    try {
+      const plan = await restaurar.mutateAsync({
+        planId: selected.id,
+        revisionId,
+      });
+      // Reescreve o rascunho local com o que o SERVIDOR gravou, pelo mesmo motivo do salvar: sem
+      // isto o editor continuaria mostrando o conteúdo antigo e o selo de "sujo" nunca sairia.
+      // O título entra junto: restaurar troca os dois, e reescrever só os slides deixaria o selo
+      // preso pela diferença no título.
+      setTitle(plan.title);
+      setSlides(plan.content ?? []);
+      setOverflow(null);
+      toast.success("Rascunho restaurado");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Falha ao restaurar");
     }
   };
 
@@ -287,9 +367,9 @@ export default function PatientPlanPage() {
     try {
       await deletePlan.mutateAsync(plan.id);
       if (selectedId === plan.id) setSelectedId(null);
-      toast.success('Plano apagado');
+      toast.success("Plano apagado");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Falha ao apagar o plano');
+      toast.error(e instanceof Error ? e.message : "Falha ao apagar o plano");
     }
   };
 
@@ -304,13 +384,17 @@ export default function PatientPlanPage() {
   return (
     <div className="space-y-6 p-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.push(`/patients/${routeId}`)}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => router.push(`/patients/${routeId}`)}
+        >
           <ArrowLeft className="mr-1 h-4 w-4" />
           Voltar
         </Button>
         <div>
           <h1 className="text-xl font-semibold">Plano de devolutiva</h1>
-          <p className="text-sm text-muted-foreground">{patient?.name ?? ''}</p>
+          <p className="text-sm text-muted-foreground">{patient?.name ?? ""}</p>
         </div>
         {selected && (
           <Sheet>
@@ -325,7 +409,10 @@ export default function PatientPlanPage() {
                 )}
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
+            <SheetContent
+              side="right"
+              className="flex w-full flex-col sm:max-w-md"
+            >
               <SheetTitle className="text-sm">Conversa</SheetTitle>
               <div className="min-h-0 flex-1">
                 <PlanChatPanel
@@ -341,7 +428,11 @@ export default function PatientPlanPage() {
             </SheetContent>
           </Sheet>
         )}
-        <Button className={selected ? '' : 'ml-auto'} onClick={handleCreate} disabled={createPlan.isPending}>
+        <Button
+          className={selected ? "" : "ml-auto"}
+          onClick={handleCreate}
+          disabled={createPlan.isPending}
+        >
           {createPlan.isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
@@ -357,60 +448,70 @@ export default function PatientPlanPage() {
           na fase 5, como terceira coluna só a partir de 2xl. */}
       <div className="grid gap-6 lg:grid-cols-[340px_1fr] 2xl:grid-cols-[320px_1fr_360px]">
         <div className="space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Planos</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {isLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
-            {!isLoading && plans.length === 0 && (
-              <p className="text-sm text-muted-foreground">
-                Nenhum plano ainda. Crie um rascunho para começar.
-              </p>
-            )}
-            {plans.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => setSelectedId(p.id)}
-                className={cn(
-                  'w-full rounded-md border p-3 text-left transition-colors',
-                  selectedId === p.id ? 'border-primary bg-accent' : 'hover:bg-accent/50',
-                )}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="truncate text-sm font-medium">{p.title}</span>
-                  <Badge variant={p.status === 'published' ? 'default' : 'secondary'}>
-                    {p.status === 'published' ? `v${p.version}` : 'rascunho'}
-                  </Badge>
-                </div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  {p.content?.length ?? 0} slides ·{' '}
-                  {p.status === 'published' && p.publishedAt
-                    ? `publicado em ${formatDate(p.publishedAt)}`
-                    : `editado em ${formatDate(p.updatedAt)}`}
-                  {p.status === 'draft' && p.publishedAt
-                    ? ` · v${p.version} no portal desde ${formatDate(p.publishedAt)}`
-                    : ''}
-                </div>
-              </button>
-            ))}
-          </CardContent>
-        </Card>
-
-        {selected && (
           <Card>
-            <CardContent className="h-[calc(100vh-22rem)] min-h-[20rem] pt-6">
-              <DossierColumn
-                dossier={dossie?.dossier}
-                frozenAt={dossie?.frozenAt}
-                carregando={carregandoDossie}
-                motivosDeEnvelhecimento={envelhecimento?.reasons}
-                onRefresh={handleRefreshDossie}
-                refrescando={refrescarDossie.isPending}
-              />
+            <CardHeader>
+              <CardTitle className="text-base">Planos</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {isLoading && (
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              )}
+              {!isLoading && plans.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Nenhum plano ainda. Crie um rascunho para começar.
+                </p>
+              )}
+              {plans.map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => setSelectedId(p.id)}
+                  className={cn(
+                    "w-full rounded-md border p-3 text-left transition-colors",
+                    selectedId === p.id
+                      ? "border-primary bg-accent"
+                      : "hover:bg-accent/50",
+                  )}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="truncate text-sm font-medium">
+                      {p.title}
+                    </span>
+                    <Badge
+                      variant={
+                        p.status === "published" ? "default" : "secondary"
+                      }
+                    >
+                      {p.status === "published" ? `v${p.version}` : "rascunho"}
+                    </Badge>
+                  </div>
+                  <div className="mt-1 text-xs text-muted-foreground">
+                    {p.content?.length ?? 0} slides ·{" "}
+                    {p.status === "published" && p.publishedAt
+                      ? `publicado em ${formatDate(p.publishedAt)}`
+                      : `editado em ${formatDate(p.updatedAt)}`}
+                    {p.status === "draft" && p.publishedAt
+                      ? ` · v${p.version} no portal desde ${formatDate(p.publishedAt)}`
+                      : ""}
+                  </div>
+                </button>
+              ))}
             </CardContent>
           </Card>
-        )}
+
+          {selected && (
+            <Card>
+              <CardContent className="h-[calc(100vh-22rem)] min-h-[20rem] pt-6">
+                <DossierColumn
+                  dossier={dossie?.dossier}
+                  frozenAt={dossie?.frozenAt}
+                  carregando={carregandoDossie}
+                  motivosDeEnvelhecimento={envelhecimento?.reasons}
+                  onRefresh={handleRefreshDossie}
+                  refrescando={refrescarDossie.isPending}
+                />
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {selected ? (
@@ -429,8 +530,9 @@ export default function PatientPlanPage() {
                   <div className="flex items-baseline justify-between">
                     <Label>Slides</Label>
                     <span className="text-[11px] text-muted-foreground">
-                      {slides.length} slide{slides.length === 1 ? '' : 's'} · a miniatura mostra como
-                      o paciente vê na tela, não a moldura impressa
+                      {slides.length} slide{slides.length === 1 ? "" : "s"} · a
+                      miniatura mostra como o paciente vê na tela, não a moldura
+                      impressa
                     </span>
                   </div>
                   <SlideList
@@ -440,27 +542,37 @@ export default function PatientPlanPage() {
                     overflow={overflow ?? []}
                     sujos={sujosPorSlide}
                     sugestoes={sugestoes}
-                    onAceitarSugestao={resolver('accept')}
-                    onDescartarSugestao={resolver('reject')}
+                    onAceitarSugestao={resolver("accept")}
+                    onDescartarSugestao={resolver("reject")}
                     resolvendo={resolverSugestao.isPending}
                   />
                 </div>
                 {sujo && (
                   <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-                    Há alterações não salvas. Conferir e publicar usam o que está gravado no
-                    servidor.
+                    Há alterações não salvas. Conferir e publicar usam o que
+                    está gravado no servidor.
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2">
                   <Button onClick={handleSave} disabled={updatePlan.isPending}>
-                    {updatePlan.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {updatePlan.isPending && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
                     Salvar
                   </Button>
-                  <Button variant="outline" onClick={handlePreview} disabled={sujo}>
+                  <Button
+                    variant="outline"
+                    onClick={handlePreview}
+                    disabled={sujo}
+                  >
                     <Eye className="mr-2 h-4 w-4" />
                     Prévia
                   </Button>
-                  <Button variant="outline" onClick={handleCheck} disabled={sujo || checkOverflow.isPending}>
+                  <Button
+                    variant="outline"
+                    onClick={handleCheck}
+                    disabled={sujo || checkOverflow.isPending}
+                  >
                     {checkOverflow.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
@@ -468,7 +580,10 @@ export default function PatientPlanPage() {
                     )}
                     Conferir se cabe
                   </Button>
-                  <Button onClick={handlePublish} disabled={sujo || publishPlan.isPending}>
+                  <Button
+                    onClick={handlePublish}
+                    disabled={sujo || publishPlan.isPending}
+                  >
                     {publishPlan.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
@@ -476,6 +591,13 @@ export default function PatientPlanPage() {
                     )}
                     Publicar no portal
                   </Button>
+                  <PlanHistoryPanel
+                    revisoes={revisoes}
+                    carregando={carregandoRevisoes}
+                    restaurando={restaurar.isPending}
+                    sujo={sujo}
+                    onRestaurar={handleRestore}
+                  />
                   <Button
                     variant="ghost"
                     className="text-destructive"
@@ -488,10 +610,10 @@ export default function PatientPlanPage() {
                 {overflow !== null && (
                   <div
                     className={cn(
-                      'rounded-md border p-3 text-sm',
+                      "rounded-md border p-3 text-sm",
                       overflow.length === 0
-                        ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
-                        : 'border-amber-300 bg-amber-50 text-amber-900',
+                        ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                        : "border-amber-300 bg-amber-50 text-amber-900",
                     )}
                   >
                     {overflow.length === 0 ? (
@@ -511,11 +633,11 @@ export default function PatientPlanPage() {
                             const direita = o.right ?? 0;
                             return (
                               <li key={o.slide}>
-                                Slide {String(o.slide ?? 0).padStart(2, '0')}
-                                {o.title ? ` (${o.title})` : ''} passa{' '}
-                                {embaixo > 0 ? `${embaixo}px embaixo` : ''}
-                                {embaixo > 0 && direita > 0 ? ' e ' : ''}
-                                {direita > 0 ? `${direita}px à direita` : ''}
+                                Slide {String(o.slide ?? 0).padStart(2, "0")}
+                                {o.title ? ` (${o.title})` : ""} passa{" "}
+                                {embaixo > 0 ? `${embaixo}px embaixo` : ""}
+                                {embaixo > 0 && direita > 0 ? " e " : ""}
+                                {direita > 0 ? `${direita}px à direita` : ""}
                               </li>
                             );
                           })}
@@ -525,10 +647,11 @@ export default function PatientPlanPage() {
                   </div>
                 )}
 
-                {selected.status === 'published' && (
+                {selected.status === "published" && (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <FileText className="h-4 w-4" />
-                    Versão {selected.version} publicada no portal: PDF 16:9 e A4 para impressão.
+                    Versão {selected.version} publicada no portal: PDF 16:9 e A4
+                    para impressão.
                   </div>
                 )}
               </CardContent>

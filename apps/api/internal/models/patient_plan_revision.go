@@ -66,8 +66,11 @@ type PatientPlanRevision struct {
 	AIModel         string     `gorm:"type:varchar(60);column:ai_model" json:"aiModel,omitempty"`
 	AIPromptVersion string     `gorm:"type:varchar(20);column:ai_prompt_version" json:"aiPromptVersion,omitempty"`
 
-	IsPublication bool      `gorm:"not null;default:false" json:"isPublication"`
-	CreatedAt     time.Time `gorm:"not null" json:"createdAt"`
+	IsPublication bool `gorm:"not null;default:false" json:"isPublication"`
+	// AITouchedPaths — só na revisão de publicação: os caminhos cujo último escritor foi o
+	// assistente. Vazio significa que tudo o que o paciente leu passou pela mão do médico depois.
+	AITouchedPaths any       `gorm:"type:jsonb;serializer:json;column:ai_touched_paths" json:"aiTouchedPaths,omitempty"`
+	CreatedAt      time.Time `gorm:"not null" json:"createdAt"`
 
 	CreatedBy User `gorm:"foreignKey:CreatedByID;constraint:OnDelete:RESTRICT" json:"createdBy,omitempty"`
 }

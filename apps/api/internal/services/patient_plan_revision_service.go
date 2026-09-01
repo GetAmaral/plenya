@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/google/uuid"
@@ -134,6 +135,13 @@ func (s *PatientPlanRevisionService) Record(tx *gorm.DB, in RecordRevisionInput)
 		AIPromptVersion: in.AIPromptVersion,
 		IsPublication:   in.IsPublication,
 	}
+	if in.IsPublication {
+		// Calculado ANTES de inserir: a própria revisão de publicação não escreve conteúdo, e
+		// incluí-la só adicionaria ruído.
+		if caminhos, err := s.AITouchedPaths(tx, in.Plan.ID); err == nil && len(caminhos) > 0 {
+			rev.AITouchedPaths = caminhos
+		}
+	}
 	if err := tx.Create(&rev).Error; err != nil {
 		return 0, err
 	}
@@ -200,4 +208,183 @@ func EnsureSlideIDs(slides []pdfdoc.DeckSlide) ([]pdfdoc.DeckSlide, bool) {
 		}
 	}
 	return slides, mudou
+}
+
+// AITouchedPaths devolve os caminhos cujo ÚLTIMO escritor foi o assistente, dentro da versão
+// publicada corrente.
+//
+// A lógica é a de um "quem tocou por último": percorre as revisões da versão em ordem cronológica
+// e, para cada caminho, guarda quem escreveu por último. Sobram os caminhos onde a ferramenta
+// escreveu e o médico não voltou.
+//
+// Isso NÃO aparece para o paciente. É registro interno, e existe para responder duas perguntas que
+// de outro jeito seriam arqueologia: "esta devolutiva tem frase gerada que ninguém revisou?" e,
+// somando muitos planos, "a revisão está de fato acontecendo?". A evidência sobre revisão de texto
+// redigido por IA é de que ela falha com frequência; a única forma de saber se está falhando aqui
+// é medir.
+// Percorre a cadeia INTEIRA do plano, não só a versão corrente. Escopar por `plan_version` foi
+// erro meu, e errava para o lado perigoso: a partir da segunda publicação o cálculo só enxergaria o
+// que mudou desde a anterior, e um deck escrito pela ferramenta na v1 e republicado sem alteração
+// apareceria como se nada nele tivesse vindo dela. A pergunta é sobre o conteúdo que o paciente
+// tem na mão, não sobre o intervalo entre duas publicações.
+func (s *PatientPlanRevisionService) AITouchedPaths(tx *gorm.DB, planID uuid.UUID) ([]string, error) {
+	var revs []models.PatientPlanRevision
+	if err := tx.Where("plan_id = ?", planID).
+		Order("seq").Find(&revs).Error; err != nil {
+		return nil, err
+	}
+
+	// caminho -> quem escreveu por último
+	ultimoAutor := map[string]models.PatientPlanAuthorKind{}
+	for _, r := range revs {
+		if r.Ops == nil {
+			// Edição à mão pela tela reescreve o conteúdo inteiro e não declara caminhos, então
+			// não dá para saber o que ela tocou.
+			//
+			// Ela NÃO limpa a atribuição. Salvar não é ler: o médico pode ter mexido só no slide 3
+			// e apertado salvar com os outros dezenove como a ferramenta os deixou. Assumir que
+			// tudo passou pela revisão dele é exatamente a suposição que a evidência de viés de
+			// automação desmente, e é a que faz a coluna mentir para o lado perigoso.
+			//
+			// A consequência é que este número super-reporta: um trecho reescrito à mão continua
+			// contando como da ferramenta até uma op declarada dizer o contrário. Errar para cima
+			// é o lado certo de errar aqui.
+			continue
+		}
+		for _, caminho := range caminhosDasOps(r.Ops) {
+			ultimoAutor[caminho] = r.AuthorKind
+		}
+	}
+
+	var out []string
+	for caminho, autor := range ultimoAutor {
+		if autor == models.PlanAuthorAssistant {
+			out = append(out, caminho)
+		}
+	}
+	sort.Strings(out)
+	return out, nil
+}
+
+// caminhosDasOps extrai "slideId:path" de um `ops` gravado como JSON solto.
+func caminhosDasOps(ops any) []string {
+	bruto, err := json.Marshal(ops)
+	if err != nil {
+		return nil
+	}
+	var lista []struct {
+		Op struct {
+			SlideID string `json:"slideId"`
+			Path    string `json:"path"`
+			Op      string `json:"op"`
+		} `json:"op"`
+		Decision string `json:"decision"`
+	}
+	if err := json.Unmarshal(bruto, &lista); err != nil {
+		return nil
+	}
+	var out []string
+	for _, l := range lista {
+		// Só o que de fato entrou no conteúdo conta; sugestão e recusa não escreveram nada.
+		if l.Decision != "" && l.Decision != string(TriageApply) {
+			continue
+		}
+		if l.Op.Path == "" {
+			out = append(out, l.Op.SlideID+":"+l.Op.Op)
+			continue
+		}
+		out = append(out, l.Op.SlideID+":"+l.Op.Path)
+	}
+	return out
+}
+
+// PlanRevisionSummary — uma linha do histórico. Sem o `content`, que é o volume todo: a lista
+// carregaria dezenas de decks inteiros para desenhar dezenas de linhas.
+type PlanRevisionSummary struct {
+	ID             uuid.UUID                        `json:"id"`
+	Seq            int                              `json:"seq"`
+	PlanVersion    int                              `json:"planVersion"`
+	Title          string                           `json:"title"`
+	AuthorKind     models.PatientPlanAuthorKind     `json:"authorKind"`
+	AuthorName     string                           `json:"authorName"`
+	Reason         models.PatientPlanRevisionReason `json:"reason"`
+	IsPublication  bool                             `json:"isPublication"`
+	Slides         int                              `json:"slides"`
+	ChangedPaths   []string                         `json:"changedPaths,omitempty"`
+	AITouchedPaths []string                         `json:"aiTouchedPaths,omitempty"`
+	AIModel        string                           `json:"aiModel,omitempty"`
+	CreatedAt      time.Time                        `json:"createdAt"`
+}
+
+// ListRevisions devolve o histórico do plano, do mais recente para o mais antigo.
+func (s *PatientPlanRevisionService) ListRevisions(planID uuid.UUID, limite int) ([]PlanRevisionSummary, error) {
+	if limite <= 0 || limite > 200 {
+		limite = 100
+	}
+	var revs []models.PatientPlanRevision
+	if err := s.db.Preload("CreatedBy").Where("plan_id = ?", planID).
+		Order("seq DESC").Limit(limite).Find(&revs).Error; err != nil {
+		return nil, err
+	}
+	out := make([]PlanRevisionSummary, 0, len(revs))
+	for i := range revs {
+		r := &revs[i]
+		linha := PlanRevisionSummary{
+			ID: r.ID, Seq: r.Seq, PlanVersion: r.PlanVersion, Title: r.Title,
+			AuthorKind: r.AuthorKind, AuthorName: r.CreatedBy.Name, Reason: r.Reason,
+			IsPublication: r.IsPublication, Slides: len(r.Content),
+			AIModel: r.AIModel, CreatedAt: r.CreatedAt,
+		}
+		if r.Ops != nil {
+			linha.ChangedPaths = caminhosDasOps(r.Ops)
+		}
+		if r.AITouchedPaths != nil {
+			bruto, err := json.Marshal(r.AITouchedPaths)
+			if err == nil {
+				_ = json.Unmarshal(bruto, &linha.AITouchedPaths)
+			}
+		}
+		out = append(out, linha)
+	}
+	return out, nil
+}
+
+// Restore devolve o rascunho ao estado de uma revisão.
+//
+// Não apaga nada: restaurar GRAVA uma revisão nova com o conteúdo antigo. Desfazer que destrói
+// histórico é o mesmo defeito que esta tabela existe para consertar, e "restaurei a v3 por engano,
+// volta" tem que continuar sendo possível.
+//
+// O autor é `human` mesmo quando a revisão restaurada foi escrita pela ferramenta: a decisão de
+// trazer aquele texto de volta é do médico, e é a decisão que a trilha precisa registrar. A
+// atribuição de quem escreveu o texto continua na revisão de origem, e `ai_touched_paths` continua
+// contando, porque restaurar não declara caminhos.
+func (s *PatientPlanRevisionService) Restore(plan *models.PatientPlan, revisionID, userID uuid.UUID) (int, error) {
+	var alvo models.PatientPlanRevision
+	if err := s.db.Where("id = ? AND plan_id = ?", revisionID, plan.ID).First(&alvo).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return 0, fmt.Errorf("revisão não encontrada neste plano")
+		}
+		return 0, err
+	}
+	var seq int
+	err := s.db.Transaction(func(tx *gorm.DB) error {
+		plan.Title = alvo.Title
+		plan.Content = alvo.Content
+		// Restaurar devolve o plano a rascunho: o que está no portal continua sendo a versão
+		// publicada até alguém publicar de novo.
+		plan.Status = models.PatientPlanDraft
+		novo, err := s.Record(tx, RecordRevisionInput{
+			Plan: plan, Title: plan.Title, Content: plan.Content,
+			AuthorKind: models.PlanAuthorHuman, CreatedByID: userID,
+			Reason: models.PlanRevisionRestore,
+		})
+		if err != nil {
+			return err
+		}
+		seq = novo
+		plan.RevisionSeq = novo
+		return tx.Save(plan).Error
+	})
+	return seq, err
 }

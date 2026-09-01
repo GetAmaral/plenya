@@ -382,10 +382,27 @@ func (s *PatientPlanAssistantService) ResolveSuggestions(in ResolveSuggestionsIn
 		}
 		plan.Content = novos
 		plan.Status = models.PatientPlanDraft
+		// As ops entram na revisão, e não só o conteúdo resultante.
+		//
+		// Sem elas, a revisão de aceite não declara caminho nenhum, e a sugestão numérica aceita
+		// (o número que a ferramenta escreveu, o conteúdo de maior risco do fluxo inteiro) some da
+		// trilha de `ai_touched_paths`. O erro caía do lado errado: um plano cheio de números
+		// gerados apareceria como se nenhum tivesse vindo da ferramenta.
+		//
+		// Sem `decision`: aceitar JÁ é a decisão. O extrator trata a ausência como aplicada.
+		triadas := make([]TriagedOp, 0, len(aplicar))
+		for i, op := range aplicar {
+			classe := FieldUnknown
+			if j := indiceDoSlide(plan.Content, op.SlideID); j >= 0 && op.Path != "" {
+				classe, _ = ClassifyPath(&plan.Content[j], op.Path)
+			}
+			triadas = append(triadas, TriagedOp{Op: op, Class: classe.String(),
+				Reason: "sugestão aceita pelo clínico (" + aplicadas[i].Class + ")"})
+		}
 		seq, err := s.revisions.Record(tx, RecordRevisionInput{
 			Plan: plan, Title: plan.Title, Content: plan.Content,
 			AuthorKind: models.PlanAuthorAssistant, CreatedByID: in.UserID,
-			Reason: models.PlanRevisionSuggestionAccept,
+			Reason: models.PlanRevisionSuggestionAccept, Ops: triadas,
 		})
 		if err != nil {
 			return err

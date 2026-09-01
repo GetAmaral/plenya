@@ -459,3 +459,67 @@ func (h *PatientPlanHandler) MyPlan(c *fiber.Ctx) error {
 	}
 	return c.JSON(out)
 }
+
+// Revisions godoc
+// @Summary Histórico de revisões do rascunho
+// @Description Cada gravação do rascunho vira uma linha, com quem escreveu (o clínico ou a
+// @Description ferramenta), o porquê e os caminhos alterados. Sem o conteúdo: a lista carregaria
+// @Description dezenas de decks inteiros para desenhar dezenas de linhas.
+// @Tags patient-plans
+// @Produce json
+// @Param id path string true "ID do paciente (UUID)"
+// @Param planId path string true "ID do plano (UUID)"
+// @Param limit query int false "Máximo de revisões (padrão 100)"
+// @Success 200 {array} services.PlanRevisionSummary
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/{planId}/revisions [get]
+func (h *PatientPlanHandler) Revisions(c *fiber.Ctx) error {
+	patientID, planID, resp, ok := h.ids(c)
+	if !ok {
+		return resp
+	}
+	limite := c.QueryInt("limit", 100)
+	lista, err := h.plans.Revisions(planID, patientID, limite)
+	if err != nil {
+		return h.fail(c, err, "erro ao listar revisões")
+	}
+	return c.JSON(lista)
+}
+
+// RestoreRevision godoc
+// @Summary Restaura o rascunho ao estado de uma revisão
+// @Description Não apaga nada: grava uma revisão nova com o conteúdo antigo, então restaurar por
+// @Description engano também se desfaz. O plano volta a rascunho; o que está no portal continua
+// @Description sendo a versão publicada até alguém publicar de novo.
+// @Tags patient-plans
+// @Produce json
+// @Param id path string true "ID do paciente (UUID)"
+// @Param planId path string true "ID do plano (UUID)"
+// @Param revisionId path string true "ID da revisão (UUID)"
+// @Success 200 {object} dto.PatientPlanResponse
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/{planId}/revisions/{revisionId}/restore [post]
+func (h *PatientPlanHandler) RestoreRevision(c *fiber.Ctx) error {
+	patientID, planID, resp, ok := h.ids(c)
+	if !ok {
+		return resp
+	}
+	revisionID, err := uuid.Parse(c.Params("revisionId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).
+			JSON(dto.ErrorResponse{Error: "invalid revision id", Message: err.Error()})
+	}
+	userID, ok := c.Locals("userID").(uuid.UUID)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{Error: "não autenticado"})
+	}
+	plano, err := h.plans.RestoreRevision(planID, patientID, revisionID, userID)
+	if err != nil {
+		return h.fail(c, err, "erro ao restaurar revisão")
+	}
+	return c.JSON(plano)
+}

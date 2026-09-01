@@ -60,9 +60,20 @@ func AuditLog(db *gorm.DB) fiber.Handler {
 			return err // Não registrar rotas não identificadas
 		}
 
-		// Extrair resourceID se houver (último segmento UUID da rota)
+		// Extrair resourceID: o parâmetro MAIS ESPECÍFICO da rota, não o primeiro.
+		//
+		// Antes gravava sempre `:id`, que em `/patients/:id/plans/:planId/...` é o paciente. A
+		// trilha dizia "alguém acessou o paciente X" para toda ação sobre o plano, sobre uma
+		// revisão ou sobre uma sugestão — informação verdadeira e inútil.
 		var resourceID *uuid.UUID
-		if id := c.Params("id"); id != "" {
+		id := ""
+		for _, nome := range []string{"suggestionId", "revisionId", "planId", "itemId", "id"} {
+			if v := c.Params(nome); v != "" {
+				id = v
+				break
+			}
+		}
+		if id != "" {
 			if parsed, parseErr := uuid.Parse(id); parseErr == nil {
 				resourceID = &parsed
 			}
@@ -108,7 +119,13 @@ func extractResource(path string) models.AuditResource {
 	}
 
 	// Mapear rotas conhecidas pra constantes (mantém audits agregáveis).
+	//
+	// A ORDEM importa: toda rota de plano vive sob `/patients/:id/plans/...`, então testar
+	// "patients" primeiro classificava tudo como acesso a paciente e a trilha da devolutiva não
+	// existia. O mais específico vem antes.
 	switch {
+	case contains(path, "/plans"):
+		return models.ResourcePlans
 	case contains(path, "patients"):
 		return models.ResourcePatients
 	case contains(path, "anamnesis"):

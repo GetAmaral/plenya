@@ -1493,6 +1493,8 @@ func setupRoutes(
 	patients.Get("/:id/plans/:planId/assistant/messages", middleware.RequireClinician(), patientPlanAssistantHandler.History)
 	patients.Get("/:id/plans/:planId/suggestions", middleware.RequireClinician(), patientPlanAssistantHandler.ListSuggestions)
 	patients.Post("/:id/plans/:planId/suggestions/resolve", middleware.RequireClinician(), patientPlanAssistantHandler.ResolveSuggestions)
+	patients.Get("/:id/plans/:planId/revisions", middleware.RequireClinician(), patientPlanHandler.Revisions)
+	patients.Post("/:id/plans/:planId/revisions/:revisionId/restore", middleware.RequireClinician(), patientPlanHandler.RestoreRevision)
 	patients.Get("/:id/plans/:planId/preview", middleware.RequireClinician(), patientPlanHandler.Preview)
 	patients.Get("/:id/plans/:planId/overflow", middleware.RequireClinician(), patientPlanHandler.CheckOverflow)
 	patients.Post("/:id/plans/:planId/publish", middleware.RequireClinician(), patientPlanHandler.Publish)

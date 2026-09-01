@@ -13,7 +13,7 @@
 | 3 | Ops, classificação e índice numérico (sem IA) | ✅ dev (`28c13928`), 28 testes |
 | 4 | Cartões e os 6 editores | ✅ dev (`3ef626ef`) |
 | 5 | A conversa, triagem e sugestões | ✅ dev (`98dbec0a`, `53512fe6`, mig 00094) |
-| 6 | Auditoria de conteúdo gerado | 🔨 próxima |
+| 6 | Auditoria de conteúdo gerado + histórico legível | ✅ dev (mig 00095) |
 
 ### Medido na fase 2
 
@@ -30,6 +30,50 @@ não foi versionado (dado clínico mora em `pacs/`); ficaram no teste os onze fo
 com as contagens.
 
 A triagem é toda testável sem chamar modelo, e é o que decide se a feature é segura.
+
+### O que a fase 6 fechou
+
+**A trilha passou a apontar o objeto certo.** Toda rota de plano mora sob `/patients/:id/plans/…`,
+e o middleware classificava tudo como acesso a paciente e gravava o id do PACIENTE. A trilha dizia
+"alguém acessou o paciente X" para qualquer ação sobre um plano, uma revisão ou uma sugestão:
+verdadeiro e inútil. Agora `/plans` é testado antes de `patients`, e o id gravado é o do parâmetro
+mais específico da rota (`suggestionId` → `revisionId` → `planId` → `itemId` → `id`). Conferido que
+as rotas de paciente puras continuam classificadas como `patients`.
+
+**`ai_touched_paths` na publicação** (migration 00095): no ato de publicar, percorre a cadeia de
+revisões e guarda os caminhos cujo ÚLTIMO escritor foi o assistente. "Esta devolutiva tem N campos
+gerados que ninguém reescreveu" vira campo em vez de arqueologia em JSONB.
+
+Três decisões que a implementação obrigou a tomar, e o motivo:
+
+- **Salvar à mão NÃO limpa a atribuição.** Edição pela tela reescreve o conteúdo inteiro e não
+  declara caminhos. Tratar isso como "o médico passou por tudo" é exatamente a suposição que a
+  evidência de viés de automação desmente. O número super-reporta de propósito: errar para cima é o
+  lado certo de errar aqui, e a tela diz isso com todas as letras ("sem reescrita registrada
+  depois da ferramenta").
+- **A revisão de aceite de sugestão passou a gravar as `ops`.** Ela não gravava, e o efeito era o
+  pior possível: a sugestão NUMÉRICA aceita, o conteúdo de maior risco do fluxo inteiro, não
+  deixava caminho nenhum e sumia da trilha. Um plano cheio de números gerados apareceria como se
+  nenhum tivesse vindo da ferramenta.
+- **O cálculo percorre a cadeia inteira, não a `plan_version` corrente.** Escopar por versão foi
+  erro meu: a partir da segunda publicação só enxergaria o que mudou desde a anterior, e um deck
+  escrito pela ferramenta na v1 e republicado apareceria limpo. A pergunta é sobre o conteúdo que o
+  paciente tem na mão.
+
+**O histórico ficou legível, e o desfazer existe.** Isto era promessa da fase 1 entregue pela
+metade: as revisões eram gravadas desde o começo e nunca houve rota para lê-las nem para restaurar.
+`GET .../revisions` devolve a lista sem o `content` (a lista carregaria dezenas de decks inteiros
+para desenhar dezenas de linhas) e `POST .../revisions/:revisionId/restore` volta o rascunho.
+Restaurar **grava uma revisão nova** com o conteúdo antigo em vez de apagar: desfazer que destrói
+histórico é o mesmo defeito que a tabela existe para consertar. Na tela, um `Sheet` com quem
+escreveu cada gravação, o que mudou e o selo de IA na publicação.
+
+Verificado de ponta a ponta em dev: 11 revisões listadas com autor e motivo corretos; restaurar a
+revisão 1 devolveu o título original e o plano a rascunho; o mesmo plano pedido sob outro paciente
+responde 404 nas duas rotas; a auditoria da restauração grava o id da REVISÃO.
+
+E o guarda de estouro pegou a própria ferramenta: as três sugestões aceitas no teste estouraram o
+slide em 1099px na horizontal e a publicação recusou com 422, listando o slide.
 
 ### Medido na fase 5, contra o modelo de verdade
 

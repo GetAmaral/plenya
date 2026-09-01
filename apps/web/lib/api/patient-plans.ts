@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Plano de devolutiva do paciente (o "deck") — o mesmo conteúdo com três saídas: a tela do portal,
@@ -8,8 +8,8 @@
  * por peso); o plano é o que alguém escreve em cima dele. Path-scoped por paciente, sempre.
  */
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '../api-client';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiClient } from "../api-client";
 import type {
   DeckOverflow,
   DeckSlide,
@@ -20,7 +20,7 @@ import type {
   PlanMessage,
   PlanResolveResult,
   PlanSuggestion,
-} from '@plenya/types';
+} from "@plenya/types";
 
 export type {
   DeckOverflow,
@@ -32,7 +32,7 @@ export type {
   PlanSuggestion,
 };
 
-export type PatientPlanStatus = 'draft' | 'published';
+export type PatientPlanStatus = "draft" | "published";
 
 export interface PatientPlan {
   id: string;
@@ -65,31 +65,37 @@ export interface SavePatientPlanPayload {
 }
 
 export const patientPlanKeys = {
-  list: (patientId: string) => ['patient-plans', patientId] as const,
-  one: (patientId: string, planId: string) => ['patient-plans', patientId, planId] as const,
+  list: (patientId: string) => ["patient-plans", patientId] as const,
+  one: (patientId: string, planId: string) =>
+    ["patient-plans", patientId, planId] as const,
   dossier: (patientId: string, planId: string) =>
-    ['patient-plans', patientId, planId, 'dossier'] as const,
+    ["patient-plans", patientId, planId, "dossier"] as const,
   staleness: (patientId: string, planId: string) =>
-    ['patient-plans', patientId, planId, 'staleness'] as const,
+    ["patient-plans", patientId, planId, "staleness"] as const,
   conversa: (patientId: string, planId: string) =>
-    ['patient-plans', patientId, planId, 'assistant'] as const,
+    ["patient-plans", patientId, planId, "assistant"] as const,
+  revisoes: (patientId: string, planId: string) =>
+    ["patient-plans", patientId, planId, "revisoes"] as const,
   sugestoes: (patientId: string, planId: string) =>
-    ['patient-plans', patientId, planId, 'suggestions'] as const,
+    ["patient-plans", patientId, planId, "suggestions"] as const,
 };
 
 const base = (patientId: string) => `/api/v1/patients/${patientId}/plans`;
 
 export function usePatientPlans(patientId: string | undefined) {
   return useQuery({
-    queryKey: patientPlanKeys.list(patientId ?? ''),
+    queryKey: patientPlanKeys.list(patientId ?? ""),
     enabled: !!patientId,
     queryFn: () => apiClient.get<PatientPlan[]>(base(patientId!)),
   });
 }
 
-export function usePatientPlan(patientId: string | undefined, planId: string | undefined) {
+export function usePatientPlan(
+  patientId: string | undefined,
+  planId: string | undefined,
+) {
   return useQuery({
-    queryKey: patientPlanKeys.one(patientId ?? '', planId ?? ''),
+    queryKey: patientPlanKeys.one(patientId ?? "", planId ?? ""),
     enabled: !!patientId && !!planId,
     queryFn: () => apiClient.get<PatientPlan>(`${base(patientId!)}/${planId}`),
   });
@@ -100,15 +106,21 @@ export function useCreatePatientPlan(patientId: string) {
   return useMutation({
     mutationFn: (payload: SavePatientPlanPayload) =>
       apiClient.post<PatientPlan>(base(patientId), payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) }),
   });
 }
 
 export function useUpdatePatientPlan(patientId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: SavePatientPlanPayload }) =>
-      apiClient.put<PatientPlan>(`${base(patientId)}/${id}`, payload),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: SavePatientPlanPayload;
+    }) => apiClient.put<PatientPlan>(`${base(patientId)}/${id}`, payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
     },
@@ -118,8 +130,10 @@ export function useUpdatePatientPlan(patientId: string) {
 export function useDeletePatientPlan(patientId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => apiClient.delete<void>(`${base(patientId)}/${id}`),
-    onSuccess: () => qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) }),
+    mutationFn: (id: string) =>
+      apiClient.delete<void>(`${base(patientId)}/${id}`),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) }),
   });
 }
 
@@ -127,7 +141,9 @@ export function useDeletePatientPlan(patientId: string) {
 export function useCheckPlanOverflow(patientId: string) {
   return useMutation({
     mutationFn: (id: string) =>
-      apiClient.get<{ slides: DeckOverflow[] }>(`${base(patientId)}/${id}/overflow`),
+      apiClient.get<{ slides: DeckOverflow[] }>(
+        `${base(patientId)}/${id}/overflow`,
+      ),
   });
 }
 
@@ -138,8 +154,10 @@ export function useCheckPlanOverflow(patientId: string) {
 export function usePublishPatientPlan(patientId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => apiClient.post<PatientPlan>(`${base(patientId)}/${id}/publish`, {}),
-    onSuccess: () => qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) }),
+    mutationFn: (id: string) =>
+      apiClient.post<PatientPlan>(`${base(patientId)}/${id}/publish`, {}),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) }),
   });
 }
 
@@ -150,25 +168,36 @@ export function usePublishPatientPlan(patientId: string) {
  * ponto — números que mudam debaixo do texto que está sendo escrito foi o que motivou congelar.
  * `staleTime` alto porque, por construção, ele não muda sozinho.
  */
-export function usePlanDossier(patientId: string | undefined, planId: string | undefined) {
+export function usePlanDossier(
+  patientId: string | undefined,
+  planId: string | undefined,
+) {
   return useQuery({
-    queryKey: patientPlanKeys.dossier(patientId ?? '', planId ?? ''),
+    queryKey: patientPlanKeys.dossier(patientId ?? "", planId ?? ""),
     enabled: !!patientId && !!planId,
     staleTime: 30 * 60 * 1000,
     queryFn: () =>
-      apiClient.get<{ dossierId: string; seq: number; frozenAt: string; dossier: PlanDossier }>(
-        `${base(patientId!)}/${planId}/dossier`,
-      ),
+      apiClient.get<{
+        dossierId: string;
+        seq: number;
+        frozenAt: string;
+        dossier: PlanDossier;
+      }>(`${base(patientId!)}/${planId}/dossier`),
   });
 }
 
 /** Se o prontuário andou desde o congelamento, e em quê. Uma consulta de marcas d'água. */
-export function usePlanDossierStaleness(patientId: string | undefined, planId: string | undefined) {
+export function usePlanDossierStaleness(
+  patientId: string | undefined,
+  planId: string | undefined,
+) {
   return useQuery({
-    queryKey: patientPlanKeys.staleness(patientId ?? '', planId ?? ''),
+    queryKey: patientPlanKeys.staleness(patientId ?? "", planId ?? ""),
     enabled: !!patientId && !!planId,
     queryFn: () =>
-      apiClient.get<PlanDossierStaleness>(`${base(patientId!)}/${planId}/dossier/staleness`),
+      apiClient.get<PlanDossierStaleness>(
+        `${base(patientId!)}/${planId}/dossier/staleness`,
+      ),
   });
 }
 
@@ -180,30 +209,48 @@ export function useRefreshPlanDossier(patientId: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (planId: string) =>
-      apiClient.post<PlanDossierRefresh>(`${base(patientId)}/${planId}/dossier/refresh`, {}),
+      apiClient.post<PlanDossierRefresh>(
+        `${base(patientId)}/${planId}/dossier/refresh`,
+        {},
+      ),
     onSuccess: (_data, planId) => {
-      qc.invalidateQueries({ queryKey: patientPlanKeys.dossier(patientId, planId) });
-      qc.invalidateQueries({ queryKey: patientPlanKeys.staleness(patientId, planId) });
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.dossier(patientId, planId),
+      });
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.staleness(patientId, planId),
+      });
     },
   });
 }
 
 /** A conversa do plano, persistida: fechar o notebook não perde o turno. */
-export function usePlanConversation(patientId: string | undefined, planId: string | undefined) {
+export function usePlanConversation(
+  patientId: string | undefined,
+  planId: string | undefined,
+) {
   return useQuery({
-    queryKey: patientPlanKeys.conversa(patientId ?? '', planId ?? ''),
+    queryKey: patientPlanKeys.conversa(patientId ?? "", planId ?? ""),
     enabled: !!patientId && !!planId,
     queryFn: () =>
-      apiClient.get<PlanMessage[]>(`${base(patientId!)}/${planId}/assistant/messages`),
+      apiClient.get<PlanMessage[]>(
+        `${base(patientId!)}/${planId}/assistant/messages`,
+      ),
   });
 }
 
 /** As sugestões esperando aceite. */
-export function usePlanSuggestions(patientId: string | undefined, planId: string | undefined) {
+export function usePlanSuggestions(
+  patientId: string | undefined,
+  planId: string | undefined,
+) {
   return useQuery({
-    queryKey: patientPlanKeys.sugestoes(patientId ?? '', planId ?? ''),
+    queryKey: patientPlanKeys.sugestoes(patientId ?? "", planId ?? ""),
     enabled: !!patientId && !!planId,
-    queryFn: () => apiClient.get<PlanSuggestion[]>(`${base(patientId!)}/${planId}/suggestions`),
+    queryFn: () =>
+      apiClient.get<PlanSuggestion[]>(
+        `${base(patientId!)}/${planId}/suggestions`,
+      ),
   });
 }
 
@@ -226,14 +273,21 @@ export function useSendPlanMessage(patientId: string) {
       body: string;
       expectedRevision?: number;
     }) =>
-      apiClient.post<PlanAssistantTurn>(`${base(patientId)}/${planId}/assistant/messages`, {
-        body,
-        clientMessageId: crypto.randomUUID(),
-        expectedRevision,
-      }),
+      apiClient.post<PlanAssistantTurn>(
+        `${base(patientId)}/${planId}/assistant/messages`,
+        {
+          body,
+          clientMessageId: crypto.randomUUID(),
+          expectedRevision,
+        },
+      ),
     onSuccess: (_d, { planId }) => {
-      qc.invalidateQueries({ queryKey: patientPlanKeys.conversa(patientId, planId) });
-      qc.invalidateQueries({ queryKey: patientPlanKeys.sugestoes(patientId, planId) });
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.conversa(patientId, planId),
+      });
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.sugestoes(patientId, planId),
+      });
       qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
     },
   });
@@ -251,24 +305,90 @@ export function useResolveSuggestions(patientId: string) {
       expectedRevision,
     }: {
       planId: string;
-      action: 'accept' | 'reject';
+      action: "accept" | "reject";
       suggestionIds?: string[];
       slideId?: string;
       expectedRevision?: number;
     }) =>
-      apiClient.post<PlanResolveResult>(`${base(patientId)}/${planId}/suggestions/resolve`, {
-        action,
-        suggestionIds,
-        slideId,
-        expectedRevision,
-      }),
+      apiClient.post<PlanResolveResult>(
+        `${base(patientId)}/${planId}/suggestions/resolve`,
+        {
+          action,
+          suggestionIds,
+          slideId,
+          expectedRevision,
+        },
+      ),
     onSuccess: (_d, { planId }) => {
-      qc.invalidateQueries({ queryKey: patientPlanKeys.sugestoes(patientId, planId) });
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.sugestoes(patientId, planId),
+      });
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
+    },
+  });
+}
+
+/**
+ * Uma linha do histórico do rascunho. Sem `content`: a lista carregaria dezenas de decks inteiros
+ * para desenhar dezenas de linhas.
+ */
+export interface PlanRevision {
+  id: string;
+  seq: number;
+  planVersion: number;
+  title: string;
+  authorKind: "human" | "assistant" | "system";
+  authorName: string;
+  reason: "edit" | "ai_apply" | "suggestion_accept" | "restore" | "publish";
+  isPublication: boolean;
+  slides: number;
+  changedPaths?: string[];
+  /** Só na publicação: o que a ferramenta escreveu e ninguém reescreveu depois. */
+  aiTouchedPaths?: string[];
+  aiModel?: string;
+  createdAt: string;
+}
+
+export function usePlanRevisions(
+  patientId: string | undefined,
+  planId: string | undefined,
+) {
+  return useQuery({
+    queryKey: patientPlanKeys.revisoes(patientId ?? "", planId ?? ""),
+    enabled: !!patientId && !!planId,
+    queryFn: () =>
+      apiClient.get<PlanRevision[]>(`${base(patientId!)}/${planId}/revisions`),
+  });
+}
+
+export function useRestorePlanRevision(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      planId,
+      revisionId,
+    }: {
+      planId: string;
+      revisionId: string;
+    }) =>
+      apiClient.post<PatientPlan>(
+        `${base(patientId)}/${planId}/revisions/${revisionId}/restore`,
+        {},
+      ),
+    onSuccess: (_d, { planId }) => {
+      // Restaurar grava uma revisão nova, então a própria lista de histórico muda também.
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.one(patientId, planId),
+      });
+      qc.invalidateQueries({
+        queryKey: patientPlanKeys.revisoes(patientId, planId),
+      });
       qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
     },
   });
 }
 
 export const patientPlansApi = {
-  previewURL: (patientId: string, planId: string) => `${base(patientId)}/${planId}/preview`,
+  previewURL: (patientId: string, planId: string) =>
+    `${base(patientId)}/${planId}/preview`,
 };

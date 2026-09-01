@@ -5945,6 +5945,139 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/plans/{planId}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Histórico de revisões do rascunho
+         * @description Cada gravação do rascunho vira uma linha, com quem escreveu (o clínico ou a
+         *     ferramenta), o porquê e os caminhos alterados. Sem o conteúdo: a lista carregaria
+         *     dezenas de decks inteiros para desenhar dezenas de linhas.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Máximo de revisões (padrão 100) */
+                    limit?: number;
+                };
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["services.PlanRevisionSummary"][];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/revisions/{revisionId}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Restaura o rascunho ao estado de uma revisão
+         * @description Não apaga nada: grava uma revisão nova com o conteúdo antigo, então restaurar por
+         *     engano também se desfaz. O plano volta a rascunho; o que está no portal continua
+         *     sendo a versão publicada até alguém publicar de novo.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                    /** @description ID da revisão (UUID) */
+                    revisionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plans/{planId}/suggestions": {
         parameters: {
             query?: never;
@@ -20709,6 +20842,10 @@ export interface components {
              */
             weight?: number;
         };
+        /** @enum {string} */
+        "models.PatientPlanAuthorKind": "human" | "assistant" | "system";
+        /** @enum {string} */
+        "models.PatientPlanRevisionReason": "edit" | "ai_apply" | "suggestion_accept" | "restore" | "publish";
         /** @description Resultado agregado de score por grupo clínico */
         "models.PatientScoreGroupResult": {
             /**
@@ -22004,6 +22141,21 @@ export interface components {
         "services.MobileSupportContact": {
             email?: string;
             whatsapp?: string;
+        };
+        "services.PlanRevisionSummary": {
+            aiModel?: string;
+            aiTouchedPaths?: string[];
+            authorKind?: components["schemas"]["models.PatientPlanAuthorKind"];
+            authorName?: string;
+            changedPaths?: string[];
+            createdAt?: string;
+            id?: string;
+            isPublication?: boolean;
+            planVersion?: number;
+            reason?: components["schemas"]["models.PatientPlanRevisionReason"];
+            seq?: number;
+            slides?: number;
+            title?: string;
         };
         "services.PublicAnonymousScoreItem": {
             numericValue?: number;
