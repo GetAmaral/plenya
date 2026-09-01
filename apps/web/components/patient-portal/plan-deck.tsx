@@ -191,7 +191,15 @@ function Cartao({
   );
 }
 
-function Slide({ slide }: { slide: DeckSlide }) {
+/**
+ * Um slide, na renderização do PORTAL: fluida, responsiva, empilhada.
+ *
+ * Exportado porque o editor do EMR reusa este mesmo componente como miniatura do cartão. A
+ * distinção importa e está documentada em `slide-thumbnail.tsx`: isto NÃO é a moldura de 1920×1080
+ * do PDF, é como o paciente vê na tela. Um slide pode parecer perfeito aqui e transbordar na
+ * impressão, e quem responde por isso é a medição do servidor.
+ */
+export function Slide({ slide }: { slide: DeckSlide }) {
   const escuro = slide.variant === 'dark' || slide.variant === 'deep';
   const rulers = (slide.rulers ?? []) as Ruler[];
   const summary = slide.summary as

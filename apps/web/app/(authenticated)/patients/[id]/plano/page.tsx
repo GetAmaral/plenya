@@ -54,6 +54,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DossierColumn } from '@/components/plan/dossier-column';
+import { SlideList } from '@/components/plan/deck/slide-list';
 import { cn } from '@/lib/utils';
 
 /** Um plano novo já nasce com a gramática dos decks que existem, para não começar do zero. */
@@ -93,8 +94,9 @@ export default function PatientPlanPage() {
   const { data: envelhecimento } = usePlanDossierStaleness(patientId, selectedId ?? undefined);
   const refrescarDossie = useRefreshPlanDossier(patientId);
   const [title, setTitle] = useState('');
-  const [contentText, setContentText] = useState('');
-  const [contentError, setContentError] = useState<string | null>(null);
+  // Os slides viram estado estruturado. O texto do JSON some daqui: a escotilha por slide vive
+  // dentro do próprio cartão, onde ela é útil sem ser a única forma de editar.
+  const [slides, setSlides] = useState<DeckSlide[]>([]);
   const [overflow, setOverflow] = useState<DeckOverflow[] | null>(null);
   const [previewHTML, setPreviewHTML] = useState<string | null>(null);
 
@@ -106,19 +108,36 @@ export default function PatientPlanPage() {
   useEffect(() => {
     if (!selected) return;
     setTitle(selected.title);
-    setContentText(JSON.stringify(selected.content ?? [], null, 2));
-    setContentError(null);
+    setSlides(selected.content ?? []);
     setOverflow(null);
     setPreviewHTML(null);
   }, [selected?.id]);
 
-  // "Conferir" e "Publicar" agem sobre o que está SALVO no servidor. Sem esta marca, editar a caixa
-  // e clicar em conferir media o conteúdo antigo e dizia "todos os slides cabem"; clicar em publicar
-  // entregava ao paciente o deck de antes da edição, com o toast dizendo que deu certo.
+  // "Conferir" e "Publicar" agem sobre o que está SALVO no servidor. Sem esta marca, editar e
+  // clicar em conferir media o conteúdo antigo e dizia "todos os slides cabem"; publicar entregava
+  // ao paciente o deck de antes da edição, com o toast dizendo que deu certo.
+  //
+  // A comparação é POR SLIDE e não pela string do JSON inteiro: o cartão precisa saber se ELE está
+  // sujo para mostrar o selo, e comparar texto bruto era frágil de qualquer forma — o Go remove
+  // campo vazio no `omitempty`, então digitar num campo e apagar deixava o plano sujo para sempre.
+  const sujosPorSlide = useMemo(() => {
+    const out = new Set<string>();
+    if (!selected) return out;
+    const base = selected.content ?? [];
+    slides.forEach((s, i) => {
+      const anterior = base.find((b) => b.id && b.id === s.id) ?? base[i];
+      if (!anterior || JSON.stringify(anterior) !== JSON.stringify(s)) {
+        out.add(s.id || `pos-${i}`);
+      }
+    });
+    return out;
+  }, [selected, slides]);
+
   const sujo =
     !!selected &&
     (title !== selected.title ||
-      contentText !== JSON.stringify(selected.content ?? [], null, 2));
+      slides.length !== (selected.content ?? []).length ||
+      sujosPorSlide.size > 0);
 
   const exigeSalvar = () => {
     if (sujo) {
@@ -128,20 +147,7 @@ export default function PatientPlanPage() {
     return false;
   };
 
-  const parsedContent = (): DeckSlide[] | null => {
-    try {
-      const parsed = JSON.parse(contentText);
-      if (!Array.isArray(parsed)) {
-        setContentError('O conteúdo tem que ser uma lista de slides.');
-        return null;
-      }
-      setContentError(null);
-      return parsed as DeckSlide[];
-    } catch (e) {
-      setContentError(e instanceof Error ? e.message : 'JSON inválido');
-      return null;
-    }
-  };
+  const parsedContent = (): DeckSlide[] | null => slides;
 
   // Refrescar é ato explícito: automático trocaria número debaixo de quem está escrevendo. O que
   // volta é restrito ao que o DECK cita, então cabe num toast em vez de virar tela.
@@ -188,7 +194,7 @@ export default function PatientPlanPage() {
       // então o texto colado nunca voltava a bater com o salvo, e Prévia/Conferir/Publicar ficavam
       // travados até o usuário trocar de plano e voltar.
       setTitle(salvo.title);
-      setContentText(JSON.stringify(salvo.content ?? [], null, 2));
+      setSlides(salvo.content ?? []);
       setOverflow(null);
       toast.success('Plano salvo');
     } catch (e) {
@@ -353,17 +359,20 @@ export default function PatientPlanPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="plan-content">Slides</Label>
-                  <Textarea
-                    id="plan-content"
-                    value={contentText}
-                    onChange={(e) => setContentText(e.target.value)}
-                    rows={16}
-                    className="font-mono text-xs"
+                  <div className="flex items-baseline justify-between">
+                    <Label>Slides</Label>
+                    <span className="text-[11px] text-muted-foreground">
+                      {slides.length} slide{slides.length === 1 ? '' : 's'} · a miniatura mostra como
+                      o paciente vê na tela, não a moldura impressa
+                    </span>
+                  </div>
+                  <SlideList
+                    slides={slides}
+                    onChange={setSlides}
+                    dossier={dossie?.dossier}
+                    overflow={overflow ?? []}
+                    sujos={sujosPorSlide}
                   />
-                  {contentError && (
-                    <p className="text-sm text-destructive">{contentError}</p>
-                  )}
                 </div>
                 {sujo && (
                   <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
