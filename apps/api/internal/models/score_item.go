@@ -382,11 +382,20 @@ func (si *ScoreItem) MotivoDeNaoAplicar(patient *Patient) string {
 		return "Item não aplicável: é de paciente do sexo " + sexoPorExtenso(*si.Gender)
 	}
 
-	if si.AgeRangeMin != nil && patient.Age < *si.AgeRangeMin {
-		return fmt.Sprintf("Item não aplicável: vale a partir de %d anos (paciente tem %d)", *si.AgeRangeMin, patient.Age)
-	}
-	if si.AgeRangeMax != nil && patient.Age > *si.AgeRangeMax {
-		return fmt.Sprintf("Item não aplicável: vale até %d anos (paciente tem %d)", *si.AgeRangeMax, patient.Age)
+	// Idade desconhecida não é idade zero. `CalculateAge` deixa Age em 0 quando não há data de
+	// nascimento, e a recepção cadastra paciente só pelo nome de propósito. Comparar 0 com a
+	// faixa faz o item "até 29 anos" valer para um senhor de 70 e o "a partir de 50" sumir:
+	// o paciente acaba pontuado na faixa etária errada, não só descrito errado.
+	if si.AgeRangeMin != nil || si.AgeRangeMax != nil {
+		if patient.BirthDate.IsZero() {
+			return "Item não avaliado: depende da idade, e a data de nascimento não está no cadastro"
+		}
+		if si.AgeRangeMin != nil && patient.Age < *si.AgeRangeMin {
+			return fmt.Sprintf("Item não aplicável: vale a partir de %d anos (paciente tem %d)", *si.AgeRangeMin, patient.Age)
+		}
+		if si.AgeRangeMax != nil && patient.Age > *si.AgeRangeMax {
+			return fmt.Sprintf("Item não aplicável: vale até %d anos (paciente tem %d)", *si.AgeRangeMax, patient.Age)
+		}
 	}
 
 	// Menopausa e reposição hormonal só filtram mulheres, e item que não declara a condição não

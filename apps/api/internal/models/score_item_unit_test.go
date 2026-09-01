@@ -3,6 +3,7 @@ package models
 import (
 	"strings"
 	"testing"
+	"time"
 )
 
 func ptrS(v string) *string { return &v }
@@ -144,9 +145,10 @@ func TestMotivoDeNaoAplicar(t *testing.T) {
 	b := func(v bool) *bool { return &v }
 	i := func(v int) *int { return &v }
 
-	mulherPos := &Patient{Gender: "female", Age: 63, Menopause: b(true)}
-	mulherSemDado := &Patient{Gender: "female", Age: 63}
-	homem := &Patient{Gender: "male", Age: 41}
+	nasceuEm := func(ano int) time.Time { return time.Date(ano, 1, 1, 0, 0, 0, 0, time.UTC) }
+	mulherPos := &Patient{Gender: "female", Age: 63, BirthDate: nasceuEm(1963), Menopause: b(true)}
+	mulherSemDado := &Patient{Gender: "female", Age: 63, BirthDate: nasceuEm(1963)}
+	homem := &Patient{Gender: "male", Age: 41, BirthDate: nasceuEm(1985)}
 
 	casos := []struct {
 		nome     string
@@ -189,5 +191,32 @@ func TestMotivoDeNaoAplicar(t *testing.T) {
 	}
 	if m := (&ScoreItem{}).MotivoDeNaoAplicar(homem); m != "" {
 		t.Errorf("item sem restrição devolveu motivo %q", m)
+	}
+}
+
+// Paciente sem data de nascimento tem Age 0, e 0 não é "recém-nascido": é "não sei". Comparar
+// contra a faixa faz o item "até 29 anos" valer para um senhor de 70 e o "a partir de 50" sumir.
+// Dois pacientes reais de produção estavam nessa situação, pontuados na faixa etária errada.
+func TestMotivoDeNaoAplicar_IdadeDesconhecida(t *testing.T) {
+	i := func(v int) *int { return &v }
+	semData := &Patient{Gender: "male"} // BirthDate zero, Age 0
+
+	for _, item := range []*ScoreItem{
+		{AgeRangeMax: i(29)},
+		{AgeRangeMin: i(50)},
+		{AgeRangeMin: i(18), AgeRangeMax: i(40)},
+	} {
+		motivo := item.MotivoDeNaoAplicar(semData)
+		if !strings.Contains(motivo, "data de nascimento") {
+			t.Errorf("item com faixa etária e paciente sem data: motivo = %q", motivo)
+		}
+		if item.AppliesToPatient(semData) {
+			t.Error("item com faixa etária não pode se aplicar a paciente sem data de nascimento")
+		}
+	}
+
+	// Item SEM faixa etária continua valendo: a falta da data só bloqueia quem depende dela.
+	if m := (&ScoreItem{}).MotivoDeNaoAplicar(semData); m != "" {
+		t.Errorf("item sem faixa etária bloqueado por falta de data: %q", m)
 	}
 }
