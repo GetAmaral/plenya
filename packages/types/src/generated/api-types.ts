@@ -19175,6 +19175,15 @@ export interface components {
             testType: string;
             /** @description Unidade de medida - CONVERTIDA para unidade padrão */
             unit?: string;
+            /** @description Por que não converteu, em português, para a fila de curadoria se explicar sozinha. */
+            unitConversionNote?: string;
+            /**
+             * @description O que aconteceu com a unidade na ingestão: "ok" (já veio certa), "convertido" ou
+             *     "revisar". Sem este campo um resultado que não converteu é indistinguível de um que
+             *     chegou correto, e foi assim que resultados ficaram gravados na unidade do laudo sendo
+             *     comparados, lá na frente, contra uma escala em outra grandeza.
+             */
+            unitConversionStatus?: string;
             /** @description Unidade ORIGINAL (antes da conversão) */
             unitOriginal?: string;
             /** @description Data de atualização */

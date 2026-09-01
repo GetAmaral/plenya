@@ -257,21 +257,31 @@ func (si *ScoreItem) RequirementMet(labValues map[string]float64) bool {
 func (si *ScoreItem) UnitMatches(unidadeDoExame string, sinonimosDoExame [][2]string) bool {
 	item := ""
 	if si.Unit != nil {
-		item = NormalizaUnidade(*si.Unit)
+		item = *si.Unit
 	}
-	exame := NormalizaUnidade(unidadeDoExame)
-	if item == "" || exame == "" {
+	return MesmaGrandeza(item, unidadeDoExame, sinonimosDoExame)
+}
+
+// MesmaGrandeza diz se duas unidades expressam a mesma coisa, sem conversão de escala. É o teste
+// que a guarda do escore e o passo 1 do conversor compartilham — duplicar isso foi o que deixou
+// `mm` e `mm/hr` (VHS) passando num lugar e sendo recusados no outro.
+//
+// Unidade vazia de qualquer lado não bloqueia: item categórico não tem unidade, e laudo sem
+// unidade declarada não é motivo para deixar de avaliar.
+func MesmaGrandeza(a, b string, sinonimosDoExame [][2]string) bool {
+	na, nb := NormalizaUnidade(a), NormalizaUnidade(b)
+	if na == "" || nb == "" {
 		return true
 	}
-	if item == exame {
+	if na == nb {
 		return true
 	}
-	if unidadesEquivalentes[[2]string{item, exame}] || unidadesEquivalentes[[2]string{exame, item}] {
+	if unidadesEquivalentes[[2]string{na, nb}] || unidadesEquivalentes[[2]string{nb, na}] {
 		return true
 	}
 	for _, par := range sinonimosDoExame {
-		a, b := NormalizaUnidade(par[0]), NormalizaUnidade(par[1])
-		if (a == item && b == exame) || (a == exame && b == item) {
+		x, y := NormalizaUnidade(par[0]), NormalizaUnidade(par[1])
+		if (x == na && y == nb) || (x == nb && y == na) {
 			return true
 		}
 	}

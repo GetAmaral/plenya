@@ -1,6 +1,10 @@
 package models
 
 import (
+	"errors"
+	"fmt"
+	"math"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
@@ -16,16 +20,16 @@ import (
 type LabTestCategory string
 
 const (
-	LabTestCategoryHematology   LabTestCategory = "hematology"    // Hemograma, coagulação
-	LabTestCategoryBiochemistry LabTestCategory = "biochemistry"  // Glicose, ureia, creatinina
-	LabTestCategoryHormones     LabTestCategory = "hormones"      // TSH, T4, testosterona
-	LabTestCategoryImmunology   LabTestCategory = "immunology"    // Sorologias, autoimunes
-	LabTestCategoryMicrobiology LabTestCategory = "microbiology"  // Culturas, antibiogramas
-	LabTestCategoryUrine        LabTestCategory = "urine"         // EAS, urocultura
-	LabTestCategoryImaging      LabTestCategory = "imaging"       // Raio-X, TC, RM
-	LabTestCategoryFunctional   LabTestCategory = "functional"    // Medicina funcional
-	LabTestCategoryGenetics     LabTestCategory = "genetics"      // Testes genéticos
-	LabTestCategoryOther        LabTestCategory = "other"         // Outros
+	LabTestCategoryHematology   LabTestCategory = "hematology"   // Hemograma, coagulação
+	LabTestCategoryBiochemistry LabTestCategory = "biochemistry" // Glicose, ureia, creatinina
+	LabTestCategoryHormones     LabTestCategory = "hormones"     // TSH, T4, testosterona
+	LabTestCategoryImmunology   LabTestCategory = "immunology"   // Sorologias, autoimunes
+	LabTestCategoryMicrobiology LabTestCategory = "microbiology" // Culturas, antibiogramas
+	LabTestCategoryUrine        LabTestCategory = "urine"        // EAS, urocultura
+	LabTestCategoryImaging      LabTestCategory = "imaging"      // Raio-X, TC, RM
+	LabTestCategoryFunctional   LabTestCategory = "functional"   // Medicina funcional
+	LabTestCategoryGenetics     LabTestCategory = "genetics"     // Testes genéticos
+	LabTestCategoryOther        LabTestCategory = "other"        // Outros
 )
 
 // LabTestDefinition representa a definição de um exame laboratorial ou parâmetro
@@ -206,44 +210,132 @@ func removeAccents(s string) string {
 	return result
 }
 
-// ConvertToMainUnit converte um valor de uma unidade original para a unidade padrão do exame
-// Se a unidade original já for a unidade padrão, retorna o valor sem conversão
-// Se não houver conversão cadastrada, retorna o valor original sem erro
-func (ltd *LabTestDefinition) ConvertToMainUnit(
-	db *gorm.DB,
-	originalValue float64,
-	originalUnit string,
-) (convertedValue float64, mainUnit string, wasConverted bool, err error) {
-	// 1. Normalizar unidades (trim + lowercase)
-	normalizedOriginalUnit := strings.TrimSpace(strings.ToLower(originalUnit))
-	normalizedMainUnit := ""
-	if ltd.Unit != nil {
-		normalizedMainUnit = strings.TrimSpace(strings.ToLower(*ltd.Unit))
-	}
+// StatusDeConversao diz o que aconteceu com a unidade de um resultado, para o registro poder
+// ser marcado. Sem isto, um resultado que não converteu é indistinguível de um que já chegou
+// certo — foi assim que 124 resultados ficaram gravados na unidade do laudo sem ninguém saber.
+type StatusDeConversao string
 
-	// 2. Se já está na unidade principal, retornar sem conversão
-	if normalizedMainUnit != "" && normalizedOriginalUnit == normalizedMainUnit {
-		return originalValue, *ltd.Unit, false, nil
-	}
+const (
+	// ConversaoDesnecessaria: o laudo já veio na unidade do exame (ou numa grafia dela).
+	ConversaoDesnecessaria StatusDeConversao = "ok"
+	// ConversaoAplicada: o valor foi convertido, por regra curada ou por aritmética de prefixo.
+	ConversaoAplicada StatusDeConversao = "convertido"
+	// ConversaoPendente: as unidades diferem e não há como converter com segurança. O valor
+	// fica como veio e o registro entra na fila de revisão.
+	ConversaoPendente StatusDeConversao = "revisar"
+)
 
-	// 3. Buscar LabTestUnitConversion no banco
-	var conversion LabTestUnitConversion
-	err = db.Where(
-		"lab_test_definition_id = ? AND LOWER(TRIM(secondary_unit)) = ? AND deleted_at IS NULL",
-		ltd.ID,
-		normalizedOriginalUnit,
-	).First(&conversion).Error
-
-	// 4. Se não encontrou: retornar valor original (SEM ERRO)
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return originalValue, originalUnit, false, nil
-		}
-		return originalValue, originalUnit, false, err
-	}
-
-	// 5. Se encontrou: aplicar conversão e retornar
-	convertedValue = conversion.ConvertToMain(originalValue)
-	return convertedValue, conversion.MainUnit, true, nil
+// ResultadoDaConversao é o que ConverteParaUnidadePrincipal devolve.
+type ResultadoDaConversao struct {
+	Valor   float64
+	Unidade string
+	Status  StatusDeConversao
+	Motivo  string
 }
 
+// ConverteParaUnidadePrincipal leva um valor para a unidade do exame, em quatro camadas, da mais
+// confiável para a menos:
+//
+//  1. grafia — `mcg/dL` e `µg/dL` são a mesma unidade, não há o que converter;
+//  2. tabela curada (`lab_test_unit_conversions`) — é onde mora o que depende do analito, como
+//     `mEq/L` = `mmol/L` só em íon monovalente;
+//  3. aritmética de prefixo SI — `pg/mL` para `ng/mL` é dividir por mil, e isso não precisa de
+//     curadoria nenhuma;
+//  4. desiste, mas AVISA.
+//
+// `plausivel` é a rede de segurança da camada 3: aritmética correta em cima de rótulo errado
+// produz número confiantemente errado. Um resultado de hemácias marcado `/mm³` cujo valor está
+// de fato em `M/µL` viraria 4,17 milionésimos e sairia como anemia catastrófica. Quando a
+// conversão cai fora do que aquele exame pode valer, o valor fica como está e vai para revisão.
+// Passar nil desliga a checagem.
+func (ltd *LabTestDefinition) ConverteParaUnidadePrincipal(
+	db *gorm.DB,
+	valorOriginal float64,
+	unidadeOriginal string,
+	plausivel func(float64) bool,
+) ResultadoDaConversao {
+	principal := ""
+	if ltd.Unit != nil {
+		principal = *ltd.Unit
+	}
+	semConversao := ResultadoDaConversao{Valor: valorOriginal, Unidade: unidadeOriginal}
+
+	// Sem unidade de um dos lados não há o que comparar.
+	if strings.TrimSpace(principal) == "" || strings.TrimSpace(unidadeOriginal) == "" {
+		semConversao.Status = ConversaoDesnecessaria
+		return semConversao
+	}
+
+	// 1. Mesma unidade, escrita de outro jeito. Mesmo teste que a guarda do escore usa.
+	if MesmaGrandeza(unidadeOriginal, principal, nil) {
+		return ResultadoDaConversao{Valor: valorOriginal, Unidade: principal, Status: ConversaoDesnecessaria}
+	}
+
+	// 2. Regra curada para este exame.
+	if db == nil {
+		return ltd.porAritmetica(valorOriginal, unidadeOriginal, principal, plausivel)
+	}
+	var conversao LabTestUnitConversion
+	err := db.Where(
+		"lab_test_definition_id = ? AND LOWER(TRIM(secondary_unit)) = ? AND deleted_at IS NULL",
+		ltd.ID,
+		strings.ToLower(strings.TrimSpace(unidadeOriginal)),
+	).First(&conversao).Error
+	if err == nil {
+		return ResultadoDaConversao{
+			Valor:   conversao.ConvertToMain(valorOriginal),
+			Unidade: conversao.MainUnit,
+			Status:  ConversaoAplicada,
+			Motivo:  "regra curada do catálogo",
+		}
+	}
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		semConversao.Status = ConversaoPendente
+		semConversao.Motivo = "falha ao consultar as conversões do exame"
+		return semConversao
+	}
+
+	// 3. Aritmética de prefixo.
+	return ltd.porAritmetica(valorOriginal, unidadeOriginal, principal, plausivel)
+}
+
+// porAritmetica é a camada 3 (e o desfecho 4) isolada, para poder ser exercitada sem banco.
+func (ltd *LabTestDefinition) porAritmetica(
+	valorOriginal float64,
+	unidadeOriginal, principal string,
+	plausivel func(float64) bool,
+) ResultadoDaConversao {
+	semConversao := ResultadoDaConversao{Valor: valorOriginal, Unidade: unidadeOriginal}
+
+	if fator, ok := FatorEntreUnidades(unidadeOriginal, principal); ok {
+		convertido := valorOriginal * fator
+		if plausivel == nil || plausivel(convertido) {
+			return ResultadoDaConversao{
+				Valor:   convertido,
+				Unidade: principal,
+				Status:  ConversaoAplicada,
+				Motivo:  "aritmética de prefixo",
+			}
+		}
+		semConversao.Status = ConversaoPendente
+		semConversao.Motivo = fmt.Sprintf(
+			"laudo em %s e exame em %s: a conversão daria %s, fora do que este exame pode valer — o rótulo da unidade é que parece errado",
+			unidadeOriginal, principal, formataNumero(convertido))
+		return semConversao
+	}
+
+	// 4. Não dá para converter com segurança.
+	semConversao.Status = ConversaoPendente
+	semConversao.Motivo = fmt.Sprintf(
+		"laudo em %s e exame em %s: grandezas diferentes, sem regra de conversão cadastrada",
+		unidadeOriginal, principal)
+	return semConversao
+}
+
+// formataNumero imprime sem zero à toa nem notação científica.
+func formataNumero(v float64) string {
+	if math.Abs(v-math.Round(v)) < 1e-9 {
+		return strconv.FormatInt(int64(math.Round(v)), 10)
+	}
+	return strings.Replace(strconv.FormatFloat(v, 'g', 4, 64), ".", ",", 1)
+}

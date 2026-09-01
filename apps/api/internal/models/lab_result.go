@@ -40,6 +40,15 @@ type LabResult struct {
 	// Unidade ORIGINAL (antes da conversão)
 	UnitOriginal *string `gorm:"type:varchar(50)" json:"unitOriginal,omitempty"`
 
+	// O que aconteceu com a unidade na ingestão: "ok" (já veio certa), "convertido" ou
+	// "revisar". Sem este campo um resultado que não converteu é indistinguível de um que
+	// chegou correto, e foi assim que resultados ficaram gravados na unidade do laudo sendo
+	// comparados, lá na frente, contra uma escala em outra grandeza.
+	UnitConversionStatus *string `gorm:"type:varchar(20);index" json:"unitConversionStatus,omitempty"`
+
+	// Por que não converteu, em português, para a fila de curadoria se explicar sozinha.
+	UnitConversionNote *string `gorm:"type:text" json:"unitConversionNote,omitempty"`
+
 	// Interpretação/Observações específicas deste teste
 	Interpretation *string `gorm:"type:text" json:"interpretation,omitempty"`
 

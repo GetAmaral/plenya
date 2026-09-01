@@ -668,50 +668,86 @@ func (s *LabResultBatchService) DeleteResult(batchID, resultID, userID uuid.UUID
 
 // Helper functions
 
-// applyUnitConversion aplica conversão de unidade se disponível
-// Armazena valores originais e converte para unidade padrão
+// applyUnitConversion leva o resultado para a unidade do exame e REGISTRA o que aconteceu.
+//
+// Antes esta função desistia em silêncio quando o par (exame, unidade) não estava na tabela
+// curada: devolvia o valor original sem erro e sem marca. O resultado ficava gravado na unidade
+// do laudo e, lá na frente, o motor do escore comparava esse número contra uma escala em outra
+// grandeza. Agora ou converte, ou diz por que não deu.
 func (s *LabResultBatchService) applyUnitConversion(result *models.LabResult) error {
-	// Se não tiver valor numérico ou unidade, skip
 	if result.ResultNumeric == nil || result.Unit == nil {
 		return nil
 	}
-
-	// Se não tiver LabTestDefinitionID, skip (sem como fazer conversão)
 	if result.LabTestDefinitionID == nil {
 		return nil
 	}
 
-	// 1. Armazenar valores ORIGINAIS
+	// Valores como vieram do laudo, sempre, mesmo que nada mude depois.
 	result.ResultNumericOriginal = result.ResultNumeric
 	result.UnitOriginal = result.Unit
 
-	// 2. Buscar LabTestDefinition
 	var labTestDef models.LabTestDefinition
 	if err := s.db.First(&labTestDef, *result.LabTestDefinitionID).Error; err != nil {
-		// Se não encontrou, manter original (não falhar)
 		return nil
 	}
 
-	// 3. Tentar converter
-	convertedValue, convertedUnit, wasConverted, err := labTestDef.ConvertToMainUnit(
-		s.db,
-		*result.ResultNumeric,
-		*result.Unit,
-	)
+	conv := labTestDef.ConverteParaUnidadePrincipal(
+		s.db, *result.ResultNumeric, *result.Unit, s.faixaPlausivel(labTestDef.Code))
 
-	if err != nil {
-		// Se erro na conversão, manter original (não falhar)
-		return nil
+	if conv.Status == models.ConversaoAplicada {
+		valor, unidade := conv.Valor, conv.Unidade
+		result.ResultNumeric = &valor
+		result.Unit = &unidade
 	}
 
-	// 4. Se converteu, atualizar campos convertidos
-	if wasConverted {
-		result.ResultNumeric = &convertedValue
-		result.Unit = &convertedUnit
+	status := string(conv.Status)
+	result.UnitConversionStatus = &status
+	if conv.Motivo != "" && conv.Status == models.ConversaoPendente {
+		motivo := conv.Motivo
+		result.UnitConversionNote = &motivo
+	} else {
+		result.UnitConversionNote = nil
 	}
-	// Se não converteu (wasConverted = false), mantém valores originais
 
 	return nil
+}
+
+// faixaPlausivel devolve um teste de sanidade para o valor convertido, montado a partir das
+// faixas que o próprio catálogo do escore define para aquele exame.
+//
+// Serve contra rótulo errado, não contra paciente doente: a margem é de dez vezes para cada lado
+// do que as faixas cobrem, então um valor clinicamente péssimo passa e só um erro de ordem de
+// grandeza é barrado. Sem faixas cadastradas não há como julgar, e aí aceita.
+func (s *LabResultBatchService) faixaPlausivel(code string) func(float64) bool {
+	if code == "" {
+		return nil
+	}
+
+	var limites struct {
+		Menor *float64
+		Maior *float64
+	}
+	err := s.db.Table("score_levels AS sl").
+		Select(`MIN(LEAST(NULLIF(sl.lower_limit,'')::double precision, NULLIF(sl.upper_limit,'')::double precision)) AS menor,
+		        MAX(GREATEST(NULLIF(sl.lower_limit,'')::double precision, NULLIF(sl.upper_limit,'')::double precision)) AS maior`).
+		Joins("JOIN score_items si ON si.id = sl.score_item_id").
+		Where("si.lab_test_code = ? AND sl.deleted_at IS NULL AND si.deleted_at IS NULL", code).
+		Scan(&limites).Error
+	if err != nil || limites.Menor == nil || limites.Maior == nil {
+		return nil
+	}
+
+	menor, maior := *limites.Menor, *limites.Maior
+	if maior <= 0 || maior < menor {
+		return nil
+	}
+	piso, teto := menor/10, maior*10
+	if menor <= 0 {
+		// Escala que passa por zero ou é negativa (T-score da densitometria): sem piso útil.
+		piso = menor*10 - 10
+	}
+
+	return func(v float64) bool { return v >= piso && v <= teto }
 }
 
 func (s *LabResultBatchService) toResponse(batch *models.LabResultBatch) dto.LabResultBatchResponse {
