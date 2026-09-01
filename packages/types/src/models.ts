@@ -257,3 +257,10 @@ export type PlanDossierVitals = Schemas['dto.PlanDossierVitals']
 export type PlanDossierStaleness = Schemas['dto.PlanDossierStaleness']
 export type PlanDossierRefresh = Schemas['dto.PlanDossierRefreshResponse']
 export type PlanDossierChange = Schemas['dto.PlanDossierChange']
+
+/** A conversa que edita o rascunho, e as sugestões que ela produz. */
+export type PlanMessage = Schemas['dto.PlanMessage']
+export type PlanSuggestion = Schemas['dto.PlanSuggestion']
+export type PlanNumeralProof = Schemas['dto.PlanNumeralProof']
+export type PlanAssistantTurn = Schemas['dto.PlanAssistantTurn']
+export type PlanResolveResult = Schemas['dto.PlanResolveResult']

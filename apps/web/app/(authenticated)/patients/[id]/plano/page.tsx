@@ -15,18 +15,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { formatDate } from '@/lib/format-date';
 import { toast } from 'sonner';
-import {
-  ArrowLeft,
-  Loader2,
-  Plus,
-  Eye,
-  Ruler,
-  Send,
-  Trash2,
-  FileText,
-  AlertTriangle,
-  CheckCircle2,
-} from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CheckCircle2, Eye, FileText, Loader2, MessageSquare, Plus, Ruler, Send, Trash2 } from 'lucide-react';
 
 import { useRequireAuth } from '@/lib/use-auth';
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient';
@@ -38,8 +27,13 @@ import {
   useUpdatePatientPlan,
   useDeletePatientPlan,
   useCheckPlanOverflow,
+  type PlanAssistantTurn,
+  usePlanConversation,
   usePlanDossier,
   usePlanDossierStaleness,
+  usePlanSuggestions,
+  useResolveSuggestions,
+  useSendPlanMessage,
   usePublishPatientPlan,
   useRefreshPlanDossier,
   patientPlansApi,
@@ -55,6 +49,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DossierColumn } from '@/components/plan/dossier-column';
 import { SlideList } from '@/components/plan/deck/slide-list';
+import { PlanChatPanel } from '@/components/plan/chat/plan-chat-panel';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
 /** Um plano novo já nasce com a gramática dos decks que existem, para não começar do zero. */
@@ -93,6 +89,11 @@ export default function PatientPlanPage() {
   );
   const { data: envelhecimento } = usePlanDossierStaleness(patientId, selectedId ?? undefined);
   const refrescarDossie = useRefreshPlanDossier(patientId);
+  const { data: conversa = [] } = usePlanConversation(patientId, selectedId ?? undefined);
+  const { data: sugestoes = [] } = usePlanSuggestions(patientId, selectedId ?? undefined);
+  const enviarMensagem = useSendPlanMessage(patientId);
+  const resolverSugestao = useResolveSuggestions(patientId);
+  const [ultimoTurno, setUltimoTurno] = useState<PlanAssistantTurn | null>(null);
   const [title, setTitle] = useState('');
   // Os slides viram estado estruturado. O texto do JSON some daqui: a escotilha por slide vive
   // dentro do próprio cartão, onde ela é útil sem ser a única forma de editar.
@@ -148,6 +149,43 @@ export default function PatientPlanPage() {
   };
 
   const parsedContent = (): DeckSlide[] | null => slides;
+
+  // O turno é síncrono e leva de dez a vinte segundos. Bloqueia enquanto há edição não salva:
+  // a IA escreve no SERVIDOR, e mandar um turno com o rascunho local divergindo daria 409 ou
+  // apagaria o que está na tela.
+  const handleEnviarMensagem = async (texto: string) => {
+    if (!selectedId || !selected) return;
+    try {
+      const r = await enviarMensagem.mutateAsync({
+        planId: selectedId,
+        body: texto,
+        expectedRevision: selected.revisionSeq,
+      });
+      setUltimoTurno(r);
+      if (r.plan?.content) setSlides(r.plan.content as DeckSlide[]);
+      if (r.failed) toast.error(r.error ?? 'A rodada falhou e nada foi alterado.');
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Falha no turno do assistente');
+    }
+  };
+
+  const resolver = (action: 'accept' | 'reject') => async (id: string) => {
+    if (!selectedId || !selected) return;
+    try {
+      const r = await resolverSugestao.mutateAsync({
+        planId: selectedId,
+        action,
+        suggestionIds: [id],
+        expectedRevision: selected.revisionSeq,
+      });
+      if (r.plan?.content) setSlides(r.plan.content as DeckSlide[]);
+      const pulou = r.skipped ?? [];
+      if (pulou.length > 0) toast.warning(pulou[0].reason ?? 'Sugestão não aplicada');
+      else if (action === 'accept') toast.success('Sugestão aplicada');
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Falha ao resolver a sugestão');
+    }
+  };
 
   // Refrescar é ato explícito: automático trocaria número debaixo de quem está escrevendo. O que
   // volta é restrito ao que o DECK cita, então cabe num toast em vez de virar tela.
@@ -274,7 +312,36 @@ export default function PatientPlanPage() {
           <h1 className="text-xl font-semibold">Plano de devolutiva</h1>
           <p className="text-sm text-muted-foreground">{patient?.name ?? ''}</p>
         </div>
-        <Button className="ml-auto" onClick={handleCreate} disabled={createPlan.isPending}>
+        {selected && (
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="ml-auto 2xl:hidden">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Conversa
+                {sugestoes.length > 0 && (
+                  <span className="ml-2 rounded bg-amber-100 px-1.5 text-[10px] text-amber-900">
+                    {sugestoes.length}
+                  </span>
+                )}
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
+              <SheetTitle className="text-sm">Conversa</SheetTitle>
+              <div className="min-h-0 flex-1">
+                <PlanChatPanel
+                  mensagens={conversa}
+                  sugestoes={sugestoes}
+                  onEnviar={handleEnviarMensagem}
+                  enviando={enviarMensagem.isPending}
+                  ultimoTurno={ultimoTurno}
+                  desabilitado={sujo}
+                  motivoDesabilitado="Salve as alterações antes: o assistente escreve no servidor."
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+        )}
+        <Button className={selected ? '' : 'ml-auto'} onClick={handleCreate} disabled={createPlan.isPending}>
           {createPlan.isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
@@ -288,7 +355,7 @@ export default function PatientPlanPage() {
           de 1366 um arranjo de três deixa ~310px para o centro — e o centro é o produto. O
           prontuário compilado divide a coluna da esquerda com a lista de planos; a conversa entra
           na fase 5, como terceira coluna só a partir de 2xl. */}
-      <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[340px_1fr] 2xl:grid-cols-[320px_1fr_360px]">
         <div className="space-y-4">
         <Card>
           <CardHeader>
@@ -372,6 +439,10 @@ export default function PatientPlanPage() {
                     dossier={dossie?.dossier}
                     overflow={overflow ?? []}
                     sujos={sujosPorSlide}
+                    sugestoes={sugestoes}
+                    onAceitarSugestao={resolver('accept')}
+                    onDescartarSugestao={resolver('reject')}
+                    resolvendo={resolverSugestao.isPending}
                   />
                 </div>
                 {sujo && (
@@ -484,6 +555,25 @@ export default function PatientPlanPage() {
           <Card>
             <CardContent className="py-16 text-center text-sm text-muted-foreground">
               Escolha um plano à esquerda, ou crie um novo.
+            </CardContent>
+          </Card>
+        )}
+
+        {/* A conversa é terceira coluna só a partir de 2xl. Abaixo disso vira Sheet à direita, que
+            é o padrão da casa para painel auxiliar (ver dossier-panel.tsx, aberto assim em tela
+            cheia) — não é degradação de responsivo. */}
+        {selected && (
+          <Card className="hidden 2xl:block">
+            <CardContent className="h-[calc(100vh-13rem)] pt-6">
+              <PlanChatPanel
+                mensagens={conversa}
+                sugestoes={sugestoes}
+                onEnviar={handleEnviarMensagem}
+                enviando={enviarMensagem.isPending}
+                ultimoTurno={ultimoTurno}
+                desabilitado={sujo}
+                motivoDesabilitado="Salve as alterações antes: o assistente escreve no servidor."
+              />
             </CardContent>
           </Card>
         )}

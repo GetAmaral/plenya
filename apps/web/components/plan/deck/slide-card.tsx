@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { AlertTriangle, Braces, ChevronDown, Copy, Trash2 } from 'lucide-react';
-import type { DeckSlide, PlanDossier } from '@plenya/types';
+import type { DeckSlide, PlanDossier, PlanSuggestion } from '@plenya/types';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import { TakeawayEditor } from '@/components/plan/blocks/takeaway-editor';
 import { SLIDE_SPEC } from '@/lib/plan/slide-spec';
 import { orcamentoDoSlide } from '@/lib/plan/budget';
 import { cn } from '@/lib/utils';
+import { SuggestionStrip } from '@/components/plan/chat/suggestion-strip';
 import { SlideThumbnail } from './slide-thumbnail';
 
 /**
@@ -41,6 +42,14 @@ export interface SlideCardProps {
   /** Transbordo medido pelo servidor no último salvamento. É a única verdade geométrica. */
   estouro?: { right?: number; bottom?: number };
   sujo?: boolean;
+  /**
+   * As sugestões que alteram ESTE slide. Elas moram aqui, e não numa lista à parte, porque
+   * decidir sobre um número longe do slide que ele vai para é decidir no escuro.
+   */
+  sugestoes?: PlanSuggestion[];
+  onAceitarSugestao?: (id: string) => void;
+  onDescartarSugestao?: (id: string) => void;
+  resolvendo?: boolean;
 }
 
 export function SlideCard({
@@ -55,6 +64,10 @@ export function SlideCard({
   dossier,
   estouro,
   sujo,
+  sugestoes,
+  onAceitarSugestao,
+  onDescartarSugestao,
+  resolvendo,
 }: SlideCardProps) {
   const [jsonAberto, setJsonAberto] = useState(false);
   const [jsonTexto, setJsonTexto] = useState('');
@@ -138,6 +151,14 @@ export function SlideCard({
               alterado
             </Badge>
           )}
+          {(sugestoes?.length ?? 0) > 0 && (
+            <Badge
+              variant="outline"
+              className="h-5 border-amber-500 px-1.5 text-[10px] font-normal text-amber-700"
+            >
+              {sugestoes!.length} sugestão(ões)
+            </Badge>
+          )}
           {transborda && (
             <Badge variant="destructive" className="h-5 gap-1 px-1.5 text-[10px] font-normal">
               <AlertTriangle className="h-2.5 w-2.5" />
@@ -157,6 +178,24 @@ export function SlideCard({
           />
         </span>
       </div>
+
+      {/* As sugestões aparecem mesmo com o cartão fechado: elas são o que pede ação. */}
+      {(sugestoes?.length ?? 0) > 0 && (
+        <div className="space-y-2 border-t px-3 py-2">
+          {/* Sugestão sem id não é resolvível; o tipo gerado marca o campo como opcional. */}
+          {sugestoes!.map((sug) =>
+            sug.id ? (
+              <SuggestionStrip
+                key={sug.id}
+                sugestao={sug}
+                ocupado={resolvendo}
+                onAceitar={() => onAceitarSugestao?.(sug.id!)}
+                onDescartar={() => onDescartarSugestao?.(sug.id!)}
+              />
+            ) : null,
+          )}
+        </div>
+      )}
 
       {expandido && (
         <div className="space-y-4 border-t p-3">

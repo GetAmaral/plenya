@@ -13,12 +13,24 @@ import { apiClient } from '../api-client';
 import type {
   DeckOverflow,
   DeckSlide,
+  PlanAssistantTurn,
   PlanDossier,
   PlanDossierRefresh,
   PlanDossierStaleness,
+  PlanMessage,
+  PlanResolveResult,
+  PlanSuggestion,
 } from '@plenya/types';
 
-export type { DeckOverflow, DeckSlide, PlanDossier, PlanDossierStaleness };
+export type {
+  DeckOverflow,
+  DeckSlide,
+  PlanAssistantTurn,
+  PlanDossier,
+  PlanDossierStaleness,
+  PlanMessage,
+  PlanSuggestion,
+};
 
 export type PatientPlanStatus = 'draft' | 'published';
 
@@ -59,6 +71,10 @@ export const patientPlanKeys = {
     ['patient-plans', patientId, planId, 'dossier'] as const,
   staleness: (patientId: string, planId: string) =>
     ['patient-plans', patientId, planId, 'staleness'] as const,
+  conversa: (patientId: string, planId: string) =>
+    ['patient-plans', patientId, planId, 'assistant'] as const,
+  sugestoes: (patientId: string, planId: string) =>
+    ['patient-plans', patientId, planId, 'suggestions'] as const,
 };
 
 const base = (patientId: string) => `/api/v1/patients/${patientId}/plans`;
@@ -168,6 +184,87 @@ export function useRefreshPlanDossier(patientId: string) {
     onSuccess: (_data, planId) => {
       qc.invalidateQueries({ queryKey: patientPlanKeys.dossier(patientId, planId) });
       qc.invalidateQueries({ queryKey: patientPlanKeys.staleness(patientId, planId) });
+    },
+  });
+}
+
+/** A conversa do plano, persistida: fechar o notebook não perde o turno. */
+export function usePlanConversation(patientId: string | undefined, planId: string | undefined) {
+  return useQuery({
+    queryKey: patientPlanKeys.conversa(patientId ?? '', planId ?? ''),
+    enabled: !!patientId && !!planId,
+    queryFn: () =>
+      apiClient.get<PlanMessage[]>(`${base(patientId!)}/${planId}/assistant/messages`),
+  });
+}
+
+/** As sugestões esperando aceite. */
+export function usePlanSuggestions(patientId: string | undefined, planId: string | undefined) {
+  return useQuery({
+    queryKey: patientPlanKeys.sugestoes(patientId ?? '', planId ?? ''),
+    enabled: !!patientId && !!planId,
+    queryFn: () => apiClient.get<PlanSuggestion[]>(`${base(patientId!)}/${planId}/suggestions`),
+  });
+}
+
+/**
+ * Um turno da conversa.
+ *
+ * A chamada é síncrona e leva de dez a vinte segundos. `clientMessageId` é o que impede um turno
+ * duplicado quando o médico reenvia depois de fechar a aba: o servidor devolve 409 em vez de rodar
+ * de novo.
+ */
+export function useSendPlanMessage(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      planId,
+      body,
+      expectedRevision,
+    }: {
+      planId: string;
+      body: string;
+      expectedRevision?: number;
+    }) =>
+      apiClient.post<PlanAssistantTurn>(`${base(patientId)}/${planId}/assistant/messages`, {
+        body,
+        clientMessageId: crypto.randomUUID(),
+        expectedRevision,
+      }),
+    onSuccess: (_d, { planId }) => {
+      qc.invalidateQueries({ queryKey: patientPlanKeys.conversa(patientId, planId) });
+      qc.invalidateQueries({ queryKey: patientPlanKeys.sugestoes(patientId, planId) });
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
+    },
+  });
+}
+
+/** Aceita ou recusa sugestões. Resultado parcial é resposta legítima: ver `skipped`. */
+export function useResolveSuggestions(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      planId,
+      action,
+      suggestionIds,
+      slideId,
+      expectedRevision,
+    }: {
+      planId: string;
+      action: 'accept' | 'reject';
+      suggestionIds?: string[];
+      slideId?: string;
+      expectedRevision?: number;
+    }) =>
+      apiClient.post<PlanResolveResult>(`${base(patientId)}/${planId}/suggestions/resolve`, {
+        action,
+        suggestionIds,
+        slideId,
+        expectedRevision,
+      }),
+    onSuccess: (_d, { planId }) => {
+      qc.invalidateQueries({ queryKey: patientPlanKeys.sugestoes(patientId, planId) });
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
     },
   });
 }

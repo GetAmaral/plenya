@@ -19,7 +19,13 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus } from 'lucide-react';
-import type { DeckOverflow, DeckSlide, DeckSlideKind, PlanDossier } from '@plenya/types';
+import type {
+  DeckOverflow,
+  DeckSlide,
+  DeckSlideKind,
+  PlanDossier,
+  PlanSuggestion,
+} from '@plenya/types';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -44,12 +50,20 @@ export function SlideList({
   dossier,
   overflow = [],
   sujos,
+  sugestoes = [],
+  onAceitarSugestao,
+  onDescartarSugestao,
+  resolvendo,
 }: {
   slides: DeckSlide[];
   onChange: (s: DeckSlide[]) => void;
   dossier?: PlanDossier;
   overflow?: DeckOverflow[];
   sujos?: Set<string>;
+  sugestoes?: PlanSuggestion[];
+  onAceitarSugestao?: (id: string) => void;
+  onDescartarSugestao?: (id: string) => void;
+  resolvendo?: boolean;
 }) {
   const [expandido, setExpandido] = useState<string | null>(null);
 
@@ -111,6 +125,10 @@ export function SlideList({
                   dossier={dossier}
                   estouro={estouroDe(i)}
                   sujo={sujos?.has(ids[i])}
+                  sugestoes={sugestoes.filter((g) => g.slideId === s.id)}
+                  onAceitarSugestao={onAceitarSugestao}
+                  onDescartarSugestao={onDescartarSugestao}
+                  resolvendo={resolvendo}
                 />
               </SlideArrastavel>
             ))}
