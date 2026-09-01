@@ -50,7 +50,12 @@ type PatientPlanService struct {
 	documents *PatientDocumentsService
 	signature *SignatureService
 	revisions *PatientPlanRevisionService
+	dossiers  *PatientPlanDossierService
 }
+
+// SetDossierService liga o serviço de dossiê depois da construção. É injeção tardia porque o
+// dossiê depende de repositórios que nascem depois do serviço de plano no main.
+func (s *PatientPlanService) SetDossierService(d *PatientPlanDossierService) { s.dossiers = d }
 
 func NewPatientPlanService(db *gorm.DB, documents *PatientDocumentsService, signature *SignatureService) *PatientPlanService {
 	return &PatientPlanService{
@@ -159,7 +164,17 @@ func (s *PatientPlanService) Create(patientID, authorID uuid.UUID, req *dto.Save
 			return err
 		}
 		plan.RevisionSeq = seq
-		return tx.Model(&plan).Update("revision_seq", seq).Error
+		if err := tx.Model(&plan).Update("revision_seq", seq).Error; err != nil {
+			return err
+		}
+		// Congela o prontuário no nascimento do plano. É o chão contra o qual todo número do deck
+		// vai ser conferido, e ele precisa ser o mesmo do começo ao fim da autoria.
+		if s.dossiers != nil {
+			if _, err := s.dossiers.Freeze(tx, plan.ID, patientID, &authorID); err != nil {
+				return err
+			}
+		}
+		return nil
 	})
 	if err != nil {
 		return nil, err
@@ -223,7 +238,11 @@ func (s *PatientPlanService) Delete(planID, patientID uuid.UUID) error {
 }
 
 // Preview devolve o HTML do deck sem publicar nada — é o que a tela de montagem mostra.
-func (s *PatientPlanService) Preview(planID, patientID uuid.UUID) (string, error) {
+//
+// `fontBase` faz as fontes virem por link em vez de embutidas. Com elas embutidas o HTML tem
+// 1,97 MB, dos quais 96% são as fontes; por link são 75 KB, e o navegador cacheia. Vazio mantém o
+// comportamento antigo, para nenhum chamador ficar sem fonte por engano.
+func (s *PatientPlanService) Preview(planID, patientID uuid.UUID, fontBase string) (string, error) {
 	plan, err := s.load(planID, patientID)
 	if err != nil {
 		return "", err
@@ -233,7 +252,7 @@ func (s *PatientPlanService) Preview(planID, patientID uuid.UUID) (string, error
 	if len(plan.Content) == 0 {
 		return "", ErrPatientPlanEmpty
 	}
-	return pdfdoc.DeckHTML(s.deck(plan))
+	return pdfdoc.DeckHTMLForBrowser(s.deck(plan), fontBase)
 }
 
 // CheckOverflow mede se algum slide transborda, sem publicar.

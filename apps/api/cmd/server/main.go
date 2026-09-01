@@ -20,6 +20,7 @@ import (
 	"github.com/plenya/api/internal/handlers"
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
+	"github.com/plenya/api/internal/pdfdoc"
 	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/scheduler"
 	"github.com/plenya/api/internal/services"
@@ -499,6 +500,9 @@ func setupRoutes(
 	patientPlanDossierService := services.NewPatientPlanDossierService(database.DB, scoreSnapshotRepo, carePlanService)
 	// O plano em si (o "deck"): mesmo conteúdo, três saídas — tela do portal, PDF 16:9 e A4.
 	patientPlanService := services.NewPatientPlanService(database.DB, patientDocumentsService, signatureService)
+	// O plano congela o dossiê ao nascer; a ligação é tardia porque o dossiê depende de
+	// repositórios construídos depois dele.
+	patientPlanService.SetDossierService(patientPlanDossierService)
 	patientPlanHandler := handlers.NewPatientPlanHandler(patientPlanDossierService, patientPlanService)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
@@ -1187,6 +1191,22 @@ func setupRoutes(
 	labRequestTemplates.Delete("/:id", middleware.RequireAdmin(), labRequestTemplateHandler.DeleteLabRequestTemplate)
 
 	// Lab Result Views routes (protegidas - medical staff)
+	// Fontes do deck da devolutiva. Pública e sem autenticação de propósito: são arquivos de
+	// fonte, não carregam dado de paciente, e a prévia roda dentro de um `iframe srcDoc` que não
+	// tem como mandar o header de autorização. Servir por link em vez de embutir tira 1,9 MB de
+	// cada prévia (96% do payload eram as fontes em base64).
+	v1.Get("/deck-fonts/:name", func(c *fiber.Ctx) error {
+		conteudo, mime, ok := pdfdoc.DeckFontFile(c.Params("name"))
+		if !ok {
+			return c.SendStatus(fiber.StatusNotFound)
+		}
+		c.Set(fiber.HeaderContentType, mime)
+		// O conteúdo é imutável: o nome do arquivo muda quando a fonte muda.
+		c.Set(fiber.HeaderCacheControl, "public, max-age=31536000, immutable")
+		c.Set(fiber.HeaderAccessControlAllowOrigin, "*")
+		return c.Send(conteudo)
+	})
+
 	labResultViews := v1.Group("/lab-result-views")
 	labResultViews.Use(middleware.Auth(cfg))
 	labResultViews.Use(middleware.AuditLog(database.DB))
@@ -1456,6 +1476,10 @@ func setupRoutes(
 	patients.Get("/:id/plans/:planId", middleware.RequireClinician(), patientPlanHandler.Get)
 	patients.Put("/:id/plans/:planId", middleware.RequireClinician(), patientPlanHandler.Update)
 	patients.Delete("/:id/plans/:planId", middleware.RequireClinician(), patientPlanHandler.Delete)
+	// Dossiê CONGELADO do plano — é daqui que a tela de autoria lê, nunca do dossiê vivo.
+	patients.Get("/:id/plans/:planId/dossier", middleware.RequireClinician(), patientPlanHandler.PlanDossier)
+	patients.Get("/:id/plans/:planId/dossier/staleness", middleware.RequireClinician(), patientPlanHandler.PlanDossierStaleness)
+	patients.Post("/:id/plans/:planId/dossier/refresh", middleware.RequireClinician(), patientPlanHandler.RefreshPlanDossier)
 	patients.Get("/:id/plans/:planId/preview", middleware.RequireClinician(), patientPlanHandler.Preview)
 	patients.Get("/:id/plans/:planId/overflow", middleware.RequireClinician(), patientPlanHandler.CheckOverflow)
 	patients.Post("/:id/plans/:planId/publish", middleware.RequireClinician(), patientPlanHandler.Publish)

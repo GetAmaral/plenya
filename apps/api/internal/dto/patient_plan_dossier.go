@@ -183,6 +183,46 @@ type PlanDossierResponse struct {
 	GeneratedAt string                    `json:"generatedAt"`
 }
 
+// ---- Dossiê congelado ----
+
+// PlanDossierStaleness — se o prontuário andou desde o congelamento, e no quê.
+//
+// Devolve os motivos e não só um booleano porque a decisão de refrescar depende deles: exame novo
+// importa num deck que fala de exame; aferição nova, num deck que não cita pressão, não.
+type PlanDossierStaleness struct {
+	DossierID string   `json:"dossierId,omitempty"`
+	FrozenAt  string   `json:"frozenAt,omitempty"`
+	Stale     bool     `json:"stale"`
+	Reasons   []string `json:"reasons,omitempty"`
+}
+
+// PlanDossierCitation — onde no deck um exame é citado.
+type PlanDossierCitation struct {
+	SlideID string `json:"slideId"`
+	Index   int    `json:"index"`
+	Title   string `json:"title,omitempty"`
+}
+
+// PlanDossierChange — um exame citado no deck cujo valor mudou entre dois congelamentos.
+type PlanDossierChange struct {
+	Code    string                `json:"code"`
+	Name    string                `json:"name"`
+	Unit    string                `json:"unit,omitempty"`
+	Was     string                `json:"was"`
+	Now     string                `json:"now"`
+	CitedIn []PlanDossierCitation `json:"citedIn"`
+}
+
+// PlanDossierRefreshResponse — o resultado de refrescar.
+//
+// `Changed` é restrito ao que o deck CITA: um dossiê tem dezenas de réguas e dizer "mudou" sobre o
+// conjunto não ajuda. O que decide é "destes que você citou, estes mudaram, e estão nestes slides".
+type PlanDossierRefreshResponse struct {
+	DossierID  string              `json:"dossierId"`
+	Changed    []PlanDossierChange `json:"changed"`
+	Unaffected int                 `json:"unaffected"`
+}
+
 // ---- Plano de devolutiva (patient_plans) ----
 
 // SavePatientPlanRequest — cria ou reescreve o plano. `content` é a lista de slides.

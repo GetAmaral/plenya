@@ -4,6 +4,7 @@ import (
 	"embed"
 	"encoding/base64"
 	"fmt"
+	"strings"
 	"sync"
 )
 
@@ -62,6 +63,60 @@ func fontFaces() string {
 // Google Fonts por @import, o que não funciona aqui: o Chromium renderiza a partir de file:// e o
 // container não tem rede garantida — as fontes simplesmente não chegavam e o layout caía na
 // fallback, mudando toda a métrica do slide.
+// deckFonts — os arquivos que o deck usa, na ordem em que o CSS os declara.
+//
+// A mesma lista serve para os dois modos: embutida (o PDF) e por link (a prévia no navegador).
+var deckFonts = []struct {
+	Nome    string // como aparece na URL
+	Caminho string // dentro do embed.FS
+	MIME    string
+	Familia string
+	Peso    int
+	Formato string
+}{
+	{"Fraunces-Regular.ttf", "assets/fonts/Fraunces-Regular.ttf", "font/ttf", "Fraunces", 400, "truetype"},
+	{"cormorant-500.woff2", "assets/fonts/cormorant-500.woff2", "font/woff2", "Cormorant Garamond", 500, "woff2"},
+	{"cormorant-600.woff2", "assets/fonts/cormorant-600.woff2", "font/woff2", "Cormorant Garamond", 600, "woff2"},
+	{"Inter-Regular.ttf", "assets/fonts/Inter-Regular.ttf", "font/ttf", "Inter", 400, "truetype"},
+	{"Inter-Medium.ttf", "assets/fonts/Inter-Medium.ttf", "font/ttf", "Inter", 500, "truetype"},
+	{"Inter-SemiBold.ttf", "assets/fonts/Inter-SemiBold.ttf", "font/ttf", "Inter", 600, "truetype"},
+	{"Inter-Bold.ttf", "assets/fonts/Inter-Bold.ttf", "font/ttf", "Inter", 700, "truetype"},
+}
+
+// DeckFontFile devolve o arquivo de fonte pelo nome, para a rota que serve a prévia.
+//
+// São só arquivos de fonte: não carregam dado de paciente e podem ser servidos sem autenticação e
+// com cache longo, que é justamente o ponto.
+func DeckFontFile(nome string) (conteudo []byte, mime string, ok bool) {
+	for _, f := range deckFonts {
+		if f.Nome == nome {
+			b, err := assetFS.ReadFile(f.Caminho)
+			if err != nil {
+				return nil, "", false
+			}
+			return b, f.MIME, true
+		}
+	}
+	return nil, "", false
+}
+
+// deckFontFacesLinked declara as mesmas fontes apontando para URL em vez de embutir os bytes.
+//
+// Existe por uma razão medida: com as fontes em base64 o HTML da prévia tem 1,97 MB, dos quais 96%
+// são as fontes — o deck em si são 75 KB. Isso torna impraticável renderizar a prévia enquanto se
+// edita. Por link, o navegador baixa as fontes uma vez e cacheia.
+//
+// O PDF continua embutindo: o Chromium renderiza a partir de string, sem URL base e sem rede
+// garantida no container, e fonte que não chega muda toda a métrica do slide em silêncio.
+func deckFontFacesLinked(base string) string {
+	var b strings.Builder
+	for _, f := range deckFonts {
+		fmt.Fprintf(&b, "@font-face { font-family:'%s'; src:url(%s/%s) format('%s'); font-weight:%d; font-display:block; }\n",
+			f.Familia, strings.TrimRight(base, "/"), f.Nome, f.Formato, f.Peso)
+	}
+	return b.String()
+}
+
 func deckFontFaces() string {
 	deckFontOnce.Do(func() {
 		fr := dataURI("assets/fonts/Fraunces-Regular.ttf", "font/ttf")

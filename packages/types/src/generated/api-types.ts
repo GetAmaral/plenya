@@ -5500,6 +5500,143 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/plans/{planId}/dossier": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Dossiê CONGELADO do plano
+         * @description O prontuário compilado como estava quando o plano foi montado. A tela de autoria lê
+         *     deste, e não do dossiê vivo: números que mudam debaixo do texto que está sendo
+         *     escrito é a origem do problema que o congelamento resolve.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanDossierResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/dossier/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Congela o prontuário de novo e diz o que mudou no que o deck cita
+         * @description Ato explícito, nunca automático: refrescar troca número debaixo do autor. A resposta
+         *     é restrita aos exames CITADOS no deck, com em quais slides — um dossiê tem dezenas
+         *     de réguas e dizer "mudou" sobre o conjunto não ajuda a decidir nada.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanDossierRefreshResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/dossier/staleness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Diz se o prontuário andou desde o congelamento
+         * @description Uma consulta de marcas d'água, não a remontagem do dossiê. Devolve os MOTIVOS, e
+         *     não só um booleano: exame novo importa num deck que fala de exame; aferição nova,
+         *     num deck que não cita pressão, não.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanDossierStaleness"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plans/{planId}/overflow": {
         parameters: {
             query?: never;
@@ -17916,6 +18053,19 @@ export interface components {
             userId?: string;
             weight?: number;
         };
+        "dto.PlanDossierChange": {
+            citedIn?: components["schemas"]["dto.PlanDossierCitation"][];
+            code?: string;
+            name?: string;
+            now?: string;
+            unit?: string;
+            was?: string;
+        };
+        "dto.PlanDossierCitation": {
+            index?: number;
+            slideId?: string;
+            title?: string;
+        };
         "dto.PlanDossierLabRequest": {
             date?: string;
             exams?: string;
@@ -17934,6 +18084,11 @@ export interface components {
             signedAt?: string;
             status?: string;
             type?: string;
+        };
+        "dto.PlanDossierRefreshResponse": {
+            changed?: components["schemas"]["dto.PlanDossierChange"][];
+            dossierId?: string;
+            unaffected?: number;
         };
         "dto.PlanDossierResponse": {
             carePlan?: components["schemas"]["dto.CarePlanItemResponse"][];
@@ -17954,6 +18109,12 @@ export interface components {
             calculatedAt?: string;
             id?: string;
             totalPercentage?: number;
+        };
+        "dto.PlanDossierStaleness": {
+            dossierId?: string;
+            frozenAt?: string;
+            reasons?: string[];
+            stale?: boolean;
         };
         "dto.PlanDossierVitals": {
             bmi?: number;

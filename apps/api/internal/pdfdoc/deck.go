@@ -82,7 +82,22 @@ func awaitFonts(page *rod.Page) error {
 // DeckHTML devolve o HTML do deck, para a tela do portal e para conferência visual.
 func DeckHTML(d Deck) (string, error) { return deckHTML(d) }
 
-func deckHTML(d Deck) (string, error) {
+// DeckHTMLForBrowser é o MESMO HTML com as fontes por link em vez de embutidas.
+//
+// Serve a prévia na tela. Base vazia cai no modo embutido, para nunca produzir uma página sem
+// fonte: fallback de fonte muda a métrica do slide e faria a prévia mentir sobre o encaixe.
+func DeckHTMLForBrowser(d Deck, fontBase string) (string, error) {
+	if strings.TrimSpace(fontBase) == "" {
+		return deckHTML(d)
+	}
+	return deckHTMLCom(d, deckFontFacesLinked(fontBase))
+}
+
+func deckHTML(d Deck) (string, error) { return deckHTMLCom(d, deckFontFaces()) }
+
+// deckHTMLCom monta o deck com o bloco de @font-face que o chamador escolher. É o único lugar em
+// que o HTML do deck é montado: PDF e prévia diferem só nesse bloco.
+func deckHTMLCom(d Deck, fontesCSS string) (string, error) {
 	if len(d.Slides) == 0 {
 		return "", fmt.Errorf("deck sem slides")
 	}
@@ -95,7 +110,7 @@ func deckHTML(d Deck) (string, error) {
 		title = "Plenya"
 	}
 	return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>` + esc(title) +
-		`</title><style>` + deckFontFaces() + deckCSS + `</style></head><body>` + b.String() + `</body></html>`, nil
+		`</title><style>` + fontesCSS + deckCSS + `</style></head><body>` + b.String() + `</body></html>`, nil
 }
 
 // slideOptions — uma página por slide, no tamanho exato do slide.

@@ -56,6 +56,89 @@ func (h *PatientPlanHandler) GetDossier(c *fiber.Ctx) error {
 	return c.JSON(out)
 }
 
+// PlanDossier godoc
+// @Summary Dossiê CONGELADO do plano
+// @Description O prontuário compilado como estava quando o plano foi montado. A tela de autoria lê
+// @Description deste, e não do dossiê vivo: números que mudam debaixo do texto que está sendo
+// @Description escrito é a origem do problema que o congelamento resolve.
+// @Tags patient-plans
+// @Produce json
+// @Param id path string true "ID do paciente (UUID)"
+// @Param planId path string true "ID do plano (UUID)"
+// @Success 200 {object} dto.PlanDossierResponse
+// @Failure 404 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/{planId}/dossier [get]
+func (h *PatientPlanHandler) PlanDossier(c *fiber.Ctx) error {
+	_, planID, resp, ok := h.ids(c)
+	if !ok {
+		return resp
+	}
+	payload, row, err := h.dossier.Current(planID)
+	if err != nil {
+		if errors.Is(err, services.ErrPlanDossierNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+				Error: "sem dossiê congelado", Message: err.Error()})
+		}
+		return h.fail(c, err, "falha ao ler o dossiê congelado")
+	}
+	return c.JSON(fiber.Map{
+		"dossierId": row.ID.String(),
+		"seq":       row.Seq,
+		"frozenAt":  row.BuiltAt,
+		"dossier":   payload,
+	})
+}
+
+// PlanDossierStaleness godoc
+// @Summary Diz se o prontuário andou desde o congelamento
+// @Description Uma consulta de marcas d'água, não a remontagem do dossiê. Devolve os MOTIVOS, e
+// @Description não só um booleano: exame novo importa num deck que fala de exame; aferição nova,
+// @Description num deck que não cita pressão, não.
+// @Tags patient-plans
+// @Produce json
+// @Success 200 {object} dto.PlanDossierStaleness
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/{planId}/dossier/staleness [get]
+func (h *PatientPlanHandler) PlanDossierStaleness(c *fiber.Ctx) error {
+	patientID, planID, resp, ok := h.ids(c)
+	if !ok {
+		return resp
+	}
+	out, err := h.dossier.Staleness(planID, patientID)
+	if err != nil {
+		return h.fail(c, err, "falha ao conferir o dossiê")
+	}
+	return c.JSON(out)
+}
+
+// RefreshPlanDossier godoc
+// @Summary Congela o prontuário de novo e diz o que mudou no que o deck cita
+// @Description Ato explícito, nunca automático: refrescar troca número debaixo do autor. A resposta
+// @Description é restrita aos exames CITADOS no deck, com em quais slides — um dossiê tem dezenas
+// @Description de réguas e dizer "mudou" sobre o conjunto não ajuda a decidir nada.
+// @Tags patient-plans
+// @Produce json
+// @Success 200 {object} dto.PlanDossierRefreshResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/{planId}/dossier/refresh [post]
+func (h *PatientPlanHandler) RefreshPlanDossier(c *fiber.Ctx) error {
+	patientID, planID, resp, ok := h.ids(c)
+	if !ok {
+		return resp
+	}
+	plan, err := h.plans.Get(planID, patientID)
+	if err != nil {
+		return h.fail(c, err, "plano não encontrado")
+	}
+	userID := middleware.GetUserID(c)
+	out, err := h.dossier.RefreshDiff(planID, patientID, &userID, plan.Content)
+	if err != nil {
+		return h.fail(c, err, "falha ao atualizar o dossiê")
+	}
+	return c.JSON(out)
+}
+
 // ---- Plano de devolutiva ----
 
 // List godoc
@@ -198,7 +281,7 @@ func (h *PatientPlanHandler) Preview(c *fiber.Ctx) error {
 	if !ok {
 		return resp
 	}
-	html, err := h.plans.Preview(planID, patientID)
+	html, err := h.plans.Preview(planID, patientID, deckFontBase(c))
 	if err != nil {
 		return h.fail(c, err, "falha ao montar a prévia")
 	}
@@ -286,6 +369,14 @@ func (h *PatientPlanHandler) ids(c *fiber.Ctx) (patientID, planID uuid.UUID, res
 			JSON(dto.ErrorResponse{Error: "invalid plan id", Message: err.Error()}), false
 	}
 	return patientID, planID, nil, true
+}
+
+// deckFontBase monta a URL absoluta da rota de fontes a partir do próprio request.
+//
+// Tem que ser absoluta: a prévia é injetada num `iframe srcDoc`, e URL relativa ali resolve contra
+// o documento pai (o app web), não contra a API.
+func deckFontBase(c *fiber.Ctx) string {
+	return c.Protocol() + "://" + c.Hostname() + "/api/v1/deck-fonts"
 }
 
 func (h *PatientPlanHandler) fail(c *fiber.Ctx, err error, msg string) error {
