@@ -614,8 +614,36 @@ de pontos perdidos, e o fallback funcionou.
 - **Rodar a skill num paciente real** (Ana ou José Ricardo, que estão em prod) e comparar o arco
   proposto contra o deck que já existe. A validação até aqui usou o dossiê do dev.
 - **Migration 00087 só está no dev.** Prod segue no goose 86.
-- Os gaps de dado do capítulo 4 continuam abertos (unidade da saturação de transferrina, níveis da
-  ferritina pós-menopausa, conversão de unidade do sedimento).
+- Os gaps de dado do capítulo 4 continuam abertos (níveis da ferritina pós-menopausa e as faixas
+  do sedimento urinário em `/µL`). A unidade da saturação de transferrina foi resolvida na 00090.
+
+### Divergências de unidade em produção, pendentes de curadoria
+
+A guarda de unidade (`ScoreItem.UnitMatches`) passou a valer nos três pontos que classificam:
+motor do escore, ingestão de lote (é ela que grava `lab_results.level`, o que aparece na tela) e
+réguas do dossiê. A comparação tem duas camadas — a mecânica (`NormalizaUnidade`: grafias de `µ`,
+`UI`/`IU`/`U`, `mm³`≡`µL`, `/100 mL`≡`/dL`, `mil`≡`k`) e a curada
+(`lab_test_unit_conversions` com fator 1, **escopada por exame**, que é onde mora o que depende do
+analito: `mEq/L`≡`mmol/L` vale em sódio e potássio, não em cálcio).
+
+Medido contra todo o universo de resultados de prod antes de deployar: **145 pares de unidade
+aceitos (1330 resultados) contra 27 recusados (116)**. Os 27 são divergência real, e cada um deles
+hoje produz um nível inventado. O que precisa de decisão do Getúlio, sem inventar corte:
+
+| item | escala do catálogo | laudo | o que acontece hoje |
+|---|---|---|---|
+| Leucócitos / Hemácias / Células Epiteliais (sedimento) | `células/campo` | `/µL` | 0,5/µL cai em "≤10" e sai **ótimo** |
+| Creatinina | `mg/dL` | `U/L` (67,1) | sai **nível 0**, o pior; o valor é µmol/L |
+| Vitamina A | `µg/dL` | `mg/L` (0,4) | sai **nível 0**; equivale a 40 µg/dL, normal |
+| Hemoglobina - Mulheres | `g/dL` | `mg/dL` (0,03) | não é uma hemoglobina |
+| Hemácias | `M/µL` | `/mm3` | o número está certo, o rótulo não |
+| Linfócitos / Monócitos / Neutrófilos (absoluto) | `k/µL` | `%` | o diferencial percentual gravado no item de contagem |
+| Densidade Urinária | `specific gravity` | `g/mL` | numericamente igual; cabe uma linha de conversão fator 1 |
+
+Enquanto não houver decisão, a guarda deixa esses itens como `not_applicable` com o motivo escrito
+por extenso. É perda de cobertura, e é a troca certa: a régua não existir é melhor do que existir
+errada, e o item excluído sai do numerador **e** do denominador (verificado no banco: os totais do
+snapshot batem com a soma só dos avaliados).
 
 ### Regra editorial que a evidência impõe
 

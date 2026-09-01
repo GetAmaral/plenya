@@ -447,6 +447,10 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		return map[string]dto.PlanRuler{}, nil
 	}
 
+	// Sinônimos de unidade do catálogo, escopados por exame: sem eles a régua do sódio sumiria
+	// só porque o item diz `mEq/L` e o laudo diz `mmol/L`.
+	catalogo := carregaCatalogoDeExames(s.db)
+
 	codes := make([]string, 0, len(byCode))
 	for c := range byCode {
 		codes = append(codes, c)
@@ -500,7 +504,7 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		// escala em células/campo enquanto o laboratório reporta /µL: classificar ali põe um
 		// resultado de 0,5 na faixa "≤10" e o paciente lê "ótimo" sobre um número que ninguém
 		// comparou. Melhor a régua não existir do que existir errada.
-		if len(byCode[code]) > 0 && !item.UnitMatches(byCode[code][0].DefUnit) {
+		if len(byCode[code]) > 0 && !item.UnitMatches(byCode[code][0].DefUnit, catalogo.sinonimosDe(item.LabTestCode)) {
 			continue
 		}
 		ruler, ok := buildRuler(code, item, byCode[code])

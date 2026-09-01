@@ -1,6 +1,7 @@
 package models
 
 import (
+	"regexp"
 	"strings"
 	"time"
 
@@ -248,17 +249,106 @@ func (si *ScoreItem) RequirementMet(labValues map[string]float64) bool {
 // Falha silenciosa, e a régua da devolutiva a mostraria ao paciente como notícia boa.
 //
 // Unidade vazia dos dois lados não bloqueia: item categórico não tem unidade.
-func (si *ScoreItem) UnitMatches(unidadeDoExame string) bool {
-	norm := func(u string) string { return strings.ToLower(strings.TrimSpace(u)) }
+// `sinonimosDoExame` são os pares (unidade principal, unidade secundária) com fator de conversão
+// 1 que o catálogo registra PARA ESTE EXAME, vindos de `lab_test_unit_conversions`. Eles cobrem o
+// que nenhuma regra de string alcança porque depende do analito: `mEq/L` só é igual a `mmol/L` em
+// íon monovalente (Na⁺, K⁺, HCO₃⁻); em cálcio seria o dobro. Passar nil desliga essa consulta e
+// deixa só as equivalências mecânicas.
+func (si *ScoreItem) UnitMatches(unidadeDoExame string, sinonimosDoExame [][2]string) bool {
 	item := ""
 	if si.Unit != nil {
-		item = norm(*si.Unit)
+		item = NormalizaUnidade(*si.Unit)
 	}
-	exame := norm(unidadeDoExame)
+	exame := NormalizaUnidade(unidadeDoExame)
 	if item == "" || exame == "" {
 		return true
 	}
-	return item == exame
+	if item == exame {
+		return true
+	}
+	if unidadesEquivalentes[[2]string{item, exame}] || unidadesEquivalentes[[2]string{exame, item}] {
+		return true
+	}
+	for _, par := range sinonimosDoExame {
+		a, b := NormalizaUnidade(par[0]), NormalizaUnidade(par[1])
+		if (a == item && b == exame) || (a == exame && b == item) {
+			return true
+		}
+	}
+	return false
+}
+
+// unidadesEquivalentes lista pares que a normalização não junta mas que valem o MESMO número,
+// por definição e para QUALQUER analito. Só entra aqui igualdade exata e independente de peso
+// molecular ou valência: o que depende do analito mora em `lab_test_unit_conversions`.
+var unidadesEquivalentes = map[[2]string]bool{
+	// 1 mIU/L = 10⁻³ IU/L = 10⁻⁶ IU/mL = 1 µIU/mL. Aparece no TSH.
+	{"miu/l", "uiu/ml"}: true,
+	// 1 mIU/mL = 10⁻³ IU/mL = 1 IU/L. Aparece no anti-HBs, FSH, LH.
+	{"miu/ml", "iu/l"}: true,
+	// VHS reportada só como "mm": o laboratório omite o /h, a grandeza é a mesma.
+	{"mm/h", "mm"}: true,
+}
+
+// numeradorEmUI casa um numerador que é unidade internacional em qualquer grafia (`U`, `UI`,
+// `IU`), com prefixo SI opcional: `U`, `mUI`, `µIU`, `kU`.
+var numeradorEmUI = regexp.MustCompile(`^(m|u|k|n|p)?(?:ui|iu|u)$`)
+
+// NormalizaUnidade reduz uma unidade à forma canônica de comparação. O catálogo e os laudos
+// escrevem a mesma grandeza de vários jeitos (`mcg/dL`, `µg/dL`, `ug/dL`) e comparar string crua
+// acusaria divergência onde não há — o que silenciaria item correto.
+//
+// Só faz equivalências EXATAS, nunca conversão de escala: `mm³` é por definição 1 µL, `UI` é a
+// grafia portuguesa de `IU`, `mc` é a grafia ASCII de `µ`. `mg/dL` e `g/dL` continuam diferentes,
+// que é justamente o que a guarda precisa pegar.
+func NormalizaUnidade(u string) string {
+	s := strings.ToLower(strings.TrimSpace(u))
+
+	// Qualificador textual: "mg/g de creatinina" é mg/g.
+	if i := strings.Index(s, " de "); i > 0 {
+		s = s[:i]
+	}
+	s = strings.ReplaceAll(s, " ", "")
+
+	// Micro: sinal U+00B5, mu grego U+03BC e a abreviação `mc` são todos µ.
+	s = strings.ReplaceAll(s, "\u00b5", "u")
+	s = strings.ReplaceAll(s, "\u03bc", "u")
+	s = strings.ReplaceAll(s, "mc", "u")
+
+	// Unidade internacional: `UI` (pt), `IU` (en) e `U` sozinho são a mesma coisa nos ensaios
+	// em que aparecem — o laudo escreve `U/mL` onde o catálogo escreve `UI/mL`
+	// (anti-transglutaminase) e `µU/mL` onde escreve `µUI/mL` (TSH, insulina).
+	//
+	// A troca é no NUMERADOR inteiro, com prefixo SI opcional, nunca por substring: um
+	// `strings.ReplaceAll("ui","iu")` cego transformaria `µUI/mL` em `uiu/ml` e `µIU/mL` em
+	// `iuu/ml`, separando duas grafias da mesma unidade. E estragaria `ug/dL` e `/µL`, que não
+	// têm nada a ver com unidade internacional.
+	if i := strings.Index(s, "/"); i > 0 {
+		if num := numeradorEmUI.ReplaceAllString(s[:i], "${1}iu"); num != s[:i] {
+			s = num + s[i:]
+		}
+	}
+
+	// Hora por extenso ou abreviada (VHS sai como `mm/h`, `mm/hr` e `mm/Hora`).
+	s = strings.ReplaceAll(s, "/hora", "/h")
+	s = strings.ReplaceAll(s, "/hr", "/h")
+
+	// 1 dL = 100 mL, por definição: o laudo de chumbo escreve `µg/100 mL`.
+	s = strings.ReplaceAll(s, "/100ml", "/dl")
+
+	// 1 mm³ = 1 µL, exato.
+	s = strings.ReplaceAll(s, "mm\u00b3", "ul")
+	s = strings.ReplaceAll(s, "mm3", "ul")
+
+	// Multiplicadores escritos por extenso, como o hemograma faz.
+	for _, mil := range []string{"x10\u00b3", "x10^3", "10\u00b3", "mil"} {
+		s = strings.ReplaceAll(s, mil+"/", "k/")
+	}
+	for _, milhao := range []string{"milh\u00f5es", "milhoes"} {
+		s = strings.ReplaceAll(s, milhao+"/", "m/")
+	}
+
+	return s
 }
 
 // AppliesToPatient verifica se este ScoreItem se aplica ao paciente baseado em gênero, idade e menopausa

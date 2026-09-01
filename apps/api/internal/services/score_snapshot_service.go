@@ -87,6 +87,9 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 		return nil, fmt.Errorf("failed to load anamnesis items: %w", err)
 	}
 
+	// Nomes e sinônimos de unidade do catálogo de exames, lidos uma vez para todos os itens.
+	catalogo := carregaCatalogoDeExames(s.db)
+
 	// 5. Create or update snapshot in transaction
 	var snapshot *models.PatientScoreSnapshot
 	err = s.db.Transaction(func(tx *gorm.DB) error {
@@ -169,6 +172,7 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 						group.ID,
 						labResultsByCode,
 						anamnesisItemsByScoreItemID,
+						catalogo,
 					)
 
 					allItemResults = append(allItemResults, itemResult)
@@ -200,6 +204,7 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 							group.ID,
 							labResultsByCode,
 							anamnesisItemsByScoreItemID,
+							catalogo,
 						)
 
 						allItemResults = append(allItemResults, childItemResult)
@@ -294,6 +299,45 @@ func (s *ScoreSnapshotService) DeleteSnapshot(id uuid.UUID) error {
 // Private Methods
 // ============================================================
 
+// motivoDoContexto explica, em português de prontuário, por que o item de contexto não se
+// aplica. O código cru (`PLN1BFE6CA3`) não diz nada a quem lê o escore, então o nome do exame
+// vem de `nomes` (catálogo) e, na falta dele, do resultado do próprio paciente.
+//
+// Só é chamada quando `RequirementMet` reprovou, o que exige `RequiresLabCode` preenchido e ao
+// menos um de min/max — por isso não há ramo para os dois nulos.
+func motivoDoContexto(item *models.ScoreItem, labResultsByCode map[string]models.LabResult, catalogo catalogoDeExames) string {
+	codigo := *item.RequiresLabCode
+	nome := codigo
+	if n := catalogo.nomeDe(codigo); n != "" {
+		nome = n
+	}
+	ref, temResultado := labResultsByCode[codigo]
+	if temResultado && ref.TestName != "" {
+		nome = ref.TestName
+	}
+
+	switch {
+	case !temResultado:
+		return fmt.Sprintf("Item não avaliado: só é interpretável junto com %s, que não foi medido", nome)
+	case ref.ResultNumeric == nil:
+		// O exame foi feito, mas veio qualitativo ou em texto: dizer "não foi medido" seria
+		// mentira, e mandaria pedir de novo um exame que já está no prontuário.
+		return fmt.Sprintf("Item não avaliado: %s veio sem valor numérico, e a interpretação depende do número", nome)
+	}
+
+	var faixa string
+	switch {
+	case item.RequiresMin != nil && item.RequiresMax != nil:
+		faixa = fmt.Sprintf("entre %s e %s", formatNumberPT(*item.RequiresMin), formatNumberPT(*item.RequiresMax))
+	case item.RequiresMin != nil:
+		faixa = fmt.Sprintf("a partir de %s", formatNumberPT(*item.RequiresMin))
+	default:
+		faixa = fmt.Sprintf("até %s", formatNumberPT(*item.RequiresMax))
+	}
+	return fmt.Sprintf("Item não aplicável: só discrimina com %s %s (medido: %s)",
+		nome, faixa, formatNumberPT(*ref.ResultNumeric))
+}
+
 // valoresPorCodigo reduz os resultados do paciente a "código → valor numérico", que é o contexto
 // que `ScoreItem.RequirementMet` consulta.
 func valoresPorCodigo(porCodigo map[string]models.LabResult) map[string]float64 {
@@ -313,6 +357,7 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	groupID uuid.UUID,
 	labResultsByCode map[string]models.LabResult,
 	anamnesisItemsByScoreItemID map[uuid.UUID]models.AnamnesisItem,
+	catalogo catalogoDeExames,
 ) models.PatientScoreItemResult {
 	result := models.PatientScoreItemResult{
 		ItemID:       item.ID,
@@ -333,7 +378,7 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	// número que não quer dizer nada.
 	if !item.RequirementMet(valoresPorCodigo(labResultsByCode)) {
 		result.Status = models.EvaluationStatusNotApplicable
-		reason := "Item não aplicável: depende de " + *item.RequiresLabCode + " estar na faixa de interpretação"
+		reason := motivoDoContexto(item, labResultsByCode, catalogo)
 		result.NotEvaluatedReason = &reason
 		return result
 	}
@@ -357,11 +402,28 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 	var anamnesisItemID *uuid.UUID
 	var matchedLevel *models.ScoreLevel
 	var valueUsed *float64
+	// Preenchido quando o exame do paciente foi descartado por falar de outra grandeza. Vira o
+	// motivo final só se nada mais (anamnese) tiver servido.
+	var motivoUnidade string
 
 	// Try to find value from LabResult (if LabTestCode is set)
 	if item.LabTestCode != nil && *item.LabTestCode != "" {
 		if labResult, found := labResultsByCode[*item.LabTestCode]; found {
-			if labResult.ResultNumeric != nil {
+			// Escala numa grandeza diferente da do exame: os números não se comparam, e
+			// classificar assim é inventar resultado. Três itens do sedimento urinário têm
+			// escala em `células/campo` enquanto o laboratório reporta `/µL` — 0,5/µL cai na
+			// faixa "≤10 células/campo" e sai como nível ÓTIMO sem que ninguém tenha olhado
+			// nada. Descarta o exame sem abortar o item: se houver anamnese para o mesmo
+			// item, ela ainda vale.
+			unidadeExame := ""
+			if labResult.Unit != nil {
+				unidadeExame = *labResult.Unit
+			}
+			if !item.UnitMatches(unidadeExame, catalogo.sinonimosDe(item.LabTestCode)) {
+				motivoUnidade = fmt.Sprintf(
+					"Item não avaliado: a escala está em %s e o exame veio em %s (grandezas diferentes)",
+					*item.Unit, unidadeExame)
+			} else if labResult.ResultNumeric != nil {
 				// Exame numérico: avalia o valor contra os limites dos níveis.
 				valueUsed = labResult.ResultNumeric
 				ds := models.DataSourceLabResult
@@ -456,6 +518,11 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 
 	// If no value found in entire history, return no_data_available
 	if dataSource == nil {
+		if motivoUnidade != "" {
+			result.Status = models.EvaluationStatusNotApplicable
+			result.NotEvaluatedReason = &motivoUnidade
+			return result
+		}
 		reason := "Sem dados disponíveis em todo o histórico do paciente"
 		result.NotEvaluatedReason = &reason
 		return result

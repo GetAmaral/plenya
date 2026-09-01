@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"math"
 	"os"
 	"strings"
@@ -918,6 +919,9 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 		return err
 	}
 
+	// Sinônimos de unidade do catálogo, para não recusar `mEq/L` contra `mmol/L` no sódio.
+	catalogo := carregaCatalogoDeExames(s.db)
+
 	// 2. Buscar paciente
 	var patient models.Patient
 	if err := s.db.First(&patient, batch.PatientID).Error; err != nil {
@@ -992,6 +996,21 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 			}
 
 			if result.ResultNumeric != nil {
+				// A escala do item e o laudo precisam falar da mesma grandeza. Três itens do
+				// sedimento urinário estão em `células/campo` e o laboratório reporta `/µL`:
+				// 0,5/µL cai na faixa "≤10 células/campo" e o resultado fica gravado como
+				// nível ÓTIMO, que é o que aparece na tela e na régua da devolutiva.
+				unidadeDoLaudo := ""
+				if result.Unit != nil {
+					unidadeDoLaudo = *result.Unit
+				}
+				if !item.UnitMatches(unidadeDoLaudo, catalogo.sinonimosDe(item.LabTestCode)) {
+					setReason(fmt.Sprintf(
+						"Não classificado: a faixa do escore está em %s e o resultado veio em %s",
+						*item.Unit, unidadeDoLaudo))
+					break
+				}
+
 				classifyNumeric(*result.ResultNumeric)
 				if levelToSet == nil {
 					setReason("Valor fora das faixas de classificação configuradas")

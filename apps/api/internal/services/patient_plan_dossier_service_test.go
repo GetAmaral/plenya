@@ -584,17 +584,17 @@ func TestEscalaEExameTemQueFalarDaMesmaGrandeza(t *testing.T) {
 	// lê "ótimo" sobre um número que ninguém comparou.
 	campo := "células/campo"
 	item := models.ScoreItem{Name: "Leucócitos - Sedimento", Unit: &campo}
-	if item.UnitMatches("/µL") {
+	if item.UnitMatches("/µL", nil) {
 		t.Error("células/campo e /µL são grandezas diferentes: não pode classificar")
 	}
-	if !item.UnitMatches("Células/Campo ") {
+	if !item.UnitMatches("Células/Campo ", nil) {
 		t.Error("mesma unidade com caixa/espaço diferente tem que casar")
 	}
 	// Item categórico não tem unidade e não pode ser bloqueado por isso.
-	if !(&models.ScoreItem{Name: "Tabagismo"}).UnitMatches("") {
+	if !(&models.ScoreItem{Name: "Tabagismo"}).UnitMatches("", nil) {
 		t.Error("item sem unidade tem que passar")
 	}
-	if !(&models.ScoreItem{Name: "Tabagismo"}).UnitMatches("qualquer") {
+	if !(&models.ScoreItem{Name: "Tabagismo"}).UnitMatches("qualquer", nil) {
 		t.Error("item sem unidade não deve ser bloqueado pela unidade do exame")
 	}
 }
