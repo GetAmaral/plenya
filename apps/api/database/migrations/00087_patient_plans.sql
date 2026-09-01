@@ -41,9 +41,17 @@ CREATE TABLE IF NOT EXISTS public.patient_plans (
 -- O conteúdo é uma LISTA de slides. Guardar um objeto aqui já quebrou o catálogo de templates do
 -- WhatsApp uma vez (mig 00060): o GORM gravou slice de 1 elemento como objeto jsonb e o Find
 -- abortava. O CHECK impede a mesma classe de erro.
-ALTER TABLE public.patient_plans
-  ADD CONSTRAINT patient_plans_content_is_array
-  CHECK (jsonb_typeof(content) = 'array');
+-- Guardado como o CREATE acima: se a tabela já existir, ADD CONSTRAINT cru falharia com
+-- duplicate_object em vez de ser no-op.
+-- +goose StatementBegin
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'patient_plans_content_is_array') THEN
+    ALTER TABLE public.patient_plans
+      ADD CONSTRAINT patient_plans_content_is_array
+      CHECK (jsonb_typeof(content) = 'array');
+  END IF;
+END $$;
+-- +goose StatementEnd
 
 CREATE INDEX IF NOT EXISTS idx_patient_plans_patient   ON public.patient_plans (patient_id);
 CREATE INDEX IF NOT EXISTS idx_patient_plans_status    ON public.patient_plans (status);

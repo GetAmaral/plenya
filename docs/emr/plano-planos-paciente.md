@@ -401,10 +401,89 @@ Build, `go vet`, `gofmt`, suíte completa, `tsc --noEmit` (0 erros) e casos-limi
 8. `signOrDegrade` com serviço de assinatura ausente devolvia um PDF que **afirma** ser assinado.
 9. Prévia de rascunho vazio dava 500 em vez de 400.
 
-## 7 · Próxima fase
+---
 
-- **Fase 3** — skill `.claude/skills/plano-paciente/`, que é onde a autoria do conteúdo mora: puxa o
-  dossiê, propõe o arco narrativo e escreve os títulos em voz de paciente.
+## 7 · Fase 3 — a skill de autoria (CONCLUÍDA)
+
+`.claude/skills/plano-paciente/` + o comando `/plano`. É onde mora o que o EMR não deriva: o arco,
+os títulos e as frases de fechamento.
+
+| Arquivo | O quê |
+|---|---|
+| `.claude/skills/plano-paciente/SKILL.md` | Os três modos (CRIAR / REVISAR / PUBLICAR), o gate do dossiê, a voz e as regras editoriais. |
+| `.claude/skills/plano-paciente/referencias/gramatica-v2.md` | Os 8 blocos com o JSON de cada um, e as 4 regras de desenho com a evidência por trás. |
+| `.claude/commands/plano.md` | O disparo, no padrão de `/aula` e `/ebook`. |
+| `CLAUDE.md` | Skill registrada no índice do monorepo. |
+
+### O gate que define a skill
+
+**É proibido escrever um slide antes de ler o dossiê.** Todo número, nome de exame, data e valor sai
+de `GET /patients/{id}/plan-dossier`. Dado que não está no dossiê não entra no plano: ou se confirma
+na fonte, ou o slide muda. É a regra que separa esta skill de um gerador de texto plausível, e ela
+existe porque aqui inventar um número é o pior erro possível.
+
+O arco é proposto e **espera aprovação** antes de virar slide. A skill também documenta o que o
+dossiê NÃO resolve (o porquê clínico de um achado, conduta ainda não registrada, contexto de vida) e
+manda perguntar ao médico em vez de preencher com plausibilidade.
+
+### Validação
+
+Os exemplos JSON da referência foram submetidos à API exatamente como estão documentados: os **8
+blocos** fazem round-trip preservando estrutura (régua com 3 faixas, 2 pontos e nota; takeaway com
+destaque e 2 grupos), a conferência de estouro passa, e os três modos publicam (16:9 e A4 em 200,
+relatório assinado em 201). Conferido visualmente: o resumo renderiza com a mini-régua aninhada.
+
+Isso importa porque a referência é um contrato: se o JSON documentado não casasse com
+`pdfdoc.DeckSlide`, a skill produziria planos que o servidor recusa.
+
+O texto de exemplo que vira conteúdo de paciente está limpo de travessão. A prosa interna dos
+arquivos usa 9, o menor número entre as 8 skills do projeto (a maior tem 71).
+
+### Rotina de qualidade da Fase 3 — o que ela pegou
+
+A revisão achou **8**, e três mudaram comportamento de verdade:
+
+1. **Editar um plano publicado fazia ele SUMIR da tela do paciente (migration 00088).** O plano
+   guardava um `content` só; salvar devolvia o registro para rascunho, e como a consulta do portal
+   filtrava `status = 'published'`, corrigir um typo tirava do paciente a devolutiva que ele já
+   tinha recebido. A instrução da skill promete o contrário, em texto. Agora publicar congela uma
+   cópia em `published_content`, e é ela que o portal lê: o médico edita o rascunho à vontade sem
+   mexer no que está na mão do paciente. O portão da consulta deixou de ser `status` e passou a ser
+   `published_content IS NOT NULL`.
+2. **O render 16:9 era o único do pacote que não esperava as webfontes.** A conferência de estouro
+   mede COM Fraunces e Inter carregadas e diz que cabe; o PDF imprimia com as métricas da fonte de
+   fallback e o `overflow:hidden` cortava o excesso em silêncio — exatamente o que a conferência
+   existe para impedir. Dava também para o A4 e o 16:9 do mesmo conteúdo saírem diferentes.
+3. **A tela do EMR conferia e publicava o conteúdo SALVO enquanto o médico editava a caixa.** Colar
+   slides novos, clicar em "conferir se cabe" e receber "todos os slides cabem" media o conteúdo
+   antigo; publicar em seguida entregava ao paciente o deck de antes da edição, com o toast dizendo
+   que deu certo. Agora há marca de alteração não salva, com aviso e os três botões travados.
+
+Os outros cinco: `Publish` segurava o Chromium por **três** renders e não dois (a conferência
+gerava um PDF inteiro só para rodar o script de medição — agora mede na mesma passada do 16:9, e o
+comentário que orçava o tempo estava subestimando); um nível com operador `<` era rotulado `≤`,
+dizendo ao paciente que o valor da fronteira pertence à faixa errada; `PublishReport` deixava um
+`IssuedDocument` órfão a cada tentativa que falhava; `GetPublished` recebia os argumentos na ordem
+inversa das irmãs, num caminho onde a troca silenciosa buscaria o plano do paciente errado; e a
+migration 00087 misturava `CREATE TABLE IF NOT EXISTS` com um `ADD CONSTRAINT` sem guarda.
+
+O teste-guarda do portal **caiu sozinho** quando mudei o filtro, que é o trabalho dele; foi
+reescrito para o invariante novo.
+
+---
+
+## 8 · O que fica em aberto
+
+- **Semear o plano a partir do dossiê na tela do EMR.** Hoje "Novo plano" nasce com capa e fecho
+  vazios; a autoria real é pela skill. Um semeador mecânico (capa + réguas dos top achados) é
+  possível, mas produziria deck sem arco — por isso ficou com a skill.
+- **A tela do EMR não é editor visual de slides.** Lista, cria, mostra prévia, mede e publica; o
+  conteúdo é editado como a lista de slides.
+- **Rodar a skill num paciente real** (Ana ou José Ricardo, que estão em prod) e comparar o arco
+  proposto contra o deck que já existe. A validação até aqui usou o dossiê do dev.
+- **Migration 00087 só está no dev.** Prod segue no goose 86.
+- Os gaps de dado do capítulo 4 continuam abertos (unidade da saturação de transferrina, níveis da
+  ferritina pós-menopausa, conversão de unidade do sedimento).
 
 ### Regra editorial que a evidência impõe
 

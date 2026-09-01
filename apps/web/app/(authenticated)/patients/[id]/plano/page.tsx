@@ -100,6 +100,22 @@ export default function PatientPlanPage() {
     setPreviewHTML(null);
   }, [selected?.id]);
 
+  // "Conferir" e "Publicar" agem sobre o que está SALVO no servidor. Sem esta marca, editar a caixa
+  // e clicar em conferir media o conteúdo antigo e dizia "todos os slides cabem"; clicar em publicar
+  // entregava ao paciente o deck de antes da edição, com o toast dizendo que deu certo.
+  const sujo =
+    !!selected &&
+    (title !== selected.title ||
+      contentText !== JSON.stringify(selected.content ?? [], null, 2));
+
+  const exigeSalvar = () => {
+    if (sujo) {
+      toast.error('Salve as alterações antes: conferir e publicar usam o que está gravado.');
+      return true;
+    }
+    return false;
+  };
+
   const parsedContent = (): DeckSlide[] | null => {
     try {
       const parsed = JSON.parse(contentText);
@@ -143,7 +159,7 @@ export default function PatientPlanPage() {
   };
 
   const handlePreview = async () => {
-    if (!selected) return;
+    if (!selected || exigeSalvar()) return;
     try {
       // A prévia é HTML autenticado, então não dá para apontar o iframe direto para a URL: o token
       // vai no header. E não dá para usar apiClient.get, que sempre faz response.json(). O getBlob
@@ -156,7 +172,7 @@ export default function PatientPlanPage() {
   };
 
   const handleCheck = async () => {
-    if (!selected) return;
+    if (!selected || exigeSalvar()) return;
     try {
       const res = await checkOverflow.mutateAsync(selected.id);
       setOverflow(res.slides);
@@ -167,7 +183,7 @@ export default function PatientPlanPage() {
   };
 
   const handlePublish = async () => {
-    if (!selected) return;
+    if (!selected || exigeSalvar()) return;
     try {
       const plan = await publishPlan.mutateAsync(selected.id);
       setOverflow([]);
@@ -289,16 +305,22 @@ export default function PatientPlanPage() {
                     <p className="text-sm text-destructive">{contentError}</p>
                   )}
                 </div>
+                {sujo && (
+                  <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+                    Há alterações não salvas. Conferir e publicar usam o que está gravado no
+                    servidor.
+                  </p>
+                )}
                 <div className="flex flex-wrap gap-2">
                   <Button onClick={handleSave} disabled={updatePlan.isPending}>
                     {updatePlan.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Salvar
                   </Button>
-                  <Button variant="outline" onClick={handlePreview}>
+                  <Button variant="outline" onClick={handlePreview} disabled={sujo}>
                     <Eye className="mr-2 h-4 w-4" />
                     Prévia
                   </Button>
-                  <Button variant="outline" onClick={handleCheck} disabled={checkOverflow.isPending}>
+                  <Button variant="outline" onClick={handleCheck} disabled={sujo || checkOverflow.isPending}>
                     {checkOverflow.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
@@ -306,7 +328,7 @@ export default function PatientPlanPage() {
                     )}
                     Conferir se cabe
                   </Button>
-                  <Button onClick={handlePublish} disabled={publishPlan.isPending}>
+                  <Button onClick={handlePublish} disabled={sujo || publishPlan.isPending}>
                     {publishPlan.isPending ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (

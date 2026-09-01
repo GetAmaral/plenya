@@ -444,3 +444,21 @@ func TestStrongOrdenaPeloPesoDoItemENaoPelosPontosPerdidos(t *testing.T) {
 		t.Errorf("primeiro = %s, quer PESADO (35 pontos antes de 9)", strong[0].Code)
 	}
 }
+
+func TestLevelSegmentsRespeitaOSinalDoOperador(t *testing.T) {
+	// "< 15" rotulado como "≤15" diz ao paciente que 15 pertence a esta faixa, quando o motor o
+	// classifica na vizinha.
+	segs := levelSegments([]models.ScoreLevel{
+		{Level: 0, Operator: "<", UpperLimit: ptrS("15")},
+		{Level: 5, Operator: ">=", LowerLimit: ptrS("50")},
+	}, []float64{0, 100})
+	if len(segs) != 2 {
+		t.Fatalf("segmentos = %d, quer 2", len(segs))
+	}
+	if segs[0].Label != "<15" {
+		t.Errorf("operador '<' rotulado como %q, quer \"<15\"", segs[0].Label)
+	}
+	if segs[1].Label != "≥50" {
+		t.Errorf("operador '>=' rotulado como %q, quer \"≥50\"", segs[1].Label)
+	}
+}

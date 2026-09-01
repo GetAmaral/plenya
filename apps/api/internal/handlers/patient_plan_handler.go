@@ -358,7 +358,7 @@ func (h *PatientPlanHandler) MyPlan(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid plan id", Message: err.Error()})
 	}
-	out, gErr := h.plans.GetPublished(middleware.GetPatientID(c), planID)
+	out, gErr := h.plans.GetPublished(planID, middleware.GetPatientID(c))
 	if gErr != nil {
 		return h.fail(c, gErr, "falha ao carregar o plano")
 	}

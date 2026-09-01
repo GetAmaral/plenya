@@ -41,6 +41,11 @@ type PatientPlan struct {
 	// tela inteira antes (migration 00060).
 	Content []pdfdoc.DeckSlide `gorm:"type:jsonb;serializer:json;not null;default:'[]'" json:"content"`
 
+	// PublishedContent — a cópia congelada no momento da publicação, e é ELA que o portal lê.
+	// Sem isso, corrigir um typo devolvia o plano para rascunho e o paciente perdia o acesso à
+	// devolutiva que já tinha recebido.
+	PublishedContent []pdfdoc.DeckSlide `gorm:"type:jsonb;serializer:json" json:"publishedContent,omitempty"`
+
 	SourceSnapshotID *uuid.UUID `gorm:"type:uuid" json:"sourceSnapshotId,omitempty"`
 	AuthorUserID     uuid.UUID  `gorm:"type:uuid;not null" json:"authorUserId"`
 

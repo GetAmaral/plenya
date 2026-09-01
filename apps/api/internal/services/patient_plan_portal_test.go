@@ -6,16 +6,20 @@ import (
 	"testing"
 )
 
-// O portal do paciente só pode ver plano PUBLICADO, e o filtro tem que estar na CONSULTA.
+// O portal do paciente só pode ver o que foi PUBLICADO, e o filtro tem que estar na CONSULTA.
 //
 // A tentação é listar tudo e filtrar depois, no handler ou no front. Aqui não: um plano em rascunho
 // é a leitura clínica ainda sendo escrita — meio texto, hipótese que vai cair, número que ainda vai
 // mudar. O paciente lendo isso é pior do que não ter tela nenhuma.
 //
+// O portão é `published_content IS NOT NULL`, não `status`. A diferença importa nos dois sentidos:
+// um plano nunca publicado não tem cópia congelada e não aparece; e o médico voltar um plano
+// publicado para rascunho, para ajustar uma frase, NÃO pode apagar da tela a devolutiva que o
+// paciente já recebeu — foi por isso que o filtro deixou de ser por status.
+//
 // Não há harness de banco nos testes deste pacote, então a garantia possível é estrutural: se
-// alguém tirar o filtro da cláusula Where, este teste cai antes de o rascunho chegar à tela do
-// paciente.
-func TestConsultaDoPortalFiltraStatusNaPropriaQuery(t *testing.T) {
+// alguém tirar o filtro da cláusula Where, este teste cai antes de um rascunho chegar ao paciente.
+func TestConsultaDoPortalFiltraOPublicadoNaPropriaQuery(t *testing.T) {
 	src, err := os.ReadFile("patient_plan_service.go")
 	if err != nil {
 		t.Fatalf("lendo a fonte: %v", err)
@@ -26,11 +30,18 @@ func TestConsultaDoPortalFiltraStatusNaPropriaQuery(t *testing.T) {
 		"func (s *PatientPlanService) GetPublished(",
 	} {
 		corpo := corpoDaFuncao(t, string(src), fn)
-		if !strings.Contains(corpo, "status = ?") || !strings.Contains(corpo, "models.PatientPlanPublished") {
-			t.Errorf("%s tem que filtrar por status publicado na consulta:\n%s", fn, corpo)
+		if !strings.Contains(corpo, "published_content IS NOT NULL") {
+			t.Errorf("%s tem que exigir conteúdo publicado na consulta:\n%s", fn, corpo)
+		}
+		if !strings.Contains(corpo, "published_at IS NOT NULL") {
+			t.Errorf("%s tem que exigir publicação na consulta:\n%s", fn, corpo)
 		}
 		if !strings.Contains(corpo, "patient_id = ?") {
 			t.Errorf("%s tem que escopar pelo paciente na consulta:\n%s", fn, corpo)
+		}
+		// O que sai é a cópia congelada, nunca o rascunho vivo.
+		if !strings.Contains(corpo, "toPublishedPlanDTO") {
+			t.Errorf("%s tem que devolver o conteúdo publicado, não o content em edição:\n%s", fn, corpo)
 		}
 	}
 

@@ -58,10 +58,25 @@ func RenderDeck(d Deck, paper DeckPaper) ([]byte, error) {
 	case DeckPaperA4:
 		return renderHTMLToPDFHook(html, a4LandscapeOptions(), fitSlidesToA4)
 	case DeckPaper169, "":
-		return renderHTMLToPDFHook(html, slideOptions(), nil)
+		return renderHTMLToPDFHook(html, slideOptions(), awaitFonts)
 	default:
 		return nil, fmt.Errorf("papel de deck desconhecido: %q", paper)
 	}
+}
+
+// awaitFonts segura a impressão até as webfontes carregarem.
+//
+// Sem isso o layout é medido com a fonte de fallback, cujas métricas não são as da Fraunces nem as
+// da Inter. Era o único render do pacote que não esperava, e o efeito era pior do que "ficou um
+// pouco diferente": a conferência de estouro mede COM as fontes e diz que cabe, o PDF imprime SEM
+// elas e o `overflow:hidden` corta o excesso em silêncio — exatamente o que a conferência existe
+// para impedir. Dava também para o A4 e o 16:9 do mesmo conteúdo saírem diferentes.
+func awaitFonts(page *rod.Page) error {
+	_, err := page.Eval(`async () => {
+		await Promise.all(Array.from(document.fonts).map(f => f.load().catch(() => {})));
+		await document.fonts.ready;
+	}`)
+	return err
 }
 
 // DeckHTML devolve o HTML do deck, para a tela do portal e para conferência visual.
@@ -345,6 +360,32 @@ svg.mini{ display:block; }
 .rx2-nota{ font-size:28px; color:var(--muted); margin-top:24px; line-height:1.35; }
 `
 
+// RenderDeckMeasured renderiza o 16:9 E mede o transbordo na MESMA passada.
+//
+// A publicação media com `CheckDeckOverflow` (que renderiza um PDF inteiro só para rodar o script
+// de medição) e depois renderizava de novo: três passagens pelo Chromium, que é serializado por um
+// mutex global e também atende receita e pedido de exames. O hook já roda antes de imprimir, então
+// medir ali sai de graça.
+func RenderDeckMeasured(d Deck) ([]byte, []DeckOverflow, error) {
+	html, err := deckHTML(d)
+	if err != nil {
+		return nil, nil, err
+	}
+	var over []DeckOverflow
+	pdf, err := renderHTMLToPDFHook(html, slideOptions(), func(page *rod.Page) error {
+		found, mErr := measureOverflow(page)
+		if mErr != nil {
+			return mErr
+		}
+		over = found
+		return nil
+	})
+	if err != nil {
+		return nil, nil, err
+	}
+	return pdf, over, nil
+}
+
 // DeckOverflow — um slide cujo conteúdo passou da moldura de 1920×1080.
 type DeckOverflow struct {
 	Slide  int     `json:"slide"`  // 1-based, igual à numeração impressa
@@ -365,38 +406,49 @@ func CheckDeckOverflow(d Deck) ([]DeckOverflow, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	var found []DeckOverflow
 	_, err = renderHTMLToPDFHook(html, slideOptions(), func(page *rod.Page) error {
-		res, evalErr := page.Eval(`async (W, H) => {
-			await Promise.all(Array.from(document.fonts).map(f => f.load().catch(() => {})));
-			await document.fonts.ready;
-			const out = [];
-			document.querySelectorAll('section.slide').forEach((slide, i) => {
-				const box = slide.getBoundingClientRect();
-				let right = 0, bottom = 0;
-				slide.querySelectorAll('*').forEach(el => {
-					const r = el.getBoundingClientRect();
-					if (r.width === 0 && r.height === 0) return;
-					right  = Math.max(right,  r.right  - box.left - W);
-					bottom = Math.max(bottom, r.bottom - box.top  - H);
-				});
-				// 1px de tolerância: arredondamento de subpixel não é estouro.
-				if (right > 1 || bottom > 1) {
-					const h = slide.querySelector('h1, h2');
-					out.push({ slide: i + 1, title: h ? h.textContent.trim() : '',
-					           right: Math.round(right), bottom: Math.round(bottom) });
-				}
-			});
-			return out;
-		}`, SlideW, SlideH)
-		if evalErr != nil {
-			return evalErr
-		}
-		return res.Value.Unmarshal(&found)
+		f, mErr := measureOverflow(page)
+		found = f
+		return mErr
 	})
 	if err != nil {
 		return nil, err
+	}
+	return found, nil
+}
+
+// measureOverflow roda a medição no Chromium, depois das webfontes carregarem: medir antes das
+// fontes dá altura errada.
+func measureOverflow(page *rod.Page) ([]DeckOverflow, error) {
+	res, err := page.Eval(`async (W, H) => {
+		await Promise.all(Array.from(document.fonts).map(f => f.load().catch(() => {})));
+		await document.fonts.ready;
+		const out = [];
+		document.querySelectorAll('section.slide').forEach((slide, i) => {
+			const box = slide.getBoundingClientRect();
+			let right = 0, bottom = 0;
+			slide.querySelectorAll('*').forEach(el => {
+				const r = el.getBoundingClientRect();
+				if (r.width === 0 && r.height === 0) return;
+				right  = Math.max(right,  r.right  - box.left - W);
+				bottom = Math.max(bottom, r.bottom - box.top  - H);
+			});
+			// 1px de tolerância: arredondamento de subpixel não é estouro.
+			if (right > 1 || bottom > 1) {
+				const h = slide.querySelector('h1, h2');
+				out.push({ slide: i + 1, title: h ? h.textContent.trim() : '',
+				           right: Math.round(right), bottom: Math.round(bottom) });
+			}
+		});
+		return out;
+	}`, SlideW, SlideH)
+	if err != nil {
+		return nil, err
+	}
+	var found []DeckOverflow
+	if uErr := res.Value.Unmarshal(&found); uErr != nil {
+		return nil, uErr
 	}
 	return found, nil
 }

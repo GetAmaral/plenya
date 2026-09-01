@@ -355,3 +355,51 @@ func TestRelatorioTrazOsTamanhosDeTextoDaRegua(t *testing.T) {
 		}
 	}
 }
+
+func TestRender169EsperaAsWebfontes(t *testing.T) {
+	// Era o único render do pacote sem espera. A conferência mede COM as fontes e diz que cabe; o
+	// PDF imprimia SEM elas e o overflow:hidden cortava o excesso em silêncio.
+	if !strings.Contains(deckGoSource(t), "renderHTMLToPDFHook(html, slideOptions(), awaitFonts)") {
+		t.Error("o render 16:9 tem que passar awaitFonts como hook")
+	}
+}
+
+func TestRenderDeckMeasuredMedeEImprimeNaMesmaPassada(t *testing.T) {
+	if !chromiumAvailable() {
+		t.Skip("chromium ausente — pulando render")
+	}
+	pdf, over, err := RenderDeckMeasured(sampleDeck())
+	if err != nil {
+		t.Fatalf("render: %v", err)
+	}
+	if len(pdf) < 2000 || string(pdf[:5]) != "%PDF-" {
+		t.Fatalf("saída não parece PDF (len=%d)", len(pdf))
+	}
+	if len(over) != 0 {
+		t.Errorf("deck de exemplo não deveria transbordar: %+v", over)
+	}
+
+	// E acusa quando estoura, na mesma passada.
+	var rs []DeckRulerBlock
+	for i := 0; i < 8; i++ {
+		rs = append(rs, DeckRulerBlock{ferritinaRuler()})
+	}
+	_, over2, err := RenderDeckMeasured(Deck{Title: "t", Slides: []DeckSlide{
+		{Kind: DeckRulers, Title: "Réguas demais", Rulers: rs},
+	}})
+	if err != nil {
+		t.Fatalf("render: %v", err)
+	}
+	if len(over2) == 0 {
+		t.Error("oito réguas deveriam ser acusadas")
+	}
+}
+
+func deckGoSource(t *testing.T) string {
+	t.Helper()
+	b, err := os.ReadFile("deck.go")
+	if err != nil {
+		t.Fatalf("lendo deck.go: %v", err)
+	}
+	return string(b)
+}

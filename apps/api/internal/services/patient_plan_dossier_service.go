@@ -607,13 +607,23 @@ func levelSegments(levels []models.ScoreLevel, axis []float64) []dto.PlanRulerSe
 				continue
 			}
 			a, b = axis[0], edge
-			label = "≤" + formatNumberPT(edge)
+			// O sinal tem que ser o do operador. Rotular um nível "< 15" como "≤15" diz ao paciente
+			// que 15 pertence a esta faixa, quando o motor o classifica na faixa vizinha.
+			if lv.Operator == "<" {
+				label = "<" + formatNumberPT(edge)
+			} else {
+				label = "≤" + formatNumberPT(edge)
+			}
 		case ">", ">=":
 			if !hasLo {
 				continue
 			}
 			a, b = lo, axis[1]
-			label = ">" + formatNumberPT(lo)
+			if lv.Operator == ">=" {
+				label = "≥" + formatNumberPT(lo)
+			} else {
+				label = ">" + formatNumberPT(lo)
+			}
 		case "between":
 			if !hasLo || !hasHi {
 				continue

@@ -62,7 +62,7 @@ trabalhando.
 - **`scripts/linkedin/`** — fila (`queue.yaml`) + cron publisher de posts do Dr. Getúlio. Skill `/linkedin-week`.
 - **`scripts/enrichment/`** — enrichment científico dos ScoreItems (RAG + Claude). Ver [.claude/workflows/enrichment-automation.md](.claude/workflows/enrichment-automation.md).
 - **`ebook/`** — eBooks do Dr. Getúlio (Série AGORA, Série Bases). Skill `/ebook`. Ver [.claude/content/ebooks.md](.claude/content/ebooks.md).
-- **`.claude/skills/`** — `plenya-deck`, `linkedin-week`, `lecture-builder` (`/aula`), `ebook-builder` (`/ebook`), `responder-insta`, `pptx`. Ver [.claude/social/](.claude/social/).
+- **`.claude/skills/`** — `plenya-deck`, `linkedin-week`, `lecture-builder` (`/aula`), `ebook-builder` (`/ebook`), `plano-paciente` (`/plano` — devolutiva de resultados), `responder-insta`, `pptx`. Ver [.claude/social/](.claude/social/).
 
 ## 🚨 Regras de Ouro (valem em TODO o monorepo)
 

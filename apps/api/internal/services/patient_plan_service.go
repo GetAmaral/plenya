@@ -68,35 +68,43 @@ func (s *PatientPlanService) ListByPatient(patientID uuid.UUID) ([]dto.PatientPl
 	return out, nil
 }
 
-// ListPublished — o que o PACIENTE pode ver. Rascunho é trabalho em andamento do médico e nunca
-// aparece no portal, mesmo que o paciente saiba o id.
+// ListPublished — o que o PACIENTE pode ver.
+//
+// Dois filtros, e os dois importam: `published_at IS NOT NULL` diz que ESTE plano já chegou ao
+// paciente alguma vez, e `published_content` é o que ele recebeu. Filtrar por `status` seria
+// errado — o médico voltar o plano para rascunho para ajustar uma frase não pode apagar a
+// devolutiva que o paciente já tem na mão.
 func (s *PatientPlanService) ListPublished(patientID uuid.UUID) ([]dto.PatientPlanResponse, error) {
 	var rows []models.PatientPlan
 	if err := s.db.
-		Where("patient_id = ? AND status = ?", patientID, models.PatientPlanPublished).
+		Where("patient_id = ? AND published_at IS NOT NULL AND published_content IS NOT NULL", patientID).
 		Order("published_at DESC").Find(&rows).Error; err != nil {
 		return nil, err
 	}
 	out := make([]dto.PatientPlanResponse, len(rows))
 	for i := range rows {
-		out[i] = *toPatientPlanDTO(&rows[i])
+		out[i] = *toPublishedPlanDTO(&rows[i])
 	}
 	return out, nil
 }
 
-// GetPublished — um plano publicado do próprio paciente. O filtro por status entra na consulta, não
-// depois: um plano em rascunho tem que responder "não existe", não "existe mas você não pode ver".
-func (s *PatientPlanService) GetPublished(patientID, planID uuid.UUID) (*dto.PatientPlanResponse, error) {
+// GetPublished — um plano publicado do próprio paciente. O filtro entra na CONSULTA, não depois:
+// um plano nunca publicado tem que responder "não existe", não "existe mas você não pode ver".
+//
+// Ordem dos argumentos igual à das irmãs (planID, patientID): os dois são uuid.UUID, e trocar num
+// call-site futuro compilaria em silêncio — neste caminho, o erro seria buscar o plano do paciente
+// errado.
+func (s *PatientPlanService) GetPublished(planID, patientID uuid.UUID) (*dto.PatientPlanResponse, error) {
 	var plan models.PatientPlan
-	err := s.db.Where("id = ? AND patient_id = ? AND status = ?",
-		planID, patientID, models.PatientPlanPublished).First(&plan).Error
+	err := s.db.Where("id = ? AND patient_id = ? AND published_at IS NOT NULL AND published_content IS NOT NULL",
+		planID, patientID).First(&plan).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, ErrPatientPlanNotFound
 	}
 	if err != nil {
 		return nil, err
 	}
-	return toPatientPlanDTO(&plan), nil
+	return toPublishedPlanDTO(&plan), nil
 }
 
 func (s *PatientPlanService) Get(planID, patientID uuid.UUID) (*dto.PatientPlanResponse, error) {
@@ -148,10 +156,10 @@ func (s *PatientPlanService) Update(planID, patientID uuid.UUID, req *dto.SavePa
 	if req.Content != nil {
 		plan.Content = req.Content
 	}
-	// Editar um plano publicado volta ele para rascunho, e os ponteiros de documento saem junto: o
-	// conteúdo mudou, então aqueles PDFs não representam mais este plano. Os arquivos continuam no
-	// portal (o paciente já os recebeu) e `PublishedAt` fica como registro de que houve uma
-	// publicação — o que a tela mostra é "rascunho, vN publicada em <data>".
+	// Editar volta o plano para rascunho e solta os ponteiros de documento: o conteúdo mudou, então
+	// aqueles PDFs não representam mais este rascunho. O que o PACIENTE vê não se mexe —
+	// `PublishedContent` fica como está, e é dele que o portal lê. `PublishedAt` fica como registro,
+	// e a tela do médico mostra "rascunho, vN no portal desde <data>".
 	plan.Status = models.PatientPlanDraft
 	plan.Document16x9ID = nil
 	plan.DocumentA4ID = nil
@@ -293,6 +301,9 @@ func (s *PatientPlanService) Publish(planID, patientID, publisherID uuid.UUID) (
 	plan.Status = models.PatientPlanPublished
 	plan.Version = version
 	plan.PublishedAt = &now
+	// Congela o que foi publicado: daqui para frente o médico edita `Content` sem tirar a
+	// devolutiva da tela do paciente.
+	plan.PublishedContent = plan.Content
 	plan.Document16x9ID = doc169
 	plan.DocumentA4ID = docA4
 	if err := s.db.Save(plan).Error; err != nil {
@@ -316,6 +327,18 @@ func (s *PatientPlanService) load(planID, patientID uuid.UUID) (*models.PatientP
 		return nil, err
 	}
 	return &plan, nil
+}
+
+// toPublishedPlanDTO é a visão do PACIENTE: o `content` que sai é o congelado na publicação, não o
+// rascunho vivo do médico.
+func toPublishedPlanDTO(p *models.PatientPlan) *dto.PatientPlanResponse {
+	r := toPatientPlanDTO(p)
+	r.Content = p.PublishedContent
+	if r.Content == nil {
+		r.Content = []pdfdoc.DeckSlide{}
+	}
+	r.Status = string(models.PatientPlanPublished)
+	return r
 }
 
 func toPatientPlanDTO(p *models.PatientPlan) *dto.PatientPlanResponse {
@@ -411,9 +434,18 @@ func (s *PatientPlanService) PublishReport(planID, patientID, doctorID uuid.UUID
 		})
 	}
 
+	// O IssuedDocument nasce em rascunho ANTES do render porque o id dele é o que vai impresso no
+	// QR. Se o render ou a assinatura falhar, ele tem que sair: senão cada tentativa deixa uma
+	// linha sem PDF e sem documento no prontuário, e a lista de documentos emitidos vai enchendo
+	// de fantasma.
+	descartaRascunho := func() {
+		s.db.Delete(&models.IssuedDocument{}, doc.ID)
+	}
+
 	out, err := signOrDegrade(s.signature, &doctor, doctorID,
 		"Assinatura Digital de Relatório Médico", "Plenya EMR - Relatório de devolutiva", render)
 	if err != nil {
+		descartaRascunho()
 		return "", fmt.Errorf("erro ao gerar o relatório do plano: %w", err)
 	}
 
@@ -437,6 +469,7 @@ func (s *PatientPlanService) PublishReport(planID, patientID, doctorID uuid.UUID
 		SourceRef:  &sourceRef,
 	})
 	if err != nil {
+		descartaRascunho()
 		return "", fmt.Errorf("erro ao publicar o relatório: %w", err)
 	}
 
