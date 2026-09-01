@@ -5500,6 +5500,76 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/plans/{planId}/assistant/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A conversa do plano */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanMessage"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Um turno da conversa que edita o rascunho
+         * @description Alteração de TEXTO entra direto e reversível; alteração que toque número, unidade,
+         *     dose ou régua vira SUGESTÃO com a origem do número anexada. A classificação sai do
+         *     diff de numerais, não do nome do campo.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanAssistantTurn"];
+                    };
+                };
+                /** @description Conflict */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plans/{planId}/dossier": {
         parameters: {
             query?: never;
@@ -5865,6 +5935,83 @@ export interface paths {
                     };
                     content: {
                         "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/suggestions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** As sugestões pendentes do plano */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanSuggestion"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/suggestions/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Aceita ou recusa sugestões
+         * @description Resultado parcial é resposta legítima: sugestão cujo slide mudou depois não é
+         *     aplicada, e volta em `skipped` com o motivo. É isso que impede o painel de vinte
+         *     minutos atrás de apagar o que o médico acabou de escrever.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanResolveResult"];
                     };
                 };
             };
@@ -18053,6 +18200,27 @@ export interface components {
             userId?: string;
             weight?: number;
         };
+        "dto.PlanAppliedOp": {
+            op?: string;
+            path?: string;
+            reason?: string;
+            slideId?: string;
+        };
+        "dto.PlanAssistantTurn": {
+            applied?: components["schemas"]["dto.PlanAppliedOp"][];
+            /**
+             * @description CacheReadTokens — a partir do segundo turno tem que ser maior que zero. Zero significa que
+             *     algo volátil entrou antes do ponto de cache e o prefixo está sendo reenviado inteiro.
+             */
+            cacheReadTokens?: number;
+            error?: string;
+            failed?: boolean;
+            plan?: components["schemas"]["dto.PatientPlanResponse"];
+            rejected?: components["schemas"]["dto.PlanRejectedOp"][];
+            reply?: string;
+            revisionSeq?: number;
+            suggestions?: components["schemas"]["dto.PlanSuggestion"][];
+        };
         "dto.PlanDossierChange": {
             citedIn?: components["schemas"]["dto.PlanDossierCitation"][];
             code?: string;
@@ -18160,6 +18328,37 @@ export interface components {
         "dto.PlanFindingSource": "lab" | "anamnesis";
         /** @enum {string} */
         "dto.PlanFindingTrend": "single" | "stable" | "improving" | "worsening";
+        "dto.PlanMessage": {
+            body?: string;
+            createdAt?: string;
+            id?: string;
+            role?: string;
+            seq?: number;
+            status?: string;
+        };
+        "dto.PlanNumeralMatch": {
+            label?: string;
+            source?: string;
+            unit?: string;
+            value?: number;
+        };
+        "dto.PlanNumeralProof": {
+            found?: boolean;
+            matches?: components["schemas"]["dto.PlanNumeralMatch"][];
+            numeral?: string;
+        };
+        "dto.PlanRejectedOp": {
+            op?: string;
+            path?: string;
+            reason?: string;
+            slideId?: string;
+        };
+        "dto.PlanResolveResult": {
+            plan?: components["schemas"]["dto.PatientPlanResponse"];
+            resolved?: string[];
+            revisionSeq?: number;
+            skipped?: components["schemas"]["dto.PlanSkipped"][];
+        };
         "dto.PlanRuler": {
             /** @description Axis — [mínimo, máximo] do eixo desenhado. Sempre 2 elementos. */
             axis?: number[];
@@ -18208,6 +18407,23 @@ export interface components {
             /** @description Label legível da faixa ("≤15", "15-30", ">300"), com vírgula decimal PT-BR. */
             label?: string;
             level?: number;
+        };
+        "dto.PlanSkipped": {
+            id?: string;
+            reason?: string;
+        };
+        "dto.PlanSuggestion": {
+            class?: string;
+            createdAt?: string;
+            id?: string;
+            newValue?: unknown;
+            oldValue?: unknown;
+            op?: string;
+            path?: string;
+            provenance?: components["schemas"]["dto.PlanNumeralProof"][];
+            rationale?: string;
+            slideId?: string;
+            status?: string;
         };
         "dto.PrepareEnrichmentRequest": {
             /**

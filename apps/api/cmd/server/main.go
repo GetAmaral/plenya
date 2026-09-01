@@ -503,7 +503,14 @@ func setupRoutes(
 	// O plano congela o dossiê ao nascer; a ligação é tardia porque o dossiê depende de
 	// repositórios construídos depois dele.
 	patientPlanService.SetDossierService(patientPlanDossierService)
+	// O assistente da devolutiva. Modelo próprio: a tarefa é seguir instrução sobre contexto
+	// grande com regras anti-alucinação, o mesmo perfil de risco da leitura de laudo.
+	patientPlanAssistantService := services.NewPatientPlanAssistantService(
+		database.DB, aiService, patientPlanService, patientPlanDossierService,
+		cfg.Claude.PlanModel, cfg.Claude.PlanPromptVersion,
+	)
 	patientPlanHandler := handlers.NewPatientPlanHandler(patientPlanDossierService, patientPlanService)
+	patientPlanAssistantHandler := handlers.NewPatientPlanAssistantHandler(patientPlanAssistantService, validate)
 
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
@@ -1480,6 +1487,12 @@ func setupRoutes(
 	patients.Get("/:id/plans/:planId/dossier", middleware.RequireClinician(), patientPlanHandler.PlanDossier)
 	patients.Get("/:id/plans/:planId/dossier/staleness", middleware.RequireClinician(), patientPlanHandler.PlanDossierStaleness)
 	patients.Post("/:id/plans/:planId/dossier/refresh", middleware.RequireClinician(), patientPlanHandler.RefreshPlanDossier)
+
+	// Conversa que edita o rascunho, e as sugestões que ela produz.
+	patients.Post("/:id/plans/:planId/assistant/messages", middleware.RequireClinician(), patientPlanAssistantHandler.SendMessage)
+	patients.Get("/:id/plans/:planId/assistant/messages", middleware.RequireClinician(), patientPlanAssistantHandler.History)
+	patients.Get("/:id/plans/:planId/suggestions", middleware.RequireClinician(), patientPlanAssistantHandler.ListSuggestions)
+	patients.Post("/:id/plans/:planId/suggestions/resolve", middleware.RequireClinician(), patientPlanAssistantHandler.ResolveSuggestions)
 	patients.Get("/:id/plans/:planId/preview", middleware.RequireClinician(), patientPlanHandler.Preview)
 	patients.Get("/:id/plans/:planId/overflow", middleware.RequireClinician(), patientPlanHandler.CheckOverflow)
 	patients.Post("/:id/plans/:planId/publish", middleware.RequireClinician(), patientPlanHandler.Publish)

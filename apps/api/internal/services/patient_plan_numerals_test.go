@@ -1,6 +1,7 @@
 package services
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/plenya/api/internal/dto"
@@ -242,5 +243,84 @@ func TestNumericIndex_RoundTripDoHistorico(t *testing.T) {
 				t.Errorf("%s: o valor %q não foi reencontrado no índice construído do mesmo dossiê", code, p.Text)
 			}
 		}
+	}
+}
+
+// Data por extenso e ano NÃO são números clínicos.
+//
+// Veio de um caso real no primeiro teste com o modelo: a frase "No exame de 7 de fevereiro de 2026,
+// sua lipase estava em 27 U/L" produzia duas provas falsas — o 7 casava com a borda de faixa de um
+// exame sem relação nenhuma, e o 2026 aparecia como "número sem origem no dossiê". Alarme falso na
+// tela de aceite ensina a clicar sem ler, que é exatamente a falha que a verificação existe para
+// evitar.
+func TestExtractNumerals_IgnoraDataEAno(t *testing.T) {
+	ns := ExtractNumerals("No exame de 7 de fevereiro de 2026, sua lipase estava em 27 U/L")
+	if len(ns) != 1 {
+		t.Fatalf("extraiu %d numerais, esperava só o 27: %v", len(ns), ns)
+	}
+	if !temValor(ns[0], 27) || ns[0].Unit != "U/L" {
+		t.Errorf("o numeral sobrevivente é %v %q, esperava 27 U/L", ns[0].Values, ns[0].Unit)
+	}
+
+	for _, texto := range []string{
+		"desde 15 de março", "em 3 de janeiro de 2025", "coletado em 2024", "revisão de 1999",
+	} {
+		if got := ExtractNumerals(texto); len(got) != 0 {
+			t.Errorf("%q: extraiu %v, esperava nenhum número clínico", texto, got)
+		}
+	}
+
+	// Mas mês por extenso não pode engolir medida legítima que venha depois.
+	ns = ExtractNumerals("em 3 de janeiro a ferritina era 48")
+	if len(ns) != 1 || !temValor(ns[0], 48) {
+		t.Errorf("engoliu a medida junto com a data: %v", ns)
+	}
+}
+
+// Pontuação colada não faz parte do número: "48," e "48." são 48.
+func TestExtractNumerals_PontuacaoFinal(t *testing.T) {
+	for _, texto := range []string{"a ferritina é 48.", "a ferritina é 48,", "a ferritina é 48;"} {
+		ns := ExtractNumerals(texto)
+		if len(ns) != 1 || !temValor(ns[0], 48) {
+			t.Errorf("%q: leu %v, esperava 48", texto, ns)
+		}
+	}
+}
+
+// A ordem das origens importa mais do que parece: a tela mostra a primeira como A candidata, e
+// mostrar a errada é pior que mostrar várias, porque parece autoritativo.
+//
+// Caso real do primeiro teste com o modelo: "sua lipase estava em 27 U/L" casou primeiro com o
+// limite do eixo do cortisol, que por acaso também vale 27.
+func TestNumericIndex_OrdenaOrigemPorRelevancia(t *testing.T) {
+	d := &dto.PlanDossierResponse{
+		Rulers: map[string]dto.PlanRuler{
+			"PLNCORT": {
+				Code: "PLNCORT", Name: "Cortisol", Unit: "µg/dL",
+				Axis: []float64{0, 27}, // o 27 aqui é estrutura de escala
+			},
+			"PLNLIP": {
+				Code: "PLNLIP", Name: "Lipase", Unit: "U/L",
+				History: []dto.PlanRulerPoint{{Date: "2026-02-07", Value: 27, Text: "27"}},
+			},
+		},
+	}
+	ix := BuildNumericIndex(d)
+
+	ns := ExtractNumerals("sua lipase estava em 27 U/L")
+	fatos := ix.Match(ns[0])
+	if len(fatos) < 2 {
+		t.Fatalf("esperava as duas origens candidatas, veio %d", len(fatos))
+	}
+	if !strings.Contains(fatos[0].Source, "PLNLIP") {
+		t.Errorf("a primeira origem é %q (%s); deveria ser a MEDIDA da lipase, não a escala do cortisol",
+			fatos[0].Label, fatos[0].Source)
+	}
+
+	// Sem unidade escrita, a medida do paciente ainda vem antes da estrutura da escala.
+	ns = ExtractNumerals("o valor foi 27")
+	fatos = ix.Match(ns[0])
+	if !strings.Contains(fatos[0].Source, ":history:") {
+		t.Errorf("sem unidade, a primeira origem é %q; medida vem antes de limite de eixo", fatos[0].Source)
 	}
 }

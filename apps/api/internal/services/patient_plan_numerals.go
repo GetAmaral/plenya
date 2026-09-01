@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -43,19 +44,46 @@ type Numeral struct {
 	Decimals int // casas decimais escritas, para calibrar a tolerância de arredondamento
 }
 
+// mesesPT — para reconhecer data por extenso e não tratar o dia como número clínico.
+var mesesPT = regexp.MustCompile(`(?i)^\s*de\s+(janeiro|fevereiro|mar[çc]o|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)`)
+
+// anoRe — 1900 a 2099 solto no texto é ano, não medida.
+var anoRe = regexp.MustCompile(`^(19|20)\d\d$`)
+
 // ExtractNumerals tira de um texto todos os números com as leituras possíveis.
+//
+// Ignora data escrita por extenso e ano. Não é preciosismo: no primeiro teste com o modelo, "7 de
+// fevereiro de 2026" produziu duas falsas provas — o 7 casou com a borda de faixa de um exame sem
+// relação, e o 2026 virou "número sem origem no dossiê". Alarme falso na tela de aceite é pior que
+// inútil: ensina a clicar sem ler, que é exatamente a falha que esta verificação existe para evitar.
 func ExtractNumerals(s string) []Numeral {
 	var out []Numeral
-	for _, m := range numeralRe.FindAllStringSubmatch(s, -1) {
-		bruto := m[1]
+	for _, m := range numeralRe.FindAllStringSubmatchIndex(s, -1) {
+		bruto := strings.TrimRight(s[m[2]:m[3]], ".,;:")
+		if bruto == "" {
+			continue
+		}
+		// "7 de fevereiro": o 7 é dia, não medida. Confere a partir do fim do NÚMERO, e não do
+		// fim do match inteiro — o "de" é capturado como se fosse unidade, e olhar depois dele
+		// perderia justamente o mês que identifica a data.
+		if mesesPT.MatchString(s[m[3]:]) {
+			continue
+		}
+		if anoRe.MatchString(bruto) {
+			continue
+		}
 		vals, casas := leituras(bruto)
 		if len(vals) == 0 {
 			continue
 		}
+		unidade := ""
+		if m[4] >= 0 {
+			unidade = strings.TrimSpace(s[m[4]:m[5]])
+		}
 		out = append(out, Numeral{
 			Raw:      bruto,
 			Values:   vals,
-			Unit:     strings.TrimSpace(m[2]),
+			Unit:     unidade,
 			Decimals: casas,
 		})
 	}
@@ -241,7 +269,47 @@ func (ix *NumericIndex) Match(n Numeral) []NumeralFact {
 			out = append(out, f)
 		}
 	}
+	// Ordena por quão plausível é que a frase esteja falando DAQUILO. A tela mostra a primeira
+	// origem como a candidata, e mostrar a errada é pior que mostrar várias: parece autoritativo.
+	//
+	// Veio de um caso real: "sua lipase estava em 27 U/L" casou primeiro com o limite do eixo do
+	// cortisol, que por acaso também vale 27. Medida do paciente vem antes de estrutura de escala,
+	// e unidade igual desempata.
+	sort.SliceStable(out, func(i, j int) bool {
+		pi, pj := relevanciaDaOrigem(out[i], n), relevanciaDaOrigem(out[j], n)
+		return pi > pj
+	})
 	return out
+}
+
+// relevanciaDaOrigem pontua o quanto uma origem provavelmente é a que a frase cita.
+//
+// Uma medida do paciente (histórico de exame, valor de achado) é quase sempre o que se está
+// citando; borda de faixa, limite de eixo e peso de item existem no dossiê mas raramente aparecem
+// numa frase para o paciente.
+func relevanciaDaOrigem(f NumeralFact, n Numeral) int {
+	p := 0
+	switch {
+	case strings.Contains(f.Source, ":history:"):
+		p += 100 // medida do paciente, com data
+	case strings.Contains(f.Source, "finding:"):
+		p += 90
+	case strings.HasPrefix(f.Source, "vitals:"):
+		p += 80
+	case strings.HasPrefix(f.Source, "snapshot:"), strings.HasPrefix(f.Source, "patient:"):
+		p += 60
+	case strings.Contains(f.Source, ":segment:"), strings.Contains(f.Source, ":edge"):
+		p += 20 // estrutura da escala
+	case strings.Contains(f.Source, ":axis:"):
+		p += 10
+	case strings.Contains(f.Source, ":points"):
+		p += 5
+	}
+	// Unidade escrita igual à da origem é evidência forte de que é a mesma grandeza.
+	if n.Unit != "" && f.Unit != "" && strings.EqualFold(strings.TrimSpace(n.Unit), strings.TrimSpace(f.Unit)) {
+		p += 50
+	}
+	return p
 }
 
 func mesmoNumero(escrito, doDossie float64, casas int) bool {

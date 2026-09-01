@@ -292,6 +292,14 @@ type ClaudeConfig struct {
 	// da teleconsulta (mais capaz que o Model default). Configurável; se indisponível
 	// na conta, o serviço cai pro Model.
 	NoteModel string // CLAUDE_NOTE_MODEL
+
+	// PlanModel — o assistente que edita a devolutiva do paciente. Mesmo perfil de risco da
+	// leitura de laudo: seguir instrução sobre contexto grande com regra anti-alucinação, num
+	// documento que o paciente vai ler.
+	PlanModel string // CLAUDE_PLAN_MODEL
+	// PlanPromptVersion — gravada em cada mensagem e revisão. Sem ela não dá para responder
+	// "quais devolutivas saíram com o prompt que subiu no dia tal".
+	PlanPromptVersion string // PLAN_PROMPT_VERSION
 }
 
 type OpenAIConfig struct {
@@ -385,10 +393,12 @@ func Load() (*Config, error) {
 			CloudAPIKey:   getEnv("ICP_CLOUD_API_KEY", ""),
 		},
 		Claude: ClaudeConfig{
-			APIKey:    getEnv("CLAUDE_API_KEY", ""),
-			Model:     getEnv("CLAUDE_MODEL", "claude-sonnet-4-6"),
-			LabModel:  getEnv("CLAUDE_LAB_MODEL", "claude-opus-5"),
-			NoteModel: getEnv("CLAUDE_NOTE_MODEL", "claude-sonnet-4-6"),
+			APIKey:            getEnv("CLAUDE_API_KEY", ""),
+			Model:             getEnv("CLAUDE_MODEL", "claude-sonnet-4-6"),
+			LabModel:          getEnv("CLAUDE_LAB_MODEL", "claude-opus-5"),
+			NoteModel:         getEnv("CLAUDE_NOTE_MODEL", "claude-sonnet-4-6"),
+			PlanModel:         getEnv("CLAUDE_PLAN_MODEL", "claude-opus-5"),
+			PlanPromptVersion: getEnv("PLAN_PROMPT_VERSION", "p1"),
 		},
 		OpenAI: OpenAIConfig{
 			APIKey:         getEnv("OPENAI_API_KEY", ""),

@@ -266,3 +266,103 @@ type PatientPlanOverflowResponse struct {
 	Error  string                `json:"error"`
 	Slides []pdfdoc.DeckOverflow `json:"slides"`
 }
+
+// ---- Assistente da devolutiva ----
+
+// PlanMessage — um turno da conversa.
+type PlanMessage struct {
+	ID        string `json:"id"`
+	Seq       int    `json:"seq"`
+	Role      string `json:"role"`
+	Body      string `json:"body"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"createdAt"`
+}
+
+// PlanNumeralMatch — uma origem candidata para um número.
+type PlanNumeralMatch struct {
+	Value  float64 `json:"value"`
+	Unit   string  `json:"unit,omitempty"`
+	Source string  `json:"source"`
+	Label  string  `json:"label"`
+}
+
+// PlanNumeralProof — um número que a sugestão escreve, e de onde ele pode ter vindo.
+//
+// É o que aparece ao lado do botão de aceitar. Sem isto o médico estaria aceitando prosa, e a
+// evidência é clara sobre o que acontece quando a revisão é só leitura.
+type PlanNumeralProof struct {
+	Numeral string             `json:"numeral"`
+	Found   bool               `json:"found"`
+	Matches []PlanNumeralMatch `json:"matches,omitempty"`
+}
+
+// PlanSuggestion — uma alteração proposta esperando aceite.
+type PlanSuggestion struct {
+	ID         string             `json:"id"`
+	Op         string             `json:"op"`
+	SlideID    string             `json:"slideId,omitempty"`
+	Path       string             `json:"path,omitempty"`
+	Class      string             `json:"class"`
+	Rationale  string             `json:"rationale"`
+	Status     string             `json:"status"`
+	OldValue   any                `json:"oldValue,omitempty"`
+	NewValue   any                `json:"newValue,omitempty"`
+	Provenance []PlanNumeralProof `json:"provenance,omitempty"`
+	CreatedAt  string             `json:"createdAt"`
+}
+
+// PlanAppliedOp — uma operação que entrou direto, ou foi recusada.
+type PlanAppliedOp struct {
+	Op      string `json:"op"`
+	SlideID string `json:"slideId,omitempty"`
+	Path    string `json:"path,omitempty"`
+	Reason  string `json:"reason"`
+}
+
+// PlanRejectedOp — mesma forma, outro significado.
+type PlanRejectedOp = PlanAppliedOp
+
+// PlanAssistantTurn — o resultado de um turno.
+type PlanAssistantTurn struct {
+	Reply       string               `json:"reply"`
+	Applied     []PlanAppliedOp      `json:"applied,omitempty"`
+	Suggestions []PlanSuggestion     `json:"suggestions,omitempty"`
+	Rejected    []PlanRejectedOp     `json:"rejected,omitempty"`
+	Plan        *PatientPlanResponse `json:"plan,omitempty"`
+	RevisionSeq int                  `json:"revisionSeq"`
+	Failed      bool                 `json:"failed,omitempty"`
+	Error       string               `json:"error,omitempty"`
+	// CacheReadTokens — a partir do segundo turno tem que ser maior que zero. Zero significa que
+	// algo volátil entrou antes do ponto de cache e o prefixo está sendo reenviado inteiro.
+	CacheReadTokens int `json:"cacheReadTokens,omitempty"`
+}
+
+// PlanSkipped — sugestão que não foi aplicada, e por quê.
+type PlanSkipped struct {
+	ID     string `json:"id"`
+	Reason string `json:"reason"`
+}
+
+// PlanResolveResult — resultado de aceitar ou recusar. Parcial é resposta legítima.
+type PlanResolveResult struct {
+	Resolved    []string             `json:"resolved"`
+	Skipped     []PlanSkipped        `json:"skipped,omitempty"`
+	RevisionSeq int                  `json:"revisionSeq"`
+	Plan        *PatientPlanResponse `json:"plan,omitempty"`
+}
+
+// SendPlanMessageRequest — o corpo do turno.
+type SendPlanMessageRequest struct {
+	Body             string `json:"body" validate:"required,max=4000"`
+	ClientMessageID  string `json:"clientMessageId" validate:"omitempty,max=64"`
+	ExpectedRevision *int   `json:"expectedRevision"`
+}
+
+// ResolveSuggestionsRequest — aceitar ou recusar, por id ou por slide.
+type ResolveSuggestionsRequest struct {
+	Action           string   `json:"action" validate:"required,oneof=accept reject"`
+	SuggestionIDs    []string `json:"suggestionIds"`
+	SlideID          string   `json:"slideId"`
+	ExpectedRevision *int     `json:"expectedRevision"`
+}
