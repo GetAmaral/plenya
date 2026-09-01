@@ -11,8 +11,8 @@
 | 1 | Identidade do slide + revisões + concorrência otimista | ✅ dev (`0abbfff0`, mig 00092) |
 | 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | ✅ dev (`7bdff7ba`, `86851e94`, mig 00093) |
 | 3 | Ops, classificação e índice numérico (sem IA) | ✅ dev (`28c13928`), 28 testes |
-| 4 | Cartões e os 6 editores | 🔨 próxima |
-| 5 | A conversa, triagem e sugestões | ⬜ |
+| 4 | Cartões e os 6 editores | ✅ dev (`3ef626ef`) |
+| 5 | A conversa, triagem e sugestões | 🔨 próxima |
 | 6 | Auditoria de conteúdo gerado | ⬜ |
 
 ### Medido na fase 2
@@ -30,6 +30,23 @@ não foi versionado (dado clínico mora em `pacs/`); ficaram no teste os onze fo
 com as contagens.
 
 A triagem é toda testável sem chamar modelo, e é o que decide se a feature é segura.
+
+### Fase 4 e o débito de QA visual
+
+Instalei o Playwright e consegui **verificar a renderização**: os cartões, as miniaturas reais, os
+selos de "alterado" e "não cabe", a borda vermelha e a faixa de aviso aparecem corretos, sem
+nenhum erro de console. Foi assim que apareceu um defeito que typecheck e render não pegam: o
+cabeçalho do cartão era um `<button>` com mais de vinte `div`s dentro, HTML inválido.
+
+**A interatividade continua não verificada.** No harness (navegador em container, servidor Next em
+outro), o React não hidrata: 21 scripts carregam, nenhuma resposta 4xx, e nada fica clicável —
+inclusive um `DropdownMenu` do Radix, componente padrão que funciona no resto do app. A causa
+provável são as falhas de handshake do HMR, que a partir de uma origem estrangeira abortam a
+hidratação. É limitação do ambiente de dev, não do código, mas continua sendo um débito real: o
+comportamento de clicar, arrastar e digitar não foi visto funcionando.
+
+Caminho para pagar de verdade: rodar o QA contra um build de produção local (`next build && next
+start`), onde não há cliente de HMR.
 
 ### Débito consciente
 
