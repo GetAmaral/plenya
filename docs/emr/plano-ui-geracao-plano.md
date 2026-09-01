@@ -8,8 +8,8 @@
 
 | Fase | O quê | Estado |
 |---|---|---|
-| 1 | Identidade do slide + revisões + concorrência otimista | 🔨 em curso |
-| 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | ⬜ |
+| 1 | Identidade do slide + revisões + concorrência otimista | ✅ dev (`0abbfff0`, mig 00092) |
+| 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | 🔨 próxima |
 | 3 | Ops, classificação e índice numérico (sem IA) | ⬜ |
 | 4 | Cartões e os 6 editores | ⬜ |
 | 5 | A conversa, triagem e sugestões | ⬜ |
