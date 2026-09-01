@@ -38,7 +38,10 @@ import {
   useUpdatePatientPlan,
   useDeletePatientPlan,
   useCheckPlanOverflow,
+  usePlanDossier,
+  usePlanDossierStaleness,
   usePublishPatientPlan,
+  useRefreshPlanDossier,
   patientPlansApi,
   type PatientPlan,
   type DeckOverflow,
@@ -50,6 +53,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { DossierColumn } from '@/components/plan/dossier-column';
 import { cn } from '@/lib/utils';
 
 /** Um plano novo já nasce com a gramática dos decks que existem, para não começar do zero. */
@@ -80,6 +84,14 @@ export default function PatientPlanPage() {
   const publishPlan = usePublishPatientPlan(patientId);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // O dossiê CONGELADO deste plano, não o vivo do paciente. Depende de selectedId, então vem
+  // depois dele. Ver components/plan/dossier-column.
+  const { data: dossie, isLoading: carregandoDossie } = usePlanDossier(
+    patientId,
+    selectedId ?? undefined,
+  );
+  const { data: envelhecimento } = usePlanDossierStaleness(patientId, selectedId ?? undefined);
+  const refrescarDossie = useRefreshPlanDossier(patientId);
   const [title, setTitle] = useState('');
   const [contentText, setContentText] = useState('');
   const [contentError, setContentError] = useState<string | null>(null);
@@ -128,6 +140,27 @@ export default function PatientPlanPage() {
     } catch (e) {
       setContentError(e instanceof Error ? e.message : 'JSON inválido');
       return null;
+    }
+  };
+
+  // Refrescar é ato explícito: automático trocaria número debaixo de quem está escrevendo. O que
+  // volta é restrito ao que o DECK cita, então cabe num toast em vez de virar tela.
+  const handleRefreshDossie = async () => {
+    if (!selectedId) return;
+    try {
+      const r = await refrescarDossie.mutateAsync(selectedId);
+      const mudou = r.changed ?? [];
+      if (mudou.length === 0) {
+        toast.success('Dossiê atualizado. Nenhum exame citado no deck mudou de valor.');
+        return;
+      }
+      toast.warning(
+        `${mudou.length} exame${mudou.length > 1 ? 's' : ''} citado${mudou.length > 1 ? 's' : ''} mudou de valor: ` +
+          mudou.map((c) => `${c.name} ${c.was} → ${c.now}`).join('; '),
+        { duration: 12000 },
+      );
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Falha ao atualizar o dossiê');
     }
   };
 
@@ -245,7 +278,12 @@ export default function PatientPlanPage() {
         </Button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
+      {/* Duas colunas, não três. Medido: com a sidebar de 256px e o padding do layout, num laptop
+          de 1366 um arranjo de três deixa ~310px para o centro — e o centro é o produto. O
+          prontuário compilado divide a coluna da esquerda com a lista de planos; a conversa entra
+          na fase 5, como terceira coluna só a partir de 2xl. */}
+      <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
+        <div className="space-y-4">
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Planos</CardTitle>
@@ -285,6 +323,22 @@ export default function PatientPlanPage() {
             ))}
           </CardContent>
         </Card>
+
+        {selected && (
+          <Card>
+            <CardContent className="h-[calc(100vh-22rem)] min-h-[20rem] pt-6">
+              <DossierColumn
+                dossier={dossie?.dossier}
+                frozenAt={dossie?.frozenAt}
+                carregando={carregandoDossie}
+                motivosDeEnvelhecimento={envelhecimento?.reasons}
+                onRefresh={handleRefreshDossie}
+                refrescando={refrescarDossie.isPending}
+              />
+            </CardContent>
+          </Card>
+        )}
+        </div>
 
         {selected ? (
           <div className="space-y-4">
@@ -372,15 +426,19 @@ export default function PatientPlanPage() {
                           Conteúdo que não cabe seria cortado do PDF sem aviso:
                         </span>
                         <ul className="mt-2 space-y-1">
-                          {overflow.map((o) => (
-                            <li key={o.slide}>
-                              Slide {String(o.slide).padStart(2, '0')}
-                              {o.title ? ` (${o.title})` : ''} passa{' '}
-                              {o.bottom > 0 ? `${o.bottom}px embaixo` : ''}
-                              {o.bottom > 0 && o.right > 0 ? ' e ' : ''}
-                              {o.right > 0 ? `${o.right}px à direita` : ''}
-                            </li>
-                          ))}
+                          {overflow.map((o) => {
+                            const embaixo = o.bottom ?? 0;
+                            const direita = o.right ?? 0;
+                            return (
+                              <li key={o.slide}>
+                                Slide {String(o.slide ?? 0).padStart(2, '0')}
+                                {o.title ? ` (${o.title})` : ''} passa{' '}
+                                {embaixo > 0 ? `${embaixo}px embaixo` : ''}
+                                {embaixo > 0 && direita > 0 ? ' e ' : ''}
+                                {direita > 0 ? `${direita}px à direita` : ''}
+                              </li>
+                            );
+                          })}
                         </ul>
                       </>
                     )}

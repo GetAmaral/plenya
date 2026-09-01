@@ -220,3 +220,40 @@ export type LabRequestTemplate = Refine<
   { labTests?: LabTestDefinition[] }
 >
 
+
+// ---- Plano de devolutiva (o "deck") ----
+//
+// Os nove blocos do slide são contrato do Go (`pdfdoc.DeckSlide` e companhia) e chegam aqui pelo
+// swagger. Redeclará-los à mão no front seria uma segunda fonte de verdade para a mesma estrutura,
+// e a primeira a divergir seria a do front — foi o que aconteceu com a interface que tinha os
+// blocos como `unknown`, e que estes aliases substituem.
+
+/** Um slide do deck. `kind` seleciona quais blocos valem. */
+export type DeckSlide = WithRequired<Schemas['pdfdoc.DeckSlide'], 'kind'>
+export type DeckSlideKind = Schemas['pdfdoc.DeckSlideKind']
+
+/** Uma régua. `code`, `axis`, `segments` e `history` vêm do dossiê e não são autorais;
+ *  `display`, `sub` e `note` são o que o médico escreve. */
+export type DeckRuler = Schemas['pdfdoc.DeckRulerBlock']
+export type DeckCard = Schemas['pdfdoc.DeckCard']
+export type DeckTable = Schemas['pdfdoc.DeckTable']
+export type DeckTableCol = Schemas['pdfdoc.DeckTableCol']
+export type DeckTableRow = Schemas['pdfdoc.DeckTableRow']
+export type DeckSummaryBlock = Schemas['pdfdoc.DeckSummaryBlock']
+export type DeckSummaryCard = Schemas['pdfdoc.DeckSummaryCard']
+export type DeckSummaryLine = Schemas['pdfdoc.DeckSummaryLine']
+export type DeckTakeawayBox = Schemas['pdfdoc.DeckTakeawayBox']
+export type DeckDoseGroup = Schemas['pdfdoc.DeckDoseGroup']
+export type DeckDose = Schemas['pdfdoc.DeckDose']
+export type DeckHighlight = Schemas['pdfdoc.DeckHighlight']
+export type DeckSeqStep = Schemas['pdfdoc.DeckSeqStep']
+export type DeckOverflow = Schemas['pdfdoc.DeckOverflow']
+
+/** O prontuário compilado que alimenta o deck. */
+export type PlanDossier = Schemas['dto.PlanDossierResponse']
+export type PlanRuler = Schemas['dto.PlanRuler']
+export type PlanFinding = Schemas['dto.PlanFinding']
+export type PlanDossierVitals = Schemas['dto.PlanDossierVitals']
+export type PlanDossierStaleness = Schemas['dto.PlanDossierStaleness']
+export type PlanDossierRefresh = Schemas['dto.PlanDossierRefreshResponse']
+export type PlanDossierChange = Schemas['dto.PlanDossierChange']
