@@ -203,6 +203,9 @@ function Slide({ slide }: { slide: DeckSlide }) {
     | undefined;
   const cards = (slide.cards ?? []) as { kicker?: string; body?: string; dim?: boolean; focus?: boolean }[];
   const steps = (slide.steps ?? []) as { when: string; what: string; detail?: string }[];
+  const tabela = slide.table as
+    | { columns?: { label?: string; style?: string }[]; rows?: { cells: string[]; muted?: boolean }[]; dense?: boolean }
+    | undefined;
   const take = slide.takeaway as
     | {
         highlight?: { when?: string; name: string; obs?: string; dose?: string; unit?: string };
@@ -298,6 +301,35 @@ function Slide({ slide }: { slide: DeckSlide }) {
           )}
         </div>
       )}
+
+      {/* A tabela é o bloco MAIS usado do deck real (8 dos 20 slides). Sem esta parte ela some da
+          tela do paciente enquanto os dois PDFs a mostram — o portal e o arquivo que ele baixa
+          diriam coisas diferentes. No celular ela vira lista: três colunas em 375px não se lê. */}
+      {tabela?.rows?.length ? (
+        <div className="mt-5 divide-y divide-[#0A1F26]/10">
+          {tabela.rows.map((r, i) => (
+            <div key={i} className={cn('py-3', r.muted && 'opacity-50')}>
+              <div className="flex items-baseline justify-between gap-3">
+                {/* Célula passa por RichText: o servidor a renderiza com inlineHTML, então um
+                    <b> escrito no conteúdo funciona no PDF e apareceria literal aqui. */}
+                <span className="min-w-0 text-[15px] font-semibold">
+                  <RichText text={r.cells[0]} />
+                </span>
+                {r.cells.length > 2 && r.cells[r.cells.length - 1] ? (
+                  <span className="shrink-0 rounded bg-[#104862] px-2 py-0.5 text-[12px] font-semibold text-white">
+                    {r.cells[r.cells.length - 1]}
+                  </span>
+                ) : null}
+              </div>
+              {r.cells.slice(1, r.cells.length > 2 ? -1 : undefined).map((c, j) =>
+                c ? (
+                  <RichText key={j} text={c} className="mt-1 text-[14px] leading-snug text-[#5A6B70]" />
+                ) : null,
+              )}
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       {cards.length > 0 && (
         <div className="mt-5 grid gap-4 md:grid-cols-2">

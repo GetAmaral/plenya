@@ -472,7 +472,89 @@ reescrito para o invariante novo.
 
 ---
 
-## 8 · O que fica em aberto
+## 8 · Os testes de aceitação do plano (EXECUTADOS)
+
+O plano aprovado exigia quatro comparações contra material real. Foram feitas, e três acharam
+defeito.
+
+### Fase 1 — reconstruir o deck do Ricardo pelo motor Go e comparar slide a slide
+
+O `deck.html` dele foi convertido para o contrato `pdfdoc.DeckSlide` (20 slides, 22 réguas, 35
+linhas de tabela), renderizado pelo motor Go e comparado em PNG contra `deck-jose-ricardo.pdf`.
+**Passou**: réguas, rampa, seta de direção, ticks, legenda, punch e numeração saem equivalentes.
+
+**Achou o maior buraco da gramática:** o bloco `table` não existia. Tabela densa é **8 dos 20
+slides do Ricardo e 9 dos 21 da Ana** — 40% do deck real, o bloco MAIS usado, e o motor não sabia
+desenhá-lo. Criado, com modelo por COLUNA e não por campos fixos: a primeira tentativa (item/dose/
+porquê) jogava a prosa da terceira coluna no campo de dose, que tem `white-space:nowrap`, e o slide
+vazava 2472px para fora da moldura.
+
+### Fase 2 — relatório novo × relatório antigo, mesmo paciente
+
+**Passou**: mesma papelaria, sem regressão. E fechou a unificação que estava pela metade.
+
+### Fase 2 — QA visual do portal em viewport de celular (Playwright)
+
+**Passou**: em 375, 768 e 1280px o `scrollWidth` bate com o viewport, sem rolagem horizontal; 21
+seções renderizadas; menor fonte 12px. Conferido na foto: régua com o nome acima da barra,
+"antes 1,00 · agora 0,99", cartão de passos em coluna única.
+
+Duas armadilhas de infra no caminho, que valem registro: `pnpm start` serve o `.next` ANTIGO (a
+rota nova dava 404 até subir em modo dev), e o `NEXT_PUBLIC_DEV_BYPASS_AUTH` injeta um admin falso
+que sobrepõe a sessão do paciente, tornando o portal impossível de testar como paciente sem
+desligá-lo.
+
+### Fase 3 — a gramática da skill contra o deck real da Ana
+
+**Passou, e melhor do que eu esperava**: os 21 slides da Ana, feitos à mão antes da skill existir,
+encaixam **100%** nos blocos documentados, sem sobra.
+
+Mas o teste também mostrou que **o bloco `sequence` que eu inventei nunca foi usado**: nos dois
+decks reais, "Os próximos três meses, em ordem" é uma TABELA. A gramática passou a dizer isso.
+
+### A unificação do relatório, que estava pela metade
+
+O plano pedia que `RenderCarePlanReport` consumisse o mesmo conteúdo; eu tinha criado um render
+paralelo e deixado dois geradores. Agora a derivação do escore produz **slides** e passa pelo MESMO
+`RenderPlanReport`. `pdfdoc/care_plan_report.go` foi apagado. Existe um renderizador de relatório.
+
+Isso expôs mais dois defeitos, os dois corrigidos:
+
+- **O achatador do relatório não conhecia o bloco `table`**, adicionado depois. O A4 assinado saía
+  com o título da seção e nenhuma linha — e os 8 slides de tabela do Ricardo sairiam vazios.
+- **Tabela longa invadia o rodapé e a assinatura.** O paginador da papelaria move blocos inteiros
+  entre páginas mas não sabe partir um; 21 linhas viravam um bloco mais alto que a área útil. Agora
+  a tabela é fatiada em blocos de 12 linhas, cada um repetindo o cabeçalho.
+
+### Rotina desta rodada — 5 achados, e o nº1 dizia que meu conserto não funcionava
+
+1. **O fatiamento da tabela não estava funcionando (ALTA).** As fatias eram emitidas DENTRO da
+   seção que `flattenSlide` já tinha aberto. `paginateDoc` só pagina filhos DIRETOS de `#src`, então
+   viravam netos e o slide continuava um bloco único mais alto que a página — exatamente o que o
+   comentário do conserto dizia ter resolvido. Eu tinha até atribuído o rodapé apertado ao "design
+   do paginador"; era o meu bug. Agora as fatias são irmãs. Provado: tabela de **60 linhas ocupa 5
+   páginas** em vez de estourar uma.
+   Ao mover o ramo para o topo da função apareceu um segundo erro meu, com crash de verdade
+   (`HierarchyRequestError: the new child contains the parent`): o ramo rodava depois de a função já
+   ter aberto a seção, deixando uma `<div>` sem fechar. O teste que eu tinha escrito **contava**
+   seções e por isso não pegou; passou a checar o balanceamento das tags.
+2. **O relatório usava os cartões do SLIDE** (`.two`/`.card`), classes que só existem no `deckCSS`:
+   no A4 assinado sairiam sem moldura e, com 3+, numa grade dimensionada para 1920px numa folha de
+   170mm.
+3. **A tabela sumia da tela do paciente.** O portal não tinha ramo para o bloco `table`, então o
+   PDF que o paciente baixa e a tela que ele abre diziam coisas diferentes — no bloco mais usado do
+   deck. No celular ela vira lista (três colunas em 375px não se lê). E as células passaram a ir por
+   `RichText`: um `<b>` no conteúdo funcionava no PDF e aparecia literal na tela.
+4. **`sujo` nunca voltava a falso depois de salvar.** O Go normaliza a ordem das chaves e derruba
+   campo vazio (`omitempty`), então o texto colado nunca voltava a bater com o salvo: Prévia,
+   Conferir e Publicar ficavam travados até trocar de plano e voltar. Agora a caixa é reescrita com
+   o que o servidor gravou.
+5. **`RenderDeckMeasured` estava escrito e não ligado**: `Publish` seguia fazendo três passagens
+   pelo Chromium. Ligado — são duas.
+
+---
+
+## 9 · O que fica em aberto
 
 - **Semear o plano a partir do dossiê na tela do EMR.** Hoje "Novo plano" nasce com capa e fecho
   vazios; a autoria real é pela skill. Um semeador mecânico (capa + réguas dos top achados) é

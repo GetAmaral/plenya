@@ -403,3 +403,63 @@ func deckGoSource(t *testing.T) string {
 	}
 	return string(b)
 }
+
+func TestRelatorioAchataTambemAsTabelas(t *testing.T) {
+	// O bloco `table` foi adicionado ao deck depois do relatório. Sem o case correspondente aqui, o
+	// A4 assinado saía com o título da seção e NENHUMA linha — e tabela é o bloco mais usado do
+	// deck real (8 dos 20 slides do Ricardo).
+	html := flattenSlide(DeckSlide{
+		Kind: DeckTableKind, Title: "Os exames que faltam",
+		Table: &DeckTable{
+			Columns: []DeckTableCol{{Label: "Exame"}, {Label: "Decide", Style: DeckColWhy}},
+			Rows:    []DeckTableRow{{Cells: []string{"Ultrassom de abdome", "Se há gordura no fígado."}}},
+		},
+	})
+	if !strings.Contains(html, "Ultrassom de abdome") || !strings.Contains(html, "Se há gordura") {
+		t.Errorf("a tabela não saiu no relatório: %s", html)
+	}
+	if !strings.Contains(reportDeckCSS, ".cond") {
+		t.Error("reportDeckCSS precisa das regras da tabela; o deckCSS não é carregado aqui")
+	}
+}
+
+func TestRelatorioFatiaTabelaEmBlocosIRMAOS(t *testing.T) {
+	// paginateDoc só pagina filhos DIRETOS de #src. Fatiar dentro da própria seção não resolve: as
+	// fatias viram netos, o slide continua um bloco único mais alto que a página e desce por cima
+	// do rodapé e da assinatura.
+	rows := make([]DeckTableRow, 30)
+	for i := range rows {
+		rows[i] = DeckTableRow{Cells: []string{"item", "porquê"}}
+	}
+	html := flattenSlide(DeckSlide{Kind: DeckTableKind, Title: "Longa",
+		Table: &DeckTable{Columns: []DeckTableCol{{Label: "A"}, {Label: "B"}}, Rows: rows},
+		Punch: "fecho"})
+
+	if n := strings.Count(html, `<div class="pr-sec">`); n < 4 {
+		t.Errorf("seções = %d; 30 linhas têm que virar vários blocos irmãos, não um só", n)
+	}
+	// Contar seções não basta: com o ramo da tabela no lugar errado o HTML saía com uma <div> a
+	// mais, aberta e nunca fechada, e o paginador quebrava com "the new child contains the parent".
+	if abertas, fechadas := strings.Count(html, "<div"), strings.Count(html, "</div>"); abertas != fechadas {
+		t.Fatalf("HTML desbalanceado: %d <div> para %d </div>", abertas, fechadas)
+	}
+	if strings.Count(html, "<table") < 2 {
+		t.Errorf("tabelas = %d; 30 linhas deveriam ser fatiadas", strings.Count(html, "<table"))
+	}
+	// Cada fatia repete o cabeçalho: tabela que continua sem cabeçalho vira lista sem sentido.
+	if strings.Count(html, "<th") < 4 {
+		t.Error("cada fatia tem que repetir o cabeçalho")
+	}
+}
+
+func TestRelatorioUsaCartaoDoRelatorioENaoDoSlide(t *testing.T) {
+	// `.card`/`.two` só existem no deckCSS; no A4 sairiam sem moldura.
+	html := flattenSlide(DeckSlide{Kind: DeckTwoCards, Title: "Dois caminhos",
+		Cards: []DeckCard{{Kicker: "Caminho 1", Body: "texto"}}})
+	if strings.Contains(html, `class="two"`) || strings.Contains(html, `class="card"`) {
+		t.Errorf("o relatório não pode usar as classes do slide: %s", html)
+	}
+	if !strings.Contains(html, "pr-card") {
+		t.Errorf("faltou o cartão do relatório: %s", html)
+	}
+}

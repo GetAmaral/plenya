@@ -300,6 +300,25 @@ svg.rg text{ font-family:'Inter',system-ui,sans-serif; }
 .rampa i:last-of-type{ border-radius:0 6px 6px 0; }
 .rampa em{ font-style:normal; font-size:28px; margin-left:26px; color:var(--muted); opacity:.8; }
 
+/* tabela densa — "o que cada exame decide", "o que muda no prato" */
+.cond{ width:100%; border-collapse:collapse; font-size:31px; margin-top:24px; }
+.cond th{ text-align:left; font-size:28px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--muted); padding:0 14px 12px 0; border-bottom:1.5px solid rgba(10,31,38,.18); white-space:nowrap; }
+.dark .cond th,.deep .cond th{ color:var(--sage); border-bottom-color:rgba(234,231,218,.25); }
+.cond td{ padding:10px 22px 10px 0; border-bottom:1px solid rgba(10,31,38,.07); vertical-align:top; line-height:1.3; }
+.cond.dense{ font-size:30px; }
+.cond.dense td{ padding:5px 14px 5px 0; }
+.cond.dense .why{ font-size:28px; }
+.dark .cond td,.deep .cond td{ border-bottom-color:rgba(234,231,218,.1); }
+.cond tr:last-child td{ border-bottom:none; }
+.cond .dose{ font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.cond .why{ color:var(--muted); font-size:28px; }
+.dark .cond .why,.deep .cond .why{ color:rgba(146,184,180,.85); }
+.cond tr.out td{ opacity:.5; }
+.cond tr.out .dose{ text-decoration:line-through; }
+.gr{ font-size:28px; font-weight:700; letter-spacing:.06em; padding:2px 6px; border-radius:3px;
+  white-space:nowrap; background:#104862; color:#fff; }
+
 /* resumo executivo */
 .rez{ display:grid; grid-template-columns:1fr 1fr; gap:30px; }
 .rez-card{ border-radius:12px; padding:26px 30px 22px; background:rgba(255,255,255,.62); border:1px solid rgba(10,31,38,.11); }

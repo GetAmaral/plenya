@@ -209,9 +209,10 @@ func (s *PatientPlanService) CheckOverflow(planID, patientID uuid.UUID) ([]pdfdo
 // Publish gera os dois PDFs e publica no portal do paciente.
 //
 // SÍNCRONO de propósito, apesar de o Chromium ser serializado por um mutex global: medido, um deck
-// de 8 slides sai em ~1,0 s no 16:9 e ~0,2 s no A4, então uma publicação segura a fila da receita
-// por poucos segundos. Vale reavaliar se aparecer deck muito maior ou uso concorrente de verdade;
-// hoje uma fila de jobs só para isso seria peso sem retorno.
+// de 8 slides sai em ~1,0 s no 16:9 e ~0,2 s no A4, e são DUAS passagens (a medição de transbordo
+// vem junto do render do 16:9). Uma publicação segura a fila da receita por poucos segundos. Vale
+// reavaliar se aparecer deck muito maior ou uso concorrente de verdade; hoje uma fila de jobs só
+// para isso seria peso sem retorno.
 func (s *PatientPlanService) Publish(planID, patientID, publisherID uuid.UUID) (*dto.PatientPlanResponse, error) {
 	plan, err := s.load(planID, patientID)
 	if err != nil {
@@ -232,7 +233,11 @@ func (s *PatientPlanService) Publish(planID, patientID, publisherID uuid.UUID) (
 	deck := s.deck(plan)
 
 	// Barreira: o que não cabe no slide some do PDF em silêncio. Melhor recusar e dizer onde.
-	over, err := pdfdoc.CheckDeckOverflow(deck)
+	//
+	// A medição sai de graça no render do 16:9 (o hook roda antes de imprimir), então são DUAS
+	// passagens pelo Chromium e não três. O Chromium é serializado por mutex global e atende
+	// também receita e pedido de exames: uma passagem a menos é fila a menos para todo mundo.
+	pdf169, over, err := pdfdoc.RenderDeckMeasured(deck)
 	if err != nil {
 		return nil, fmt.Errorf("erro ao medir os slides: %w", err)
 	}
@@ -269,6 +274,10 @@ func (s *PatientPlanService) Publish(planID, patientID, publisherID uuid.UUID) (
 	// continuava rascunho, sem registro do documento órfão.
 	rendered := make([][]byte, len(outputs))
 	for i, o := range outputs {
+		if o.paper == pdfdoc.DeckPaper169 {
+			rendered[i] = pdf169 // já veio da medição
+			continue
+		}
 		bytesPDF, rErr := pdfdoc.RenderDeck(deck, o.paper)
 		if rErr != nil {
 			return nil, fmt.Errorf("erro ao gerar o PDF %s do plano: %w", o.paper, rErr)

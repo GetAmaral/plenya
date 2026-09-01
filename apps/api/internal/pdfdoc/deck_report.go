@@ -71,6 +71,19 @@ const reportDeckCSS = `
 .pr-steps{ margin-top:5px; }
 .pr-step{ display:flex; gap:9px; font-size:12px; color:var(--petrol); padding:2px 0; }
 .pr-step .pr-num{ flex:0 0 auto; font-weight:700; color:var(--gold-deep,#8a6534); }
+/* tabela densa no A4. Os tamanhos são os do documento, não os do slide: aqui não há viewBox
+   reduzindo nada, o texto é impresso no tamanho que estiver escrito. */
+.cond{ width:100%; border-collapse:collapse; font-size:12px; margin-top:8px; break-inside:avoid; }
+.cond th{ text-align:left; font-size:10px; font-weight:700; letter-spacing:.8px; text-transform:uppercase;
+  color:var(--ink2); padding:0 8px 5px 0; border-bottom:1px solid rgba(6,59,79,.25); white-space:nowrap; }
+.cond td{ padding:4px 10px 4px 0; border-bottom:1px solid rgba(6,59,79,.07); vertical-align:top; line-height:1.35; }
+.cond tr:last-child td{ border-bottom:none; }
+.cond .why{ color:var(--ink2); }
+.cond .dose{ font-weight:600; white-space:nowrap; }
+.cond tr.out td{ opacity:.5; }
+.gr{ font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:1px 5px; border-radius:3px;
+  white-space:nowrap; background:#104862; color:#fff; }
+
 .pr-when{ font-size:10.5px; font-weight:700; letter-spacing:.8px; text-transform:uppercase;
   color:var(--gold-deep,#8a6534); }
 `
@@ -105,6 +118,24 @@ func RenderPlanReport(in PlanReport) ([]byte, error) {
 // flattenSlide transforma um slide numa seção do documento fluido. Cada seção é um bloco que o
 // paginador pode mover inteiro para a página seguinte (`break-inside:avoid`).
 func flattenSlide(s DeckSlide) string {
+	// Slide com tabela sai como VÁRIOS blocos IRMÃOS, e a decisão é a primeira coisa da função:
+	// `paginateDoc` só pagina filhos DIRETOS de `#src`, então tudo aqui tem que sair no nível de
+	// cima. Fatiar dentro da seção deixa as fatias como netos, o slide continua um bloco único mais
+	// alto que a área útil, e desce por cima do rodapé e da assinatura.
+	if temTabela(s) {
+		var b strings.Builder
+		b.WriteString(cabecalhoSecao(s))
+		if len(s.Cards) > 0 {
+			b.WriteString(`<div class="pr-sec">` + cartoesRelatorio(s.Cards) + `</div>`)
+		}
+		b.WriteString(fatiaTabela(s.Table))
+		if s.Kind == DeckPlanStep && s.Take != nil {
+			b.WriteString(`<div class="pr-sec">` + flattenTakeaway(*s.Take) + `</div>`)
+		}
+		b.WriteString(rodapeSecao(s))
+		return b.String()
+	}
+
 	var b strings.Builder
 	b.WriteString(`<div class="pr-sec">`)
 	if s.Eyebrow != "" {
@@ -132,16 +163,7 @@ func flattenSlide(s DeckSlide) string {
 			b.WriteString(flattenSummary(*s.Summary))
 		}
 	case DeckTwoCards, DeckPlanStep:
-		for _, c := range s.Cards {
-			b.WriteString(`<div class="pr-card">`)
-			if c.Kicker != "" {
-				b.WriteString(`<div class="pr-card-h">` + esc(c.Kicker) + `</div>`)
-			}
-			if c.Body != "" {
-				b.WriteString(`<div class="pr-lede">` + inlineHTML(c.Body) + `</div>`)
-			}
-			b.WriteString(`</div>`)
-		}
+		b.WriteString(cartoesRelatorio(s.Cards))
 		if s.Kind == DeckPlanStep && s.Take != nil {
 			b.WriteString(flattenTakeaway(*s.Take))
 		}
@@ -160,6 +182,65 @@ func flattenSlide(s DeckSlide) string {
 		}
 	}
 
+	fechaSecao(&b, s)
+	return b.String()
+}
+
+func temTabela(s DeckSlide) bool {
+	return s.Table != nil && len(s.Table.Rows) > 0 &&
+		(s.Kind == DeckTableKind || s.Kind == DeckTwoCards || s.Kind == DeckPlanStep)
+}
+
+// cabecalhoSecao — tarja, título e abertura, como bloco próprio.
+func cabecalhoSecao(s DeckSlide) string {
+	var b strings.Builder
+	b.WriteString(`<div class="pr-sec">`)
+	if s.Eyebrow != "" {
+		b.WriteString(`<div class="pr-eyebrow">` + esc(s.Eyebrow) + `</div>`)
+	}
+	if s.Title != "" && s.Kind != DeckCover {
+		b.WriteString(`<div class="pr-title">` + inlineHTML(s.Title) + `</div>`)
+	}
+	if s.Lede != "" {
+		b.WriteString(`<div class="pr-lede">` + inlineHTML(s.Lede) + `</div>`)
+	}
+	b.WriteString(`</div>`)
+	return b.String()
+}
+
+// rodapeSecao — nota, fonte e frase de fechamento, como bloco próprio.
+func rodapeSecao(s DeckSlide) string {
+	if s.Kicker == "" && s.Source == "" && s.Punch == "" {
+		return ""
+	}
+	var b strings.Builder
+	b.WriteString(`<div class="pr-sec">`)
+	fechaSecao(&b, s)
+	return b.String()
+}
+
+// cartoesRelatorio usa a papelaria do RELATÓRIO, não a do slide.
+//
+// `renderCards` emite `.two`/`.card`/`.k`/`.s`, que só existem no `deckCSS`. No A4 assinado, que
+// não carrega aquele CSS, os cartões sairiam sem moldura e, com três ou mais, dentro de uma grade
+// inline dimensionada para um slide de 1920px, numa folha de 170mm.
+func cartoesRelatorio(cards []DeckCard) string {
+	var b strings.Builder
+	for _, c := range cards {
+		b.WriteString(`<div class="pr-card">`)
+		if c.Kicker != "" {
+			b.WriteString(`<div class="pr-card-h">` + esc(c.Kicker) + `</div>`)
+		}
+		if c.Body != "" {
+			b.WriteString(`<div class="pr-lede">` + inlineHTML(c.Body) + `</div>`)
+		}
+		b.WriteString(`</div>`)
+	}
+	return b.String()
+}
+
+// fechaSecao escreve o rodapé comum do slide achatado.
+func fechaSecao(b *strings.Builder, s DeckSlide) {
 	if s.Kicker != "" {
 		b.WriteString(`<div class="pr-kicker">` + inlineHTML(s.Kicker) + `</div>`)
 	}
@@ -170,6 +251,33 @@ func flattenSlide(s DeckSlide) string {
 		b.WriteString(`<div class="pr-punch">` + inlineHTML(s.Punch) + `</div>`)
 	}
 	b.WriteString(`</div>`)
+}
+
+// linhasPorFatia — quantas linhas por bloco. Medido na folha real: com 16, duas fatias ainda
+// couberam na mesma página e a última linha encostava na data da assinatura; com 12 a segunda fatia
+// desce para a página seguinte e o rodapé respira.
+const linhasPorFatia = 12
+
+// fatiaTabela quebra uma tabela longa em vários blocos, cada um repetindo o cabeçalho.
+func fatiaTabela(t *DeckTable) string {
+	if t == nil || len(t.Rows) == 0 {
+		return ""
+	}
+	if len(t.Rows) <= linhasPorFatia {
+		return renderTable(t)
+	}
+	var b strings.Builder
+	for i := 0; i < len(t.Rows); i += linhasPorFatia {
+		fim := i + linhasPorFatia
+		if fim > len(t.Rows) {
+			fim = len(t.Rows)
+		}
+		// Cada fatia é um bloco próprio para o paginador, e repete o cabeçalho: uma tabela que
+		// continua na página seguinte sem cabeçalho vira uma lista de células sem sentido.
+		b.WriteString(`<div class="pr-sec">` + renderTable(&DeckTable{
+			Columns: t.Columns, Rows: t.Rows[i:fim], Dense: t.Dense,
+		}) + `</div>`)
+	}
 	return b.String()
 }
 

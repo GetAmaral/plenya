@@ -21130,12 +21130,13 @@ export interface components {
             source?: string;
             steps?: components["schemas"]["pdfdoc.DeckSeqStep"][];
             summary?: components["schemas"]["pdfdoc.DeckSummaryBlock"];
+            table?: components["schemas"]["pdfdoc.DeckTable"];
             takeaway?: components["schemas"]["pdfdoc.DeckTakeawayBox"];
             title?: string;
             variant?: string;
         };
         /** @enum {string} */
-        "pdfdoc.DeckSlideKind": "cover" | "summary" | "rulers" | "two-cards" | "plan-step" | "sequence" | "takeaway" | "closing";
+        "pdfdoc.DeckSlideKind": "cover" | "summary" | "rulers" | "two-cards" | "plan-step" | "sequence" | "takeaway" | "closing" | "table";
         "pdfdoc.DeckSummaryBlock": {
             cards?: components["schemas"]["pdfdoc.DeckSummaryCard"][];
             legend?: string;
@@ -21156,6 +21157,26 @@ export interface components {
             sub?: string;
             unit?: string;
             value?: string;
+        };
+        "pdfdoc.DeckTable": {
+            columns?: components["schemas"]["pdfdoc.DeckTableCol"][];
+            /** @description Dense aperta o espaçamento quando a tabela é longa. */
+            dense?: boolean;
+            /** @description Rows — as células na ordem das colunas. A primeira sai em destaque. */
+            rows?: components["schemas"]["pdfdoc.DeckTableRow"][];
+        };
+        "pdfdoc.DeckTableCol": {
+            label?: string;
+            style?: components["schemas"]["pdfdoc.DeckTableColStyle"];
+            /** @description ex.: "390px"; vazio = automático */
+            width?: string;
+        };
+        /** @enum {string} */
+        "pdfdoc.DeckTableColStyle": "" | "why" | "dose" | "tag";
+        "pdfdoc.DeckTableRow": {
+            cells?: string[];
+            /** @description Muted risca a linha: o item que foi considerado e descartado. */
+            muted?: boolean;
         };
         "pdfdoc.DeckTakeawayBox": {
             groups?: components["schemas"]["pdfdoc.DeckDoseGroup"][];

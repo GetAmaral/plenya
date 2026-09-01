@@ -22,6 +22,10 @@ const (
 	DeckSequence DeckSlideKind = "sequence"  // os próximos meses, em ordem
 	DeckTakeaway DeckSlideKind = "takeaway"  // o que começa a tomar agora
 	DeckClosing  DeckSlideKind = "closing"   // o fecho, em uma página
+	// DeckTableKind — tabela densa: um item por linha, com o porquê e um selo. Nasceu do deck do
+	// José Ricardo, onde 8 dos 20 slides são isso (os exames que faltam, o prato, o movimento, a
+	// sequência). A gramática v2 tinha 8 blocos e esse escapou.
+	DeckTableKind DeckSlideKind = "table"
 )
 
 // DeckVariant — o fundo do slide.
@@ -51,6 +55,46 @@ type DeckSlide struct {
 	Cards   []DeckCard        `json:"cards,omitempty"`
 	Steps   []DeckSeqStep     `json:"steps,omitempty"`
 	Take    *DeckTakeawayBox  `json:"takeaway,omitempty"`
+	Table   *DeckTable        `json:"table,omitempty"`
+}
+
+// DeckTable — a tabela densa. Cada linha é um item com o porquê ao lado; é como o deck explica
+// "o que cada exame decide" ou "o que muda no prato" sem virar parede de texto.
+//
+// O modelo é por COLUNA, e não um punhado de campos fixos (item/dose/porquê), porque o deck real
+// usa combinações diferentes: "exame | decide o quê | prioridade" num slide, "o quê | quanto | por
+// quê" no outro. Com campos fixos, a prosa da terceira coluna caía no campo de dose, que tem
+// `white-space:nowrap`, e o slide vazava 2472px para a direita.
+type DeckTable struct {
+	Columns []DeckTableCol `json:"columns,omitempty"`
+	// Rows — as células na ordem das colunas. A primeira sai em destaque.
+	Rows []DeckTableRow `json:"rows,omitempty"`
+	// Dense aperta o espaçamento quando a tabela é longa.
+	Dense bool `json:"dense,omitempty"`
+}
+
+// DeckTableColStyle — como a coluna se comporta.
+type DeckTableColStyle string
+
+const (
+	DeckColText DeckTableColStyle = ""     // texto normal, quebra linha
+	DeckColWhy  DeckTableColStyle = "why"  // explicação, em cinza
+	DeckColDose DeckTableColStyle = "dose" // número; NÃO quebra, então nunca use para prosa
+	DeckColTag  DeckTableColStyle = "tag"  // selo curto ("prioridade")
+)
+
+// DeckTableCol — cabeçalho e comportamento de uma coluna.
+type DeckTableCol struct {
+	Label string            `json:"label,omitempty"`
+	Style DeckTableColStyle `json:"style,omitempty"`
+	Width string            `json:"width,omitempty"` // ex.: "390px"; vazio = automático
+}
+
+// DeckTableRow — uma linha da tabela.
+type DeckTableRow struct {
+	Cells []string `json:"cells"`
+	// Muted risca a linha: o item que foi considerado e descartado.
+	Muted bool `json:"muted,omitempty"`
 }
 
 // DeckRulerBlock — uma régua no slide, com o nome em voz de paciente.
@@ -149,8 +193,11 @@ func renderBlocks(s DeckSlide) string {
 		if s.Summary != nil {
 			b.WriteString(renderSummary(*s.Summary, isDarkVariant(s.Variant)))
 		}
+	case DeckTableKind:
+		b.WriteString(renderTable(s.Table))
 	case DeckTwoCards:
 		b.WriteString(renderCards(s.Cards))
+		b.WriteString(renderTable(s.Table))
 	case DeckSequence:
 		b.WriteString(renderSequence(s.Steps))
 	case DeckTakeaway:
@@ -158,8 +205,9 @@ func renderBlocks(s DeckSlide) string {
 			b.WriteString(renderTakeaway(*s.Take))
 		}
 	case DeckPlanStep:
-		// Uma conduta é prosa + cartões de apoio: o texto vem de Lede/Kicker, os cartões daqui.
+		// Uma conduta é prosa + cartões + tabela: o texto vem de Lede/Kicker, o resto daqui.
 		b.WriteString(renderCards(s.Cards))
+		b.WriteString(renderTable(s.Table))
 		if s.Take != nil {
 			b.WriteString(renderTakeaway(*s.Take))
 		}
@@ -344,4 +392,60 @@ func inlineHTML(s string) string {
 	out = strings.ReplaceAll(out, "&lt;br/&gt;", "<br>")
 	out = strings.ReplaceAll(out, "&lt;br /&gt;", "<br>")
 	return out
+}
+
+// renderTable desenha a tabela densa.
+func renderTable(t *DeckTable) string {
+	if t == nil || len(t.Rows) == 0 {
+		return ""
+	}
+	cls := "cond"
+	if t.Dense {
+		cls += " dense"
+	}
+	var b strings.Builder
+	b.WriteString(`<table class="` + cls + `">`)
+	if len(t.Columns) > 0 {
+		b.WriteString(`<tr>`)
+		for _, c := range t.Columns {
+			w := ""
+			if c.Width != "" {
+				w = ` style="width:` + esc(c.Width) + `"`
+			}
+			b.WriteString(`<th` + w + `>` + esc(c.Label) + `</th>`)
+		}
+		b.WriteString(`</tr>`)
+	}
+	for _, r := range t.Rows {
+		if r.Muted {
+			b.WriteString(`<tr class="out">`)
+		} else {
+			b.WriteString(`<tr>`)
+		}
+		for i, cell := range r.Cells {
+			estilo := DeckColText
+			if i < len(t.Columns) {
+				estilo = t.Columns[i].Style
+			}
+			switch {
+			case i == 0:
+				b.WriteString(`<td><b>` + inlineHTML(cell) + `</b></td>`)
+			case estilo == DeckColTag:
+				if cell == "" {
+					b.WriteString(`<td></td>`)
+				} else {
+					b.WriteString(`<td><span class="gr">` + esc(cell) + `</span></td>`)
+				}
+			case estilo == DeckColDose:
+				b.WriteString(`<td class="dose">` + inlineHTML(cell) + `</td>`)
+			case estilo == DeckColWhy:
+				b.WriteString(`<td class="why">` + inlineHTML(cell) + `</td>`)
+			default:
+				b.WriteString(`<td>` + inlineHTML(cell) + `</td>`)
+			}
+		}
+		b.WriteString(`</tr>`)
+	}
+	b.WriteString(`</table>`)
+	return b.String()
 }

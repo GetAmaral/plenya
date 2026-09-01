@@ -149,7 +149,13 @@ export default function PatientPlanPage() {
     const content = parsedContent();
     if (!content) return;
     try {
-      await updatePlan.mutateAsync({ id: selected.id, payload: { title, content } });
+      const salvo = await updatePlan.mutateAsync({ id: selected.id, payload: { title, content } });
+      // Reescreve a caixa com o que o SERVIDOR gravou. Sem isto, "sujo" ficava true para sempre
+      // depois de salvar — o Go normaliza a ordem das chaves e derruba campo vazio (`omitempty`),
+      // então o texto colado nunca voltava a bater com o salvo, e Prévia/Conferir/Publicar ficavam
+      // travados até o usuário trocar de plano e voltar.
+      setTitle(salvo.title);
+      setContentText(JSON.stringify(salvo.content ?? [], null, 2));
       setOverflow(null);
       toast.success('Plano salvo');
     } catch (e) {

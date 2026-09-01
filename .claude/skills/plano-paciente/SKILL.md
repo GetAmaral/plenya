@@ -97,8 +97,11 @@ Um assunto por slide. Se dois achados precisam ser explicados juntos, são dois 
 
 ## Fase 2 — escrever
 
-Só agora. Leia [referencias/gramatica-v2.md](referencias/gramatica-v2.md) para os 8 blocos e o
+Só agora. Leia [referencias/gramatica-v2.md](referencias/gramatica-v2.md) para os 9 blocos e o
 JSON de cada um.
+
+O bloco mais usado é o `table`, não a régua: 8 dos 20 slides do Ricardo e 9 dos 21 da Ana. Régua é o
+átomo visual; tabela é como o plano se explica.
 
 ### Voz
 

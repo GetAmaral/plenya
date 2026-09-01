@@ -23,7 +23,8 @@ export interface DeckSlide {
     | 'plan-step'
     | 'sequence'
     | 'takeaway'
-    | 'closing';
+    | 'closing'
+    | 'table';
   variant?: '' | 'dark' | 'deep';
   eyebrow?: string;
   title?: string;
@@ -38,6 +39,7 @@ export interface DeckSlide {
   cards?: unknown[];
   steps?: unknown[];
   takeaway?: unknown;
+  table?: unknown;
 }
 
 export interface PatientPlan {

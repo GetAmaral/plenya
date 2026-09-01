@@ -8,83 +8,95 @@ import (
 	"github.com/plenya/api/internal/pdfdoc"
 )
 
-func reportLevelKind(lvl int) string {
-	switch {
-	case lvl <= 1:
-		return "critical"
-	case lvl == 2:
-		return "attention"
-	case lvl == 4:
-		return "good"
-	case lvl == 5:
-		return "optimal"
-	default:
-		return "attention"
-	}
-}
+// O relatório AGIR é UM MODO DO DECK, não um gerador próprio.
+//
+// Antes havia dois renderizadores de relatório: este, que derivava o conteúdo do escore, e o do
+// plano, que renderiza slides escritos à mão. Dois caminhos para o mesmo documento significam duas
+// papelarias para manter em sincronia e dois lugares para corrigir quando algo sai torto.
+//
+// Agora a derivação produz SLIDES, e o render é o mesmo `pdfdoc.RenderPlanReport` que o plano usa.
+// O que muda entre um relatório derivado do escore e um escrito pelo médico é só quem escreveu o
+// conteúdo.
 
-// buildCarePlanReport mapeia os dados do relatório longitudinal AGIR para o input do pacote pdfdoc.
-func buildCarePlanReport(
+// buildCarePlanDeck traduz escore + plano de cuidado nos slides do relatório.
+func buildCarePlanDeck(
 	patient *models.Patient,
 	snapshot *models.PatientScoreSnapshot,
 	items []models.CarePlanItem,
-	doctor *models.User,
-	validationURL string,
-	hasDigital bool,
 	now time.Time,
-) pdfdoc.CarePlanReport {
-	var attention, optimal []pdfdoc.ReportBiomarker
+) []pdfdoc.DeckSlide {
+	var slides []pdfdoc.DeckSlide
+
+	// Abertura: o escore e quando foi calculado.
+	slides = append(slides, pdfdoc.DeckSlide{
+		Kind:    pdfdoc.DeckCover,
+		Eyebrow: "Escore calculado em " + snapshot.CalculatedAt.In(saoPaulo()).Format("02/01/2006"),
+		Title:   patient.Name,
+		Lede: fmt.Sprintf("Escore Plenya de saúde global: %.0f%%.",
+			snapshot.TotalScorePercentage),
+	})
+
+	// Biomarcadores, separados como no deck: o que pede atenção e o que está no ótimo.
+	var atencao, otimo []pdfdoc.DeckTableRow
 	for i := range snapshot.ItemResults {
 		r := snapshot.ItemResults[i]
 		if r.Status != models.EvaluationStatusEvaluated || r.LevelNumber == nil || r.Item == nil {
 			continue
 		}
 		lvl := *r.LevelNumber
-		entry := pdfdoc.ReportBiomarker{Name: r.Item.Name, Label: reportLevelLabel[lvl], Kind: reportLevelKind(lvl)}
-		if lvl <= 2 {
-			attention = append(attention, entry)
-		} else if lvl == 4 || lvl == 5 {
-			optimal = append(optimal, entry)
+		linha := pdfdoc.DeckTableRow{Cells: []string{r.Item.Name, reportLevelLabel[lvl]}}
+		switch {
+		case lvl <= 2:
+			atencao = append(atencao, linha)
+		case lvl >= 4:
+			otimo = append(otimo, linha)
 		}
 	}
+	colunas := []pdfdoc.DeckTableCol{{Label: "Marcador"}, {Label: "", Style: pdfdoc.DeckColTag}}
+	if len(atencao) > 0 {
+		slides = append(slides, pdfdoc.DeckSlide{
+			Kind: pdfdoc.DeckTableKind, Eyebrow: "Pontos de atenção",
+			Title: "O que pede atenção",
+			Table: &pdfdoc.DeckTable{Dense: true, Columns: colunas, Rows: atencao},
+		})
+	}
+	if len(otimo) > 0 {
+		slides = append(slides, pdfdoc.DeckSlide{
+			Kind: pdfdoc.DeckTableKind, Eyebrow: "No ótimo",
+			Title: "O que está no melhor nível",
+			Table: &pdfdoc.DeckTable{Dense: true, Columns: colunas, Rows: otimo},
+		})
+	}
 
-	var pillars []pdfdoc.ReportPillar
-	for _, letter := range []string{"A", "G", "I", "R"} {
-		var recs []pdfdoc.ReportRec
+	// Plano de cuidado, um slide por pilar AGIR.
+	for _, letra := range []string{"A", "G", "I", "R"} {
+		var rows []pdfdoc.DeckTableRow
 		for _, it := range items {
-			if it.LetterCode != letter {
+			if it.LetterCode != letra {
 				continue
 			}
-			rec := pdfdoc.ReportRec{Text: it.Recommendation}
+			meta := ""
 			if it.Target != nil {
-				rec.Target = *it.Target
+				meta = *it.Target
 			}
-			recs = append(recs, rec)
+			rows = append(rows, pdfdoc.DeckTableRow{Cells: []string{it.Recommendation, meta}})
 		}
-		if len(recs) > 0 {
-			pillars = append(pillars, pdfdoc.ReportPillar{Letter: letter, Name: agirNames[letter], Recs: recs})
+		if len(rows) == 0 {
+			continue
 		}
+		slides = append(slides, pdfdoc.DeckSlide{
+			Kind: pdfdoc.DeckTableKind, Eyebrow: "Plano de cuidado AGIR",
+			Title: agirNames[letra],
+			Table: &pdfdoc.DeckTable{
+				Columns: []pdfdoc.DeckTableCol{{Label: "Recomendação"}, {Label: "Meta", Style: pdfdoc.DeckColDose}},
+				Rows:    rows,
+			},
+		})
 	}
-
-	return pdfdoc.CarePlanReport{
-		Patient:     pdfdoc.Patient{Name: patient.Name},
-		EmittedAt:   now.In(saoPaulo()).Format("02/01/2006"),
-		ScoreCalcAt: snapshot.CalculatedAt.In(saoPaulo()).Format("02/01/2006"),
-		ScorePct:    fmt.Sprintf("%.0f%%", snapshot.TotalScorePercentage),
-		Attention:   attention,
-		Optimal:     optimal,
-		Pillars:     pillars,
-		Doctor:      pdfdoc.Doctor{Name: doctor.Name, Credentials: doctorCredentials(doctor)},
-		Signature: pdfdoc.Signature{
-			Digital:     hasDigital,
-			SignedAt:    signedAtPT(&now),
-			ValidateURL: validationURL,
-			PlaceDate:   placeDatePT(now),
-		},
-	}
+	return slides
 }
 
-// renderCarePlanReportBytes gera os bytes do relatório AGIR pelo pipeline pdfdoc (papelaria de marca).
+// renderCarePlanReportBytes gera o relatório AGIR pelo MESMO render do plano.
 func renderCarePlanReportBytes(
 	patient *models.Patient,
 	snapshot *models.PatientScoreSnapshot,
@@ -94,5 +106,17 @@ func renderCarePlanReportBytes(
 	hasDigital bool,
 	now time.Time,
 ) ([]byte, error) {
-	return pdfdoc.RenderCarePlanReport(buildCarePlanReport(patient, snapshot, items, doctor, validationURL, hasDigital, now))
+	return pdfdoc.RenderPlanReport(pdfdoc.PlanReport{
+		Title:     "Relatório de Saúde, Performance e Longevidade",
+		Patient:   pdfdoc.Patient{Name: patient.Name},
+		Slides:    buildCarePlanDeck(patient, snapshot, items, now),
+		EmittedAt: now.In(saoPaulo()).Format("02/01/2006"),
+		Doctor:    pdfdoc.Doctor{Name: doctor.Name, Credentials: doctorCredentials(doctor)},
+		Signature: pdfdoc.Signature{
+			Digital:     hasDigital,
+			SignedAt:    signedAtPT(&now),
+			ValidateURL: validationURL,
+			PlaceDate:   placeDatePT(now),
+		},
+	})
 }

@@ -1,4 +1,4 @@
-# Gramática v2 da devolutiva — os 8 blocos
+# Gramática v2 da devolutiva — os 9 blocos
 
 Referência do skill `/plano`. O contrato é `pdfdoc.DeckSlide`
 (`apps/api/internal/pdfdoc/deck_blocks.go`); o que está aqui é o mesmo, do lado de quem escreve.
@@ -121,7 +121,39 @@ contraste que ensina.
 
 Uma conduta por slide. Aceita também um bloco `takeaway` quando a conduta tem doses.
 
-## 6 · `sequence` — os próximos meses
+## 6 · `table` — a tabela densa
+
+**O bloco mais usado do deck real**, e o que mais demora a aparecer quando se pensa em "deck":
+8 dos 20 slides do José Ricardo e 9 dos 21 da Ana. É como a devolutiva explica "o que cada exame
+decide", "o que muda no prato" ou "os próximos três meses" sem virar parede de texto.
+
+```json
+{ "kind": "table", "eyebrow": "O plano · 2 de 5", "title": "Os exames que faltam, e o que cada um decide",
+  "table": {
+    "dense": true,
+    "columns": [ { "label": "Exame", "width": "390px" },
+                 { "label": "Decide o quê", "style": "why" },
+                 { "label": "", "style": "tag" } ],
+    "rows": [
+      { "cells": ["Ultrassom de abdome",
+                  "Se há gordura no fígado. É a peça que falta para fechar a explicação da ferritina.",
+                  "prioridade"] } ] } }
+```
+
+O modelo é por COLUNA, não por campos fixos, porque as combinações mudam de slide para slide
+("exame | decide o quê | prioridade" num, "o quê | quanto | por quê" no outro). `style`:
+
+| `style` | comportamento | quando usar |
+|---|---|---|
+| (vazio) | texto normal, quebra linha | coluna do meio com frase curta |
+| `why` | cinza, menor | a coluna que explica |
+| `dose` | **não quebra linha** | número e dose. NUNCA prosa: um texto longo aqui vaza o slide para fora da moldura |
+| `tag` | selo | rótulo curto ("prioridade", "útil") |
+
+A primeira coluna sai sempre em destaque. `muted: true` risca a linha, para o item considerado e
+descartado.
+
+## 7 · `sequence` — os próximos meses
 
 ```json
 { "kind": "sequence", "title": "Os próximos três meses, em ordem",
@@ -132,7 +164,11 @@ Uma conduta por slide. Aceita também um bloco `takeaway` quando a conduta tem d
 
 `when` é relativo ("em 4 semanas"), não data absoluta: o paciente lê isso semanas depois.
 
-## 7 · `takeaway` — o que começa a tomar agora
+**Na prática os dois decks reais usaram `table` para a sequência**, não este bloco: uma coluna de
+"quando" e outra de "o quê" cabem mais linhas na mesma página. Use `sequence` quando cada passo
+precisa de uma linha de detalhe embaixo; use `table` quando a lista é longa.
+
+## 8 · `takeaway` — o que começa a tomar agora
 
 ```json
 { "kind": "takeaway", "eyebrow": "Para levar", "title": "O que você começa a tomar agora",
@@ -148,7 +184,7 @@ Uma conduta por slide. Aceita também um bloco `takeaway` quando a conduta tem d
 
 `highlight` é o que muda o tratamento, um só. Três `groups` cabem lado a lado.
 
-## 8 · `closing` — em uma página
+## 9 · `closing` — em uma página
 
 ```json
 { "kind": "closing", "variant": "deep", "eyebrow": "Em uma página",
