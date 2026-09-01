@@ -1,6 +1,11 @@
 package models
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
+
+func ptrS(v string) *string { return &v }
 
 // Os pares abaixo são os que aparecem DE VERDADE em produção e no dev, colhidos cruzando
 // score_items.unit com lab_results.unit nos snapshots mais recentes. A guarda de unidade só
@@ -129,5 +134,60 @@ func TestUnitMatches_SinonimosCuradosDoExame(t *testing.T) {
 	ferritina := &ScoreItem{Unit: &ngml}
 	if !ferritina.UnitMatches("ug/L", [][2]string{{"ng/mL", "µg/L"}}) {
 		t.Error("o par curado tem que casar mesmo com o laudo escrevendo u no lugar de µ")
+	}
+}
+
+// O motivo de não aplicar tem que sair da MESMA lógica que decide. Antes ele era montado à parte
+// e culpava o sexo sempre que o item tinha sexo declarado, produzindo "sexo female requerido
+// (paciente: female)" em 43 itens de uma paciente — a frase se contradizia e escondia a causa.
+func TestMotivoDeNaoAplicar(t *testing.T) {
+	b := func(v bool) *bool { return &v }
+	i := func(v int) *int { return &v }
+
+	mulherPos := &Patient{Gender: "female", Age: 63, Menopause: b(true)}
+	mulherSemDado := &Patient{Gender: "female", Age: 63}
+	homem := &Patient{Gender: "male", Age: 41}
+
+	casos := []struct {
+		nome     string
+		item     *ScoreItem
+		paciente *Patient
+		contem   string
+	}{
+		{"sexo trocado", &ScoreItem{Gender: ptrS("female")}, homem, "sexo feminino"},
+		{"idade abaixo do piso", &ScoreItem{AgeRangeMin: i(50)}, homem, "a partir de 50 anos"},
+		{"idade acima do teto", &ScoreItem{AgeRangeMax: i(40)}, homem, "até 40 anos"},
+		{"menopausa não registrada", &ScoreItem{Gender: ptrS("female"), PostMenopause: b(true)}, mulherSemDado, "não está registrado"},
+		{"item de antes da menopausa", &ScoreItem{Gender: ptrS("female"), PostMenopause: b(false)}, mulherPos, "antes da menopausa"},
+		{"TRH não registrada", &ScoreItem{Gender: ptrS("female"), HormoneTherapy: b(true)}, mulherPos, "reposição hormonal"},
+	}
+	for _, c := range casos {
+		got := c.item.MotivoDeNaoAplicar(c.paciente)
+		if got == "" {
+			t.Errorf("%s: devolveu vazio, esperava um motivo", c.nome)
+			continue
+		}
+		if !strings.Contains(got, c.contem) {
+			t.Errorf("%s: motivo %q não contém %q", c.nome, got, c.contem)
+		}
+		if c.item.AppliesToPatient(c.paciente) {
+			t.Errorf("%s: AppliesToPatient disse que aplica, mas há motivo %q", c.nome, got)
+		}
+	}
+
+	// E o caso que motivou tudo: item feminino numa paciente feminina não pode gerar frase de
+	// sexo. Se não aplicar, é por outra razão, e é essa que tem que aparecer.
+	itemPre := &ScoreItem{Gender: ptrS("female"), PostMenopause: b(false)}
+	motivo := itemPre.MotivoDeNaoAplicar(mulherPos)
+	if strings.Contains(motivo, "sexo") {
+		t.Errorf("motivo %q culpa o sexo numa paciente do sexo certo", motivo)
+	}
+
+	// Item que se aplica não tem motivo.
+	if m := (&ScoreItem{Gender: ptrS("female"), PostMenopause: b(true)}).MotivoDeNaoAplicar(mulherPos); m != "" {
+		t.Errorf("item aplicável devolveu motivo %q", m)
+	}
+	if m := (&ScoreItem{}).MotivoDeNaoAplicar(homem); m != "" {
+		t.Errorf("item sem restrição devolveu motivo %q", m)
 	}
 }

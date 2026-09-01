@@ -383,16 +383,11 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 		return result
 	}
 
-	// 1. Check if item applies to this patient
-	if !item.AppliesToPatient(patient) {
+	// 1. Check if item applies to this patient. O motivo vem da MESMA função que decide, para
+	// a frase não poder contradizer a decisão.
+	if motivo := item.MotivoDeNaoAplicar(patient); motivo != "" {
 		result.Status = models.EvaluationStatusNotApplicable
-		reason := fmt.Sprintf("Item não aplicável ao paciente")
-		if item.Gender != nil && *item.Gender != "not_applicable" {
-			reason = fmt.Sprintf("Item não aplicável: sexo %s requerido (paciente: %s)", *item.Gender, patient.Gender)
-		} else if item.AgeRangeMin != nil || item.AgeRangeMax != nil {
-			reason = fmt.Sprintf("Item não aplicável: fora da faixa etária")
-		}
-		result.NotEvaluatedReason = &reason
+		result.NotEvaluatedReason = &motivo
 		return result
 	}
 

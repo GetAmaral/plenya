@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 	"time"
@@ -368,48 +369,65 @@ func NormalizaUnidade(u string) string {
 
 // AppliesToPatient verifica se este ScoreItem se aplica ao paciente baseado em gênero, idade e menopausa
 func (si *ScoreItem) AppliesToPatient(patient *Patient) bool {
-	// Filtro de gênero
-	if si.Gender != nil && *si.Gender != "not_applicable" {
-		if *si.Gender != string(patient.Gender) {
-			return false
-		}
+	return si.MotivoDeNaoAplicar(patient) == ""
+}
+
+// MotivoDeNaoAplicar diz, em português de prontuário, por que este item não vale para este
+// paciente — ou "" se vale. É a MESMA lógica de AppliesToPatient, e de propósito: antes o motivo
+// era montado à parte, olhando só se o item tinha sexo declarado, e saía "sexo female requerido
+// (paciente: female)" em 43 itens de uma paciente. A frase se contradizia porque a causa real era
+// outra (menopausa, TRH, faixa etária) e ninguém tinha como saber lendo o prontuário.
+func (si *ScoreItem) MotivoDeNaoAplicar(patient *Patient) string {
+	if si.Gender != nil && *si.Gender != "not_applicable" && *si.Gender != string(patient.Gender) {
+		return "Item não aplicável: é de paciente do sexo " + sexoPorExtenso(*si.Gender)
 	}
 
-	// Filtro de idade mínima
 	if si.AgeRangeMin != nil && patient.Age < *si.AgeRangeMin {
-		return false
+		return fmt.Sprintf("Item não aplicável: vale a partir de %d anos (paciente tem %d)", *si.AgeRangeMin, patient.Age)
 	}
-
-	// Filtro de idade máxima
 	if si.AgeRangeMax != nil && patient.Age > *si.AgeRangeMax {
-		return false
+		return fmt.Sprintf("Item não aplicável: vale até %d anos (paciente tem %d)", *si.AgeRangeMax, patient.Age)
 	}
 
-	// Filtro de pós-menopausa (apenas para mulheres)
+	// Menopausa e reposição hormonal só filtram mulheres, e item que não declara a condição não
+	// filtra por ela. Quando o item declara e a paciente não tem o dado, o item não é "não
+	// aplicável": é indeterminado, e dizer isso é o que faz a recepção preencher o cadastro.
 	if patient.Gender == "female" && si.PostMenopause != nil {
-		// Se o paciente não tem informação de menopausa, não pode aplicar
 		if patient.Menopause == nil {
-			return false
+			return "Item não avaliado: depende do estado de menopausa, que não está registrado no cadastro"
 		}
-		// O scoreItem requer status específico de menopausa
 		if *si.PostMenopause != *patient.Menopause {
-			return false
+			if *si.PostMenopause {
+				return "Item não aplicável: é de paciente na pós-menopausa"
+			}
+			return "Item não aplicável: é de paciente antes da menopausa"
 		}
 	}
 
-	// Filtro de terapia de reposição hormonal (apenas para mulheres). Mesma regra do
-	// filtro acima: item que não declara TRH não filtra por isso; item que declara exige
-	// o dado na paciente e exige que bata.
 	if patient.Gender == "female" && si.HormoneTherapy != nil {
 		if patient.HormoneTherapy == nil {
-			return false
+			return "Item não avaliado: depende de saber se faz reposição hormonal, que não está registrado no cadastro"
 		}
 		if *si.HormoneTherapy != *patient.HormoneTherapy {
-			return false
+			if *si.HormoneTherapy {
+				return "Item não aplicável: é de paciente em reposição hormonal"
+			}
+			return "Item não aplicável: é de paciente sem reposição hormonal"
 		}
 	}
 
-	return true
+	return ""
+}
+
+func sexoPorExtenso(g string) string {
+	switch g {
+	case "male":
+		return "masculino"
+	case "female":
+		return "feminino"
+	default:
+		return g
+	}
 }
 
 // GetFullName retorna o nome completo do ScoreItem no formato:
