@@ -10,8 +10,8 @@
 |---|---|---|
 | 1 | Identidade do slide + revisões + concorrência otimista | ✅ dev (`0abbfff0`, mig 00092) |
 | 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | ✅ dev (`7bdff7ba`, `86851e94`, mig 00093) |
-| 3 | Ops, classificação e índice numérico (sem IA) | 🔨 próxima |
-| 4 | Cartões e os 6 editores | ⬜ |
+| 3 | Ops, classificação e índice numérico (sem IA) | ✅ dev (`28c13928`), 28 testes |
+| 4 | Cartões e os 6 editores | 🔨 próxima |
 | 5 | A conversa, triagem e sugestões | ⬜ |
 | 6 | Auditoria de conteúdo gerado | ⬜ |
 
@@ -21,6 +21,15 @@
 - dossiê congelado do paciente de dev: 107 réguas, 28 se movendo, 73 no bom
 - envelhecimento e diff verificados: recalcular o escore acende `stale`, e o diff responde
   "nenhum exame citado mudou" — restrito ao que o deck cita, não ao dossiê inteiro
+
+### Medido na fase 3
+
+Contra o dossiê real de uma paciente de produção (83 réguas, 2.086 fatos indexados):
+**197 de 197 valores do histórico reencontrados**, nenhum número inventado casou. O fixture real
+não foi versionado (dado clínico mora em `pacs/`); ficaram no teste os onze formatos observados,
+com as contagens.
+
+A triagem é toda testável sem chamar modelo, e é o que decide se a feature é segura.
 
 ### Débito consciente
 
