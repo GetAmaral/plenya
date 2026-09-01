@@ -339,6 +339,11 @@ func NormalizaUnidade(u string) string {
 		}
 	}
 
+	// Vírgula decimal e expoente por extenso: a TFG sai como `mL/min/1,73m2`, `mL/min/1.73m²`
+	// e `mL/min/1,73 m²` conforme o laboratório. É a mesma superfície corporal nas três.
+	s = strings.ReplaceAll(s, ",", ".")
+	s = strings.ReplaceAll(s, "²", "2")
+
 	// Hora por extenso ou abreviada (VHS sai como `mm/h`, `mm/hr` e `mm/Hora`).
 	s = strings.ReplaceAll(s, "/hora", "/h")
 	s = strings.ReplaceAll(s, "/hr", "/h")

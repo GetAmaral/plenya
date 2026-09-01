@@ -30,6 +30,8 @@ func TestUnitMatches_ParesReaisDoCatalogo(t *testing.T) {
 		{"mm/hr", "mm", true, "o laudo escreve hr no lugar de h"},
 		{"mm/hr", "mm/h", true, "idem"},
 		{"mm/hr", "mm/Hora", true, "e por extenso também"},
+		{"mL/min/1.73m²", "mL/min/1,73m2", true, "a mesma superfície corporal, escrita de três jeitos"},
+		{"mL/min/1.73m²", "mL/min/1,73 m²", true, "idem"},
 		{"µg/dL", "µg/100 mL", true, "1 dL = 100 mL, por definição"},
 		{"mIU/mL", "UI/L", true, "1 mIU/mL = 1 IU/L, exato"},
 		{"µUI/mL", "µIU/mL", true, "as duas grafias da mesma unidade têm que convergir"},
