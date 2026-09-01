@@ -5165,6 +5165,73 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/lab-coverage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Quando o paciente fez cada exame
+         * @description Resolve o painel pelos analitos FILHOS: o laboratório não reporta "hemograma
+         *     completo", reporta hemoglobina e plaquetas. Cruzar o protocolo olhando só o painel
+         *     diz "nunca feito" e manda repetir exame de quem acabou de fazer.
+         */
+        get: {
+            parameters: {
+                query?: {
+                    /** @description Só o que dá para pedir (padrão: true) */
+                    onlyRequestable?: boolean;
+                    /** @description Só o que já foi feito (padrão: false) */
+                    doneOnly?: boolean;
+                };
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.LabCoverageResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plan-dossier": {
         parameters: {
             query?: never;
@@ -17485,6 +17552,36 @@ export interface components {
         "dto.GoogleOAuthRequest": {
             idToken: string;
         };
+        "dto.LabCoverageEntry": {
+            /**
+             * @description Para painel, DOIS números, e a diferença entre eles é clínica:
+             *
+             *       ChildrenDone      — quantos analitos vieram NA COLETA de `lastDoneAt`.
+             *       ChildrenDoneEver  — quantos já vieram alguma vez, em qualquer coleta.
+             *
+             *     Medido neste banco, "Rotina de urina" tem 14 analitos já vistos mas só 8 na coleta mais
+             *     recente; os outros 6 são de três meses antes. Mostrar 14 ao lado de "há 204 dias" faz o
+             *     médico deixar de pedir analito que não foi colhido — exatamente o erro que este endpoint
+             *     existe para evitar, só que ao contrário.
+             */
+            childrenDone?: number;
+            childrenDoneEver?: number;
+            childrenTotal?: number;
+            code?: string;
+            /** @description DaysAgo — há quantos dias. É o número que decide se vale repetir. */
+            daysAgo?: number;
+            /** @description LastDoneAt — AAAA-MM-DD da coleta mais recente. Vazio quando nunca foi feito. */
+            lastDoneAt?: string;
+            name?: string;
+            via?: components["schemas"]["dto.LabCoverageVia"];
+        };
+        "dto.LabCoverageResponse": {
+            entries?: components["schemas"]["dto.LabCoverageEntry"][];
+            generatedAt?: string;
+            patientId?: string;
+        };
+        /** @enum {string} */
+        "dto.LabCoverageVia": "never" | "own" | "children";
         "dto.LabInboxCountResponse": {
             critical?: number;
             total?: number;

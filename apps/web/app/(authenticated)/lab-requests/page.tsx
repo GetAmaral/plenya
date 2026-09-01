@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useRequireSelectedPatient } from '@/lib/use-require-selected-patient'
 import { usePatientGuard } from '@/lib/use-patient-guard'
 import { SelectedPatientHeader } from '@/components/patients/SelectedPatientHeader'
+import { LabCoverageCard } from '@/components/lab-results/lab-coverage-card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -69,6 +70,10 @@ export default function LabRequestsPage() {
   return (
     <div className="container mx-auto py-8 space-y-8">
       <SelectedPatientHeader />
+
+      {/* O que o paciente já fez, com o painel resolvido pelos analitos filhos: sem isto, o
+          cruzamento manual dizia "nunca feito" e o exame era pedido de novo. */}
+      {selectedPatient?.id && <LabCoverageCard patientId={selectedPatient.id} />}
 
       <PageHeader
         breadcrumbs={[{ label: 'Pedidos de Exames' }]}

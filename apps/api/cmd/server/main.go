@@ -490,6 +490,10 @@ func setupRoutes(
 	carePlanReportService := services.NewCarePlanReportService(database.DB, scoreSnapshotRepo, carePlanService, signatureService, patientDocumentsService)
 	carePlanHandler := handlers.NewCarePlanHandler(carePlanService, carePlanReportService)
 
+	// Cobertura de exames: quando o paciente fez cada um, resolvendo painel pelos analitos filhos.
+	labCoverageService := services.NewLabCoverageService(database.DB)
+	labCoverageHandler := handlers.NewLabCoverageHandler(labCoverageService)
+
 	// Dossiê do plano de paciente: deriva do prontuário o insumo da devolutiva (réguas por exame,
 	// achados classificados e ordenados por peso), no lugar do reguas.json montado à mão.
 	patientPlanDossierService := services.NewPatientPlanDossierService(database.DB, scoreSnapshotRepo, carePlanService)
@@ -1439,6 +1443,9 @@ func setupRoutes(
 	patients.Delete("/:id/care-plan-items/:itemId", middleware.RequireClinician(), carePlanHandler.Delete)
 	// Relatório longitudinal AGIR — gera/assina/publica no portal (RequireDoctor).
 	patients.Post("/:id/care-plan-report", middleware.RequireDoctor(), carePlanHandler.GenerateReport)
+
+	// Quando o paciente fez cada exame. Leitura clínica.
+	patients.Get("/:id/lab-coverage", middleware.RequireClinician(), labCoverageHandler.GetCoverage)
 
 	// Dossiê do plano de paciente (insumo da devolutiva). Leitura clínica.
 	patients.Get("/:id/plan-dossier", middleware.RequireClinician(), patientPlanHandler.GetDossier)
