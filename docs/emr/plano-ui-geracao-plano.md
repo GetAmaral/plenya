@@ -9,11 +9,25 @@
 | Fase | O quê | Estado |
 |---|---|---|
 | 1 | Identidade do slide + revisões + concorrência otimista | ✅ dev (`0abbfff0`, mig 00092) |
-| 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | 🔨 próxima |
-| 3 | Ops, classificação e índice numérico (sem IA) | ⬜ |
+| 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | ✅ dev (`7bdff7ba`, `86851e94`, mig 00093) |
+| 3 | Ops, classificação e índice numérico (sem IA) | 🔨 próxima |
 | 4 | Cartões e os 6 editores | ⬜ |
 | 5 | A conversa, triagem e sugestões | ⬜ |
 | 6 | Auditoria de conteúdo gerado | ⬜ |
+
+### Medido na fase 2
+
+- prévia: **1.970.060 → 75.871 bytes** (96% eram as sete fontes em base64), 26× menor
+- dossiê congelado do paciente de dev: 107 réguas, 28 se movendo, 73 no bom
+- envelhecimento e diff verificados: recalcular o escore acende `stale`, e o diff responde
+  "nenhum exame citado mudou" — restrito ao que o deck cita, não ao dossiê inteiro
+
+### Débito consciente
+
+QA visual da coluna com dados reais não foi feita: o eslint do repo está com o config quebrado
+(referência circular, falha igual em arquivo intocado) e o Playwright não está instalado. Typecheck
+limpo e a página renderiza sem erro de runtime. Fica para a fase 4, onde o editor torna a
+verificação visual obrigatória.
 
 ---
 
