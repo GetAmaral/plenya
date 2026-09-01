@@ -12,7 +12,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /server ./cmd/server \
  && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /migrate ./cmd/migrate \
  && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /backfill-patient-phones ./cmd/backfill-patient-phones \
  && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /import-cmed ./cmd/import-cmed \
- && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /reconvert-lab-units ./cmd/reconvert-lab-units
+ && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /reconvert-lab-units ./cmd/reconvert-lab-units \
+ && CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /recalc-scores ./cmd/recalc-scores
 
 # Runtime (imagem final com OCR dependencies)
 FROM alpine:3.21
@@ -44,6 +45,7 @@ COPY --from=builder /backfill-patient-phones .
 # docker exec com o XLSX copiado para /tmp — ver o comentário em cmd/import-cmed.
 COPY --from=builder /import-cmed .
 COPY --from=builder /reconvert-lab-units .
+COPY --from=builder /recalc-scores .
 COPY prod-entrypoint.sh .
 RUN chmod +x prod-entrypoint.sh
 
