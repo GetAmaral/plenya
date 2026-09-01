@@ -23,6 +23,7 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 
+	"github.com/plenya/api/internal/crypto"
 	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/services"
 )
@@ -41,6 +42,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// O model Patient descriptografa CPF/RG no AfterFind: sem a chave, carregar o paciente falha
+	// e o recálculo não sai do lugar.
+	if err := crypto.Init(os.Getenv("ENCRYPTION_KEY")); err != nil {
+		fmt.Println("ENCRYPTION_KEY:", err)
+		os.Exit(1)
+	}
+	blind := os.Getenv("BLIND_INDEX_KEY")
+	if blind == "" {
+		blind = os.Getenv("ENCRYPTION_KEY")
+	}
+	crypto.SetBlindIndexKey(blind)
 
 	// Autoria do recálculo: um usuário administrativo real, para o snapshot não ficar órfão.
 	var autorTexto string
