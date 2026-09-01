@@ -2,12 +2,17 @@ package repository
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/plenya/api/internal/models"
 )
+
+// ErrNoSnapshots — o paciente ainda não teve escore calculado. Não é falha: é o estado de todo
+// paciente novo. Envelopa gorm.ErrRecordNotFound para os dois testes de erro funcionarem.
+var ErrNoSnapshots = errors.New("no snapshots found for patient")
 
 // ScoreSnapshotRepository handles database operations for patient score snapshots
 type ScoreSnapshotRepository struct {
@@ -116,7 +121,11 @@ func (r *ScoreSnapshotRepository) GetLatestByPatientID(patientID uuid.UUID) (*mo
 
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("no snapshots found for patient")
+			// Envelopa em vez de trocar por um erro solto: paciente sem escore calculado é
+			// situação NORMAL (todo paciente novo é assim), e quem chama precisa conseguir
+			// distinguir isso de uma falha de banco. Um errors.New aqui não casava com nenhum
+			// errors.Is do chamador, então "sem escore" virava 500.
+			return nil, fmt.Errorf("%w: %w", ErrNoSnapshots, gorm.ErrRecordNotFound)
 		}
 		return nil, err
 	}

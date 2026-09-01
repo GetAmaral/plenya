@@ -19,8 +19,7 @@ import {
   CheckCircle2,
   Edit,
   FileText,
-  Workflow,
-} from "lucide-react";
+  Workflow, Presentation } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -179,6 +178,12 @@ export default function PatientDetailPage() {
             icon: <Workflow className="h-4 w-4" />,
             variant: "outline",
             onClick: () => router.push(`/patients/${patientId}/continuum`),
+          },
+          {
+            label: "Plano",
+            icon: <Presentation className="h-4 w-4" />,
+            variant: "outline",
+            onClick: () => router.push(`/patients/${patientId}/plano`),
           },
           {
             label: "Editar",

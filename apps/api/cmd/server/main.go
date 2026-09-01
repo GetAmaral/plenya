@@ -490,6 +490,13 @@ func setupRoutes(
 	carePlanReportService := services.NewCarePlanReportService(database.DB, scoreSnapshotRepo, carePlanService, services.NewScorePDFService(), signatureService, patientDocumentsService)
 	carePlanHandler := handlers.NewCarePlanHandler(carePlanService, carePlanReportService)
 
+	// Dossiê do plano de paciente: deriva do prontuário o insumo da devolutiva (réguas por exame,
+	// achados classificados e ordenados por peso), no lugar do reguas.json montado à mão.
+	patientPlanDossierService := services.NewPatientPlanDossierService(database.DB, scoreSnapshotRepo, carePlanService)
+	// O plano em si (o "deck"): mesmo conteúdo, três saídas — tela do portal, PDF 16:9 e A4.
+	patientPlanService := services.NewPatientPlanService(database.DB, patientDocumentsService)
+	patientPlanHandler := handlers.NewPatientPlanHandler(patientPlanDossierService, patientPlanService)
+
 	// Calendar V1 (Bloco F): IA detecta intent (CONFIRM/CANCEL/RESCHEDULE) em
 	// mensagens WhatsApp inbound de pacientes. Hook é registrado no LeadService
 	// pra fechar o ciclo sem dep direta entre services.
@@ -1429,6 +1436,19 @@ func setupRoutes(
 	patients.Delete("/:id/care-plan-items/:itemId", middleware.RequireClinician(), carePlanHandler.Delete)
 	// Relatório longitudinal AGIR — gera/assina/publica no portal (RequireDoctor).
 	patients.Post("/:id/care-plan-report", middleware.RequireDoctor(), carePlanHandler.GenerateReport)
+
+	// Dossiê do plano de paciente (insumo da devolutiva). Leitura clínica.
+	patients.Get("/:id/plan-dossier", middleware.RequireClinician(), patientPlanHandler.GetDossier)
+
+	// Plano de devolutiva (o "deck"). Montar e publicar é ato clínico.
+	patients.Get("/:id/plans", middleware.RequireClinician(), patientPlanHandler.List)
+	patients.Post("/:id/plans", middleware.RequireClinician(), patientPlanHandler.Create)
+	patients.Get("/:id/plans/:planId", middleware.RequireClinician(), patientPlanHandler.Get)
+	patients.Put("/:id/plans/:planId", middleware.RequireClinician(), patientPlanHandler.Update)
+	patients.Delete("/:id/plans/:planId", middleware.RequireClinician(), patientPlanHandler.Delete)
+	patients.Get("/:id/plans/:planId/preview", middleware.RequireClinician(), patientPlanHandler.Preview)
+	patients.Get("/:id/plans/:planId/overflow", middleware.RequireClinician(), patientPlanHandler.CheckOverflow)
+	patients.Post("/:id/plans/:planId/publish", middleware.RequireClinician(), patientPlanHandler.Publish)
 
 	// Catálogo CID-10 (curado) — busca para autocomplete do problem list.
 	cidCodes := v1.Group("/cid-codes")

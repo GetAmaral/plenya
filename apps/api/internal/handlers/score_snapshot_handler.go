@@ -1,12 +1,15 @@
 package handlers
 
 import (
+	"errors"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/middleware"
+	"github.com/plenya/api/internal/repository"
 	"github.com/plenya/api/internal/services"
 )
 
@@ -138,7 +141,7 @@ func (h *ScoreSnapshotHandler) GetLatestSnapshotByPatientID(c *fiber.Ctx) error 
 
 	snapshot, err := h.snapshotService.GetLatestSnapshotByPatientID(patientID)
 	if err != nil {
-		if err.Error() == "no snapshots found for patient" {
+		if errors.Is(err, repository.ErrNoSnapshots) {
 			return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 				Error:   "no snapshots found",
 				Message: "no score snapshots found for this patient",

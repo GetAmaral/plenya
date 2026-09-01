@@ -5078,6 +5078,446 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/plan-dossier": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Dossiê do plano de paciente
+         * @description Insumo derivado do prontuário para montar a devolutiva: uma régua por exame (escala
+         *     do escore aplicável ao paciente + histórico dele), achados separados em "está bem" e
+         *     "está se movendo" e ordenados por pontos perdidos, mais plano de cuidado, último
+         *     pedido de exames e prescrições ativas.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PlanDossierResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Internal Server Error */
+                500: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Lista os planos de devolutiva do paciente */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"][];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Cria um plano de devolutiva */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: components["requestBodies"]["dto.SavePatientPlanRequest"];
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Carrega um plano de devolutiva */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        /** Reescreve um plano (volta para rascunho) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: components["requestBodies"]["dto.SavePatientPlanRequest"];
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Apaga um plano */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "*/*": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/overflow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Mede quais slides transbordam
+         * @description Lista vazia = pode publicar. O slide tem altura fixa e overflow:hidden, então
+         *     conteúdo demais some do PDF sem erro nenhum; esta medição é o que impede isso.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            [key: string]: components["schemas"]["pdfdoc.DeckOverflow"][];
+                        };
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Prévia do deck em HTML
+         * @description O MESMO HTML que vira os dois PDFs. É o que a tela de montagem mostra e a base da tela do portal.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description HTML do deck */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/html": string;
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/html": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/patients/{id}/plans/{planId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Publica o plano no portal do paciente
+         * @description Gera o PDF 16:9 (apresentar/mandar) e o A4 paisagem (imprimir) a partir do MESMO
+         *     conteúdo e publica os dois. Recusa com 422 se algum slide transbordar.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                    /** @description ID do plano (UUID) */
+                    planId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Unprocessable Entity */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.PatientPlanOverflowResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/score-snapshots": {
         parameters: {
             query?: never;
@@ -16557,6 +16997,24 @@ export interface components {
             refreshToken?: string;
             user?: components["schemas"]["dto.UserDTO"];
         };
+        "dto.CarePlanItemResponse": {
+            authorName?: string;
+            authorRole?: string;
+            authorUserId?: string;
+            createdAt?: string;
+            id?: string;
+            labTestCode?: string;
+            letterCode?: string;
+            patientId?: string;
+            priority?: string;
+            rationale?: string;
+            recommendation?: string;
+            scoreItemId?: string;
+            sourceSnapshotId?: string;
+            status?: string;
+            target?: string;
+            updatedAt?: string;
+        };
         /** @description Histórico longitudinal de um item clínico (todas as origens) */
         "dto.ClinicalItemHistoryResponse": {
             entries?: components["schemas"]["dto.ClinicalTimelineEntry"][];
@@ -17150,6 +17608,26 @@ export interface components {
             offset?: number;
             total?: number;
         };
+        "dto.PatientPlanOverflowResponse": {
+            error?: string;
+            slides?: components["schemas"]["pdfdoc.DeckOverflow"][];
+        };
+        "dto.PatientPlanResponse": {
+            authorUserId?: string;
+            content?: components["schemas"]["pdfdoc.DeckSlide"][];
+            createdAt?: string;
+            /** @description Documentos publicados no portal: o 16:9 para ver e mandar, o A4 para imprimir. */
+            document16x9Id?: string;
+            documentA4Id?: string;
+            id?: string;
+            patientId?: string;
+            publishedAt?: string;
+            sourceSnapshotId?: string;
+            status?: string;
+            title?: string;
+            updatedAt?: string;
+            version?: number;
+        };
         "dto.PatientResponse": {
             address?: string;
             age?: number;
@@ -17181,6 +17659,115 @@ export interface components {
             updatedAt?: string;
             userId?: string;
             weight?: number;
+        };
+        "dto.PlanDossierLabRequest": {
+            date?: string;
+            exams?: string;
+            id?: string;
+            signedAt?: string;
+        };
+        "dto.PlanDossierPatient": {
+            age?: number;
+            gender?: string;
+            id?: string;
+            name?: string;
+        };
+        "dto.PlanDossierPrescription": {
+            date?: string;
+            id?: string;
+            signedAt?: string;
+            status?: string;
+            type?: string;
+        };
+        "dto.PlanDossierResponse": {
+            carePlan?: components["schemas"]["dto.CarePlanItemResponse"][];
+            generatedAt?: string;
+            labRequest?: components["schemas"]["dto.PlanDossierLabRequest"];
+            moving?: components["schemas"]["dto.PlanFinding"][];
+            patient?: components["schemas"]["dto.PlanDossierPatient"];
+            prescriptions?: components["schemas"]["dto.PlanDossierPrescription"][];
+            rulers?: {
+                [key: string]: components["schemas"]["dto.PlanRuler"];
+            };
+            snapshot?: components["schemas"]["dto.PlanDossierSnapshot"];
+            strong?: components["schemas"]["dto.PlanFinding"][];
+        };
+        "dto.PlanDossierSnapshot": {
+            calculatedAt?: string;
+            id?: string;
+            totalPercentage?: number;
+        };
+        "dto.PlanFinding": {
+            code?: string;
+            date?: string;
+            kind?: components["schemas"]["dto.PlanFindingKind"];
+            level?: number;
+            name?: string;
+            points?: number;
+            /**
+             * @description PointsLost — quanto do peso do item o paciente está deixando na mesa. É o critério de
+             *     ordenação: o que mais pesa aparece primeiro.
+             */
+            pointsLost?: number;
+            /** @description Reason — por que este achado entrou nesta lista, em uma frase. */
+            reason?: string;
+            text?: string;
+            trend?: components["schemas"]["dto.PlanFindingTrend"];
+            unit?: string;
+            value?: number;
+        };
+        /** @enum {string} */
+        "dto.PlanFindingKind": "strong" | "moving";
+        /** @enum {string} */
+        "dto.PlanFindingTrend": "single" | "stable" | "improving" | "worsening";
+        "dto.PlanRuler": {
+            /** @description Axis — [mínimo, máximo] do eixo desenhado. Sempre 2 elementos. */
+            axis?: number[];
+            /** @description lab_test_definitions.code (ex.: "PLNCEFB97FD") */
+            code?: string;
+            /** @description Edges — fronteiras finitas entre níveis, ordenadas. */
+            edges?: number[];
+            /** @description ordenado da coleta mais antiga para a mais recente */
+            history?: components["schemas"]["dto.PlanRulerPoint"][];
+            /** @description nome do score_item aplicável ("Ferritina - Homens") */
+            name?: string;
+            /** @description peso do item no escore */
+            points?: number;
+            /**
+             * @description ScoreItemID — QUAL variante do item foi usada. Um mesmo código pode ter várias (por sexo,
+             *     faixa etária, menopausa); sem isto não dá para saber de qual escala esta régua veio.
+             */
+            scoreItemId?: string;
+            segments?: components["schemas"]["dto.PlanRulerSegment"][];
+            /** @description unidade padrão do item */
+            unit?: string;
+        };
+        "dto.PlanRulerPoint": {
+            /** @description AAAA-MM-DD da coleta */
+            date?: string;
+            /** @description nível do escore; nil quando não classificado */
+            level?: number;
+            /** @description nome do exame como veio no laudo */
+            name?: string;
+            /** @description resultado censurado para cima (">1000") */
+            over?: boolean;
+            /** @description valor de plotagem (igual a Value, preso ao eixo) */
+            plot?: number;
+            /** @description faixa de referência impressa pelo laboratório */
+            ref?: string;
+            /** @description valor formatado PT-BR ("1,023") */
+            text?: string;
+            /** @description resultado censurado para baixo ("<0,10") */
+            under?: boolean;
+            /** @description valor já convertido para a unidade padrão */
+            value?: number;
+        };
+        "dto.PlanRulerSegment": {
+            a?: number;
+            b?: number;
+            /** @description Label legível da faixa ("≤15", "15-30", ">300"), com vírgula decimal PT-BR. */
+            label?: string;
+            level?: number;
         };
         "dto.PrepareEnrichmentRequest": {
             /**
@@ -17296,6 +17883,11 @@ export interface components {
             email: string;
             password: string;
             roles: string[];
+        };
+        "dto.SavePatientPlanRequest": {
+            content?: components["schemas"]["pdfdoc.DeckSlide"][];
+            sourceSnapshotId?: string;
+            title?: string;
         };
         "dto.UpdateAnamnesisTemplateItemsRequest": {
             items: components["schemas"]["dto.AnamnesisTemplateItemData"][];
@@ -20208,6 +20800,130 @@ export interface components {
             /** @description Data de atualização */
             updatedAt?: string;
         };
+        "pdfdoc.DeckCard": {
+            body?: string;
+            dim?: boolean;
+            focus?: boolean;
+            kicker?: string;
+        };
+        "pdfdoc.DeckDose": {
+            dose?: string;
+            name?: string;
+            sub?: string;
+        };
+        "pdfdoc.DeckDoseGroup": {
+            items?: components["schemas"]["pdfdoc.DeckDose"][];
+            title?: string;
+        };
+        "pdfdoc.DeckHighlight": {
+            dose?: string;
+            name?: string;
+            obs?: string;
+            unit?: string;
+            when?: string;
+        };
+        "pdfdoc.DeckOverflow": {
+            /** @description px que vazaram embaixo */
+            bottom?: number;
+            /** @description px que vazaram à direita */
+            right?: number;
+            /** @description 1-based, igual à numeração impressa */
+            slide?: number;
+            /** @description para o autor saber qual é sem contar slides */
+            title?: string;
+        };
+        "pdfdoc.DeckRulerBlock": {
+            axis?: number[];
+            code?: string;
+            /** @description nome que o paciente lê ("Ferritina"), não o do catálogo */
+            display?: string;
+            history?: components["schemas"]["pdfdoc.RulerPoint"][];
+            /**
+             * @description Note — uma linha de leitura clínica embaixo da régua. É também onde mora o RÓTULO
+             *     AVALIATIVO quando o slide não o traz no título: barra colorida sem rótulo tem desempenho
+             *     pior do que barra colorida com rótulo.
+             */
+            note?: string;
+            segments?: components["schemas"]["pdfdoc.RulerSegment"][];
+            sub?: string;
+            unit?: string;
+        };
+        "pdfdoc.DeckSeqStep": {
+            detail?: string;
+            what?: string;
+            when?: string;
+        };
+        "pdfdoc.DeckSlide": {
+            cards?: components["schemas"]["pdfdoc.DeckCard"][];
+            eyebrow?: string;
+            kicker?: string;
+            kind?: components["schemas"]["pdfdoc.DeckSlideKind"];
+            lede?: string;
+            legend?: boolean;
+            punch?: string;
+            rulers?: components["schemas"]["pdfdoc.DeckRulerBlock"][];
+            source?: string;
+            steps?: components["schemas"]["pdfdoc.DeckSeqStep"][];
+            summary?: components["schemas"]["pdfdoc.DeckSummaryBlock"];
+            takeaway?: components["schemas"]["pdfdoc.DeckTakeawayBox"];
+            title?: string;
+            variant?: string;
+        };
+        /** @enum {string} */
+        "pdfdoc.DeckSlideKind": "cover" | "summary" | "rulers" | "two-cards" | "plan-step" | "sequence" | "takeaway" | "closing";
+        "pdfdoc.DeckSummaryBlock": {
+            cards?: components["schemas"]["pdfdoc.DeckSummaryCard"][];
+            legend?: string;
+            steps?: string[];
+            stepsTitle?: string;
+        };
+        "pdfdoc.DeckSummaryCard": {
+            lines?: components["schemas"]["pdfdoc.DeckSummaryLine"][];
+            title?: string;
+            /** @description "bom" | "ruim" */
+            tone?: string;
+        };
+        "pdfdoc.DeckSummaryLine": {
+            name?: string;
+            plot?: number;
+            /** @description Ruler é a escala para a mini-régua; sem ela a linha sai sem barra. */
+            ruler?: components["schemas"]["pdfdoc.Ruler"];
+            sub?: string;
+            unit?: string;
+            value?: string;
+        };
+        "pdfdoc.DeckTakeawayBox": {
+            groups?: components["schemas"]["pdfdoc.DeckDoseGroup"][];
+            highlight?: components["schemas"]["pdfdoc.DeckHighlight"];
+            note?: string;
+        };
+        "pdfdoc.Ruler": {
+            axis?: number[];
+            code?: string;
+            /** @description nome que o paciente lê ("Ferritina"), não o do catálogo */
+            display?: string;
+            history?: components["schemas"]["pdfdoc.RulerPoint"][];
+            /**
+             * @description Note — uma linha de leitura clínica embaixo da régua. É também onde mora o RÓTULO
+             *     AVALIATIVO quando o slide não o traz no título: barra colorida sem rótulo tem desempenho
+             *     pior do que barra colorida com rótulo.
+             */
+            note?: string;
+            segments?: components["schemas"]["pdfdoc.RulerSegment"][];
+            sub?: string;
+            unit?: string;
+        };
+        "pdfdoc.RulerPoint": {
+            date?: string;
+            /** @description valor já formatado ("1,023") */
+            text?: string;
+            value?: number;
+        };
+        "pdfdoc.RulerSegment": {
+            a?: number;
+            b?: number;
+            level?: number;
+        };
         "repository.ArticleSearchResult": {
             article?: components["schemas"]["models.Article"];
             /** @description Texto do chunk que teve match */
@@ -20824,6 +21540,12 @@ export interface components {
         "dto.FormulaTemplateRequest": {
             content: {
                 "application/json": components["schemas"]["dto.FormulaTemplateRequest"];
+            };
+        };
+        /** @description Título e slides */
+        "dto.SavePatientPlanRequest": {
+            content: {
+                "application/json": components["schemas"]["dto.SavePatientPlanRequest"];
             };
         };
         /** @description Component */
