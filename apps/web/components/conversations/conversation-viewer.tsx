@@ -245,15 +245,21 @@ function WhatsAppMediaView({
   const kind = msg.mediaType ?? '';
   const isImage = kind === 'image' || kind === 'sticker';
   const isAudio = kind === 'audio' || kind === 'voice';
+  // Documento (PDF de exame etc.) NÃO passa por blob. Exame de laboratório vem com
+  // 10-15MB; baixar tudo pra memória só pra montar um blob: URL estourava no iPhone
+  // (PWA/WKWebView) e o chip virava "Falha ao carregar mídia" — e mesmo quando cabia,
+  // o iOS não salva arquivo de blob: URL. Mesma solução do áudio: URL assinada com
+  // Range, que o navegador busca sob demanda ao abrir.
+  const useSignedUrl = isAudio || !isImage;
 
   useEffect(() => {
     let cancelled = false;
     let objectUrl: string | null = null;
     setUrl(null);
     setErr(false);
-    if (isAudio) {
-      // Áudio (e vídeo) precisa de URL direta com Range: o Safari/iOS não toca
-      // mídia de blob: URL. Busca a URL de streaming assinada e aponta no <audio>.
+    if (useSignedUrl) {
+      // Áudio/vídeo/documento: URL direta com Range (o Safari/iOS não toca nem salva
+      // mídia de blob: URL). O JSON da assinatura é leve — nada do arquivo trafega aqui.
       fetchConversationMediaStreamUrl(ownerType, ownerId, msg.id)
         .then((streamUrl) => {
           if (!cancelled) setUrl(streamUrl);
@@ -262,7 +268,7 @@ function WhatsAppMediaView({
           if (!cancelled) setErr(true);
         });
     } else {
-      // Imagem/documento: blob autenticado (funciona em todo navegador).
+      // Imagem: blob autenticado (thumbnail inline, arquivo pequeno).
       fetchConversationMedia(ownerType, ownerId, msg.id)
         .then((blob) => {
           if (cancelled) return;
@@ -277,7 +283,7 @@ function WhatsAppMediaView({
       cancelled = true;
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [ownerType, ownerId, msg.id, isAudio]);
+  }, [ownerType, ownerId, msg.id, useSignedUrl]);
 
   const sizeLabel = formatBytes(msg.mediaSizeBytes);
   const filename = msg.mediaFilename || mediaKindLabel(kind);
@@ -304,11 +310,14 @@ function WhatsAppMediaView({
           <Skeleton className="h-10 w-[260px] rounded-md" />
         )
       ) : (
+        // Sem `download`: o arquivo vem de outra origem (api.plenyasaude.com.br), e
+        // navegador ignora `download` cross-origin. Abrir em aba nova mostra o PDF
+        // (Content-Disposition inline preserva o nome ao salvar) e funciona no iPhone.
         <a
           href={safeUrl(url)}
-          download={filename}
           target="_blank"
           rel="noopener noreferrer"
+          aria-disabled={!url}
           className="inline-flex max-w-[260px] items-center gap-1.5 rounded-full border border-stone-300 bg-white px-2.5 py-1 text-[11px] font-medium text-stone-800 hover:bg-stone-100"
         >
           {url ? (

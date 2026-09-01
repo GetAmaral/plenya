@@ -630,19 +630,41 @@ Medido contra todo o universo de resultados de prod antes de deployar: **145 par
 aceitos (1330 resultados) contra 27 recusados (116)**. Os 27 são divergência real, e cada um deles
 hoje produz um nível inventado. O que precisa de decisão do Getúlio, sem inventar corte:
 
-| item | escala do catálogo | laudo | o que acontece hoje |
-|---|---|---|---|
-| Leucócitos / Hemácias / Células Epiteliais (sedimento) | `células/campo` | `/µL` | 0,5/µL cai em "≤10" e sai **ótimo** |
-| Creatinina | `mg/dL` | `U/L` (67,1) | sai **nível 0**, o pior; o valor é µmol/L |
-| Vitamina A | `µg/dL` | `mg/L` (0,4) | sai **nível 0**; equivale a 40 µg/dL, normal |
-| Hemoglobina - Mulheres | `g/dL` | `mg/dL` (0,03) | não é uma hemoglobina |
-| Hemácias | `M/µL` | `/mm3` | o número está certo, o rótulo não |
-| Linfócitos / Monócitos / Neutrófilos (absoluto) | `k/µL` | `%` | o diferencial percentual gravado no item de contagem |
-| Densidade Urinária | `specific gravity` | `g/mL` | numericamente igual; cabe uma linha de conversão fator 1 |
+O conversor de unidade (que já existia e funcionava) ganhou quatro camadas: grafia, tabela curada,
+aritmética de prefixo SI e desistir marcando o registro (`lab_results.unit_conversion_status`).
+`cmd/reconvert-lab-units` reprocessou o histórico em produção — 1046 já certos, 123 convertidos,
+56 para revisão — e `cmd/recalc-scores` recalculou os oito pacientes. Detalhe na memória
+`emr_conversao_unidade_exames`.
 
-Enquanto não houver decisão, a guarda deixa esses itens como `not_applicable` com o motivo escrito
-por extenso. É perda de cobertura, e é a troca certa: a régua não existir é melhor do que existir
-errada, e o item excluído sai do numerador **e** do denominador (verificado no banco: os totais do
+Sobrou o que o código não pode decidir sozinho, e que é curadoria do Getúlio:
+
+| item | escala do catálogo | laudo | por que o código não resolve |
+|---|---|---|---|
+| Leucócitos / Hemácias / Células Epiteliais (sedimento) | `células/campo` | `/µL` | contagem por campo não converte para concentração; precisa das faixas em `/µL` |
+| Linfócitos / Monócitos / Neutrófilos / Basófilos / Eosinófilos (absoluto) | `k/µL`, `células/µL` | `%` | o laudo mandou o diferencial percentual para o campo de contagem absoluta |
+| Bastonetes, Mielócitos, Promielócitos, Blastos | `%` | `/mm3` | o inverso do anterior |
+| Creatinina | `mg/dL` | `U/L` (67,1) | `U/L` não é concentração de massa; o valor parece µmol/L |
+| Hemácias | `M/µL` | `/mm3` | a aritmética daria 4,17 milionésimos: o rótulo é que está errado |
+| PSA Livre | `%` | `ng/mL` | razão contra concentração |
+| Bactérias - Sedimento | `Descritivo` | `/uL` | a definição não tem unidade numérica |
+| Testosterona Livre | `pg/mL` | `nmol/L` | molar para massa exige o peso molecular |
+| Lipoproteína A | `nmol/L` | `mg/dL` | idem |
+
+Enquanto não houver decisão, esses ficam `not_applicable` com o motivo escrito por extenso, e o
+item excluído sai do numerador **e** do denominador (verificado no banco: os totais do snapshot
+batem com a soma só dos avaliados).
+
+### Cadastro incompleto travando escore (cobrar da recepção)
+
+Dado que falta não é item que não se aplica — é indeterminado, e agora o prontuário diz isso:
+
+- **Celia Catussi**: sem data de nascimento (26 itens) e sem estado de menopausa (28)
+- **ORLANDO GONCALVES DE OLIVEIRA**: sem data de nascimento (26 itens)
+- **Salete Maria de Camargo**: sem estado de menopausa (28 itens)
+
+A falta da data de nascimento era pior que informação ausente: com `Age = 0`, todo item "até 29
+anos" valia e todo "a partir de 50" sumia, então os dois pacientes eram pontuados na faixa etária
+de um jovem. Corrigido.
 snapshot batem com a soma só dos avaliados).
 
 ### Regra editorial que a evidência impõe

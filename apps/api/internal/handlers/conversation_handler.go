@@ -187,6 +187,12 @@ func serveMediaRanged(c *fiber.Ctx, res *services.ActivityMediaResult) error {
 	if res.MIME != "" {
 		c.Set("Content-Type", res.MIME)
 	}
+	// Documento aberto por esta rota (PDF de exame) tem que chegar com nome: sem o
+	// Content-Disposition o navegador salva com o UUID do storage. `inline` mantém a
+	// pré-visualização (iOS abre o PDF e o usuário salva/compartilha de lá).
+	if res.Filename != "" {
+		c.Set("Content-Disposition", "inline; filename=\""+res.Filename+"\"")
+	}
 	total := len(res.Bytes)
 	spec := strings.TrimPrefix(c.Get("Range"), "bytes=")
 	if spec == c.Get("Range") || spec == "" { // sem Range válido → corpo inteiro
