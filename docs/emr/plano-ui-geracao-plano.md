@@ -12,8 +12,8 @@
 | 2 | Dossiê congelado + fontes fora da prévia + coluna do prontuário | ✅ dev (`7bdff7ba`, `86851e94`, mig 00093) |
 | 3 | Ops, classificação e índice numérico (sem IA) | ✅ dev (`28c13928`), 28 testes |
 | 4 | Cartões e os 6 editores | ✅ dev (`3ef626ef`) |
-| 5 | A conversa, triagem e sugestões | 🔨 próxima |
-| 6 | Auditoria de conteúdo gerado | ⬜ |
+| 5 | A conversa, triagem e sugestões | ✅ dev (`98dbec0a`, `53512fe6`, mig 00094) |
+| 6 | Auditoria de conteúdo gerado | 🔨 próxima |
 
 ### Medido na fase 2
 
@@ -30,6 +30,26 @@ não foi versionado (dado clínico mora em `pacs/`); ficaram no teste os onze fo
 com as contagens.
 
 A triagem é toda testável sem chamar modelo, e é o que decide se a feature é segura.
+
+### Medido na fase 5, contra o modelo de verdade
+
+Turno real em dev, pedindo para citar um valor de exame:
+
+- 1 operação de texto **aplicada direto** (reescrita sem número novo)
+- 4 alterações numéricas viradas **sugestão**, com a origem anexada
+- 2 **recusadas**: o modelo tentou reescrever `segments` e `history` da régua, afirmando na
+  resposta que os estava "copiando exatamente do prontuário". Reescrita é reescrita.
+- cache de prompt: **9.390 tokens lidos** a partir do segundo turno, como projetado
+- latência: 5 a 7 segundos por turno
+
+Três defeitos que só o teste de ponta a ponta pegaria, todos corrigidos: o índice de idempotência
+filtrando `IS NOT NULL` enquanto o Go grava string vazia (quebrava o segundo turno de toda
+conversa); o `down` da migration deixando FK órfã (rollback impossível de re-migrar); e data por
+extenso virando prova falsa ("7 de fevereiro de 2026" gerava dois alarmes espúrios).
+
+E uma melhoria vinda de ver a saída real: as origens candidatas são ordenadas por relevância.
+"Sua lipase estava em 27 U/L" casava primeiro com o limite do eixo do cortisol, que por acaso
+também vale 27. Mostrar a origem errada é pior que mostrar várias, porque parece autoritativo.
 
 ### Fase 4 e o débito de QA visual
 
