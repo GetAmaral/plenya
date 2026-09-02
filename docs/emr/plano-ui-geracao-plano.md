@@ -75,6 +75,32 @@ responde 404 nas duas rotas; a auditoria da restauração grava o id da REVISÃO
 E o guarda de estouro pegou a própria ferramenta: as três sugestões aceitas no teste estouraram o
 slide em 1099px na horizontal e a publicação recusou com 422, listando o slide.
 
+### A revisão global (2e9204c0) — o que ela pegou que as fases não pegaram
+
+A rotina do projeto é revisão + testes + correções + commit. As seis fases rodaram só a metade de
+testes; esta é a revisão que faltou. Onze achados, todos confirmados antes de mexer, e o padrão é o
+argumento a favor de rodar a global: **quase tudo estava na costura entre fases**, com cada fase
+internamente coerente.
+
+| # | O quê | Efeito real |
+|---|---|---|
+| 1 | Sugestão estrutural inaceitável por construção | `add`/`reorder` derrubavam o lote inteiro, levando junto as de texto |
+| 2 | `published_revision_id` sempre NULL | 7 de 7 planos publicados; a recuperação da v1 nunca existiu |
+| 3 | Perda de escrita de 10 a 20 s | PUT do médico durante a chamada era sobrescrito em silêncio |
+| 4 | Tipo errado do modelo abortava o turno | a mensagem do médico não era gravada, contra o que o código promete |
+| 5 | CSP bloqueava as fontes do deck | prévia em fallback, mentindo sobre o que cabe |
+| 6 | Coluna de tabela reordenada não movia as células | dose sob o rótulo errado, sem erro na tela |
+| 7 | Chave de idempotência gerada por tentativa | o 409 do servidor era código morto |
+| 8 | Salvar não mandava `expectedRevision` | o 409 da concorrência otimista nunca disparava |
+| 9 | Proveniência não visitava `When`/`Unit`/`Name` | posologia inventada não acendia o aviso |
+| 10 | Classificação do aceite contra o deck já aplicado | `remove` aceito virava "desconhecido" |
+| 11 | `proximoSeq` sem trava | dois turnos simultâneos batiam no índice único depois de pagos |
+
+Duas coisas que a correção do #1 revelou e a revisão não tinha visto: `base_hash char(64)` **enche
+com espaço**, então o Postgres devolvia 64 espaços onde o Go esperava vazio e o guarda de "o slide
+mudou" recusava toda sugestão de `add` (migration 00096); e a trava de linha que conserta o #3
+serializa `proximoSeq` e mata o #11 de graça.
+
 ### Medido na fase 5, contra o modelo de verdade
 
 Turno real em dev, pedindo para citar um valor de exame:
