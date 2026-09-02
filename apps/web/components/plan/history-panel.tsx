@@ -34,6 +34,36 @@ const MOTIVO: Record<PlanRevision["reason"], string> = {
   publish: "publicação",
 };
 
+/**
+ * Op estrutural não tem caminho de campo, e o servidor grava o VERBO no lugar. Renderizado como se
+ * fosse campo, saía "alterou 1 campo: add", que não diz nada a quem lê.
+ */
+const VERBO: Record<string, string> = {
+  add: "acrescentou um slide",
+  remove: "removeu um slide",
+  reorder: "mudou a ordem dos slides",
+};
+
+function descreveMudanca(caminhos: string[]) {
+  const campos: string[] = [];
+  const estruturais: string[] = [];
+  for (const c of caminhos) {
+    const ultimo = c.split(":").pop() ?? "";
+    if (VERBO[ultimo]) estruturais.push(VERBO[ultimo]);
+    else campos.push(ultimo);
+  }
+  const partes: string[] = [];
+  if (estruturais.length > 0) partes.push([...new Set(estruturais)].join(", "));
+  if (campos.length > 0) {
+    partes.push(
+      `alterou ${campos.length} campo${campos.length > 1 ? "s" : ""}: ` +
+        campos.slice(0, 3).join(", ") +
+        (campos.length > 3 ? "…" : ""),
+    );
+  }
+  return partes.join(" · ");
+}
+
 function horaCurta(iso: string) {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
@@ -132,15 +162,7 @@ export function PlanHistoryPanel({
                       </p>
                       {(r.changedPaths?.length ?? 0) > 0 && (
                         <p className="mt-1 text-[11px] text-muted-foreground">
-                          alterou {r.changedPaths!.length} campo
-                          {r.changedPaths!.length > 1 ? "s" : ""}:{" "}
-                          <span className="font-mono">
-                            {r
-                              .changedPaths!.slice(0, 3)
-                              .map((c) => c.split(":").pop())
-                              .join(", ")}
-                            {r.changedPaths!.length > 3 ? "…" : ""}
-                          </span>
+                          {descreveMudanca(r.changedPaths!)}
                         </p>
                       )}
                       {/*

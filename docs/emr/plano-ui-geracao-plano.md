@@ -101,6 +101,35 @@ com espaço**, então o Postgres devolvia 64 espaços onde o Go esperava vazio e
 mudou" recusava toda sugestão de `add` (migration 00096); e a trava de linha que conserta o #3
 serializa `proximoSeq` e mata o #11 de graça.
 
+### O QA interativo, enfim (débito das fases 4 a 6, pago)
+
+O editor nunca tinha sido clicado. O React não hidratava no harness do container e eu tinha
+registrado isso como débito com a hipótese de que era o cliente de HMR do dev server. **Era.**
+Contra um build de produção o React hidrata normalmente.
+
+A receita que funciona, e que não é óbvia:
+
+1. `pnpm --filter @plenya/web build`.
+2. **Não use `next start`**: o app é `output: standalone`, e o próprio build avisa. Com `next start`
+   um chunk volta 500 com `Content-Type: text/plain` e a página morre em `ChunkLoadError`.
+   Rode `node .next/standalone/apps/web/server.js` (o caminho é aninhado por ser monorepo),
+   depois de copiar `.next/static` e `public` para dentro de `.next/standalone/apps/web/`.
+3. **Porta 3002**: o `docker-compose.yml` já a lista em `CORS_ORIGIN`. Em qualquer outra porta a
+   API barra tudo no preflight e a tela sobe vazia — com três passos passando como falso positivo,
+   porque os seletores casam com texto da sidebar.
+4. O paciente selecionado é estado do NAVEGADOR: num contexto limpo a página cai no seletor de
+   pacientes. O roteiro precisa escolher o paciente antes.
+5. O `playwright` não está instalado na raiz; existe em
+   `scripts/deck-builder/continuum/node_modules/playwright`.
+
+**11 de 11 passos, zero erros de runtime** contra o servidor standalone, que é como o Coolify roda:
+hidratação, lista de planos, cartões de slide, expandir cartão, formulário do bloco, digitação,
+selo de não salvo, Sheet de histórico com as 15 revisões, selo de "sem reescrita registrada depois
+da ferramenta", Escape sem sair da página, e as miniaturas.
+
+Um defeito de texto saiu daí: op estrutural não tem caminho de campo e o servidor grava o verbo no
+lugar, então o histórico dizia "alterou 1 campo: add". Agora diz "acrescentou um slide".
+
 ### Medido na fase 5, contra o modelo de verdade
 
 Turno real em dev, pedindo para citar um valor de exame:
