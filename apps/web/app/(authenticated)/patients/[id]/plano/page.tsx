@@ -11,7 +11,7 @@
  * couber: o slide tem altura fixa e overflow:hidden, então conteúdo demais não dá erro — ele
  * simplesmente some do PDF que o paciente recebe.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { formatDate } from "@/lib/format-date";
 import { toast } from "sonner";
@@ -132,6 +132,8 @@ export default function PatientPlanPage() {
     usePlanRevisions(patientId, selectedId ?? undefined);
   const restaurar = useRestorePlanRevision(patientId ?? "");
   const enviarMensagem = useSendPlanMessage(patientId);
+  // Sobrevive ao re-render: ver handleEnviarMensagem.
+  const chaveDoEnvio = useRef<string | null>(null);
   const resolverSugestao = useResolveSuggestions(patientId);
   const [ultimoTurno, setUltimoTurno] = useState<PlanAssistantTurn | null>(
     null,
@@ -199,12 +201,19 @@ export default function PatientPlanPage() {
   // apagaria o que está na tela.
   const handleEnviarMensagem = async (texto: string) => {
     if (!selectedId || !selected) return;
+    // Uma chave por mensagem COMPOSTA, e não por tentativa: é ela que faz o reenvio depois de
+    // fechar a aba (a chamada leva de dez a vinte segundos) reencontrar o turno em vez de criar
+    // um segundo. Reaproveita a chave de uma tentativa anterior que não chegou a completar.
+    const chave = chaveDoEnvio.current ?? crypto.randomUUID();
+    chaveDoEnvio.current = chave;
     try {
       const r = await enviarMensagem.mutateAsync({
         planId: selectedId,
         body: texto,
         expectedRevision: selected.revisionSeq,
+        clientMessageId: chave,
       });
+      chaveDoEnvio.current = null;
       setUltimoTurno(r);
       if (r.plan?.content) setSlides(r.plan.content as DeckSlide[]);
       if (r.failed)
@@ -282,7 +291,11 @@ export default function PatientPlanPage() {
     try {
       const salvo = await updatePlan.mutateAsync({
         id: selected.id,
-        payload: { title, content },
+        // expectedRevision fecha o laço da concorrência otimista. Sem ele o PUT caía sempre na
+        // saída de emergência do servidor (`expected == nil`), e o conteúdo de quem escreveu
+        // primeiro (outra aba, outro clínico, um turno da IA que aterrissou depois desta tela
+        // carregar) era sobrescrito sem 409 nenhum.
+        payload: { title, content, expectedRevision: selected.revisionSeq },
       });
       // Reescreve a caixa com o que o SERVIDOR gravou. Sem isto, "sujo" ficava true para sempre
       // depois de salvar — o Go normaliza a ordem das chaves e derruba campo vazio (`omitempty`),

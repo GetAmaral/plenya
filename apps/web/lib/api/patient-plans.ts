@@ -268,16 +268,24 @@ export function useSendPlanMessage(patientId: string) {
       planId,
       body,
       expectedRevision,
+      clientMessageId,
     }: {
       planId: string;
       body: string;
       expectedRevision?: number;
+      /**
+       * Chave de idempotência. Tem que ser criada UMA vez por mensagem composta e repetida no
+       * reenvio: gerada aqui dentro, cada tentativa levava um id novo e o `client_message_id`
+       * único do servidor nunca casava, deixando toda a proteção contra turno duplicado (e o 409
+       * que a acompanha) como código morto.
+       */
+      clientMessageId: string;
     }) =>
       apiClient.post<PlanAssistantTurn>(
         `${base(patientId)}/${planId}/assistant/messages`,
         {
           body,
-          clientMessageId: crypto.randomUUID(),
+          clientMessageId,
           expectedRevision,
         },
       ),

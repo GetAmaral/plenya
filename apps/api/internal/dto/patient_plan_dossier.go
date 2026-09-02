@@ -333,6 +333,9 @@ type PlanAssistantTurn struct {
 	RevisionSeq int                  `json:"revisionSeq"`
 	Failed      bool                 `json:"failed,omitempty"`
 	Error       string               `json:"error,omitempty"`
+	// Stale — o plano foi alterado por outra mão enquanto o modelo respondia, então nada foi
+	// aplicado. A conversa fica registrada e o médico reenvia.
+	Stale bool `json:"stale,omitempty"`
 	// CacheReadTokens — a partir do segundo turno tem que ser maior que zero. Zero significa que
 	// algo volátil entrou antes do ponto de cache e o prefixo está sendo reenviado inteiro.
 	CacheReadTokens int `json:"cacheReadTokens,omitempty"`

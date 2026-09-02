@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
@@ -125,6 +126,22 @@ func (s *PatientPlanAssistantService) SendMessage(in SendPlanMessageInput) (*dto
 	// A mensagem do médico é gravada sempre, mesmo quando a chamada falha: a conversa é registro.
 	var out dto.PlanAssistantTurn
 	err = s.db.Transaction(func(tx *gorm.DB) error {
+		// Trava a linha do plano ANTES de qualquer coisa.
+		//
+		// Resolve dois problemas com o mesmo cadeado. O primeiro: entre carregar o plano e chegar
+		// aqui passaram de dez a vinte segundos de chamada ao modelo, e um PUT do médico (ou outra
+		// aba) nesse intervalo seria sobrescrito em silêncio pelo `tx.Save(plan)` lá embaixo —
+		// exatamente a corrida que `revision_seq` existe para impedir, e que a checagem feita
+		// ANTES da chamada não cobre. O segundo: `proximoSeq` é um `MAX(seq)+1` sem trava, e dois
+		// turnos simultâneos calculavam o mesmo número e batiam no índice único depois de as duas
+		// chamadas já terem sido pagas.
+		var atual models.PatientPlan
+		if err := tx.Clauses(clause.Locking{Strength: "UPDATE"}).
+			Where("id = ?", in.PlanID).First(&atual).Error; err != nil {
+			return err
+		}
+		planoMudouDurante := atual.RevisionSeq != plan.RevisionSeq
+
 		seq, err := s.proximoSeq(tx, in.PlanID)
 		if err != nil {
 			return err
@@ -172,11 +189,57 @@ func (s *PatientPlanAssistantService) SendMessage(in SendPlanMessageInput) (*dto
 			}
 		}
 
+		// O plano mudou embaixo da chamada: nada é aplicado, e o turno inteiro vira sugestão nem
+		// é opção, porque as ops foram calculadas sobre um conteúdo que não existe mais e o
+		// `base_hash` seria tirado do slide NOVO, escondendo o conflito em vez de mostrá-lo. A
+		// conversa fica registrada e o médico reenvia; perder a chamada é o preço honesto.
+		if planoMudouDurante {
+			for i := range triadas {
+				triadas[i].Decision = TriageReject
+				triadas[i].Reason = "o plano foi alterado enquanto esta resposta era gerada"
+			}
+			aplicar = nil
+			msgIA.Body = "O plano mudou enquanto eu respondia, então não alterei nada. Reenvie o pedido."
+			if err := tx.Model(&msgIA).Updates(map[string]any{"body": msgIA.Body}).Error; err != nil {
+				return err
+			}
+			out.Reply = msgIA.Body
+			out.Stale = true
+		}
+
+		if len(aplicar) > 0 {
+			// Uma op de cada vez, e não o lote inteiro.
+			//
+			// `setPath` volta por `json.Unmarshal` num `DeckSlide` TIPADO, então um valor com o
+			// tipo errado vindo do modelo (`"legend":"true"`, `"title":42`) faz a gravação falhar.
+			// A triagem classifica por caminho, não por tipo, e deixa esses casos passarem como
+			// texto autoral. Abortando o lote, o turno inteiro caía: a mensagem do médico não era
+			// gravada (contra o que a linha acima promete) e a chamada paga se perdia por causa de
+			// uma vírgula do modelo. Agora a op ruim vira recusada e o resto entra.
+			novos := plan.Content
+			var entraram []PlanOp
+			for _, op := range aplicar {
+				passo, err := ApplyOps(novos, []PlanOp{op})
+				if err != nil {
+					for i := range triadas {
+						if triadas[i].Op.SlideID == op.SlideID && triadas[i].Op.Path == op.Path &&
+							triadas[i].Decision == TriageApply {
+							triadas[i].Decision = TriageReject
+							triadas[i].Reason = "não foi possível gravar este campo: " + err.Error()
+							break
+						}
+					}
+					continue
+				}
+				novos = passo
+				entraram = append(entraram, op)
+			}
+			aplicar = entraram
+		}
+
 		if len(aplicar) > 0 {
 			novos, err := ApplyOps(plan.Content, aplicar)
 			if err != nil {
-				// Uma operação que passou na triagem e falha ao aplicar é defeito nosso, não do
-				// modelo: aborta o turno inteiro em vez de gravar meio deck.
 				return fmt.Errorf("falha ao aplicar operação triada: %w", err)
 			}
 			plan.Content = novos
@@ -252,7 +315,22 @@ func (s *PatientPlanAssistantService) gravaSugestao(
 		}
 	}
 
-	novoValor, _ := json.Marshal(op.Value)
+	// O que a sugestão INTRODUZ. Para `edit` é o valor do campo; para as estruturais é o slide
+	// novo ou a ordem nova.
+	//
+	// Sem isso, `add` e `reorder` eram inaceitáveis por construção: a triagem manda TODA op
+	// estrutural para sugestão, mas só `op.Value` era persistido, e `opDaSugestao` devolvia uma op
+	// sem `Slide` e sem `Order`. Aceitar batia em "add sem slide" dentro da transação de
+	// `ResolveSuggestions` e abortava o lote inteiro, derrubando junto as sugestões de texto
+	// aceitas na mesma chamada.
+	introduzido := op.Value
+	switch op.Op {
+	case OpAdd:
+		introduzido = op.Slide
+	case OpReorder:
+		introduzido = op.Order
+	}
+	novoValor, _ := json.Marshal(introduzido)
 	antigoValor, _ := json.Marshal(antes)
 	proveniencia, _ := json.Marshal(t.Provenance)
 
@@ -376,10 +454,32 @@ func (s *PatientPlanAssistantService) ResolveSuggestions(in ResolveSuggestionsIn
 			return nil
 		}
 
-		novos, err := ApplyOps(plan.Content, aplicar)
-		if err != nil {
-			return err
+		// Uma sugestão de cada vez, como no turno: uma que falhe ao aplicar (ordem incompleta num
+		// `reorder`, valor de tipo errado) não pode derrubar as outras aceitas no mesmo lote.
+		novos := plan.Content
+		var entraram []PlanOp
+		var aceitasOK []*models.PatientPlanSuggestion
+		for i, op := range aplicar {
+			passo, errPasso := ApplyOps(novos, []PlanOp{op})
+			if errPasso != nil {
+				out.Skipped = append(out.Skipped, dto.PlanSkipped{
+					ID: aplicadas[i].ID.String(), Reason: errPasso.Error(),
+				})
+				continue
+			}
+			novos = passo
+			entraram = append(entraram, op)
+			aceitasOK = append(aceitasOK, aplicadas[i])
 		}
+		aplicar, aplicadas = entraram, aceitasOK
+		if len(aplicar) == 0 {
+			out.RevisionSeq = plan.RevisionSeq
+			return nil
+		}
+		// Guardado ANTES de trocar o conteúdo: a classificação abaixo pergunta o que o caminho ERA
+		// no slide sobre o qual a sugestão foi feita. Classificando contra o conteúdo já aplicado,
+		// um `remove` aceito não encontrava mais o slide e virava "desconhecido".
+		conteudoAntes := plan.Content
 		plan.Content = novos
 		plan.Status = models.PatientPlanDraft
 		// As ops entram na revisão, e não só o conteúdo resultante.
@@ -393,8 +493,8 @@ func (s *PatientPlanAssistantService) ResolveSuggestions(in ResolveSuggestionsIn
 		triadas := make([]TriagedOp, 0, len(aplicar))
 		for i, op := range aplicar {
 			classe := FieldUnknown
-			if j := indiceDoSlide(plan.Content, op.SlideID); j >= 0 && op.Path != "" {
-				classe, _ = ClassifyPath(&plan.Content[j], op.Path)
+			if j := indiceDoSlide(conteudoAntes, op.SlideID); j >= 0 && op.Path != "" {
+				classe, _ = ClassifyPath(&conteudoAntes[j], op.Path)
 			}
 			triadas = append(triadas, TriagedOp{Op: op, Class: classe.String(),
 				Reason: "sugestão aceita pelo clínico (" + aplicadas[i].Class + ")"})
@@ -520,11 +620,32 @@ func converteOps(ops []PlanModelOp) []PlanOp {
 	return out
 }
 
+// opDaSugestao reconstrói a operação a partir da linha gravada.
+//
+// `new_value` guarda o que a sugestão introduz, e o que isso É depende do verbo: valor de campo
+// para `edit`, o slide inteiro para `add`, a ordem completa para `reorder`. Ler tudo como
+// `op.Value` era o que tornava as estruturais inaceitáveis.
 func opDaSugestao(s *models.PatientPlanSuggestion) (PlanOp, error) {
 	op := PlanOp{
 		Op: PlanOpKind(s.Op), SlideID: s.SlideID, AfterSlideID: s.AfterSlideID, Path: s.FieldPath,
 	}
-	if len(s.NewValue) > 0 {
+	if len(s.NewValue) == 0 {
+		return op, nil
+	}
+	switch op.Op {
+	case OpAdd:
+		var slide pdfdoc.DeckSlide
+		if err := json.Unmarshal(s.NewValue, &slide); err != nil {
+			return op, errors.New("slide da sugestão ilegível")
+		}
+		op.Slide = &slide
+	case OpReorder:
+		var ordem []string
+		if err := json.Unmarshal(s.NewValue, &ordem); err != nil {
+			return op, errors.New("ordem da sugestão ilegível")
+		}
+		op.Order = ordem
+	default:
 		var v any
 		if err := json.Unmarshal(s.NewValue, &v); err != nil {
 			return op, errors.New("valor da sugestão ilegível")

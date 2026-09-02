@@ -18352,6 +18352,11 @@ export interface components {
             rejected?: components["schemas"]["dto.PlanRejectedOp"][];
             reply?: string;
             revisionSeq?: number;
+            /**
+             * @description Stale — o plano foi alterado por outra mão enquanto o modelo respondia, então nada foi
+             *     aplicado. A conversa fica registrada e o médico reenvia.
+             */
+            stale?: boolean;
             suggestions?: components["schemas"]["dto.PlanSuggestion"][];
         };
         "dto.PlanDossierChange": {

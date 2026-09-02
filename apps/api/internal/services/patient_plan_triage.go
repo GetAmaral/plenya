@@ -174,8 +174,13 @@ func provaDoSlide(s pdfdoc.DeckSlide, ix *NumericIndex) []NumeralProof {
 	for _, r := range s.Rulers {
 		visita(r.Note)
 		visita(r.Sub)
+		// Display carrega número em régua rotulada pelo valor ("27 U/L").
+		visita(r.Display)
 	}
 	if s.Table != nil {
+		for _, col := range s.Table.Columns {
+			visita(col.Label)
+		}
 		for _, row := range s.Table.Rows {
 			for _, cel := range row.Cells {
 				visita(cel)
@@ -187,26 +192,39 @@ func provaDoSlide(s pdfdoc.DeckSlide, ix *NumericIndex) []NumeralProof {
 		if s.Take.Highlight != nil {
 			visita(s.Take.Highlight.Dose)
 			visita(s.Take.Highlight.Obs)
+			// Name, When e Unit carregam número tanto quanto Dose: "Vitamina D 5.000 UI",
+			// "uma vez por semana", "mg por semana". Uma posologia inventada num slide novo
+			// passava sem acender o aviso de número sem origem.
+			visita(s.Take.Highlight.Name)
+			visita(s.Take.Highlight.When)
+			visita(s.Take.Highlight.Unit)
 		}
 		for _, g := range s.Take.Groups {
+			visita(g.Title)
 			for _, it := range g.Items {
 				visita(it.Dose)
 				visita(it.Sub)
+				visita(it.Name)
 			}
 		}
 	}
 	if s.Summary != nil {
-		for _, c := range s.Summary.Cards {
-			for _, l := range c.Lines {
-				visita(l.Value)
-				visita(l.Sub)
-			}
-		}
+		visita(s.Summary.Legend)
+		visita(s.Summary.StepsTitle)
 		for _, p := range s.Summary.Steps {
 			visita(p)
 		}
+		for _, c := range s.Summary.Cards {
+			visita(c.Title)
+			for _, l := range c.Lines {
+				visita(l.Value)
+				visita(l.Unit)
+				visita(l.Sub)
+			}
+		}
 	}
 	for _, st := range s.Steps {
+		visita(st.When)
 		visita(st.What)
 		visita(st.Detail)
 	}

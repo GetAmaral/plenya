@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import type { DeckTable, DeckTableCol, DeckTableRow } from '@plenya/types';
+import type { DeckTable, DeckTableCol, DeckTableRow } from "@plenya/types";
 
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Field } from './field';
-import { ListEditor } from './list-editor';
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Field } from "./field";
+import { ListEditor } from "./list-editor";
 
 /**
  * A tabela — o bloco mais usado do deck real (8 dos 20 slides de um, 9 dos 21 do outro), e por
@@ -19,10 +25,18 @@ import { ListEditor } from './list-editor';
  * como número pela triagem do servidor.
  */
 const ESTILOS: { valor: string; rotulo: string; ajuda: string }[] = [
-  { valor: 'texto', rotulo: 'Texto', ajuda: 'quebra linha normalmente' },
-  { valor: 'why', rotulo: 'Explicação', ajuda: 'cinza, menor — a coluna que explica' },
-  { valor: 'dose', rotulo: 'Dose', ajuda: 'NÃO quebra linha: número e dose, nunca prosa' },
-  { valor: 'tag', rotulo: 'Selo', ajuda: 'rótulo curto, tipo "prioridade"' },
+  { valor: "texto", rotulo: "Texto", ajuda: "quebra linha normalmente" },
+  {
+    valor: "why",
+    rotulo: "Explicação",
+    ajuda: "cinza, menor — a coluna que explica",
+  },
+  {
+    valor: "dose",
+    rotulo: "Dose",
+    ajuda: "NÃO quebra linha: número e dose, nunca prosa",
+  },
+  { valor: "tag", rotulo: "Selo", ajuda: 'rótulo curto, tipo "prioridade"' },
 ];
 
 export function TableEditor({
@@ -40,12 +54,25 @@ export function TableEditor({
   const linhas = table.rows ?? [];
 
   const setColunas = (cols: DeckTableCol[]) => {
-    // Mexer nas colunas tem que mexer nas células, senão a linha fica com mais ou menos células
-    // do que colunas e o render descarta em silêncio.
+    // Mexer nas colunas tem que mexer nas células, e não basta cortar e completar no fim.
+    //
+    // Cortar no fim só acerta quando a coluna mexida é a última. Arrastar a coluna 1 para depois
+    // da 2 trocava os cabeçalhos e deixava os valores parados, e apagar a coluna 1 de 3 removia a
+    // ÚLTIMA célula de cada linha em vez da primeira, empurrando todos os valores para a esquerda.
+    // Numa devolutiva onde uma das colunas é `dose`, isso é dose sob o rótulo errado, sem erro
+    // nenhum na tela.
+    //
+    // O `ListEditor` devolve os MESMOS objetos ao reordenar (`arrayMove`) e ao remover (`filter`),
+    // então a identidade diz para onde cada coluna foi. Objeto que não está na lista antiga é
+    // edição na própria posição (o editor troca o item no índice) ou coluna nova no fim, e nos
+    // dois casos o índice novo é o certo.
+    const origem = cols.map((c, j) => {
+      const i = colunas.indexOf(c);
+      return i >= 0 ? i : j;
+    });
     const rows = linhas.map((r) => {
-      const cells = (r.cells ?? []).slice(0, cols.length);
-      while (cells.length < cols.length) cells.push('');
-      return { ...r, cells };
+      const antigas = r.cells ?? [];
+      return { ...r, cells: origem.map((i) => antigas[i] ?? "") };
     });
     onChange({ ...table, columns: cols, rows });
   };
@@ -60,31 +87,48 @@ export function TableEditor({
           chave={(_, i) => `col-${i}`}
           teto={tetoColunas}
           motivoDoTeto={`Três colunas é o limite: nenhum deck real passou disso.`}
-          novoItem={() => ({ label: '' })}
+          novoItem={() => ({ label: "" })}
           rotuloAdicionar="Adicionar coluna"
           render={(col, i, atualiza) => (
             <div className="flex items-end gap-2">
               <div className="min-w-0 flex-1">
-                <Field label={`Coluna ${i + 1}`} valor={col.label ?? ''} limite={26}>
+                <Field
+                  label={`Coluna ${i + 1}`}
+                  valor={col.label ?? ""}
+                  limite={26}
+                >
                   <Input
-                    value={col.label ?? ''}
-                    onChange={(e) => atualiza({ ...col, label: e.target.value })}
+                    value={col.label ?? ""}
+                    onChange={(e) =>
+                      atualiza({ ...col, label: e.target.value })
+                    }
                     className="h-8 text-sm"
                   />
                 </Field>
               </div>
               <Select
-                value={col.style || 'texto'}
-                onValueChange={(v) => atualiza({ ...col, style: (v === 'texto' ? '' : v) as DeckTableCol['style'] })}
+                value={col.style || "texto"}
+                onValueChange={(v) =>
+                  atualiza({
+                    ...col,
+                    style: (v === "texto" ? "" : v) as DeckTableCol["style"],
+                  })
+                }
               >
                 <SelectTrigger className="h-8 w-32 text-xs">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {ESTILOS.map((e) => (
-                    <SelectItem key={e.valor} value={e.valor} className="text-xs">
+                    <SelectItem
+                      key={e.valor}
+                      value={e.valor}
+                      className="text-xs"
+                    >
                       <span className="font-medium">{e.rotulo}</span>
-                      <span className="block text-[10px] text-muted-foreground">{e.ajuda}</span>
+                      <span className="block text-[10px] text-muted-foreground">
+                        {e.ajuda}
+                      </span>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -102,25 +146,38 @@ export function TableEditor({
           chave={(_, i) => `row-${i}`}
           teto={tetoLinhas}
           motivoDoTeto={`Nenhuma tabela real passou de oito linhas; acima disso o slide costuma transbordar.`}
-          novoItem={() => ({ cells: colunas.map(() => '') })}
+          novoItem={() => ({ cells: colunas.map(() => "") })}
           rotuloAdicionar="Adicionar linha"
-          vazio={<p className="py-3 text-center text-[11px] text-muted-foreground">Sem linhas ainda.</p>}
+          vazio={
+            <p className="py-3 text-center text-[11px] text-muted-foreground">
+              Sem linhas ainda.
+            </p>
+          }
           render={(row, ri, atualiza) => (
             <div className="space-y-1.5">
-              <div className="grid gap-1.5" style={{ gridTemplateColumns: `repeat(${Math.max(colunas.length, 1)}, minmax(0,1fr))` }}>
+              <div
+                className="grid gap-1.5"
+                style={{
+                  gridTemplateColumns: `repeat(${Math.max(colunas.length, 1)}, minmax(0,1fr))`,
+                }}
+              >
                 {colunas.map((col, ci) => (
                   <Input
                     key={ci}
-                    value={row.cells?.[ci] ?? ''}
+                    value={row.cells?.[ci] ?? ""}
                     onChange={(e) => {
                       const cells = (row.cells ?? []).slice();
-                      while (cells.length < colunas.length) cells.push('');
+                      while (cells.length < colunas.length) cells.push("");
                       cells[ci] = e.target.value;
                       atualiza({ ...row, cells });
                     }}
-                    placeholder={col.label ?? ''}
+                    placeholder={col.label ?? ""}
                     className="h-8 text-xs"
-                    title={col.style === 'dose' ? 'coluna de dose: não quebra linha' : undefined}
+                    title={
+                      col.style === "dose"
+                        ? "coluna de dose: não quebra linha"
+                        : undefined
+                    }
                   />
                 ))}
               </div>
@@ -128,7 +185,9 @@ export function TableEditor({
                 <input
                   type="checkbox"
                   checked={Boolean(row.muted)}
-                  onChange={(e) => atualiza({ ...row, muted: e.target.checked })}
+                  onChange={(e) =>
+                    atualiza({ ...row, muted: e.target.checked })
+                  }
                 />
                 Riscada
                 <span>(o item considerado e descartado)</span>
@@ -146,7 +205,9 @@ export function TableEditor({
           onChange={(e) => onChange({ ...table, dense: e.target.checked })}
         />
         Compacta
-        <span className="text-muted-foreground">(aperta o espaçamento quando a tabela é longa)</span>
+        <span className="text-muted-foreground">
+          (aperta o espaçamento quando a tabela é longa)
+        </span>
       </label>
     </div>
   );

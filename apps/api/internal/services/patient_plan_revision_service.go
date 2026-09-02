@@ -150,6 +150,14 @@ func (s *PatientPlanRevisionService) Record(tx *gorm.DB, in RecordRevisionInput)
 			Update("published_revision_id", rev.ID).Error; err != nil {
 			return 0, err
 		}
+		// Escreve TAMBÉM no struct do chamador, e não só na linha.
+		//
+		// Sem esta linha o campo nunca sobreviveu: `Publish` chama `Record` e depois faz
+		// `tx.Save(plan)` com o struct carregado ANTES deste UPDATE, e o Save do GORM grava todos
+		// os campos — devolvendo a coluna a NULL na mesma transação. Os sete planos publicados em
+		// dev estavam todos com `published_revision_id` nulo, ou seja, "o que o paciente leu em
+		// janeiro" nunca virou consulta, que era o objetivo declarado da migration 00092.
+		in.Plan.PublishedRevisionID = &rev.ID
 	}
 	return seq, nil
 }

@@ -20,7 +20,8 @@ function buildCSP(nonce: string): string {
   const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
   // 'unsafe-eval' SÓ em desenvolvimento: o HMR/react-refresh do Next usa eval. O build de
   // produção não precisa, então em prod o script-src fica sem eval (mais estrito).
-  const evalSrc = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
+  const evalSrc =
+    process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
   return [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https:${evalSrc}`,
@@ -30,7 +31,12 @@ function buildCSP(nonce: string): string {
     // bloqueia o streaming de áudio das conversas (que vem da api, cross-origin) — o
     // <audio> nem chega a requisitar. blob: cobre mídia montada client-side.
     `media-src 'self' blob: data: ${api}`,
-    "font-src 'self' data: https://fonts.gstatic.com",
+    // ${api} é OBRIGATÓRIO: a prévia do deck passou a linkar as sete fontes em vez de embutir
+    // 1,9 MB de base64, e elas são servidas por /api/v1/deck-fonts, que é OUTRA origem (na dev
+    // também: :3001 contra :3000). O iframe `srcdoc` herda a CSP deste documento, então sem isto
+    // as fontes falham em silêncio, a métrica do texto muda e a prévia mente sobre o que cabe —
+    // que é exatamente o modo de falha que o teste de fontes existe para impedir.
+    `font-src 'self' data: https://fonts.gstatic.com ${api}`,
     `connect-src 'self' https://api.openai.com https://api.anthropic.com https://*.daily.co wss://*.daily.co ${api}`,
     "frame-src 'self' https://*.daily.co https://accounts.google.com",
     "frame-ancestors 'none'",
