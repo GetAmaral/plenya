@@ -18,6 +18,30 @@
 - **Novo paciente** vira `selectedPatient` automaticamente também no cadastro completo `patients/new`.
 - yml regenerado do banco. **Prod ainda com nomes "Painel X"** → seed UPSERT (rename + display_order) sob ordem.
 
+## Ajuste 2026-09-03 (Doppler de tireoide — dev-only, prod pendente)
+- **Acrescentado** `PLNUSGTIRDOP01` — "Ultrassonografia com Doppler colorido de tireoide",
+  **TUSS 40901386**, ao lado da USG de tireoide nos 4 templates que a pedem (Acompanhamento,
+  Completo, Inicial, Tireoide). Não substitui: no TUSS são dois procedimentos, e a operadora
+  cobra assim.
+- **O TUSS foi conferido em duas fontes**, e há duas armadilhas registradas no seed:
+  não existe código específico de "Doppler de tireoide" (o certo é o genérico de órgão isolado);
+  `40901378` é vaso cervical VENOSO, não tireoide; e `40901203`, o da USG que já estava no
+  catálogo, é "Órgãos superficiais (tireóide ou escroto ou pênis ou crânio)" e não inclui Doppler.
+- `page_break_before = false`: quem abre o bloco de imagem é a USG de tireoide, e o Doppler
+  pertence à mesma página. Conferido pelo caminho real (`applyTemplate` sobre o payload da API):
+  a página de USG sai com a USG, o Doppler, o abdome e a próstata.
+- **Vai por migration goose `00097_usg_doppler_tireoide.sql`**, não por seed em `docs/emr/`.
+  Dado de catálogo neste projeto é migration (precedente: `00056` insere em
+  `lab_test_definitions`; `00081`/`00082` são catálogos inteiros) — assim chega em prod no deploy
+  do `api`, em vez de depender de alguém lembrar de rodar um script. Provado: `up` sobre o dado já
+  existente é no-op, `down` devolve a ordem original e apaga a definição, `up` de novo reproduz o
+  estado byte a byte.
+
+> Nota sobre a linha de 2026-06-17 acima: "imagem alfabético um por página" descreve uma regra que
+> não vive mais no código. `apps/web/lib/lab-request-apply.ts` diz explicitamente que **a ordem e a
+> paginação vêm do template (dado), não de agrupamento no código** — `display_order` e
+> `page_break_before`. Foi por isso que o ajuste acima é de dado, não de código.
+
 ## Próxima tarefa (o que estávamos fazendo)
 **PLANO DE SCORE em execução item a item (2026-06-15).** #1–#11 pontuam/ajustados; #12–16 (cluster
 HAS Secundária) fora; **falta revalidar #17–#25** (cortisol salivar, 17-OHP, pregnenolona, estrona,
