@@ -23,6 +23,7 @@ import {
   FileText,
   Loader2,
   MessageSquare,
+  Sparkles,
   Plus,
   Ruler,
   Send,
@@ -47,6 +48,8 @@ import {
   useRestorePlanRevision,
   usePlanSuggestions,
   useResolveSuggestions,
+  useGeneratePlanDraft,
+  type PlanGenWarning,
   useSendPlanMessage,
   usePublishPatientPlan,
   useRefreshPlanDossier,
@@ -131,6 +134,9 @@ export default function PatientPlanPage() {
   const { data: revisoes = [], isLoading: carregandoRevisoes } =
     usePlanRevisions(patientId, selectedId ?? undefined);
   const restaurar = useRestorePlanRevision(patientId ?? "");
+  const gerarRascunho = useGeneratePlanDraft(patientId ?? "");
+  const [avisosGeracao, setAvisosGeracao] = useState<PlanGenWarning[]>([]);
+  const [arcoGerado, setArcoGerado] = useState("");
   const enviarMensagem = useSendPlanMessage(patientId);
   // Sobrevive ao re-render: ver handleEnviarMensagem.
   const chaveDoEnvio = useRef<string | null>(null);
@@ -281,6 +287,28 @@ export default function PatientPlanPage() {
       toast.success("Rascunho criado");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Falha ao criar o rascunho");
+    }
+  };
+
+  /**
+   * Gera o rascunho inteiro a partir do prontuário. É o caminho principal: "em branco" existe para
+   * quem quer escrever do zero, não como padrão.
+   */
+  const handleGerar = async () => {
+    try {
+      const r = await gerarRascunho.mutateAsync({});
+      setSelectedId(r.plan.id);
+      setTitle(r.plan.title);
+      setSlides((r.plan.content ?? []) as DeckSlide[]);
+      setAvisosGeracao(r.warnings ?? []);
+      setArcoGerado(r.reply ?? "");
+      setOverflow(r.overflow ?? null);
+      toast.success(
+        `Rascunho gerado com ${(r.plan.content ?? []).length} slides`,
+      );
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Falha ao gerar o rascunho";
+      toast.error(msg);
     }
   };
 
@@ -441,17 +469,36 @@ export default function PatientPlanPage() {
             </SheetContent>
           </Sheet>
         )}
+        {/*
+          Gerar é o caminho PRINCIPAL e "em branco" o secundário, não o contrário. Enquanto só
+          existia "Novo plano", o que ele criava eram dois slides vazios — e a feature inteira
+          (dossiê, editor, conversa) ficava esperando um documento que ninguém escrevia.
+        */}
         <Button
           className={selected ? "" : "ml-auto"}
+          onClick={handleGerar}
+          disabled={gerarRascunho.isPending || createPlan.isPending}
+          title="Escreve o rascunho inteiro a partir do prontuário compilado. Leva de 40 a 90 segundos."
+        >
+          {gerarRascunho.isPending ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Sparkles className="mr-2 h-4 w-4" />
+          )}
+          {gerarRascunho.isPending ? "Escrevendo…" : "Gerar rascunho"}
+        </Button>
+        <Button
+          variant="outline"
           onClick={handleCreate}
-          disabled={createPlan.isPending}
+          disabled={createPlan.isPending || gerarRascunho.isPending}
+          title="Cria um plano vazio para escrever do zero."
         >
           {createPlan.isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Plus className="mr-2 h-4 w-4" />
           )}
-          Novo plano
+          Em branco
         </Button>
       </div>
 
@@ -619,6 +666,42 @@ export default function PatientPlanPage() {
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
+
+                {/*
+                  O que a geração decidiu, e o que o servidor NÃO conseguiu confirmar.
+                  A conferência prova que o número EXISTE no dossiê; nunca que ele significa o que
+                  a frase diz. Por isso o aviso aponta o slide exato: é para o médico julgar uma
+                  afirmação específica, não reler treze slides.
+                */}
+                {(arcoGerado || avisosGeracao.length > 0) && (
+                  <div className="space-y-2 rounded-md border bg-muted/30 p-3">
+                    {arcoGerado && (
+                      <p className="whitespace-pre-wrap text-xs text-muted-foreground">
+                        {arcoGerado}
+                      </p>
+                    )}
+                    {avisosGeracao.length > 0 && (
+                      <div className="rounded border border-amber-300 bg-amber-50 p-2">
+                        <p className="text-[11px] font-medium text-amber-900">
+                          {avisosGeracao.length} número(s) que não encontrei no
+                          prontuário compilado. Confira antes de publicar.
+                        </p>
+                        <ul className="mt-1 space-y-0.5">
+                          {avisosGeracao.slice(0, 8).map((a, i) => (
+                            <li key={i} className="text-[11px] text-amber-900">
+                              slide {a.slideIndex}
+                              {a.title
+                                ? ` (${a.title.slice(0, 40)})`
+                                : ""}:{" "}
+                              <span className="font-mono">{a.numeral}</span> —{" "}
+                              {a.reason}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {overflow !== null && (
                   <div

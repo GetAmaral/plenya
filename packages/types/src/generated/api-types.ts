@@ -5384,6 +5384,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/plans/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gera o rascunho da devolutiva a partir do prontuário compilado
+         * @description Cria um plano novo já ESCRITO: congela o dossiê, o modelo redige o deck seguindo o
+         *     arco e a gramática dos decks reais, e o servidor confere cada número contra o
+         *     dossiê antes de gravar. Números não encontrados viram aviso no slide exato, não
+         *     bloqueiam. A revisão fica registrada como escrita pelo assistente.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description Título e instrução opcionais */
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["dto.GeneratePlanRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["services.GenerateDraftResult"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Unprocessable Entity */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plans/{planId}": {
         parameters: {
             query?: never;
@@ -17966,6 +18034,14 @@ export interface components {
             usageType?: "internal" | "external";
             vehicle?: string;
         };
+        "dto.GeneratePlanRequest": {
+            /**
+             * @description Instruction deixa o médico dirigir a geração ("foque no ferro e no sono", "sem o bloco de
+             *     condutas"). Vazio = o arco padrão.
+             */
+            instruction?: string;
+            title?: string;
+        };
         "dto.GoogleOAuthRequest": {
             idToken: string;
         };
@@ -18466,6 +18542,13 @@ export interface components {
         "dto.PlanFindingSource": "lab" | "anamnesis";
         /** @enum {string} */
         "dto.PlanFindingTrend": "single" | "stable" | "improving" | "worsening";
+        "dto.PlanGenWarning": {
+            numeral?: string;
+            reason?: string;
+            slideId?: string;
+            slideIndex?: number;
+            title?: string;
+        };
         "dto.PlanMessage": {
             body?: string;
             createdAt?: string;
@@ -22086,6 +22169,13 @@ export interface components {
         "services.Enable2FAResult": {
             otpAuthUrl?: string;
             secret?: string;
+        };
+        "services.GenerateDraftResult": {
+            model?: string;
+            overflow?: components["schemas"]["pdfdoc.DeckOverflow"][];
+            plan?: components["schemas"]["dto.PatientPlanResponse"];
+            reply?: string;
+            warnings?: components["schemas"]["dto.PlanGenWarning"][];
         };
         "services.LGPDConsentStatus": {
             accepted?: boolean;

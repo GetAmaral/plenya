@@ -1489,6 +1489,7 @@ func setupRoutes(
 	patients.Post("/:id/plans/:planId/dossier/refresh", middleware.RequireClinician(), patientPlanHandler.RefreshPlanDossier)
 
 	// Conversa que edita o rascunho, e as sugestões que ela produz.
+	patients.Post("/:id/plans/generate", middleware.RequireClinician(), patientPlanAssistantHandler.GenerateDraft)
 	patients.Post("/:id/plans/:planId/assistant/messages", middleware.RequireClinician(), patientPlanAssistantHandler.SendMessage)
 	patients.Get("/:id/plans/:planId/assistant/messages", middleware.RequireClinician(), patientPlanAssistantHandler.History)
 	patients.Get("/:id/plans/:planId/suggestions", middleware.RequireClinician(), patientPlanAssistantHandler.ListSuggestions)

@@ -6,7 +6,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"time"
+
+	"github.com/plenya/api/internal/pdfdoc"
 )
 
 // A chamada ao modelo para editar o rascunho da devolutiva.
@@ -281,4 +284,345 @@ func (s *AIService) chamaFerramentaComMeta(payload map[string]any) (string, AICa
 		}
 	}
 	return "", meta, fmt.Errorf("%w: sem tool_use na resposta", ErrAIUpstream)
+}
+
+// ---------------------------------------------------------------------------
+// Geração do rascunho inteiro, a partir do dossiê.
+//
+// É o passo que faltava: a edição turno a turno (EditPatientPlan) mexe num deck que alguém já
+// escreveu, e até aqui ninguém escrevia. O "novo plano" nascia com dois slides vazios.
+//
+// Vale a mesma regra de ouro da edição, com força maior: aqui o modelo escreve o documento inteiro
+// de uma vez, então TODO número precisa vir declarado com origem no dossiê, e o servidor confere
+// slide a slide antes de gravar.
+
+// planGenerateSystemPrompt — as regras da edição mais o arco e a gramática.
+//
+// O arco não é invenção: é o que os dois decks reais convergiram (Ana, 21 slides; José Ricardo,
+// 20), e está escrito na skill `/plano`. Os tetos (4 réguas, 8 linhas de tabela, 3 colunas) são
+// medidos, não estimados: com 8 réguas o slide estoura e existe teste provando.
+const planGenerateSystemPrompt = planSystemPrompt + `
+
+VOCÊ ESTÁ ESCREVENDO O RASCUNHO INTEIRO, do zero, a partir do dossiê.
+
+O ARCO (use como espinha, corte o que não se aplica a este paciente):
+1   capa                  nome do paciente não; só uma frase de abertura
+2   resumo em uma página  o que está forte | o que está se movendo | o que vamos fazer
+3-4 o que está bem        1 a 4 réguas por slide, tiradas do topo de "strong"
+5-7 o que está se movendo UM achado por slide, do topo de "moving"
+8+  o plano               uma conduta por slide, vindas de carePlan
+n-2 a sequência           os próximos meses, em ordem
+n-1 para levar            o que começa agora, com dose, vindo de prescriptions
+n   em uma página         o fecho
+
+COMO ESCOLHER O QUE ENTRA:
+- "o que está bem" sai de strong, que já vem ordenado por PESO do item. Em nível 4-5 ninguém perde
+  ponto, então peso é o único sinal.
+- Boa parte da anamnese é checklist de ausência ("Adrenalectomia: não"). Isso NÃO é conquista e
+  NÃO vira slide.
+- "o que está se movendo" sai do topo de moving. Três é o número que funcionou nos dois decks.
+  Um achado com trend "worsening" merece prioridade mesmo em nível bom: a direção é o sinal.
+- Um assunto por slide. Se dois achados precisam ser explicados juntos, são dois slides.
+- Se o dossiê não tem conduta registrada, NÃO invente conduta. Escreva menos slides.
+
+VOZ (o paciente é adulto e está lendo sobre o próprio corpo):
+- Título de slide é uma AFIRMAÇÃO, não um rótulo: "A ferritina dobrou em dois anos", não "Ferritina".
+- "display" da régua é o nome que o paciente reconhece ("Ferritina"), nunca o do catálogo
+  ("Ferritina - Homens"). "sub" explica o que o exame mede em até cinco palavras.
+- "punch" fecha o slide com a consequência, e é o único lugar onde <em> entra.
+- Todo número vem com unidade e com a data em que foi medido.
+
+PROIBIDO no texto que o paciente lê: travessão; a construção "Não é X. É Y."; fecho em slogan;
+ícone decorativo em lista; preço; marca comercial (suplemento, aparelho, laboratório, varejista);
+a expressão "medicina preditiva"; qualquer coisa que identifique outra pessoa.
+
+REGRA DE LEI DA RÉGUA: nenhuma régua entra num slide sem um rótulo avaliativo visível no MESMO
+slide. Pode estar no título, no punch ou no note da régua, mas tem que estar em algum deles.
+Barra colorida sozinha comunica pior que barra com rótulo.
+
+TETOS MEDIDOS, não sugestões: no máximo 4 réguas por slide (com 8 o slide estoura), 8 linhas de
+tabela, 3 colunas, 4 linhas por cartão de resumo, 3 grupos no "para levar". Entre 12 e 20 slides.`
+
+func planGenerateToolSchema() map[string]any {
+	return map[string]any{
+		"type":                 "object",
+		"additionalProperties": false,
+		"required":             []string{"reply", "slides"},
+		"properties": map[string]any{
+			"reply": map[string]any{
+				"type":        "string",
+				"description": "O arco que você escolheu e o que deixou de fora, em português, para o médico ler. Nunca é conteúdo de slide.",
+			},
+			"slides": map[string]any{
+				"type":     "array",
+				"minItems": 3,
+				"maxItems": 24,
+				"description": "O deck inteiro, na ordem. Cada slide segue a gramática dos 9 blocos; " +
+					"não invente campo que não exista.",
+				"items": map[string]any{
+					"type":     "object",
+					"required": []string{"kind"},
+					"properties": map[string]any{
+						// `kind` estava livre e o modelo devolveu os onze slides com ele VAZIO, o
+						// que deixa o render sem saber o que desenhar. Enum resolve na origem.
+						"kind": map[string]any{
+							"enum": []string{"cover", "summary", "rulers", "two-cards", "plan-step",
+								"sequence", "takeaway", "closing", "table"},
+						},
+						"variant": map[string]any{"enum": []string{"deep", "light"}},
+						"eyebrow": map[string]any{"type": "string"},
+						"title":   map[string]any{"type": "string"},
+						"lede":    map[string]any{"type": "string"},
+						"punch":   map[string]any{"type": "string"},
+						// Os blocos abaixo precisam estar no schema com a forma exata. Sem eles o
+						// modelo devolvia o slide com cabeçalho e NADA no miolo: `summary`,
+						// `two-cards`, `sequence` e `closing` saíam ocos, bonitos por fora e sem
+						// conteúdo nenhum. Só `rulers` vinha preenchido, que era o único descrito.
+						"summary": map[string]any{
+							"type":        "object",
+							"description": "Só em kind=summary. Dois cartões (o que está forte, o que está se movendo) e os passos embaixo.",
+							"properties": map[string]any{
+								"cards": map[string]any{
+									"type": "array", "maxItems": 2,
+									"items": map[string]any{
+										"type":     "object",
+										"required": []string{"title"},
+										"properties": map[string]any{
+											"title": map[string]any{"type": "string"},
+											"tone":  map[string]any{"enum": []string{"bom", "ruim"}},
+											"lines": map[string]any{
+												"type": "array", "maxItems": 4,
+												"items": map[string]any{
+													"type":     "object",
+													"required": []string{"name", "value", "code"},
+													"properties": map[string]any{
+														"name":  map[string]any{"type": "string"},
+														"sub":   map[string]any{"type": "string"},
+														"code":  map[string]any{"type": "string", "description": "O code do exame de onde o valor saiu. Obrigatório: é o que torna o número auditável."},
+														"value": map[string]any{"type": "string"},
+														"unit":  map[string]any{"type": "string"},
+													},
+												},
+											},
+										},
+									},
+								},
+								"stepsTitle": map[string]any{"type": "string"},
+								"steps":      map[string]any{"type": "array", "maxItems": 4, "items": map[string]any{"type": "string"}},
+							},
+						},
+						"cards": map[string]any{
+							"type":        "array",
+							"maxItems":    2,
+							"description": "Em kind=two-cards são exatamente 2; em closing, 1 ou 2.",
+							"items": map[string]any{
+								"type": "object",
+								"properties": map[string]any{
+									"kicker": map[string]any{"type": "string"},
+									"body":   map[string]any{"type": "string"},
+									"dim":    map[string]any{"type": "boolean", "description": "Apaga o caminho descartado."},
+									"focus":  map[string]any{"type": "boolean", "description": "Destaca o caminho recomendado."},
+								},
+							},
+						},
+						"steps": map[string]any{
+							"type":        "array",
+							"maxItems":    6,
+							"description": "Só em kind=sequence: os próximos meses, em ordem.",
+							"items": map[string]any{
+								"type":     "object",
+								"required": []string{"when", "what"},
+								"properties": map[string]any{
+									"when":   map[string]any{"type": "string", "description": `Ex.: "nas próximas 4 semanas".`},
+									"what":   map[string]any{"type": "string"},
+									"detail": map[string]any{"type": "string"},
+								},
+							},
+						},
+						"takeaway": map[string]any{
+							"type":        "object",
+							"description": "Só em kind=takeaway. Dose só sai de prescriptions do dossiê; sem prescrição, não escreva dose.",
+							"properties": map[string]any{
+								"highlight": map[string]any{
+									"type": "object", "required": []string{"name"},
+									"properties": map[string]any{
+										"name": map[string]any{"type": "string"},
+										"dose": map[string]any{"type": "string"},
+										"unit": map[string]any{"type": "string"},
+										"when": map[string]any{"type": "string"},
+										"obs":  map[string]any{"type": "string"},
+									},
+								},
+								"groups": map[string]any{
+									"type": "array", "maxItems": 3,
+									"items": map[string]any{
+										"type": "object", "required": []string{"title"},
+										"properties": map[string]any{
+											"title": map[string]any{"type": "string"},
+											"items": map[string]any{
+												"type": "array",
+												"items": map[string]any{
+													"type": "object", "required": []string{"name"},
+													"properties": map[string]any{
+														"name": map[string]any{"type": "string"},
+														"sub":  map[string]any{"type": "string"},
+														"dose": map[string]any{"type": "string"},
+													},
+												},
+											},
+										},
+									},
+								},
+								"note": map[string]any{"type": "string"},
+							},
+						},
+						"table": map[string]any{
+							"type":        "object",
+							"description": "Só em kind=table. Máximo 3 colunas e 8 linhas.",
+							"properties": map[string]any{
+								"columns": map[string]any{
+									"type": "array", "maxItems": 3,
+									"items": map[string]any{
+										"type": "object", "required": []string{"label"},
+										"properties": map[string]any{
+											"label": map[string]any{"type": "string"},
+											"style": map[string]any{"type": "string"},
+										},
+									},
+								},
+								"rows": map[string]any{
+									"type": "array", "maxItems": 8,
+									"items": map[string]any{
+										"type": "object", "required": []string{"cells"},
+										"properties": map[string]any{
+											"cells": map[string]any{"type": "array", "items": map[string]any{"type": "string"}},
+											"muted": map[string]any{"type": "boolean"},
+										},
+									},
+								},
+							},
+						},
+						"rulers": map[string]any{
+							"type":     "array",
+							"maxItems": 4,
+							"description": "Só o exame e o texto autoral. A escala e o histórico o SERVIDOR copia " +
+								"do dossiê; não escreva axis, segments nem history.",
+							"items": map[string]any{
+								"type":     "object",
+								"required": []string{"code", "display"},
+								"properties": map[string]any{
+									"code":    map[string]any{"type": "string", "description": "O `code` da régua, copiado do dossiê."},
+									"display": map[string]any{"type": "string", "description": "O nome que o paciente reconhece."},
+									"sub":     map[string]any{"type": "string", "description": "O que o exame mede, em até cinco palavras."},
+									"note":    map[string]any{"type": "string", "description": "Leitura clínica em uma linha. É onde o rótulo avaliativo mora."},
+								},
+							},
+						},
+					},
+				},
+			},
+			"numerals": map[string]any{
+				"type":        "array",
+				"description": "TODO número presente em qualquer slide, com a origem no dossiê. Número sem origem: não escreva o número.",
+				"items": map[string]any{
+					"type":                 "object",
+					"additionalProperties": false,
+					"required":             []string{"numeral", "source"},
+					"properties": map[string]any{
+						"numeral": map[string]any{"type": "string"},
+						"source":  map[string]any{"type": "string", "description": "ex.: ruler:PLNFERR:history:2026-02-06"},
+					},
+				},
+			},
+		},
+	}
+}
+
+// PlanGenerateRequest — o insumo da geração. Sem histórico de conversa: é a primeira coisa que
+// acontece na vida do plano.
+type PlanGenerateRequest struct {
+	DossierJSON   string
+	Instruction   string
+	PromptVersion string
+	Model         string
+}
+
+// PlanGenerateResult — o deck cru como o modelo devolveu, ANTES da validação do servidor.
+type PlanGenerateResult struct {
+	Reply    string             `json:"reply"`
+	Slides   []pdfdoc.DeckSlide `json:"slides"`
+	Numerals []PlanModelNumeral `json:"numerals"`
+}
+
+// PlanModelNumeral — um número declarado pelo modelo, com a origem que ele alega.
+type PlanModelNumeral struct {
+	Numeral string `json:"numeral"`
+	Source  string `json:"source"`
+}
+
+// GeneratePatientPlan escreve o rascunho inteiro a partir do dossiê congelado.
+func (s *AIService) GeneratePatientPlan(req PlanGenerateRequest) (*PlanGenerateResult, AICallMeta, error) {
+	var meta AICallMeta
+	if !s.IsConfigured() {
+		return nil, meta, ErrAINotConfigured
+	}
+
+	sistema := []map[string]any{
+		{"type": "text", "text": planGenerateSystemPrompt},
+		{
+			"type": "text",
+			"text": "DOSSIÊ (prontuário compilado e congelado deste plano):\n" + req.DossierJSON,
+			// Mesmo ponto de cache da edição: o dossiê é byte-idêntico entre a geração e os turnos
+			// de conversa que vêm depois, então o prefixo é reaproveitado.
+			"cache_control": map[string]any{"type": "ephemeral"},
+		},
+	}
+
+	instrucao := strings.TrimSpace(req.Instruction)
+	if instrucao == "" {
+		instrucao = "Escreva o rascunho da devolutiva deste paciente."
+	}
+
+	modelo := req.Model
+	if modelo == "" {
+		modelo = s.model
+	}
+	payload := map[string]any{
+		"model": modelo,
+		// Maior que na edição: aqui sai o deck inteiro, não um punhado de operações. Com 16000 a
+		// primeira geração com todos os blocos descritos truncou no meio do JSON, e o erro que
+		// chegava ao médico era "resposta não pôde ser lida" — que não diz nada.
+		"max_tokens": 32000,
+		"system":     sistema,
+		"messages":   []map[string]any{{"role": "user", "content": instrucao}},
+		"tools": []map[string]any{{
+			"name":         "escrever_devolutiva",
+			"description":  "Escreve o rascunho inteiro da devolutiva a partir do dossiê.",
+			"input_schema": planGenerateToolSchema(),
+		}},
+		"tool_choice": map[string]any{"type": "tool", "name": "escrever_devolutiva"},
+		// Sem `temperature`: com tool forçado, os modelos atuais respondem 400.
+	}
+
+	inicio := time.Now()
+	bruto, m, err := s.chamaFerramentaComMeta(payload)
+	meta = m
+	meta.LatencyMs = int(time.Since(inicio).Milliseconds())
+	if err != nil {
+		return nil, meta, err
+	}
+
+	var out PlanGenerateResult
+	if err := json.Unmarshal([]byte(bruto), &out); err != nil {
+		// Distinguir truncamento de resposta malformada: são problemas diferentes e a ação do
+		// médico também é ("tente de novo" contra "peça um deck menor").
+		if meta.StopReason == "max_tokens" {
+			return nil, meta, fmt.Errorf("%w: o deck ficou maior que o limite da resposta e veio cortado; peça um plano mais curto", ErrAIUpstream)
+		}
+		return nil, meta, fmt.Errorf("%w: resposta do modelo não pôde ser lida", ErrAIUpstream)
+	}
+	if len(out.Slides) == 0 {
+		return nil, meta, fmt.Errorf("%w: o modelo não devolveu slide nenhum", ErrAIUpstream)
+	}
+	return &out, meta, nil
 }

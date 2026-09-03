@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -169,4 +170,51 @@ func (h *PatientPlanAssistantHandler) ResolveSuggestions(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusMultiStatus).JSON(out)
 	}
 	return c.JSON(out)
+}
+
+// GenerateDraft godoc
+// @Summary Gera o rascunho da devolutiva a partir do prontuário compilado
+// @Description Cria um plano novo já ESCRITO: congela o dossiê, o modelo redige o deck seguindo o
+// @Description arco e a gramática dos decks reais, e o servidor confere cada número contra o
+// @Description dossiê antes de gravar. Números não encontrados viram aviso no slide exato, não
+// @Description bloqueiam. A revisão fica registrada como escrita pelo assistente.
+// @Tags patient-plans
+// @Accept json
+// @Produce json
+// @Param id path string true "ID do paciente (UUID)"
+// @Param body body dto.GeneratePlanRequest false "Título e instrução opcionais"
+// @Success 201 {object} services.GenerateDraftResult
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 422 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/generate [post]
+func (h *PatientPlanAssistantHandler) GenerateDraft(c *fiber.Ctx) error {
+	patientID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).
+			JSON(dto.ErrorResponse{Error: "invalid patient id", Message: err.Error()})
+	}
+	userID, ok := c.Locals("userID").(uuid.UUID)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{Error: "não autenticado"})
+	}
+	var req dto.GeneratePlanRequest
+	// Corpo é opcional: gerar sem instrução é o caso comum.
+	_ = c.BodyParser(&req)
+
+	out, err := h.assistant.GenerateDraft(services.GenerateDraftInput{
+		PatientID: patientID, UserID: userID,
+		Title: req.Title, Instruction: req.Instruction,
+	})
+	if err != nil {
+		// 422 e não 500 quando o paciente simplesmente não tem prontuário: não é defeito, é a
+		// resposta certa, e a tela precisa dizer isso em vez de "erro".
+		if strings.Contains(err.Error(), "não tem exame nem anamnese") {
+			return c.Status(fiber.StatusUnprocessableEntity).
+				JSON(dto.ErrorResponse{Error: "prontuário insuficiente", Message: err.Error()})
+		}
+		return c.Status(fiber.StatusInternalServerError).
+			JSON(dto.ErrorResponse{Error: "falha ao gerar o rascunho", Message: err.Error()})
+	}
+	return c.Status(fiber.StatusCreated).JSON(out)
 }

@@ -396,6 +396,41 @@ export function useRestorePlanRevision(patientId: string) {
   });
 }
 
+/** Um número que o modelo escreveu e o servidor não achou no prontuário compilado. */
+export interface PlanGenWarning {
+  slideIndex: number;
+  slideId?: string;
+  title?: string;
+  numeral: string;
+  reason: string;
+}
+
+export interface GenerateDraftResult {
+  plan: PatientPlan;
+  /** O arco que o modelo escolheu e o que deixou de fora. Para o médico ler, nunca vai pro deck. */
+  reply: string;
+  warnings?: PlanGenWarning[];
+  overflow?: DeckOverflow[];
+  model?: string;
+}
+
+/**
+ * Gera o rascunho INTEIRO a partir do prontuário compilado.
+ *
+ * É o passo que faltava: até aqui "novo plano" criava dois slides vazios e a conversa editava um
+ * documento que ninguém tinha escrito. Leva de 40 a 90 segundos, porque o modelo redige o deck todo.
+ */
+export function useGeneratePlanDraft(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { title?: string; instruction?: string } = {}) =>
+      apiClient.post<GenerateDraftResult>(`${base(patientId)}/generate`, body),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
+    },
+  });
+}
+
 export const patientPlansApi = {
   previewURL: (patientId: string, planId: string) =>
     `${base(patientId)}/${planId}/preview`,

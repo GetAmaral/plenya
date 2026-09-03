@@ -369,3 +369,23 @@ type ResolveSuggestionsRequest struct {
 	SlideID          string   `json:"slideId"`
 	ExpectedRevision *int     `json:"expectedRevision"`
 }
+
+// PlanGenWarning — um número que o modelo escreveu e o servidor NÃO encontrou no dossiê.
+//
+// Não bloqueia a geração: bloquear jogaria fora o deck inteiro por causa de um número. Vira aviso
+// no slide exato, para o médico olhar aquela frase em vez de reler vinte slides.
+type PlanGenWarning struct {
+	SlideIndex int    `json:"slideIndex"`
+	SlideID    string `json:"slideId,omitempty"`
+	Title      string `json:"title,omitempty"`
+	Numeral    string `json:"numeral"`
+	Reason     string `json:"reason"`
+}
+
+// GeneratePlanRequest — o corpo (opcional) do pedido de geração.
+type GeneratePlanRequest struct {
+	Title string `json:"title,omitempty"`
+	// Instruction deixa o médico dirigir a geração ("foque no ferro e no sono", "sem o bloco de
+	// condutas"). Vazio = o arco padrão.
+	Instruction string `json:"instruction,omitempty"`
+}

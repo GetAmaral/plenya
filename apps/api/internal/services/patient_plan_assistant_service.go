@@ -721,3 +721,167 @@ func primeiros(fs []dto.PlanFinding, n int) []dto.PlanFinding {
 	}
 	return fs[:n]
 }
+
+// ---------------------------------------------------------------------------
+// Geração do rascunho.
+
+// GenerateDraftInput — o pedido de "escreva o rascunho deste paciente".
+type GenerateDraftInput struct {
+	PatientID uuid.UUID
+	UserID    uuid.UUID
+	Title     string
+	// Instruction é opcional: o médico pode dirigir ("foque no ferro e no sono").
+	Instruction string
+}
+
+// GenerateDraftResult — o plano criado, o que o modelo explicou e o que o servidor NÃO conseguiu
+// confirmar.
+type GenerateDraftResult struct {
+	Plan     *dto.PatientPlanResponse `json:"plan"`
+	Reply    string                   `json:"reply"`
+	Warnings []dto.PlanGenWarning     `json:"warnings,omitempty"`
+	Overflow []pdfdoc.DeckOverflow    `json:"overflow,omitempty"`
+	Model    string                   `json:"model,omitempty"`
+}
+
+// GenerateDraft escreve o rascunho inteiro a partir do prontuário compilado.
+//
+// É o passo que faltava na feature: até aqui "novo plano" nascia com dois slides vazios e a
+// conversa editava um documento que ninguém tinha escrito.
+//
+// A ordem importa e não é arbitrária:
+//  1. cria o plano vazio — o dossiê é congelado POR PLANO, então precisa de um id;
+//  2. congela o dossiê — é contra ele que todo número vai ser conferido, e ele tem que ser o mesmo
+//     que a conversa vai usar depois (byte-idêntico, para o cache de prompt valer);
+//  3. gera;
+//  4. CONFERE cada número de cada slide contra o índice numérico do dossiê;
+//  5. grava como revisão do assistente, não do médico: quem escreveu foi a ferramenta, e
+//     `ai_touched_paths` na publicação depende disso ser verdade.
+//
+// O que a conferência NÃO faz, e está dito na tela: ela prova que o número EXISTE no dossiê, nunca
+// que ele significa o que a frase diz. "Sua ferritina está em 96" e "seu colesterol está em 96"
+// passam idênticas se 96 existir em algum lugar.
+func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*GenerateDraftResult, error) {
+	titulo := strings.TrimSpace(in.Title)
+	if titulo == "" {
+		titulo = "Seus exames"
+	}
+
+	// 1. o plano vazio, para haver id.
+	criado, err := s.plans.Create(in.PatientID, in.UserID, &dto.SavePatientPlanRequest{
+		Title: titulo, Content: []pdfdoc.DeckSlide{},
+	})
+	if err != nil {
+		return nil, err
+	}
+	planID, err := uuid.Parse(criado.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	// 2. o dossiê congelado.
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		_, errF := s.dossiers.Freeze(tx, planID, in.PatientID, &in.UserID)
+		return errF
+	}); err != nil {
+		return nil, err
+	}
+	dossie, dossieRow, err := s.dossiers.Current(planID)
+	if err != nil {
+		return nil, err
+	}
+	if dossieVazio(dossie) {
+		return nil, errors.New("este paciente não tem exame nem anamnese suficientes para uma devolutiva")
+	}
+
+	// A poda com `nil` de slides devolve o dossiê inteiro: na geração ainda não há deck para dizer
+	// quais códigos são citados.
+	dossieJSON, err := podaDossieParaPrompt(dossie, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// 3. gera.
+	res, meta, err := s.ai.GeneratePatientPlan(PlanGenerateRequest{
+		DossierJSON:   dossieJSON,
+		Instruction:   in.Instruction,
+		PromptVersion: s.promptVersion,
+		Model:         s.model,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	// Os ids que o modelo inventa ("bem-1", "capa") são descartados: id de slide é opaco e é o
+	// alvo de toda operação e sugestão depois. `EnsureSlideIDs` só preenche os VAZIOS, então o
+	// zeramento tem que ser explícito.
+	for i := range res.Slides {
+		res.Slides[i].ID = ""
+	}
+	slides, _ := EnsureSlideIDs(res.Slides)
+
+	// 3b. a escala e o histórico de cada régua vêm do dossiê, não do modelo.
+	slides, avisos := hidrataReguas(slides, dossie)
+
+	// 4. confere os números slide a slide.
+	indice := BuildNumericIndex(dossie)
+	for i := range slides {
+		for _, p := range provaDoSlide(slides[i], indice) {
+			if p.Found {
+				continue
+			}
+			avisos = append(avisos, dto.PlanGenWarning{
+				SlideIndex: i + 1,
+				SlideID:    slides[i].ID,
+				Title:      slides[i].Title,
+				Numeral:    p.Numeral,
+				Reason:     "este número não foi encontrado no prontuário compilado",
+			})
+		}
+	}
+
+	// 5. grava o conteúdo como revisão DO ASSISTENTE.
+	plan, err := s.plans.load(planID, in.PatientID)
+	if err != nil {
+		return nil, err
+	}
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		plan.Content = slides
+		plan.Status = models.PatientPlanDraft
+		seq, errR := s.revisions.Record(tx, RecordRevisionInput{
+			Plan: plan, Title: plan.Title, Content: plan.Content,
+			AuthorKind: models.PlanAuthorAssistant, CreatedByID: in.UserID,
+			Reason:    models.PlanRevisionAIApply,
+			DossierID: &dossieRow.ID,
+			AIModel:   meta.Model, AIPromptVersion: s.promptVersion,
+		})
+		if errR != nil {
+			return errR
+		}
+		plan.RevisionSeq = seq
+		return tx.Save(plan).Error
+	}); err != nil {
+		return nil, err
+	}
+
+	// A conferência geométrica no fim: o deck acabou de nascer e o médico precisa saber ANTES de
+	// editar se algum slide já nasceu estourando.
+	estouro, _ := pdfdoc.CheckDeckOverflow(pdfdoc.Deck{Title: plan.Title, Slides: plan.Content})
+
+	final, err := s.plans.Get(planID, in.PatientID)
+	if err != nil {
+		return nil, err
+	}
+	return &GenerateDraftResult{
+		Plan: final, Reply: res.Reply, Warnings: avisos, Overflow: estouro, Model: meta.Model,
+	}, nil
+}
+
+// dossieVazio — paciente sem exame e sem anamnese não tem devolutiva a montar, e gerar em cima do
+// vazio produziria um deck inventado. Melhor recusar com a razão.
+func dossieVazio(d *dto.PlanDossierResponse) bool {
+	if d == nil {
+		return true
+	}
+	return len(d.Rulers) == 0 && len(d.Strong) == 0 && len(d.Moving) == 0
+}
