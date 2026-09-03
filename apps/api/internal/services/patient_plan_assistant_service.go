@@ -682,6 +682,24 @@ func podaDossieParaPrompt(d *dto.PlanDossierResponse, slides []pdfdoc.DeckSlide)
 		citados[code] = true
 	}
 
+	// NA GERAÇÃO não há deck ainda, então `codigosCitados` volta vazio e, sem esta linha, NENHUMA
+	// régua era considerada citada: as cem por cento viravam uma linha de catálogo com só o último
+	// valor. O modelo era mandado escrever um deck cuja espinha é a régua sem receber régua
+	// nenhuma, e devolvia cascas — sem eixo, sem faixa, sem histórico.
+	//
+	// Quem vai virar slide é o topo de `strong` e de `moving`. Esses vão completos; o resto segue
+	// como catálogo, para o modelo saber o que existe sem carregar tudo.
+	// Exatamente os achados que o modelo vai receber logo abaixo, não o dossiê inteiro: mandar a
+	// régua completa de um exame que ele nem enxerga na lista é peso sem uso (98 de 107, medido).
+	if len(slides) == 0 {
+		for _, f := range primeiros(d.Strong, 10) {
+			citados[f.Code] = true
+		}
+		for _, f := range primeiros(d.Moving, 15) {
+			citados[f.Code] = true
+		}
+	}
+
 	completas := map[string]dto.PlanRuler{}
 	var catalogo []string
 	for code, r := range d.Rulers {
@@ -707,9 +725,31 @@ func podaDossieParaPrompt(d *dto.PlanDossierResponse, slides []pdfdoc.DeckSlide)
 		"estaBem":          primeiros(d.Strong, 10),
 		"vitais":           d.Vitals,
 		"condutas":         d.CarePlan,
+		// A data do dossiê: sem ela a capa não pode trazer "Seus exames · <data>", que é o eyebrow
+		// dos dois decks aprovados.
+		"data": d.GeneratedAt,
+	}
+	// Truncar em silêncio faz o modelo achar que viu tudo. Se sobrou coisa, ele precisa saber.
+	if n := len(d.Moving); n > 15 {
+		podado["seMovendoCortados"] = n - 15
+	}
+	if n := len(d.Strong); n > 10 {
+		podado["estaBemCortados"] = n - 10
+	}
+	// As prescrições e o pedido de exames NÃO chegavam ao modelo, embora o prompt mandasse tirar
+	// dose de `prescriptions` e a skill mapeie `labRequest` para o slide "os exames que faltam".
+	// Os dois slides nasciam sem insumo nenhum.
+	if len(d.Medications) > 0 {
+		podado["prescricoes"] = d.Medications
+	}
+	if d.LabRequest != nil {
+		podado["pedidoDeExames"] = d.LabRequest
 	}
 	if d.Snapshot != nil {
-		podado["escore"] = d.Snapshot.TotalPercentage
+		podado["escore"] = map[string]any{
+			"percentual":  d.Snapshot.TotalPercentage,
+			"calculadoEm": d.Snapshot.CalculatedAt,
+		}
 	}
 	b, err := json.Marshal(podado)
 	return string(b), err
@@ -767,7 +807,9 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		titulo = "Seus exames"
 	}
 
-	// 1. o plano vazio, para haver id.
+	// 1. o plano. `Create` JÁ congela o dossiê (patient_plan_service.go:170), então NÃO há Freeze
+	// aqui: congelar de novo rodava o Build inteiro duas vezes e gravava uma segunda linha
+	// idêntica no histórico de congelamento antes de existir um slide sequer.
 	criado, err := s.plans.Create(in.PatientID, in.UserID, &dto.SavePatientPlanRequest{
 		Title: titulo, Content: []pdfdoc.DeckSlide{},
 	})
@@ -779,26 +821,32 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		return nil, err
 	}
 
-	// 2. o dossiê congelado.
-	if err := s.db.Transaction(func(tx *gorm.DB) error {
-		_, errF := s.dossiers.Freeze(tx, planID, in.PatientID, &in.UserID)
-		return errF
-	}); err != nil {
-		return nil, err
+	// A partir daqui o plano EXISTE, e qualquer falha tem que levá-lo junto.
+	//
+	// Sem isto, toda geração que falhasse — paciente sem exame, modelo fora do ar, resposta
+	// ilegível — deixava um rascunho vazio "Seus exames" gravado, e cada nova tentativa empilhava
+	// mais um. O médico via a lista encher de lixo que ele nunca criou.
+	//
+	// Conferir DEPOIS de criar, e não antes, é de propósito: a checagem prévia exigiria montar o
+	// dossiê uma segunda vez, e ele custa ~30 queries.
+	limpaSeFalhar := func(e error) (*GenerateDraftResult, error) {
+		_ = s.plans.Delete(planID, in.PatientID)
+		return nil, e
 	}
+
 	dossie, dossieRow, err := s.dossiers.Current(planID)
 	if err != nil {
-		return nil, err
+		return limpaSeFalhar(err)
 	}
 	if dossieVazio(dossie) {
-		return nil, errors.New("este paciente não tem exame nem anamnese suficientes para uma devolutiva")
+		return limpaSeFalhar(errors.New("este paciente não tem exame nem anamnese suficientes para uma devolutiva"))
 	}
 
 	// A poda com `nil` de slides devolve o dossiê inteiro: na geração ainda não há deck para dizer
 	// quais códigos são citados.
 	dossieJSON, err := podaDossieParaPrompt(dossie, nil)
 	if err != nil {
-		return nil, err
+		return limpaSeFalhar(err)
 	}
 
 	// 3. gera.
@@ -809,7 +857,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		Model:         s.model,
 	})
 	if err != nil {
-		return nil, err
+		return limpaSeFalhar(err)
 	}
 
 	// Os ids que o modelo inventa ("bem-1", "capa") são descartados: id de slide é opaco e é o
@@ -831,6 +879,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 				continue
 			}
 			avisos = append(avisos, dto.PlanGenWarning{
+				Kind:       dto.PlanGenWarningNumeral,
 				SlideIndex: i + 1,
 				SlideID:    slides[i].ID,
 				Title:      slides[i].Title,
@@ -843,7 +892,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	// 5. grava o conteúdo como revisão DO ASSISTENTE.
 	plan, err := s.plans.load(planID, in.PatientID)
 	if err != nil {
-		return nil, err
+		return limpaSeFalhar(err)
 	}
 	if err := s.db.Transaction(func(tx *gorm.DB) error {
 		plan.Content = slides

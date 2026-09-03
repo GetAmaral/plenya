@@ -165,9 +165,8 @@ func chaveDeValor(v float64) string { return strconv.FormatFloat(math.Round(v*1e
 
 // BuildNumericIndex varre o dossiê congelado e cataloga todo número que ele contém.
 //
-// Cobre régua (histórico, eixo, bordas e faixas), achados, escore, vitais e a idade. O que NÃO
-// entra é o que o dossiê não expõe em número: o conteúdo das prescrições chega só com id, data e
-// status, então dose de fórmula não é verificável por aqui.
+// Cobre régua (histórico, eixo, bordas e faixas), achados, escore, vitais, a idade e as doses das
+// fórmulas prescritas.
 func BuildNumericIndex(d *dto.PlanDossierResponse) *NumericIndex {
 	ix := &NumericIndex{porValor: map[string][]NumeralFact{}}
 	if d == nil {
@@ -232,8 +231,58 @@ func BuildNumericIndex(d *dto.PlanDossierResponse) *NumericIndex {
 	if d.Patient.Age > 0 {
 		add(float64(d.Patient.Age), "anos", "patient:age", "idade do paciente")
 	}
+
+	// As doses das fórmulas. Sem isto, TODA dose escrita no "para levar" caía como número sem
+	// origem, mesmo estando na receita assinada do próprio paciente — e o médico via um aviso
+	// amarelo em cima do dado mais confiável do deck.
+	for pi, pr := range d.Medications {
+		for fi, f := range pr.Formulas {
+			base := fmt.Sprintf("prescricao:%d:formula:%d", pi, fi)
+			for _, c := range f.Components {
+				add(c.Quantity, c.Unit, base+":"+c.Substance, f.Name+", "+c.Substance)
+			}
+			if f.Duration > 0 {
+				add(float64(f.Duration), "dias", base+":duracao", f.Name+", duração")
+			}
+			// "60 cápsulas" é número que o modelo escreve no "para levar" o tempo todo.
+			for _, n := range numerosEmTexto(f.Quantity) {
+				add(n, "", base+":quantidade", f.Name+", quantidade a dispensar")
+			}
+		}
+		// O industrializado chega ao modelo com concentração, dose e frequência, e nenhum dos três
+		// era indexado: "Losartana 50 mg" saía marcada como número sem origem, que é exatamente o
+		// alarme falso que este índice existe para não dar.
+		for mi, m := range pr.Medications {
+			base := fmt.Sprintf("prescricao:%d:medicamento:%d", pi, mi)
+			for campo, txt := range map[string]string{
+				"concentracao": m.Concentration, "dose": m.Dosage, "frequencia": m.Frequency,
+			} {
+				for _, n := range numerosEmTexto(txt) {
+					add(n, "", base+":"+campo, m.Name+", "+campo)
+				}
+			}
+			if m.Duration > 0 {
+				add(float64(m.Duration), "dias", base+":duracao", m.Name+", duração")
+			}
+		}
+	}
 	return ix
 }
+
+// numerosEmTexto tira os números de uma frase livre ("Tomar 1 cápsula de 12/12 horas", "50 mg").
+// Aceita vírgula e ponto decimais, que é como os dois aparecem no receituário.
+func numerosEmTexto(txt string) []float64 {
+	var out []float64
+	for _, m := range reNumeroSolto.FindAllString(txt, -1) {
+		v, err := strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(m, ".", ""), ",", "."), 64)
+		if err == nil {
+			out = append(out, v)
+		}
+	}
+	return out
+}
+
+var reNumeroSolto = regexp.MustCompile(`\d+(?:[.,]\d+)?`)
 
 func numOpcional(add func(float64, string, string, string), v *float64, unit, source, label string) {
 	if v != nil {

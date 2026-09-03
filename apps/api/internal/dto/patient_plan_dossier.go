@@ -143,12 +143,55 @@ type PlanDossierLabRequest struct {
 }
 
 // PlanDossierPrescription — receita vigente, para o slide "para levar".
+//
+// Carregava só id, tipo, data e status, e com isso o slide "para levar" nascia sem insumo nenhum:
+// o prompt mandava tirar dose de `prescriptions` e o dossiê não trazia dose. O conteúdo estruturado
+// SEMPRE existiu no banco (`prescription_formulas` + `prescription_formula_components`); o que
+// faltava era o `Preload` e estes campos.
 type PlanDossierPrescription struct {
 	ID       string  `json:"id"`
 	Type     string  `json:"type"`
 	Date     string  `json:"date"`
 	Status   string  `json:"status"`
 	SignedAt *string `json:"signedAt,omitempty"`
+
+	// Formulas — as manipuladas. Cada uma é uma cápsula/creme com sua posologia.
+	Formulas []PlanDossierFormula `json:"formulas,omitempty"`
+	// Medications — as industrializadas.
+	Medications []PlanDossierMedication `json:"medications,omitempty"`
+}
+
+// PlanDossierFormula — uma fórmula manipulada da receita.
+type PlanDossierFormula struct {
+	Name string `json:"name"`
+	Form string `json:"form,omitempty"`
+	// Posology é a frase que o paciente lê ("Tomar 1 cápsula de 12/12 horas"), e é ela que vira o
+	// `dose` do "para levar".
+	Posology   string                        `json:"posology,omitempty"`
+	Route      string                        `json:"route,omitempty"`
+	Duration   int                           `json:"durationDays,omitempty"`
+	Quantity   string                        `json:"quantityToDispense,omitempty"`
+	Components []PlanDossierFormulaComponent `json:"components,omitempty"`
+}
+
+// PlanDossierFormulaComponent — um ativo da fórmula, com a quantidade.
+//
+// `note` NÃO entra: ela sai impressa na receita assinada e é instrução de manipulação, não
+// conteúdo para o paciente ler no deck.
+type PlanDossierFormulaComponent struct {
+	Substance string  `json:"substance"`
+	Quantity  float64 `json:"quantity"`
+	Unit      string  `json:"unit"`
+}
+
+// PlanDossierMedication — um medicamento industrializado da receita.
+type PlanDossierMedication struct {
+	Name          string `json:"name"`
+	Concentration string `json:"concentration,omitempty"`
+	Dosage        string `json:"dosage,omitempty"`
+	Frequency     string `json:"frequency,omitempty"`
+	Route         string `json:"route,omitempty"`
+	Duration      int    `json:"durationDays,omitempty"`
 }
 
 // PlanDossierVitals — a medida da consulta. O deck cita esses números direto ("a pressão está em
@@ -370,16 +413,29 @@ type ResolveSuggestionsRequest struct {
 	ExpectedRevision *int     `json:"expectedRevision"`
 }
 
+// PlanGenWarningKind — a natureza do aviso da geração.
+type PlanGenWarningKind string
+
+const (
+	// PlanGenWarningNumeral — número escrito que não existe no dossiê.
+	PlanGenWarningNumeral PlanGenWarningKind = "numeral"
+	// PlanGenWarningRuler — régua ou linha de resumo cujo exame não está no dossiê.
+	PlanGenWarningRuler PlanGenWarningKind = "regua"
+)
+
 // PlanGenWarning — um número que o modelo escreveu e o servidor NÃO encontrou no dossiê.
 //
 // Não bloqueia a geração: bloquear jogaria fora o deck inteiro por causa de um número. Vira aviso
 // no slide exato, para o médico olhar aquela frase em vez de reler vinte slides.
 type PlanGenWarning struct {
-	SlideIndex int    `json:"slideIndex"`
-	SlideID    string `json:"slideId,omitempty"`
-	Title      string `json:"title,omitempty"`
-	Numeral    string `json:"numeral"`
-	Reason     string `json:"reason"`
+	// Kind separa "número que não confere" de "régua que saiu": a tela dizia "N número(s) que não
+	// encontrei" para os dois, e um deck onde só caiu uma régua acusava número não verificado.
+	Kind       PlanGenWarningKind `json:"kind,omitempty"`
+	SlideIndex int                `json:"slideIndex"`
+	SlideID    string             `json:"slideId,omitempty"`
+	Title      string             `json:"title,omitempty"`
+	Numeral    string             `json:"numeral"`
+	Reason     string             `json:"reason"`
 }
 
 // GeneratePlanRequest — o corpo (opcional) do pedido de geração.

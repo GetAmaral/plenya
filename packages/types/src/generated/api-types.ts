@@ -18448,11 +18448,37 @@ export interface components {
             slideId?: string;
             title?: string;
         };
+        "dto.PlanDossierFormula": {
+            components?: components["schemas"]["dto.PlanDossierFormulaComponent"][];
+            durationDays?: number;
+            form?: string;
+            name?: string;
+            /**
+             * @description Posology é a frase que o paciente lê ("Tomar 1 cápsula de 12/12 horas"), e é ela que vira o
+             *     `dose` do "para levar".
+             */
+            posology?: string;
+            quantityToDispense?: string;
+            route?: string;
+        };
+        "dto.PlanDossierFormulaComponent": {
+            quantity?: number;
+            substance?: string;
+            unit?: string;
+        };
         "dto.PlanDossierLabRequest": {
             date?: string;
             exams?: string;
             id?: string;
             signedAt?: string;
+        };
+        "dto.PlanDossierMedication": {
+            concentration?: string;
+            dosage?: string;
+            durationDays?: number;
+            frequency?: string;
+            name?: string;
+            route?: string;
         };
         "dto.PlanDossierPatient": {
             age?: number;
@@ -18462,7 +18488,11 @@ export interface components {
         };
         "dto.PlanDossierPrescription": {
             date?: string;
+            /** @description Formulas — as manipuladas. Cada uma é uma cápsula/creme com sua posologia. */
+            formulas?: components["schemas"]["dto.PlanDossierFormula"][];
             id?: string;
+            /** @description Medications — as industrializadas. */
+            medications?: components["schemas"]["dto.PlanDossierMedication"][];
             signedAt?: string;
             status?: string;
             type?: string;
@@ -18543,12 +18573,19 @@ export interface components {
         /** @enum {string} */
         "dto.PlanFindingTrend": "single" | "stable" | "improving" | "worsening";
         "dto.PlanGenWarning": {
+            /**
+             * @description Kind separa "número que não confere" de "régua que saiu": a tela dizia "N número(s) que não
+             *     encontrei" para os dois, e um deck onde só caiu uma régua acusava número não verificado.
+             */
+            kind?: components["schemas"]["dto.PlanGenWarningKind"];
             numeral?: string;
             reason?: string;
             slideId?: string;
             slideIndex?: number;
             title?: string;
         };
+        /** @enum {string} */
+        "dto.PlanGenWarningKind": "numeral" | "regua";
         "dto.PlanMessage": {
             body?: string;
             createdAt?: string;

@@ -51,6 +51,7 @@ func hidrataReguas(slides []pdfdoc.DeckSlide, d *dto.PlanDossierResponse) ([]pdf
 			if !ok {
 				avisos = append(avisos, dto.PlanGenWarning{
 					SlideIndex: i + 1, SlideID: slides[i].ID, Title: slides[i].Title,
+					Kind:    dto.PlanGenWarningRuler,
 					Numeral: bloco.Display,
 					Reason:  "régua removida: este exame não está no prontuário compilado",
 				})
@@ -59,6 +60,41 @@ func hidrataReguas(slides []pdfdoc.DeckSlide, d *dto.PlanDossierResponse) ([]pdf
 			mantidas = append(mantidas, pdfdoc.DeckRulerBlock{Ruler: reguaDoDossie(fonte, bloco)})
 		}
 		slides[i].Rulers = mantidas
+	}
+
+	// A mini-barra da linha de resumo.
+	//
+	// O schema já exige `code` na linha justamente para isto, e nada copiava a régua do dossiê para
+	// dentro dela. O render tem guarda (`ln.Ruler != nil`), então a linha saía com um vão em branco
+	// no lugar da barra — no slide 2 de TODO deck gerado, que é o que o paciente mais relê. Mesmo
+	// modo de falha que a hidratação da régua grande foi escrita para impedir.
+	for i := range slides {
+		if slides[i].Summary == nil {
+			continue
+		}
+		for ci := range slides[i].Summary.Cards {
+			linhas := slides[i].Summary.Cards[ci].Lines
+			for li := range linhas {
+				fonte, ok := porCodigo[strings.ToUpper(strings.TrimSpace(linhas[li].Code))]
+				if !ok {
+					fonte, ok = porNome[normalizeTestName(linhas[li].Name)]
+				}
+				if !ok {
+					avisos = append(avisos, dto.PlanGenWarning{
+						SlideIndex: i + 1, SlideID: slides[i].ID, Title: slides[i].Title,
+						Kind:    dto.PlanGenWarningRuler,
+						Numeral: linhas[li].Name,
+						Reason:  "linha do resumo sem mini-barra: este exame não está no prontuário compilado",
+					})
+					continue
+				}
+				r := reguaDoDossie(fonte, pdfdoc.DeckRulerBlock{Ruler: pdfdoc.Ruler{
+					Display: linhas[li].Name, Sub: linhas[li].Sub,
+				}})
+				linhas[li].Code = fonte.Code
+				linhas[li].Ruler = &r
+			}
+		}
 	}
 	return slides, avisos
 }

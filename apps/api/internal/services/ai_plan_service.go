@@ -3,6 +3,7 @@ package services
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -225,6 +226,14 @@ func (s *AIService) EditPatientPlan(req PlanEditRequest) (*PlanEditResult, AICal
 // chamaFerramentaComMeta é o `callClaudeToolUse` com os metadados que a revisão precisa guardar.
 func (s *AIService) chamaFerramentaComMeta(payload map[string]any) (string, AICallMeta, error) {
 	var meta AICallMeta
+	// `labClient` (10 min) e não `httpClient` (3 min): a geração pede 32000 tokens de saída, o
+	// mesmo teto da extração de laudo, e é por essa razão que aquele cliente existe. Com o de 3
+	// minutos, um deck longo tem a conexão cortada do lado do cliente DEPOIS de a chamada já ter
+	// sido cobrada, e o médico lê "falha ao gerar".
+	cliente := s.labClient
+	if cliente == nil {
+		cliente = s.httpClient
+	}
 	corpo, err := json.Marshal(payload)
 	if err != nil {
 		return "", meta, err
@@ -237,7 +246,7 @@ func (s *AIService) chamaFerramentaComMeta(payload map[string]any) (string, AICa
 	req.Header.Set("x-api-key", s.apiKey)
 	req.Header.Set("anthropic-version", "2023-06-01")
 
-	resp, err := s.httpClient.Do(req)
+	resp, err := cliente.Do(req)
 	if err != nil {
 		return "", meta, fmt.Errorf("%w: %v", ErrAIUpstream, err)
 	}
@@ -609,16 +618,17 @@ func (s *AIService) GeneratePatientPlan(req PlanGenerateRequest) (*PlanGenerateR
 	meta = m
 	meta.LatencyMs = int(time.Since(inicio).Milliseconds())
 	if err != nil {
+		// `chamaFerramentaComMeta` já converte stop_reason=max_tokens em ErrAITruncated, então o
+		// tratamento tem que ser AQUI. A versão anterior testava o stop_reason dentro do ramo de
+		// parse malformado, que nunca era alcançado, e a mensagem útil nunca chegava ao médico.
+		if errors.Is(err, ErrAITruncated) {
+			return nil, meta, fmt.Errorf("%w: o deck ficou maior que o limite da resposta e veio cortado; peça um plano mais curto", ErrAITruncated)
+		}
 		return nil, meta, err
 	}
 
 	var out PlanGenerateResult
 	if err := json.Unmarshal([]byte(bruto), &out); err != nil {
-		// Distinguir truncamento de resposta malformada: são problemas diferentes e a ação do
-		// médico também é ("tente de novo" contra "peça um deck menor").
-		if meta.StopReason == "max_tokens" {
-			return nil, meta, fmt.Errorf("%w: o deck ficou maior que o limite da resposta e veio cortado; peça um plano mais curto", ErrAIUpstream)
-		}
 		return nil, meta, fmt.Errorf("%w: resposta do modelo não pôde ser lida", ErrAIUpstream)
 	}
 	if len(out.Slides) == 0 {

@@ -156,12 +156,27 @@ export default function PatientPlanPage() {
     [plans, selectedId],
   );
 
+  // Guarda o plano que a geração acabou de criar. Sem isto, o efeito abaixo rodava quando a lista
+  // recarregava (selected saía de undefined para o id novo) e apagava o resultado da conferência
+  // de estouro que a geração tinha acabado de trazer — justamente o aviso de "este slide já nasceu
+  // estourando", que o médico precisa ver ANTES de editar.
+  const recemGerado = useRef<string | null>(null);
+
   useEffect(() => {
     if (!selected) return;
     setTitle(selected.title);
     setSlides(selected.content ?? []);
-    setOverflow(null);
     setPreviewHTML(null);
+    if (recemGerado.current === selected.id) {
+      // Chegou a lista com o plano recém-gerado: preserva o que a geração já disse.
+      recemGerado.current = null;
+      return;
+    }
+    setOverflow(null);
+    // Avisos e arco são DAQUELA geração. Trocar de plano sem limpá-los deixava a caixa âmbar do
+    // plano A, com índices de slide do plano A, em cima do editor do plano B.
+    setAvisosGeracao([]);
+    setArcoGerado("");
   }, [selected?.id]);
 
   // "Conferir" e "Publicar" agem sobre o que está SALVO no servidor. Sem esta marca, editar e
@@ -297,6 +312,7 @@ export default function PatientPlanPage() {
   const handleGerar = async () => {
     try {
       const r = await gerarRascunho.mutateAsync({});
+      recemGerado.current = r.plan.id;
       setSelectedId(r.plan.id);
       setTitle(r.plan.title);
       setSlides((r.plan.content ?? []) as DeckSlide[]);
@@ -683,8 +699,22 @@ export default function PatientPlanPage() {
                     {avisosGeracao.length > 0 && (
                       <div className="rounded border border-amber-300 bg-amber-50 p-2">
                         <p className="text-[11px] font-medium text-amber-900">
-                          {avisosGeracao.length} número(s) que não encontrei no
-                          prontuário compilado. Confira antes de publicar.
+                          {(() => {
+                            const n = avisosGeracao.filter(
+                              (a) => a.kind !== "regua",
+                            ).length;
+                            const r = avisosGeracao.length - n;
+                            const partes: string[] = [];
+                            if (n > 0)
+                              partes.push(
+                                `${n} número(s) que não encontrei no prontuário compilado`,
+                              );
+                            if (r > 0)
+                              partes.push(
+                                `${r} régua(s) que saíram por falta do exame`,
+                              );
+                            return `${partes.join(" e ")}. Confira antes de publicar.`;
+                          })()}
                         </p>
                         <ul className="mt-1 space-y-0.5">
                           {avisosGeracao.slice(0, 8).map((a, i) => (

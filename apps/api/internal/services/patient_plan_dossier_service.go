@@ -918,8 +918,13 @@ func (s *PatientPlanDossierService) loadLastLabRequest(patientID uuid.UUID) (*dt
 }
 
 func (s *PatientPlanDossierService) loadPrescriptions(patientID uuid.UUID) ([]dto.PlanDossierPrescription, error) {
+	// Os preloads são a mesma cadeia de `PrescriptionService.reloadPrescription`, na mesma ordem de
+	// impressão. Sem eles o dossiê devolvia a casca da receita e o "para levar" saía sem dose.
 	var rows []models.Prescription
 	if err := s.db.
+		Preload("Medications").
+		Preload("Formulas", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
+		Preload("Formulas.Components", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
 		Where("patient_id = ? AND status = ?", patientID, models.PrescriptionActive).
 		Order("prescription_date DESC").
 		Find(&rows).Error; err != nil {
@@ -936,6 +941,26 @@ func (s *PatientPlanDossierService) loadPrescriptions(patientID uuid.UUID) ([]dt
 		if rows[i].SignedAt != nil {
 			v := rows[i].SignedAt.In(saoPaulo()).Format(time.RFC3339)
 			p.SignedAt = &v
+		}
+		for _, f := range rows[i].Formulas {
+			fo := dto.PlanDossierFormula{
+				Name: f.Name, Form: f.PharmaceuticalForm, Posology: f.Posology,
+				Route: f.Route, Duration: f.Duration,
+				Quantity: strings.TrimRight(strings.TrimRight(
+					strconv.FormatFloat(f.QuantityToDispense, 'f', 3, 64), "0"), ".") + " " + f.QuantityUnit,
+			}
+			for _, c := range f.Components {
+				fo.Components = append(fo.Components, dto.PlanDossierFormulaComponent{
+					Substance: c.Substance, Quantity: c.Quantity, Unit: c.Unit,
+				})
+			}
+			p.Formulas = append(p.Formulas, fo)
+		}
+		for _, m := range rows[i].Medications {
+			p.Medications = append(p.Medications, dto.PlanDossierMedication{
+				Name: m.MedicationName, Concentration: m.Concentration, Dosage: m.Dosage,
+				Frequency: m.Frequency, Route: m.Route, Duration: m.Duration,
+			})
 		}
 		out = append(out, p)
 	}
