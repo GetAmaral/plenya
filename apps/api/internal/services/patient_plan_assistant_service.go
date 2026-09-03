@@ -886,6 +886,13 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 				erros[i] = e
 				return
 			}
+			if len(r.Slides) == 0 {
+				// Seção que responde 200 e devolve zero slides é o mesmo buraco que a falha de
+				// seção recusa: some do deck e da numeração sem dizer nada. `minItems` no schema é
+				// dica, não contrato.
+				erros[i] = errors.New("a seção voltou sem slide nenhum")
+				return
+			}
 			porSecao[i] = r.Slides
 			meta.InputTokens += m.InputTokens
 			meta.OutputTokens += m.OutputTokens
@@ -918,6 +925,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 
 	// 3b. a escala e o histórico de cada régua vêm do dossiê, não do modelo.
 	slides, avisos := hidrataReguas(slides, dossie)
+	poeLegenda(slides)
 
 	// 4a. as conferências mecânicas do padrão medido (punch, contagem de régua, travessão).
 	// A geração varia entre execuções, e sem isto o médico teria que reler treze slides procurando
@@ -929,6 +937,9 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	indice := BuildNumericIndex(dossie)
 	avisos = append(avisos, confereDeck(slides)...)
 	avisos = append(avisos, avisosNumericos(slides, indice)...)
+	// O que o prontuário não tinha. Vai junto para o médico ver, na mesma tela, a diferença entre
+	// "o deck saiu curto" e "a consulta não foi registrada".
+	avisos = append(avisos, lacunasDoProntuario(dossie)...)
 
 	// 5. grava o conteúdo como revisão DO ASSISTENTE.
 	plan, err := s.plans.load(planID, in.PatientID)
@@ -995,6 +1006,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 			avisos = append(avisos, avisosDeRegua...)
 			avisos = append(avisos, confereDeck(plan.Content)...)
 			avisos = append(avisos, avisosNumericos(plan.Content, indice)...)
+			avisos = append(avisos, lacunasDoProntuario(dossie)...)
 		}
 	}
 

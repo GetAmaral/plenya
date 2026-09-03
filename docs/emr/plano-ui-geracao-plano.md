@@ -130,6 +130,60 @@ da ferramenta", Escape sem sair da página, e as miniaturas.
 Um defeito de texto saiu daí: op estrutural não tem caminho de campo e o servidor grava o verbo no
 lugar, então o histórico dizia "alterou 1 campo: add". Agora diz "acrescentou um slide".
 
+### A geração do rascunho (fases 1 a 5 do segundo plano)
+
+O pedido era: criar um plano novo no EMR já entregar algo equivalente ao deck aprovado, com poucas
+edições depois. O que existia gerava dois slides em branco.
+
+**A causa de raiz era um erro meu, escondido atrás de um comentário meu que dizia o contrário.** Na
+geração, `podaDossieParaPrompt` recebia `slides == nil`, nenhuma régua entrava como "citada", e as
+cem por cento viravam uma linha de catálogo. O modelo era mandado escrever um deck cuja espinha é a
+régua sem receber régua nenhuma.
+
+| eixo (alvo: decks aprovados) | antes | depois |
+|---|---|---|
+| réguas completas no payload | **0** de 107 | 24, as que o modelo cita |
+| réguas com escala no deck | 0 | **14 de 14** |
+| linhas do resumo com mini-barra | **0** de 8 | 8 de 8 |
+| slides com tabela (alvo 8-9) | **0** | 2 a 5 |
+| réguas por slide (alvo 2 a 4) | 1 a 3 | [2,4,2,2,4] |
+| punch com exatamente um `<em>` | não conferido | 10 de 10 |
+| `deep` só em capa e fecho | livre | 2, sempre |
+| legenda da rampa | nenhuma | 1, no primeiro slide de régua |
+| "para levar" | vazio | fórmula, posologia, 7 componentes |
+
+**O que mudou de lugar.** Saiu do modelo e virou aritmética do servidor tudo que não é julgamento:
+o eyebrow numerado (`O que está firme · 2 de 3`), a variante escura, a legenda, e o nome do paciente
+na capa — que **continua sem sair do prontuário para a API**.
+
+**A geração é em duas passadas.** A primeira decide o arco (quais seções, quantos slides cada uma);
+a segunda escreve seção a seção, em paralelo com teto de 3, com o dossiê no cache de prompt. Isso
+existe porque os eyebrows dos decks aprovados são numerados com o total decidido ANTES de escrever,
+e numa passada só o modelo tem que adivinhar o total — o próprio deck aprovado do Ricardo repete
+"· 1 de 3" em dois slides seguidos por isso.
+
+**O laço fecha com reparo.** Depois de gerar, o servidor mede no Chromium e confere o padrão medido
+(punch fora de 55-110, punch sem `<em>` ou com dois, régua sozinha, travessão, prosa em coluna de
+dose, bloco que o `kind` promete e não existe). Devolve ao modelo UMA vez os slides defeituosos com
+o excesso em pixels. Numa execução isso levou de três slides estourando para zero. O que sobra vira
+aviso no slide exato.
+
+**A gramática ganhou as duas estruturas que o EMR achatava**: o slide híbrido de réguas mais cartões
+(o slide 08 dos dois decks) e o cartão com veredicto na grade 2x2 da decisão.
+
+**E o deck diz o que o prontuário não tinha.** Sem conduta registrada não há seção de plano, que nos
+aprovados são cinco a seis slides; sem vital não há pressão. Isso aparece em azul, separado dos
+avisos: a diferença entre "editar o deck" e "registrar a consulta".
+
+### O que ficou por fazer
+
+- **Variação entre execuções.** O deck sai entre 12 e 15 slides, com 1 a 5 tabelas. Os aprovados têm
+  20 e 21, com 8 e 9 tabelas — mas a diferença é quase toda a seção do plano, que não existe sem
+  conduta registrada. Medir de novo contra um paciente com condutas.
+- O reparo roda uma vez. Quando não resolve, sobra estouro para o médico cortar.
+- `ClinicalNote` ainda não entra no dossiê: a narrativa clínica dos três slides que só o deck
+  aprovado tinha continua fora.
+
 ### Medido na fase 5, contra o modelo de verdade
 
 Turno real em dev, pedindo para citar um valor de exame:

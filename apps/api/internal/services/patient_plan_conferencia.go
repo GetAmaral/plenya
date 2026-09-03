@@ -99,6 +99,47 @@ func confereDeck(slides []pdfdoc.DeckSlide) []dto.PlanGenWarning {
 		}
 	}
 
+	// O bloco que o `kind` promete tem que existir. Um kind "table" sem tabela renderiza como slide
+	// só de título: parece um slide, ocupa uma página e não diz nada. Foi assim que a primeira
+	// geração devolveu quatro slides ocos.
+	for i := range slides {
+		s := slides[i]
+		falta := ""
+		switch s.Kind {
+		case pdfdoc.DeckRulers:
+			if len(s.Rulers) == 0 {
+				falta = "réguas"
+			}
+		case pdfdoc.DeckRulersCards:
+			if len(s.Rulers) == 0 || len(s.Cards) == 0 {
+				falta = "réguas e cartões"
+			}
+		case pdfdoc.DeckSummary:
+			if s.Summary == nil || len(s.Summary.Cards) == 0 {
+				falta = "o resumo"
+			}
+		case pdfdoc.DeckTableKind:
+			if s.Table == nil || len(s.Table.Rows) == 0 {
+				falta = "a tabela"
+			}
+		case pdfdoc.DeckTwoCards:
+			if len(s.Cards) == 0 {
+				falta = "os cartões"
+			}
+		case pdfdoc.DeckTakeaway:
+			if s.Take == nil {
+				falta = "o bloco para levar"
+			}
+		case pdfdoc.DeckSequence:
+			if len(s.Steps) == 0 {
+				falta = "os passos"
+			}
+		}
+		if falta != "" {
+			avisa(i, fmt.Sprintf("slide do tipo %q sem %s: renderiza só o título", s.Kind, falta))
+		}
+	}
+
 	// A legenda da rampa é uma vez por deck. Como o servidor a põe, mais de uma é defeito nosso.
 	legendas := 0
 	for _, s := range slides {
@@ -137,17 +178,6 @@ func confereDeck(slides []pdfdoc.DeckSlide) []dto.PlanGenWarning {
 	return out
 }
 
-// semEstilo tira os avisos de estilo da lista, para a reconferência depois do reparo não duplicar.
-func semEstilo(ws []dto.PlanGenWarning) []dto.PlanGenWarning {
-	out := ws[:0:0]
-	for _, w := range ws {
-		if w.Kind != dto.PlanGenWarningEstilo {
-			out = append(out, w)
-		}
-	}
-	return out
-}
-
 // avisosNumericos confere cada número escrito contra o índice do dossiê.
 //
 // Extraído para poder rodar DE NOVO depois do reparo: o reparo reescreve prosa, e é na prosa que os
@@ -165,6 +195,45 @@ func avisosNumericos(slides []pdfdoc.DeckSlide, ix *NumericIndex) []dto.PlanGenW
 				Reason: "este número não foi encontrado no prontuário compilado",
 			})
 		}
+	}
+	return out
+}
+
+// lacunasDoProntuario diz o que o deck NÃO pôde ter, e por quê.
+//
+// A metade prescritiva do deck aprovado (cinco a seis slides de conduta, mais o "para levar" com
+// dose) sai de dado que quase nunca existe: em produção há condutas registradas para uma paciente
+// e nenhuma para as outras, e zero sinais vitais para qualquer uma. Sem isto, o médico vê um deck
+// curto e conclui que o gerador é fraco — quando o que falta é registro.
+//
+// Não é aviso de defeito: é a conta do que o prontuário não tinha, com o nome de onde registrar.
+func lacunasDoProntuario(d *dto.PlanDossierResponse) []dto.PlanGenWarning {
+	if d == nil {
+		return nil
+	}
+	var out []dto.PlanGenWarning
+	falta := func(motivo string) {
+		out = append(out, dto.PlanGenWarning{Kind: dto.PlanGenWarningLacuna, Reason: motivo})
+	}
+	if len(d.CarePlan) == 0 {
+		falta("sem conduta registrada no plano de cuidado, então o deck saiu SEM a seção do plano, " +
+			"que nos decks aprovados são cinco a seis slides. Registre em Plano de cuidado, na consulta.")
+	}
+	if len(d.Vitals) == 0 {
+		falta("sem sinais vitais registrados, então não há pressão nem peso para citar. " +
+			"São dez segundos de aferição na consulta e viram régua com histórico, como os exames.")
+	} else {
+		v := d.Vitals[0]
+		if v.SystolicBP == nil && v.Weight == nil {
+			falta("os sinais vitais da última consulta estão em branco: sem pressão e sem peso, " +
+				"o deck não tem o que dizer sobre eles.")
+		}
+	}
+	if len(d.Medications) == 0 {
+		falta("sem receita vigente, então o slide \"para levar\" saiu sem dose.")
+	}
+	if d.LabRequest == nil {
+		falta("sem pedido de exames recente, então não há o slide dos exames que faltam.")
 	}
 	return out
 }

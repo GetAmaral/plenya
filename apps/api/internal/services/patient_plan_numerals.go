@@ -248,6 +248,14 @@ func BuildNumericIndex(d *dto.PlanDossierResponse) *NumericIndex {
 			for _, n := range numerosEmTexto(f.Quantity) {
 				add(n, "", base+":quantidade", f.Name+", quantidade a dispensar")
 			}
+			// A POSOLOGIA é a frase que vira o `dose` do "para levar" ("Tomar 1 cápsula de 12/12
+			// horas"), e o prompt manda copiá-la. Sem indexar, o 1 e o 12 que o modelo copia da
+			// receita assinada eram reportados como número que não existe no prontuário: alarme
+			// falso em cima do dado mais confiável do deck. O industrializado já era indexado, o
+			// que deixava a omissão assimétrica.
+			for _, n := range numerosEmTexto(f.Posology) {
+				add(n, "", base+":posologia", f.Name+", posologia")
+			}
 		}
 		// O industrializado chega ao modelo com concentração, dose e frequência, e nenhum dos três
 		// era indexado: "Losartana 50 mg" saía marcada como número sem origem, que é exatamente o

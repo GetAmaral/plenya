@@ -21,7 +21,6 @@ import (
 // aplicaRegrasDoDeck compõe os eyebrows numerados, a variante escura, a legenda da rampa e a capa.
 func aplicaRegrasDoDeck(secoes []PlanArcSection, porSecao [][]pdfdoc.DeckSlide, primeiroNome, data string) []pdfdoc.DeckSlide {
 	var out []pdfdoc.DeckSlide
-	legendaPosta := false
 
 	for si, sec := range secoes {
 		if si >= len(porSecao) {
@@ -65,13 +64,10 @@ func aplicaRegrasDoDeck(secoes []PlanArcSection, porSecao [][]pdfdoc.DeckSlide, 
 				s.Variant = ""
 			}
 
-			// 3. a legenda da rampa aparece UMA vez por deck, no primeiro slide de régua. Em todos
-			// ela vira ruído, e ocupa altura que o slide não tem sobrando.
+			// 3. a legenda é decidida DEPOIS, em `poeLegenda`: aqui as réguas ainda não passaram
+			// pela hidratação, que remove as que não existem no dossiê. Marcar agora podia deixar
+			// a legenda num slide que ficaria sem régua nenhuma.
 			s.Legend = false
-			if !legendaPosta && (s.Kind == pdfdoc.DeckRulers || s.Kind == pdfdoc.DeckRulersCards) && len(s.Rulers) > 0 {
-				s.Legend = true
-				legendaPosta = true
-			}
 
 			// 4. o nome do paciente na capa. Vem daqui e não do modelo: o nome nunca sai do
 			// prontuário para a API, e mesmo assim a capa precisa dele, como nos dois decks.
@@ -128,10 +124,23 @@ func (s *PatientPlanAssistantService) reparaEstouro(
 	}
 	for i, sl := range plan.Content {
 		if o, ok := porIndice[i+1]; ok { // CheckDeckOverflow numera a partir de 1
-			problemas[sl.ID] = append(problemas[sl.ID],
-				// %.0f e não %d: DeckOverflow mede em float (o Chromium devolve subpixel), e o
-				// `go vet` pega isto embora o build passe.
-				fmt.Sprintf("sobraram %.0fpx de altura para fora da moldura", o.Bottom))
+			// Altura e LARGURA são defeitos diferentes e pedem cortes diferentes.
+			//
+			// A medição empurra o slide quando `right > 1` OU `bottom > 1`, e num slide que só
+			// vaza para o lado o `bottom` costuma ser bem negativo. Formatar só ele mandava ao
+			// modelo "sobraram -480px de altura", que não quer dizer nada, e o defeito real (quase
+			// sempre prosa numa coluna de dose, que não quebra linha) nunca era comunicado.
+			//
+			// %.0f e não %d: a medida é float, o Chromium devolve subpixel, e o `go vet` pega.
+			if o.Bottom > 1 {
+				problemas[sl.ID] = append(problemas[sl.ID],
+					fmt.Sprintf("sobraram %.0fpx de ALTURA para fora da moldura", o.Bottom))
+			}
+			if o.Right > 1 {
+				problemas[sl.ID] = append(problemas[sl.ID],
+					fmt.Sprintf("sobraram %.0fpx de LARGURA para fora: quase sempre é prosa numa coluna "+
+						"de dose, que não quebra linha", o.Right))
+			}
 		}
 	}
 	for _, w := range estilo {
@@ -184,6 +193,11 @@ func (s *PatientPlanAssistantService) reparaEstouro(
 		// arco, não do modelo: sem preservá-los, a primeira execução do reparo apagou a legenda da
 		// rampa do deck inteiro, porque o slide que a carregava era justamente um dos que
 		// estouravam.
+		// O `kind` também fica: o schema do reparo exige `kind` e oferece o enum inteiro, então
+		// um `rulers-cards` podia voltar como `rulers`. As réguas continuariam desenhando, e os
+		// cartões sumiriam do PDF sem aviso nenhum — a conferência de bloco não dispara, porque
+		// `rulers` com réguas está correto.
+		novo.Kind = out[i].Kind
 		novo.ID = out[i].ID
 		novo.Eyebrow = out[i].Eyebrow
 		novo.Variant = out[i].Variant
@@ -205,4 +219,23 @@ func (s *PatientPlanAssistantService) reparaEstouro(
 		trocados++
 	}
 	return out, trocados > 0
+}
+
+// poeLegenda marca a legenda da rampa no primeiro slide que DE FATO tem régua.
+//
+// Roda depois da hidratação de propósito: ela remove as réguas cujo exame não está no dossiê, e um
+// slide pode terminar sem nenhuma. Marcando antes, a legenda ficava num slide vazio e os slides de
+// régua de verdade não ganhavam nenhuma — e a conferência ficava quieta, porque contava uma.
+func poeLegenda(slides []pdfdoc.DeckSlide) {
+	posta := false
+	for i := range slides {
+		slides[i].Legend = false
+		if posta || len(slides[i].Rulers) == 0 {
+			continue
+		}
+		if slides[i].Kind == pdfdoc.DeckRulers || slides[i].Kind == pdfdoc.DeckRulersCards {
+			slides[i].Legend = true
+			posta = true
+		}
+	}
 }

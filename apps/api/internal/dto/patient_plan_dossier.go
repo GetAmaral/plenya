@@ -424,6 +424,10 @@ const (
 	// PlanGenWarningEstilo — desvio do padrão medido nos decks aprovados (punch, contagem de
 	// régua, travessão). Não é erro de dado: é o deck fora da forma.
 	PlanGenWarningEstilo PlanGenWarningKind = "estilo"
+	// PlanGenWarningLacuna — o que o deck NÃO pôde ter porque o prontuário não tinha o dado. Não é
+	// defeito da geração, e a distinção importa: o médico precisa saber se o remédio é editar o
+	// deck ou registrar a consulta.
+	PlanGenWarningLacuna PlanGenWarningKind = "lacuna"
 )
 
 // PlanGenWarning — um número que o modelo escreveu e o servidor NÃO encontrou no dossiê.

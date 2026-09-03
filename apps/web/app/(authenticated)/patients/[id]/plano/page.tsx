@@ -696,7 +696,30 @@ export default function PatientPlanPage() {
                         {arcoGerado}
                       </p>
                     )}
-                    {avisosGeracao.length > 0 && (
+                    {/*
+                      As LACUNAS vêm antes dos avisos e em outro tom: elas não dizem que o deck
+                      está errado, dizem que o prontuário estava vazio. A diferença é o que separa
+                      "editar o deck" de "registrar a consulta", e sem separar as duas o médico
+                      conclui que o gerador é fraco quando o que falta é registro.
+                    */}
+                    {avisosGeracao.some((a) => a.kind === "lacuna") && (
+                      <div className="rounded border border-sky-200 bg-sky-50 p-2">
+                        <p className="text-[11px] font-medium text-sky-900">
+                          O que o prontuário não tinha, e por isso não entrou no
+                          deck:
+                        </p>
+                        <ul className="mt-1 space-y-0.5">
+                          {avisosGeracao
+                            .filter((a) => a.kind === "lacuna")
+                            .map((a, i) => (
+                              <li key={i} className="text-[11px] text-sky-900">
+                                {a.reason}
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                    {avisosGeracao.some((a) => a.kind !== "lacuna") && (
                       <div className="rounded border border-amber-300 bg-amber-50 p-2">
                         <p className="text-[11px] font-medium text-amber-900">
                           {(() => {
@@ -729,16 +752,22 @@ export default function PatientPlanPage() {
                           })()}
                         </p>
                         <ul className="mt-1 space-y-0.5">
-                          {avisosGeracao.slice(0, 8).map((a, i) => (
-                            <li key={i} className="text-[11px] text-amber-900">
-                              slide {a.slideIndex}
-                              {a.title
-                                ? ` (${a.title.slice(0, 40)})`
-                                : ""}:{" "}
-                              <span className="font-mono">{a.numeral}</span> —{" "}
-                              {a.reason}
-                            </li>
-                          ))}
+                          {avisosGeracao
+                            .filter((a) => a.kind !== "lacuna")
+                            .slice(0, 8)
+                            .map((a, i) => (
+                              <li
+                                key={i}
+                                className="text-[11px] text-amber-900"
+                              >
+                                slide {a.slideIndex}
+                                {a.title
+                                  ? ` (${a.title.slice(0, 40)})`
+                                  : ""}:{" "}
+                                <span className="font-mono">{a.numeral}</span> —{" "}
+                                {a.reason}
+                              </li>
+                            ))}
                         </ul>
                       </div>
                     )}

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * O plano de devolutiva na TELA do paciente.
@@ -12,11 +12,18 @@
  * As cores e a gramática são as mesmas do deck impresso, de propósito: o paciente vê na tela o
  * documento que recebe em PDF.
  */
-import { cn } from '@/lib/utils';
-import type { DeckSlide } from '@/lib/api/patient-plans';
+import { cn } from "@/lib/utils";
+import type { DeckSlide } from "@/lib/api/patient-plans";
 
 /** Rampa contínua do nível 0 (pior) ao 5 (ótimo). Espelha pdfdoc.rulerRamp. */
-const RAMPA = ['#B3503C', '#CD8674', '#E1C6B9', '#AFC9D5', '#5D93AC', '#0E4C6B'];
+const RAMPA = [
+  "#B3503C",
+  "#CD8674",
+  "#E1C6B9",
+  "#AFC9D5",
+  "#5D93AC",
+  "#0E4C6B",
+];
 
 type RulerSegment = { level: number; a: number; b: number };
 type RulerPoint = { value: number; text?: string; date?: string };
@@ -45,7 +52,8 @@ function PortalRuler({ ruler }: { ruler: Ruler }) {
   const axis = ruler.axis ?? [0, 1];
   const [lo, hi] = [Number(axis[0] ?? 0), Number(axis[1] ?? 1)];
   const span = hi - lo || 1;
-  const pct = (v: number) => ((Math.min(Math.max(v, lo), hi) - lo) / span) * 100;
+  const pct = (v: number) =>
+    ((Math.min(Math.max(v, lo), hi) - lo) / span) * 100;
 
   const segs = [...(ruler.segments ?? [])].sort((x, y) => x.a - y.a);
   const hist = ruler.history ?? [];
@@ -56,15 +64,25 @@ function PortalRuler({ ruler }: { ruler: Ruler }) {
     <div className="py-3">
       <div className="mb-2 flex items-baseline justify-between gap-3">
         <div className="min-w-0">
-          <div className="truncate text-[15px] font-semibold text-[#0A1F26]">{ruler.display}</div>
-          {ruler.sub && <div className="truncate text-[13px] text-[#5A6B70]">{ruler.sub}</div>}
+          <div className="truncate text-[15px] font-semibold text-[#0A1F26]">
+            {ruler.display}
+          </div>
+          {ruler.sub && (
+            <div className="truncate text-[13px] text-[#5A6B70]">
+              {ruler.sub}
+            </div>
+          )}
         </div>
         {atual && (
           <div className="shrink-0 text-right">
             <span className="text-[17px] font-semibold tabular-nums text-[#0A1F26]">
               {atual.text ?? atual.value}
             </span>
-            {ruler.unit && <span className="ml-1 text-[13px] text-[#5A6B70]">{ruler.unit}</span>}
+            {ruler.unit && (
+              <span className="ml-1 text-[13px] text-[#5A6B70]">
+                {ruler.unit}
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -74,7 +92,10 @@ function PortalRuler({ ruler }: { ruler: Ruler }) {
             as faixas cobrem o eixo sem buraco; um nível com limite ilegível é descartado na
             derivação, e aí TODAS as faixas seguintes escorregariam para a esquerda e a bolinha do
             paciente cairia sobre a cor errada. O fundo é a pior faixa, como no PDF. */}
-        <div className="absolute inset-0 overflow-hidden rounded-full" style={{ background: RAMPA[0] }}>
+        <div
+          className="absolute inset-0 overflow-hidden rounded-full"
+          style={{ background: RAMPA[0] }}
+        >
           {segs.map((s, i) => (
             <div
               key={i}
@@ -105,10 +126,15 @@ function PortalRuler({ ruler }: { ruler: Ruler }) {
 
       {anterior && atual && (
         <div className="mt-1 text-[12px] text-[#5A6B70]">
-          antes {anterior.text ?? anterior.value} · agora {atual.text ?? atual.value}
+          antes {anterior.text ?? anterior.value} · agora{" "}
+          {atual.text ?? atual.value}
         </div>
       )}
-      {ruler.note && <div className="mt-1 text-[13px] italic text-[#5A6B70]">{ruler.note}</div>}
+      {ruler.note && (
+        <div className="mt-1 text-[13px] italic text-[#5A6B70]">
+          {ruler.note}
+        </div>
+      )}
     </div>
   );
 }
@@ -150,15 +176,18 @@ function RichText({ text, className }: { text?: string; className?: string }) {
       return;
     }
     if (/^<\/?small>$/i.test(p)) {
-      miudo = !p.startsWith('</');
+      miudo = !p.startsWith("</");
       return;
     }
     if (/^<\/?(em|strong|b|i)>$/i.test(p)) {
-      enfase = !p.startsWith('</');
+      enfase = !p.startsWith("</");
       return;
     }
     if (!p) return;
-    const cls = cn(enfase && 'font-medium not-italic text-[#8A6534]', miudo && 'text-[0.85em] opacity-80');
+    const cls = cn(
+      enfase && "font-medium not-italic text-[#8A6534]",
+      miudo && "text-[0.85em] opacity-80",
+    );
     nos.push(
       <span key={i} className={cls || undefined}>
         {p}
@@ -171,19 +200,22 @@ function RichText({ text, className }: { text?: string; className?: string }) {
 function Cartao({
   children,
   tone,
+  className,
 }: {
   children: React.ReactNode;
-  tone?: 'bom' | 'ruim' | 'escuro';
+  tone?: "bom" | "ruim" | "escuro";
+  className?: string;
 }) {
   return (
     <div
       className={cn(
-        'rounded-xl border p-4',
-        tone === 'escuro'
-          ? 'border-transparent bg-[#063B4F] text-[#EAE7DA]'
-          : 'border-[#0A1F26]/10 bg-white/70',
-        tone === 'bom' && 'border-l-4 border-l-[#0E4C6B]',
-        tone === 'ruim' && 'border-l-4 border-l-[#B3503C]',
+        "rounded-xl border p-4",
+        tone === "escuro"
+          ? "border-transparent bg-[#063B4F] text-[#EAE7DA]"
+          : "border-[#0A1F26]/10 bg-white/70",
+        tone === "bom" && "border-l-4 border-l-[#0E4C6B]",
+        tone === "ruim" && "border-l-4 border-l-[#B3503C]",
+        className,
       )}
     >
       {children}
@@ -200,24 +232,59 @@ function Cartao({
  * impressão, e quem responde por isso é a medição do servidor.
  */
 export function Slide({ slide }: { slide: DeckSlide }) {
-  const escuro = slide.variant === 'dark' || slide.variant === 'deep';
+  const escuro = slide.variant === "dark" || slide.variant === "deep";
   const rulers = (slide.rulers ?? []) as Ruler[];
   const summary = slide.summary as
     | {
-        cards?: { title: string; tone?: string; lines?: { name: string; sub?: string; value: string; unit?: string; ruler?: Ruler }[] }[];
+        cards?: {
+          title: string;
+          tone?: string;
+          lines?: {
+            name: string;
+            sub?: string;
+            value: string;
+            unit?: string;
+            ruler?: Ruler;
+          }[];
+        }[];
         stepsTitle?: string;
         steps?: string[];
       }
     | undefined;
-  const cards = (slide.cards ?? []) as { kicker?: string; body?: string; dim?: boolean; focus?: boolean }[];
-  const steps = (slide.steps ?? []) as { when: string; what: string; detail?: string }[];
+  const cards = (slide.cards ?? []) as {
+    kicker?: string;
+    /** A resposta grande do cartão de decisão. Sem ela o paciente lê a pergunta e não a resposta. */
+    verdict?: string;
+    tone?: string;
+    body?: string;
+    dim?: boolean;
+    focus?: boolean;
+  }[];
+  const steps = (slide.steps ?? []) as {
+    when: string;
+    what: string;
+    detail?: string;
+  }[];
   const tabela = slide.table as
-    | { columns?: { label?: string; style?: string }[]; rows?: { cells: string[]; muted?: boolean }[]; dense?: boolean }
+    | {
+        columns?: { label?: string; style?: string }[];
+        rows?: { cells: string[]; muted?: boolean }[];
+        dense?: boolean;
+      }
     | undefined;
   const take = slide.takeaway as
     | {
-        highlight?: { when?: string; name: string; obs?: string; dose?: string; unit?: string };
-        groups?: { title: string; items?: { name: string; sub?: string; dose?: string }[] }[];
+        highlight?: {
+          when?: string;
+          name: string;
+          obs?: string;
+          dose?: string;
+          unit?: string;
+        };
+        groups?: {
+          title: string;
+          items?: { name: string; sub?: string; dose?: string }[];
+        }[];
         note?: string;
       }
     | undefined;
@@ -225,15 +292,15 @@ export function Slide({ slide }: { slide: DeckSlide }) {
   return (
     <section
       className={cn(
-        'scroll-mt-16 rounded-2xl px-5 py-7 sm:px-8 sm:py-10',
-        escuro ? 'bg-[#041F2A] text-[#EAE7DA]' : 'bg-[#F5F1E8] text-[#0A1F26]',
+        "scroll-mt-16 rounded-2xl px-5 py-7 sm:px-8 sm:py-10",
+        escuro ? "bg-[#041F2A] text-[#EAE7DA]" : "bg-[#F5F1E8] text-[#0A1F26]",
       )}
     >
       {slide.eyebrow && (
         <div
           className={cn(
-            'mb-2 text-[12px] font-semibold uppercase tracking-[0.14em]',
-            escuro ? 'text-[#D4A86B]' : 'text-[#B38645]',
+            "mb-2 text-[12px] font-semibold uppercase tracking-[0.14em]",
+            escuro ? "text-[#D4A86B]" : "text-[#B38645]",
           )}
         >
           {slide.eyebrow}
@@ -249,7 +316,10 @@ export function Slide({ slide }: { slide: DeckSlide }) {
       {slide.lede && (
         <RichText
           text={slide.lede}
-          className={cn('mt-3 text-[clamp(1rem,3.4vw,1.15rem)] leading-relaxed', escuro ? 'text-[#92B8B4]' : 'text-[#5A6B70]')}
+          className={cn(
+            "mt-3 text-[clamp(1rem,3.4vw,1.15rem)] leading-relaxed",
+            escuro ? "text-[#92B8B4]" : "text-[#5A6B70]",
+          )}
         />
       )}
 
@@ -265,11 +335,14 @@ export function Slide({ slide }: { slide: DeckSlide }) {
       {summary && (
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {summary.cards?.map((c, i) => (
-            <Cartao key={i} tone={c.tone === 'bom' || c.tone === 'ruim' ? c.tone : undefined}>
+            <Cartao
+              key={i}
+              tone={c.tone === "bom" || c.tone === "ruim" ? c.tone : undefined}
+            >
               <div
                 className={cn(
-                  'mb-3 text-[12px] font-bold uppercase tracking-[0.14em]',
-                  c.tone === 'ruim' ? 'text-[#B3503C]' : 'text-[#0E4C6B]',
+                  "mb-3 text-[12px] font-bold uppercase tracking-[0.14em]",
+                  c.tone === "ruim" ? "text-[#B3503C]" : "text-[#0E4C6B]",
                 )}
               >
                 {c.title}
@@ -278,13 +351,21 @@ export function Slide({ slide }: { slide: DeckSlide }) {
                 {c.lines?.map((ln, j) => (
                   <div key={j} className="py-2">
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="text-[15px] font-semibold">{ln.name}</span>
+                      <span className="text-[15px] font-semibold">
+                        {ln.name}
+                      </span>
                       <span className="shrink-0 text-[15px] font-bold tabular-nums">
                         {ln.value}
-                        {ln.unit && <span className="ml-1 font-normal text-[#5A6B70]">{ln.unit}</span>}
+                        {ln.unit && (
+                          <span className="ml-1 font-normal text-[#5A6B70]">
+                            {ln.unit}
+                          </span>
+                        )}
                       </span>
                     </div>
-                    {ln.sub && <div className="text-[13px] text-[#5A6B70]">{ln.sub}</div>}
+                    {ln.sub && (
+                      <div className="text-[13px] text-[#5A6B70]">{ln.sub}</div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -294,12 +375,14 @@ export function Slide({ slide }: { slide: DeckSlide }) {
             <div className="md:col-span-2">
               <Cartao tone="escuro">
                 <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.14em] text-[#D4A86B]">
-                  {summary.stepsTitle || 'O que vamos fazer'}
+                  {summary.stepsTitle || "O que vamos fazer"}
                 </div>
                 <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   {summary.steps.map((st, i) => (
                     <li key={i} className="flex gap-3">
-                      <span className="font-serif text-2xl leading-none text-[#D4A86B]">{i + 1}</span>
+                      <span className="font-serif text-2xl leading-none text-[#D4A86B]">
+                        {i + 1}
+                      </span>
                       <span className="text-[15px] leading-snug">{st}</span>
                     </li>
                   ))}
@@ -316,7 +399,7 @@ export function Slide({ slide }: { slide: DeckSlide }) {
       {tabela?.rows?.length ? (
         <div className="mt-5 divide-y divide-[#0A1F26]/10">
           {tabela.rows.map((r, i) => (
-            <div key={i} className={cn('py-3', r.muted && 'opacity-50')}>
+            <div key={i} className={cn("py-3", r.muted && "opacity-50")}>
               <div className="flex items-baseline justify-between gap-3">
                 {/* Célula passa por RichText: o servidor a renderiza com inlineHTML, então um
                     <b> escrito no conteúdo funciona no PDF e apareceria literal aqui. */}
@@ -329,11 +412,17 @@ export function Slide({ slide }: { slide: DeckSlide }) {
                   </span>
                 ) : null}
               </div>
-              {r.cells.slice(1, r.cells.length > 2 ? -1 : undefined).map((c, j) =>
-                c ? (
-                  <RichText key={j} text={c} className="mt-1 text-[14px] leading-snug text-[#5A6B70]" />
-                ) : null,
-              )}
+              {r.cells
+                .slice(1, r.cells.length > 2 ? -1 : undefined)
+                .map((c, j) =>
+                  c ? (
+                    <RichText
+                      key={j}
+                      text={c}
+                      className="mt-1 text-[14px] leading-snug text-[#5A6B70]"
+                    />
+                  ) : null,
+                )}
             </div>
           ))}
         </div>
@@ -342,14 +431,39 @@ export function Slide({ slide }: { slide: DeckSlide }) {
       {cards.length > 0 && (
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {cards.map((c, i) => (
-            <div key={i} className={cn(c.dim && 'opacity-60')}>
-              <Cartao>
+            <div key={i} className={cn(c.dim && "opacity-60")}>
+              <Cartao
+                className={cn(
+                  c.tone === "ok" && "border-[#417E8E]",
+                  c.tone === "flag" && "border-2 border-[#A33A1F]",
+                )}
+              >
                 {c.kicker && (
                   <div className="mb-2 text-[12px] font-bold uppercase tracking-[0.1em] text-[#5A6B70]">
                     {c.kicker}
                   </div>
                 )}
-                <RichText text={c.body} className="text-[15px] leading-relaxed" />
+                {/*
+                  O veredicto é a RESPOSTA da pergunta que está no kicker. O PDF já o desenhava em
+                  52px; aqui ele era descartado no cast, então o paciente abria o portal e via a
+                  pergunta sem resposta — o mesmo defeito que o cartão de veredicto foi criado para
+                  consertar, na tela em que ele mais importa.
+                */}
+                {c.verdict && (
+                  <div
+                    className={cn(
+                      "mb-1 font-serif text-[26px] leading-none",
+                      c.tone === "ok" && "text-[#417E8E]",
+                      c.tone === "flag" && "text-[#A33A1F]",
+                    )}
+                  >
+                    {c.verdict}
+                  </div>
+                )}
+                <RichText
+                  text={c.body}
+                  className="text-[15px] leading-relaxed"
+                />
               </Cartao>
             </div>
           ))}
@@ -359,13 +473,20 @@ export function Slide({ slide }: { slide: DeckSlide }) {
       {steps.length > 0 && (
         <ol className="mt-5 divide-y divide-[#0A1F26]/10">
           {steps.map((st, i) => (
-            <li key={i} className="grid gap-1 py-3 sm:grid-cols-[180px_1fr] sm:gap-6">
+            <li
+              key={i}
+              className="grid gap-1 py-3 sm:grid-cols-[180px_1fr] sm:gap-6"
+            >
               <div className="text-[12px] font-bold uppercase tracking-[0.1em] text-[#8A6534]">
                 {st.when}
               </div>
               <div>
                 <RichText text={st.what} className="text-[16px] leading-snug" />
-                {st.detail && <div className="mt-1 text-[14px] text-[#5A6B70]">{st.detail}</div>}
+                {st.detail && (
+                  <div className="mt-1 text-[14px] text-[#5A6B70]">
+                    {st.detail}
+                  </div>
+                )}
               </div>
             </li>
           ))}
@@ -383,9 +504,13 @@ export function Slide({ slide }: { slide: DeckSlide }) {
                       {take.highlight.when}
                     </div>
                   )}
-                  <div className="font-serif text-[clamp(1.35rem,4.5vw,2rem)]">{take.highlight.name}</div>
+                  <div className="font-serif text-[clamp(1.35rem,4.5vw,2rem)]">
+                    {take.highlight.name}
+                  </div>
                   {take.highlight.obs && (
-                    <div className="mt-1 text-[14px] text-[#92B8B4]">{take.highlight.obs}</div>
+                    <div className="mt-1 text-[14px] text-[#92B8B4]">
+                      {take.highlight.obs}
+                    </div>
                   )}
                 </div>
                 <div className="text-right">
@@ -393,7 +518,9 @@ export function Slide({ slide }: { slide: DeckSlide }) {
                     {take.highlight.dose}
                   </div>
                   {take.highlight.unit && (
-                    <div className="mt-1 text-[13px] text-[#92B8B4]">{take.highlight.unit}</div>
+                    <div className="mt-1 text-[13px] text-[#92B8B4]">
+                      {take.highlight.unit}
+                    </div>
                   )}
                 </div>
               </div>
@@ -407,10 +534,19 @@ export function Slide({ slide }: { slide: DeckSlide }) {
                 </div>
                 <div className="divide-y divide-[#0A1F26]/8">
                   {g.items?.map((it, j) => (
-                    <div key={j} className="flex items-baseline justify-between gap-3 py-2">
+                    <div
+                      key={j}
+                      className="flex items-baseline justify-between gap-3 py-2"
+                    >
                       <span>
-                        <span className="text-[15px] font-semibold">{it.name}</span>
-                        {it.sub && <span className="block text-[13px] text-[#5A6B70]">{it.sub}</span>}
+                        <span className="text-[15px] font-semibold">
+                          {it.name}
+                        </span>
+                        {it.sub && (
+                          <span className="block text-[13px] text-[#5A6B70]">
+                            {it.sub}
+                          </span>
+                        )}
                       </span>
                       <span className="shrink-0 text-[15px] font-bold tabular-nums text-[#063B4F]">
                         {it.dose}
@@ -421,22 +557,37 @@ export function Slide({ slide }: { slide: DeckSlide }) {
               </Cartao>
             ))}
           </div>
-          {take.note && <p className="text-[14px] leading-relaxed text-[#5A6B70]">{take.note}</p>}
+          {take.note && (
+            <p className="text-[14px] leading-relaxed text-[#5A6B70]">
+              {take.note}
+            </p>
+          )}
         </div>
       )}
 
       {slide.kicker && (
-        <RichText text={slide.kicker} className={cn('mt-5 text-[15px] leading-relaxed', escuro ? 'text-[#92B8B4]' : 'text-[#5A6B70]')} />
+        <RichText
+          text={slide.kicker}
+          className={cn(
+            "mt-5 text-[15px] leading-relaxed",
+            escuro ? "text-[#92B8B4]" : "text-[#5A6B70]",
+          )}
+        />
       )}
       {slide.source && (
-        <RichText text={slide.source} className="mt-3 text-[13px] leading-relaxed text-[#5A6B70]" />
+        <RichText
+          text={slide.source}
+          className="mt-3 text-[13px] leading-relaxed text-[#5A6B70]"
+        />
       )}
       {slide.punch && (
         <RichText
           text={slide.punch}
           className={cn(
-            'mt-6 border-t-2 pt-4 font-serif text-[clamp(1.05rem,3.8vw,1.4rem)] leading-snug',
-            escuro ? 'border-[#D4A86B]/40 text-[#EAE7DA]' : 'border-[#B38645]/35 text-[#063B4F]',
+            "mt-6 border-t-2 pt-4 font-serif text-[clamp(1.05rem,3.8vw,1.4rem)] leading-snug",
+            escuro
+              ? "border-[#D4A86B]/40 text-[#EAE7DA]"
+              : "border-[#B38645]/35 text-[#063B4F]",
           )}
         />
       )}

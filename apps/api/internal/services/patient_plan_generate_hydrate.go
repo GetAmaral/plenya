@@ -117,6 +117,9 @@ func reguaDoDossie(fonte dto.PlanRuler, autoral pdfdoc.DeckRulerBlock) pdfdoc.Ru
 		r.Axis = [2]float64{fonte.Axis[0], fonte.Axis[1]}
 	}
 	for _, s := range fonte.Segments {
+		// `Label` ("≤15", ">300") é a faixa em texto que o dossiê já calculou. O deck ainda não a
+		// desenha, mas descartá-la na hidratação significa que o dia em que ele desenhar vai
+		// precisar recalcular o que já estava pronto.
 		r.Segments = append(r.Segments, pdfdoc.RulerSegment{Level: s.Level, A: s.A, B: s.B})
 	}
 	for _, p := range fonte.History {

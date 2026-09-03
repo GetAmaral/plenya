@@ -18585,7 +18585,7 @@ export interface components {
             title?: string;
         };
         /** @enum {string} */
-        "dto.PlanGenWarningKind": "numeral" | "regua" | "estilo";
+        "dto.PlanGenWarningKind": "numeral" | "regua" | "estilo" | "lacuna";
         "dto.PlanMessage": {
             body?: string;
             createdAt?: string;
