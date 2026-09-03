@@ -270,14 +270,16 @@ func BuildNumericIndex(d *dto.PlanDossierResponse) *NumericIndex {
 }
 
 // numerosEmTexto tira os números de uma frase livre ("Tomar 1 cápsula de 12/12 horas", "50 mg").
-// Aceita vírgula e ponto decimais, que é como os dois aparecem no receituário.
+//
+// Delega a `leituras`, que já resolve a ambiguidade do ponto. A primeira versão fazia
+// `ReplaceAll(".", "")` achando que todo ponto era separador de milhar, e com isso indexava
+// "2.5 mg" como 25: a dose certa virava alarme falso e a errada passava. `leituras` devolve as DUAS
+// leituras quando o texto é ambíguo ("1.023"), que é o comportamento correto aqui.
 func numerosEmTexto(txt string) []float64 {
 	var out []float64
 	for _, m := range reNumeroSolto.FindAllString(txt, -1) {
-		v, err := strconv.ParseFloat(strings.ReplaceAll(strings.ReplaceAll(m, ".", ""), ",", "."), 64)
-		if err == nil {
-			out = append(out, v)
-		}
+		vs, _ := leituras(m)
+		out = append(out, vs...)
 	}
 	return out
 }

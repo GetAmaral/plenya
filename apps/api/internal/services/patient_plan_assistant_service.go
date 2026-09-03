@@ -910,7 +910,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		plan.RevisionSeq = seq
 		return tx.Save(plan).Error
 	}); err != nil {
-		return nil, err
+		return limpaSeFalhar(err)
 	}
 
 	// A conferência geométrica no fim: o deck acabou de nascer e o médico precisa saber ANTES de
@@ -919,7 +919,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 
 	final, err := s.plans.Get(planID, in.PatientID)
 	if err != nil {
-		return nil, err
+		return limpaSeFalhar(err)
 	}
 	return &GenerateDraftResult{
 		Plan: final, Reply: res.Reply, Warnings: avisos, Overflow: estouro, Model: meta.Model,

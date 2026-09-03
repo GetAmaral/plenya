@@ -213,8 +213,9 @@ func (h *PatientPlanAssistantHandler) GenerateDraft(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusUnprocessableEntity).
 				JSON(dto.ErrorResponse{Error: "prontuário insuficiente", Message: err.Error()})
 		}
-		return c.Status(fiber.StatusInternalServerError).
-			JSON(dto.ErrorResponse{Error: "falha ao gerar o rascunho", Message: err.Error()})
+		// Pelo `fail` e não com 500 fixo: chave ausente é 503, modelo fora do ar é 502, e o
+		// frontend só mostra a mensagem — com 500 em tudo, falta de configuração lia como bug.
+		return h.fail(c, err, "falha ao gerar o rascunho")
 	}
 	return c.Status(fiber.StatusCreated).JSON(out)
 }

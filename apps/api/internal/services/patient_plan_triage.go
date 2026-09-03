@@ -170,6 +170,9 @@ func provaDoSlide(s pdfdoc.DeckSlide, ix *NumericIndex) []NumeralProof {
 	for _, c := range s.Cards {
 		visita(c.Kicker)
 		visita(c.Body)
+		// O veredicto é o MAIOR texto do slide de decisão. Sem esta linha, um número escrito ali
+		// escapava inteiro da conferência de proveniência.
+		visita(c.Verdict)
 	}
 	for _, r := range s.Rulers {
 		visita(r.Note)

@@ -285,6 +285,18 @@ h3{ font-family:var(--sans); font-size:28px; font-weight:600; letter-spacing:.02
 .dark .card .s,.deep .card .s{ color:var(--sage); }
 .card.dim{ opacity:.62; }
 .card.focus{ border-color:#B3503C; border-width:2px; }
+/* Veredicto do cartão de decisão: a linha grande que responde a pergunta do cartão ("Não precisa",
+   "Sim"). Portado do deck.css escrito à mão dos dois decks aprovados, onde ele é ".card .v" em
+   52px display. Sem ele o slide da decisão perdia a resposta e virava dois parágrafos. */
+.card .v{ font-family:var(--display); font-size:52px; line-height:1; margin:2px 0 4px; }
+/* As cores saem da paleta da marca. No deck.css escrito à mão estas duas regras referenciavam
+   --lvl-good / --lvl-bad, que NÃO estão definidas em lugar nenhum: eram regras mortas, e a cor
+   real vinha de style inline por slide. Aqui elas passam a existir de verdade. */
+.card.ok{ border-color:var(--ocean); }
+.card.ok .v{ color:var(--ocean); }
+/* "flag" é a borda da REGRA DE SEGURANÇA (a conduta de dia de doença), não decoração. */
+.card.flag{ border-color:var(--alert); border-width:2px; }
+.card.flag .v{ color:var(--alert); }
 
 /* footer canônico — numeração */
 .slide-footer{ position:absolute; bottom:30px; left:84px; right:84px; display:flex;

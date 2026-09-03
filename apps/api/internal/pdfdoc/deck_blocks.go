@@ -26,6 +26,12 @@ const (
 	// José Ricardo, onde 8 dos 20 slides são isso (os exames que faltam, o prato, o movimento, a
 	// sequência). A gramática v2 tinha 8 blocos e esse escapou.
 	DeckTableKind DeckSlideKind = "table"
+	// DeckRulersCards — réguas em cima, cartões embaixo, no mesmo slide.
+	//
+	// Não é conveniência: é o slide 08 dos DOIS decks aprovados, e nos dois ele faz o mesmo
+	// movimento — mostra o exame que temos e, ao lado, o exame que falta. O pipeline do EMR
+	// achatava isso em dois slides e perdia o contraste, que é o que ensina.
+	DeckRulersCards DeckSlideKind = "rulers-cards"
 )
 
 // DeckVariant — o fundo do slide.
@@ -156,9 +162,16 @@ type DeckSummaryBlock struct {
 // DeckCard — um cartão de texto. Dim apaga o caminho descartado; Focus destaca o que vale.
 type DeckCard struct {
 	Kicker string `json:"kicker,omitempty"`
-	Body   string `json:"body,omitempty"`
-	Dim    bool   `json:"dim,omitempty"`
-	Focus  bool   `json:"focus,omitempty"`
+	// Verdict — a linha grande que RESPONDE a pergunta do cartão ("Não precisa", "Sim", "Agora
+	// não"). É o que faz o slide da decisão decidir alguma coisa; sem ela ele vira dois parágrafos.
+	// Sai em 52px display, acima do corpo.
+	Verdict string `json:"verdict,omitempty"`
+	// Tone colore o veredicto e a borda: "ok" para o caminho que tranquiliza, "flag" para a regra
+	// de segurança. Vazio = neutro.
+	Tone  string `json:"tone,omitempty"`
+	Body  string `json:"body,omitempty"`
+	Dim   bool   `json:"dim,omitempty"`
+	Focus bool   `json:"focus,omitempty"`
 }
 
 // DeckSeqStep — uma linha da sequência ("nas próximas 4 semanas → …").
@@ -210,6 +223,13 @@ func renderBlocks(s DeckSlide) string {
 		if s.Legend {
 			b.WriteString(rampLegend())
 		}
+	case DeckRulersCards:
+		for i := range s.Rulers {
+			r := s.Rulers[i].Ruler
+			r.Dark = isDarkVariant(s.Variant)
+			b.WriteString(rulerSVG(r))
+		}
+		b.WriteString(renderCards(s.Cards))
 	case DeckSummary:
 		if s.Summary != nil {
 			b.WriteString(renderSummary(*s.Summary, isDarkVariant(s.Variant)))
@@ -313,9 +333,15 @@ func renderCards(cards []DeckCard) string {
 		return ""
 	}
 	var b strings.Builder
-	if len(cards) == 2 {
+	switch {
+	case len(cards) == 2:
 		b.WriteString(`<div class="two">`)
-	} else {
+	case len(cards) == 4:
+		// Quatro cartões são a grade 2x2 do slide de decisão, não uma fileira de quatro.
+		// Em uma fileira, cada cartão fica com ~340px e o veredicto de 52px não cabe: o slide sai
+		// espremido no PDF que o paciente lê.
+		b.WriteString(`<div class="cards" style="grid-template-columns:repeat(2,1fr);display:grid;gap:40px">`)
+	default:
 		b.WriteString(`<div class="cards" style="grid-template-columns:repeat(` +
 			fmt.Sprint(len(cards)) + `,1fr);display:grid;gap:40px">`)
 	}
@@ -327,9 +353,15 @@ func renderCards(cards []DeckCard) string {
 		if c.Focus {
 			cls += " focus"
 		}
+		if c.Tone == "ok" || c.Tone == "flag" {
+			cls += " " + c.Tone
+		}
 		b.WriteString(`<div class="` + cls + `">`)
 		if c.Kicker != "" {
 			b.WriteString(`<div class="k">` + esc(c.Kicker) + `</div>`)
+		}
+		if c.Verdict != "" {
+			b.WriteString(`<div class="v">` + inlineHTML(c.Verdict) + `</div>`)
 		}
 		if c.Body != "" {
 			b.WriteString(`<div class="s">` + inlineHTML(c.Body) + `</div>`)

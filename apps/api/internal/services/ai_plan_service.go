@@ -206,7 +206,7 @@ func (s *AIService) EditPatientPlan(req PlanEditRequest) (*PlanEditResult, AICal
 	}
 
 	inicio := time.Now()
-	bruto, m, err := s.chamaFerramentaComMeta(payload)
+	bruto, m, err := s.chamaFerramentaComMeta(payload, false)
 	meta = m
 	meta.LatencyMs = int(time.Since(inicio).Milliseconds())
 	if err != nil {
@@ -224,15 +224,16 @@ func (s *AIService) EditPatientPlan(req PlanEditRequest) (*PlanEditResult, AICal
 }
 
 // chamaFerramentaComMeta é o `callClaudeToolUse` com os metadados que a revisão precisa guardar.
-func (s *AIService) chamaFerramentaComMeta(payload map[string]any) (string, AICallMeta, error) {
+// chamaFerramentaComMeta faz a chamada. `longa` escolhe o cliente: a GERAÇÃO pede 32000 tokens de
+// saída, o mesmo teto da extração de laudo, e precisa dos 10 minutos do `labClient` — com os 3
+// minutos do `httpClient` um deck longo tem a conexão cortada DEPOIS de a chamada já ter sido
+// cobrada. O turno de conversa continua nos 3 minutos: ele devolve um punhado de operações, e
+// esperar dez por um turno travado seria pior que falhar.
+func (s *AIService) chamaFerramentaComMeta(payload map[string]any, longa bool) (string, AICallMeta, error) {
 	var meta AICallMeta
-	// `labClient` (10 min) e não `httpClient` (3 min): a geração pede 32000 tokens de saída, o
-	// mesmo teto da extração de laudo, e é por essa razão que aquele cliente existe. Com o de 3
-	// minutos, um deck longo tem a conexão cortada do lado do cliente DEPOIS de a chamada já ter
-	// sido cobrada, e o médico lê "falha ao gerar".
-	cliente := s.labClient
-	if cliente == nil {
-		cliente = s.httpClient
+	cliente := s.httpClient
+	if longa && s.labClient != nil {
+		cliente = s.labClient
 	}
 	corpo, err := json.Marshal(payload)
 	if err != nil {
@@ -375,10 +376,20 @@ func planGenerateToolSchema() map[string]any {
 						// `kind` estava livre e o modelo devolveu os onze slides com ele VAZIO, o
 						// que deixa o render sem saber o que desenhar. Enum resolve na origem.
 						"kind": map[string]any{
-							"enum": []string{"cover", "summary", "rulers", "two-cards", "plan-step",
-								"sequence", "takeaway", "closing", "table"},
+							"enum": []string{"cover", "summary", "rulers", "rulers-cards", "two-cards",
+								"plan-step", "sequence", "takeaway", "closing", "table"},
 						},
-						"variant": map[string]any{"enum": []string{"deep", "light"}},
+						// O render conhece "", "dark" e "deep". O enum antigo oferecia "light",
+						// que não é valor de render nenhum e caía em creme por acidente. Nos dois
+						// decks aprovados só capa e fecho são "deep", e "dark" nunca foi usado.
+						//
+						// O vazio precisa estar no enum: com um valor legal só, o modelo tende a
+						// preencher o campo em todo slide e o deck sai inteiro escuro, que é o
+						// oposto da regra ("um tom só nas páginas de conteúdo").
+						"variant": map[string]any{
+							"enum":        []string{"", "deep"},
+							"description": `Vazio em TODO slide de conteúdo. "deep" só na capa e no fecho.`,
+						},
 						"eyebrow": map[string]any{"type": "string"},
 						"title":   map[string]any{"type": "string"},
 						"lede":    map[string]any{"type": "string"},
@@ -421,16 +432,19 @@ func planGenerateToolSchema() map[string]any {
 							},
 						},
 						"cards": map[string]any{
-							"type":        "array",
-							"maxItems":    2,
-							"description": "Em kind=two-cards são exatamente 2; em closing, 1 ou 2.",
+							"type":     "array",
+							"maxItems": 4,
+							"description": "Em two-cards e rulers-cards, 2 ou 4 (a grade 2x2 da decisão). " +
+								"Em plan-step, 2 ou 3. NÃO use em cover nem em closing: o render descarta.",
 							"items": map[string]any{
 								"type": "object",
 								"properties": map[string]any{
-									"kicker": map[string]any{"type": "string"},
-									"body":   map[string]any{"type": "string"},
-									"dim":    map[string]any{"type": "boolean", "description": "Apaga o caminho descartado."},
-									"focus":  map[string]any{"type": "boolean", "description": "Destaca o caminho recomendado."},
+									"kicker":  map[string]any{"type": "string", "description": "Rótulo em caixa alta, geralmente a PERGUNTA que o cartão responde."},
+									"verdict": map[string]any{"type": "string", "description": "A resposta, em uma ou duas palavras: \"Não precisa\", \"Sim\". É o que faz o slide decidir."},
+									"tone":    map[string]any{"enum": []string{"ok", "flag"}, "description": "ok = tranquiliza; flag = regra de segurança. Vazio = neutro."},
+									"body":    map[string]any{"type": "string"},
+									"dim":     map[string]any{"type": "boolean", "description": "Apaga o caminho descartado."},
+									"focus":   map[string]any{"type": "boolean", "description": "Destaca o caminho recomendado."},
 								},
 							},
 						},
@@ -450,7 +464,7 @@ func planGenerateToolSchema() map[string]any {
 						},
 						"takeaway": map[string]any{
 							"type":        "object",
-							"description": "Só em kind=takeaway. Dose só sai de prescriptions do dossiê; sem prescrição, não escreva dose.",
+							"description": "Em kind=takeaway, e também em plan-step quando a conduta tem doses. Dose só sai de prescricoes do dossiê; sem prescrição, não escreva dose.",
 							"properties": map[string]any{
 								"highlight": map[string]any{
 									"type": "object", "required": []string{"name"},
@@ -487,7 +501,7 @@ func planGenerateToolSchema() map[string]any {
 						},
 						"table": map[string]any{
 							"type":        "object",
-							"description": "Só em kind=table. Máximo 3 colunas e 8 linhas.",
+							"description": "Em kind=table, e também em two-cards e plan-step, onde o render a desenha abaixo dos cartões. Máximo 3 colunas e 8 linhas.",
 							"properties": map[string]any{
 								"columns": map[string]any{
 									"type": "array", "maxItems": 3,
@@ -514,7 +528,7 @@ func planGenerateToolSchema() map[string]any {
 						"rulers": map[string]any{
 							"type":     "array",
 							"maxItems": 4,
-							"description": "Só o exame e o texto autoral. A escala e o histórico o SERVIDOR copia " +
+							"description": "Em kind=rulers, 2 a 4. Em rulers-cards, exatamente 2. Só o exame e o texto autoral; a escala e o histórico o SERVIDOR copia " +
 								"do dossiê; não escreva axis, segments nem history.",
 							"items": map[string]any{
 								"type":     "object",
@@ -581,8 +595,9 @@ func (s *AIService) GeneratePatientPlan(req PlanGenerateRequest) (*PlanGenerateR
 		{
 			"type": "text",
 			"text": "DOSSIÊ (prontuário compilado e congelado deste plano):\n" + req.DossierJSON,
-			// Mesmo ponto de cache da edição: o dossiê é byte-idêntico entre a geração e os turnos
-			// de conversa que vêm depois, então o prefixo é reaproveitado.
+			// Ponto de cache para a própria geração. NÃO vale entre a geração e os turnos de
+			// conversa: o bloco de regras é outro, e a poda manda réguas completas aqui e um
+			// catálogo lá. Esperar cache_read > 0 no primeiro turno depois de gerar é engano.
 			"cache_control": map[string]any{"type": "ephemeral"},
 		},
 	}
@@ -614,7 +629,7 @@ func (s *AIService) GeneratePatientPlan(req PlanGenerateRequest) (*PlanGenerateR
 	}
 
 	inicio := time.Now()
-	bruto, m, err := s.chamaFerramentaComMeta(payload)
+	bruto, m, err := s.chamaFerramentaComMeta(payload, true)
 	meta = m
 	meta.LatencyMs = int(time.Since(inicio).Milliseconds())
 	if err != nil {

@@ -1,23 +1,26 @@
-'use client';
+"use client";
 
-import { useMemo, useState } from 'react';
-import { AlertTriangle, Braces, ChevronDown, Copy, Trash2 } from 'lucide-react';
-import type { DeckSlide, PlanDossier, PlanSuggestion } from '@plenya/types';
+import { useMemo, useState } from "react";
+import { AlertTriangle, Braces, ChevronDown, Copy, Trash2 } from "lucide-react";
+import type { DeckSlide, PlanDossier, PlanSuggestion } from "@plenya/types";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { CardsEditor } from '@/components/plan/blocks/cards-editor';
-import { RulersEditor, AdicionarReguaDoDossie } from '@/components/plan/blocks/rulers-editor';
-import { SlideHeaderFields } from '@/components/plan/blocks/slide-header-fields';
-import { SummaryEditor } from '@/components/plan/blocks/summary-editor';
-import { TableEditor } from '@/components/plan/blocks/table-editor';
-import { TakeawayEditor } from '@/components/plan/blocks/takeaway-editor';
-import { SLIDE_SPEC } from '@/lib/plan/slide-spec';
-import { orcamentoDoSlide } from '@/lib/plan/budget';
-import { cn } from '@/lib/utils';
-import { SuggestionStrip } from '@/components/plan/chat/suggestion-strip';
-import { SlideThumbnail } from './slide-thumbnail';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { CardsEditor } from "@/components/plan/blocks/cards-editor";
+import {
+  RulersEditor,
+  AdicionarReguaDoDossie,
+} from "@/components/plan/blocks/rulers-editor";
+import { SlideHeaderFields } from "@/components/plan/blocks/slide-header-fields";
+import { SummaryEditor } from "@/components/plan/blocks/summary-editor";
+import { TableEditor } from "@/components/plan/blocks/table-editor";
+import { TakeawayEditor } from "@/components/plan/blocks/takeaway-editor";
+import { SLIDE_SPEC } from "@/lib/plan/slide-spec";
+import { orcamentoDoSlide } from "@/lib/plan/budget";
+import { cn } from "@/lib/utils";
+import { SuggestionStrip } from "@/components/plan/chat/suggestion-strip";
+import { SlideThumbnail } from "./slide-thumbnail";
 
 /**
  * Um slide como cartão: miniatura à esquerda, campos do bloco à direita quando expandido.
@@ -70,8 +73,8 @@ export function SlideCard({
   resolvendo,
 }: SlideCardProps) {
   const [jsonAberto, setJsonAberto] = useState(false);
-  const [jsonTexto, setJsonTexto] = useState('');
-  const [jsonErro, setJsonErro] = useState('');
+  const [jsonTexto, setJsonTexto] = useState("");
+  const [jsonErro, setJsonErro] = useState("");
 
   const spec = SLIDE_SPEC[slide.kind];
   const orcamento = useMemo(() => orcamentoDoSlide(slide), [slide]);
@@ -79,7 +82,7 @@ export function SlideCard({
 
   const abreJson = () => {
     setJsonTexto(JSON.stringify(slide, null, 2));
-    setJsonErro('');
+    setJsonErro("");
     setJsonAberto(true);
   };
   const aplicaJson = () => {
@@ -89,9 +92,9 @@ export function SlideCard({
       // O id não é editável por aqui: é o alvo de toda operação e sugestão.
       onChange({ ...novo, id: slide.id });
       setJsonAberto(false);
-      setJsonErro('');
+      setJsonErro("");
     } catch (e) {
-      setJsonErro(e instanceof Error ? e.message : 'JSON inválido');
+      setJsonErro(e instanceof Error ? e.message : "JSON inválido");
     }
   };
 
@@ -100,9 +103,9 @@ export function SlideCard({
   return (
     <div
       className={cn(
-        'rounded-lg border bg-card',
-        transborda && 'border-l-2 border-l-destructive',
-        expandido && 'ring-1 ring-primary/30',
+        "rounded-lg border bg-card",
+        transborda && "border-l-2 border-l-destructive",
+        expandido && "ring-1 ring-primary/30",
       )}
     >
       {/*
@@ -117,7 +120,7 @@ export function SlideCard({
         tabIndex={0}
         onClick={onExpandir}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             onExpandir();
           }
@@ -126,7 +129,7 @@ export function SlideCard({
         aria-expanded={expandido}
       >
         <span className="w-6 shrink-0 pt-1 text-right text-[11px] tabular-nums text-muted-foreground">
-          {String(indice + 1).padStart(2, '0')}
+          {String(indice + 1).padStart(2, "0")}
         </span>
         <SlideThumbnail slide={slide} largura={168} altura={96} />
         <span className="min-w-0 flex-1">
@@ -134,20 +137,28 @@ export function SlideCard({
             {slide.eyebrow || spec?.label || slide.kind}
           </span>
           <span className="mt-0.5 block line-clamp-2 text-sm font-medium">
-            {slide.title || <span className="text-muted-foreground">sem título</span>}
+            {slide.title || (
+              <span className="text-muted-foreground">sem título</span>
+            )}
           </span>
           {slide.punch && (
             <span className="mt-0.5 block truncate text-[11px] italic text-muted-foreground">
-              {slide.punch.replace(/<[^>]+>/g, '')}
+              {slide.punch.replace(/<[^>]+>/g, "")}
             </span>
           )}
         </span>
         <span className="flex shrink-0 flex-col items-end gap-1">
-          <Badge variant="outline" className="h-5 px-1.5 text-[10px] font-normal">
+          <Badge
+            variant="outline"
+            className="h-5 px-1.5 text-[10px] font-normal"
+          >
             {spec?.label ?? slide.kind}
           </Badge>
           {sujo && (
-            <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-normal">
+            <Badge
+              variant="secondary"
+              className="h-5 px-1.5 text-[10px] font-normal"
+            >
               alterado
             </Badge>
           )}
@@ -160,21 +171,27 @@ export function SlideCard({
             </Badge>
           )}
           {transborda && (
-            <Badge variant="destructive" className="h-5 gap-1 px-1.5 text-[10px] font-normal">
+            <Badge
+              variant="destructive"
+              className="h-5 gap-1 px-1.5 text-[10px] font-normal"
+            >
               <AlertTriangle className="h-2.5 w-2.5" />
               não cabe
             </Badge>
           )}
-          {!transborda && orcamento.nivel !== 'ok' && (
+          {!transborda && orcamento.nivel !== "ok" && (
             <span
               className="text-[10px] text-amber-700"
               title={`estimativa: ~${orcamento.usado}px de ${orcamento.disponivel}px, o maior é ${orcamento.maiorBloco}. A conferência ao salvar dá a palavra final.`}
             >
-              {orcamento.nivel === 'apertado' ? 'apertado' : 'talvez não caiba'}
+              {orcamento.nivel === "apertado" ? "apertado" : "talvez não caiba"}
             </span>
           )}
           <ChevronDown
-            className={cn('h-3.5 w-3.5 text-muted-foreground transition-transform', expandido && 'rotate-180')}
+            className={cn(
+              "h-3.5 w-3.5 text-muted-foreground transition-transform",
+              expandido && "rotate-180",
+            )}
           />
         </span>
       </div>
@@ -199,18 +216,22 @@ export function SlideCard({
 
       {expandido && (
         <div className="space-y-4 border-t p-3">
-          {spec?.hint && <p className="text-[11px] text-muted-foreground">{spec.hint}</p>}
+          {spec?.hint && (
+            <p className="text-[11px] text-muted-foreground">{spec.hint}</p>
+          )}
 
           {spec?.readOnly ? (
             <p className="rounded border border-dashed p-3 text-[11px] text-muted-foreground">
-              Este tipo de slide não tem formulário: os dois decks reais nunca o usaram. Edite pelo
-              JSON abaixo se precisar dele.
+              Este tipo de slide não tem formulário: os dois decks reais nunca o
+              usaram. Edite pelo JSON abaixo se precisar dele.
             </p>
           ) : (
             <>
-              {spec?.blocks.includes('header') && <SlideHeaderFields slide={slide} onChange={patch} />}
+              {spec?.blocks.includes("header") && (
+                <SlideHeaderFields slide={slide} onChange={patch} />
+              )}
 
-              {spec?.blocks.includes('rulers') && (
+              {spec?.blocks.includes("rulers") && (
                 <div className="space-y-2">
                   <p className="text-xs font-medium">Réguas</p>
                   <RulersEditor
@@ -221,14 +242,19 @@ export function SlideCard({
                   />
                   <AdicionarReguaDoDossie
                     dossier={dossier}
-                    desabilitado={(slide.rulers?.length ?? 0) >= (spec.ceilings?.rulers ?? 4)}
+                    desabilitado={
+                      (slide.rulers?.length ?? 0) >=
+                      (spec.ceilings?.rulers ?? 4)
+                    }
                     motivo="Quatro é o teto comprovado: com oito o slide transborda."
-                    onAdd={(r) => patch({ rulers: [...(slide.rulers ?? []), r] })}
+                    onAdd={(r) =>
+                      patch({ rulers: [...(slide.rulers ?? []), r] })
+                    }
                   />
                 </div>
               )}
 
-              {spec?.blocks.includes('summary') && (
+              {spec?.blocks.includes("summary") && (
                 <SummaryEditor
                   summary={slide.summary ?? {}}
                   onChange={(summary) => patch({ summary })}
@@ -238,19 +264,25 @@ export function SlideCard({
                 />
               )}
 
-              {spec?.blocks.includes('cards') && (
+              {spec?.blocks.includes("cards") && (
                 <div className="space-y-2">
                   <p className="text-xs font-medium">Cartões</p>
                   <CardsEditor
                     cards={slide.cards ?? []}
                     onChange={(cards) => patch({ cards })}
                     teto={spec.ceilings?.cards}
-                    fixo={slide.kind === 'two-cards'}
+                    /*
+                      `fixo` travava o slide em dois cartões, e o teto de `two-cards` subiu para
+                      quatro (a grade 2x2 da decisão). Travado, o médico não conseguia acrescentar
+                      o 3º nem o 4º, e num slide gerado com quatro o botão de remover sumia: um
+                      cartão ruim ficava impossível de apagar pelo formulário.
+                    */
+                    fixo={false}
                   />
                 </div>
               )}
 
-              {spec?.blocks.includes('table') && (
+              {spec?.blocks.includes("table") && (
                 <div className="space-y-2">
                   <p className="text-xs font-medium">Tabela</p>
                   <TableEditor
@@ -262,7 +294,7 @@ export function SlideCard({
                 </div>
               )}
 
-              {spec?.blocks.includes('takeaway') && (
+              {spec?.blocks.includes("takeaway") && (
                 <div className="space-y-2">
                   <p className="text-xs font-medium">Para levar</p>
                   <TakeawayEditor
@@ -294,8 +326,15 @@ export function SlideCard({
                   rows={12}
                   className="font-mono text-[11px]"
                 />
-                {jsonErro && <p className="text-[11px] text-destructive">{jsonErro}</p>}
-                <Button type="button" size="sm" className="h-7 text-xs" onClick={aplicaJson}>
+                {jsonErro && (
+                  <p className="text-[11px] text-destructive">{jsonErro}</p>
+                )}
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-7 text-xs"
+                  onClick={aplicaJson}
+                >
                   Aplicar
                 </Button>
               </div>
@@ -303,7 +342,13 @@ export function SlideCard({
           </div>
 
           <div className="flex justify-end gap-1">
-            <Button type="button" size="sm" variant="ghost" className="h-7 text-xs" onClick={onDuplicar}>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              className="h-7 text-xs"
+              onClick={onDuplicar}
+            >
               <Copy className="mr-1 h-3 w-3" />
               Duplicar
             </Button>

@@ -83,6 +83,11 @@ var vocabulario = map[string]FieldClass{
 	"cards[i].body":   FieldAuthoredText,
 	"cards[i].dim":    FieldAuthoredText,
 	"cards[i].focus":  FieldAuthoredText,
+	// O veredicto é texto autoral como o resto do cartão. Sem estas duas entradas o médico não
+	// conseguia pedir "troque o veredicto para Não precisa": a op era recusada como caminho
+	// desconhecido, e só a escotilha de JSON resolvia.
+	"cards[i].verdict": FieldAuthoredText,
+	"cards[i].tone":    FieldAuthoredText,
 
 	// Régua: três campos autorais, o resto é do dossiê.
 	"rulers[i].display":  FieldAuthoredText,
@@ -137,15 +142,19 @@ var vocabulario = map[string]FieldClass{
 // blocosPorKind diz qual bloco cada tipo de slide aceita. Escrever `table.*` num slide `cover` é
 // caminho válido no vocabulário e inválido naquele slide.
 var blocosPorKind = map[pdfdoc.DeckSlideKind]map[string]bool{
-	pdfdoc.DeckCover:     {},
-	pdfdoc.DeckClosing:   {"cards": true},
-	pdfdoc.DeckSummary:   {"summary": true},
-	pdfdoc.DeckRulers:    {"rulers": true},
-	pdfdoc.DeckTwoCards:  {"cards": true, "table": true},
-	pdfdoc.DeckPlanStep:  {"cards": true, "table": true, "takeaway": true},
-	pdfdoc.DeckSequence:  {"steps": true},
-	pdfdoc.DeckTakeaway:  {"takeaway": true},
-	pdfdoc.DeckTableKind: {"table": true},
+	pdfdoc.DeckCover:    {},
+	pdfdoc.DeckClosing:  {"cards": true},
+	pdfdoc.DeckSummary:  {"summary": true},
+	pdfdoc.DeckRulers:   {"rulers": true},
+	pdfdoc.DeckTwoCards: {"cards": true, "table": true},
+	// Sem esta entrada, `ClassifyPath` pulava a checagem de bloco inteira para o kind novo (o mapa
+	// não tinha a chave), e o assistente podia escrever em `takeaway` ou `summary` de um slide que
+	// nunca desenha nenhum dos dois: o médico aceitava uma sugestão que não mudava nada.
+	pdfdoc.DeckRulersCards: {"rulers": true, "cards": true},
+	pdfdoc.DeckPlanStep:    {"cards": true, "table": true, "takeaway": true},
+	pdfdoc.DeckSequence:    {"steps": true},
+	pdfdoc.DeckTakeaway:    {"takeaway": true},
+	pdfdoc.DeckTableKind:   {"table": true},
 }
 
 // ClassifyPath diz o que se pode fazer com um caminho naquele tipo de slide.

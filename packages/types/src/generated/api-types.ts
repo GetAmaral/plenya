@@ -21750,6 +21750,17 @@ export interface components {
             dim?: boolean;
             focus?: boolean;
             kicker?: string;
+            /**
+             * @description Tone colore o veredicto e a borda: "ok" para o caminho que tranquiliza, "flag" para a regra
+             *     de segurança. Vazio = neutro.
+             */
+            tone?: string;
+            /**
+             * @description Verdict — a linha grande que RESPONDE a pergunta do cartão ("Não precisa", "Sim", "Agora
+             *     não"). É o que faz o slide da decisão decidir alguma coisa; sem ela ele vira dois parágrafos.
+             *     Sai em 52px display, acima do corpo.
+             */
+            verdict?: string;
         };
         "pdfdoc.DeckDose": {
             dose?: string;
@@ -21828,7 +21839,7 @@ export interface components {
             variant?: string;
         };
         /** @enum {string} */
-        "pdfdoc.DeckSlideKind": "cover" | "summary" | "rulers" | "two-cards" | "plan-step" | "sequence" | "takeaway" | "closing" | "table";
+        "pdfdoc.DeckSlideKind": "cover" | "summary" | "rulers" | "two-cards" | "plan-step" | "sequence" | "takeaway" | "closing" | "table" | "rulers-cards";
         "pdfdoc.DeckSummaryBlock": {
             cards?: components["schemas"]["pdfdoc.DeckSummaryCard"][];
             legend?: string;
