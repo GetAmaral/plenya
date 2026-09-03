@@ -3,14 +3,10 @@ package services
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
 	"time"
-
-	"github.com/plenya/api/internal/pdfdoc"
 )
 
 // A chamada ao modelo para editar o rascunho da devolutiva.
@@ -255,7 +251,20 @@ func (s *AIService) chamaFerramentaComMeta(payload map[string]any, longa bool) (
 
 	b, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode != 200 {
-		// Não loga o corpo: pode ecoar trecho do prompt clínico.
+		// O corpo de erro da Anthropic NÃO ecoa o prompt: traz `{"error":{"type","message"}}`
+		// descrevendo o que está errado na REQUISIÇÃO (schema inválido, parâmetro recusado). Sem
+		// ele, um 400 é indepurável — foi exatamente o que aconteceu aqui, e a mensagem dizia só
+		// "status 400". Extrai só type e message, nunca o corpo cru.
+		var apiErr struct {
+			Error struct {
+				Type    string `json:"type"`
+				Message string `json:"message"`
+			} `json:"error"`
+		}
+		if json.Unmarshal(b, &apiErr) == nil && apiErr.Error.Message != "" {
+			return "", meta, fmt.Errorf("%w: status %d (%s: %s)", ErrAIUpstream, resp.StatusCode,
+				apiErr.Error.Type, apiErr.Error.Message)
+		}
 		return "", meta, fmt.Errorf("%w: status %d", ErrAIUpstream, resp.StatusCode)
 	}
 
@@ -351,303 +360,228 @@ slide. Pode estar no título, no punch ou no note da régua, mas tem que estar e
 Barra colorida sozinha comunica pior que barra com rótulo.
 
 TETOS MEDIDOS, não sugestões: no máximo 4 réguas por slide (com 8 o slide estoura), 8 linhas de
-tabela, 3 colunas, 4 linhas por cartão de resumo, 3 grupos no "para levar". Entre 12 e 20 slides.`
+tabela, 3 colunas, 4 linhas por cartão de resumo, 3 grupos no "para levar".
 
-func planGenerateToolSchema() map[string]any {
+O QUE OS DOIS DECKS APROVADOS FAZEM, medido slide a slide:
+
+- A TABELA é o bloco mais usado, não a régua: 9 dos 21 slides de um, 8 dos 20 do outro. A régua é o
+  átomo visual; a tabela é COMO O PLANO SE EXPLICA. Toda seção de conduta é tabela. Cabeçalhos que
+  se repetem: "O quê | Quanto | Por quê", "O quê | Dose | Por quê", "Quando | O que acontece".
+- A SEQUÊNCIA é uma TABELA de 2 colunas, não o bloco "sequence": primeira coluna com style "dose"
+  e valores relativos ("Agora", "Em 4 semanas", "Em 12 semanas"), nunca data absoluta. O bloco
+  "sequence" não foi usado em nenhum dos dois decks.
+- RÉGUA por slide: 2, 3 ou 4. NUNCA uma só, nunca cinco. Média 3,1 nos dois.
+- PUNCH em 85% dos slides, e ausente só em capa, para-levar e fecho. Entre 55 e 110 caracteres,
+  com EXATAMENTE UM <em>, e em 9 de cada 10 a frase termina dentro dele. Duas frases na maioria:
+  uma constatação plana, depois a virada que carrega a decisão.
+- TÍTULO entre 16 e 53 caracteres, uma linha. Só o fecho é longo: lá são três frases, ~280
+  caracteres, e é o resumo que o paciente leva.
+- "sub" da régua: 6 a 27 caracteres, minúsculo, sem ponto final, dizendo o que o exame MEDE
+  ("estoque de ferro", "o rim filtrando"), nunca o resultado. Deixe vazio quando o nome já explica.
+- "note" da régua aparece em ~30% delas, e é onde mora a mini-série temporal
+  ("239 em 2024, 432 em 2025, 500 agora") ou o rótulo avaliativo.
+
+STRINGS QUE OS DOIS DECKS COMPARTILHAM, use as mesmas: título do resumo "Onde você está, em uma
+página"; cartões do resumo "O que está forte" e "O que está se movendo"; título dos passos "O que
+vamos fazer"; eyebrow e título da sequência "A sequência" / "Os próximos três meses, em ordem";
+"Para levar" / "O que você começa a tomar agora"; eyebrow do fecho "Em uma página".`
+
+// planSlideItemSchema — a forma de UM slide. Compartilhada pelas duas passadas da geração: o
+// contrato do slide é o mesmo escrevendo o deck inteiro ou escrevendo uma seção.
+func planSlideItemSchema() map[string]any {
 	return map[string]any{
-		"type":                 "object",
-		"additionalProperties": false,
-		"required":             []string{"reply", "slides"},
+		"type":     "object",
+		"required": []string{"kind"},
 		"properties": map[string]any{
-			"reply": map[string]any{
-				"type":        "string",
-				"description": "O arco que você escolheu e o que deixou de fora, em português, para o médico ler. Nunca é conteúdo de slide.",
+			// `kind` estava livre e o modelo devolveu os onze slides com ele VAZIO, o
+			// que deixa o render sem saber o que desenhar. Enum resolve na origem.
+			"kind": map[string]any{
+				"enum": []string{"cover", "summary", "rulers", "rulers-cards", "two-cards",
+					"plan-step", "sequence", "takeaway", "closing", "table"},
 			},
-			"slides": map[string]any{
-				"type":     "array",
-				"minItems": 3,
-				"maxItems": 24,
-				"description": "O deck inteiro, na ordem. Cada slide segue a gramática dos 9 blocos; " +
-					"não invente campo que não exista.",
-				"items": map[string]any{
-					"type":     "object",
-					"required": []string{"kind"},
-					"properties": map[string]any{
-						// `kind` estava livre e o modelo devolveu os onze slides com ele VAZIO, o
-						// que deixa o render sem saber o que desenhar. Enum resolve na origem.
-						"kind": map[string]any{
-							"enum": []string{"cover", "summary", "rulers", "rulers-cards", "two-cards",
-								"plan-step", "sequence", "takeaway", "closing", "table"},
-						},
-						// O render conhece "", "dark" e "deep". O enum antigo oferecia "light",
-						// que não é valor de render nenhum e caía em creme por acidente. Nos dois
-						// decks aprovados só capa e fecho são "deep", e "dark" nunca foi usado.
-						//
-						// O vazio precisa estar no enum: com um valor legal só, o modelo tende a
-						// preencher o campo em todo slide e o deck sai inteiro escuro, que é o
-						// oposto da regra ("um tom só nas páginas de conteúdo").
-						"variant": map[string]any{
-							"enum":        []string{"", "deep"},
-							"description": `Vazio em TODO slide de conteúdo. "deep" só na capa e no fecho.`,
-						},
-						"eyebrow": map[string]any{"type": "string"},
-						"title":   map[string]any{"type": "string"},
-						"lede":    map[string]any{"type": "string"},
-						"punch":   map[string]any{"type": "string"},
-						// Os blocos abaixo precisam estar no schema com a forma exata. Sem eles o
-						// modelo devolvia o slide com cabeçalho e NADA no miolo: `summary`,
-						// `two-cards`, `sequence` e `closing` saíam ocos, bonitos por fora e sem
-						// conteúdo nenhum. Só `rulers` vinha preenchido, que era o único descrito.
-						"summary": map[string]any{
-							"type":        "object",
-							"description": "Só em kind=summary. Dois cartões (o que está forte, o que está se movendo) e os passos embaixo.",
+			// O render conhece "", "dark" e "deep". O enum antigo oferecia "light",
+			// que não é valor de render nenhum e caía em creme por acidente. Nos dois
+			// decks aprovados só capa e fecho são "deep", e "dark" nunca foi usado.
+			//
+			// O vazio precisa estar no enum: com um valor legal só, o modelo tende a
+			// preencher o campo em todo slide e o deck sai inteiro escuro, que é o
+			// oposto da regra ("um tom só nas páginas de conteúdo").
+			"variant": map[string]any{
+				"enum":        []string{"", "deep"},
+				"description": `Vazio em TODO slide de conteúdo. "deep" só na capa e no fecho.`,
+			},
+			"eyebrow": map[string]any{"type": "string"},
+			"title":   map[string]any{"type": "string"},
+			"lede":    map[string]any{"type": "string"},
+			"punch":   map[string]any{"type": "string"},
+			// Os blocos abaixo precisam estar no schema com a forma exata. Sem eles o
+			// modelo devolvia o slide com cabeçalho e NADA no miolo: `summary`,
+			// `two-cards`, `sequence` e `closing` saíam ocos, bonitos por fora e sem
+			// conteúdo nenhum. Só `rulers` vinha preenchido, que era o único descrito.
+			"summary": map[string]any{
+				"type":        "object",
+				"description": "Só em kind=summary. Dois cartões (o que está forte, o que está se movendo) e os passos embaixo.",
+				"properties": map[string]any{
+					"cards": map[string]any{
+						"type": "array", "maxItems": 2,
+						"items": map[string]any{
+							"type":     "object",
+							"required": []string{"title"},
 							"properties": map[string]any{
-								"cards": map[string]any{
-									"type": "array", "maxItems": 2,
+								"title": map[string]any{"type": "string"},
+								"tone":  map[string]any{"enum": []string{"bom", "ruim"}},
+								"lines": map[string]any{
+									"type": "array", "maxItems": 4,
 									"items": map[string]any{
 										"type":     "object",
-										"required": []string{"title"},
+										"required": []string{"name", "value", "code"},
 										"properties": map[string]any{
-											"title": map[string]any{"type": "string"},
-											"tone":  map[string]any{"enum": []string{"bom", "ruim"}},
-											"lines": map[string]any{
-												"type": "array", "maxItems": 4,
-												"items": map[string]any{
-													"type":     "object",
-													"required": []string{"name", "value", "code"},
-													"properties": map[string]any{
-														"name":  map[string]any{"type": "string"},
-														"sub":   map[string]any{"type": "string"},
-														"code":  map[string]any{"type": "string", "description": "O code do exame de onde o valor saiu. Obrigatório: é o que torna o número auditável."},
-														"value": map[string]any{"type": "string"},
-														"unit":  map[string]any{"type": "string"},
-													},
-												},
-											},
+											"name":  map[string]any{"type": "string"},
+											"sub":   map[string]any{"type": "string"},
+											"code":  map[string]any{"type": "string", "description": "O code do exame de onde o valor saiu. Obrigatório: é o que torna o número auditável."},
+											"value": map[string]any{"type": "string"},
+											"unit":  map[string]any{"type": "string"},
 										},
 									},
 								},
-								"stepsTitle": map[string]any{"type": "string"},
-								"steps":      map[string]any{"type": "array", "maxItems": 4, "items": map[string]any{"type": "string"}},
 							},
 						},
-						"cards": map[string]any{
-							"type":     "array",
-							"maxItems": 4,
-							"description": "Em two-cards e rulers-cards, 2 ou 4 (a grade 2x2 da decisão). " +
-								"Em plan-step, 2 ou 3. NÃO use em cover nem em closing: o render descarta.",
-							"items": map[string]any{
-								"type": "object",
-								"properties": map[string]any{
-									"kicker":  map[string]any{"type": "string", "description": "Rótulo em caixa alta, geralmente a PERGUNTA que o cartão responde."},
-									"verdict": map[string]any{"type": "string", "description": "A resposta, em uma ou duas palavras: \"Não precisa\", \"Sim\". É o que faz o slide decidir."},
-									"tone":    map[string]any{"enum": []string{"ok", "flag"}, "description": "ok = tranquiliza; flag = regra de segurança. Vazio = neutro."},
-									"body":    map[string]any{"type": "string"},
-									"dim":     map[string]any{"type": "boolean", "description": "Apaga o caminho descartado."},
-									"focus":   map[string]any{"type": "boolean", "description": "Destaca o caminho recomendado."},
-								},
-							},
+					},
+					"stepsTitle": map[string]any{"type": "string"},
+					"steps":      map[string]any{"type": "array", "maxItems": 4, "items": map[string]any{"type": "string"}},
+				},
+			},
+			"cards": map[string]any{
+				"type":     "array",
+				"maxItems": 4,
+				"description": "Em two-cards e rulers-cards, 2 ou 4 (a grade 2x2 da decisão). " +
+					"Em plan-step, 2 ou 3. NÃO use em cover nem em closing: o render descarta.",
+				"items": map[string]any{
+					"type": "object",
+					"properties": map[string]any{
+						"kicker":  map[string]any{"type": "string", "description": "Rótulo em caixa alta, geralmente a PERGUNTA que o cartão responde."},
+						"verdict": map[string]any{"type": "string", "description": "A resposta, em uma ou duas palavras: \"Não precisa\", \"Sim\". É o que faz o slide decidir."},
+						"tone":    map[string]any{"enum": []string{"ok", "flag"}, "description": "ok = tranquiliza; flag = regra de segurança. Vazio = neutro."},
+						"body":    map[string]any{"type": "string"},
+						"dim":     map[string]any{"type": "boolean", "description": "Apaga o caminho descartado."},
+						"focus":   map[string]any{"type": "boolean", "description": "Destaca o caminho recomendado."},
+					},
+				},
+			},
+			"steps": map[string]any{
+				"type":        "array",
+				"maxItems":    6,
+				"description": "Só em kind=sequence: os próximos meses, em ordem.",
+				"items": map[string]any{
+					"type":     "object",
+					"required": []string{"when", "what"},
+					"properties": map[string]any{
+						"when":   map[string]any{"type": "string", "description": `Ex.: "nas próximas 4 semanas".`},
+						"what":   map[string]any{"type": "string"},
+						"detail": map[string]any{"type": "string"},
+					},
+				},
+			},
+			"takeaway": map[string]any{
+				"type":        "object",
+				"description": "Em kind=takeaway, e também em plan-step quando a conduta tem doses. Dose só sai de prescricoes do dossiê; sem prescrição, não escreva dose.",
+				"properties": map[string]any{
+					"highlight": map[string]any{
+						"type": "object", "required": []string{"name"},
+						"properties": map[string]any{
+							"name": map[string]any{"type": "string"},
+							"dose": map[string]any{"type": "string"},
+							"unit": map[string]any{"type": "string"},
+							"when": map[string]any{"type": "string"},
+							"obs":  map[string]any{"type": "string"},
 						},
-						"steps": map[string]any{
-							"type":        "array",
-							"maxItems":    6,
-							"description": "Só em kind=sequence: os próximos meses, em ordem.",
-							"items": map[string]any{
-								"type":     "object",
-								"required": []string{"when", "what"},
-								"properties": map[string]any{
-									"when":   map[string]any{"type": "string", "description": `Ex.: "nas próximas 4 semanas".`},
-									"what":   map[string]any{"type": "string"},
-									"detail": map[string]any{"type": "string"},
-								},
-							},
-						},
-						"takeaway": map[string]any{
-							"type":        "object",
-							"description": "Em kind=takeaway, e também em plan-step quando a conduta tem doses. Dose só sai de prescricoes do dossiê; sem prescrição, não escreva dose.",
+					},
+					"groups": map[string]any{
+						"type": "array", "maxItems": 3,
+						"items": map[string]any{
+							"type": "object", "required": []string{"title"},
 							"properties": map[string]any{
-								"highlight": map[string]any{
-									"type": "object", "required": []string{"name"},
-									"properties": map[string]any{
-										"name": map[string]any{"type": "string"},
-										"dose": map[string]any{"type": "string"},
-										"unit": map[string]any{"type": "string"},
-										"when": map[string]any{"type": "string"},
-										"obs":  map[string]any{"type": "string"},
-									},
-								},
-								"groups": map[string]any{
-									"type": "array", "maxItems": 3,
+								"title": map[string]any{"type": "string"},
+								"items": map[string]any{
+									"type": "array",
 									"items": map[string]any{
-										"type": "object", "required": []string{"title"},
+										"type": "object", "required": []string{"name"},
 										"properties": map[string]any{
-											"title": map[string]any{"type": "string"},
-											"items": map[string]any{
-												"type": "array",
-												"items": map[string]any{
-													"type": "object", "required": []string{"name"},
-													"properties": map[string]any{
-														"name": map[string]any{"type": "string"},
-														"sub":  map[string]any{"type": "string"},
-														"dose": map[string]any{"type": "string"},
-													},
-												},
-											},
+											"name": map[string]any{"type": "string"},
+											"sub":  map[string]any{"type": "string"},
+											"dose": map[string]any{"type": "string"},
 										},
 									},
 								},
-								"note": map[string]any{"type": "string"},
 							},
 						},
-						"table": map[string]any{
-							"type":        "object",
-							"description": "Em kind=table, e também em two-cards e plan-step, onde o render a desenha abaixo dos cartões. Máximo 3 colunas e 8 linhas.",
+					},
+					"note": map[string]any{"type": "string"},
+				},
+			},
+			"table": map[string]any{
+				"type":        "object",
+				"description": "Em kind=table, e também em two-cards e plan-step, onde o render a desenha abaixo dos cartões. Máximo 3 colunas e 8 linhas.",
+				"properties": map[string]any{
+					// `dense` NÃO estava no schema e o render precisa dele: uma tabela de 6 linhas
+					// com prosa estourou o slide em 580px na primeira geração de duas passadas. É
+					// o botão que existe exatamente para isso.
+					"dense": map[string]any{
+						"type":        "boolean",
+						"description": "Aperta o espaçamento. Use SEMPRE que a tabela passar de 4 linhas ou tiver coluna de prosa.",
+					},
+					"columns": map[string]any{
+						"type": "array", "maxItems": 3,
+						"items": map[string]any{
+							"type": "object", "required": []string{"label"},
 							"properties": map[string]any{
-								"columns": map[string]any{
-									"type": "array", "maxItems": 3,
-									"items": map[string]any{
-										"type": "object", "required": []string{"label"},
-										"properties": map[string]any{
-											"label": map[string]any{"type": "string"},
-											"style": map[string]any{"type": "string"},
-										},
-									},
+								"label": map[string]any{"type": "string"},
+								"style": map[string]any{
+									"enum": []string{"", "why", "dose", "tag"},
+									"description": `"" texto normal; "why" a coluna que explica, menor e cinza; ` +
+										`"dose" NÃO quebra linha, então nunca ponha prosa nela; "tag" vira selo.`,
 								},
-								"rows": map[string]any{
-									"type": "array", "maxItems": 8,
-									"items": map[string]any{
-										"type": "object", "required": []string{"cells"},
-										"properties": map[string]any{
-											"cells": map[string]any{"type": "array", "items": map[string]any{"type": "string"}},
-											"muted": map[string]any{"type": "boolean"},
-										},
-									},
+								"width": map[string]any{
+									"type":        "string",
+									"description": `Largura fixa, ex.: "390px". Use na primeira coluna quando ela for curta e a de prosa precisar do resto.`,
 								},
 							},
 						},
-						"rulers": map[string]any{
-							"type":     "array",
-							"maxItems": 4,
-							"description": "Em kind=rulers, 2 a 4. Em rulers-cards, exatamente 2. Só o exame e o texto autoral; a escala e o histórico o SERVIDOR copia " +
-								"do dossiê; não escreva axis, segments nem history.",
-							"items": map[string]any{
-								"type":     "object",
-								"required": []string{"code", "display"},
-								"properties": map[string]any{
-									"code":    map[string]any{"type": "string", "description": "O `code` da régua, copiado do dossiê."},
-									"display": map[string]any{"type": "string", "description": "O nome que o paciente reconhece."},
-									"sub":     map[string]any{"type": "string", "description": "O que o exame mede, em até cinco palavras."},
-									"note":    map[string]any{"type": "string", "description": "Leitura clínica em uma linha. É onde o rótulo avaliativo mora."},
-								},
+					},
+					"rows": map[string]any{
+						"type": "array", "maxItems": 8,
+						"items": map[string]any{
+							"type": "object", "required": []string{"cells"},
+							"properties": map[string]any{
+								"cells": map[string]any{"type": "array", "items": map[string]any{"type": "string"}},
+								"muted": map[string]any{"type": "boolean"},
 							},
 						},
 					},
 				},
 			},
-			"numerals": map[string]any{
-				"type":        "array",
-				"description": "TODO número presente em qualquer slide, com a origem no dossiê. Número sem origem: não escreva o número.",
+			"rulers": map[string]any{
+				"type":     "array",
+				"maxItems": 4,
+				"description": "Em kind=rulers, 2 a 4. Em rulers-cards, exatamente 2. Só o exame e o texto autoral; a escala e o histórico o SERVIDOR copia " +
+					"do dossiê; não escreva axis, segments nem history.",
 				"items": map[string]any{
-					"type":                 "object",
-					"additionalProperties": false,
-					"required":             []string{"numeral", "source"},
+					"type":     "object",
+					"required": []string{"code", "display"},
 					"properties": map[string]any{
-						"numeral": map[string]any{"type": "string"},
-						"source":  map[string]any{"type": "string", "description": "ex.: ruler:PLNFERR:history:2026-02-06"},
+						"code":    map[string]any{"type": "string", "description": "O `code` da régua, copiado do dossiê."},
+						"display": map[string]any{"type": "string", "description": "O nome que o paciente reconhece."},
+						"sub":     map[string]any{"type": "string", "description": "O que o exame mede, em até cinco palavras."},
+						"note":    map[string]any{"type": "string", "description": "Leitura clínica em uma linha. É onde o rótulo avaliativo mora."},
 					},
 				},
 			},
 		},
 	}
-}
-
-// PlanGenerateRequest — o insumo da geração. Sem histórico de conversa: é a primeira coisa que
-// acontece na vida do plano.
-type PlanGenerateRequest struct {
-	DossierJSON   string
-	Instruction   string
-	PromptVersion string
-	Model         string
-}
-
-// PlanGenerateResult — o deck cru como o modelo devolveu, ANTES da validação do servidor.
-type PlanGenerateResult struct {
-	Reply    string             `json:"reply"`
-	Slides   []pdfdoc.DeckSlide `json:"slides"`
-	Numerals []PlanModelNumeral `json:"numerals"`
 }
 
 // PlanModelNumeral — um número declarado pelo modelo, com a origem que ele alega.
 type PlanModelNumeral struct {
 	Numeral string `json:"numeral"`
 	Source  string `json:"source"`
-}
-
-// GeneratePatientPlan escreve o rascunho inteiro a partir do dossiê congelado.
-func (s *AIService) GeneratePatientPlan(req PlanGenerateRequest) (*PlanGenerateResult, AICallMeta, error) {
-	var meta AICallMeta
-	if !s.IsConfigured() {
-		return nil, meta, ErrAINotConfigured
-	}
-
-	sistema := []map[string]any{
-		{"type": "text", "text": planGenerateSystemPrompt},
-		{
-			"type": "text",
-			"text": "DOSSIÊ (prontuário compilado e congelado deste plano):\n" + req.DossierJSON,
-			// Ponto de cache para a própria geração. NÃO vale entre a geração e os turnos de
-			// conversa: o bloco de regras é outro, e a poda manda réguas completas aqui e um
-			// catálogo lá. Esperar cache_read > 0 no primeiro turno depois de gerar é engano.
-			"cache_control": map[string]any{"type": "ephemeral"},
-		},
-	}
-
-	instrucao := strings.TrimSpace(req.Instruction)
-	if instrucao == "" {
-		instrucao = "Escreva o rascunho da devolutiva deste paciente."
-	}
-
-	modelo := req.Model
-	if modelo == "" {
-		modelo = s.model
-	}
-	payload := map[string]any{
-		"model": modelo,
-		// Maior que na edição: aqui sai o deck inteiro, não um punhado de operações. Com 16000 a
-		// primeira geração com todos os blocos descritos truncou no meio do JSON, e o erro que
-		// chegava ao médico era "resposta não pôde ser lida" — que não diz nada.
-		"max_tokens": 32000,
-		"system":     sistema,
-		"messages":   []map[string]any{{"role": "user", "content": instrucao}},
-		"tools": []map[string]any{{
-			"name":         "escrever_devolutiva",
-			"description":  "Escreve o rascunho inteiro da devolutiva a partir do dossiê.",
-			"input_schema": planGenerateToolSchema(),
-		}},
-		"tool_choice": map[string]any{"type": "tool", "name": "escrever_devolutiva"},
-		// Sem `temperature`: com tool forçado, os modelos atuais respondem 400.
-	}
-
-	inicio := time.Now()
-	bruto, m, err := s.chamaFerramentaComMeta(payload, true)
-	meta = m
-	meta.LatencyMs = int(time.Since(inicio).Milliseconds())
-	if err != nil {
-		// `chamaFerramentaComMeta` já converte stop_reason=max_tokens em ErrAITruncated, então o
-		// tratamento tem que ser AQUI. A versão anterior testava o stop_reason dentro do ramo de
-		// parse malformado, que nunca era alcançado, e a mensagem útil nunca chegava ao médico.
-		if errors.Is(err, ErrAITruncated) {
-			return nil, meta, fmt.Errorf("%w: o deck ficou maior que o limite da resposta e veio cortado; peça um plano mais curto", ErrAITruncated)
-		}
-		return nil, meta, err
-	}
-
-	var out PlanGenerateResult
-	if err := json.Unmarshal([]byte(bruto), &out); err != nil {
-		return nil, meta, fmt.Errorf("%w: resposta do modelo não pôde ser lida", ErrAIUpstream)
-	}
-	if len(out.Slides) == 0 {
-		return nil, meta, fmt.Errorf("%w: o modelo não devolveu slide nenhum", ErrAIUpstream)
-	}
-	return &out, meta, nil
 }

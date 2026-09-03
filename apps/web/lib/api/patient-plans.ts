@@ -398,8 +398,11 @@ export function useRestorePlanRevision(patientId: string) {
 
 /** Um número que o modelo escreveu e o servidor não achou no prontuário compilado. */
 export interface PlanGenWarning {
-  /** "numeral" = número sem origem; "regua" = exame que não está no prontuário. */
-  kind?: "numeral" | "regua";
+  /**
+   * "numeral" = número sem origem no prontuário; "regua" = exame que não está no dossiê;
+   * "estilo" = o deck saiu fora do padrão medido (punch, contagem de régua, travessão).
+   */
+  kind?: "numeral" | "regua" | "estilo";
   slideIndex: number;
   slideId?: string;
   title?: string;

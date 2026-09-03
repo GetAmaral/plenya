@@ -162,7 +162,10 @@ func provaDoSlide(s pdfdoc.DeckSlide, ix *NumericIndex) []NumeralProof {
 		out = append(out, provaDoTexto(texto, ix)...)
 	}
 	visita(s.Title)
-	visita(s.Eyebrow)
+	// O `eyebrow` NÃO entra: desde a geração em duas passadas ele é composto pelo SERVIDOR
+	// ("O plano · 1 de 6"), e o 1 e o 6 eram extraídos como números do paciente e procurados no
+	// dossiê. Dava "este número não foi encontrado" em texto que a própria máquina escreveu,
+	// dentro da única caixa que o médico é instruído a levar a sério.
 	visita(s.Lede)
 	visita(s.Kicker)
 	visita(s.Source)

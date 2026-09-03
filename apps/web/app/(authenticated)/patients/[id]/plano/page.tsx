@@ -700,10 +700,18 @@ export default function PatientPlanPage() {
                       <div className="rounded border border-amber-300 bg-amber-50 p-2">
                         <p className="text-[11px] font-medium text-amber-900">
                           {(() => {
+                            // Contar por TIPO. Antes, tudo que não fosse "regua" era anunciado
+                            // como número não verificado, e um deck cujo único defeito era um
+                            // título longo dizia ao médico que continha número clínico sem origem.
                             const n = avisosGeracao.filter(
-                              (a) => a.kind !== "regua",
+                              (a) => a.kind === "numeral" || !a.kind,
                             ).length;
-                            const r = avisosGeracao.length - n;
+                            const r = avisosGeracao.filter(
+                              (a) => a.kind === "regua",
+                            ).length;
+                            const e = avisosGeracao.filter(
+                              (a) => a.kind === "estilo",
+                            ).length;
                             const partes: string[] = [];
                             if (n > 0)
                               partes.push(
@@ -713,7 +721,11 @@ export default function PatientPlanPage() {
                               partes.push(
                                 `${r} régua(s) que saíram por falta do exame`,
                               );
-                            return `${partes.join(" e ")}. Confira antes de publicar.`;
+                            if (e > 0)
+                              partes.push(
+                                `${e} desvio(s) do padrão dos decks aprovados`,
+                              );
+                            return `${partes.join(" · ")}. Confira antes de publicar.`;
                           })()}
                         </p>
                         <ul className="mt-1 space-y-0.5">

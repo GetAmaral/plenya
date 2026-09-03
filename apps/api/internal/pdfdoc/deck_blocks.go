@@ -229,6 +229,12 @@ func renderBlocks(s DeckSlide) string {
 			r.Dark = isDarkVariant(s.Variant)
 			b.WriteString(rulerSVG(r))
 		}
+		// A legenda vale aqui como no kind de régua pura: o servidor põe `Legend` no PRIMEIRO
+		// slide de régua do deck, e esse slide pode ser este. Sem esta linha o deck saía sem
+		// legenda nenhuma e a conferência ficava quieta, porque o campo estava marcado.
+		if s.Legend {
+			b.WriteString(rampLegend())
+		}
 		b.WriteString(renderCards(s.Cards))
 	case DeckSummary:
 		if s.Summary != nil {

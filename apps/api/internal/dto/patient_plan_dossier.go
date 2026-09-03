@@ -421,6 +421,9 @@ const (
 	PlanGenWarningNumeral PlanGenWarningKind = "numeral"
 	// PlanGenWarningRuler — régua ou linha de resumo cujo exame não está no dossiê.
 	PlanGenWarningRuler PlanGenWarningKind = "regua"
+	// PlanGenWarningEstilo — desvio do padrão medido nos decks aprovados (punch, contagem de
+	// régua, travessão). Não é erro de dado: é o deck fora da forma.
+	PlanGenWarningEstilo PlanGenWarningKind = "estilo"
 )
 
 // PlanGenWarning — um número que o modelo escreveu e o servidor NÃO encontrou no dossiê.

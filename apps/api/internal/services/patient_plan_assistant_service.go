@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -849,16 +850,63 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		return limpaSeFalhar(err)
 	}
 
-	// 3. gera.
-	res, meta, err := s.ai.GeneratePatientPlan(PlanGenerateRequest{
-		DossierJSON:   dossieJSON,
-		Instruction:   in.Instruction,
-		PromptVersion: s.promptVersion,
-		Model:         s.model,
+	// 3a. o ARCO: quais seções, quantos slides cada uma, com que material.
+	arco, metaArco, err := s.ai.GeneratePlanArc(PlanArcRequest{
+		DossierJSON: dossieJSON, Instruction: in.Instruction, Model: s.model,
 	})
 	if err != nil {
 		return limpaSeFalhar(err)
 	}
+	arcoJSON, _ := json.Marshal(arco.Sections)
+
+	// 3b. as SEÇÕES, uma chamada cada.
+	//
+	// Em paralelo com teto de 3: o dossiê é o mesmo em todas e fica no cache de prompt, então o
+	// custo por seção é uma fração da primeira. Sequencial, um deck de sete seções levaria uns três
+	// minutos de relógio para o médico esperar.
+	porSecao := make([][]pdfdoc.DeckSlide, len(arco.Sections))
+	meta := metaArco
+	var mu sync.Mutex
+	var wg sync.WaitGroup
+	vagas := make(chan struct{}, 3)
+	erros := make([]error, len(arco.Sections))
+	for i, sec := range arco.Sections {
+		wg.Add(1)
+		go func(i int, sec PlanArcSection) {
+			defer wg.Done()
+			vagas <- struct{}{}
+			defer func() { <-vagas }()
+			r, m, e := s.ai.GeneratePlanSection(PlanSectionRequest{
+				DossierJSON: dossieJSON, ArcoJSON: string(arcoJSON), Secao: sec,
+				Instruction: in.Instruction, Model: s.model,
+			})
+			mu.Lock()
+			defer mu.Unlock()
+			if e != nil {
+				erros[i] = e
+				return
+			}
+			porSecao[i] = r.Slides
+			meta.InputTokens += m.InputTokens
+			meta.OutputTokens += m.OutputTokens
+			meta.CacheReadTokens += m.CacheReadTokens
+			meta.LatencyMs += m.LatencyMs
+		}(i, sec)
+	}
+	wg.Wait()
+	for i, e := range erros {
+		if e != nil {
+			// Uma seção que falha derruba a geração inteira: entregar um deck com um buraco no
+			// meio é pior que não entregar, porque o buraco não se anuncia.
+			return limpaSeFalhar(fmt.Errorf("seção %q: %w", arco.Sections[i].Label, e))
+		}
+	}
+
+	// 3c. o que o SERVIDOR decide: eyebrow numerado, variante, legenda e a capa com o nome.
+	// O nome do paciente entra AQUI, e não no prompt: ele nunca sai do prontuário para a API.
+	brutos := aplicaRegrasDoDeck(arco.Sections, porSecao,
+		primeiroNomeDe(dossie.Patient.Name), formataDataPT(dossie.GeneratedAt))
+	res := &PlanGenerateResult{Reply: arco.Reply, Slides: brutos}
 
 	// Os ids que o modelo inventa ("bem-1", "capa") são descartados: id de slide é opaco e é o
 	// alvo de toda operação e sugestão depois. `EnsureSlideIDs` só preenche os VAZIOS, então o
@@ -871,23 +919,16 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	// 3b. a escala e o histórico de cada régua vêm do dossiê, não do modelo.
 	slides, avisos := hidrataReguas(slides, dossie)
 
-	// 4. confere os números slide a slide.
+	// 4a. as conferências mecânicas do padrão medido (punch, contagem de régua, travessão).
+	// A geração varia entre execuções, e sem isto o médico teria que reler treze slides procurando
+	// o que saiu fora da forma.
+	//
+	// Os de RÉGUA vêm da hidratação e falam do dossiê, não do texto: sobrevivem ao reparo, e por
+	// isso ficam guardados à parte.
+	avisosDeRegua := avisos
 	indice := BuildNumericIndex(dossie)
-	for i := range slides {
-		for _, p := range provaDoSlide(slides[i], indice) {
-			if p.Found {
-				continue
-			}
-			avisos = append(avisos, dto.PlanGenWarning{
-				Kind:       dto.PlanGenWarningNumeral,
-				SlideIndex: i + 1,
-				SlideID:    slides[i].ID,
-				Title:      slides[i].Title,
-				Numeral:    p.Numeral,
-				Reason:     "este número não foi encontrado no prontuário compilado",
-			})
-		}
-	}
+	avisos = append(avisos, confereDeck(slides)...)
+	avisos = append(avisos, avisosNumericos(slides, indice)...)
 
 	// 5. grava o conteúdo como revisão DO ASSISTENTE.
 	plan, err := s.plans.load(planID, in.PatientID)
@@ -913,13 +954,54 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		return limpaSeFalhar(err)
 	}
 
-	// A conferência geométrica no fim: o deck acabou de nascer e o médico precisa saber ANTES de
-	// editar se algum slide já nasceu estourando.
+	// A conferência geométrica, e o reparo.
+	//
+	// O modelo não mede: ele escreve com as faixas de tamanho na cabeça, e a altura real depende de
+	// onde o texto quebra na fonte do deck. O servidor mede no Chromium e sabe o excesso em pixels.
+	// Devolver isso a ele UMA vez, com o número, é o que separa "três slides estourando para o
+	// médico consertar" de "o deck cabe". Se a segunda medição ainda acusar, o aviso vai para a
+	// tela e quem corta é o médico.
 	estouro, _ := pdfdoc.CheckDeckOverflow(pdfdoc.Deck{Title: plan.Title, Slides: plan.Content})
+	avisosDeEstilo := confereDeck(plan.Content)
+	brutosSalvos := plan.Content
+	if len(estouro) > 0 || len(avisosDeEstilo) > 0 {
+		if novos, ok := s.reparaEstouro(plan, dossieJSON, estouro, avisosDeEstilo); ok {
+			plan.Content = novos
+			if err := s.db.Transaction(func(tx *gorm.DB) error {
+				seq, errR := s.revisions.Record(tx, RecordRevisionInput{
+					Plan: plan, Title: plan.Title, Content: plan.Content,
+					AuthorKind: models.PlanAuthorAssistant, CreatedByID: in.UserID,
+					Reason: models.PlanRevisionAIApply, DossierID: &dossieRow.ID,
+					AIModel: meta.Model, AIPromptVersion: s.promptVersion,
+				})
+				if errR != nil {
+					return errR
+				}
+				plan.RevisionSeq = seq
+				return tx.Save(plan).Error
+			}); err != nil {
+				// NÃO apaga: o deck já foi salvo lá em cima e é bom. Falhar em gravar a revisão do
+				// reparo é motivo para não reparar, nunca para jogar fora uma geração de dois
+				// minutos que já está no banco.
+				plan.Content = brutosSalvos
+			}
+			estouro, _ = pdfdoc.CheckDeckOverflow(pdfdoc.Deck{Title: plan.Title, Slides: plan.Content})
+			// Reconfere TUDO depois do reparo, inclusive os números.
+			//
+			// O reparo reescreve PROSA, e é na prosa que os números moram. Conferir só o estilo
+			// deixava o médico com um quadro âmbar apontando frases que não existiam mais, e um
+			// número novo introduzido pelo reparo entrava no plano sem verificação nenhuma.
+			avisos = avisos[:0]
+			avisos = append(avisos, avisosDeRegua...)
+			avisos = append(avisos, confereDeck(plan.Content)...)
+			avisos = append(avisos, avisosNumericos(plan.Content, indice)...)
+		}
+	}
 
+	// A partir daqui o deck está gravado: um erro de leitura não justifica destruí-lo.
 	final, err := s.plans.Get(planID, in.PatientID)
 	if err != nil {
-		return limpaSeFalhar(err)
+		return nil, err
 	}
 	return &GenerateDraftResult{
 		Plan: final, Reply: res.Reply, Warnings: avisos, Overflow: estouro, Model: meta.Model,
