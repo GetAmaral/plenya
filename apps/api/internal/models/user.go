@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -211,13 +212,24 @@ func (u *User) BeforeSave(tx *gorm.DB) error {
 	return nil
 }
 
-// AfterFind hook - descriptografa o CPF após buscar do banco
+// AfterFind hook - descriptografa o CPF após buscar do banco.
+//
+// Falha ao decifrar NÃO derruba a leitura: mantém o valor cifrado e registra, exatamente como
+// `Patient.AfterFind` já fazia. A versão anterior devolvia o erro, e isso tinha alcance muito maior
+// do que parece: o login carrega o usuário (auth_service.go:120), a renovação de sessão também
+// (204 e 269), e 27 lugares pré-carregam User junto de outra coisa — autor de conduta, médico da
+// receita. Um único CPF ilegível deixava a pessoa SEM ENTRAR no sistema e derrubava por inteiro
+// toda lista que a carregasse, em vez de mostrar o campo cifrado.
+//
+// E o gatilho não é hipotético: rotação de chave, ou restaurar um backup de produção em outro
+// ambiente. Aconteceu ao montar o espelho de prod em dev.
 func (u *User) AfterFind(tx *gorm.DB) error {
-	// Descriptografar CPF se estiver criptografado
 	if u.CPF != nil && *u.CPF != "" && isEncrypted(*u.CPF) {
 		decrypted, err := crypto.DecryptWithDefaultKey(*u.CPF)
 		if err != nil {
-			return err
+			// Registrar é o que falta no Patient: silêncio total esconde chave errada.
+			log.Printf("⚠️  CPF do usuário %s não pôde ser decifrado (%v); mantido cifrado", u.ID, err)
+			return nil
 		}
 		u.CPF = &decrypted
 	}
