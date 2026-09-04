@@ -1,182 +1,192 @@
 ---
 name: plano-paciente
-description: Monta a devolutiva de resultados de um paciente (o "deck") dentro do EMR. Puxa o dossiê derivado do prontuário (réguas por exame, achados de anamnese, sinais vitais, achados ordenados por peso), propõe o arco narrativo, escreve os títulos e as frases de fechamento em voz de paciente, e grava o plano como rascunho para o médico revisar e publicar. Invocar quando o usuário pedir "plano do paciente", "devolutiva", "deck do <nome>", "montar o plano de resultados". NÃO usar para deck comercial Plenya (isso é /plenya-deck) nem para aula (isso é /aula).
+description: Monta a devolutiva de resultados de um paciente (o "deck") a partir do prontuário do EMR. O EMR gera o rascunho mecânico (arco, réguas, estrutura, conformidade); esta skill conduz a DISCUSSÃO clínica que o gerador não pode fazer sozinho, aplica o resultado ao rascunho e salva de volta no EMR. Invocar quando o usuário pedir "plano do paciente", "devolutiva", "deck do <nome>", "montar o plano de resultados", "elaborar o plano". NÃO usar para deck comercial Plenya (isso é /plenya-deck) nem para aula (isso é /aula).
 ---
 
 # Skill `/plano` — devolutiva de resultados do paciente
 
-> Referência interna usada por `.claude/commands/plano.md`.
-> Documento vivo do projeto: [docs/emr/plano-planos-paciente.md](../../../docs/emr/plano-planos-paciente.md).
 > Gramática e regras de desenho: [referencias/gramatica-v2.md](referencias/gramatica-v2.md).
+> Documento vivo: [docs/emr/plano-ui-geracao-plano.md](../../../docs/emr/plano-ui-geracao-plano.md).
 
-O EMR já deriva os FATOS. Esta skill escreve o que é JULGAMENTO: qual é o arco, o que vira
-slide, e como cada coisa é dita para o paciente. A divisão não é negociável — inventar número é
-o pior erro possível aqui.
+## O que mudou, e por que esta skill existe agora
+
+**O EMR gera o rascunho sozinho.** `POST /patients/:id/plans/generate` produz de 12 a 18 slides em
+cerca de 70 segundos por ~US$ 0,20, com o arco calculado em código, as réguas hidratadas do escore,
+os contadores de seção, a conferência de estouro e uma rodada de reparo. Reescrever isso à mão é
+desperdício.
+
+**O que ele NÃO consegue** é o que sobrou quando comparamos o deck gerado da Ana (18 slides) com o
+aprovado (21). Os três que faltavam eram os mesmos três: a história clínica dela, a narrativa do
+que uma investigação já respondeu, e o enquadramento de um conjunto de exames como um tema. Nada
+disso está em campo nenhum do prontuário — é leitura, e leitura é o que se faz nesta conversa.
+
+Então o fluxo é: **o médico preenche → o EMR gera → nós discutimos → o rascunho volta melhor.**
 
 ---
 
-## Modo de operação
-
-Analise `$ARGUMENTS`:
-
-- nome ou id de paciente, sem mais nada → **MODO CRIAR**
-- "revisar" / "ajustar slide N" → **MODO REVISAR**
-- "publicar" → **MODO PUBLICAR** (só depois de o médico aprovar)
-
----
-
-## Fase 0 — GATE: o dossiê antes de qualquer frase
-
-**Regra de lei: é proibido escrever um slide antes de ler o dossiê.** Todo número, nome de exame,
-data e valor sai de lá. Se um dado que você quer citar não está no dossiê, ele não entra no plano —
-ou você vai ao banco confirmar, ou o slide muda.
+## Fase 0 — buscar o que já existe
 
 ```
-GET /api/v1/patients/{patientId}/plan-dossier
+GET /api/v1/patients/{id}/plan-dossier          # o prontuário compilado
+GET /api/v1/patients/{id}/plans                 # planos que já existem
 ```
 
-O dossiê traz, já derivado das TRÊS fontes do prontuário (exames, anamnese e consulta), inclusive
-o que ainda está em rascunho:
+Diga em uma linha o que veio: quantas réguas, quantos achados de cada lado, quantas condutas,
+quantas receitas, se há vitais. **Esse resumo já diz o tamanho do deck que vai sair**, e é honesto
+dizer isso antes de gastar a geração:
 
-| Campo | O que é |
+| falta no dossiê | o deck perde |
 |---|---|
-| `rulers` | uma régua por exame: escala do escore aplicável a ESTE paciente + histórico dele |
-| `strong` | o que está bem, **ordenado pelo peso do item** |
-| `moving` | o que está se movendo, **ordenado por pontos perdidos** |
-| `vitals` | pressão, frequência, peso, cintura, IMC das duas últimas consultas |
-| `carePlan` | condutas já registradas por pilar AGIR |
-| `labRequest` | o último pedido de exames (para o slide "os exames que faltam") |
-| `prescriptions` | receitas vigentes (para o slide "para levar") |
-| `snapshot` | o escore vigente, quando existe |
+| `carePlan` vazio | a seção do plano inteira, 5 a 6 slides nos decks aprovados |
+| `vitals` vazio | pressão e peso; nenhum deck aprovado cita o que não foi aferido |
+| `prescriptions` vazio | o "para levar" sai sem dose |
+| `labRequest` ausente | o slide dos exames que faltam |
 
-Confirme em uma linha, antes de seguir: quantas réguas, quantos achados de cada lado, se há vitais
-e se há escore. Dossiê vazio (paciente sem exame e sem anamnese) → **pare** e diga isso; não há
-devolutiva a montar.
-
-### O que o dossiê NÃO resolve, e você tem que buscar
-
-- **Por que** um achado está como está. Isso é leitura clínica, não dado.
-- Conduta que ainda não está em `carePlan`.
-- Contexto de vida do paciente (trabalho, rotina, o que ele já tentou).
-
-Quando faltar, **pergunte ao médico**. Não preencha com plausibilidade.
+Dossiê sem exame e sem anamnese: **pare**. Não há devolutiva a montar, e a geração recusa com 422.
 
 ---
 
-## Fase 1 — o arco, antes das palavras
-
-Proponha o arco em uma lista curta e **espere aprovação** antes de escrever slide. Os dois últimos
-decks (Ana, 21 slides; José Ricardo, 20) convergiram para a mesma ordem, e ela funciona:
+## Fase 1 — gerar o rascunho pelo EMR
 
 ```
-1   capa                      nome, data, uma frase de abertura
-2   resumo em uma página      o que está forte | o que está se movendo | o que vamos fazer
-3-4 o que está bem            1 a 4 réguas por slide
-5-7 o que está se movendo     um achado por slide
-8-9 a decisão em aberto       quando há dois caminhos possíveis
-10+ o plano                   uma conduta por slide
-n-2 a sequência               os próximos três meses, em ordem
-n-1 para levar                o que começa a tomar agora, com dose
-n   em uma página             o fecho
+POST /api/v1/patients/{id}/plans/generate       # corpo opcional: {"instruction": "..."}
 ```
 
-Como escolher o que entra:
+Use `instruction` só para dirigir o recorte ("foque no ferro e no sono"), nunca para ditar texto.
 
-- **"O que está bem" vem do topo de `strong`** — que já está ordenado pelo peso do item, não por
-  pontos perdidos. Em nível 4-5 ninguém perde ponto, então peso é o único sinal. Boa parte da
-  anamnese é checklist de ausência ("Adrenalectomia: não") e **não vira slide**: use os marcadores
-  pesados que estão no ótimo.
-- **"O que está se movendo" vem do topo de `moving`.** Três é o número que funcionou nos dois
-  decks. Um achado com `trend: worsening` merece prioridade mesmo em nível bom: a direção é o sinal.
-- **A decisão em aberto** só existe quando há de fato dois caminhos (a ferritina do Ricardo). Não
-  invente dilema.
+A resposta traz `plan` (o rascunho já salvo), `reply` (o arco escolhido), `warnings` e `usage`.
+**Leia os `warnings` antes de olhar os slides** — eles são de quatro naturezas e a ação é diferente:
 
-Um assunto por slide. Se dois achados precisam ser explicados juntos, são dois slides.
+| `kind` | o que é | o que fazer |
+|---|---|---|
+| `numeral` | número escrito que não existe no dossiê | conferir a frase; é o aviso mais sério |
+| `regua` | exame que não está no prontuário | a régua foi removida; ver se faz falta |
+| `estilo` | fora do padrão medido (punch, contagem de régua, travessão) | ajustar na fase 3 |
+| `lacuna` | o prontuário não tinha o dado | **não é defeito do deck**: é registro que falta |
 
 ---
 
-## Fase 2 — escrever
+## Fase 2 — a discussão, que é o motivo de tudo
 
-Só agora. Leia [referencias/gramatica-v2.md](referencias/gramatica-v2.md) para os 9 blocos e o
-JSON de cada um.
+Aqui está o valor. Leia o rascunho e traga ao médico **o que o gerador não pôde saber**, em uma
+lista curta. As perguntas que produziram os slides bons dos decks aprovados:
 
-O bloco mais usado é o `table`, não a régua: 8 dos 20 slides do Ricardo e 9 dos 21 da Ana. Régua é o
-átomo visual; tabela é como o plano se explica.
+1. **Por que este achado está assim?** O dossiê diz que a ferritina dobrou; só o médico diz se é
+   inflamação, reposição ou sobrecarga. Isso vira o `punch`.
+2. **O que uma investigação já respondeu?** "O que a tomografia de maio já respondeu" foi um slide
+   inteiro no deck da Ana, e não existe em campo nenhum.
+3. **Há dois caminhos de verdade?** Só então existe o slide de decisão, com o cartão de veredicto.
+   Não invente dilema: nos dois decks aprovados ele aparece uma vez.
+4. **Estes exames contam a mesma história?** É o que transforma "O que está se movendo · 1 de 3" em
+   "O que o cigarro está cobrando". O gerador agrupa por ranking; o tema é leitura.
+5. **O que o paciente já tentou?** Muda o tom da conduta, e não está no prontuário.
 
-### Voz
+**Nunca preencha com plausibilidade.** Se o médico não respondeu, o slide não existe. Inventar
+leitura clínica é pior que um deck curto, porque o paciente lê como se fosse dele.
 
-Prosa clínica conectiva em PT-BR, dirigida ao paciente, sem infantilizar. O paciente é adulto e
-está lendo sobre o próprio corpo.
-
-- **Título de slide é uma AFIRMAÇÃO, não um rótulo.** "A ferritina dobrou em dois anos", não
-  "Ferritina". "O rim e o fígado estão impecáveis", não "Função renal e hepática".
-- **`display` da régua é o nome que o paciente reconhece**, não o do catálogo: "Ferritina", não
-  "Ferritina - Homens". O `sub` explica o que o exame mede, em cinco palavras: "estoque de ferro".
-- **O `punch` fecha o slide com a consequência**, e é o único lugar onde `<em>` entra (ele sai
-  dourado). "Subir a ferritina e <em>não</em> subir a saturação é a chave."
-- Número sempre com a unidade e a data de quando foi medido.
-
-### Regras editoriais invariantes (valem em tudo que o paciente lê)
-
-- **Sem travessão.** Vírgula, ponto ou dois-pontos.
-- **Sem "Não é X. É Y."** e sem fecho-slogan.
-- **Sem ícone decorativo** em lista.
-- **Sem preço, sem marca comercial** (suplemento, wearable, varejista): use a categoria.
-- **Sem "medicina preditiva".**
-- Nada que identifique terceiros.
-
-### A regra que a evidência impõe
-
-**Nenhuma régua entra num slide sem um rótulo avaliativo visível no mesmo slide.** Barra colorida
-sozinha tem desempenho pior do que barra colorida com rótulo. O rótulo pode estar no título do
-slide, no `punch` ou no `note` da régua, mas tem que estar em algum deles.
+Quando a resposta do médico for uma conduta nova, **peça para ele registrar no plano de cuidado**
+em vez de escrever direto no slide: o deck é derivado, e conduta que só existe no deck some do
+prontuário.
 
 ---
 
-## Fase 3 — gravar como rascunho
+## Fase 3 — aplicar ao rascunho
 
+Duas vias, e a escolha importa:
+
+**A conversa do assistente**, quando o ajuste é textual e pontual:
 ```
-POST /api/v1/patients/{patientId}/plans      { "title": "...", "content": [ ...slides... ] }
+POST /api/v1/patients/{id}/plans/{planId}/assistant/messages
+     {"body": "...", "clientMessageId": "<uuid fixo por mensagem>"}
 ```
+O servidor decide o que entra: texto aplica direto e reversível; número, unidade, dose ou régua
+vira **sugestão** com a origem do número ao lado, para o médico aceitar slide a slide. Tudo fica no
+histórico de revisões.
 
-Depois, **sempre**:
-
+**O PUT**, quando você está reescrevendo estrutura (acrescentar um slide de narrativa, refazer uma
+seção):
 ```
-GET /api/v1/patients/{patientId}/plans/{planId}/overflow
+PUT /api/v1/patients/{id}/plans/{planId}
+    {"title": "...", "content": [...], "expectedRevision": <revisionSeq atual>}
 ```
+`expectedRevision` não é opcional: sem ele você sobrescreve em silêncio quem escreveu antes.
 
-Lista vazia = cabe. Lista com slides = **corte texto e rode de novo**. O slide tem altura fixa e
-`overflow:hidden`: o que não cabe some do PDF sem erro nenhum, e a publicação recusa.
-
-Não publique. Apresente ao médico: o arco, os slides e o resultado da conferência. Publicar é
-decisão dele.
+Depois de qualquer alteração, **sempre**:
+```
+GET /api/v1/patients/{id}/plans/{planId}/overflow
+```
+Lista vazia = cabe. Lista com slides = corte texto e rode de novo. O slide tem altura fixa e
+`overflow:hidden`: o que não cabe **some do PDF sem erro nenhum**.
 
 ---
 
-## MODO REVISAR
+## Fase 4 — entregar ao médico, não ao paciente
 
-Carregue o plano (`GET .../plans/{planId}`), aplique o ajuste pedido, salve com
-`PUT .../plans/{planId}` e **rode a conferência de novo** — texto novo é a causa mais comum de
-estouro. Salvar devolve o plano para rascunho de propósito: o que está no portal continua sendo a
-versão publicada até alguém publicar outra.
-
-## MODO PUBLICAR
-
-Só com ordem explícita do médico.
+Apresente: o arco, o que a discussão acrescentou, os avisos que sobraram e o resultado da
+conferência. **Publicar é decisão dele**, e é o que entrega ao paciente:
 
 ```
-POST .../plans/{planId}/publish     → PDF 16:9 + PDF A4 no portal (sem assinatura)
-POST .../plans/{planId}/report      → relatório A4 assinado com ICP-Brasil (ato médico)
+POST .../plans/{planId}/publish    # PDF 16:9 + A4 no portal
+POST .../plans/{planId}/report     # relatório A4 assinado com ICP-Brasil (ato médico)
 ```
 
-Os três saem do MESMO conteúdo. Se a publicação devolver 422, ela lista quais slides não cabem.
+Os três saem do MESMO conteúdo. Publicação com slide estourando devolve 422 e lista quais.
+
+---
+
+## O alvo, medido nos dois decks aprovados
+
+Não é opinião: foi contado slide a slide em Ana (21) e José Ricardo (20).
+
+- **A tabela é o bloco mais usado**, não a régua: 9 de 21 e 8 de 20 slides. A régua é o átomo
+  visual; a tabela é como o plano se explica.
+- **Régua: 2 a 4 por slide**, média 3,1. Nunca uma sozinha, nunca cinco.
+- **`punch` em 85%** dos slides, ausente só em capa, para-levar e fecho. De 55 a 110 caracteres,
+  **exatamente um `<em>`**, e em 9 de 10 a frase termina dentro dele. Duas frases: constatação
+  plana, depois a virada que carrega a decisão.
+- **Título de 16 a 53 caracteres**, uma linha, e é uma AFIRMAÇÃO: "A ferritina dobrou em dois anos",
+  não "Ferritina". Só o fecho é longo, três frases.
+- **A legenda da rampa aparece uma vez por deck**, no primeiro slide de régua.
+- **`variant: deep` em exatamente dois slides**: capa e fecho. Um tom só nas páginas de conteúdo.
+- **A sequência é uma tabela de 2 colunas**, com a primeira em `dose` e valores relativos ("Agora",
+  "Em 4 semanas"). O kind `sequence` nunca foi usado em nenhum dos dois.
+- **Boas notícias primeiro**, nunca em menos de 2 slides, e sempre antes de qualquer notícia ruim.
+
+O servidor já garante os quatro últimos automaticamente. Os outros são escrita.
+
+---
+
+## Regras editoriais invariantes
+
+Valem em tudo que o paciente lê: **sem travessão** (vírgula, ponto ou dois-pontos); sem
+"Não é X. É Y."; sem fecho-slogan; sem ícone decorativo em lista; **sem preço**; **sem marca
+comercial** (suplemento, aparelho, laboratório, varejista) — use a categoria; sem "medicina
+preditiva"; nada que identifique terceiros.
+
+**Regra de lei da régua:** nenhuma régua entra num slide sem um rótulo avaliativo visível no MESMO
+slide — no título, no `punch` ou no `note`. Barra colorida sem rótulo comunica pior que barra com
+rótulo.
 
 ---
 
 ## Erros que já aconteceram, não repetir
 
-1. **Escrever antes de ler o dossiê.** Todo número vem de lá.
-2. **Usar o nome do catálogo na régua.** "Ferritina - Mulheres Pós-Menopausa" no slide do paciente.
-3. **Encher o slide.** Oito réguas não cabem; quatro cabem. Conferir sempre.
-4. **Transformar checklist de ausência em "o que está bem".** "Adrenalectomia: não" não é conquista.
-5. **Publicar sem o médico mandar.**
+1. **Testar com paciente fictício.** Um deck só se julga contra o prontuário real de quem ele
+   descreve. Paciente de teste com zero conduta produz um deck sem metade do plano e leva a
+   conclusões erradas sobre o gerador.
+2. **Escrever antes de ler o dossiê.** Todo número vem de lá.
+3. **Usar o nome do catálogo na régua.** "Ferritina - Mulheres Pós-Menopausa" é do escore;
+   `display` é "Ferritina", que é o que a paciente reconhece.
+4. **Encher o slide.** Oito réguas não cabem, quatro cabem. Conferir sempre.
+5. **Transformar checklist de ausência em "o que está bem".** "Adrenalectomia: não" não é conquista.
+6. **Afinar o eixo da régua à mão.** O eixo é a escala do escore e o servidor o calcula; o valor
+   fora da faixa encosta na borda de propósito, com o número impresso ao lado. Isso é a informação
+   de estar fora da escala, não um defeito a corrigir.
+7. **Publicar sem o médico mandar.**
+
+---
+
+## Dados clínicos
+
+Ficam em `pacs/<NOME>/`, que é gitignored. Nada de conteúdo de paciente em commit, em log ou em
+mensagem de erro.

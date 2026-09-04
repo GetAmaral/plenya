@@ -90,10 +90,13 @@ O átomo da devolutiva. **1 a 4 por slide.**
 - `display` e `sub` são SEUS: o nome que o paciente reconhece e o que o exame mede.
 - Só os **dois últimos** pontos do histórico aparecem, com a seta do anterior para o atual. Mande a
   série inteira; a régua escolhe.
-- **`axis` é o único número que às vezes se ajusta à mão**: quando um valor extremo esmaga a escala
-  (PCR de 63 num eixo que termina em 15), aperte o teto e deixe o ponto encostar na borda. Foi o que
-  a Ana precisou. Ajuste o eixo, nunca o valor.
-- `legend: true` no primeiro slide de régua de cada bloco, não em todos.
+- **`axis` não se ajusta mais à mão — o servidor já faz.** O eixo é a escala do escore e NÃO se
+  estica para caber o paciente: valor fora da faixa encosta na borda de propósito, com o número
+  impresso ao lado, e é assim que se lê "está fora da escala". Antes o gerador esticava, e a PCR de
+  63 da Ana virava um eixo até 65 com as seis faixas do escore ocupando 15% da barra — desfazendo o
+  ajuste que ela tinha recebido à mão. Se um eixo parecer errado, o lugar de olhar é o escore, não
+  o deck.
+- `legend: true` é do SERVIDOR: uma vez por deck, no primeiro slide de régua. Não escreva.
 
 ## 4 · `two-cards` — a decisão em aberto
 
@@ -110,6 +113,48 @@ Dois caminhos, um deles descartado.
 
 `dim` apaga o caminho descartado; `focus` destaca o que vale. Use os dois no mesmo slide — é o
 contraste que ensina.
+
+### O cartão que RESPONDE
+
+`verdict` é a linha grande, em 52px, que responde a pergunta do `kicker`. Sem ela o slide da
+decisão vira dois parágrafos e não decide nada. `tone` colore o veredicto e a borda: `ok` para o
+caminho que tranquiliza, `flag` para a regra de segurança (a conduta de dia de doença, por
+exemplo). Vazio é neutro.
+
+```json
+{ "kind": "two-cards", "eyebrow": "O nódulo · 2 de 2",
+  "title": "O que fazer daqui, e o que não precisa ser feito",
+  "cards": [
+    { "kicker": "Repetir a tomografia?", "verdict": "Não precisa", "tone": "ok",
+      "body": "A imagem de maio já respondeu o que precisava." },
+    { "kicker": "Repetir a supressão?", "verdict": "Sim", "tone": "flag",
+      "body": "É o exame que decide se a conduta muda." },
+    { "kicker": "Por que a imagem já respondeu", "body": "..." },
+    { "kicker": "Por que o hormônio precisa", "body": "..." } ] }
+```
+
+**Quatro cartões viram uma grade 2×2**, não uma fileira: em cima as duas perguntas com seus
+veredictos, embaixo as duas explicações. Numa fileira de quatro, cada cartão fica com ~340px e o
+veredicto de 52px não cabe.
+
+## 4b · `rulers-cards` — o exame que temos e o que falta
+
+Duas réguas em cima, dois cartões embaixo, no mesmo slide. É o slide 08 dos **dois** decks
+aprovados, e nos dois ele faz o mesmo movimento: mostra o que já foi medido e, ao lado, o exame que
+ainda falta para fechar a leitura.
+
+```json
+{ "kind": "rulers-cards", "eyebrow": "O que o cigarro está cobrando · 2 de 2",
+  "title": "E falta um exame simples do pulmão",
+  "rulers": [ { "code": "...", "display": "Hemoglobina", "note": "16,1 em 2025, 17,2 agora." },
+              { "code": "...", "display": "Hematócrito" } ],
+  "cards": [ { "kicker": "O que já sabemos", "body": "As duas medidas subiram juntas." },
+             { "kicker": "O que falta", "verdict": "Espirometria", "tone": "ok",
+               "body": "Um exame de sopro, que mede o quanto o pulmão ainda entrega." } ],
+  "punch": "As duas medidas apontam para o mesmo lugar. <em>Falta o exame que confirma.</em>" }
+```
+
+Exatamente 2 réguas e 2 cartões. Com mais, o slide estoura.
 
 ## 5 · `plan-step` — uma conduta
 
