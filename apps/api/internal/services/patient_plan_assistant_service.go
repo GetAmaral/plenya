@@ -783,6 +783,9 @@ type GenerateDraftResult struct {
 	Warnings []dto.PlanGenWarning     `json:"warnings,omitempty"`
 	Overflow []pdfdoc.DeckOverflow    `json:"overflow,omitempty"`
 	Model    string                   `json:"model,omitempty"`
+	// Uso — o que a geração custou. Sai na resposta porque medir isso depois, no painel da
+	// Anthropic, não separa uma geração de um turno de conversa.
+	Uso dto.PlanGenUsage `json:"usage"`
 }
 
 // GenerateDraft escreve o rascunho inteiro a partir do prontuário compilado.
@@ -897,6 +900,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 			meta.InputTokens += m.InputTokens
 			meta.OutputTokens += m.OutputTokens
 			meta.CacheReadTokens += m.CacheReadTokens
+			meta.CacheWriteTokens += m.CacheWriteTokens
 			meta.LatencyMs += m.LatencyMs
 		}(i, sec)
 	}
@@ -975,8 +979,11 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	estouro, _ := pdfdoc.CheckDeckOverflow(pdfdoc.Deck{Title: plan.Title, Slides: plan.Content})
 	avisosDeEstilo := confereDeck(plan.Content)
 	brutosSalvos := plan.Content
+	reparos := 0
 	if len(estouro) > 0 || len(avisosDeEstilo) > 0 {
-		if novos, ok := s.reparaEstouro(plan, dossieJSON, estouro, avisosDeEstilo); ok {
+		novos, ok := s.reparaEstouro(plan, dossieJSON, estouro, avisosDeEstilo, &meta)
+		if ok {
+			reparos = 1
 			plan.Content = novos
 			if err := s.db.Transaction(func(tx *gorm.DB) error {
 				seq, errR := s.revisions.Record(tx, RecordRevisionInput{
@@ -1017,6 +1024,11 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	}
 	return &GenerateDraftResult{
 		Plan: final, Reply: res.Reply, Warnings: avisos, Overflow: estouro, Model: meta.Model,
+		Uso: dto.PlanGenUsage{
+			InputTokens: meta.InputTokens, CacheReadTokens: meta.CacheReadTokens,
+			CacheWriteTokens: meta.CacheWriteTokens, OutputTokens: meta.OutputTokens,
+			LatencyMs: meta.LatencyMs, Chamadas: 1 + len(arco.Sections) + reparos,
+		},
 	}, nil
 }
 

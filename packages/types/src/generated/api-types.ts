@@ -18572,6 +18572,16 @@ export interface components {
         "dto.PlanFindingSource": "lab" | "anamnesis";
         /** @enum {string} */
         "dto.PlanFindingTrend": "single" | "stable" | "improving" | "worsening";
+        "dto.PlanGenUsage": {
+            /** @description CacheReadTokens custa ~0,1x a entrada; CacheWriteTokens ~1,25x. */
+            cacheReadTokens?: number;
+            cacheWriteTokens?: number;
+            /** @description Chamadas — quantas idas ao modelo: 1 do arco, uma por seção, e 1 se houve reparo. */
+            chamadas?: number;
+            inputTokens?: number;
+            latencyMs?: number;
+            outputTokens?: number;
+        };
         "dto.PlanGenWarning": {
             /**
              * @description Kind separa "número que não confere" de "régua que saiu": a tela dizia "N número(s) que não
@@ -22223,6 +22233,11 @@ export interface components {
             overflow?: components["schemas"]["pdfdoc.DeckOverflow"][];
             plan?: components["schemas"]["dto.PatientPlanResponse"];
             reply?: string;
+            /**
+             * @description Uso — o que a geração custou. Sai na resposta porque medir isso depois, no painel da
+             *     Anthropic, não separa uma geração de um turno de conversa.
+             */
+            usage?: components["schemas"]["dto.PlanGenUsage"];
             warnings?: components["schemas"]["dto.PlanGenWarning"][];
         };
         "services.LGPDConsentStatus": {

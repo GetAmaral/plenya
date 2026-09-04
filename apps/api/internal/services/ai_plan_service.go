@@ -118,12 +118,16 @@ type PlanEditRequest struct {
 
 // AICallMeta — metadados da chamada, para gravar na mensagem e na revisão.
 type AICallMeta struct {
-	Model           string
-	StopReason      string
-	InputTokens     int
-	CacheReadTokens int
-	OutputTokens    int
-	LatencyMs       int
+	Model       string
+	StopReason  string
+	InputTokens int
+	// CacheReadTokens custa ~0,1x a entrada; CacheWriteTokens custa ~1,25x. Os dois precisam
+	// existir para a conta fechar: a escrita era lida da resposta da API e jogada fora, e sem ela
+	// o custo da primeira chamada de cada geração era subestimado.
+	CacheReadTokens  int
+	CacheWriteTokens int
+	OutputTokens     int
+	LatencyMs        int
 }
 
 // PlanEditResult — o que o modelo devolveu, ainda sem triagem.
@@ -288,11 +292,12 @@ func (s *AIService) chamaFerramentaComMeta(payload map[string]any, longa bool) (
 	meta = AICallMeta{
 		Model: api.Model, StopReason: api.StopReason,
 		InputTokens: api.Usage.InputTokens, OutputTokens: api.Usage.OutputTokens,
-		CacheReadTokens: api.Usage.CacheReadTokens,
+		CacheReadTokens: api.Usage.CacheReadTokens, CacheWriteTokens: api.Usage.CacheWriteTokens,
 	}
 	// Só metadados no log; nunca prompt nem resposta.
-	fmt.Printf("💰 Devolutiva - modelo %s, entrada %d (cache %d), saída %d, stop %s\n",
-		meta.Model, meta.InputTokens, meta.CacheReadTokens, meta.OutputTokens, meta.StopReason)
+	fmt.Printf("💰 Devolutiva - modelo %s, entrada %d (cache lido %d, escrito %d), saída %d, stop %s\n",
+		meta.Model, meta.InputTokens, meta.CacheReadTokens, meta.CacheWriteTokens,
+		meta.OutputTokens, meta.StopReason)
 
 	if api.StopReason == "max_tokens" {
 		return "", meta, fmt.Errorf("%w: resposta truncada", ErrAITruncated)

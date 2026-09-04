@@ -413,6 +413,22 @@ type ResolveSuggestionsRequest struct {
 	ExpectedRevision *int     `json:"expectedRevision"`
 }
 
+// PlanGenUsage — o que uma geração consumiu, somando as chamadas todas (arco, seções e reparo).
+//
+// Sai na resposta em vez de ficar só no log: no painel da Anthropic uma geração não se distingue de
+// um turno de conversa nem de uma leitura de laudo, e sem separar não dá para responder quanto
+// custa gerar um plano.
+type PlanGenUsage struct {
+	InputTokens int `json:"inputTokens"`
+	// CacheReadTokens custa ~0,1x a entrada; CacheWriteTokens ~1,25x.
+	CacheReadTokens  int `json:"cacheReadTokens"`
+	CacheWriteTokens int `json:"cacheWriteTokens"`
+	OutputTokens     int `json:"outputTokens"`
+	LatencyMs        int `json:"latencyMs"`
+	// Chamadas — quantas idas ao modelo: 1 do arco, uma por seção, e 1 se houve reparo.
+	Chamadas int `json:"chamadas"`
+}
+
 // PlanGenWarningKind — a natureza do aviso da geração.
 type PlanGenWarningKind string
 

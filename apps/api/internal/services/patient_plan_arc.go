@@ -112,7 +112,7 @@ func formataDataPT(iso string) string {
 // posição colocaria o conteúdo de um slide dentro de outro sem erro nenhum.
 func (s *PatientPlanAssistantService) reparaEstouro(
 	plan *models.PatientPlan, dossieJSON string, estouro []pdfdoc.DeckOverflow,
-	estilo []dto.PlanGenWarning,
+	estilo []dto.PlanGenWarning, meta *AICallMeta,
 ) ([]pdfdoc.DeckSlide, bool) {
 	// Junta os dois tipos de defeito no MESMO reparo: geometria (o slide não cabe) e forma (punch
 	// fora da faixa, régua sozinha, travessão). São a mesma correção — encurtar e ajustar prosa —
@@ -165,10 +165,17 @@ func (s *PatientPlanAssistantService) reparaEstouro(
 	if err != nil {
 		return nil, false
 	}
-	corrigidos, _, err := s.ai.RepairOverflow(PlanRepairRequest{
+	corrigidos, mr, err := s.ai.RepairOverflow(PlanRepairRequest{
 		DossierJSON: dossieJSON, SlidesJSON: string(bruto),
 		Excessos: strings.Join(excessos, "\n"), Model: s.model,
 	})
+	if meta != nil {
+		meta.InputTokens += mr.InputTokens
+		meta.OutputTokens += mr.OutputTokens
+		meta.CacheReadTokens += mr.CacheReadTokens
+		meta.CacheWriteTokens += mr.CacheWriteTokens
+		meta.LatencyMs += mr.LatencyMs
+	}
 	if err != nil || len(corrigidos) == 0 {
 		return nil, false
 	}
