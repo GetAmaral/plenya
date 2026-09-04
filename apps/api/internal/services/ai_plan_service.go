@@ -327,69 +327,41 @@ func (s *AIService) chamaFerramentaComMeta(payload map[string]any, longa bool) (
 // medidos, não estimados: com 8 réguas o slide estoura e existe teste provando.
 const planGenerateSystemPrompt = planSystemPrompt + `
 
-VOCÊ ESTÁ ESCREVENDO O RASCUNHO INTEIRO, do zero, a partir do dossiê.
+VOCÊ ESCREVE UMA SEÇÃO do rascunho. O arco já está decidido: escreva exatamente os slides pedidos.
 
-O ARCO (use como espinha, corte o que não se aplica a este paciente):
-1   capa                  nome do paciente não; só uma frase de abertura
-2   resumo em uma página  o que está forte | o que está se movendo | o que vamos fazer
-3-4 o que está bem        1 a 4 réguas por slide, tiradas do topo de "strong"
-5-7 o que está se movendo UM achado por slide, do topo de "moving"
-8+  o plano               uma conduta por slide, vindas de carePlan
-n-2 a sequência           os próximos meses, em ordem
-n-1 para levar            o que começa agora, com dose, vindo de prescriptions
-n   em uma página         o fecho
+ESCOLHA
+- Um assunto por slide. Régua: 2 a 4 por slide, NUNCA uma só.
+- Checklist de ausência ("Adrenalectomia: não") não é conquista e não vira slide.
+- Sem conduta no dossiê, não invente conduta.
 
-COMO ESCOLHER O QUE ENTRA:
-- "o que está bem" sai de strong, que já vem ordenado por PESO do item. Em nível 4-5 ninguém perde
-  ponto, então peso é o único sinal.
-- Boa parte da anamnese é checklist de ausência ("Adrenalectomia: não"). Isso NÃO é conquista e
-  NÃO vira slide.
-- "o que está se movendo" sai do topo de moving. Três é o número que funcionou nos dois decks.
-  Um achado com trend "worsening" merece prioridade mesmo em nível bom: a direção é o sinal.
-- Um assunto por slide. Se dois achados precisam ser explicados juntos, são dois slides.
-- Se o dossiê não tem conduta registrada, NÃO invente conduta. Escreva menos slides.
+VOZ (o paciente é adulto lendo sobre o próprio corpo)
+- Título é AFIRMAÇÃO, não rótulo: "A ferritina dobrou em dois anos", não "Ferritina". 16 a 53
+  caracteres. Só o fecho é longo: três frases, ~280 caracteres.
+- "display" da régua é o nome que o paciente reconhece, nunca o do catálogo. "sub" diz o que o
+  exame MEDE, 6 a 27 caracteres, minúsculo, sem ponto. Vazio quando o nome já explica.
+- "note" da régua (em ~30% delas) é a mini-série ("239 em 2024, 432 em 2025, 500 agora") ou o
+  rótulo avaliativo.
+- "punch" fecha o slide, 55 a 110 caracteres, EXATAMENTE um <em>, e a frase termina dentro dele.
+  Duas frases: constatação plana, depois a virada que carrega a decisão. Ausente só em capa,
+  para-levar e fecho.
+- Número sempre com unidade e data.
 
-VOZ (o paciente é adulto e está lendo sobre o próprio corpo):
-- Título de slide é uma AFIRMAÇÃO, não um rótulo: "A ferritina dobrou em dois anos", não "Ferritina".
-- "display" da régua é o nome que o paciente reconhece ("Ferritina"), nunca o do catálogo
-  ("Ferritina - Homens"). "sub" explica o que o exame mede em até cinco palavras.
-- "punch" fecha o slide com a consequência, e é o único lugar onde <em> entra.
-- Todo número vem com unidade e com a data em que foi medido.
+BLOCOS
+- A TABELA é o bloco mais usado nos decks aprovados (9 de 21 e 8 de 20 slides): é como o plano se
+  explica. Cabeçalhos que se repetem: "O quê | Quanto | Por quê", "Quando | O que acontece".
+- A SEQUÊNCIA é tabela de 2 colunas, a primeira com style "dose" e valores relativos ("Agora",
+  "Em 4 semanas"), nunca data absoluta.
+- Tetos medidos: 4 réguas, 8 linhas de tabela, 3 colunas, 4 linhas por cartão de resumo, 3 grupos
+  no para-levar.
 
-PROIBIDO no texto que o paciente lê: travessão; a construção "Não é X. É Y."; fecho em slogan;
-ícone decorativo em lista; preço; marca comercial (suplemento, aparelho, laboratório, varejista);
-a expressão "medicina preditiva"; qualquer coisa que identifique outra pessoa.
+PROIBIDO no texto do paciente: travessão; "Não é X. É Y."; fecho em slogan; ícone em lista; preço;
+marca comercial; "medicina preditiva"; qualquer coisa que identifique outra pessoa.
 
-REGRA DE LEI DA RÉGUA: nenhuma régua entra num slide sem um rótulo avaliativo visível no MESMO
-slide. Pode estar no título, no punch ou no note da régua, mas tem que estar em algum deles.
-Barra colorida sozinha comunica pior que barra com rótulo.
+REGRA DE LEI: nenhuma régua sem rótulo avaliativo visível no MESMO slide (título, punch ou note).
 
-TETOS MEDIDOS, não sugestões: no máximo 4 réguas por slide (com 8 o slide estoura), 8 linhas de
-tabela, 3 colunas, 4 linhas por cartão de resumo, 3 grupos no "para levar".
-
-O QUE OS DOIS DECKS APROVADOS FAZEM, medido slide a slide:
-
-- A TABELA é o bloco mais usado, não a régua: 9 dos 21 slides de um, 8 dos 20 do outro. A régua é o
-  átomo visual; a tabela é COMO O PLANO SE EXPLICA. Toda seção de conduta é tabela. Cabeçalhos que
-  se repetem: "O quê | Quanto | Por quê", "O quê | Dose | Por quê", "Quando | O que acontece".
-- A SEQUÊNCIA é uma TABELA de 2 colunas, não o bloco "sequence": primeira coluna com style "dose"
-  e valores relativos ("Agora", "Em 4 semanas", "Em 12 semanas"), nunca data absoluta. O bloco
-  "sequence" não foi usado em nenhum dos dois decks.
-- RÉGUA por slide: 2, 3 ou 4. NUNCA uma só, nunca cinco. Média 3,1 nos dois.
-- PUNCH em 85% dos slides, e ausente só em capa, para-levar e fecho. Entre 55 e 110 caracteres,
-  com EXATAMENTE UM <em>, e em 9 de cada 10 a frase termina dentro dele. Duas frases na maioria:
-  uma constatação plana, depois a virada que carrega a decisão.
-- TÍTULO entre 16 e 53 caracteres, uma linha. Só o fecho é longo: lá são três frases, ~280
-  caracteres, e é o resumo que o paciente leva.
-- "sub" da régua: 6 a 27 caracteres, minúsculo, sem ponto final, dizendo o que o exame MEDE
-  ("estoque de ferro", "o rim filtrando"), nunca o resultado. Deixe vazio quando o nome já explica.
-- "note" da régua aparece em ~30% delas, e é onde mora a mini-série temporal
-  ("239 em 2024, 432 em 2025, 500 agora") ou o rótulo avaliativo.
-
-STRINGS QUE OS DOIS DECKS COMPARTILHAM, use as mesmas: título do resumo "Onde você está, em uma
-página"; cartões do resumo "O que está forte" e "O que está se movendo"; título dos passos "O que
-vamos fazer"; eyebrow e título da sequência "A sequência" / "Os próximos três meses, em ordem";
-"Para levar" / "O que você começa a tomar agora"; eyebrow do fecho "Em uma página".`
+STRINGS FIXAS, use exatamente: resumo "Onde você está, em uma página", cartões "O que está forte" e
+"O que está se movendo", passos "O que vamos fazer"; sequência "Os próximos três meses, em ordem";
+para-levar "O que você começa a tomar agora".`
 
 // planSlideItemSchema — a forma de UM slide. Compartilhada pelas duas passadas da geração: o
 // contrato do slide é o mesmo escrevendo o deck inteiro ou escrevendo uma seção.
@@ -411,21 +383,18 @@ func planSlideItemSchema() map[string]any {
 			// O vazio precisa estar no enum: com um valor legal só, o modelo tende a
 			// preencher o campo em todo slide e o deck sai inteiro escuro, que é o
 			// oposto da regra ("um tom só nas páginas de conteúdo").
-			"variant": map[string]any{
-				"enum":        []string{"", "deep"},
-				"description": `Vazio em TODO slide de conteúdo. "deep" só na capa e no fecho.`,
-			},
-			"eyebrow": map[string]any{"type": "string"},
-			"title":   map[string]any{"type": "string"},
-			"lede":    map[string]any{"type": "string"},
-			"punch":   map[string]any{"type": "string"},
+			// eyebrow e variant NÃO entram: o servidor os compõe e sobrescreveria o que o
+			// modelo escrevesse. Eram tokens de saída pagos e descartados.
+			"title": map[string]any{"type": "string"},
+			"lede":  map[string]any{"type": "string"},
+			"punch": map[string]any{"type": "string"},
 			// Os blocos abaixo precisam estar no schema com a forma exata. Sem eles o
 			// modelo devolvia o slide com cabeçalho e NADA no miolo: `summary`,
 			// `two-cards`, `sequence` e `closing` saíam ocos, bonitos por fora e sem
 			// conteúdo nenhum. Só `rulers` vinha preenchido, que era o único descrito.
 			"summary": map[string]any{
 				"type":        "object",
-				"description": "Só em kind=summary. Dois cartões (o que está forte, o que está se movendo) e os passos embaixo.",
+				"description": "kind=summary: dois cartões e os passos.",
 				"properties": map[string]any{
 					"cards": map[string]any{
 						"type": "array", "maxItems": 2,
@@ -443,7 +412,7 @@ func planSlideItemSchema() map[string]any {
 										"properties": map[string]any{
 											"name":  map[string]any{"type": "string"},
 											"sub":   map[string]any{"type": "string"},
-											"code":  map[string]any{"type": "string", "description": "O code do exame de onde o valor saiu. Obrigatório: é o que torna o número auditável."},
+											"code":  map[string]any{"type": "string", "description": "code do exame do valor. Obrigatório."},
 											"value": map[string]any{"type": "string"},
 											"unit":  map[string]any{"type": "string"},
 										},
@@ -457,16 +426,15 @@ func planSlideItemSchema() map[string]any {
 				},
 			},
 			"cards": map[string]any{
-				"type":     "array",
-				"maxItems": 4,
-				"description": "Em two-cards e rulers-cards, 2 ou 4 (a grade 2x2 da decisão). " +
-					"Em plan-step, 2 ou 3. NÃO use em cover nem em closing: o render descarta.",
+				"type":        "array",
+				"maxItems":    4,
+				"description": "2 ou 4 (grade 2x2 da decisão); em plan-step 2 ou 3; nunca em cover/closing.",
 				"items": map[string]any{
 					"type": "object",
 					"properties": map[string]any{
-						"kicker":  map[string]any{"type": "string", "description": "Rótulo em caixa alta, geralmente a PERGUNTA que o cartão responde."},
-						"verdict": map[string]any{"type": "string", "description": "A resposta, em uma ou duas palavras: \"Não precisa\", \"Sim\". É o que faz o slide decidir."},
-						"tone":    map[string]any{"enum": []string{"ok", "flag"}, "description": "ok = tranquiliza; flag = regra de segurança. Vazio = neutro."},
+						"kicker":  map[string]any{"type": "string", "description": "Caixa alta; na decisão é a PERGUNTA."},
+						"verdict": map[string]any{"type": "string", "description": "A resposta, 1 a 2 palavras."},
+						"tone":    map[string]any{"enum": []string{"ok", "flag"}, "description": "ok tranquiliza; flag é regra de segurança."},
 						"body":    map[string]any{"type": "string"},
 						"dim":     map[string]any{"type": "boolean", "description": "Apaga o caminho descartado."},
 						"focus":   map[string]any{"type": "boolean", "description": "Destaca o caminho recomendado."},
@@ -476,12 +444,12 @@ func planSlideItemSchema() map[string]any {
 			"steps": map[string]any{
 				"type":        "array",
 				"maxItems":    6,
-				"description": "Só em kind=sequence: os próximos meses, em ordem.",
+				"description": "kind=sequence; prefira tabela de 2 colunas.",
 				"items": map[string]any{
 					"type":     "object",
 					"required": []string{"when", "what"},
 					"properties": map[string]any{
-						"when":   map[string]any{"type": "string", "description": `Ex.: "nas próximas 4 semanas".`},
+						"when":   map[string]any{"type": "string", "description": `Relativo: "em 4 semanas".`},
 						"what":   map[string]any{"type": "string"},
 						"detail": map[string]any{"type": "string"},
 					},
@@ -489,7 +457,7 @@ func planSlideItemSchema() map[string]any {
 			},
 			"takeaway": map[string]any{
 				"type":        "object",
-				"description": "Em kind=takeaway, e também em plan-step quando a conduta tem doses. Dose só sai de prescricoes do dossiê; sem prescrição, não escreva dose.",
+				"description": "kind=takeaway e plan-step. Dose SÓ de prescricoes.",
 				"properties": map[string]any{
 					"highlight": map[string]any{
 						"type": "object", "required": []string{"name"},
@@ -526,14 +494,11 @@ func planSlideItemSchema() map[string]any {
 			},
 			"table": map[string]any{
 				"type":        "object",
-				"description": "Em kind=table, e também em two-cards e plan-step, onde o render a desenha abaixo dos cartões. Máximo 3 colunas e 8 linhas.",
+				"description": "kind=table, two-cards e plan-step. Máx. 3 colunas, 8 linhas.",
 				"properties": map[string]any{
-					// `dense` NÃO estava no schema e o render precisa dele: uma tabela de 6 linhas
-					// com prosa estourou o slide em 580px na primeira geração de duas passadas. É
-					// o botão que existe exatamente para isso.
 					"dense": map[string]any{
 						"type":        "boolean",
-						"description": "Aperta o espaçamento. Use SEMPRE que a tabela passar de 4 linhas ou tiver coluna de prosa.",
+						"description": "Use SEMPRE com mais de 4 linhas ou coluna de prosa.",
 					},
 					"columns": map[string]any{
 						"type": "array", "maxItems": 3,
@@ -542,14 +507,10 @@ func planSlideItemSchema() map[string]any {
 							"properties": map[string]any{
 								"label": map[string]any{"type": "string"},
 								"style": map[string]any{
-									"enum": []string{"", "why", "dose", "tag"},
-									"description": `"" texto normal; "why" a coluna que explica, menor e cinza; ` +
-										`"dose" NÃO quebra linha, então nunca ponha prosa nela; "tag" vira selo.`,
+									"enum":        []string{"", "why", "dose", "tag"},
+									"description": `why explica (cinza); dose NÃO quebra linha, nunca prosa; tag vira selo.`,
 								},
-								"width": map[string]any{
-									"type":        "string",
-									"description": `Largura fixa, ex.: "390px". Use na primeira coluna quando ela for curta e a de prosa precisar do resto.`,
-								},
+								"width": map[string]any{"type": "string", "description": `Ex.: "390px".`},
 							},
 						},
 					},
@@ -566,18 +527,17 @@ func planSlideItemSchema() map[string]any {
 				},
 			},
 			"rulers": map[string]any{
-				"type":     "array",
-				"maxItems": 4,
-				"description": "Em kind=rulers, 2 a 4. Em rulers-cards, exatamente 2. Só o exame e o texto autoral; a escala e o histórico o SERVIDOR copia " +
-					"do dossiê; não escreva axis, segments nem history.",
+				"type":        "array",
+				"maxItems":    4,
+				"description": "Em rulers 2 a 4, em rulers-cards 2. Só code/display/sub/note; escala e histórico são do servidor.",
 				"items": map[string]any{
 					"type":     "object",
 					"required": []string{"code", "display"},
 					"properties": map[string]any{
-						"code":    map[string]any{"type": "string", "description": "O `code` da régua, copiado do dossiê."},
-						"display": map[string]any{"type": "string", "description": "O nome que o paciente reconhece."},
-						"sub":     map[string]any{"type": "string", "description": "O que o exame mede, em até cinco palavras."},
-						"note":    map[string]any{"type": "string", "description": "Leitura clínica em uma linha. É onde o rótulo avaliativo mora."},
+						"code":    map[string]any{"type": "string", "description": "code do dossiê."},
+						"display": map[string]any{"type": "string", "description": "Nome que o paciente reconhece."},
+						"sub":     map[string]any{"type": "string", "description": "O que o exame MEDE, até 5 palavras."},
+						"note":    map[string]any{"type": "string", "description": "Leitura clínica em uma linha."},
 					},
 				},
 			},

@@ -111,7 +111,7 @@ func formataDataPT(iso string) string {
 // Troca POR ID e não por índice: o modelo pode devolver os slides em qualquer ordem, e casar por
 // posição colocaria o conteúdo de um slide dentro de outro sem erro nenhum.
 func (s *PatientPlanAssistantService) reparaEstouro(
-	plan *models.PatientPlan, dossieJSON string, estouro []pdfdoc.DeckOverflow,
+	plan *models.PatientPlan, estouro []pdfdoc.DeckOverflow,
 	estilo []dto.PlanGenWarning, meta *AICallMeta,
 ) ([]pdfdoc.DeckSlide, bool) {
 	// Junta os dois tipos de defeito no MESMO reparo: geometria (o slide não cabe) e forma (punch
@@ -166,8 +166,8 @@ func (s *PatientPlanAssistantService) reparaEstouro(
 		return nil, false
 	}
 	corrigidos, mr, err := s.ai.RepairOverflow(PlanRepairRequest{
-		DossierJSON: dossieJSON, SlidesJSON: string(bruto),
-		Excessos: strings.Join(excessos, "\n"), Model: s.model,
+		SlidesJSON: string(bruto),
+		Excessos:   strings.Join(excessos, "\n"), Model: s.model,
 	})
 	if meta != nil {
 		meta.InputTokens += mr.InputTokens

@@ -17,7 +17,6 @@ package services
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -55,81 +54,6 @@ const (
 	SecFecho     = "fecho"
 )
 
-// planArcSystemPrompt — as regras do ARCO. Curto de propósito: esta passada não escreve texto de
-// paciente, decide estrutura.
-const planArcSystemPrompt = `Você ajuda um médico a planejar a devolutiva de exames que o PACIENTE vai ler.
-
-Sua tarefa AGORA é só decidir o ARCO: quais seções o deck terá, quantos slides cada uma, e com que
-material. Você NÃO escreve slide nesta etapa.
-
-O arco que os dois decks aprovados convergiram, em ordem:
-  capa · resumo · o que está bem · o que está se movendo · a decisão em aberto ·
-  o que está faltando · o plano · a sequência · para levar · o fecho
-
-REGRAS DO ARCO:
-1. "capa", "resumo", "sequencia", "levar" e "fecho" têm SEMPRE 1 slide.
-2. "o que está bem" nunca tem menos de 2 slides, e vem SEMPRE antes de qualquer notícia ruim.
-   Boa notícia primeiro é regra dos dois decks.
-3. "o que está se movendo": um assunto por slide. Três foi o número que funcionou nos dois.
-3b. CONTA DOS SLIDES DE RÉGUA: cada slide leva de 2 a 4 réguas, nunca uma só. Então o número de
-   slides de uma seção de régua é a quantidade de exames dela dividida por 3, arredondada para
-   cima: 3 exames = 1 slide, 5 exames = 2 slides, 8 exames = 3 slides. Pedir 3 slides com 4 exames
-   deixa slide com uma régua sozinha, que é o defeito mais comum desta geração. Se a seção tem
-   menos de 2 exames, ela não é seção de régua: junte com outra ou corte.
-4. "a decisão em aberto" só existe quando há DOIS caminhos possíveis de verdade. Não invente dilema.
-5. "o plano" tem um slide por conduta registrada em condutas. Sem conduta no dossiê, a seção NÃO
-   EXISTE: não invente conduta, escreva um deck menor.
-6. "o que está faltando" sai de pedidoDeExames, quando houver.
-7. O label pode ser temático em vez de genérico ("O que o cigarro está cobrando" em vez de "O que
-   está se movendo"), e nos decks aprovados os melhores slides são assim. Use quando o material
-   permitir dizer do que se trata.
-8. O deck inteiro fica entre 12 e 21 slides.
-9. Achado com "stale" verdadeiro ou "daysAgo" grande NÃO lidera seção: é exame a refazer, não
-   retrato de hoje. Foi assim que um HOMA-IR de dois anos atrás liderou um ranking e o deck teve
-   que ser refeito.`
-
-func planArcToolSchema() map[string]any {
-	return map[string]any{
-		"type":                 "object",
-		"additionalProperties": false,
-		"required":             []string{"reply", "sections"},
-		"properties": map[string]any{
-			"reply": map[string]any{
-				"type":        "string",
-				"description": "O arco que você escolheu e o que deixou de fora, para o MÉDICO ler. Nunca vai para o deck.",
-			},
-			"sections": map[string]any{
-				"type":     "array",
-				"minItems": 4,
-				"maxItems": 12,
-				"items": map[string]any{
-					"type":                 "object",
-					"additionalProperties": false,
-					"required":             []string{"key", "label", "slides"},
-					"properties": map[string]any{
-						"key": map[string]any{
-							"enum": []string{SecCapa, SecResumo, SecBem, SecMovendo, SecDecisao,
-								SecFaltando, SecPlano, SecSequencia, SecLevar, SecFecho},
-						},
-						"label": map[string]any{
-							"type": "string",
-							"description": `O eyebrow SEM o contador: "O que está bem", "O plano". Pode ser temático ` +
-								`("O que o cigarro está cobrando"). O "· 2 de 3" o servidor põe.`,
-						},
-						"slides": map[string]any{
-							"type": "integer", "minimum": 1, "maximum": 8,
-							"description": "Quantos slides esta seção terá. Decidir agora é o que faz o contador do eyebrow fechar.",
-						},
-						"exames":   map[string]any{"type": "array", "items": map[string]any{"type": "string"}, "description": "Os `code` dos exames desta seção, do dossiê."},
-						"condutas": map[string]any{"type": "array", "items": map[string]any{"type": "string"}, "description": "As condutas desta seção, pelo texto da recomendação."},
-						"porque":   map[string]any{"type": "string", "description": "Em uma frase, para o médico."},
-					},
-				},
-			},
-		},
-	}
-}
-
 func planSectionToolSchema() map[string]any {
 	return map[string]any{
 		"type":                 "object",
@@ -143,13 +67,10 @@ func planSectionToolSchema() map[string]any {
 				"description": "Os slides DESTA seção, na ordem. Exatamente a quantidade que o arco fixou.",
 				"items":       planSlideItemSchema(),
 			},
-			"numerals": map[string]any{
-				"type": "array",
-				"items": map[string]any{
-					"type": "object", "additionalProperties": false,
-					"required":   []string{"numeral", "source"},
-					"properties": map[string]any{"numeral": map[string]any{"type": "string"}, "source": map[string]any{"type": "string"}},
-				},
+			"label": map[string]any{
+				"type": "string",
+				"description": `Um rótulo TEMÁTICO para esta seção, se o material permitir dizer do que se ` +
+					`trata ("O que o cigarro está cobrando" em vez de "O que está se movendo"). Vazio = fica o padrão.`,
 			},
 		},
 	}
@@ -162,59 +83,10 @@ type PlanGenerateResult struct {
 	Slides []pdfdoc.DeckSlide `json:"slides"`
 }
 
-// PlanArcRequest / PlanArcResult — a primeira passada.
-type PlanArcRequest struct {
-	DossierJSON string
-	Instruction string
-	Model       string
-}
-
+// PlanArcResult — o arco, hoje calculado em código. O tipo sobrevive porque o orquestrador
+// carrega as seções nele.
 type PlanArcResult struct {
-	Reply    string           `json:"reply"`
 	Sections []PlanArcSection `json:"sections"`
-}
-
-// GeneratePlanArc decide o arco antes de escrever slide nenhum.
-func (s *AIService) GeneratePlanArc(req PlanArcRequest) (*PlanArcResult, AICallMeta, error) {
-	var meta AICallMeta
-	if !s.IsConfigured() {
-		return nil, meta, ErrAINotConfigured
-	}
-	instrucao := strings.TrimSpace(req.Instruction)
-	if instrucao == "" {
-		instrucao = "Decida o arco da devolutiva deste paciente."
-	}
-	payload := map[string]any{
-		"model": modeloOu(req.Model, s.model),
-		// O arco é curto: uma lista de seções. Não precisa do teto da escrita.
-		"max_tokens": 4000,
-		"system": []map[string]any{
-			{"type": "text", "text": planArcSystemPrompt},
-			{"type": "text", "text": "DOSSIÊ (prontuário compilado e congelado deste plano):\n" + req.DossierJSON,
-				"cache_control": map[string]any{"type": "ephemeral"}},
-		},
-		"messages": []map[string]any{{"role": "user", "content": instrucao}},
-		"tools": []map[string]any{{
-			"name": "planejar_devolutiva", "description": "Decide o arco da devolutiva.",
-			"input_schema": planArcToolSchema(),
-		}},
-		"tool_choice": map[string]any{"type": "tool", "name": "planejar_devolutiva"},
-	}
-	inicio := time.Now()
-	bruto, m, err := s.chamaFerramentaComMeta(payload, false)
-	meta = m
-	meta.LatencyMs = int(time.Since(inicio).Milliseconds())
-	if err != nil {
-		return nil, meta, err
-	}
-	var out PlanArcResult
-	if err := json.Unmarshal([]byte(bruto), &out); err != nil {
-		return nil, meta, fmt.Errorf("%w: o arco não pôde ser lido", ErrAIUpstream)
-	}
-	if len(out.Sections) == 0 {
-		return nil, meta, errors.New("o modelo não devolveu arco nenhum")
-	}
-	return &out, meta, nil
 }
 
 // PlanSectionRequest / PlanSectionResult — a segunda passada, uma seção por chamada.
@@ -222,13 +94,17 @@ type PlanSectionRequest struct {
 	DossierJSON string
 	ArcoJSON    string
 	Secao       PlanArcSection
+	Indice      int
 	Instruction string
 	Model       string
 }
 
 type PlanSectionResult struct {
-	Slides   []pdfdoc.DeckSlide `json:"slides"`
-	Numerals []PlanModelNumeral `json:"numerals"`
+	Slides []pdfdoc.DeckSlide `json:"slides"`
+	// Label — o rótulo temático que o modelo propõe para esta seção. O código escolhe o genérico
+	// ("O que está se movendo"); nos decks aprovados os melhores slides têm rótulo temático ("O que
+	// o cigarro está cobrando"), e isso é leitura clínica do conjunto, não conta. Custa dez tokens.
+	Label string `json:"label,omitempty"`
 }
 
 // GeneratePlanSection escreve os slides de UMA seção.
@@ -237,21 +113,35 @@ func (s *AIService) GeneratePlanSection(req PlanSectionRequest) (*PlanSectionRes
 	if !s.IsConfigured() {
 		return nil, meta, ErrAINotConfigured
 	}
-	secao, _ := json.Marshal(req.Secao)
-	pedido := "ARCO COMPLETO (para você saber o que já foi dito e o que vem depois):\n" + req.ArcoJSON +
-		"\n\nESCREVA AGORA, e só, a seção:\n" + string(secao) +
-		"\n\nDevolva EXATAMENTE " + fmt.Sprint(req.Secao.Slides) + " slide(s)."
+	// O pedido é MÍNIMO de propósito. O arco inteiro vivia aqui e era reenviado nas oito chamadas,
+	// ~1,5 mil tokens de entrada não cacheada cada; agora ele está no bloco de sistema, dentro do
+	// prefixo que o cache cobre.
+	pedido := fmt.Sprintf("Escreva a seção %d ([%s] %s), e só ela: exatamente %d slide(s).",
+		req.Indice+1, req.Secao.Key, req.Secao.Label, req.Secao.Slides)
+	if len(req.Secao.Exames) > 0 {
+		pedido += fmt.Sprintf(" Exames desta seção: %v.", req.Secao.Exames)
+	}
+	if len(req.Secao.Condutas) > 0 {
+		c, _ := json.Marshal(req.Secao.Condutas)
+		pedido += " Condutas desta seção: " + string(c)
+	}
 	if t := strings.TrimSpace(req.Instruction); t != "" {
 		pedido += "\n\nO médico pediu: " + t
 	}
 	payload := map[string]any{
 		"model":      modeloOu(req.Model, s.model),
 		"max_tokens": 16000,
+		// `effort` baixo: escrever uma seção com o arco decidido, os exames escolhidos e a
+		// gramática dada é execução, não raciocínio aberto. No alto, o pensamento (que é cobrado
+		// como saída) dominava a conta.
+		"output_config": map[string]any{"effort": "low"},
 		"system": []map[string]any{
 			{"type": "text", "text": planGenerateSystemPrompt},
-			{"type": "text", "text": "DOSSIÊ (prontuário compilado e congelado deste plano):\n" + req.DossierJSON,
-				// Mesmo ponto de cache em todas as seções: o dossiê é byte-idêntico entre elas, e
-				// é isso que faz a segunda passada custar uma fração da primeira.
+			{"type": "text",
+				// O ARCO entra aqui, e não no pedido: ele é idêntico nas oito chamadas, então
+				// dentro do prefixo ele é escrito uma vez e lido sete, a 0,1x em vez de 1x.
+				"text": "DOSSIÊ (prontuário compilado e congelado deste plano):\n" + req.DossierJSON +
+					"\n\n" + req.ArcoJSON,
 				"cache_control": map[string]any{"type": "ephemeral"}},
 		},
 		"messages": []map[string]any{{"role": "user", "content": pedido}},
@@ -317,10 +207,9 @@ func modeloOu(a, b string) string {
 
 // PlanRepairRequest — os slides que não couberam, com o excesso medido.
 type PlanRepairRequest struct {
-	DossierJSON string
-	SlidesJSON  string
-	Excessos    string
-	Model       string
+	SlidesJSON string
+	Excessos   string
+	Model      string
 }
 
 func planRepairToolSchema() map[string]any {
@@ -376,10 +265,13 @@ func (s *AIService) RepairOverflow(req PlanRepairRequest) ([]pdfdoc.DeckSlide, A
 	payload := map[string]any{
 		"model":      modeloOu(req.Model, s.model),
 		"max_tokens": 12000,
+		// `effort` baixo e SEM dossiê: o reparo encurta prosa e tem ordem explícita de não cortar
+		// número nenhum, então o dossiê seria ~5 mil tokens de prefixo escrito (a 1,25x) para uma
+		// tarefa que não consulta dado. Foi a segunda maior linha de custo depois da escrita de
+		// cache das seções.
+		"output_config": map[string]any{"effort": "low"},
 		"system": []map[string]any{
 			{"type": "text", "text": planRepairSystemPrompt},
-			{"type": "text", "text": "DOSSIÊ:\n" + req.DossierJSON,
-				"cache_control": map[string]any{"type": "ephemeral"}},
 		},
 		"messages": []map[string]any{{"role": "user",
 			"content": "EXCESSO MEDIDO POR SLIDE:\n" + req.Excessos + "\n\nSLIDES:\n" + req.SlidesJSON}},

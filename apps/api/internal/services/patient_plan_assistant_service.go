@@ -690,27 +690,35 @@ func podaDossieParaPrompt(d *dto.PlanDossierResponse, slides []pdfdoc.DeckSlide)
 	//
 	// Quem vai virar slide é o topo de `strong` e de `moving`. Esses vão completos; o resto segue
 	// como catálogo, para o modelo saber o que existe sem carregar tudo.
-	// Exatamente os achados que o modelo vai receber logo abaixo, não o dossiê inteiro: mandar a
-	// régua completa de um exame que ele nem enxerga na lista é peso sem uso (98 de 107, medido).
+	// Exatamente os exames que o ARCO escolheu, e mais nenhum.
+	//
+	// Primeiro mandava as 107 réguas como catálogo de uma linha e as ~25 do topo completas. Mas o
+	// arco é calculado antes e já sabe quais 18 entram: régua de exame que não vai virar slide é
+	// peso puro, e o catálogo dos outros 89 é uma lista que o modelo não pode usar para nada,
+	// porque não pode inventar seção. Some tudo.
 	if len(slides) == 0 {
-		for _, f := range primeiros(d.Strong, 10) {
-			citados[f.Code] = true
-		}
-		for _, f := range primeiros(d.Moving, 15) {
-			citados[f.Code] = true
+		for _, sec := range montaArco(d) {
+			for _, c := range sec.Exames {
+				citados[c] = true
+			}
 		}
 	}
 
-	completas := map[string]dto.PlanRuler{}
+	completas := map[string]reguaEnxuta{}
 	var catalogo []string
 	for code, r := range d.Rulers {
 		if citados[code] {
-			completas[code] = r
+			completas[code] = enxuga(r)
 			continue
 		}
 		ultimo := ""
 		if n := len(r.History); n > 0 {
 			ultimo = r.History[n-1].Text + " " + r.Unit + " em " + r.History[n-1].Date
+		}
+		// Na geração o catálogo não entra: `slides` é nil e o arco já escolheu. Na CONVERSA ele
+		// continua, porque ali o médico pode pedir um exame que não está no deck.
+		if len(slides) == 0 {
+			continue
 		}
 		catalogo = append(catalogo, fmt.Sprintf("%s | %s | %s", code, r.Name, ultimo))
 	}
@@ -719,23 +727,45 @@ func podaDossieParaPrompt(d *dto.PlanDossierResponse, slides []pdfdoc.DeckSlide)
 	// O nome do paciente não vai para o modelo: ele não é necessário para escrever a devolutiva, e
 	// o que não precisa sair do prontuário não sai.
 	podado := map[string]any{
-		"paciente":         map[string]any{"sexo": d.Patient.Gender, "idade": d.Patient.Age},
-		"reguasCitadas":    completas,
-		"catalogoDeExames": catalogo,
-		"seMovendo":        primeiros(d.Moving, 15),
-		"estaBem":          primeiros(d.Strong, 10),
-		"vitais":           d.Vitals,
-		"condutas":         d.CarePlan,
-		// A data do dossiê: sem ela a capa não pode trazer "Seus exames · <data>", que é o eyebrow
-		// dos dois decks aprovados.
-		"data": d.GeneratedAt,
+		"paciente": map[string]any{"sexo": d.Patient.Gender, "idade": d.Patient.Age},
 	}
-	// Truncar em silêncio faz o modelo achar que viu tudo. Se sobrou coisa, ele precisa saber.
-	if n := len(d.Moving); n > 15 {
-		podado["seMovendoCortados"] = n - 15
+	if len(slides) == 0 {
+		// GERAÇÃO: um objeto por exame, fundindo régua e achado. Ver `examesParaPrompt`.
+		podado["exames"] = examesParaPrompt(d, citados)
+		// E os achados da ANAMNESE, que não têm régua e por isso não estão em `exames`.
+		//
+		// Ao trocar `estaBem`/`seMovendo` pelo mapa de exames eu os fiz sumir do prompt: sono,
+		// tabagismo, atividade, sintomas. Um paciente cujo pior achado é comportamental teria o
+		// deck escrito como se ele não existisse — e são justamente os achados que viram tabela e
+		// cartão, não régua.
+		if an := achadosDaAnamnese(d, 8); len(an) > 0 {
+			podado["achadosDaAnamnese"] = an
+		}
+	} else {
+		// CONVERSA: o deck existe, o médico pode pedir exame de fora dele, e a régua completa das
+		// citadas é o que sustenta uma edição de eixo.
+		podado["reguasCitadas"] = completas
+		podado["catalogoDeExames"] = catalogo
+		podado["seMovendo"] = enxugaAchados(d.Moving, 15)
+		podado["estaBem"] = enxugaAchados(d.Strong, 10)
 	}
-	if n := len(d.Strong); n > 10 {
-		podado["estaBemCortados"] = n - 10
+	for k, v := range map[string]any{
+		"vitais":   d.Vitals,
+		"condutas": d.CarePlan,
+		"data":     d.GeneratedAt,
+	} {
+		podado[k] = v
+	}
+	// Truncar em silêncio faz o modelo achar que viu tudo. Só vale na CONVERSA: na geração as
+	// listas nem são enviadas, e anunciar "12 cortados" de uma lista que ele não recebeu era pior
+	// que calar.
+	if len(slides) > 0 {
+		if n := len(d.Moving); n > 15 {
+			podado["seMovendoCortados"] = n - 15
+		}
+		if n := len(d.Strong); n > 10 {
+			podado["estaBemCortados"] = n - 10
+		}
 	}
 	// As prescrições e o pedido de exames NÃO chegavam ao modelo, embora o prompt mandasse tirar
 	// dose de `prescriptions` e a skill mapeie `labRequest` para o slide "os exames que faltam".
@@ -853,14 +883,22 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		return limpaSeFalhar(err)
 	}
 
-	// 3a. o ARCO: quais seções, quantos slides cada uma, com que material.
-	arco, metaArco, err := s.ai.GeneratePlanArc(PlanArcRequest{
-		DossierJSON: dossieJSON, Instruction: in.Instruction, Model: s.model,
-	})
-	if err != nil {
-		return limpaSeFalhar(err)
+	// 3a. o ARCO, calculado em CÓDIGO.
+	//
+	// Era uma chamada ao modelo, e não precisava ser: quais seções existem, quantos slides cada uma
+	// e quais exames entram é ranking (o dossiê já vem ordenado) mais divisão por três. A conta não
+	// erra o contador do eyebrow, que era o defeito recorrente do modelo, e economiza uma chamada
+	// inteira mais o pensamento dela.
+	secoes := montaArco(dossie)
+	// `montaArco` sempre devolve capa, resumo, sequência e fecho, então contar seções não diz nada.
+	// O que importa é se sobrou MATERIAL: sem exame utilizável e sem achado de anamnese, o deck
+	// seria capa, resumo vazio e fecho. `dossieVazio` não pega esse caso, porque ele passa quando
+	// todos os achados são de anamnese ou estão velhos.
+	if semMaterial(secoes, dossie) {
+		return limpaSeFalhar(errors.New("este paciente não tem exame nem anamnese suficientes para uma devolutiva"))
 	}
-	arcoJSON, _ := json.Marshal(arco.Sections)
+	arcoTexto := descreveArco(secoes)
+	arco := &PlanArcResult{Sections: secoes}
 
 	// 3b. as SEÇÕES, uma chamada cada.
 	//
@@ -868,40 +906,57 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	// custo por seção é uma fração da primeira. Sequencial, um deck de sete seções levaria uns três
 	// minutos de relógio para o médico esperar.
 	porSecao := make([][]pdfdoc.DeckSlide, len(arco.Sections))
-	meta := metaArco
+	var meta AICallMeta
 	var mu sync.Mutex
 	var wg sync.WaitGroup
 	vagas := make(chan struct{}, 3)
 	erros := make([]error, len(arco.Sections))
-	for i, sec := range arco.Sections {
+
+	// A PRIMEIRA seção roda sozinha, para aquecer o cache.
+	//
+	// Com todas em paralelo, as três primeiras partem antes de qualquer uma ter gravado o prefixo:
+	// as três erram o cache e as três ESCREVEM. Escrita custa 1,25x a entrada e leitura 0,1x, e
+	// medindo deu 121 mil tokens escritos numa geração — 62% da conta. Vinte segundos a mais aqui
+	// pagam a maior linha do custo.
+	escreveSecao := func(i int, sec PlanArcSection) {
+		r, m, e := s.ai.GeneratePlanSection(PlanSectionRequest{
+			DossierJSON: dossieJSON, ArcoJSON: arcoTexto, Secao: sec, Indice: i,
+			Instruction: in.Instruction, Model: s.model,
+		})
+		mu.Lock()
+		defer mu.Unlock()
+		if e != nil {
+			erros[i] = e
+			return
+		}
+		if len(r.Slides) == 0 {
+			erros[i] = errors.New("a seção voltou sem slide nenhum")
+			return
+		}
+		porSecao[i] = r.Slides
+		if t := strings.TrimSpace(r.Label); t != "" {
+			arco.Sections[i].Label = t
+		}
+		meta.Model = m.Model
+		meta.InputTokens += m.InputTokens
+		meta.OutputTokens += m.OutputTokens
+		meta.CacheReadTokens += m.CacheReadTokens
+		meta.CacheWriteTokens += m.CacheWriteTokens
+		meta.LatencyMs += m.LatencyMs
+	}
+	escreveSecao(0, arco.Sections[0])
+	if erros[0] != nil {
+		return limpaSeFalhar(fmt.Errorf("seção %q: %w", arco.Sections[0].Label, erros[0]))
+	}
+
+	for i, sec := range arco.Sections[1:] {
+		i++
 		wg.Add(1)
 		go func(i int, sec PlanArcSection) {
 			defer wg.Done()
 			vagas <- struct{}{}
 			defer func() { <-vagas }()
-			r, m, e := s.ai.GeneratePlanSection(PlanSectionRequest{
-				DossierJSON: dossieJSON, ArcoJSON: string(arcoJSON), Secao: sec,
-				Instruction: in.Instruction, Model: s.model,
-			})
-			mu.Lock()
-			defer mu.Unlock()
-			if e != nil {
-				erros[i] = e
-				return
-			}
-			if len(r.Slides) == 0 {
-				// Seção que responde 200 e devolve zero slides é o mesmo buraco que a falha de
-				// seção recusa: some do deck e da numeração sem dizer nada. `minItems` no schema é
-				// dica, não contrato.
-				erros[i] = errors.New("a seção voltou sem slide nenhum")
-				return
-			}
-			porSecao[i] = r.Slides
-			meta.InputTokens += m.InputTokens
-			meta.OutputTokens += m.OutputTokens
-			meta.CacheReadTokens += m.CacheReadTokens
-			meta.CacheWriteTokens += m.CacheWriteTokens
-			meta.LatencyMs += m.LatencyMs
+			escreveSecao(i, sec)
 		}(i, sec)
 	}
 	wg.Wait()
@@ -917,7 +972,9 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	// O nome do paciente entra AQUI, e não no prompt: ele nunca sai do prontuário para a API.
 	brutos := aplicaRegrasDoDeck(arco.Sections, porSecao,
 		primeiroNomeDe(dossie.Patient.Name), formataDataPT(dossie.GeneratedAt))
-	res := &PlanGenerateResult{Reply: arco.Reply, Slides: brutos}
+	// O `reply` é o que a tela mostra ao médico como "o arco escolhido". Vinha de `arco.Reply`, que
+	// era do modelo e hoje não existe: ficava vazio, e o painel inteiro sumia da tela.
+	res := &PlanGenerateResult{Reply: arcoTexto, Slides: brutos}
 
 	// Os ids que o modelo inventa ("bem-1", "capa") são descartados: id de slide é opaco e é o
 	// alvo de toda operação e sugestão depois. `EnsureSlideIDs` só preenche os VAZIOS, então o
@@ -981,7 +1038,7 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 	brutosSalvos := plan.Content
 	reparos := 0
 	if len(estouro) > 0 || len(avisosDeEstilo) > 0 {
-		novos, ok := s.reparaEstouro(plan, dossieJSON, estouro, avisosDeEstilo, &meta)
+		novos, ok := s.reparaEstouro(plan, estouro, avisosDeEstilo, &meta)
 		if ok {
 			reparos = 1
 			plan.Content = novos
@@ -1027,7 +1084,8 @@ func (s *PatientPlanAssistantService) GenerateDraft(in GenerateDraftInput) (*Gen
 		Uso: dto.PlanGenUsage{
 			InputTokens: meta.InputTokens, CacheReadTokens: meta.CacheReadTokens,
 			CacheWriteTokens: meta.CacheWriteTokens, OutputTokens: meta.OutputTokens,
-			LatencyMs: meta.LatencyMs, Chamadas: 1 + len(arco.Sections) + reparos,
+			// Sem o `1 + `: a chamada do arco deixou de existir quando ele virou código.
+			LatencyMs: meta.LatencyMs, Chamadas: len(arco.Sections) + reparos,
 		},
 	}, nil
 }

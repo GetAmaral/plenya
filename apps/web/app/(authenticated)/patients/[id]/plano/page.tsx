@@ -760,11 +760,26 @@ export default function PatientPlanPage() {
                                 key={i}
                                 className="text-[11px] text-amber-900"
                               >
-                                slide {a.slideIndex}
-                                {a.title
-                                  ? ` (${a.title.slice(0, 40)})`
-                                  : ""}:{" "}
-                                <span className="font-mono">{a.numeral}</span> —{" "}
+                                {/*
+                                  Aviso de DECK INTEIRO (legenda, ausência de tabela) não tem slide
+                                  nem numeral, e aviso de ESTILO não tem numeral. O template fixo
+                                  imprimia "slide 0:  — nenhum slide com tabela" e um travessão
+                                  solto depois de um vão em branco.
+                                */}
+                                {a.slideIndex > 0 && (
+                                  <>
+                                    slide {a.slideIndex}
+                                    {a.title
+                                      ? ` (${a.title.slice(0, 40)})`
+                                      : ""}
+                                    :{" "}
+                                  </>
+                                )}
+                                {a.numeral && (
+                                  <span className="font-mono">
+                                    {a.numeral} —{" "}
+                                  </span>
+                                )}
                                 {a.reason}
                               </li>
                             ))}

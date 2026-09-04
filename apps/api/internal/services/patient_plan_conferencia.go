@@ -53,6 +53,15 @@ func confereDeck(slides []pdfdoc.DeckSlide) []dto.PlanGenWarning {
 			}
 		}
 
+		// Régua em slide que NÃO desenha régua. Só `rulers` e `rulers-cards` chamam o desenho, e
+		// nada impede o modelo de pendurar réguas num `plan-step` ou num `table`: a hidratação
+		// preenche, o render descarta, e o único sintoma que chegava ao médico era a queixa
+		// enganosa de que a legenda apareceu zero vezes.
+		if len(s.Rulers) > 0 && s.Kind != pdfdoc.DeckRulers && s.Kind != pdfdoc.DeckRulersCards {
+			avisa(i, fmt.Sprintf("%d régua(s) num slide do tipo %q, que não desenha régua: elas somem do PDF",
+				len(s.Rulers), s.Kind))
+		}
+
 		// Régua: 2 a 4 por slide. Uma só desperdiça o slide; cinco não cabem.
 		if n := len(s.Rulers); n > 0 && (n < 2 || n > 4) {
 			avisa(i, fmt.Sprintf("%d régua(s) no slide: os decks aprovados usam de 2 a 4, nunca uma só", n))
