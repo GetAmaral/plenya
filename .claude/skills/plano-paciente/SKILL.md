@@ -1,6 +1,6 @@
 ---
 name: plano-paciente
-description: Monta a devolutiva de resultados de um paciente (o "deck") a partir do prontuário do EMR. O EMR gera o rascunho mecânico (arco, réguas, estrutura, conformidade); esta skill conduz a DISCUSSÃO clínica que o gerador não pode fazer sozinho, aplica o resultado ao rascunho e salva de volta no EMR. Invocar quando o usuário pedir "plano do paciente", "devolutiva", "deck do <nome>", "montar o plano de resultados", "elaborar o plano". NÃO usar para deck comercial Plenya (isso é /plenya-deck) nem para aula (isso é /aula).
+description: Monta a devolutiva de resultados de um paciente (o "deck") a partir do prontuário do EMR. O EMR MONTA o rascunho mecânico só com código, de graça (arco, réguas, histórico, plano, receita); esta skill conduz a DISCUSSÃO clínica que nenhum código faz sozinho, aplica o resultado ao rascunho e salva de volta no EMR. Invocar quando o usuário pedir "plano do paciente", "devolutiva", "deck do <nome>", "montar o plano de resultados", "elaborar o plano". NÃO usar para deck comercial Plenya (isso é /plenya-deck) nem para aula (isso é /aula).
 ---
 
 # Skill `/plano` — devolutiva de resultados do paciente
@@ -10,17 +10,26 @@ description: Monta a devolutiva de resultados de um paciente (o "deck") a partir
 
 ## O que mudou, e por que esta skill existe agora
 
-**O EMR gera o rascunho sozinho.** `POST /patients/:id/plans/generate` produz de 12 a 18 slides em
-cerca de 70 segundos por ~US$ 0,20, com o arco calculado em código, as réguas hidratadas do escore,
-os contadores de seção, a conferência de estouro e uma rodada de reparo. Reescrever isso à mão é
-desperdício.
+**O EMR MONTA o rascunho sozinho, só com código.** `POST /patients/:id/plans/assemble` devolve 18
+slides em milissegundos, **sem chamar modelo nenhum e sem custo**: o arco, as réguas hidratadas do
+escore com a glosa do catálogo, a mini-série do histórico ("8,60 em 2024, 6,97 em 2025, 9,84
+agora"), os exames que faltam, uma conduta registrada por slide, a sequência e a receita como
+"para levar". Tudo isso é montagem, e montagem não se paga por token.
 
-**O que ele NÃO consegue** é o que sobrou quando comparamos o deck gerado da Ana (18 slides) com o
-aprovado (21). Os três que faltavam eram os mesmos três: a história clínica dela, a narrativa do
-que uma investigação já respondeu, e o enquadramento de um conjunto de exames como um tema. Nada
-disso está em campo nenhum do prontuário — é leitura, e leitura é o que se faz nesta conversa.
+**O que o código deixa em branco de propósito:**
 
-Então o fluxo é: **o médico preenche → o EMR gera → nós discutimos → o rascunho volta melhor.**
+| campo | por quê |
+|---|---|
+| `punch` | é a consequência clínica ("a ferritina dobrou, e isso muda o que se investiga") |
+| título como afirmação | o código escreve o descritivo ("Ferritina, saturação e ferro sérico") |
+| tema da seção | "O que o cigarro está cobrando" é leitura, não agrupamento por ranking |
+| a narrativa clínica | o que uma investigação já respondeu; mora na `ClinicalNote` |
+
+Então o fluxo é: **o médico preenche → o EMR monta de graça → nós escrevemos a leitura → volta.**
+
+Existe também `POST .../plans/generate`, que faz o mesmo deck com o texto redigido pelo modelo, em
+~70 segundos por ~US$ 0,21. Use quando o médico quiser um rascunho já escrito e não houver conversa
+para ter. O caminho normal desta skill é **montar e discutir**: sai melhor e custa zero.
 
 ---
 
@@ -46,15 +55,17 @@ Dossiê sem exame e sem anamnese: **pare**. Não há devolutiva a montar, e a ge
 
 ---
 
-## Fase 1 — gerar o rascunho pelo EMR
+## Fase 1 — montar o rascunho pelo EMR
 
 ```
-POST /api/v1/patients/{id}/plans/generate       # corpo opcional: {"instruction": "..."}
+POST /api/v1/patients/{id}/plans/assemble       # código puro, custo zero, corpo: {"title"?}
+POST /api/v1/patients/{id}/plans/generate       # com modelo, ~US$ 0,21, {"instruction"?}
 ```
 
-Use `instruction` só para dirigir o recorte ("foque no ferro e no sono"), nunca para ditar texto.
+Monte primeiro. Só passe ao `generate` se o médico pedir o texto pronto sem conversa; `instruction`
+lá dirige o recorte ("foque no ferro e no sono"), nunca dita texto.
 
-A resposta traz `plan` (o rascunho já salvo), `reply` (o arco escolhido), `warnings` e `usage`.
+A resposta traz `plan` (o rascunho já salvo), `reply`, `warnings` e `usage` (zerado no montado).
 **Leia os `warnings` antes de olhar os slides** — eles são de quatro naturezas e a ação é diferente:
 
 | `kind` | o que é | o que fazer |
@@ -64,6 +75,12 @@ A resposta traz `plan` (o rascunho já salvo), `reply` (o arco escolhido), `warn
 | `estilo` | fora do padrão medido (punch, contagem de régua, travessão) | ajustar na fase 3 |
 | `lacuna` | o prontuário não tinha o dado | **não é defeito do deck**: é registro que falta |
 
+No deck montado dois avisos de lacuna são esperados e não são defeito: o número de slides sem punch
+(é o trabalho que sobrou para esta conversa) e o de slides do plano que trazem o `rationale` como
+está no prontuário. **Esse segundo merece leitura**: o texto foi escrito para o prontuário e às
+vezes traz diretriz e sigla que o paciente não lê ("a ESE/ENSAT 2023 pede confirmação da
+independência do ACTH"). Reescrever essas frases é parte da fase 2.
+
 ---
 
 ## Fase 2 — a discussão, que é o motivo de tudo
@@ -72,7 +89,8 @@ Aqui está o valor. Leia o rascunho e traga ao médico **o que o gerador não p�
 lista curta. As perguntas que produziram os slides bons dos decks aprovados:
 
 1. **Por que este achado está assim?** O dossiê diz que a ferritina dobrou; só o médico diz se é
-   inflamação, reposição ou sobrecarga. Isso vira o `punch`.
+   inflamação, reposição ou sobrecarga. Isso vira o `punch`, que o montador deixa vazio em todos os
+   slides de conteúdo: é a maior parte do que esta conversa acrescenta.
 2. **O que uma investigação já respondeu?** "O que a tomografia de maio já respondeu" foi um slide
    inteiro no deck da Ana, e não existe em campo nenhum.
 3. **Há dois caminhos de verdade?** Só então existe o slide de decisão, com o cartão de veredicto.
@@ -92,9 +110,24 @@ prontuário.
 
 ## Fase 3 — aplicar ao rascunho
 
-Duas vias, e a escolha importa:
+**O caminho curto, e o normal desta skill:** `scripts/plano/plano.py`, que lê o deck numerado e
+escreve só os campos de texto de volta, com `expectedRevision` e medindo o estouro depois.
 
-**A conversa do assistente**, quando o ajuste é textual e pontual:
+```bash
+scripts/plano/plano.py ler      --paciente <uuid> --plano <uuid>   # deck numerado, marca "sem punch"
+scripts/plano/plano.py escrever --paciente <uuid> --plano <uuid> --edicoes leitura.json
+```
+
+`leitura.json` é `{"<slide>": {"campo": "valor"}}` — a chave é a posição ("7") ou o id do slide, e o
+campo é um de `title`, `punch`, `lede`, `kicker`, `eyebrow`. Régua, tabela, cartão e dose ele recusa
+de propósito: **dado se corrige no prontuário**, e o rascunho se remonta.
+
+Em dev use `--api http://localhost:3001` (bypass ligado, qualquer token). Contra o espelho de prod,
+rode de dentro do container com `--api http://127.0.0.1:3005`.
+
+As outras duas vias, quando fazem sentido:
+
+**A conversa do assistente**, quando quem edita é o médico na tela (e não esta conversa):
 ```
 POST /api/v1/patients/{id}/plans/{planId}/assistant/messages
      {"body": "...", "clientMessageId": "<uuid fixo por mensagem>"}
@@ -176,13 +209,17 @@ rótulo.
    conclusões erradas sobre o gerador.
 2. **Escrever antes de ler o dossiê.** Todo número vem de lá.
 3. **Usar o nome do catálogo na régua.** "Ferritina - Mulheres Pós-Menopausa" é do escore;
-   `display` é "Ferritina", que é o que a paciente reconhece.
-4. **Encher o slide.** Oito réguas não cabem, quatro cabem. Conferir sempre.
-5. **Transformar checklist de ausência em "o que está bem".** "Adrenalectomia: não" não é conquista.
-6. **Afinar o eixo da régua à mão.** O eixo é a escala do escore e o servidor o calcula; o valor
+   `display` é "Ferritina", que é o que a paciente reconhece. O montador já resolve isso sozinho
+   (`lab_test_definitions.name` + `patient_gloss`); não reescreva à mão.
+4. **Pagar o modelo para fazer montagem.** Agrupar exame, hidratar régua, formatar histórico,
+   copiar conduta e dose: tudo isso o `assemble` faz de graça. Gerar com IA para depois reescrever
+   metade é gastar duas vezes.
+5. **Encher o slide.** Oito réguas não cabem, quatro cabem. Conferir sempre.
+6. **Transformar checklist de ausência em "o que está bem".** "Adrenalectomia: não" não é conquista.
+7. **Afinar o eixo da régua à mão.** O eixo é a escala do escore e o servidor o calcula; o valor
    fora da faixa encosta na borda de propósito, com o número impresso ao lado. Isso é a informação
    de estar fora da escala, não um defeito a corrigir.
-7. **Publicar sem o médico mandar.**
+8. **Publicar sem o médico mandar.**
 
 ---
 

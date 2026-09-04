@@ -28,6 +28,7 @@ import {
   Ruler,
   Send,
   Trash2,
+  Wand2,
 } from "lucide-react";
 
 import { useRequireAuth } from "@/lib/use-auth";
@@ -49,6 +50,7 @@ import {
   usePlanSuggestions,
   useResolveSuggestions,
   useGeneratePlanDraft,
+  useAssemblePlanDraft,
   type PlanGenWarning,
   useSendPlanMessage,
   usePublishPatientPlan,
@@ -135,6 +137,12 @@ export default function PatientPlanPage() {
     usePlanRevisions(patientId, selectedId ?? undefined);
   const restaurar = useRestorePlanRevision(patientId ?? "");
   const gerarRascunho = useGeneratePlanDraft(patientId ?? "");
+  const montarRascunho = useAssemblePlanDraft(patientId ?? "");
+  // Os três caminhos escrevem o mesmo plano: enquanto um roda, os outros não podem partir.
+  const ocupado =
+    montarRascunho.isPending ||
+    gerarRascunho.isPending ||
+    createPlan.isPending;
   const [avisosGeracao, setAvisosGeracao] = useState<PlanGenWarning[]>([]);
   const [arcoGerado, setArcoGerado] = useState("");
   const enviarMensagem = useSendPlanMessage(patientId);
@@ -328,6 +336,30 @@ export default function PatientPlanPage() {
     }
   };
 
+  /**
+   * Monta o rascunho SÓ COM CÓDIGO. É o caminho padrão.
+   *
+   * Faz o mesmo deck mecânico da geração, de graça e na hora. O que ele não escreve é a leitura
+   * clínica, e essa não vem de graça nem do modelo: vem da conversa com o médico.
+   */
+  const handleMontar = async () => {
+    try {
+      const r = await montarRascunho.mutateAsync({});
+      recemGerado.current = r.plan.id;
+      setSelectedId(r.plan.id);
+      setTitle(r.plan.title);
+      setSlides((r.plan.content ?? []) as DeckSlide[]);
+      setAvisosGeracao(r.warnings ?? []);
+      setArcoGerado(r.reply ?? "");
+      setOverflow(r.overflow ?? null);
+      toast.success(
+        `Rascunho montado com ${(r.plan.content ?? []).length} slides`,
+      );
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Falha ao montar o rascunho");
+    }
+  };
+
   const handleSave = async () => {
     if (!selected) return;
     const content = parsedContent();
@@ -486,27 +518,41 @@ export default function PatientPlanPage() {
           </Sheet>
         )}
         {/*
-          Gerar é o caminho PRINCIPAL e "em branco" o secundário, não o contrário. Enquanto só
-          existia "Novo plano", o que ele criava eram dois slides vazios — e a feature inteira
-          (dossiê, editor, conversa) ficava esperando um documento que ninguém escrevia.
+          Três caminhos, em ordem de uso. MONTAR é o padrão: o servidor arma o deck inteiro a
+          partir do prontuário, na hora e sem custo, e deixa em branco só o que é leitura clínica.
+          ESCREVER COM IA faz o mesmo deck com o texto redigido pelo modelo, e é cobrado. EM BRANCO
+          é para quem quer escrever do zero.
         */}
         <Button
           className={selected ? "" : "ml-auto"}
+          onClick={handleMontar}
+          disabled={ocupado}
+          title="Monta o deck a partir do prontuário: arco, réguas do escore, histórico, o plano e a receita. Responde na hora e não custa nada."
+        >
+          {montarRascunho.isPending ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Wand2 className="mr-2 h-4 w-4" />
+          )}
+          {montarRascunho.isPending ? "Montando…" : "Montar rascunho"}
+        </Button>
+        <Button
+          variant="outline"
           onClick={handleGerar}
-          disabled={gerarRascunho.isPending || createPlan.isPending}
-          title="Escreve o rascunho inteiro a partir do prontuário compilado. Leva de 40 a 90 segundos."
+          disabled={ocupado}
+          title="O mesmo deck, com o texto de leitura clínica escrito pelo modelo. Leva de 40 a 90 segundos e é cobrado por geração."
         >
           {gerarRascunho.isPending ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Sparkles className="mr-2 h-4 w-4" />
           )}
-          {gerarRascunho.isPending ? "Escrevendo…" : "Gerar rascunho"}
+          {gerarRascunho.isPending ? "Escrevendo…" : "Escrever com IA"}
         </Button>
         <Button
           variant="outline"
           onClick={handleCreate}
-          disabled={createPlan.isPending || gerarRascunho.isPending}
+          disabled={ocupado}
           title="Cria um plano vazio para escrever do zero."
         >
           {createPlan.isPending ? (

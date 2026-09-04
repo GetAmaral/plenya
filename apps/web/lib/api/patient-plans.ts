@@ -436,6 +436,25 @@ export function useGeneratePlanDraft(patientId: string) {
   });
 }
 
+/**
+ * MONTA o rascunho só com código, sem custo de modelo.
+ *
+ * Mesma estrutura da geração (arco, réguas hidratadas do escore, mini-série do histórico, o plano
+ * a partir das condutas registradas, "para levar" a partir da receita), montada pelo servidor a
+ * partir do prontuário. Responde em milissegundos e custa zero. O que fica em branco é o que é
+ * leitura clínica: o punch, e o título como afirmação.
+ */
+export function useAssemblePlanDraft(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (body: { title?: string } = {}) =>
+      apiClient.post<GenerateDraftResult>(`${base(patientId)}/assemble`, body),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
+    },
+  });
+}
+
 export const patientPlansApi = {
   previewURL: (patientId: string, planId: string) =>
     `${base(patientId)}/${planId}/preview`,

@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { History, RotateCcw, Sparkles, Upload, User } from "lucide-react";
+import {
+  History,
+  RotateCcw,
+  Sparkles,
+  Upload,
+  User,
+  Wand2,
+} from "lucide-react";
 import type { PlanRevision } from "@/lib/api/patient-plans";
 
 import { Button } from "@/components/ui/button";
@@ -132,6 +139,10 @@ export function PlanHistoryPanel({
           <ol className="space-y-2">
             {revisoes.map((r) => {
               const daFerramenta = r.authorKind === "assistant";
+              // `system` é o rascunho MONTADO pelo servidor a partir do prontuário: não foi o
+              // modelo e não foi o médico. Sem esta distinção, dezoito slides montados em
+              // milissegundos apareciam no histórico como se alguém os tivesse digitado.
+              const doServidor = r.authorKind === "system";
               return (
                 <li
                   key={r.id}
@@ -147,17 +158,22 @@ export function PlanHistoryPanel({
                           <Upload className="h-3 w-3 shrink-0 text-primary" />
                         ) : daFerramenta ? (
                           <Sparkles className="h-3 w-3 shrink-0 text-amber-600" />
+                        ) : doServidor ? (
+                          <Wand2 className="h-3 w-3 shrink-0 text-muted-foreground" />
                         ) : (
                           <User className="h-3 w-3 shrink-0 text-muted-foreground" />
                         )}
                         <span className="tabular-nums text-muted-foreground">
                           #{r.seq}
                         </span>
-                        {MOTIVO[r.reason] ?? r.reason}
+                        {doServidor
+                          ? "montado do prontuário"
+                          : (MOTIVO[r.reason] ?? r.reason)}
                       </p>
                       <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
                         {horaCurta(r.createdAt)}
-                        {r.authorName ? ` · ${r.authorName}` : ""}
+                        {/* No montado, `authorName` é quem clicou, não quem escreveu. */}
+                        {r.authorName && !doServidor ? ` · ${r.authorName}` : ""}
                         {daFerramenta && r.aiModel ? ` · ${r.aiModel}` : ""}
                       </p>
                       {(r.changedPaths?.length ?? 0) > 0 && (

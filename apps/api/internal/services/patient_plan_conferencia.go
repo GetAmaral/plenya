@@ -25,6 +25,10 @@ var (
 	reNaoEMasE = regexp.MustCompile(`(?i)\bnão é\b[^.]{1,60}\.\s*é\b`)
 )
 
+// motivoSemPunch é constante porque o deck MONTADO em código deixa o punch vazio de propósito, e
+// precisa distinguir esse aviso dos outros para trocá-lo por um só (ver `avisosDoMontado`).
+const motivoSemPunch = "slide sem punch: nos decks aprovados só capa, para-levar e fecho não têm"
+
 // confereDeck devolve os desvios do padrão medido. Ordem: pelo slide.
 func confereDeck(slides []pdfdoc.DeckSlide) []dto.PlanGenWarning {
 	var out []dto.PlanGenWarning
@@ -43,7 +47,7 @@ func confereDeck(slides []pdfdoc.DeckSlide) []dto.PlanGenWarning {
 		semPunch := s.Kind == pdfdoc.DeckCover || s.Kind == pdfdoc.DeckClosing || s.Kind == pdfdoc.DeckTakeaway
 		switch {
 		case s.Punch == "" && !semPunch:
-			avisa(i, "slide sem punch: nos decks aprovados só capa, para-levar e fecho não têm")
+			avisa(i, motivoSemPunch)
 		case s.Punch != "":
 			if n := len(reEm.FindAllString(s.Punch, -1)); n != 1 {
 				avisa(i, fmt.Sprintf("punch com %d <em>: o padrão é exatamente um, no fecho da frase", n))

@@ -50,6 +50,13 @@ type LabTestDefinition struct {
 	// @example Hemograma, Hb, Gli
 	ShortName *string `gorm:"type:varchar(50)" json:"shortName,omitempty"`
 
+	// O que o exame MEDE, em até cinco palavras, na língua do paciente.
+	// É o `sub` da régua na devolutiva ("estoque de ferro", "o rim filtrando"), curado uma vez por
+	// exame e válido para todo paciente. NÃO é o nome (Name já é amigável) nem a sigla (ShortName).
+	// Vazio quando o nome se explica sozinho.
+	// @example estoque de ferro, o esforço do pâncreas, inflamação
+	PatientGloss string `gorm:"type:varchar(40);not null;default:''" json:"patientGloss,omitempty"`
+
 	// Nomes alternativos para matching em PDFs (sempre inclui Name também)
 	// Array de strings com variações do nome encontradas em laudos
 	// NUNCA incluir siglas (siglas vão em ShortName)

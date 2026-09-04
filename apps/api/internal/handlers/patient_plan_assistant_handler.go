@@ -172,6 +172,49 @@ func (h *PatientPlanAssistantHandler) ResolveSuggestions(c *fiber.Ctx) error {
 	return c.JSON(out)
 }
 
+// AssembleDraft godoc
+// @Summary Monta o rascunho da devolutiva só com código, sem custo de modelo
+// @Description Mesma estrutura da geração (arco, réguas hidratadas do escore, mini-série do
+// @Description histórico, plano a partir das condutas registradas, "para levar" a partir da
+// @Description receita), montada pelo servidor a partir do prontuário congelado. Não chama modelo:
+// @Description custo zero e resposta em milissegundos. O que fica em branco é o que é leitura
+// @Description clínica (o punch, e o título como afirmação), e vem depois pela conversa.
+// @Tags patient-plans
+// @Accept json
+// @Produce json
+// @Param id path string true "ID do paciente (UUID)"
+// @Param body body dto.GeneratePlanRequest false "Título opcional"
+// @Success 201 {object} services.GenerateDraftResult
+// @Failure 400 {object} dto.ErrorResponse
+// @Failure 422 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/patients/{id}/plans/assemble [post]
+func (h *PatientPlanAssistantHandler) AssembleDraft(c *fiber.Ctx) error {
+	patientID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).
+			JSON(dto.ErrorResponse{Error: "invalid patient id", Message: err.Error()})
+	}
+	userID, ok := c.Locals("userID").(uuid.UUID)
+	if !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(dto.ErrorResponse{Error: "não autenticado"})
+	}
+	var req dto.GeneratePlanRequest
+	_ = c.BodyParser(&req)
+
+	out, err := h.assistant.AssembleDraft(services.GenerateDraftInput{
+		PatientID: patientID, UserID: userID, Title: req.Title,
+	})
+	if err != nil {
+		if strings.Contains(err.Error(), "não tem exame nem anamnese") {
+			return c.Status(fiber.StatusUnprocessableEntity).
+				JSON(dto.ErrorResponse{Error: "prontuário insuficiente", Message: err.Error()})
+		}
+		return h.fail(c, err, "falha ao montar o rascunho")
+	}
+	return c.Status(fiber.StatusCreated).JSON(out)
+}
+
 // GenerateDraft godoc
 // @Summary Gera o rascunho da devolutiva a partir do prontuário compilado
 // @Description Cria um plano novo já ESCRITO: congela o dossiê, o modelo redige o deck seguindo o

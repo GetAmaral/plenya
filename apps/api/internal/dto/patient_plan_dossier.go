@@ -43,10 +43,16 @@ type PlanRuler struct {
 	Code string `json:"code"` // lab_test_definitions.code (ex.: "PLNCEFB97FD")
 	// ScoreItemID — QUAL variante do item foi usada. Um mesmo código pode ter várias (por sexo,
 	// faixa etária, menopausa); sem isto não dá para saber de qual escala esta régua veio.
-	ScoreItemID string  `json:"scoreItemId"`
-	Name        string  `json:"name"`   // nome do score_item aplicável ("Ferritina - Homens")
-	Unit        string  `json:"unit"`   // unidade padrão do item
-	Points      float64 `json:"points"` // peso do item no escore
+	ScoreItemID string `json:"scoreItemId"`
+	Name        string `json:"name"` // nome do score_item aplicável ("Ferritina - Homens")
+	// PatientName — o nome do EXAME no catálogo ("Ferritina", "PCR ultrassensível"). É este que
+	// o paciente lê na régua; `Name` é do score e traz a variante ("- Mulheres Pós-Menopausa"),
+	// que a gramática proíbe mostrar.
+	PatientName string `json:"patientName,omitempty"`
+	// Gloss — o que o exame MEDE, em até cinco palavras ("estoque de ferro"). Curado no catálogo.
+	Gloss  string  `json:"gloss,omitempty"`
+	Unit   string  `json:"unit"`   // unidade padrão do item
+	Points float64 `json:"points"` // peso do item no escore
 
 	// Axis — [mínimo, máximo] do eixo desenhado. Sempre 2 elementos.
 	Axis []float64 `json:"axis"`

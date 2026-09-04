@@ -5384,6 +5384,75 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/patients/{id}/plans/assemble": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Monta o rascunho da devolutiva só com código, sem custo de modelo
+         * @description Mesma estrutura da geração (arco, réguas hidratadas do escore, mini-série do
+         *     histórico, plano a partir das condutas registradas, "para levar" a partir da
+         *     receita), montada pelo servidor a partir do prontuário congelado. Não chama modelo:
+         *     custo zero e resposta em milissegundos. O que fica em branco é o que é leitura
+         *     clínica (o punch, e o título como afirmação), e vem depois pela conversa.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description ID do paciente (UUID) */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            /** @description Título opcional */
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["dto.GeneratePlanRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["services.GenerateDraftResult"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+                /** @description Unprocessable Entity */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/patients/{id}/plans/generate": {
         parameters: {
             query?: never;
@@ -18634,10 +18703,18 @@ export interface components {
             code?: string;
             /** @description Edges — fronteiras finitas entre níveis, ordenadas. */
             edges?: number[];
+            /** @description Gloss — o que o exame MEDE, em até cinco palavras ("estoque de ferro"). Curado no catálogo. */
+            gloss?: string;
             /** @description ordenado da coleta mais antiga para a mais recente */
             history?: components["schemas"]["dto.PlanRulerPoint"][];
             /** @description nome do score_item aplicável ("Ferritina - Homens") */
             name?: string;
+            /**
+             * @description PatientName — o nome do EXAME no catálogo ("Ferritina", "PCR ultrassensível"). É este que
+             *     o paciente lê na régua; `Name` é do score e traz a variante ("- Mulheres Pós-Menopausa"),
+             *     que a gramática proíbe mostrar.
+             */
+            patientName?: string;
             /** @description peso do item no escore */
             points?: number;
             /**
@@ -20061,6 +20138,14 @@ export interface components {
              *     Ex: Bilirrubina Indireta tem parentTestId = Bilirrubina Total e Frações
              */
             parentTestId?: string;
+            /**
+             * @description O que o exame MEDE, em até cinco palavras, na língua do paciente.
+             *     É o `sub` da régua na devolutiva ("estoque de ferro", "o rim filtrando"), curado uma vez por
+             *     exame e válido para todo paciente. NÃO é o nome (Name já é amigável) nem a sigla (ShortName).
+             *     Vazio quando o nome se explica sozinho.
+             *     @example estoque de ferro, o esforço do pâncreas, inflamação
+             */
+            patientGloss?: string;
             /**
              * @description Justificativa clínica padrão que acompanha o exame no pedido.
              *     Carrega automaticamente quando o exame é selecionado em qualquer painel

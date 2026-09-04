@@ -67,6 +67,10 @@ type labRow struct {
 	Day        string
 	Collected  time.Time
 	ResultText string
+	// DefName e DefGloss vêm do CATÁLOGO de exames, não do score: o nome que o paciente
+	// reconhece e a glosa do que o exame mede.
+	DefName  string
+	DefGloss string
 	// DefUnit — unidade do exame no catálogo. Serve para conferir se a escala do item de escore
 	// fala da mesma grandeza.
 	DefUnit string
@@ -216,6 +220,8 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		ResultText *string
 		Reference  *string
 		DefUnit    *string
+		DefName    *string
+		DefGloss   *string
 		Collected  time.Time
 	}
 	err := s.db.
@@ -226,6 +232,8 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		        lr.result_text                                  AS result_text,
 		        lr.reference_range                              AS reference,
 		        ltd.unit                                        AS def_unit,
+		        ltd.name                                        AS def_name,
+		        ltd.patient_gloss                               AS def_gloss,
 		        COALESCE(lr.collection_date, b.collection_date) AS collected`).
 		Joins("JOIN lab_result_batches b ON b.id = lr.lab_result_batch_id AND b.deleted_at IS NULL").
 		Joins("JOIN lab_test_definitions ltd ON ltd.id = lr.lab_test_definition_id AND ltd.deleted_at IS NULL").
@@ -253,6 +261,12 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		}
 		if r.DefUnit != nil {
 			row.DefUnit = strings.TrimSpace(*r.DefUnit)
+		}
+		if r.DefName != nil {
+			row.DefName = strings.TrimSpace(*r.DefName)
+		}
+		if r.DefGloss != nil {
+			row.DefGloss = strings.TrimSpace(*r.DefGloss)
 		}
 		row.Text = resultDisplayText(row.ResultText, r.Numeric)
 		out = append(out, row)
@@ -542,10 +556,16 @@ func buildRuler(code string, item *models.ScoreItem, rows []labRow) (dto.PlanRul
 	if item.Points != nil {
 		points = *item.Points
 	}
+	nomePaciente, glosa := "", ""
+	if len(rows) > 0 {
+		nomePaciente, glosa = rows[0].DefName, rows[0].DefGloss
+	}
 	return dto.PlanRuler{
 		Code:        code,
 		ScoreItemID: item.ID.String(),
 		Name:        item.Name,
+		PatientName: nomePaciente,
+		Gloss:       glosa,
 		Unit:        unit,
 		Points:      points,
 		Axis:        axis,
