@@ -102,9 +102,19 @@ lista curta. As perguntas que produziram os slides bons dos decks aprovados:
 **Nunca preencha com plausibilidade.** Se o médico não respondeu, o slide não existe. Inventar
 leitura clínica é pior que um deck curto, porque o paciente lê como se fosse dele.
 
-Quando a resposta do médico for uma conduta nova, **peça para ele registrar no plano de cuidado**
-em vez de escrever direto no slide: o deck é derivado, e conduta que só existe no deck some do
-prontuário.
+Quando a resposta do médico for uma conduta nova, **registre no plano de cuidado** em vez de
+escrever direto no slide: o deck é derivado, e conduta que só existe no deck some do prontuário, do
+próximo escore e da próxima consulta.
+
+```bash
+scripts/emr/emr.py conduta --paciente <uuid> --letra A --recomendacao "…" --porque "…" --meta "…"
+scripts/emr/emr.py nota    --paciente <uuid> --historia historia.md   # rascunho; quem assina é o médico
+scripts/emr/emr.py vitais  --paciente <uuid> --pa 128/82 --peso 71,4 --altura 1,62
+scripts/emr/emr.py exame   --paciente <uuid> --lote lote.json         # ligado ao catálogo
+```
+
+Depois de escrever no prontuário, **remonte o rascunho**: o dossiê é congelado por plano, e o
+rascunho aberto continua com a foto antiga.
 
 ---
 

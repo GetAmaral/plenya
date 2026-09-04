@@ -118,6 +118,20 @@ func (s *LabResultBatchService) Create(userID uuid.UUID, req *dto.CreateLabResul
 				labTestDefID = &parsed
 			}
 
+			// Os mesmos campos que `AddResultInternal` mapeia.
+			//
+			// Criar o lote de uma vez perdia sete deles, e o silêncio custava caro: `Matched` não
+			// tem default no model, então TODO resultado criado por aqui nascia `matched=false` e a
+			// tela mostrava "não catalogado" para um lote inteiro que estava catalogado. A faixa de
+			// referência, que o dossiê lê para a régua, ia junto para o ralo.
+			matched := labTestDefID != nil // casou, se veio com definição
+			if resReq.Matched != nil {
+				matched = *resReq.Matched
+			}
+			source := "manual"
+			if resReq.Source != nil && *resReq.Source != "" {
+				source = *resReq.Source
+			}
 			result := models.LabResult{
 				LabResultBatchID:    batch.ID,
 				LabTestDefinitionID: labTestDefID,
@@ -128,6 +142,13 @@ func (s *LabResultBatchService) Create(userID uuid.UUID, req *dto.CreateLabResul
 				Unit:                resReq.Unit,
 				Interpretation:      resReq.Interpretation,
 				Level:               resReq.Level,
+				Matched:             matched,
+				Source:              source,
+				MatchReason:         resReq.MatchReason,
+				Specimen:            resReq.Specimen,
+				Method:              resReq.Method,
+				ReferenceRange:      resReq.ReferenceRange,
+				CollectionDate:      resReq.CollectionDate,
 			}
 
 			// Aplicar conversão de unidade ANTES de criar

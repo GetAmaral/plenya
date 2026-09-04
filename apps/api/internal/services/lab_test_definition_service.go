@@ -66,6 +66,7 @@ func (s *LabTestDefinitionService) UpdateLabTestDefinition(id uuid.UUID, def *mo
 	existing.Code = def.Code
 	existing.Name = def.Name
 	existing.ShortName = def.ShortName
+	existing.PatientGloss = def.PatientGloss
 	existing.TussCode = def.TussCode
 	existing.LoincCode = def.LoincCode
 	existing.Category = def.Category
@@ -92,4 +93,3 @@ func (s *LabTestDefinitionService) UpdateLabTestDefinition(id uuid.UUID, def *mo
 func (s *LabTestDefinitionService) DeleteLabTestDefinition(id uuid.UUID) error {
 	return s.repo.DeleteLabTestDefinition(id)
 }
-

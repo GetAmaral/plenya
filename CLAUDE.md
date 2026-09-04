@@ -88,10 +88,22 @@ nunca chute dados verificáveis (versões, contagens, nomes, métricas).
 ### 2. Desenvolvimento vs Produção
 | Contexto | Método |
 |----------|--------|
-| Dev (você, Claude) manipulando dados | Docker exec → psql, ou Go scripts |
+| Dev (você, Claude) mexendo em catálogo, escore, carga em massa, fixture | Docker exec → psql, ou Go scripts |
+| Dev ou prod, escrevendo **dado de PACIENTE** (conduta, nota, exame, vitais) | API HTTP, via `scripts/emr/emr.py` |
 | Produção (apps web/mobile) | API HTTP |
 
-**❌ NUNCA usar API HTTP (curl/POST) para manipulação manual em dev. ✅ SEMPRE banco direto.**
+**❌ NUNCA usar API HTTP (curl/POST) para manipulação manual em dev. ✅ SEMPRE banco direto** —
+para tudo que não é prontuário.
+
+**Prontuário é a exceção, e vai por HTTP.** Só o caminho HTTP tem as quatro coisas que um registro
+clínico precisa ter: os hooks do model, a validação do DTO, o RBAC de cada rota (`RequireAnyStaff`
+na nota clínica, `RequireClinician` no lote de exames e na conduta, `RequireAdmin` no catálogo) e a
+**linha de auditoria** — `middleware.AuditLog` é middleware de rota, então um INSERT por psql entra
+no banco sem registro nenhum de quem escreveu, e em produção `RevokeAuditLogMutations`
+(`internal/database/database.go`) revoga UPDATE/DELETE/TRUNCATE de `audit_logs` justamente para que
+essa linha não possa ser apagada depois. A porta é [scripts/emr/emr.py](scripts/emr/emr.py)
+(`ficha`/`conduta`/`nota`/`vitais`/`exame`/`glosa`); ela nunca assina, nunca apaga. O deck sai por
+[scripts/plano/plano.py](scripts/plano/plano.py).
 
 ### 3. Hooks obrigatórios
 - **Backend:** todos os models com `BeforeCreate` (UUID v7); `Patient` com `BeforeSave`/`AfterFind` (cripto CPF/RG); `ScoreItem`/`ScoreLevel` com `BeforeUpdate` (`LastReview`).
