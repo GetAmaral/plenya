@@ -60,26 +60,33 @@ func TestRulerAxisSemHistoricoUsaSoOPadding(t *testing.T) {
 	}
 }
 
-func TestRulerAxisEsticaParaCaberOValorDoPaciente(t *testing.T) {
-	// Valor de 500 estoura o teto de 362,7: o eixo tem que crescer para o ponto não colar na borda.
+func TestRulerAxisNaoEsticaParaCaberOValorDoPaciente(t *testing.T) {
+	// O eixo é a ESCALA DO ESCORE e não cresce para caber o paciente.
+	//
+	// Esticar destruía a régua: numa PCR de 63,1 com o escore indo até 10, o eixo ia a 65,6 e as
+	// seis faixas ocupavam 15% da barra. O resto era uma extensão vazia de "nível 0". O deck
+	// aprovado corta no escore e deixa a bolinha presa na ponta, e `rulerSVG` prende o ponto às
+	// bordas, então o dado não some: o valor continua impresso ao lado.
 	hist := []dto.PlanRulerPoint{{Value: 239.1}, {Value: 432}, {Value: 500}}
 	axis := rulerAxis([]float64{15, 30, 50, 200, 300}, hist)
-	if math.Abs(axis[1]-520) > 1e-9 {
-		t.Errorf("teto = %v, quer 520 (500 × 1,04)", axis[1])
+	if math.Abs(axis[1]-362.7) > 1e-9 {
+		t.Errorf("teto = %v, quer 362,7 (300 + folga), sem influência do 500", axis[1])
 	}
 	if axis[0] != 0 {
 		t.Errorf("piso = %v, quer 0", axis[0])
 	}
 }
 
-func TestRulerAxisEsticaParaBaixoQuandoOValorFicaAbaixoDaEscala(t *testing.T) {
-	// RDW: fronteiras 13→15,6 (vão 2,6; padding 0,572) e resultado 12,4 abaixo do piso 12,428.
+func TestRulerAxisNaoEsticaParaBaixo(t *testing.T) {
+	// RDW: fronteiras 13→15,6 (vão 2,6; folga 0,572) e resultado 12,4, abaixo do piso 12,428.
+	// O piso continua sendo o do ESCORE: a bolinha encosta na borda, que é a leitura correta de
+	// estar fora da faixa.
 	axis := rulerAxis([]float64{13, 14.5, 15.6}, []dto.PlanRulerPoint{{Value: 12.4}})
-	if math.Abs(axis[0]-11.904) > 1e-9 {
-		t.Errorf("piso = %v, quer 11,904 (12,4 × 0,96)", axis[0])
+	if math.Abs(axis[0]-12.428) > 1e-9 {
+		t.Errorf("piso = %v, quer 12,428 (13 - folga), sem influência do 12,4", axis[0])
 	}
 	if math.Abs(axis[1]-16.172) > 1e-9 {
-		t.Errorf("teto = %v, quer 16,172 (padding, sem influência do histórico)", axis[1])
+		t.Errorf("teto = %v, quer 16,172", axis[1])
 	}
 }
 
@@ -385,12 +392,19 @@ func TestFormatNumberPTNuncaUsaNotacaoCientifica(t *testing.T) {
 	}
 }
 
-func TestRulerAxisEsticaDeVerdadeEmValorNegativo(t *testing.T) {
-	// Multiplicar valor negativo por 0,96 o APROXIMA do zero: a folga encolhia em vez de crescer e
-	// o eixo nunca continha o ponto do paciente. T-score de -3,5 numa escala de -2,5 a -1.
+func TestRulerAxisNegativoNaoVaiParaZero(t *testing.T) {
+	// O T-score da densitometria vive INTEIRO no negativo. O que NÃO pode acontecer é o piso em
+	// zero apagar a escala: o eixo virava [0,1], todo segmento caía fora e a barra saía pintada de
+	// "ótimo" com a bolinha presa à esquerda — um PDF dizendo o contrário do exame.
+	//
+	// Um T-score de -3,5 numa escala de -2,5 a -1 fica FORA do eixo de propósito, e a bolinha
+	// encosta na borda: é a leitura correta de estar abaixo da faixa, e o valor sai impresso.
 	axis := rulerAxis([]float64{-2.5, -2, -1.5, -1}, []dto.PlanRulerPoint{{Value: -3.5}})
-	if axis[0] > -3.5 {
-		t.Errorf("piso = %v, tem que ficar abaixo de -3,5 para o ponto caber", axis[0])
+	if axis[0] >= 0 {
+		t.Errorf("piso = %v, não pode ser zerado numa escala negativa", axis[0])
+	}
+	if math.Abs(axis[0]-(-2.83)) > 1e-9 {
+		t.Errorf("piso = %v, quer -2,83 (-2,5 - folga)", axis[0])
 	}
 }
 

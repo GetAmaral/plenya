@@ -591,15 +591,24 @@ func rulerAxis(edges []float64, history []dto.PlanRulerPoint) []float64 {
 	pad := rulerAxisPad * span
 	lo, hi := edges[0]-pad, edges[len(edges)-1]+pad
 
-	// A folga cresce pela MAGNITUDE do valor, não por multiplicação: num valor negativo,
-	// multiplicar por 0,96 o aproxima do zero em vez de afastá-lo, e o eixo nunca chegava a
-	// conter o ponto do paciente (T-score de -3,5 dava piso -3,36, e a bolinha ia para a borda).
-	const folga = 1 - rulerHistoryPadLow // 0,04 — o mesmo dos dois lados
-	for _, h := range history {
-		margem := math.Abs(h.Value) * folga
-		lo = math.Min(lo, h.Value-margem)
-		hi = math.Max(hi, h.Value+margem)
-	}
+	// O eixo é a ESCALA DO ESCORE, e não se estica para caber o paciente.
+	//
+	// Esticar parecia gentil e destruía a régua: a PCR da paciente estava em 63,1 com o escore
+	// indo até 10, então o eixo virava [0, 65,6] e as seis faixas do escore ocupavam 15% da barra.
+	// O HOMA-IR, 22%. O resto era uma extensão vazia de "nível 0", e o paciente via uma bolinha no
+	// fim de uma barra que não dizia mais o que é bom. Medido nas 18 réguas de um deck real: 16
+	// bem, essas 2 esmagadas.
+	//
+	// O deck aprovado corta exatamente aí: PCR até 15,7 e HOMA até 5,0, com a bolinha presa na
+	// ponta. É a regra que a gramática registra — o `axis` é o único número afinado à mão quando um
+	// valor extremo esmaga a escala. O gerador desfazia esse ajuste toda vez.
+	//
+	// Não some dado: `rulerSVG` prende o ponto às bordas (math.Min/math.Max) e o valor continua
+	// impresso ao lado. Bolinha na borda É a informação de que o paciente está fora da escala.
+	//
+	// Consequência assumida: no T-score da densitometria, que vive todo no negativo, a bolinha de
+	// um -3,5 volta a encostar na borda esquerda. A esticada tinha sido acrescentada para evitar
+	// isso; encostar na borda é a leitura correta de estar fora da faixa.
 	// Piso em zero SÓ quando a escala é não-negativa. Exame de sangue não tem valor negativo e um
 	// eixo começando abaixo de zero desperdiçaria metade da barra — mas T-score de densitometria
 	// vive INTEIRO no negativo (-2,5 a -1), e nele o piso apagava a escala: o eixo virava [0,1],
