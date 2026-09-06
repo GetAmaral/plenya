@@ -36,10 +36,12 @@ Este gerador devolve as três coisas que faltavam:
     # SEMPRE os TRÊS, nesta ordem. Nenhum é opcional, e cada um repõe uma coisa que a via HTTP
     # faria sozinha na ingestão:
     ssh plenya "sudo docker exec <api> /app/reconvert-lab-units -aplicar"   # unidade
-    ssh plenya "sudo docker exec <api> /app/classify-all"                   # nível
+    POST /api/v1/lab-result-batches/<lote>/classify                         # nível (ver abaixo)
     ssh plenya "sudo docker exec <api> /app/recalc-scores -paciente <uuid>" # escore
 
-`classify-all` é o que mais some da memória e o que mais custa. Ele atribui `lab_results.level`, e
+A CLASSIFICAÇÃO é o que mais some da memória e o que mais custa. Em produção ela vai pela rota
+`POST /lab-result-batches/:id/classify` (um POST por lote, e é preciso selecionar o paciente antes,
+senão 403): o binário `classify-all` não está na imagem. Ela atribui `lab_results.level`, e
 sem ele **todo resultado QUALITATIVO fica de fora do escore em silêncio** — sorologias, urina
 qualitativa, BI-RADS. Medido: numa carga de 147 resultados, sem `classify-all` o escore saiu 74,5%
 com 110 itens avaliados; com ele, 77,4% com 120, idêntico à mesma carga feita por HTTP. Dez itens

@@ -44,14 +44,26 @@ scripts/emr/exames-sql.py --paciente <uuid-de-prod> --lote lote.json \
 cat carga.sql | ssh plenya "sudo docker exec -i mb511beqjtgd7nsjlnngh3m6 \
     psql -U plenya_user -d plenya_db -v ON_ERROR_STOP=1"
 
-# 3. os TRÊS reparos, nesta ordem. Cada um repõe algo que a via HTTP faria na ingestão.
+# 3. os reparos, nesta ordem. Cada um repõe algo que a via HTTP faria na ingestão.
 API=$(ssh plenya "sudo docker ps --format '{{.Names}}' | grep '^kgcuxgvmnbx6'")
 ssh plenya "sudo docker exec $API /app/reconvert-lab-units -aplicar"    # unidade
-ssh plenya "sudo docker exec $API /app/classify-all"                    # nível
 ssh plenya "sudo docker exec $API /app/recalc-scores -paciente <uuid>"  # escore
 ```
 
-🚨 **`classify-all` é o que mais some da memória.** Medido numa carga de 147 resultados: sem ele o
+**A classificação vai pela ROTA, não pelo binário.** `classify-all` NÃO está na imagem de produção:
+o Dockerfile compila só `server`, `migrate`, `backfill-patient-phones`, `import-cmed`,
+`reconvert-lab-units` e `recalc-scores`. A rota é melhor de qualquer forma, porque é auditada — e
+exige **selecionar o paciente antes**, senão devolve 403:
+
+```bash
+curl -s -X PUT "$EMR_API/api/v1/users/me/selected-patient" -H "Authorization: Bearer $EMR_TOKEN" \
+     -H "Content-Type: application/json" -d '{"patientId":"<uuid>"}'
+# depois, um POST por lote:
+curl -s -X POST "$EMR_API/api/v1/lab-result-batches/<lote>/classify" \
+     -H "Authorization: Bearer $EMR_TOKEN" -H "Content-Type: application/json" -d '{}'
+```
+
+🚨 **A classificação é o que mais some da memória.** Medido numa carga de 147 resultados: sem ele o
 escore saiu **74,5% com 110 itens**; com ele, **77,4% com 120**, idêntico à mesma carga feita por
 HTTP. Dez itens qualitativos fora do escore, sem nenhum aviso.
 
