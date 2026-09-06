@@ -213,3 +213,40 @@ Possíveis melhorias:
 - Permitir escolher usuário via `DEV_BYPASS_USER_EMAIL`
 - Modo debug que loga todas as verificações de auth
 - Endpoint `/dev/impersonate/:userId` (apenas dev)
+
+---
+
+## 🚨 A família de bug que o bypass ESCONDE, medida em produção
+
+"Mascara bugs de autenticação" acima é abstrato demais. Em 2026-09-06 isso custou um defeito ativo
+em produção, e o padrão é sempre o mesmo:
+
+> **Baixar arquivo autenticado com `window.open(url)` ou `<a href={url} download>`.**
+
+Nenhum dos dois manda cabeçalho, e `middleware.Auth` lê **só** `Authorization: Bearer` (não há
+cookie de sessão). Em produção: **401**. Em dev: **funciona**, porque o bypass não exige token.
+
+Foi o caso do download de PDF de artigo, em três pontos de chamada, incluindo um `FileViewer` que
+repassava a mesma URL crua para o visualizador de PDF, para o de EPUB e para um link de download —
+três caminhos quebrados por uma prop só. Ninguém percebeu porque o ambiente onde se testa é
+justamente o que esconde.
+
+**A forma certa** já existia e estava comentada em `openPrescriptionPdf`:
+
+```ts
+const token = useAuthStore.getState().accessToken
+const res = await fetch(url, { headers: token ? { Authorization: `Bearer ${token}` } : {} })
+if (!res.ok) throw new Error('…')
+const blobUrl = URL.createObjectURL(await res.blob())
+window.open(blobUrl, '_blank')          // ou passar blobUrl ao visualizador
+setTimeout(() => URL.revokeObjectURL(blobUrl), 60_000)
+```
+
+**Ao mexer em qualquer download autenticado:**
+
+1. Procure `window.open(` e `href={...download}` apontando para `/api/v1/` — são suspeitos por
+   construção.
+2. **Teste contra produção**, não contra a dev: `curl -o /dev/null -w '%{http_code}' <url>` sem
+   token. 401 é o comportamento correto da rota e a prova de que `window.open` não serve.
+3. Rotas que servem arquivo mas ninguém chama, e ids de artefato no DTO que a tela ignora, são a
+   mesma família: veja a varredura no commit `d20e6e37`.
