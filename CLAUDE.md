@@ -105,12 +105,16 @@ essa linha não possa ser apagada depois. A porta é [scripts/emr/emr.py](script
 (`ficha`/`conduta`/`nota`/`vitais`/`exame`/`glosa`); ela nunca assina, nunca apaga. O deck sai por
 [scripts/plano/plano.py](scripts/plano/plano.py).
 
-**A mesma porta serve produção**, com outra URL e um token de conta de serviço:
-`export EMR_TOKEN=$(scripts/emr/prod-token.sh)`. Antes de escrever prontuário em prod, leia
-[docs/emr/dados-de-paciente-em-producao.md](docs/emr/dados-de-paciente-em-producao.md) — ele traz o
-provisionamento da conta, a tabela de papéis por rota e a disciplina obrigatória (conferir o
-paciente pelo UUID porque há cadastros duplicados, ensaiar numa cópia descartável, e saber que
-nenhum destes scripts é idempotente).
+**Em produção são DOIS caminhos, e a divisão é deliberada.** Anamnese, escore, conduta, pedido de
+exames e receita vão pela porta HTTP (`export EMR_TOKEN=$(scripts/emr/prod-token.sh)`), em nome do
+médico. **Resultado de exame vai por SQL**, gerado por
+[scripts/emr/exames-sql.py](scripts/emr/exames-sql.py): o PDF já foi lido e conferido na conversa, e
+remandá-lo pelo classificador de IA do EMR é pagar de novo pela leitura pior. A carga por SQL só é
+legítima com as quatro coisas que o gerador põe (trava no catálogo, `unit_original`, linha de
+auditoria própria, transação única) **e com os três reparos depois**: `reconvert-lab-units -aplicar`,
+`classify-all` e `recalc-scores`. Sem o `classify-all` todo resultado qualitativo fica fora do
+escore em silêncio. Tudo em
+[docs/emr/dados-de-paciente-em-producao.md](docs/emr/dados-de-paciente-em-producao.md).
 
 ### 3. Hooks obrigatórios
 - **Backend:** todos os models com `BeforeCreate` (UUID v7); `Patient` com `BeforeSave`/`AfterFind` (cripto CPF/RG); `ScoreItem`/`ScoreLevel` com `BeforeUpdate` (`LastReview`).

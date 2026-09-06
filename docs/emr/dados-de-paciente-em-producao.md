@@ -1,130 +1,144 @@
 # Escrever dado de PACIENTE em produção
 
-> Escrito em 2026-09-06, depois de uma discussão clínica inteira (uma paciente com carcinoma de
-> mama, cirurgia na semana seguinte) travar no último metro: o prontuário estava pronto na dev, a
-> ordem de subir foi dada, e **não havia caminho**. Este documento existe para isso não se repetir.
+> Escrito em 2026-09-06, depois de uma discussão clínica inteira travar no último metro por falta de
+> caminho documentado, e depois de eu afirmar com confiança duas coisas erradas sobre como isso
+> vinha sendo feito. A auditoria de produção desmentiu as duas. Este documento é o que ficou de pé.
 
-## O mal-entendido que gerou este documento
+## São DOIS caminhos, por decisão de projeto
 
-"Você já ajustou prod várias vezes." Verdade, e é por isso que a confusão é natural. Só que **o que
-eu ajustei nunca foi dado de paciente**:
-
-| O que | Como | Onde está documentado |
+| O que | Caminho | Por quê |
 |---|---|---|
-| Catálogo, escore, pilares, níveis, seeds | Bundle SQL por `docker exec -i <DB> psql`, depois migrations goose no deploy | `docs/emr/agir-bioma-PROD-bundle.sql`, [[plenya_dado_catalogo_vai_por_migration]] |
-| Schema | Migration goose, aplicada no deploy do `api` (`RUN_MIGRATIONS=true`) | [docs/emr/migrations-decisao.md](migrations-decisao.md) |
-| Leitura do banco de prod | `ssh plenya "sudo docker exec mb511beq… psql …"` | memória `plenya_prod_psql_receita` |
-| **Dado de paciente em prod** | **não existia** | este documento |
+| **Resultado de exame** e PDF de laudo | **SQL direto**, gerado por [`scripts/emr/exames-sql.py`](../../scripts/emr/exames-sql.py) | O PDF já foi lido e conferido aqui, com olho clínico. Mandá-lo pelo classificador de IA do EMR é pagar de novo pela mesma leitura, e pela pior das duas. |
+| **Anamnese, escore, condutas, pedidos de exame, receitas** | **HTTP normal**, por [`scripts/emr/emr.py`](../../scripts/emr/emr.py), em nome do médico | É pouco volume, é decisão clínica, e é onde RBAC, validação de DTO e auditoria de rota valem o preço. |
 
-A porta do prontuário (`scripts/emr/emr.py`, commit `9d2a64ef`) foi construída para isso e o
-cabeçalho dela diz "prod é outra URL e outro token". **O token nunca foi criado.** A porta existe;
-ninguém cortou a chave.
+Nenhum dos dois assina nada. Assinatura de nota e de receita é ato médico com certificado
+ICP-Brasil e não sai de script, nunca.
 
-## Por que não pode ser por psql, mesmo sendo mais fácil
+---
 
-A Regra de Ouro 2 do CLAUDE.md manda dado de dev ir por banco direto, e abre exceção para
-prontuário. A exceção não é preciosismo: só o caminho HTTP tem as quatro coisas que um registro
-clínico precisa ter.
+## Caminho 1 — resultado de exame, por SQL
 
-1. **Hooks do model** — UUID v7, criptografia de CPF/RG, `LastReview`.
-2. **Validação do DTO** — um `resultNumeric` fora de faixa ou uma prioridade inválida param aqui.
-3. **RBAC de rota** — ver a tabela de papéis abaixo.
-4. **Linha de auditoria** — `middleware.AuditLog` é middleware de ROTA. Um `INSERT` por psql entra
-   no banco sem nenhum registro de quem escreveu, e em produção `RevokeAuditLogMutations` revoga
-   UPDATE/DELETE/TRUNCATE de `audit_logs` justamente para que essa linha não possa ser apagada
-   depois. **Escrever prontuário por fora do HTTP é apagar a própria pegada.**
+### O que já deu errado, e que o gerador conserta
 
-O mesmo vale para a conversão de unidade: o serviço converte na ingestão e grava
-`unit_original` + `unit_conversion_status`. Por psql o valor entra cru e o escore compara na
-unidade errada, em silêncio (é a 4ª causa da memória `emr_conversao_unidade_exames`).
+Cinco cargas entraram em produção por `INSERT` cru entre julho e agosto de 2026 — **645 resultados**
+— e ficaram com três defeitos, todos silenciosos:
 
-## O que a API exige, por rota
+1. **Sem linha de auditoria.** O prontuário tinha o resultado e nenhum registro de quem o pôs lá.
+2. **Sem conversão de unidade.** `unit_original` vazio prova que a camada de serviço nem rodou; o
+   número ficou na unidade do laudo e o escore comparou contra uma escala noutra grandeza. Foi o
+   que gerou o conversor de 4 camadas e o `reconvert-lab-units`.
+3. **Sem nível nos qualitativos.** `lab_results.level` nulo tira sorologia, urina qualitativa e
+   BI-RADS do escore sem avisar.
 
-Não existe conceito de API key nem de conta de serviço no código: autenticação é
-usuário + senha → JWT (`POST /api/v1/auth/login` devolve `accessToken` e `refreshToken`; 2FA só
-entra se `TwoFactorEnabled` estiver ligado naquele usuário).
+O gerador devolve as três. A trava do catálogo é a quarta: código inexistente **aborta a transação
+com o nome do código**, em vez de sumir num JOIN.
 
-| Escrita | Rota | Papel mínimo |
-|---|---|---|
-| Lote de exames | `POST /lab-result-batches` | `RequireClinician` |
-| Conduta do plano | `POST /patients/:id/care-plan-items` | `RequireClinician` |
-| Nota clínica | `POST /clinical-notes` | `RequireAnyStaff` |
-| Problemas, medicações em uso, vitais | `POST /patients/:id/{problems,medications,vitals}` | `RequireAnyStaff` |
-| **Receita** | `POST /prescriptions` | **`RequireDoctor`** |
-| Glosa do catálogo | `PUT /lab-tests/definitions/:id` | `RequireAdmin` |
+### A receita, inteira
 
-Ou seja: **`doctor` cobre tudo**; `nurse`/`nutritionist` cobrem tudo menos receita.
+```bash
+# 1. gerar (o formato de lote.json é o MESMO do `emr.py exame`)
+scripts/emr/exames-sql.py --paciente <uuid-de-prod> --lote lote.json \
+    --autor getfilho@yahoo.com.br > carga.sql
 
-## O caminho: conta de serviço dedicada
+# 2. conferir a olho, e aplicar em transação única
+cat carga.sql | ssh plenya "sudo docker exec -i mb511beqjtgd7nsjlnngh3m6 \
+    psql -U plenya_user -d plenya_db -v ON_ERROR_STOP=1"
 
-Não reutilize a conta do médico. Uma conta própria é melhor por um motivo que não é burocrático:
-**a linha de auditoria passa a dizer a verdade.** Se o script escrever como "Getulio A", o
-prontuário afirma que o médico digitou aquilo. Se escrever como "Assistente (serviço)", o registro
-diz o que aconteceu, e a assinatura do médico continua sendo o que transforma rascunho em ato.
+# 3. os TRÊS reparos, nesta ordem. Cada um repõe algo que a via HTTP faria na ingestão.
+API=$(ssh plenya "sudo docker ps --format '{{.Names}}' | grep '^kgcuxgvmnbx6'")
+ssh plenya "sudo docker exec $API /app/reconvert-lab-units -aplicar"    # unidade
+ssh plenya "sudo docker exec $API /app/classify-all"                    # nível
+ssh plenya "sudo docker exec $API /app/recalc-scores -paciente <uuid>"  # escore
+```
 
-### Provisionar (uma vez)
+🚨 **`classify-all` é o que mais some da memória.** Medido numa carga de 147 resultados: sem ele o
+escore saiu **74,5% com 110 itens**; com ele, **77,4% com 120**, idêntico à mesma carga feita por
+HTTP. Dez itens qualitativos fora do escore, sem nenhum aviso.
 
-Criar o usuário é ato de administração, não de prontuário, então vai pela tela ou pela rota de
-usuários — **não** por psql, para o próprio usuário nascer com os hooks certos.
+### Por que `unit_original` é preenchido no INSERT
 
-1. No EMR de produção, **Configurações → Usuários → novo**, com:
-   - nome: `Assistente Plenya (serviço)`
-   - e-mail: `servico@plenyasaude.com.br` (caixa real, para recuperação de senha)
-   - papel: `doctor` se a conta precisar criar receitas; `nurse` se não precisar
-   - 2FA: **desligado** nesta conta (com 2FA ligado não há login não-interativo)
-2. Guardar as credenciais em `~/.plenya-vps-secrets/emr-prod-api.env`, no formato:
-   ```
-   EMR_API=https://api.plenyasaude.com.br
-   EMR_USER=servico@plenyasaude.com.br
-   EMR_PASSWORD=<senha forte, só desta conta>
-   ```
-3. Revisar em `/configuracoes` periodicamente: é uma conta com poder de escrita em prontuário.
+Porque `reconvert-lab-units` **parte sempre do valor original** (`result_numeric_original` /
+`unit_original` quando existem, senão do valor atual) — é isso que o torna idempotente. Gravar a
+unidade do laudo ali é o que faz a conversão sair certa depois, e rodar duas vezes não converter
+duas vezes.
 
-### Usar
+### Por que a carga pode escrever a própria auditoria
+
+`RevokeAuditLogMutations` revoga **UPDATE, DELETE e TRUNCATE** de `audit_logs` em produção. **INSERT
+não é revogado.** Então não há desculpa para prontuário sem trilha: a carga registra a si mesma,
+com `resource='lab-result-batches'` e o `user_agent` dizendo que foi script e qual arquivo.
+
+---
+
+## Caminho 2 — anamnese, escore, condutas, pedidos e receitas, por HTTP
+
+Vai pela porta do prontuário, em nome do médico. Só o caminho HTTP tem os hooks do model (UUID v7,
+cripto de CPF/RG), a validação do DTO, o RBAC de cada rota e a auditoria de rota.
 
 ```bash
 export EMR_API=https://api.plenyasaude.com.br
-export EMR_TOKEN=$(scripts/emr/prod-token.sh)      # login → accessToken, ~expira, refaça quando 401
+export EMR_TOKEN=$(scripts/emr/prod-token.sh)
 
 scripts/emr/emr.py ficha   --paciente <uuid-de-prod>
-scripts/emr/emr.py exame   --paciente <uuid-de-prod> --lote lote.json
+scripts/emr/emr.py conduta --paciente <uuid> --letra A --recomendacao "…" --porque "…"
+scripts/emr/emr.py nota    --paciente <uuid> --historia historia.md
 scripts/plano/plano.py --api "$EMR_API" ler --paciente <uuid> --plano <uuid>
 ```
 
-`emr.py` e `plano.py` já leem `EMR_API`/`EMR_TOKEN` do ambiente: **não é preciso mudar código**, só
-apontar as variáveis.
+### Papel por rota
 
-## Disciplina obrigatória antes de qualquer escrita em prod
+Não existe API key nem conta de serviço no código: auth é usuário + senha → JWT
+(`POST /api/v1/auth/login`; 2FA só entra se estiver ligado naquele usuário).
 
-Isto não é zelo. Cada item abaixo corresponde a um erro que já aconteceu.
+| Escrita | Rota | Papel mínimo |
+|---|---|---|
+| Conduta do plano | `POST /patients/:id/care-plan-items` | `RequireClinician` |
+| Nota clínica | `POST /clinical-notes` | `RequireAnyStaff` |
+| Problemas, medicações, vitais | `POST /patients/:id/{problems,medications,vitals}` | `RequireAnyStaff` |
+| Pedido de exames | `POST /lab-requests` | `RequireClinician` |
+| **Receita** | `POST /prescriptions` | **`RequireDoctor`** |
+| Glosa do catálogo | `PUT /lab-tests/definitions/:id` | `RequireAdmin` |
 
-1. **Confira o paciente alvo pelo UUID, nunca pelo nome.** Em prod havia DOIS cadastros para a
-   mesma pessoa, um com erro de digitação, e só um tinha os pedidos de exames. Nome não desempata.
-2. **Ensaie num paciente descartável, na dev, com o script exato.** Foi assim que se descobriu uma
-   **dupla conversão de unidade** que teria gravado T3 reverso como 2000 ng/dL em vez de 20, além de
-   cálcio iônico 4×, PCR 10× e testosterona livre 10× errados. A causa: exportar o valor **já
-   convertido** rotulado com a unidade **do laudo**, fazendo o serviço converter de novo.
-   Ao exportar da dev, use o par ORIGINAL quando houve conversão:
+`doctor` cobre tudo. `nurse` cobre tudo menos receita.
+
+### O token
+
+`scripts/emr/prod-token.sh` loga e imprime só o `accessToken`, para caber em substituição de
+comando. Lê de `~/.plenya-vps-secrets/emr-prod-api.env`, **separado de propósito** do
+`emr-prod.env`, que guarda chave de criptografia e senha do banco e não deve ser aberto para obter
+um JWT.
+
+Hoje o arquivo aponta para a conta do médico (`ADMIN_INITIAL_EMAIL`), e é por isso que a auditoria
+das cargas antigas diz "Getulio Amaral Filho · curl/8.5.0". Uma **conta de serviço dedicada** é
+melhor, e não por burocracia: a trilha passa a dizer que foi um script, e a assinatura do médico
+continua sendo o que transforma rascunho em ato.
+
+---
+
+## Disciplina, nos dois caminhos
+
+Cada item corresponde a um erro que já aconteceu.
+
+1. **Paciente pelo UUID, nunca pelo nome.** Em produção havia DOIS cadastros da mesma pessoa, um
+   com erro de digitação, e só um tinha os pedidos de exames. O gerador SQL recusa `--paciente` que
+   não seja UUID por isso.
+2. **Ensaie na dev, num paciente descartável, com o script exato**, e compare valor a valor casando
+   por **código E data da coleta**. Casar só por código faz produto cartesiano em exame com duas
+   coletas e esconde a divergência no ruído.
+3. **Ao exportar da dev, use o par ORIGINAL quando houve conversão.** Mandar o valor já convertido
+   com a unidade do laudo faz o serviço converter de novo. Medido: T3 reverso iria a 2000 ng/dL em
+   vez de 20; cálcio iônico 4×, PCR 10×, testosterona livre 10×.
    ```sql
    CASE WHEN unit_conversion_status='convertido' THEN result_numeric_original ELSE result_numeric END,
    CASE WHEN unit_conversion_status='convertido' THEN unit_original          ELSE unit           END
    ```
-3. **Compare valor a valor depois**, casando por código **e data da coleta**. Casar só por código
-   faz produto cartesiano em exame com duas coletas e esconde a divergência real no meio do ruído.
-4. **Nenhum script destes é idempotente.** Rodar duas vezes duplica tudo. Não há `ON CONFLICT` numa
-   API REST.
-5. **O lote de exames e a nota clínica leem `users.selected_patient_id`**, não a URL. Selecione o
-   paciente antes e confira o dono na resposta (`emr.py` já faz e aborta se cair no errado).
-6. **Nunca assine.** `sign: false` sempre. Assinatura de nota e de receita é ato médico com
-   certificado ICP-Brasil, e não sai de script.
+4. **Nada disto é idempotente.** Rodar duas vezes duplica. O SQL vai em transação única, então
+   erro no meio não deixa carga pela metade — mas sucesso duas vezes deixa tudo em dobro.
+5. **O lote por HTTP e a nota lêem `users.selected_patient_id`**, não a URL. `emr.py` seleciona
+   antes e aborta se o lote cair no paciente errado.
+6. **Nunca assine, nunca publique.**
 
-## O que continua sem caminho, de propósito
-
-- **Assinar** nota, receita ou relatório.
-- **Publicar** o deck para o portal do paciente.
-- **Apagar** dado clínico. O `DELETE` de paciente é *soft* (`Patient.DeletedAt` é
-  `gorm.DeletedAt`), mas continua sendo decisão do médico, não do script.
-
-Relacionado: [scripts/emr/emr.py](../../scripts/emr/emr.py) ·
-[docs/emr/migrations-decisao.md](migrations-decisao.md) ·
-[.claude/workflows/database-ops.md](../../.claude/workflows/database-ops.md)
+Relacionado: [migrations-decisao.md](migrations-decisao.md) ·
+[.claude/workflows/database-ops.md](../../.claude/workflows/database-ops.md) ·
+[scripts/emr/exames-sql.py](../../scripts/emr/exames-sql.py) ·
+[scripts/emr/emr.py](../../scripts/emr/emr.py)
