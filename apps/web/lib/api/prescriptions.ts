@@ -151,3 +151,23 @@ export async function openPrescriptionPdf(id: string): Promise<void> {
   window.open(url, '_blank')
   setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }
+
+/**
+ * Abre o RASCUNHO da receita, antes de assinar.
+ *
+ * Sai sempre no layout de assinatura manual, com o campo de assinatura em branco, mesmo quando o
+ * médico tem certificado ativo: rascunho com selo ICP-Brasil é indistinguível de receita válida
+ * para quem receber o arquivo solto. O servidor não grava nada e não marca a receita como
+ * assinada.
+ */
+export async function openPrescriptionDraftPdf(id: string): Promise<void> {
+  const token = useAuthStore.getState().accessToken
+  const res = await fetch(`${API_URL}/api/v1/prescriptions/${id}/preview`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+  if (!res.ok) throw new Error('Não foi possível gerar o rascunho da receita')
+  const blob = await res.blob()
+  const url = URL.createObjectURL(blob)
+  window.open(url, '_blank')
+  setTimeout(() => URL.revokeObjectURL(url), 60_000)
+}

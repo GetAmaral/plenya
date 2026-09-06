@@ -12,7 +12,11 @@ import { Label } from '@/components/ui/label'
 import { SendDocumentEmailButton } from '@/components/clinical/send-document-email-button'
 import { SendDocumentWhatsAppButton } from '@/components/clinical/send-document-whatsapp-button'
 import { formatDate, formatDateOnly, formatDateTime } from '@/lib/format-date'
-import { openPrescriptionPdf, type Prescription } from '@/lib/api/prescriptions'
+import {
+  openPrescriptionDraftPdf,
+  openPrescriptionPdf,
+  type Prescription,
+} from '@/lib/api/prescriptions'
 import { CATEGORY_OPTIONS } from '@/lib/validations/prescription'
 
 const categoryLabel = (category?: string) =>
@@ -252,14 +256,32 @@ export function PrescriptionDetail({ prescription }: { prescription: Prescriptio
                 />
               </>
             )}
+            {/* Conferir ANTES de assinar. Sem isto a única forma de ver a receita era assiná-la,
+                e assinatura é ato médico com certificado, que não se desfaz. O rascunho sai no
+                layout de assinatura manual, com o campo em branco, para não passar por válido se
+                o arquivo sair do EMR. */}
             {!isSigned && (
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => router.push(`/prescriptions/${prescription.id}/edit`)}
-              >
-                Editar rascunho
-              </Button>
+              <>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() =>
+                    openPrescriptionDraftPdf(prescription.id).catch((e) =>
+                      toast.error(e?.message ?? 'Falha ao gerar o rascunho')
+                    )
+                  }
+                >
+                  <FileText className="mr-2 h-4 w-4" />
+                  Ver rascunho em PDF
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => router.push(`/prescriptions/${prescription.id}/edit`)}
+                >
+                  Editar rascunho
+                </Button>
+              </>
             )}
             <Button
               className="flex-1"
