@@ -105,6 +105,13 @@ essa linha não possa ser apagada depois. A porta é [scripts/emr/emr.py](script
 (`ficha`/`conduta`/`nota`/`vitais`/`exame`/`glosa`); ela nunca assina, nunca apaga. O deck sai por
 [scripts/plano/plano.py](scripts/plano/plano.py).
 
+**A mesma porta serve produção**, com outra URL e um token de conta de serviço:
+`export EMR_TOKEN=$(scripts/emr/prod-token.sh)`. Antes de escrever prontuário em prod, leia
+[docs/emr/dados-de-paciente-em-producao.md](docs/emr/dados-de-paciente-em-producao.md) — ele traz o
+provisionamento da conta, a tabela de papéis por rota e a disciplina obrigatória (conferir o
+paciente pelo UUID porque há cadastros duplicados, ensaiar numa cópia descartável, e saber que
+nenhum destes scripts é idempotente).
+
 ### 3. Hooks obrigatórios
 - **Backend:** todos os models com `BeforeCreate` (UUID v7); `Patient` com `BeforeSave`/`AfterFind` (cripto CPF/RG); `ScoreItem`/`ScoreLevel` com `BeforeUpdate` (`LastReview`).
 - **Frontend:** todos os formulários com `useFormNavigation({ formRef })`; páginas de dados de paciente com `useRequireSelectedPatient()`.

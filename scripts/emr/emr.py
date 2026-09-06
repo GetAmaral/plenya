@@ -29,8 +29,15 @@ UPDATE/DELETE/TRUNCATE de `audit_logs` justamente para que essa linha não possa
 
 ## Uso
 
-    export EMR_API=http://localhost:3001          # dev; prod é outra URL e outro token
+    export EMR_API=http://localhost:3001          # dev
     export EMR_TOKEN=dev                          # com DEV_BYPASS_AUTH qualquer valor serve
+
+    # PRODUÇÃO — mesma porta, outra URL e um token de verdade:
+    export EMR_API=https://api.plenyasaude.com.br
+    export EMR_TOKEN=$(scripts/emr/prod-token.sh)
+    # Antes de escrever em prod, leia docs/emr/dados-de-paciente-em-producao.md: confira o paciente
+    # pelo UUID (há cadastros duplicados), ensaie o script num paciente descartável na dev, e saiba
+    # que nada disto é idempotente.
 
     emr.py ficha    --paciente <uuid>
     emr.py conduta  --paciente <uuid> --letra A --recomendacao "Musculação três vezes por semana" \\
