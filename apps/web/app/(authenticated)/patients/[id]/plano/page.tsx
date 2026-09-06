@@ -25,6 +25,7 @@ import {
   MessageSquare,
   Sparkles,
   Plus,
+  Printer,
   Ruler,
   Send,
   Trash2,
@@ -56,6 +57,7 @@ import {
   usePublishPatientPlan,
   useRefreshPlanDossier,
   patientPlansApi,
+  openPlanDocument,
   type PatientPlan,
   type DeckOverflow,
   type DeckSlide,
@@ -875,11 +877,42 @@ export default function PatientPlanPage() {
                   </div>
                 )}
 
+                {/* Publicado gera DOIS PDFs, e até aqui a tela só anunciava que eles existiam.
+                    Quem escreveu a devolutiva não alcançava o arquivo que a paciente baixava. */}
                 {selected.status === "published" && (
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <FileText className="h-4 w-4" />
-                    Versão {selected.version} publicada no portal: PDF 16:9 e A4
-                    para impressão.
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <FileText className="h-4 w-4" />
+                      Versão {selected.version} publicada no portal.
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={!selected.document16x9Id}
+                        onClick={() =>
+                          openPlanDocument(patientId, selected.document16x9Id!).catch((e) =>
+                            toast.error(e?.message ?? "Falha ao abrir o PDF")
+                          )
+                        }
+                      >
+                        <FileText className="mr-2 h-4 w-4" />
+                        PDF do deck (16:9)
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={!selected.documentA4Id}
+                        onClick={() =>
+                          openPlanDocument(patientId, selected.documentA4Id!).catch((e) =>
+                            toast.error(e?.message ?? "Falha ao abrir o PDF")
+                          )
+                        }
+                      >
+                        <Printer className="mr-2 h-4 w-4" />
+                        PDF para impressão (A4)
+                      </Button>
+                    </div>
                   </div>
                 )}
               </CardContent>

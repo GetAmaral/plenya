@@ -28,6 +28,7 @@ import (
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/models"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/utils"
 )
 
 type PatientPortalHandler struct {
@@ -99,6 +100,34 @@ func (h *PatientPortalHandler) DownloadDocument(c *fiber.Ctx) error {
 	}
 	c.Set("Content-Type", doc.ContentType)
 	c.Set("Content-Disposition", `attachment; filename="`+doc.FileName+`"`)
+	return c.SendFile(fullPath)
+}
+
+// StaffDownloadDocument GET /api/v1/patients/:id/documents/:docId/download
+//
+// O espelho, para o staff, do download que só o portal do paciente tinha. Sem isto o PDF do plano
+// de devolutiva existia e a tela do médico não tinha porta para ele: a paciente baixava a própria
+// devolutiva e quem a escreveu, não.
+//
+// O paciente vem da URL (e não da sessão, como no portal), então `GetForDownload` continua sendo o
+// que amarra documento e paciente — pedir o documento de outro paciente é 404, não vazamento.
+func (h *PatientPortalHandler) StaffDownloadDocument(c *fiber.Ctx) error {
+	pid, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid patient id"})
+	}
+	docID, err := uuid.Parse(c.Params("docId"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid document id"})
+	}
+	doc, fullPath, err := h.documents.GetForDownload(pid, docID)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
+	}
+	c.Set("Content-Type", doc.ContentType)
+	// `inline` e não `attachment`: o médico quer OLHAR antes de mandar, e o nome acentuado precisa
+	// do filename* em UTF-8 (mesmo padrão da receita e do pedido de exames).
+	c.Set("Content-Disposition", utils.ContentDisposition(doc.FileName, "documento.pdf"))
 	return c.SendFile(fullPath)
 }
 

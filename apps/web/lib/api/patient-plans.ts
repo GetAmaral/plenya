@@ -10,6 +10,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "../api-client";
+import { useAuthStore } from "../auth-store";
 import type {
   DeckOverflow,
   DeckSlide,
@@ -81,6 +82,10 @@ export const patientPlanKeys = {
 };
 
 const base = (patientId: string) => `/api/v1/patients/${patientId}/plans`;
+
+// Absoluto, para o download de PDF: `apiClient` fala em caminho relativo, mas `fetch` de blob
+// precisa da origem inteira.
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export function usePatientPlans(patientId: string | undefined) {
   return useQuery({
@@ -459,3 +464,28 @@ export const patientPlansApi = {
   previewURL: (patientId: string, planId: string) =>
     `${base(patientId)}/${planId}/preview`,
 };
+
+/**
+ * Abre um dos PDFs do plano publicado (16:9 ou A4) numa aba.
+ *
+ * Existia só no portal do paciente: o plano guardava `document16x9Id`/`documentA4Id`, a tela do
+ * médico mostrava a frase "publicada no portal: PDF 16:9 e A4" e nenhum botão. Quem escreveu a
+ * devolutiva não alcançava o arquivo que a paciente baixava.
+ *
+ * `window.open` direto não serve porque a rota exige Bearer; por isso fetch + blob, como no PDF da
+ * receita e do pedido de exames.
+ */
+export async function openPlanDocument(
+  patientId: string,
+  documentId: string,
+): Promise<void> {
+  const token = useAuthStore.getState().accessToken;
+  const res = await fetch(
+    `${API_URL}/api/v1/patients/${patientId}/documents/${documentId}/download`,
+    { headers: token ? { Authorization: `Bearer ${token}` } : {} },
+  );
+  if (!res.ok) throw new Error("Não foi possível abrir o PDF do plano");
+  const url = URL.createObjectURL(await res.blob());
+  window.open(url, "_blank");
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+}

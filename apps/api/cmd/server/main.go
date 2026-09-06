@@ -787,6 +787,8 @@ func setupRoutes(
 
 	// Documentos clínicos (V2): staff faz upload, paciente baixa pelo portal
 	patients.Get("/:id/documents", patientPortalHandler.StaffListDocuments)
+	// O staff também precisa BAIXAR: sem isto o PDF do plano existia e só o paciente o alcançava.
+	patients.Get("/:id/documents/:docId/download", patientPortalHandler.StaffDownloadDocument)
 	patients.Post("/:id/documents", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), patientPortalHandler.StaffUploadDocument)
 	// Gera link público por documento (pra enviar ao paciente, ex.: WhatsApp).
 	patients.Post("/:id/documents/:docId/share-link", middleware.RequireRole(models.RoleAdmin, models.RoleManager, models.RoleSecretary, models.RoleDoctor, models.RoleNurse), documentShareHandler.Mint)
