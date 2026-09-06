@@ -133,11 +133,10 @@ func montaResumo(d *dto.PlanDossierResponse) pdfdoc.DeckSlide {
 	if c := cartaoDeResumo(d, d.Moving, "O que está se movendo", "ruim"); c != nil {
 		sum.Cards = append(sum.Cards, *c)
 	}
-	// Os passos são as condutas de maior prioridade, com as palavras que o médico já escreveu.
-	for _, c := range d.CarePlan {
-		if len(sum.Steps) >= 4 {
-			break
-		}
+	// Os passos são as condutas de maior prioridade, com as palavras que o médico já escreveu. Sai
+	// da mesma seleção da seção "O plano", com teto menor: o resumo prometia prioridade e entregava
+	// as quatro primeiras da ordem alfabética do dossiê, que podem não ser nenhuma das urgentes.
+	for _, c := range condutasPorPrioridade(d.CarePlan, passosNoResumo) {
 		if t := strings.TrimSpace(c.Recommendation); t != "" {
 			sum.Steps = append(sum.Steps, encurta(t, 90))
 		}
@@ -430,10 +429,11 @@ func ehCabecalhoDeGrupo(t string, inicioDeBloco bool) bool {
 
 func montaCondutas(d *dto.PlanDossierResponse, sec PlanArcSection) []pdfdoc.DeckSlide {
 	var out []pdfdoc.DeckSlide
-	for i, c := range d.CarePlan {
-		if i >= sec.Slides {
-			break
-		}
+	// A MESMA seleção que `montaArco` fez, e não `d.CarePlan` cru: o dossiê vem ordenado por letra
+	// AGIR antes da prioridade, então iterá-lo aqui montava seis slides alfabéticos enquanto o arco
+	// (e o prompt que ele gera) prometia os seis mais urgentes. A função é pura, então chamá-la de
+	// novo com o mesmo teto devolve exatamente a mesma escolha.
+	for _, c := range condutasPorPrioridade(d.CarePlan, sec.Slides) {
 		s := pdfdoc.DeckSlide{Kind: pdfdoc.DeckPlanStep, Title: tituloDaConduta(c.Recommendation)}
 		var cards []pdfdoc.DeckCard
 		// `rationale` e `target` são texto que o MÉDICO já escreveu no plano de cuidado. Copiar é
@@ -471,9 +471,12 @@ func montaSequencia(d *dto.PlanDossierResponse) []pdfdoc.DeckSlide {
 	// Tabela de 2 colunas, com a primeira em `dose` e valores relativos: é assim nos DOIS decks
 	// aprovados, e o kind `sequence` nunca foi usado em nenhum.
 	linhas := []pdfdoc.DeckTableRow{}
-	if len(d.CarePlan) > 0 {
+	// "Agora" é a conduta mais urgente, não a primeira do alfabeto: mesma seleção da seção do
+	// plano, com teto 1. Antes, a linha que abre a linha do tempo podia ser um item de prioridade
+	// baixa que o próprio plano nem lidera.
+	if primeira := condutasPorPrioridade(d.CarePlan, primeiroPasso); len(primeira) > 0 {
 		linhas = append(linhas, pdfdoc.DeckTableRow{
-			Cells: []string{"Agora", encurta(d.CarePlan[0].Recommendation, 90)}})
+			Cells: []string{"Agora", encurta(primeira[0].Recommendation, 90)}})
 	}
 	if d.LabRequest != nil && strings.TrimSpace(d.LabRequest.Exams) != "" {
 		linhas = append(linhas, pdfdoc.DeckTableRow{

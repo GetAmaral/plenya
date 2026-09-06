@@ -14,12 +14,27 @@ package services
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/plenya/api/internal/dto"
+	"github.com/plenya/api/internal/models"
 )
 
 // reguasPorSlide é o divisor. 2 a 4 é a faixa medida nos dois decks aprovados, e 3 é a média (3,14).
 const reguasPorSlide = 3
+
+// maxCondutasNoPlano é o teto de slides da seção "O plano", uma conduta por slide.
+//
+// Fica em constante porque `montaCondutas` precisa chegar à MESMA seleção que o arco: os dois
+// chamam `condutasPorPrioridade` com este teto sobre o mesmo `d.CarePlan`.
+const maxCondutasNoPlano = 6
+
+// passosNoResumo e o teto da linha "Agora" da sequência: os dois mostram um recorte do MESMO plano,
+// e por isso saem da mesma seleção por prioridade, só com tetos menores.
+const (
+	passosNoResumo = 4
+	primeiroPasso  = 1
+)
 
 // montaArco devolve as seções na ordem do arco, já com contagem e material.
 func montaArco(d *dto.PlanDossierResponse) []PlanArcSection {
@@ -64,16 +79,15 @@ func montaArco(d *dto.PlanDossierResponse) []PlanArcSection {
 
 	// Uma conduta por slide. Sem conduta registrada a seção NÃO existe: inventar conduta é o erro
 	// mais caro que esta feature pode cometer.
-	if n := len(d.CarePlan); n > 0 {
-		if n > 6 {
-			n = 6
-		}
-		var cond []string
-		for _, c := range d.CarePlan[:n] {
-			cond = append(cond, c.Recommendation)
-		}
+	// O dossiê entrega o plano na ordem de `CarePlanService.ListByPatient`, que ordena por LETRA
+	// (A·G·I·R) antes da prioridade, porque a tela do plano agrupa por pilar. Aqui o corte é outro:
+	// são no máximo 6 slides e o que sobrar fica de fora do deck. Cortar na ordem alfabética faz
+	// uma conduta de prioridade baixa da letra A passar na frente de uma alta da letra G, e o
+	// paciente recebe o deck sem o que mais importa. Reordenar por prioridade antes de cortar é o
+	// que garante que as 6 escolhidas sejam as 6 mais urgentes.
+	if cond := condutasPorPrioridade(d.CarePlan, maxCondutasNoPlano); len(cond) > 0 {
 		arco = append(arco, PlanArcSection{
-			Key: SecPlano, Label: "O plano", Slides: n, Condutas: cond,
+			Key: SecPlano, Label: "O plano", Slides: len(cond), Condutas: recomendacoes(cond),
 			Porque: "uma conduta registrada por slide",
 		})
 	}
@@ -329,4 +343,61 @@ func enxugaAchados(fs []dto.PlanFinding, n int) []achadoEnxuto {
 		})
 	}
 	return out
+}
+
+// condutasPorPrioridade escolhe até `max` condutas, as mais urgentes primeiro.
+//
+// Existe porque a ordem em que o dossiê entrega o plano NÃO é a ordem em que o deck deve cortá-lo.
+// `CarePlanService.ListByPatient` ordena por letra AGIR antes da prioridade, o que é certo para a
+// tela do plano, que agrupa por pilar, e errado para escolher 6 entre 9: a letra vem antes, então
+// uma conduta de prioridade baixa da letra A entra e uma alta da letra G fica de fora.
+//
+// É PURA de propósito. O arco, os slides do plano, os passos do resumo e a linha "Agora" da
+// sequência chamam esta mesma função com o mesmo `d.CarePlan`, cada um com o seu teto, e por isso
+// chegam à mesma seleção sem precisar carregar estado entre eles. Guardar a escolha no arco e
+// reler o dossiê no montador foi exatamente o defeito que existia aqui: o arco dizia uma coisa e o
+// deck montava outra.
+//
+// A ordenação é ESTÁVEL: dentro da mesma prioridade a ordem do dossiê (letra, depois recência) é
+// preservada, então o deck continua saindo agrupado por pilar dentro de cada faixa.
+func condutasPorPrioridade(itens []dto.CarePlanItemResponse, max int) []dto.CarePlanItemResponse {
+	if max <= 0 {
+		return nil
+	}
+	ordenados := make([]dto.CarePlanItemResponse, len(itens))
+	copy(ordenados, itens)
+	sort.SliceStable(ordenados, func(i, j int) bool {
+		return pesoDaPrioridade(ordenados[i].Priority) < pesoDaPrioridade(ordenados[j].Priority)
+	})
+	if len(ordenados) > max {
+		ordenados = ordenados[:max]
+	}
+	return ordenados
+}
+
+// recomendacoes tira só o texto, que é o que o arco leva para o prompt.
+func recomendacoes(itens []dto.CarePlanItemResponse) []string {
+	out := make([]string, 0, len(itens))
+	for _, c := range itens {
+		out = append(out, c.Recommendation)
+	}
+	return out
+}
+
+// pesoDaPrioridade espelha `carePlanPriorityOrder`, o CASE que o SQL do plano usa, para que a
+// ordem aqui e a da listagem não divirjam quando uma das duas mudar.
+//
+// O `default` é 2 porque o SQL é `WHEN 'high' THEN 0 WHEN 'medium' THEN 1 ELSE 2`: qualquer valor
+// que não seja high nem medium cai no fim da fila, lá e aqui. Hoje o CHECK da coluna só admite
+// high/medium/low e a divergência não apareceria; se um valor novo entrar, as duas ordens andam
+// juntas em vez de o item ficar no meio de uma e no fim da outra.
+func pesoDaPrioridade(p string) int {
+	switch p {
+	case string(models.CarePlanPriorityHigh):
+		return 0
+	case string(models.CarePlanPriorityMedium):
+		return 1
+	default: // low, vazio, e qualquer valor futuro — como o ELSE do SQL
+		return 2
+	}
 }
