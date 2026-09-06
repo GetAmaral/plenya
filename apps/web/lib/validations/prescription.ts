@@ -26,12 +26,20 @@ export const medicationSchema = z.object({
   dosage: z.string().min(1, 'Dosagem é obrigatória'),
   frequency: z.string().min(1, 'Frequência é obrigatória'),
   route: z.string().min(1, 'Via é obrigatória'),
-  // O teto espelha o do backend (max=365): sem ele, 400 do servidor sem erro de campo na tela.
-  duration: z.coerce
-    .number()
-    .min(1, 'Duração deve ser pelo menos 1 dia')
-    .max(365, 'Duração máxima de 365 dias'),
-  quantity: z.coerce.number().min(1, 'Quantidade deve ser pelo menos 1'),
+  // OPCIONAIS: em branco significa USO CONTÍNUO, que é a maior parte da prescrição de longo prazo.
+  // Campo vazio vira 0 (o backend trata 0 como "sem prazo"); preenchido, o teto espelha o do
+  // servidor (max=365), senão vem 400 sem erro de campo na tela.
+  duration: z.preprocess(
+    (v) => (v === '' || v === null || v === undefined ? 0 : v),
+    z.coerce
+      .number()
+      .min(0)
+      .max(365, 'Duração máxima de 365 dias')
+  ),
+  quantity: z.preprocess(
+    (v) => (v === '' || v === null || v === undefined ? 0 : v),
+    z.coerce.number().min(0)
+  ),
   // Derivado da quantidade; some da tela e é recalculado a cada mudança.
   quantityInWords: z.string().optional(),
   instructions: z.string().optional(),
@@ -214,8 +222,8 @@ export function emptyMedication(): MedicationFormData {
     dosage: '',
     frequency: '',
     route: 'oral',
-    duration: 30,
-    quantity: 30,
+    duration: 0,
+    quantity: 0,
     quantityInWords: '',
     instructions: '',
     pharmaceuticalForm: '',

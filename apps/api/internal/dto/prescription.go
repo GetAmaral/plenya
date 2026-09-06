@@ -17,8 +17,13 @@ type MedicationRequest struct {
 	Dosage        string                    `json:"dosage" validate:"required"`
 	Frequency     string                    `json:"frequency" validate:"required"`
 	Route         string                    `json:"route" validate:"required"`
-	Duration      int                       `json:"duration" validate:"required,min=1,max=365"`
-	Quantity      int                       `json:"quantity" validate:"required,min=1"`
+	// Duration e Quantity são OPCIONAIS: em branco (0) significa USO CONTÍNUO, que é a maior parte
+	// da prescrição de longo prazo. Exigi-los obrigava a inventar um número — "365 dias" para um
+	// anti-hipertensivo é ficção, e a receita saía dizendo isso ao paciente.
+	// `omitempty` no validador é o que permite o zero: quando vem preenchido, a faixa continua
+	// valendo (1 a 365), então "0 dias" nunca chega por engano.
+	Duration      int                       `json:"duration" validate:"omitempty,min=1,max=365"`
+	Quantity      int                       `json:"quantity" validate:"omitempty,min=1"`
 	// Extenso só é exigido em controlado, e é o service que confere isso. Aqui era "required" e
 	// derrubava toda receita cuja posologia não dá para calcular quantidade ("se necessário").
 	QuantityInWords string  `json:"quantityInWords" validate:"omitempty,max=200"`

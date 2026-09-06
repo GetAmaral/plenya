@@ -360,32 +360,39 @@ export function CommercialPrescriptionForm({
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Duração (dias) *</Label>
+                    <Label>Duração (dias)</Label>
                     <Input
                       type="number"
-                      min="1"
-                      placeholder="30"
+                      min="0"
+                      placeholder="em branco = uso contínuo"
                       {...form.register(`medications.${index}.duration`, {
                         onBlur: () => recomputeQuantity(index),
                       })}
                     />
+                    {/* Deixar em branco não é esquecimento: é a forma de dizer que não há prazo,
+                        e a receita sai escrito "uso contínuo". */}
+                    {!Number(form.watch(`medications.${index}.duration`)) && (
+                      <p className="text-xs text-muted-foreground">
+                        Sem prazo: a receita sai como uso contínuo.
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Quantidade *</Label>
+                    <Label>Quantidade</Label>
                     <Input
                       type="number"
-                      min="1"
-                      placeholder="30"
+                      min="0"
+                      placeholder="em branco = não especificar"
                       {...form.register(`medications.${index}.quantity`, {
                         onChange: (e) => refreshQuantityInWords(index, Number(e.target.value)),
                       })}
                     />
                     <p className="text-xs text-muted-foreground">
                       {form.watch(`medications.${index}.quantityInWords`) ||
-                        'Calculada de dose × frequência × duração; edite se precisar.'}
+                        'Calculada de dose × frequência × duração; em branco, não sai na receita.'}
                     </p>
                     {/* Aviso, não bloqueio: quem decide a quantidade é o médico. A função já
                         existia no repo e ninguém chamava. */}

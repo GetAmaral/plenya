@@ -35,12 +35,17 @@ func medPosology(m models.PrescriptionMedication) string {
 	if m.Route != "" {
 		p = append(p, "via "+m.Route)
 	}
+	// Duração em branco é USO CONTÍNUO, e a receita precisa DIZER isso. Só omitir deixava a
+	// posologia terminando em "via oral", e quem lê não sabe se o médico esqueceu o prazo ou se
+	// não há prazo. A farmácia e o paciente leem coisas diferentes desse silêncio.
 	if m.Duration > 0 {
 		unit := "dias"
 		if m.Duration == 1 {
 			unit = "dia"
 		}
 		p = append(p, fmt.Sprintf("por %d %s", m.Duration, unit))
+	} else {
+		p = append(p, "uso contínuo")
 	}
 	return strings.Join(p, " · ")
 }
@@ -90,12 +95,15 @@ func formulaPosologyLine(f models.PrescriptionFormula) string {
 	if r := strings.TrimSpace(f.Route); r != "" {
 		p = append(p, "via "+r)
 	}
+	// Mesma regra do industrializado: sem prazo é uso contínuo, e a receita diz.
 	if f.Duration > 0 {
 		unit := "dias"
 		if f.Duration == 1 {
 			unit = "dia"
 		}
 		p = append(p, fmt.Sprintf("por %d %s", f.Duration, unit))
+	} else {
+		p = append(p, "uso contínuo")
 	}
 	return strings.Join(p, " · ")
 }

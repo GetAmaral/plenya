@@ -55,15 +55,15 @@ type PrescriptionMedication struct {
 
 	// Duração do tratamento (dias)
 	// @example 30
-	Duration int `gorm:"type:integer;not null" json:"duration" validate:"required,min=1"`
+	Duration int `gorm:"type:integer;not null;default:0" json:"duration" validate:"omitempty,min=1"`
 
 	// Quantidade prescrita
 	// @example 30
-	Quantity int `gorm:"type:integer;not null" json:"quantity" validate:"required,min=1"`
+	Quantity int `gorm:"type:integer;not null;default:0" json:"quantity" validate:"omitempty,min=1"`
 
 	// Quantidade por extenso (obrigatório para controlados)
 	// @example trinta comprimidos
-	QuantityInWords string `gorm:"type:varchar(200);not null" json:"quantityInWords" validate:"required"`
+	QuantityInWords string `gorm:"type:varchar(200);not null;default:''" json:"quantityInWords"`
 
 	// Instruções específicas deste medicamento (opcional)
 	Instructions *string `gorm:"type:text" json:"instructions,omitempty"`

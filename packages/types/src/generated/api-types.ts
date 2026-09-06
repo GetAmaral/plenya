@@ -18441,12 +18441,19 @@ export interface components {
             category: "simple" | "c1" | "c5" | "antibiotic" | "glp1" | "a_b";
             concentration?: string;
             dosage: string;
-            duration: number;
+            /**
+             * @description Duration e Quantity são OPCIONAIS: em branco (0) significa USO CONTÍNUO, que é a maior parte
+             *     da prescrição de longo prazo. Exigi-los obrigava a inventar um número — "365 dias" para um
+             *     anti-hipertensivo é ficção, e a receita saía dizendo isso ao paciente.
+             *     `omitempty` no validador é o que permite o zero: quando vem preenchido, a faixa continua
+             *     valendo (1 a 365), então "0 dias" nunca chega por engano.
+             */
+            duration?: number;
             frequency: string;
             instructions?: string;
             medicationDefinitionId?: string;
             medicationName: string;
-            quantity: number;
+            quantity?: number;
             /**
              * @description Extenso só é exigido em controlado, e é o service que confere isso. Aqui era "required" e
              *     derrubava toda receita cuja posologia não dá para calcular quantidade ("se necessário").
