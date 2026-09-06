@@ -74,6 +74,10 @@ type labRow struct {
 	// DefUnit — unidade do exame no catálogo. Serve para conferir se a escala do item de escore
 	// fala da mesma grandeza.
 	DefUnit string
+	// Unit — a unidade do RESULTADO, que é a do laudo quando a conversão não deu. É ela, e não a
+	// do catálogo, que precisa bater com a escala do item: `DefUnit` e a unidade do item são a
+	// mesma coisa por construção, então comparar as duas nunca reprova nada.
+	Unit string
 }
 
 // collectionDay resolve o dia-calendário da coleta, e é mais chato do que parece porque a coluna
@@ -219,6 +223,7 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		Numeric    float64
 		ResultText *string
 		Reference  *string
+		Unit       *string
 		DefUnit    *string
 		DefName    *string
 		DefGloss   *string
@@ -231,6 +236,7 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		        lr.result_numeric                               AS numeric,
 		        lr.result_text                                  AS result_text,
 		        lr.reference_range                              AS reference,
+		        lr.unit                                         AS unit,
 		        ltd.unit                                        AS def_unit,
 		        ltd.name                                        AS def_name,
 		        ltd.patient_gloss                               AS def_gloss,
@@ -258,6 +264,9 @@ func (s *PatientPlanDossierService) loadLabRows(patientID uuid.UUID) ([]labRow, 
 		}
 		if r.ResultText != nil {
 			row.ResultText = strings.TrimSpace(*r.ResultText)
+		}
+		if r.Unit != nil {
+			row.Unit = strings.TrimSpace(*r.Unit)
 		}
 		if r.DefUnit != nil {
 			row.DefUnit = strings.TrimSpace(*r.DefUnit)
@@ -510,6 +519,24 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 	// recalculado sobre a escala escolhida, em buildHistory.
 	out := make(map[string]dto.PlanRuler, len(applicable))
 	for code, cands := range applicable {
+		// Filtrar por unidade ANTES de escolher. Um mesmo exame pode ter mais de uma escala quando
+		// a grandeza do laudo varia entre laboratórios — a lipoproteína(a) tem escala em nmol/L e
+		// em mg/dL, porque não existe fator de conversão válido entre as duas (o tamanho da
+		// isoforma da apo(a) muda a relação massa/molar de pessoa para pessoa). Escolher pela idade
+		// primeiro podia entregar a escala em nmol/L para um laudo em mg/dL, e aí a guarda logo
+		// abaixo apagava a régua mesmo existindo a escala certa.
+		if len(byCode[code]) > 0 {
+			unidade := unidadeDoResultado(byCode[code][0])
+			var naUnidade []models.ScoreItem
+			for i := range cands {
+				if cands[i].UnitMatches(unidade, catalogo.sinonimosDe(cands[i].LabTestCode)) {
+					naUnidade = append(naUnidade, cands[i])
+				}
+			}
+			if len(naUnidade) > 0 {
+				cands = naUnidade
+			}
+		}
 		item := pickScoringItem(cands)
 		if item == nil {
 			continue
@@ -518,7 +545,14 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		// escala em células/campo enquanto o laboratório reporta /µL: classificar ali põe um
 		// resultado de 0,5 na faixa "≤10" e o paciente lê "ótimo" sobre um número que ninguém
 		// comparou. Melhor a régua não existir do que existir errada.
-		if len(byCode[code]) > 0 && !item.UnitMatches(byCode[code][0].DefUnit, catalogo.sinonimosDe(item.LabTestCode)) {
+		//
+		// A comparação é contra a unidade do RESULTADO. Comparar com a do catálogo não reprovava
+		// nada, porque a unidade do catálogo e a do item de escore são a mesma por construção: a
+		// lipoproteína(a) tem escala em nmol/L, o laudo brasileiro vem em mg/dL, o conversor marcou
+		// "revisar" por serem grandezas diferentes, o motor do escore recusou classificar — e a
+		// régua desenhava assim mesmo, imprimindo "24,1 nmol/L" sobre um valor que ninguém
+		// converteu. A guarda existia e passava por comparar a unidade consigo mesma.
+		if len(byCode[code]) > 0 && !item.UnitMatches(unidadeDoResultado(byCode[code][0]), catalogo.sinonimosDe(item.LabTestCode)) {
 			continue
 		}
 		ruler, ok := buildRuler(code, item, byCode[code])
@@ -528,6 +562,18 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		out[code] = ruler
 	}
 	return out, nil
+}
+
+// unidadeDoResultado — a unidade em que o laudo veio, com a do catálogo como reserva.
+//
+// Resultado sem unidade declarada não é motivo para apagar a régua: `MesmaGrandeza` já deixa passar
+// unidade vazia de propósito, e cair para a do catálogo mantém o comportamento de antes para os
+// exames que nunca declararam unidade nenhuma.
+func unidadeDoResultado(r labRow) string {
+	if u := strings.TrimSpace(r.Unit); u != "" {
+		return u
+	}
+	return r.DefUnit
 }
 
 // buildRuler converte a escala de um ScoreItem + o histórico do paciente numa régua desenhável.
