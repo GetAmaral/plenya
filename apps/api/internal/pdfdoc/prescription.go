@@ -7,8 +7,8 @@ type Med struct {
 	Name             string // "Losartana potássica"
 	Concentration    string // "50 mg"
 	ActiveIngredient string // princípio ativo (DCB), quando difere do nome comercial
-	Posology         string // "1 comprimido · de 12/12h · via oral · por 30 dias"
-	Quantity         string // "Quantidade: 60 (sessenta) comprimidos"
+	Posology         string // "Tomar 1 comprimido uma vez ao dia" — a frase indentada da 2ª linha
+	Quantity         string // o campo à DIREITA do cabeçalho: "uso contínuo" ou "30 comprimidos"
 	Instructions     string // orientação específica (opcional)
 }
 
@@ -25,15 +25,15 @@ type FormulaComponent struct {
 
 // Formula — uma fórmula magistral já formatada para impressão.
 type Formula struct {
-	Name         string // "Fórmula do sono" (opcional)
-	Form         string // "cápsula"
-	UsageLabel   string // "USO INTERNO" / "USO EXTERNO"
-	Components   []FormulaComponent
-	Vehicle string // "Excipiente qsp 1 cápsula" (opcional)
+	Name       string // "Fórmula do sono" (opcional)
+	Form       string // "cápsula"
+	UsageLabel string // "USO INTERNO" / "USO EXTERNO"
+	Components []FormulaComponent
+	Vehicle    string // "Excipiente qsp 1 cápsula" (opcional)
 	// Dispense e Posology são VALORES, sem rótulo: o layout imprime "AVIAR" e "POSOLOGIA" como
 	// etiqueta na coluna da esquerda. Mandar "Aviar 60 cápsulas" aqui duplicaria a palavra.
-	Dispense string // "60 (sessenta) cápsulas"
-	Posology string // "1 cápsula ao deitar · por 60 dias"
+	Dispense     string // "60 (sessenta) cápsulas"
+	Posology     string // "1 cápsula ao deitar · por 60 dias"
 	Instructions string // orientação específica (opcional)
 }
 
@@ -60,12 +60,25 @@ type Prescription struct {
 func medsHTML(meds []Med) string {
 	var b strings.Builder
 	for i, m := range meds {
-		b.WriteString(`<div class="med"><div class="medhead">`)
+		// Cabeçalho em três partes: nome à esquerda, guia pontilhada esticando, e o campo à
+		// direita ("uso contínuo" ou a quantidade). A guia é o que impede a leitura ambígua numa
+		// receita com vários itens — sem ela, o olho não sabe qual quantidade pertence a qual
+		// medicamento.
+		// O número fica numa COLUNA própria, e não colado ao nome: as linhas de baixo (princípio
+		// ativo, posologia, orientação) se alinham por ela sozinhas. Indentar por padding não
+		// resolvia — o padding em `em` vale sobre a fonte de cada linha, e a partir do item 10 o
+		// número fica mais largo e as linhas de baixo ficam à esquerda do nome.
+		b.WriteString(`<div class="med"><div class="medrow"><span class="mednum">`)
 		b.WriteString(itoa(i + 1))
-		b.WriteString(`. `)
+		b.WriteString(`.</span><div class="medbody"><div class="medhead">`)
+		b.WriteString(`<span class="mednome">`)
 		b.WriteString(esc(m.Name))
 		if m.Concentration != "" {
 			b.WriteString(` <span class="medconc">` + esc(m.Concentration) + `</span>`)
+		}
+		b.WriteString(`</span>`)
+		if m.Quantity != "" {
+			b.WriteString(`<span class="medguia"></span><span class="medqty">` + esc(m.Quantity) + `</span>`)
 		}
 		b.WriteString(`</div>`)
 		if m.ActiveIngredient != "" && m.ActiveIngredient != m.Name {
@@ -74,13 +87,10 @@ func medsHTML(meds []Med) string {
 		if m.Posology != "" {
 			b.WriteString(`<div class="medpos">` + esc(m.Posology) + `</div>`)
 		}
-		if m.Quantity != "" {
-			b.WriteString(`<div class="medqty">` + esc(m.Quantity) + `</div>`)
-		}
 		if m.Instructions != "" {
 			b.WriteString(`<div class="medinstr">` + esc(m.Instructions) + `</div>`)
 		}
-		b.WriteString(`</div>`)
+		b.WriteString(`</div></div></div>`) // medbody, medrow, med
 	}
 	return b.String()
 }

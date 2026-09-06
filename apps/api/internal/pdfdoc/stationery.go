@@ -120,11 +120,20 @@ html,body{ background:#fff; }
 .meds{ margin-top:2px; }
 .med{ padding:8px 0; border-top:1px solid rgba(6,59,79,.08); }
 .med:first-child{ border-top:none; padding-top:2px; }
-.medhead{ font-size:13.5px; font-weight:600; color:var(--petrol); }
+/* O item é uma linha de duas colunas: o número, e o corpo. Assim tudo que vem abaixo do nome se
+   alinha por ele em qualquer contagem de dígitos, sem indentação chutada. */
+.medrow{ display:flex; align-items:baseline; gap:5px; }
+.mednum{ flex:0 0 auto; font-size:13.5px; font-weight:600; color:var(--petrol); }
+.medbody{ flex:1 1 auto; min-width:0; }
+.medhead{ display:flex; align-items:baseline; gap:6px; font-size:13.5px; font-weight:600; color:var(--petrol); }
+.mednome{ flex:0 1 auto; }
+/* A guia pontilhada come o espaço que sobra e liga o nome à quantidade. O min-width garante que
+   ela apareça mesmo quando o nome é longo, senão o campo da direita cola no medicamento. */
+.medguia{ flex:1 1 auto; min-width:18px; border-bottom:1px dotted var(--ink2); transform:translateY(-3px); }
 .medconc{ color:var(--ink2); font-weight:600; }
 .medsub{ font-size:11.5px; color:var(--ink2); margin-top:1px; }
-.medpos{ font-size:12.5px; color:var(--petrol); margin-top:4px; }
-.medqty{ font-size:11.5px; color:var(--ink2); margin-top:2px; }
+.medpos{ font-size:12.5px; color:var(--petrol); margin-top:3px; }
+.medqty{ flex:0 0 auto; white-space:nowrap; font-size:12.5px; font-weight:600; color:var(--ink2); }
 .medinstr{ font-size:11.5px; color:var(--ink2); margin-top:2px; font-style:italic; }
 /* ---- Receituário magistral (manipulado). Cada .formula é um bloco atômico de paginação, por
    isso o número de componentes é limitado na validação: um bloco maior que a página não é

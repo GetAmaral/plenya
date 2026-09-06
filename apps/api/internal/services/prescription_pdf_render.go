@@ -24,7 +24,32 @@ func formatCPFFull(cpf string) string {
 	return d[0:3] + "." + d[3:6] + "." + d[6:9] + "-" + d[9:11]
 }
 
+// verboDaVia — o verbo com que a frase da posologia começa. A via decide: "tomar" um colírio ou
+// "tomar" uma injeção é instrução errada, e é o paciente que lê esta linha, não o farmacêutico.
+func verboDaVia(rota string) string {
+	switch strings.ToLower(strings.TrimSpace(rota)) {
+	// Via EM BRANCO cai no default, de propósito. Ela só existe em registro antigo (a coluna é
+	// not null e o DTO exige), e tratá-la como oral fazia o PDF inventar "Tomar 1 seringa" — uma
+	// instrução de administração errada num documento assinado. "Usar" não afirma nada.
+	case "oral", "sublingual":
+		return "Tomar"
+	// Tópicas e injetáveis: o mesmo verbo, por motivos diferentes — nenhuma delas se engole.
+	case "tópica", "topica", "oftálmica", "oftalmica", "nasal",
+		"intravenosa", "intramuscular", "subcutânea", "subcutanea":
+		return "Aplicar"
+	default:
+		return "Usar"
+	}
+}
+
+// medPosology — a segunda linha do item, escrita como frase para o paciente:
+// "Tomar 1 comprimido uma vez ao dia". A duração e a quantidade NÃO entram aqui: elas vão para o
+// campo à direita do nome, ligado pela guia pontilhada.
+//
+// A via só aparece quando não é oral. Em oral ela é o que o leitor já assume, e repetir empurra a
+// informação que importa para o fim da linha; nas demais, omitir seria o erro de administração.
 func medPosology(m models.PrescriptionMedication) string {
+	frase := verboDaVia(m.Route)
 	var p []string
 	if m.Dosage != "" {
 		p = append(p, m.Dosage)
@@ -32,22 +57,68 @@ func medPosology(m models.PrescriptionMedication) string {
 	if m.Frequency != "" {
 		p = append(p, m.Frequency)
 	}
-	if m.Route != "" {
-		p = append(p, "via "+m.Route)
+	via := ""
+	if r := strings.ToLower(strings.TrimSpace(m.Route)); r != "" && r != "oral" {
+		via = "via " + strings.TrimSpace(m.Route)
 	}
-	// Duração em branco é USO CONTÍNUO, e a receita precisa DIZER isso. Só omitir deixava a
-	// posologia terminando em "via oral", e quem lê não sabe se o médico esqueceu o prazo ou se
-	// não há prazo. A farmácia e o paciente leem coisas diferentes desse silêncio.
-	if m.Duration > 0 {
-		unit := "dias"
-		if m.Duration == 1 {
-			unit = "dia"
+	if len(p) == 0 {
+		// Registro antigo sem dosagem nem frequência: a frase perde o sentido, mas a VIA não pode
+		// sumir do papel. Devolvê-la sozinha diz menos do que se queria e nada que seja falso.
+		if via == "" {
+			return ""
 		}
-		p = append(p, fmt.Sprintf("por %d %s", m.Duration, unit))
-	} else {
-		p = append(p, "uso contínuo")
+		return strings.ToUpper(via[:1]) + via[1:]
 	}
-	return strings.Join(p, " · ")
+	frase += " " + strings.Join(p, " ")
+	if via != "" {
+		frase += ", " + via
+	}
+	// A duração só volta para a frase quando o campo da direita está ocupado pela QUANTIDADE. Sem
+	// isto, "60 comprimidos, por 30 dias" perdia o prazo: o campo mostra um dos dois, e o que
+	// sobrasse de fora sumia do papel. Quando a duração é quem ocupa o campo, repeti-la aqui seria
+	// dizer duas vezes a mesma coisa.
+	if m.Quantity > 0 {
+		// O campo da direita está ocupado pela quantidade, então é AQUI que o prazo tem de sair —
+		// e a ausência de prazo também. Sem este ramo, "Losartana ... 30 / Tomar 1 comprimido uma
+		// vez ao dia" não dizia em lugar nenhum que o uso é contínuo, que é exatamente o silêncio
+		// que esta mudança foi escrita para tirar da receita.
+		if m.Duration > 0 {
+			frase += ", por " + duracaoEmDias(m.Duration)
+		} else {
+			frase += ", uso contínuo"
+		}
+	}
+	return frase
+}
+
+// medDispense — o campo à DIREITA do nome, no fim da guia pontilhada. É o que a farmácia lê para
+// saber quanto entregar, e o que diz que não há prazo quando não há.
+//
+// Duração em branco é uso contínuo, e a receita precisa DIZER isso. Só omitir deixava o item sem
+// prazo nenhum, e quem lê não sabe se o médico esqueceu ou se não há prazo — a farmácia e o
+// paciente leem coisas diferentes desse silêncio.
+func medDispense(m models.PrescriptionMedication) string {
+	if m.Quantity > 0 {
+		// Com o extenso, "60 (sessenta comprimidos)" se explica sozinho. Sem ele — e nada obriga o
+		// extenso fora dos controlados — um "30" pelado no mesmo campo que às vezes traz
+		// "por 30 dias" lê como prazo. O rótulo resolve a ambiguidade sem inventar unidade.
+		if w := strings.TrimSpace(m.QuantityInWords); w != "" {
+			return strconv.Itoa(m.Quantity) + " (" + w + ")"
+		}
+		return "Quantidade: " + strconv.Itoa(m.Quantity)
+	}
+	if m.Duration > 0 {
+		return "por " + duracaoEmDias(m.Duration)
+	}
+	return "uso contínuo"
+}
+
+// duracaoEmDias — "1 dia" / "30 dias".
+func duracaoEmDias(d int) string {
+	if d == 1 {
+		return "1 dia"
+	}
+	return fmt.Sprintf("%d dias", d)
 }
 
 // formatQuantityPT — número em pt-BR, sem zeros à toa: 3 → "3", 0.25 → "0,25", 12.5 → "12,5".
@@ -97,11 +168,7 @@ func formulaPosologyLine(f models.PrescriptionFormula) string {
 	}
 	// Mesma regra do industrializado: sem prazo é uso contínuo, e a receita diz.
 	if f.Duration > 0 {
-		unit := "dias"
-		if f.Duration == 1 {
-			unit = "dia"
-		}
-		p = append(p, fmt.Sprintf("por %d %s", f.Duration, unit))
+		p = append(p, "por "+duracaoEmDias(f.Duration))
 	} else {
 		p = append(p, "uso contínuo")
 	}
@@ -152,10 +219,6 @@ func buildPrescription(p *models.Prescription, manual bool) pdfdoc.Prescription 
 
 	meds := make([]pdfdoc.Med, 0, len(p.Medications))
 	for _, m := range p.Medications {
-		qty := ""
-		if m.Quantity > 0 {
-			qty = fmt.Sprintf("Quantidade: %d (%s)", m.Quantity, m.QuantityInWords)
-		}
 		instr := ""
 		if m.Instructions != nil {
 			instr = strings.TrimSpace(*m.Instructions)
@@ -165,7 +228,7 @@ func buildPrescription(p *models.Prescription, manual bool) pdfdoc.Prescription 
 			Concentration:    m.Concentration,
 			ActiveIngredient: m.ActiveIngredient,
 			Posology:         medPosology(m),
-			Quantity:         qty,
+			Quantity:         medDispense(m),
 			Instructions:     instr,
 		})
 	}

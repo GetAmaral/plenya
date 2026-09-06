@@ -116,7 +116,9 @@ export function PrescriptionDetail({ prescription }: { prescription: Prescriptio
                     <Label className="text-muted-foreground">Posologia</Label>
                     <p className="font-medium">
                       {formula.posology}
-                      {formula.duration ? ` · por ${formula.duration} dias` : ''}
+                      {formula.duration
+                        ? ` · por ${formula.duration} ${formula.duration === 1 ? 'dia' : 'dias'}`
+                        : ' · uso contínuo'}
                     </p>
                   </div>
                   {formula.instructions && (
@@ -157,19 +159,30 @@ export function PrescriptionDetail({ prescription }: { prescription: Prescriptio
                 </div>
                 <div>
                   <Label className="text-muted-foreground">Duração</Label>
-                  <p className="font-medium">{med.duration} dias</p>
+                  {/* Duração em branco é uso contínuo, e a tela precisa DIZER isso: "0 dias" lia
+                      como erro de digitação, e o silêncio não distingue esquecimento de decisão. */}
+                  <p className="font-medium">
+                    {med.duration ? `${med.duration} ${med.duration === 1 ? 'dia' : 'dias'}` : 'Uso contínuo'}
+                  </p>
                 </div>
                 <div>
                   <Label className="text-muted-foreground">Quantidade</Label>
                   <p className="font-medium">
-                    {med.quantity}
-                    {med.quantityInWords ? ` (${med.quantityInWords})` : ''}
+                    {med.quantity ? (
+                      <>
+                        {med.quantity}
+                        {med.quantityInWords ? ` (${med.quantityInWords})` : ''}
+                      </>
+                    ) : (
+                      'Não especificada'
+                    )}
                   </p>
                 </div>
                 <div>
                   <Label className="text-muted-foreground">Posologia</Label>
                   <p className="font-medium">
-                    {med.dosage} {med.frequency} · via {med.route}
+                    {med.dosage} {med.frequency}
+                    {med.route ? ` · via ${med.route}` : ''}
                   </p>
                 </div>
                 {med.instructions && (
