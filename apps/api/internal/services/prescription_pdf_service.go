@@ -181,6 +181,35 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 }
 
 // GetForDownload resolve o PDF da prescrição (via PatientDocument) para download autenticado.
+// PreviewPrescriptionPDF devolve o PDF da receita ANTES de assinar, sem gravar nada.
+//
+// Existe porque não havia como o médico ver o que vai assinar: `Download` exige
+// `PatientDocumentID`, que só é preenchido pela geração assinada, então a única forma de conferir
+// uma receita era assiná-la primeiro. Numa peça que é ato médico, conferir depois é tarde.
+//
+// Renderiza SEMPRE no modo manual, mesmo quando o médico tem certificado ativo. Não é economia: o
+// modo digital desenha o selo ICP-Brasil, e um rascunho com selo é indistinguível de uma receita
+// válida para quem receber o arquivo. No modo manual sai o campo de assinatura em branco, que diz
+// sozinho que aquilo ainda não foi assinado. `SignedAt` não é tocado, aqui nem no banco.
+func (s *PrescriptionPDFService) PreviewPrescriptionPDF(prescriptionID uuid.UUID) ([]byte, error) {
+	var prescription models.Prescription
+	if err := s.db.Preload("Patient").Preload("Doctor").Preload("Medications").
+		Preload("Formulas", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
+		Preload("Formulas.Components", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
+		First(&prescription, prescriptionID).Error; err != nil {
+		return nil, err
+	}
+	// As mesmas exigências mínimas da geração assinada, para o rascunho falhar no mesmo lugar em
+	// que a assinatura falharia, e não só na hora de assinar.
+	if strings.TrimSpace(prescription.Patient.Name) == "" {
+		return nil, errors.New("paciente sem nome")
+	}
+	if len(prescription.Medications) == 0 && len(prescription.Formulas) == 0 {
+		return nil, errors.New("prescrição sem medicamentos")
+	}
+	return renderPrescriptionBytes(&prescription, true)
+}
+
 func (s *PrescriptionPDFService) GetForDownload(prescriptionID uuid.UUID) (fullPath, fileName, contentType string, err error) {
 	var p models.Prescription
 	// Patient entra junto porque o nome do arquivo é montado na hora, e não lido do

@@ -998,6 +998,8 @@ func setupRoutes(
 	prescriptions.Put("/:id", prescriptionHandler.Update)
 	prescriptions.Delete("/:id", prescriptionHandler.Delete)
 	prescriptions.Post("/:id/sign", middleware.RequireDoctor(), prescriptionHandler.SignAndGenerate)
+	// O rascunho vem antes do download porque conferir antes de assinar é o caminho normal.
+	prescriptions.Get("/:id/preview", prescriptionHandler.Preview)
 	prescriptions.Get("/:id/download", prescriptionHandler.Download)
 
 	// Documentos clínicos emitidos (P3 frente 2): atestado/declaração/laudo assináveis.

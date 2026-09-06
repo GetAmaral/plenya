@@ -6818,6 +6818,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/prescriptions/{id}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rascunho da receita, sem assinar
+         * @description Entrega o PDF da prescrição via PatientDocument (substitui o /uploads estático).
+         *     PDF da receita como ela vai sair, no layout de assinatura manual. Não grava nada e
+         *     não marca a receita como assinada: é o que o médico confere ANTES de assinar.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Prescription UUID */
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/pdf": string;
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/pdf": components["schemas"]["dto.ErrorResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/processing-jobs/{id}": {
         parameters: {
             query?: never;
@@ -16932,8 +16985,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Download autenticado do PDF da prescrição
+         * Rascunho da receita, sem assinar
          * @description Entrega o PDF da prescrição via PatientDocument (substitui o /uploads estático).
+         *     PDF da receita como ela vai sair, no layout de assinatura manual. Não grava nada e
+         *     não marca a receita como assinada: é o que o médico confere ANTES de assinar.
          */
         get: {
             parameters: {

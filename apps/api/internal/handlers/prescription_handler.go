@@ -392,6 +392,37 @@ func (h *PrescriptionHandler) SignAndGenerate(c *fiber.Ctx) error {
 // @Success 200 {file} file
 // @Failure 404 {object} dto.ErrorResponse
 // @Router /prescriptions/{id}/download [get]
+// Preview godoc
+// @Summary Rascunho da receita, sem assinar
+// @Description PDF da receita como ela vai sair, no layout de assinatura manual. Não grava nada e
+// @Description não marca a receita como assinada: é o que o médico confere ANTES de assinar.
+// @Tags Prescriptions
+// @Produce application/pdf
+// @Param id path string true "Prescription UUID"
+// @Success 200 {file} binary
+// @Failure 404 {object} dto.ErrorResponse
+// @Security BearerAuth
+// @Router /api/v1/prescriptions/{id}/preview [get]
+func (h *PrescriptionHandler) Preview(c *fiber.Ctx) error {
+	prescriptionID, err := uuid.Parse(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Error:   "invalid prescription id",
+			Message: "prescription id must be a valid UUID",
+		})
+	}
+	pdf, err := h.prescriptionPDFService.PreviewPrescriptionPDF(prescriptionID)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
+			Error:   "rascunho indisponível",
+			Message: err.Error(),
+		})
+	}
+	c.Set("Content-Type", "application/pdf")
+	c.Set("Content-Disposition", `inline; filename="receita-rascunho.pdf"`)
+	return c.Send(pdf)
+}
+
 func (h *PrescriptionHandler) Download(c *fiber.Ctx) error {
 	prescriptionID, err := uuid.Parse(c.Params("id"))
 	if err != nil {
