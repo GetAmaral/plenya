@@ -24,6 +24,7 @@ import {
   useBookChapters,
   ARTICLE_TYPES,
   articleApi,
+  openArticleDownload,
 } from '@/lib/api/article-api'
 import { ArticleScoreItems } from '@/components/articles/ArticleScoreItems'
 import { RelatedScoreItems } from '@/components/articles/RelatedScoreItems'
@@ -173,7 +174,10 @@ export default function ArticleDetailPage({ params }: PageProps) {
 
   const handleDownload = () => {
     if (!article) return
-    window.open(articleApi.getDownloadUrl(article.id), '_blank')
+    // A rota exige Bearer; window.open não o manda e devolvia 401 (provado em produção).
+    openArticleDownload(article.id).catch((e) =>
+      toast.error(e instanceof Error ? e.message : 'Erro ao baixar')
+    )
   }
 
   if (isLoading) {
@@ -417,7 +421,7 @@ export default function ArticleDetailPage({ params }: PageProps) {
         <>
           <FileViewer
             internalLink={article.internalLink}
-            downloadUrl={articleApi.getDownloadUrl(article.id)}
+            articleId={article.id}
             title={article.title}
             fullContent={article.fullContent ?? undefined}
           />

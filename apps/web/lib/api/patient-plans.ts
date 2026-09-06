@@ -167,6 +167,31 @@ export function usePublishPatientPlan(patientId: string) {
 }
 
 /**
+ * Gera o RELATÓRIO A4 ASSINADO do plano (ato médico, com certificado ICP-Brasil).
+ *
+ * A rota existia desde que a feature nasceu e nenhuma tela a chamava: o relatório era uma
+ * capacidade do backend sem porta. O resultado vira um `IssuedDocument`, que a tela de
+ * "Documentos emitidos" já sabe listar e baixar.
+ *
+ * É diferente de "Publicar no portal": aquele gera os dois PDFs do deck e entrega à paciente;
+ * este assina um documento clínico A4 em nome do médico.
+ */
+export function usePublishPlanReport(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) =>
+      apiClient.post<{ issuedDocumentId: string }>(
+        `${base(patientId)}/${id}/report`,
+        {},
+      ),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: patientPlanKeys.list(patientId) });
+      qc.invalidateQueries({ queryKey: ["issued-documents", patientId] });
+    },
+  });
+}
+
+/**
  * O prontuário compilado CONGELADO deste plano.
  *
  * Não é o dossiê vivo do paciente: é o que estava valendo quando o plano nasceu. A distinção é o

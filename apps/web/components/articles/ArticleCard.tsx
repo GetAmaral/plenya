@@ -22,6 +22,7 @@ import {
   useDeleteArticle,
   useBookChapters,
   articleApi,
+  openArticleDownload,
 } from '@/lib/api/article-api'
 import {
   Star,
@@ -154,8 +155,10 @@ export function ArticleCard({ article }: ArticleCardProps) {
   }
 
   const handleDownload = () => {
-    const url = articleApi.getDownloadUrl(article.id)
-    window.open(url, '_blank')
+    // A rota exige Bearer; window.open não o manda e devolvia 401 (provado em produção).
+    openArticleDownload(article.id).catch((e) =>
+      toast.error(e instanceof Error ? e.message : 'Erro ao baixar')
+    )
   }
 
   const formattedDate = formatRelativeToNow(article.publishDate, {

@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '../api-client'
+import { useAuthStore } from '../auth-store'
 
 // Types
 export interface ScoreGroup {
@@ -256,7 +257,9 @@ export const articleApi = {
     return apiClient.patch<Article>(`/api/v1/articles/${id}/rating`, { rating })
   },
 
-  // Get download URL
+  // URL crua do download. NÃO serve para `window.open` nem para `<a href>`: a rota exige Bearer
+  // (provado em produção: 401 sem cabeçalho), e nenhum dos dois manda cabeçalho. Use
+  // `openArticleDownload` ou `articleBlobUrl`.
   getDownloadUrl: (id: string): string => {
     return `${process.env.NEXT_PUBLIC_API_URL}/api/v1/articles/${id}/download`
   },
@@ -442,3 +445,28 @@ export function useArticlesForScoreItem(scoreItemId: string, enabled = true) {
   })
 }
 
+/**
+ * Busca o arquivo do artigo COM o token e devolve uma blob: URL.
+ *
+ * O visualizador e o botão de baixar apontavam a URL autenticada direto em `window.open` e em
+ * `<a href download>`. Nenhum dos dois manda o Authorization, então em produção respondia 401 e
+ * abria uma aba de erro. É o mesmo defeito que o comentário de `openPrescriptionPdf` já
+ * descrevia; aqui ele tinha passado batido.
+ *
+ * Quem chamar precisa revogar a URL quando terminar (os componentes fazem no cleanup do efeito).
+ */
+export async function articleBlobUrl(id: string): Promise<string> {
+  const token = useAuthStore.getState().accessToken
+  const res = await fetch(articleApi.getDownloadUrl(id), {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  })
+  if (!res.ok) throw new Error('Não foi possível baixar o arquivo do artigo')
+  return URL.createObjectURL(await res.blob())
+}
+
+/** Abre o arquivo do artigo numa aba, autenticado. */
+export async function openArticleDownload(id: string): Promise<void> {
+  const url = await articleBlobUrl(id)
+  window.open(url, '_blank')
+  setTimeout(() => URL.revokeObjectURL(url), 60_000)
+}

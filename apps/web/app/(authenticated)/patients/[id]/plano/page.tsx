@@ -20,6 +20,7 @@ import {
   ArrowLeft,
   CheckCircle2,
   Eye,
+  FileCheck,
   FileText,
   Loader2,
   MessageSquare,
@@ -55,6 +56,7 @@ import {
   type PlanGenWarning,
   useSendPlanMessage,
   usePublishPatientPlan,
+  usePublishPlanReport,
   useRefreshPlanDossier,
   patientPlansApi,
   openPlanDocument,
@@ -114,6 +116,7 @@ export default function PatientPlanPage() {
   const deletePlan = useDeletePatientPlan(patientId);
   const checkOverflow = useCheckPlanOverflow(patientId);
   const publishPlan = usePublishPatientPlan(patientId);
+  const publishReport = usePublishPlanReport(patientId);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   // O dossiê CONGELADO deste plano, não o vivo do paciente. Depende de selectedId, então vem
@@ -911,6 +914,33 @@ export default function PatientPlanPage() {
                       >
                         <Printer className="mr-2 h-4 w-4" />
                         PDF para impressão (A4)
+                      </Button>
+                      {/* Diferente de publicar: aquilo entrega o deck à paciente, isto assina um
+                          documento clínico A4 em nome do médico. A rota existia desde o começo e
+                          nenhuma tela a chamava. */}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        disabled={publishReport.isPending}
+                        onClick={() =>
+                          publishReport
+                            .mutateAsync(selected.id)
+                            .then(() =>
+                              toast.success(
+                                "Relatório assinado gerado. Está em Documentos emitidos."
+                              )
+                            )
+                            .catch((e) =>
+                              toast.error(e?.message ?? "Falha ao gerar o relatório")
+                            )
+                        }
+                      >
+                        {publishReport.isPending ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <FileCheck className="mr-2 h-4 w-4" />
+                        )}
+                        Gerar relatório assinado
                       </Button>
                     </div>
                   </div>
