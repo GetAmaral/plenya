@@ -11,6 +11,7 @@ import (
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/utils"
 )
 
 type PaymentHandler struct {
@@ -141,7 +142,7 @@ func (h *PaymentHandler) Receipt(c *fiber.Ctx) error {
 		})
 	}
 	c.Set("Content-Type", "application/pdf")
-	c.Set("Content-Disposition", "inline; filename=\""+filename+"\"")
+	c.Set("Content-Disposition", utils.ContentDisposition(filename, "recibo.pdf"))
 	return c.Send(pdf)
 }
 

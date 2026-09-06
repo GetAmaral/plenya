@@ -7,6 +7,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { openServerPdf } from "@/lib/open-pdf";
 import { apiClient } from '../api-client';
 
 export type IssuedDocumentType = 'certificate' | 'declaration' | 'report' | 'orientation';
@@ -98,10 +99,7 @@ export function useDeleteIssuedDocument(patientId: string) {
   });
 }
 
-/** Baixa o PDF assinado (autenticado) e abre numa nova aba. */
+/** Baixa o PDF assinado (autenticado) e entrega com o nome do servidor. Ver lib/open-pdf.ts. */
 export async function openIssuedDocumentPDF(docId: string) {
-  const blob = await apiClient.getBlob(`/api/v1/issued-documents/${docId}/pdf`);
-  const url = URL.createObjectURL(blob);
-  window.open(url, '_blank');
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  await openServerPdf(`/api/v1/issued-documents/${docId}/pdf`, `Documento_${docId.slice(0, 8)}.pdf`);
 }

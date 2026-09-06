@@ -40,8 +40,13 @@ export default function MyPlanPage() {
         const link = document.createElement("a");
         link.href = url;
         link.download = nome;
+        // A âncora precisa estar no documento (o Firefox ignora o clique de uma solta), e a URL
+        // do blob só pode ser revogada depois: revogar na mesma linha do clique corta o download
+        // no meio num arquivo grande.
+        document.body.appendChild(link);
         link.click();
-        URL.revokeObjectURL(url);
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
       })
       .catch((e) => toast.error(e instanceof Error ? e.message : "Falha ao baixar"));
   };

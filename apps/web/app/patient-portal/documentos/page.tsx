@@ -51,13 +51,17 @@ export default function MyDocumentsPage() {
     })
       .then(async (r) => {
         if (!r.ok) throw new Error("Falha ao baixar");
-        const blob = await r.blob();
-        const url = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(await r.blob());
         const link = document.createElement("a");
         link.href = url;
         link.download = doc.fileName;
+        // A âncora precisa estar no documento (o Firefox ignora o clique de uma solta), e a URL
+        // do blob só pode ser revogada depois: revogar na mesma linha do clique corta o download
+        // no meio num arquivo grande.
+        document.body.appendChild(link);
         link.click();
-        URL.revokeObjectURL(url);
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
       })
       .catch((e) => toast.error(e?.message ?? "Falha"));
   };

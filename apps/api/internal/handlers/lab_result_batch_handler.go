@@ -15,6 +15,7 @@ import (
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/utils"
 )
 
 type LabResultBatchHandler struct {
@@ -97,7 +98,7 @@ func (h *LabResultBatchHandler) DownloadPDF(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{Error: "invalid batch id", Message: err.Error()})
 	}
 	userID := middleware.GetUserID(c)
-	path, err := h.labResultBatchService.GetPDFPath(id, userID)
+	path, fileName, err := h.labResultBatchService.GetPDFPath(id, userID)
 	if err != nil {
 		switch {
 		case errors.Is(err, services.ErrLabResultBatchNotFound), errors.Is(err, services.ErrLabResultBatchPDFNotFound):
@@ -111,7 +112,7 @@ func (h *LabResultBatchHandler) DownloadPDF(c *fiber.Ctx) error {
 		}
 	}
 	c.Set("Content-Type", "application/pdf")
-	c.Set("Content-Disposition", `inline; filename="laudo.pdf"`)
+	c.Set("Content-Disposition", utils.ContentDisposition(fileName, "laudo.pdf"))
 	return c.SendFile(path)
 }
 
@@ -661,7 +662,7 @@ func (h *LabResultBatchHandler) Reinterpret(c *fiber.Ctx) error {
 	userID := middleware.GetUserID(c)
 
 	// GetPDFPath já valida ownership + paciente selecionado e confere se o arquivo existe.
-	pdfPath, err := h.labResultBatchService.GetPDFPath(batchID, userID)
+	pdfPath, _, err := h.labResultBatchService.GetPDFPath(batchID, userID)
 	if err != nil {
 		switch {
 		case errors.Is(err, services.ErrLabResultBatchNotFound):

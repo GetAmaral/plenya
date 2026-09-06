@@ -13,6 +13,7 @@ import (
 
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
+	"github.com/plenya/api/internal/utils"
 )
 
 var (
@@ -853,37 +854,55 @@ func (s *LabResultBatchService) toDetailResponse(batch *models.LabResultBatch) *
 
 // GetPDFPath devolve o caminho do PDF original do lote (último ProcessingJob com PDF),
 // verificando que o lote pertence ao paciente selecionado.
-func (s *LabResultBatchService) GetPDFPath(batchID, userID uuid.UUID) (string, error) {
+// Devolve o caminho e o NOME do arquivo. O laudo original é reenviado por WhatsApp como qualquer
+// outro documento, e saía chamado "laudo.pdf" para todo paciente e toda data — na pasta de quem
+// recebe, o segundo já sobrescrevia o primeiro.
+func (s *LabResultBatchService) GetPDFPath(batchID, userID uuid.UUID) (path, fileName string, err error) {
 	var user models.User
 	if err := s.db.Select("selected_patient_id").First(&user, userID).Error; err != nil {
-		return "", err
+		return "", "", err
 	}
 	if user.SelectedPatientID == nil {
-		return "", ErrNoPatientSelected
+		return "", "", ErrNoPatientSelected
 	}
 	var batch models.LabResultBatch
 	if err := s.db.First(&batch, batchID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return "", ErrLabResultBatchNotFound
+			return "", "", ErrLabResultBatchNotFound
 		}
-		return "", err
+		return "", "", err
 	}
 	if batch.PatientID != *user.SelectedPatientID {
-		return "", ErrPatientMismatch
+		return "", "", ErrPatientMismatch
 	}
 	var job models.ProcessingJob
 	if err := s.db.Where("lab_result_batch_id = ? AND pdf_path <> ''", batchID).
 		Order("created_at DESC").First(&job).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return "", ErrLabResultBatchPDFNotFound
+			return "", "", ErrLabResultBatchPDFNotFound
 		}
-		return "", err
+		return "", "", err
 	}
 	// O arquivo pode ter sumido do disco (uploads não-persistente em deploys antigos).
 	if _, err := os.Stat(job.PDFPath); err != nil {
-		return "", ErrLabResultBatchPDFNotFound
+		return "", "", ErrLabResultBatchPDFNotFound
 	}
-	return job.PDFPath, nil
+	// A data do arquivo é a da COLETA, não a do upload: é ela que o médico procura, e um laudo
+	// antigo digitalizado hoje sairia com a data de hoje.
+	dia := batch.CollectionDate
+	if dia.IsZero() {
+		dia = batch.CreatedAt
+	}
+	// O nome do paciente é COSMÉTICO aqui, então a falha em lê-lo não pode derrubar a rota: quem
+	// chama isto também é o Reinterpret, que descarta o nome e mesmo assim quebraria. Unscoped
+	// porque o laudo de um paciente arquivado continua sendo dele; sem nome, DocumentFileName
+	// cai em "Paciente".
+	var patient models.Patient
+	nome := ""
+	if err := s.db.Unscoped().First(&patient, batch.PatientID).Error; err == nil {
+		nome = patient.Name
+	}
+	return job.PDFPath, utils.DocumentFileName(nome, "Laudo", dia, batch.ID), nil
 }
 
 // DeletePDFResultsForReinterpret apaga (soft delete) os resultados que vieram do PDF de um

@@ -411,7 +411,7 @@ func (h *PrescriptionHandler) Preview(c *fiber.Ctx) error {
 			Message: "prescription id must be a valid UUID",
 		})
 	}
-	pdf, err := h.prescriptionPDFService.PreviewPrescriptionPDF(prescriptionID)
+	pdf, fileName, err := h.prescriptionPDFService.PreviewPrescriptionPDF(prescriptionID)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(dto.ErrorResponse{
 			Error:   "rascunho indisponível",
@@ -419,7 +419,8 @@ func (h *PrescriptionHandler) Preview(c *fiber.Ctx) error {
 		})
 	}
 	c.Set("Content-Type", "application/pdf")
-	c.Set("Content-Disposition", `inline; filename="receita-rascunho.pdf"`)
+	// Mesmo padrão de nome dos documentos assinados. O rascunho também é salvo e reenviado.
+	c.Set("Content-Disposition", utils.ContentDisposition(fileName, "receita-rascunho.pdf"))
 	return c.Send(pdf)
 }
 

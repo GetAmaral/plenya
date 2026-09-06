@@ -2,7 +2,9 @@ package services
 
 import (
 	"testing"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/plenya/api/internal/models"
 )
 
@@ -94,5 +96,28 @@ func TestFormulaPosologyDizUsoContinuo(t *testing.T) {
 	f.Duration = 1
 	if got := formulaPosologyLine(f); got != "Tomar 1 cápsula ao dia · via oral · por 1 dia" {
 		t.Errorf("um dia: veio %q", got)
+	}
+}
+
+// O rascunho vai para a mesma pasta de downloads da receita assinada, e no mesmo dia. Se os dois
+// nomes forem iguais, o segundo sobrescreve o primeiro — e o que sobra pode ser o rascunho.
+func TestNomeDoRascunhoSeparaDaReceitaAssinada(t *testing.T) {
+	p := models.Prescription{
+		ID:               uuid.MustParse("01a07670-3e4b-7e31-9015-c132b5ba60e0"),
+		Type:             models.PrescriptionCommercial,
+		PrescriptionDate: time.Date(2026, 9, 6, 0, 0, 0, 0, time.UTC),
+		Patient:          models.Patient{Name: "Elisane Albuquerque"},
+	}
+	rascunho := prescriptionDraftFileName(&p)
+	assinada := prescriptionFileName(&p)
+	if rascunho == assinada {
+		t.Fatalf("rascunho e assinada com o mesmo nome: %q", rascunho)
+	}
+	if want := "Elisane-Albuquerque_RascunhoReceita_2026-09-06_01a07670.pdf"; rascunho != want {
+		t.Errorf("rascunho:\n  quer %q\n  veio %q", want, rascunho)
+	}
+	p.Type = models.PrescriptionCompounded
+	if want := "Elisane-Albuquerque_RascunhoReceitaManipulado_2026-09-06_01a07670.pdf"; prescriptionDraftFileName(&p) != want {
+		t.Errorf("manipulado:\n  quer %q\n  veio %q", want, prescriptionDraftFileName(&p))
 	}
 }

@@ -191,23 +191,45 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 // modo digital desenha o selo ICP-Brasil, e um rascunho com selo é indistinguível de uma receita
 // válida para quem receber o arquivo. No modo manual sai o campo de assinatura em branco, que diz
 // sozinho que aquilo ainda não foi assinado. `SignedAt` não é tocado, aqui nem no banco.
-func (s *PrescriptionPDFService) PreviewPrescriptionPDF(prescriptionID uuid.UUID) ([]byte, error) {
+// Devolve também o nome do arquivo, no mesmo padrão dos documentos assinados: o rascunho sai da
+// tela e vai para a pasta de downloads como qualquer outro PDF, e "unknown.pdf" não diz nem de
+// quem é nem do que se trata.
+func (s *PrescriptionPDFService) PreviewPrescriptionPDF(prescriptionID uuid.UUID) ([]byte, string, error) {
 	var prescription models.Prescription
 	if err := s.db.Preload("Patient").Preload("Doctor").Preload("Medications").
 		Preload("Formulas", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
 		Preload("Formulas.Components", func(db *gorm.DB) *gorm.DB { return db.Order("display_order") }).
 		First(&prescription, prescriptionID).Error; err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	// As mesmas exigências mínimas da geração assinada, para o rascunho falhar no mesmo lugar em
 	// que a assinatura falharia, e não só na hora de assinar.
 	if strings.TrimSpace(prescription.Patient.Name) == "" {
-		return nil, errors.New("paciente sem nome")
+		return nil, "", errors.New("paciente sem nome")
 	}
 	if len(prescription.Medications) == 0 && len(prescription.Formulas) == 0 {
-		return nil, errors.New("prescrição sem medicamentos")
+		return nil, "", errors.New("prescrição sem medicamentos")
 	}
-	return renderPrescriptionBytes(&prescription, true)
+	pdf, err := renderPrescriptionBytes(&prescription, true)
+	if err != nil {
+		return nil, "", err
+	}
+	return pdf, prescriptionDraftFileName(&prescription), nil
+}
+
+// prescriptionDraftFileName — "Ana-Claudia_RascunhoReceita_2026-08-31_01a0592b.pdf". "Rascunho"
+// vem NA FRENTE do rótulo de propósito: numa pasta com a receita assinada do mesmo paciente e do
+// mesmo dia, é a primeira palavra que separa as duas.
+func prescriptionDraftFileName(p *models.Prescription) string {
+	kind := "RascunhoReceita"
+	if p.Type == models.PrescriptionCompounded {
+		kind = "RascunhoReceitaManipulado"
+	}
+	date := p.CreatedAt
+	if !p.PrescriptionDate.IsZero() {
+		date = p.PrescriptionDate
+	}
+	return utils.DocumentFileName(p.Patient.Name, kind, date, p.ID)
 }
 
 func (s *PrescriptionPDFService) GetForDownload(prescriptionID uuid.UUID) (fullPath, fileName, contentType string, err error) {

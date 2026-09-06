@@ -10,6 +10,7 @@ import (
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/middleware"
 	"github.com/plenya/api/internal/services"
+	"github.com/plenya/api/internal/utils"
 )
 
 type IssuedDocumentHandler struct {
@@ -128,7 +129,9 @@ func (h *IssuedDocumentHandler) DownloadPDF(c *fiber.Ctx) error {
 		return h.mapErr(c, err)
 	}
 	c.Set("Content-Type", contentType)
-	c.Set("Content-Disposition", `inline; filename="`+fileName+`"`)
+	// filename= sozinho não carrega acento: "Ana-Cláudia" chegava como "Ana-Cldia" ou quebrava o
+	// cabeçalho. utils.ContentDisposition manda as duas formas.
+	c.Set("Content-Disposition", utils.ContentDisposition(fileName, "documento.pdf"))
 	return c.SendFile(full)
 }
 

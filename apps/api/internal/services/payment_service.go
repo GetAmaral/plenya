@@ -8,12 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/uuid"
 	gofpdf "codeberg.org/go-pdf/fpdf"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 
 	"github.com/plenya/api/internal/dto"
 	"github.com/plenya/api/internal/models"
+	"github.com/plenya/api/internal/utils"
 )
 
 var (
@@ -174,8 +175,13 @@ func (s *PaymentService) GenerateReceipt(id uuid.UUID) ([]byte, string, error) {
 	if err != nil {
 		return nil, "", err
 	}
-	filename := fmt.Sprintf("recibo-%s.pdf", strings.ReplaceAll(p.ReceiptNumber, "/", "-"))
-	return pdf, filename, nil
+	// Mesmo padrão dos outros documentos: "Ana-Claudia_Recibo_2026-09-06_01a07752.pdf". O número
+	// do recibo não diz de quem é nem de quando, e é o paciente que guarda este arquivo.
+	dia := p.PaidAt
+	if dia.IsZero() {
+		dia = p.CreatedAt
+	}
+	return pdf, utils.DocumentFileName(p.Patient.Name, "Recibo", dia, p.ID), nil
 }
 
 func (s *PaymentService) reload(id uuid.UUID) (*dto.PaymentResponse, error) {

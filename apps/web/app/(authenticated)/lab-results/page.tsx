@@ -416,7 +416,7 @@ export default function LabResultsPage() {
                                       onClick={() => handleViewPDF(cell.batchId)}
                                     >
                                       <FileText className="h-4 w-4 mr-2" />
-                                      Ver PDF do laudo
+                                      Baixar PDF do laudo
                                     </ContextMenuItem>
                                     <ContextMenuItem
                                       onClick={() =>

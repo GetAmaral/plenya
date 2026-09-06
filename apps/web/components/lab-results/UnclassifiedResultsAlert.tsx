@@ -277,10 +277,10 @@ export function UnclassifiedResultsAlert({
                               toast.error("Não foi possível abrir o PDF original")
                             );
                           }}
-                          title="Abre o laudo original em PDF para conferir o que o laboratório reportou"
+                          title="Baixa o laudo original em PDF, com o nome do paciente e a data da coleta"
                         >
                           <FileText className="mr-1 h-3 w-3" />
-                          Ver PDF
+                          Baixar PDF
                         </Button>
                       </>
                     )}

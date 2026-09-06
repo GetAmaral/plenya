@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 import type { AppointmentType } from "@/lib/api/calendar-api";
+import { openServerPdf } from "@/lib/open-pdf";
 
 // ===== Types =====
 
@@ -135,13 +136,9 @@ export function useUpsertConsultationPrice() {
   });
 }
 
-// Busca o recibo (PDF, atrás de auth) como blob e abre em nova aba.
+// Busca o recibo (PDF, atrás de auth) e entrega com o nome do servidor. Ver lib/open-pdf.ts.
 export async function openReceipt(paymentId: string): Promise<void> {
-  const blob = await apiClient.getBlob(`/api/v1/payments/${paymentId}/receipt`);
-  const url = URL.createObjectURL(blob);
-  window.open(url, "_blank");
-  // Revoga depois de um tempo para o navegador conseguir abrir.
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  await openServerPdf(`/api/v1/payments/${paymentId}/receipt`, `Recibo_${paymentId.slice(0, 8)}.pdf`);
 }
 
 // Formata centavos em "R$ 1.234,56".

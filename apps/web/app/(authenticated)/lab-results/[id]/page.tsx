@@ -141,7 +141,7 @@ export default function LabResultBatchDetailPage() {
           ...(batch.hasPdf
             ? [
                 {
-                  label: "Ver PDF",
+                  label: "Baixar PDF",
                   icon: <FileText className="h-4 w-4" />,
                   onClick: () =>
                     openLabBatchPDF(batchId).catch(() =>

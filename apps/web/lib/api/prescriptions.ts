@@ -1,5 +1,5 @@
+import { openServerPdf } from '@/lib/open-pdf'
 import { apiClient } from '../api-client'
-import { useAuthStore } from '../auth-store'
 import type { components } from '@plenya/types'
 // Prescription (= dto.PrescriptionResponse refinado: medications sempre presente) vem do GERADO.
 import type { Prescription } from '@plenya/types'
@@ -137,19 +137,11 @@ export function prescriptionDownloadURL(id: string): string {
 }
 
 /**
- * Baixa o PDF da prescrição com o token (Bearer) e abre numa nova aba.
- * window.open direto não funciona porque o endpoint exige autenticação.
+ * Baixa o PDF da prescrição com o token (Bearer) e entrega com o nome do servidor
+ * ("Ana-Cláudia_Receita_2026-08-31_01a0592b.pdf"). Ver lib/open-pdf.ts.
  */
 export async function openPrescriptionPdf(id: string): Promise<void> {
-  const token = useAuthStore.getState().accessToken
-  const res = await fetch(prescriptionDownloadURL(id), {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  })
-  if (!res.ok) throw new Error('Não foi possível baixar o PDF da prescrição')
-  const blob = await res.blob()
-  const url = URL.createObjectURL(blob)
-  window.open(url, '_blank')
-  setTimeout(() => URL.revokeObjectURL(url), 60_000)
+  await openServerPdf(`/api/v1/prescriptions/${id}/download`, `Receita_${id.slice(0, 8)}.pdf`)
 }
 
 /**
@@ -161,13 +153,8 @@ export async function openPrescriptionPdf(id: string): Promise<void> {
  * assinada.
  */
 export async function openPrescriptionDraftPdf(id: string): Promise<void> {
-  const token = useAuthStore.getState().accessToken
-  const res = await fetch(`${API_URL}/api/v1/prescriptions/${id}/preview`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  })
-  if (!res.ok) throw new Error('Não foi possível gerar o rascunho da receita')
-  const blob = await res.blob()
-  const url = URL.createObjectURL(blob)
-  window.open(url, '_blank')
-  setTimeout(() => URL.revokeObjectURL(url), 60_000)
+  await openServerPdf(
+    `/api/v1/prescriptions/${id}/preview`,
+    `RascunhoReceita_${id.slice(0, 8)}.pdf`,
+  )
 }
