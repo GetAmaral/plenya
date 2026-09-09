@@ -34,16 +34,16 @@ TOKEN=$(grep '^COOLIFY_API_TOKEN=' "$HOME/.plenya-vps-secrets/coolify.env" | cut
 # O `WHERE application_id` resolve: cada deploy limpa a própria fila, e ninguém encosta na do
 # vizinho. Um deploy alheio em andamento é motivo para ESPERAR, não para derrubar.
 echo "==> higiene: marca deploys presos DESTE app como failed"
-ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -c \"UPDATE application_deployment_queues SET status='failed', finished_at=now() WHERE status IN ('queued','in_progress') AND application_id = (SELECT id FROM applications WHERE uuid='${UUID}');\"" >/dev/null
+ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -c \"UPDATE application_deployment_queues SET status='failed', finished_at=now() WHERE status IN ('queued','in_progress') AND application_id = (SELECT id::text FROM applications WHERE uuid='${UUID}');\"" >/dev/null
 
 # Build de OUTRO app em andamento: esperar é mais barato que competir por RAM e disco. O clone do
 # repositório sozinho passa de 200MB, e dois ao mesmo tempo foi o que travou o deploy acima.
-OUTRO=$(ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -At -c \"SELECT count(*) FROM application_deployment_queues q JOIN applications a ON a.id=q.application_id WHERE q.status IN ('queued','in_progress') AND a.uuid <> '${UUID}';\"" 2>/dev/null || echo 0)
+OUTRO=$(ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -At -c \"SELECT count(*) FROM application_deployment_queues q JOIN applications a ON a.id::text = q.application_id WHERE q.status IN ('queued','in_progress') AND a.uuid <> '${UUID}';\"" 2>/dev/null || echo 0)
 if [ "${OUTRO:-0}" != "0" ]; then
   echo "==> há $OUTRO deploy(s) de outro app em andamento; esperando até 10min para não competir"
   for _ in $(seq 1 60); do
     sleep 10
-    OUTRO=$(ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -At -c \"SELECT count(*) FROM application_deployment_queues q JOIN applications a ON a.id=q.application_id WHERE q.status IN ('queued','in_progress') AND a.uuid <> '${UUID}';\"" 2>/dev/null || echo 0)
+    OUTRO=$(ssh plenya "sudo docker exec coolify-db psql -U coolify -d coolify -At -c \"SELECT count(*) FROM application_deployment_queues q JOIN applications a ON a.id::text = q.application_id WHERE q.status IN ('queued','in_progress') AND a.uuid <> '${UUID}';\"" 2>/dev/null || echo 0)
     [ "${OUTRO:-0}" = "0" ] && break
   done
   [ "${OUTRO:-0}" != "0" ] && echo "==> ATENÇÃO: outro deploy segue rodando; seguindo mesmo assim" >&2
