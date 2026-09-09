@@ -82,6 +82,11 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 		return nil, fmt.Errorf("failed to load lab results: %w", err)
 	}
 
+	// As razões (colesterol total/HDL, triglicerídeos/HDL, apoB/apoA-1) são itens do escore que
+	// nenhum laudo preenche, porque razão é conta e não medida. Calcula aqui, sobre os resultados
+	// que acabaram de ser carregados, antes de qualquer item ser avaliado.
+	aplicaRazoesDerivadas(labResultsByCode)
+
 	anamnesisItemsByScoreItemID, err := s.anamnesisRepo.GetHistoricalItemsByScoreItemID(dto.PatientID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load anamnesis items: %w", err)
@@ -423,7 +428,11 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 				valueUsed = labResult.ResultNumeric
 				ds := models.DataSourceLabResult
 				dataSource = &ds
-				labResultID = &labResult.ID
+				// Razão calculada não tem linha em `lab_results`, e `lab_result_id` é chave
+				// estrangeira para lá: referenciá-la gravaria um UUID zerado.
+				if !resultadoDerivado(labResult) {
+					labResultID = &labResult.ID
+				}
 
 				// Sort levels by level number ASC (0→6) - most critical first
 				levels := item.Levels
@@ -447,7 +456,12 @@ func (s *ScoreSnapshotService) evaluateScoreItem(
 				// selecionar o score level pelo número — direção alto=bom / 0=ruim.
 				ds := models.DataSourceLabResult
 				dataSource = &ds
-				labResultID = &labResult.ID
+				// Mesma guarda do ramo numérico. Hoje nenhuma razão chega aqui, porque toda
+				// derivada traz `ResultNumeric`; no dia em que existir uma derivada qualitativa,
+				// sem esta linha o snapshot grava um UUID zerado e a transação morre na FK.
+				if !resultadoDerivado(labResult) {
+					labResultID = &labResult.ID
+				}
 
 				for i := range item.Levels {
 					if item.Levels[i].Level == *labResult.Level {

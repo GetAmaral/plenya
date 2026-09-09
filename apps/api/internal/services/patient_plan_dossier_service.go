@@ -998,6 +998,24 @@ func (s *PatientPlanDossierService) loadLastLabRequest(patientID uuid.UUID) (*dt
 	return out, nil
 }
 
+// nomeDoCatalogoCabeNaLinha confirma que a definição resolvida é nomeada DENTRO da linha do pedido,
+// por qualquer um dos seus nomes indexados. Descarta o casamento na direção oposta, em que a linha
+// é apenas um pedaço de um nome maior e mais específico do catálogo.
+func nomeDoCatalogoCabeNaLinha(d *models.LabTestDefinition, linha string) bool {
+	alvo := normalizeTestName(linha)
+	nomes := []string{d.Name}
+	if d.ShortName != nil {
+		nomes = append(nomes, *d.ShortName)
+	}
+	nomes = append(nomes, d.AltNames...)
+	for _, n := range nomes {
+		if nn := normalizeTestName(n); nn != "" && containsSubstring(alvo, nn) {
+			return true
+		}
+	}
+	return false
+}
+
 // examesQueVoltaram — as LINHAS do pedido que já têm resultado, devolvidas como o pedido as escreve.
 //
 // Devolve a linha inteira, e não o nome do catálogo, porque quem consome é o montador do slide, que
@@ -1021,8 +1039,18 @@ func (s *PatientPlanDossierService) examesQueVoltaram(patientID uuid.UUID, lr *m
 	if err != nil {
 		return nil, err
 	}
+	// Painel só conta como voltado quando a coleta trouxe TODOS os analitos dele.
+	//
+	// `LastDoneAt` de um painel é o máximo sobre a descendência, então um único analito lançado já
+	// daria a data. Numa "Rotina de urina" com 14 analitos já vistos e 8 na coleta mais recente, o
+	// exame sumiria do slide "os exames que ainda não voltaram" com metade do painel faltando, e a
+	// paciente leria que não falta nada. O lado seguro é o contrário: painel incompleto continua
+	// listado como pendente.
 	feitoEm := make(map[string]string, len(cobertura.Entries))
 	for _, e := range cobertura.Entries {
+		if e.Via == dto.LabCoverageChildren && e.ChildrenDone < e.ChildrenTotal {
+			continue
+		}
 		feitoEm[e.Code] = e.LastDoneAt
 	}
 
@@ -1042,7 +1070,13 @@ func (s *PatientPlanDossierService) examesQueVoltaram(patientID uuid.UUID, lr *m
 			continue
 		}
 		d := idx.Resolve(linha)
-		if d == nil {
+		// `Resolve` cai para "o nome indexado mais longo que contém OU é contido", e a segunda
+		// metade é perigosa aqui: "Vitamina D" no pedido casaria com "Vitamina D 1,25 di-hidroxi
+		// (calcitriol)" do catálogo, e bastaria a paciente ter feito o calcitriol para o exame que
+		// ela realmente deve fazer sumir da página. Só aceita a direção segura, que é o nome do
+		// catálogo contido na linha do pedido: é ela que resolve os sufixos reais
+		// ("... - TUSS 40311210 - urina jato"), e é a que não inventa exame.
+		if d == nil || !nomeDoCatalogoCabeNaLinha(d, linha) {
 			continue
 		}
 		if q := feitoEm[d.Code]; q != "" && q >= corte {
