@@ -178,19 +178,6 @@ func componentesPorLote(db *gorm.DB, patientID uuid.UUID, codigo string) (map[uu
 // sincronização não via a linha digitada e gravava uma segunda ao lado, deixando o mesmo exame
 // duas vezes no mesmo dia com valores levemente diferentes (3,05 e 3,0526).
 func gravaRazao(db *gorm.DB, patientID, defID uuid.UUID, r razaoDerivada, lote uuid.UUID, dia string, valor float64) error {
-	var lancada int64
-	if err := db.Table("lab_results r").
-		Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id AND b.deleted_at IS NULL").
-		Where("b.patient_id = ? AND r.lab_test_definition_id = ?", patientID, defID).
-		Where("to_char(b.collection_date, 'YYYY-MM-DD') = ?", dia).
-		Where("r.deleted_at IS NULL AND r.source <> ?", sourceRazaoDerivada).
-		Count(&lancada).Error; err != nil {
-		return err
-	}
-	if lancada > 0 {
-		return nil // alguém lançou a razão nesta coleta: o prontuário vence a conta
-	}
-
 	var existente models.LabResult
 	err := db.Where("lab_result_batch_id = ? AND lab_test_definition_id = ? AND deleted_at IS NULL",
 		lote, defID).First(&existente).Error
@@ -209,6 +196,27 @@ func gravaRazao(db *gorm.DB, patientID, defID uuid.UUID, r razaoDerivada, lote u
 		}).Error
 
 	case errors.Is(err, gorm.ErrRecordNotFound):
+		// Não há linha neste lote. Antes de criar, olhar o DIA inteiro: a mesma coleta se parte em
+		// lotes, e a razão é uma por coleta, não uma por lote.
+		//
+		// Os dois lados disto já apareceram em produção. Numa paciente a razão digitada estava num
+		// lote e os componentes dela em outro, os dois do mesmo dia, e sem esta guarda a
+		// sincronização gravava uma segunda linha ao lado da digitada. Noutra, dois laudos do mesmo
+		// dia traziam o mesmo lipidograma, e a razão foi calculada duas vezes, uma por lote: duas
+		// linhas idênticas na mesma data, que viram dois pontos sobrepostos na régua.
+		var noDia int64
+		if err := db.Table("lab_results r").
+			Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id AND b.deleted_at IS NULL").
+			Where("b.patient_id = ? AND r.lab_test_definition_id = ?", patientID, defID).
+			Where("to_char(b.collection_date, 'YYYY-MM-DD') = ?", dia).
+			Where("r.deleted_at IS NULL").
+			Count(&noDia).Error; err != nil {
+			return err
+		}
+		if noDia > 0 {
+			return nil
+		}
+
 		unidade := r.Unidade
 		nota := fmt.Sprintf("Calculada pelo escore a partir de %s e %s da mesma coleta.",
 			r.Numerador, r.Denominador)
