@@ -123,11 +123,15 @@ BEGIN
 
   -- 2. unit_original = a unidade DO LAUDO. É dela que o reconvert-lab-units parte, e é por isso
   --    que ele é idempotente. Sem isto o valor fica cru e o escore compara noutra grandeza.
+  --    O `nullif` casa com o `r.get("unidade") or d.get("unit")` do emr.py: quem escreve o lote
+  --    manda "unidade": "" no resultado qualitativo, e sem ele a unidade entrava vazia por SQL e
+  --    preenchida por HTTP — a mesma carga ficava diferente nos dois caminhos. Unidade vazia é o
+  --    que faz o escore comparar noutra grandeza em silêncio (docs/emr/dados-de-paciente-em-producao.md).
   INSERT INTO lab_results
     (id, lab_result_batch_id, lab_test_definition_id, test_name, test_type,
      result_numeric, result_text, unit, unit_original, matched, source, created_at, updated_at)
   SELECT uuid_generate_v7(), v_lote, d.id, d.name, coalesce(d.category, 'other'),
-         i.valor, i.texto, coalesce(i.unidade, d.unit), coalesce(i.unidade, d.unit),
+         i.valor, i.texto, coalesce(nullif(i.unidade, ''), d.unit), coalesce(nullif(i.unidade, ''), d.unit),
          true, 'manual', now(), now()
     FROM (VALUES
       {valores}
