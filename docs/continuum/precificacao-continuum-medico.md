@@ -19,6 +19,7 @@
 | Box Plenya | **não existe** | Bloco B zera; manipulado e magnésio viram prescrição que o paciente compra |
 | WhatsApp | **retainer R$ 200/mês** | metade do Continuum completo, com SLA mais estreito |
 | Modalidades | **semestral e anual** | mantém a narrativa dos dois horizontes |
+| Formato dos encontros | **online ou presencial em Londrina** | escolha do paciente (LOCK 08/09) |
 | Preço | **R$ 12.000 (6× R$ 2.000) · R$ 20.000 (12× R$ 1.667)** | âncora fixada primeiro, planilha ajustada até caber |
 | Único programa à venda | **sim** | o Continuum completo sai de venda; a fatia de aquisição do programa passa toda para o Médico |
 | Painel genético | **add-on à parte** (Trim #2) | fora do preço |
@@ -110,6 +111,31 @@ e é o que faz R$ 12.000 fechar sem depender de premissa de volume.
 Contrapartida operacional: SLA mais estreito que o do completo (horário comercial, resposta em até
 24h úteis). Urgência clínica nunca foi canal de WhatsApp, e continua não sendo.
 
+## O presencial em Londrina e o custo de sala
+
+O programa deixou de ser 100% online em 08/09/2026: o paciente escolhe encontro online ou
+presencial na clínica de Londrina. **A planilha não ganhou linha nova de custo**, e a razão é a
+mesma convenção que já rege o Bloco E: a clínica física existe, é usada pela Consulta Plenya e pelo
+presencial avulso, e é carregada pelo resto da prática. Um paciente do Continuum que escolhe
+presencial ocupa uma sala que já está paga. O honorário do médico (R$ 600) é o mesmo nas duas
+modalidades, então o custo marginal real é a hora-sala, não um novo bloco.
+
+**Mas essa é a premissa mais frágil do modelo, e vale saber o tamanho da corda.** Com folga de
+R$ 38 por ciclo, o semestral absorve **R$ 6 por encontro** de custo de sala antes de zerar. O anual,
+com folga de R$ 1.833, absorve R$ 175 por encontro.
+
+| Se a sala for cobrada do programa (100% presencial) | Semestral R$ 12.000 | Anual R$ 20.000 |
+|---|---:|---:|
+| R$ 50/hora | −2,3% | 6,5% |
+| R$ 80/hora | −3,9% | 5,0% |
+| R$ 100/hora | −4,9% | 3,9% |
+| R$ 150/hora | −7,6% | 1,3% |
+
+Leitura: **qualquer rateio de sala, por menor que seja, põe o semestral em prejuízo**; o anual
+aguenta. Se um dia a clínica passar a cobrar hora-sala dos programas, ou se o presencial virar a
+escolha da maioria e a capacidade tiver que crescer, o semestral tem que ser reprecificado. Não é
+um problema hoje, é o gatilho para revisar.
+
 ## Narrativa comercial
 
 - **Dois semestrais custam R$ 24.000; o anual custa R$ 20.000.** O cliente economiza R$ 4.000, ou
@@ -125,6 +151,8 @@ Contrapartida operacional: SLA mais estreito que o do completo (horário comerci
   ruído. Ele existe para converter, e a margem do negócio vem do anual e da renovação.
 - **O CAC é o segundo maior custo do produto**, 35% do C_fixo semestral, e continua sendo um
   artefato de volume baixo. Cada paciente a mais no ano derruba o custo de todos os outros.
+- **O presencial entra sem custo por premissa, não por medida.** A sala é do resto da prática. Se
+  isso mudar, o semestral não tem folga nenhuma para absorver (R$ 6 por encontro).
 - **Payback e caixa**: aquisição e onboarding são pagos adiantados, as parcelas entram ao longo de
   6 a 12 meses. Com margem de 0,3% no semestral, não há folga para antecipar recebível (a
   antecipação Asaas custa a partir de 1,25%/mês e comeria a margem inteira).

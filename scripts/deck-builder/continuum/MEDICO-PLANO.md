@@ -15,6 +15,7 @@ físico, e sem Box Plenya. Planilha e preço em
 | Encontros (semestral) | 29 toques, 1 por semana | 6 |
 | Encontros (anual) | 52 toques | 10 |
 | Box | 4 boxes/ciclo | não existe |
+| Formato dos encontros | 100% online | online ou presencial em Londrina |
 | WhatsApp | R$ 400/mês | R$ 200/mês |
 | Semestral | R$ 37.000 (6× R$ 6.167) | **R$ 12.000 (6× R$ 2.000)** |
 | Anual | R$ 65.000 (12× R$ 5.417) | **R$ 20.000 (12× R$ 1.667)** |
@@ -75,16 +76,29 @@ ser «100% deste produto». Os 80% do MVP são a fatia do *programa* contra o re
 existindo, e o próprio slide 2 vende a Consulta Plenya. O número fica; a redação ambígua da
 planilha foi corrigida.
 
+## Rodada 2 (08/09/2026) — presencial e fechamento das pendências
+
+- **Encontros passam a ser online ou presenciais em Londrina**, à escolha do paciente. Mexeu em
+  quatro pontos: a capa (que dizia «100% online», agora em duas linhas para caber na parede escura
+  da imagem), a jornada («Consulta inicial online» virou «Consulta inicial»), o escopo (ganhou a
+  nota «online ou presenciais em Londrina, como preferir») e, principalmente, o «Fica de fora», de
+  onde **«Atendimento presencial em Londrina» foi removido**, porque agora está dentro.
+- Aproveitando o aperto de espaço no escopo: «Reavaliação do Escore no meio e no fim do semestral,
+  a cada trimestre no anual» virou **«Reavaliação trimestral do Escore»**, que é mais curto e igual
+  de correto: as reavaliações do semestral caem no 3º e no 6º mês, ou seja, já são trimestrais.
+- **«Doze vagas a cada janela trimestral» confirmado.** Pendência fechada.
+- **Escada de ancoragem mantida** em R$ 100/200/300 mil. Pendência fechada.
+
+**Consequência de custo do presencial, registrada na planilha:** nenhuma linha nova, porque a
+clínica já é carregada pelo resto da prática. Mas o semestral absorve só **R$ 6 por encontro** de
+hora-sala antes de zerar (o anual absorve R$ 175). Se a sala um dia for cobrada do programa, o
+semestral precisa ser reprecificado.
+
 ## Pendências
 
-- **Ancoragem do slide 10** ainda mostra R$ 100/200/300 mil. Contra R$ 37k a escada era de 3 a 8×;
-  contra R$ 12k passa a ser de 8 a 25×. Decidir se a escada cai (ex.: 50/100/200 mil) ou se o salto
-  maior é proposital. **Não circular o PDF antes dessa decisão.**
-- **«Doze vagas a cada janela trimestral»** (slide 11, herdado da v5) implica capacidade de 48
-  pacientes/ano, enquanto o modelo travado usa 24/ano como base e vai até 40 no cenário otimista.
-  Se a frase for lida como capacidade real, promete o dobro da operação modelada. Confirmar se são
-  vagas ofertadas (com conversão) ou capacidade.
 - Confirmar com o Getúlio a cadência exata dos 10 encontros do anual.
+- Definir se o presencial tem limite (quantos encontros do ciclo podem ser presenciais) ou se é
+  livre. Hoje o deck diz «como preferir», sem teto.
 - Deploy do PDF pro VPS (`decks.plenyasaude.com.br`) só sob ordem.
 
 ## Como gerar
