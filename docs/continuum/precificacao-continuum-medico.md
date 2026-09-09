@@ -15,7 +15,7 @@
 |---|---|---|
 | Equipe | **só médico** | some o Bloco A dos outros 3 e as 3 reuniões de equipe |
 | Cadência semestral | **6 encontros** | inicial, plano, 2 calls, 2 reavaliações |
-| Cadência anual | **10 encontros** | inicial, plano, 4 calls, 4 reavaliações trimestrais |
+| Cadência anual | **12 encontros** | inicial, plano, 6 acompanhamentos, 4 reavaliações trimestrais |
 | Box Plenya | **não existe** | Bloco B zera; manipulado e magnésio viram prescrição que o paciente compra |
 | WhatsApp | **retainer R$ 200/mês** | metade do Continuum completo, com SLA mais estreito |
 | Modalidades | **semestral e anual** | mantém a narrativa dos dois horizontes |
@@ -50,30 +50,30 @@ Margem efetiva de uma âncora: `margem = (P × 0,8268 − C_fixo) / P`.
 | 20 | Call de acompanhamento |
 | 26 | Reavaliação final |
 
-### Anual — 52 semanas, 10 encontros
+### Anual — 52 semanas, 12 encontros
 
-Inicial + apresentação do plano + 4 calls de acompanhamento + 4 reavaliações trimestrais.
-Razão anual÷semestral = 1,67× em encontros. Em C_fixo a razão é 1,49×, menor que os 1,64× do
-Continuum completo, porque o Médico tem menos custo que escala com a duração (não há box).
+Inicial + apresentação do plano + 6 encontros de acompanhamento + 4 reavaliações trimestrais.
+Dá aproximadamente um encontro por mês. Razão anual÷semestral = 2,0× em encontros e 1,62× em
+C_fixo, praticamente igual ao 1,64× do Continuum completo.
 
 ## C_fixo — cenário base (24 pacientes/ano)
 
 | Bloco | Semestral | Anual | Origem |
 |---|---:|---:|---|
-| A — Encontros (6 × 600 / 10 × 600) | 3.600 | 6.000 | tarifa MVP |
+| A — Encontros (6 × 600 / 12 × 600) | 3.600 | 7.200 | tarifa MVP |
 | A — WhatsApp (R$ 200/mês) | 1.200 | 2.400 | cortado pela metade |
-| **A total** | **4.800** | **8.400** | |
+| **A total** | **4.800** | **9.600** | |
 | B — Box | **0** | **0** | box removido |
 | C — Infra + amortização EMR | 410 | 820 | idem MVP (sem licença) |
 | D — Contábil + seguro RC só do médico | 420 | 840 | seguro 3.000/ano × 80% ÷ 24 |
 | E — Aquisição (CAC-MVP) | 3.490 | 3.490 | idem MVP (ver nota sobre os 80% abaixo) |
 | F — Jurídico | 293 | 453 | idem MVP |
 | J — Extras | **0** | **0** | Trims #2 e #4 |
-| I — Risco (5% sobre A-F+J) | 471 | 700 | idem MVP |
-| **C_fixo** | **R$ 9.884** | **R$ 14.703** | |
+| I — Risco (5% sobre A-F+J) | 471 | 760 | idem MVP |
+| **C_fixo** | **R$ 9.884** | **R$ 15.963** | |
 
 Comparação: o Continuum completo tem C_fixo MVP de R$ 28.878 (semestral) e R$ 50.571 (anual).
-O Médico custa **34% do semestral** e **29% do anual**.
+O Médico custa **34% do semestral** e **32% do anual**.
 
 > **Sobre os 80% do Bloco E.** Os R$ 3.490 herdados do MVP já são a *fatia do programa* dentro do
 > gasto de marketing: 80% vai para o programa, 20% fica com o resto da prática (Consulta Plenya,
@@ -88,12 +88,14 @@ O Médico custa **34% do semestral** e **29% do anual**.
 
 | Volume | Semestral R$ 12.000 | Anual R$ 20.000 |
 |---|---:|---:|
-| 24 pacientes/ano | C_fixo 9.884 · lucro R$ 38 · **0,3%** | C_fixo 14.703 · lucro R$ 1.833 · **9,2%** |
-| 32 pacientes/ano | C_fixo 8.693 · lucro R$ 1.229 · **10,2%** | C_fixo 13.272 · lucro R$ 3.264 · **16,3%** |
-| 40 pacientes/ano | C_fixo 7.976 · lucro R$ 1.946 · **16,2%** | C_fixo 12.409 · lucro R$ 4.127 · **20,6%** |
+| 24 pacientes/ano | C_fixo 9.884 · lucro R$ 38 · **0,3%** | C_fixo 15.963 · lucro R$ 573 · **2,9%** |
+| 32 pacientes/ano | C_fixo 8.693 · lucro R$ 1.229 · **10,2%** | C_fixo 14.532 · lucro R$ 2.004 · **10,0%** |
+| 40 pacientes/ano | C_fixo 7.976 · lucro R$ 1.946 · **16,2%** | C_fixo 13.669 · lucro R$ 2.867 · **14,3%** |
 
-**Break-even: 24 pacientes/ano no semestral, 19 no anual.** O semestral fica exatamente em cima do
-break-even no volume de hoje; toda a margem do ano vem do anual e do crescimento de volume.
+**Break-even: 24 pacientes/ano no semestral, 22 no anual.** Com a cadência de 12 encontros no
+anual (decisão de 08/09), **os dois planos passam a nascer perto do break-even**: o anual, que antes
+carregava a rentabilidade do produto com 9,2%, caiu para 2,9%. A margem do negócio deixou de estar
+na modalidade e passou a estar inteiramente no volume: aos 32 pacientes/ano os dois voltam a ~10%.
 
 ## Por que o WhatsApp foi cortado
 
@@ -122,19 +124,18 @@ modalidades, então o custo marginal real é a hora-sala, não um novo bloco.
 
 **Mas essa é a premissa mais frágil do modelo, e vale saber o tamanho da corda.** Com folga de
 R$ 38 por ciclo, o semestral absorve **R$ 6 por encontro** de custo de sala antes de zerar. O anual,
-com folga de R$ 1.833, absorve R$ 175 por encontro.
+com folga de R$ 573 sobre 12 encontros, absorve **R$ 45 por encontro** (eram R$ 175 quando o anual
+tinha 10 encontros).
 
 | Se a sala for cobrada do programa (100% presencial) | Semestral R$ 12.000 | Anual R$ 20.000 |
 |---|---:|---:|
-| R$ 50/hora | −2,3% | 6,5% |
-| R$ 80/hora | −3,9% | 5,0% |
-| R$ 100/hora | −4,9% | 3,9% |
-| R$ 150/hora | −7,6% | 1,3% |
+| R$ 50/hora | −2,3% | −0,3% |
+| R$ 100/hora | −4,9% | −3,4% |
 
-Leitura: **qualquer rateio de sala, por menor que seja, põe o semestral em prejuízo**; o anual
-aguenta. Se um dia a clínica passar a cobrar hora-sala dos programas, ou se o presencial virar a
-escolha da maioria e a capacidade tiver que crescer, o semestral tem que ser reprecificado. Não é
-um problema hoje, é o gatilho para revisar.
+Leitura: **qualquer rateio de sala, por menor que seja, põe os dois planos em prejuízo.** Com 10
+encontros o anual tinha colchão; com 12, não tem mais. Se a clínica passar a cobrar hora-sala dos
+programas, ou se o presencial virar a escolha da maioria e a capacidade tiver que crescer, os dois
+preços têm que ser revistos. Não é problema hoje, é o gatilho.
 
 ## Narrativa comercial
 
@@ -147,8 +148,10 @@ um problema hoje, é o gatilho para revisar.
 
 ## Riscos assumidos, explicitamente
 
-- **O semestral nasce no break-even.** A 24 pacientes/ano ele dá R$ 38 de lucro por ciclo, que é
-  ruído. Ele existe para converter, e a margem do negócio vem do anual e da renovação.
+- **Os dois planos nascem perto do break-even.** A 24 pacientes/ano o semestral dá R$ 38 de lucro
+  por ciclo e o anual dá R$ 573. Ambos são ruído. Com a cadência de 12 encontros o anual deixou de
+  ser o plano que sustenta o produto, e a margem passou a depender só de volume: aos 32
+  pacientes/ano os dois voltam a ~10%.
 - **O CAC é o segundo maior custo do produto**, 35% do C_fixo semestral, e continua sendo um
   artefato de volume baixo. Cada paciente a mais no ano derruba o custo de todos os outros.
 - **O presencial entra sem custo por premissa, não por medida.** A sala é do resto da prática. Se

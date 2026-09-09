@@ -13,7 +13,7 @@ físico, e sem Box Plenya. Planilha e preço em
 |---|---|---|
 | Equipe no ciclo | 4 profissionais | só médico (núcleo de 4 nefrologistas) |
 | Encontros (semestral) | 29 toques, 1 por semana | 6 |
-| Encontros (anual) | 52 toques | 10 |
+| Encontros (anual) | 52 toques | 12 |
 | Box | 4 boxes/ciclo | não existe |
 | Formato dos encontros | 100% online | online ou presencial em Londrina |
 | WhatsApp | R$ 400/mês | R$ 200/mês |
@@ -94,9 +94,27 @@ clínica já é carregada pelo resto da prática. Mas o semestral absorve só **
 hora-sala antes de zerar (o anual absorve R$ 175). Se a sala um dia for cobrada do programa, o
 semestral precisa ser reprecificado.
 
+## Rodada 3 (08/09/2026) — anual passa a ter 12 encontros
+
+Cadência do anual sobe de 10 para 12, cerca de um por mês: inicial, apresentação do plano, 6
+acompanhamentos e 4 reavaliações trimestrais. No deck muda só o numeral, em dois lugares (rodapé
+da jornada e linha do escopo).
+
+**Na planilha muda mais.** O Bloco A anual vai de R$ 8.400 para R$ 9.600 e o C_fixo de R$ 14.703
+para R$ 15.963, o que derruba a margem do anual de **9,2% para 2,9%** (lucro de R$ 1.833 para
+R$ 573) e sobe o break-even de 19 para 22 pacientes/ano.
+
+A consequência estrutural: **o anual era o plano que sustentava o produto, e deixou de ser.** Agora
+os dois nascem perto do break-even, e a rentabilidade depende só de volume (aos 32 pacientes/ano
+ambos voltam a ~10%). O colchão para o custo de sala do presencial também sumiu: o anual absorvia
+R$ 175 por encontro e passa a absorver R$ 45, então a R$ 50/hora ele já fica negativo, como o
+semestral.
+
 ## Pendências
 
-- Confirmar com o Getúlio a cadência exata dos 10 encontros do anual.
+- Confirmar com o Getúlio a distribuição exata dos 12 encontros do anual ao longo das 52 semanas.
+- **Decidir se o anual continua a R$ 20.000 com 2,9% de margem.** Ele ganhou 20% mais entrega sem
+  mudar de preço. R$ 22.000 (12× R$ 1.833,33) devolveria ~10%.
 - Definir se o presencial tem limite (quantos encontros do ciclo podem ser presenciais) ou se é
   livre. Hoje o deck diz «como preferir», sem teto.
 - Deploy do PDF pro VPS (`decks.plenyasaude.com.br`) só sob ordem.
