@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>Continuum Médico · Estrutura de custos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:#B38645; --gold-soft:#D4A86B; --petrol:#063B4F; --petrol-deep:#041F2A;
+    --ocean:#417E8E; --sage:#92B8B4; --cream:#EAE7DA; --cream-soft:#F7F4EC;
+    --ink:#0A1F26; --muted:#5A6B70; --rule:#D8D2C4;
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  @page { size: A4; margin: 20mm 18mm 18mm 18mm; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: var(--sans); font-size: 9.4pt; line-height:1.55; color: var(--ink); background:#fff; }
+
+  .capa { height: 247mm; display:flex; flex-direction:column; justify-content:center; page-break-after: always; }
+  .capa .mark { display:flex; align-items:center; gap:14px; margin-bottom:52px; }
+  .capa .mark img { height:34px; }
+  .capa h1 { font-family:var(--serif); font-weight:500; font-size:34pt; line-height:1.08; letter-spacing:-.02em; color:var(--petrol); margin-bottom:14px; }
+  .capa .sub { font-family:var(--serif); font-style:italic; font-size:14pt; color:var(--gold); margin-bottom:44px; }
+  .capa .meta { font-size:8.6pt; color:var(--muted); line-height:1.9; border-top:1px solid var(--rule); padding-top:18px; max-width:105mm; }
+  .capa .meta b { color:var(--ink); font-weight:500; }
+  .capa .conf { margin-top:34px; font-size:8pt; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); }
+
+  h2 { font-family:var(--serif); font-weight:500; font-size:17pt; color:var(--petrol); letter-spacing:-.01em;
+       margin:0 0 4px; padding-bottom:7px; border-bottom:1.5px solid var(--gold); }
+  h2 + .lead { font-family:var(--serif); font-style:italic; font-size:11pt; color:var(--gold); margin:8px 0 14px; }
+  h3 { font-family:var(--serif); font-weight:600; font-size:11.5pt; color:var(--petrol); margin:18px 0 7px; }
+  section { margin-bottom:26px; }
+  p { margin-bottom:9px; max-width:none; }
+  ul { margin:0 0 10px 15px; } li { margin-bottom:5px; }
+  strong { font-weight:600; color:var(--petrol-deep); }
+  .brk { page-break-before: always; }
+  .avoid { page-break-inside: avoid; }
+
+  table { width:100%; border-collapse:collapse; margin:10px 0 12px; font-size:9pt; page-break-inside:avoid; }
+  thead { display:table-header-group; }
+  th { text-align:left; font-weight:500; font-size:7.8pt; letter-spacing:.1em; text-transform:uppercase;
+        color:var(--muted); padding:0 8px 6px; border-bottom:1px solid var(--petrol); }
+  th.num, td.num { text-align:right; font-variant-numeric: tabular-nums; }
+  td { padding:6px 8px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  td.rot { color:var(--ink); }
+  td.org { color:var(--muted); font-size:8.2pt; }
+  tr.tot td { border-top:1.5px solid var(--petrol); border-bottom:none; font-weight:600; color:var(--petrol-deep); padding-top:8px; }
+  tr.hl td { background:var(--cream-soft); font-weight:600; }
+  td.neg { color:#8C2F1D; }
+  .nota { background:var(--cream-soft); border-left:2.5px solid var(--gold); padding:11px 14px; margin:12px 0; font-size:8.8pt; }
+  .nota b { color:var(--petrol-deep); }
+  .kpi { display:flex; gap:0; margin:14px 0 16px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+  .kpi div { flex:1; padding:12px 14px; border-right:1px solid var(--rule); }
+  .kpi div:last-child { border-right:none; }
+  .kpi .k { font-size:7.6pt; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+  .kpi .v { font-family:var(--serif); font-size:19pt; font-weight:500; color:var(--petrol); line-height:1; }
+  .kpi .u { font-size:8pt; color:var(--muted); margin-top:4px; }
+</style></head><body>
+
+<div class="capa">
+  <div class="mark">
+    <img src="../../../apps/site/public/brand/symbol/gold.png" alt="">
+    <img src="../../../apps/site/public/brand/wordmark/ink.png" alt="Plenya" style="height:22px;">
+  </div>
+  <h1>Continuum Médico<br>Estrutura de custos<br>e formação de preço</h1>
+  <div class="sub">Versão enxuta do Continuum, conduzida por médico</div>
+  <div class="meta">
+    <b>Data:</b> 08/09/2026<br>
+    <b>Base de custo:</b> planilha MVP travada em 24 e 25/05/2026<br>
+    <b>Volume de referência:</b> 24 pacientes por ano<br>
+    <b>Regime:</b> Lucro Presumido, presunção de 32%
+  </div>
+  <div class="conf">Documento interno · uso restrito aos sócios</div>
+</div>
+
+<section>
+  <h2>O que é o Continuum Médico</h2>
+  <p class="lead">O mesmo método, sem a equipe multidisciplinar e sem o box físico.</p>
+  <p>O <strong>Continuum Plenya</strong> completo custa 37.000 reais no semestral e
+  65.000 no anual, e reúne quatro profissionais, encontro semanal e quatro boxes por ciclo.
+  Ele continua existindo e não foi reprecificado, mas <strong>sai de venda</strong>. O que vai a mercado é o
+  Continuum Médico: o mesmo Método AGIR e o mesmo Escore, conduzidos só por médico.</p>
+  <p>A razão econômica da mudança está num bloco só. Os quatro profissionais custavam
+  R$ 19.350 por ciclo semestral, 67% de todo
+  o custo do programa. O médico sozinho, com a mesma tarifa, custa R$ 4.800.</p>
+
+  <table class="avoid">
+    <tr><th>&nbsp;</th><th>Continuum (stand-by)</th><th>Continuum Médico</th></tr>
+    <tr><td class="rot">Equipe no ciclo</td><td>4 profissionais</td><td>só médico</td></tr>
+    <tr><td class="rot">Encontros, semestral e anual</td><td>29 e 52 toques</td><td>6 e 12</td></tr>
+    <tr><td class="rot">Box Plenya</td><td>4 boxes por ciclo</td><td>não existe</td></tr>
+    <tr><td class="rot">Formato dos encontros</td><td>100% online</td><td>online ou presencial em Londrina</td></tr>
+    <tr><td class="rot">WhatsApp com o médico</td><td>R$ 400 por mês</td><td>R$ 200 por mês</td></tr>
+    <tr class="tot"><td class="rot">Preço, semestral</td><td>R$ 37.000</td><td>R$ 12.000</td></tr>
+    <tr class="tot"><td class="rot">Preço, anual</td><td>R$ 65.000</td><td>R$ 20.000</td></tr>
+  </table>
+  <p>O que ficou de fora não sumiu: o painel genético é <strong>add-on cobrado à parte</strong>, e suplementos
+  e manipulados passam a ser prescrição que o paciente compra na farmácia de sua escolha.</p>
+</section>
+
+<section>
+  <h2>Como o preço foi formado</h2>
+  <p class="lead">A âncora veio primeiro; a planilha disse quanto de margem sobrava.</p>
+  <p>Imposto e gateway são percentuais da receita, não custos fixos, então o preço é um cálculo circular.
+  Ele se resolve isolando os custos que <em>não</em> dependem do preço, o C fixo:</p>
+  <div class="nota" style="text-align:center; font-family:var(--serif); font-size:12pt;">
+    Preço = C fixo &divide; (1 &minus; 14,33% &minus; 2,99% &minus; margem)
+    &nbsp;&nbsp;&rarr;&nbsp;&nbsp; fator de escala <b>0,8268</b>
+  </div>
+  <p>A carga tributária efetiva de 14,33% soma IRPJ, CSLL, PIS, COFINS e o ISS de Londrina, em
+  cenário conservador de Lucro Presumido. O gateway é a taxa do Asaas no cartão parcelado. A margem é
+  <strong>lucro líquido sobre o preço</strong>, depois de todos os custos.</p>
+  <p>Diferente do produto completo, aqui o preço foi decidido antes: fixou-se a âncora comercial e ajustou-se
+  a estrutura até caber. Foi o que motivou o corte do retainer de WhatsApp, detalhado adiante.</p>
+</section>
+
+<section class="brk">
+  <h2>Estrutura de custo por bloco</h2>
+  <p class="lead">Custo por paciente e por ciclo, a 24 pacientes por ano.</p>
+  <table>
+    <tr><th>Bloco</th><th class="num">Semestral</th><th class="num">Anual</th><th>Origem</th></tr>
+    <tr><td class="rot">A &middot; Encontros (6 e 12 &times; R$ 600)</td>
+        <td class="num">3.600</td><td class="num">7.200</td>
+        <td class="org">tarifa MVP do médico</td></tr>
+    <tr><td class="rot">A &middot; WhatsApp (R$ 200 por mês)</td>
+        <td class="num">1.200</td><td class="num">2.400</td>
+        <td class="org">retainer de disponibilidade</td></tr>
+    <tr><td class="rot"><b>A &middot; total de honorários</b></td>
+        <td class="num"><b>4.800</b></td><td class="num"><b>9.600</b></td><td class="org"></td></tr>
+    <tr><td class="rot">B &middot; Box Plenya</td><td class="num">0</td><td class="num">0</td>
+        <td class="org">removido do produto</td></tr>
+    <tr><td class='rot'>C &middot; Infraestrutura e amortização do EMR</td><td class='num'>410</td><td class='num'>820</td><td class='org'>VPS, vídeo, storage, dev</td></tr>
+    <tr><td class='rot'>D &middot; Contabilidade e seguro de responsabilidade</td><td class='num'>420</td><td class='num'>840</td><td class='org'>rateado por volume</td></tr>
+    <tr><td class='rot'>E &middot; Aquisição de cliente</td><td class='num'>3.490</td><td class='num'>3.490</td><td class='org'>tráfego, mentoria, sites</td></tr>
+    <tr><td class='rot'>F &middot; Jurídico e LGPD</td><td class='num'>293</td><td class='num'>453</td><td class='org'>setup amortizado e sob demanda</td></tr>
+    <tr><td class="rot">J &middot; Painel genético e coordenação</td><td class="num">0</td><td class="num">0</td>
+        <td class="org">add-on e absorvido</td></tr>
+    <tr><td class='rot'>I &middot; Risco e contingência (5%)</td><td class='num'>471</td><td class='num'>760</td><td class='org'>inadimplência, cancelamento, troca</td></tr>
+    <tr class="tot"><td class="rot">C fixo por ciclo</td>
+        <td class="num">R$ 9.884</td><td class="num">R$ 15.963</td><td class="org"></td></tr>
+  </table>
+  <p>Para comparação, o Continuum completo tem C fixo de R$ 28.878 no semestral e
+  R$ 50.571 no anual. O Médico custa
+  <strong>34%</strong> e
+  <strong>32%</strong> disso.</p>
+  <div class="nota">
+    <b>O segundo maior custo é a aquisição.</b> Sem o box, o CAC passa a ser
+    35% do C fixo semestral. Ele é alto porque o volume é baixo:
+    o gasto de marketing é dividido por 24 pacientes. É a única alavanca relevante que não se resolve
+    cortando, e sim vendendo mais.
+  </div>
+</section>
+
+<section class="brk">
+  <h2>Preço, margem e o peso do volume</h2>
+  <p class="lead">Nos preços travados, a rentabilidade é quase toda função do volume.</p>
+  <div class="kpi avoid">
+    <div><div class="k">Semestral</div><div class="v">R$ 12.000</div><div class="u">6 &times; R$ 2.000</div></div>
+    <div><div class="k">Anual</div><div class="v">R$ 20.000</div><div class="u">12 &times; R$ 1.666,67</div></div>
+    <div><div class="k">Break-even</div><div class="v">24 e 22</div><div class="u">pacientes por ano</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Volume</th><th class="num">C fixo sem.</th><th class="num">Lucro sem.</th><th class="num">Margem sem.</th>
+        <th class="num">C fixo anual</th><th class="num">Lucro anual</th><th class="num">Margem anual</th></tr></thead>
+    <tr><td class='rot'>24 pacientes por ano</td><td class='num'>9.884</td><td class='num'>38</td><td class='num'>0,3%</td><td class='num'>15.963</td><td class='num'>573</td><td class='num'>2,9%</td></tr><tr><td class='rot'>32 pacientes por ano</td><td class='num'>8.693</td><td class='num'>1.229</td><td class='num'>10,2%</td><td class='num'>14.532</td><td class='num'>2.004</td><td class='num'>10,0%</td></tr><tr><td class='rot'>40 pacientes por ano</td><td class='num'>7.976</td><td class='num'>1.946</td><td class='num'>16,2%</td><td class='num'>13.669</td><td class='num'>2.867</td><td class='num'>14,3%</td></tr>
+  </table>
+  <div class="nota">
+    <b>Os dois planos nascem perto do break-even.</b> No volume de hoje o semestral rende
+    R$ 38 por ciclo e o anual R$ 573. Ambos são ruído.
+    Até a cadência do anual subir para 12 encontros, ele rendia 9,2% e sustentava o produto;
+    agora não sustenta mais. <b>A margem do negócio deixou de estar na modalidade e passou a estar no volume:</b>
+    aos 32 pacientes por ano os dois voltam a cerca de 10%.
+  </div>
+  <p>O anual continua valendo mais para quem compra e para nós. Dois semestrais custam
+  R$ 24.000 contra R$ 20.000 do anual, uma economia de
+  R$ 4.000 ou 16,7%, porque aquisição e
+  onboarding acontecem uma vez só. No produto completo esse mesmo desconto é de 12,2%.</p>
+</section>
+
+<section class="brk">
+  <h2>As duas decisões que definiram a margem</h2>
+
+  <h3>1. O retainer de WhatsApp foi cortado pela metade</h3>
+  <p>A R$ 400 por mês o retainer custava R$ 2.400 no ciclo semestral. No Continuum completo isso era 6,5% de
+  um preço de R$ 37.000. Num produto de R$ 12.000 vira <strong>20% do preço</strong>,
+  e sozinho colocava a âncora em prejuízo. Cortado para R$ 200, com prazo de resposta mais estreito em troca.</p>
+  <table class="avoid">
+    <tr><th>Cenário, a 24 pacientes por ano</th><th class="num">Margem semestral</th><th class="num">Margem anual</th></tr>
+    <tr><td class='rot'>R$ 400 por mês, como no completo</td><td class='num neg'>-10,2%</td><td class='num neg'>-9,7%</td></tr>
+    <tr class='hl'><td class='rot'>R$ 200 por mês, adotado</td><td class='num '>0,3%</td><td class='num '>2,9%</td></tr>
+    <tr><td class='rot'>sem retainer</td><td class='num '>10,8%</td><td class='num '>15,5%</td></tr>
+  </table>
+
+  <h3>2. O presencial entrou sem custo de sala, por premissa</h3>
+  <p>Desde 08/09 o paciente escolhe entre encontro online e presencial na clínica de Londrina. A planilha
+  <strong>não ganhou linha de custo de sala</strong>, pela mesma convenção que já rege a aquisição: a clínica
+  existe, é usada pela Consulta Plenya e pelo presencial avulso, e é carregada pelo resto da prática. Um
+  paciente do Continuum que escolhe presencial ocupa uma sala já paga, e o honorário do médico é o mesmo nas
+  duas modalidades.</p>
+  <p><strong>Esta é a premissa mais frágil do modelo.</strong> O semestral absorve
+  R$ 6 por encontro de hora-sala antes de zerar; o anual
+  absorve R$ 45.</p>
+  <table class="avoid">
+    <tr><th>Se a sala for cobrada do programa, 100% presencial</th><th class="num">Margem semestral</th><th class="num">Margem anual</th></tr>
+    <tr><td class='rot'>R$ 50 por hora</td><td class='num neg'>-2,3%</td><td class='num neg'>-0,3%</td></tr><tr><td class='rot'>R$ 100 por hora</td><td class='num neg'>-4,9%</td><td class='num neg'>-3,4%</td></tr><tr><td class='rot'>R$ 150 por hora</td><td class='num neg'>-7,6%</td><td class='num neg'>-6,6%</td></tr>
+  </table>
+  <div class="nota">
+    <b>Qualquer rateio de sala, por menor que seja, põe os dois planos em prejuízo.</b> Enquanto o anual tinha
+    10 encontros ele ainda tinha colchão; com 12, não tem mais. Se a clínica passar a cobrar hora-sala dos
+    programas, ou se o presencial virar a escolha da maioria e a capacidade tiver que crescer, os dois preços
+    precisam ser revistos.
+  </div>
+</section>
+
+<section>
+  <h2>Riscos assumidos, explicitamente</h2>
+  <ul>
+    <li><strong>Margem fina no volume atual.</strong> Os dois planos rendem valores que são ruído a 24
+      pacientes por ano. O produto foi desenhado para converter e para escalar, não para dar margem já.</li>
+    <li><strong>O CAC é um artefato de volume baixo.</strong> Cada paciente a mais no ano derruba o custo de
+      todos os outros. É o item que mais responde a crescimento.</li>
+    <li><strong>O rateio de 80% da aquisição é o parâmetro mais sensível.</strong> Os
+      R$ 3.490 do bloco E já são a fatia do <em>programa</em> dentro do gasto de marketing; os outros
+      20% ficam com o resto da prática, que segue existindo. Se a Consulta Plenya sair do funil, esse número sobe
+      para R$ 4.363 e a âncora do semestral passa a dar prejuízo.</li>
+    <li><strong>Caixa e payback.</strong> Aquisição e onboarding são pagos adiantados e as parcelas entram ao
+      longo de 6 a 12 meses. Com margem desta ordem <em>não há folga para antecipar recebível</em>: a
+      antecipação do Asaas custa a partir de 1,25% ao mês e comeria a margem inteira.</li>
+    <li><strong>Estimativas ainda não cotadas.</strong> O seguro de responsabilidade civil é estimativa de
+      mercado, sem apólice fechada.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Em aberto</h2>
+  <ul>
+    <li>Se o anual segue a R$ 20.000 tendo passado de 10 para 12 encontros, isto é, 20% mais entrega
+      sem mudança de preço. A R$ 22.000, em 12 parcelas de R$ 1.833,33, a margem voltaria a cerca de 10%.</li>
+    <li>Se o presencial tem teto de encontros por ciclo. Hoje não há limite definido.</li>
+    <li>Se há upgrade do Médico para o Continuum completo no meio do ciclo, e como seria precificado.</li>
+    <li>Cotação real da apólice de responsabilidade civil.</li>
+  </ul>
+  <div class="nota" style="margin-top:16px;">
+    Todos os números deste documento são gerados a partir do mesmo modelo de custo, sem transcrição manual.
+    Detalhamento em <b>docs/continuum/precificacao-continuum-medico.md</b>; parâmetros herdados em
+    <b>docs/continuum/precificacao-mvp.md</b>.
+  </div>
+</section>
+
+</body></html>

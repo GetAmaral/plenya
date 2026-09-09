@@ -106,9 +106,9 @@ e é o que faz R$ 12.000 fechar sem depender de premissa de volume.
 
 | Cenário, 24 pac/ano | Semestral R$ 12.000 | Anual R$ 20.000 |
 |---|---:|---:|
-| WhatsApp R$ 400/mês | −10,2% | −3,4% |
-| **WhatsApp R$ 200/mês (adotado)** | **0,3%** | **9,2%** |
-| Sem retainer | 10,8% | 21,8% |
+| WhatsApp R$ 400/mês | −10,2% | −9,7% |
+| **WhatsApp R$ 200/mês (adotado)** | **0,3%** | **2,9%** |
+| Sem retainer | 10,8% | 15,5% |
 
 Contrapartida operacional: SLA mais estreito que o do completo (horário comercial, resposta em até
 24h úteis). Urgência clínica nunca foi canal de WhatsApp, e continua não sendo.
