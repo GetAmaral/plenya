@@ -200,3 +200,28 @@ apps/api/fix-score-boundaries
 # Cache do Python — artefato de build, nunca versionado (a regra antiga só cobria scripts/linkedin).
 __pycache__/
 *.pyc
+
+# Binários de docs/ e ebook/: ficam no disco e no histórico, fora do HEAD.
+#
+# O clone do Coolify é --depth=1, então o que ele paga é o tamanho da ÁRVORE ATUAL, não o do
+# histórico. Com estes dentro, a árvore chegou a 1,7GB e o pack a 566MB; em 2026-09-09 o
+# index-pack do deploy do api travou duas vezes na VPS de 8GB e produção ficou sem subir. São
+# artefatos gerados (decks, ebooks, papelaria) e a VPS não serve nenhum deles: o deck que o
+# paciente recebe é gerado em runtime pelo EMR. As imagens de apps/ continuam versionadas, porque
+# o site as serve.
+docs/**/*.pdf
+docs/**/*.png
+docs/**/*.jpg
+docs/**/*.jpeg
+docs/**/*.webp
+docs/**/*.mp3
+docs/**/*.mp4
+docs/**/*.pptx
+docs/**/*.epub
+ebook/**/*.pdf
+ebook/**/*.png
+ebook/**/*.jpg
+ebook/**/*.jpeg
+ebook/**/*.webp
+ebook/**/*.mp3
+ebook/**/*.epub
