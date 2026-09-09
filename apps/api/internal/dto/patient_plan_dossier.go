@@ -141,11 +141,21 @@ type PlanDossierSnapshot struct {
 }
 
 // PlanDossierLabRequest — o último pedido de exames, para o slide "os exames que faltam".
+//
+// `Returned` é o que impede o slide de mentir. Ele nasceu lendo só `Exams`, o texto do pedido, e
+// por isso listava o pedido INTEIRO como pendente mesmo depois de o laudo chegar: numa paciente com
+// 38 exames pedidos e 33 já lançados, o slide dizia que faltavam todos.
+//
+// São as LINHAS de `Exams`, tal como escritas ali, que já têm resultado com data igual ou posterior
+// à do pedido. Vêm como linha, e não como nome de catálogo, para que o montador só precise comparar
+// strings: casar texto livre com catálogo e resolver painel pela descendência é trabalho do
+// serviço, que tem banco para isso.
 type PlanDossierLabRequest struct {
-	ID       string  `json:"id"`
-	Date     string  `json:"date"`
-	Exams    string  `json:"exams"`
-	SignedAt *string `json:"signedAt,omitempty"`
+	ID       string   `json:"id"`
+	Date     string   `json:"date"`
+	Exams    string   `json:"exams"`
+	Returned []string `json:"returned,omitempty"`
+	SignedAt *string  `json:"signedAt,omitempty"`
 }
 
 // PlanDossierPrescription — receita vigente, para o slide "para levar".

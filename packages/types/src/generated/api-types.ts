@@ -18601,6 +18601,7 @@ export interface components {
             date?: string;
             exams?: string;
             id?: string;
+            returned?: string[];
             signedAt?: string;
         };
         "dto.PlanDossierMedication": {

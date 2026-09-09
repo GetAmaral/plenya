@@ -989,6 +989,67 @@ func (s *PatientPlanDossierService) loadLastLabRequest(patientID uuid.UUID) (*dt
 		v := lr.SignedAt.In(saoPaulo()).Format(time.RFC3339)
 		out.SignedAt = &v
 	}
+
+	voltou, vErr := s.examesQueVoltaram(patientID, &lr)
+	if vErr != nil {
+		return nil, vErr
+	}
+	out.Returned = voltou
+	return out, nil
+}
+
+// examesQueVoltaram — as LINHAS do pedido que já têm resultado, devolvidas como o pedido as escreve.
+//
+// Devolve a linha inteira, e não o nome do catálogo, porque quem consome é o montador do slide, que
+// não tem banco: a comparação lá vira igualdade de string, sem heurística própria. As duas
+// dificuldades ficam aqui, resolvidas por quem já sabe resolvê-las:
+//
+//   - a linha do pedido é texto livre com sufixo ("Rotina de urina (EAS) com microscopia manual do
+//     sedimento - TUSS 40311210 - urina jato"), então casá-la com o catálogo é trabalho do
+//     LabTestMatcher, que indexa nome, nome curto e alternativos e cai para casamento parcial;
+//   - um painel quase nunca tem resultado próprio (aqui, "Hemograma completo" tem 0 próprios e 400
+//     nos filhos), então "já voltou?" é pergunta para o LabCoverageService, que faz a união do
+//     painel com toda a sua descendência. Perguntar direto à tabela diria que o hemograma está
+//     pendente depois de o hemograma inteiro ter chegado.
+//
+// O corte é a data do pedido: resultado anterior é de outra rodada e não responde a este pedido.
+func (s *PatientPlanDossierService) examesQueVoltaram(patientID uuid.UUID, lr *models.LabRequest) ([]string, error) {
+	if lr == nil || strings.TrimSpace(lr.Exams) == "" {
+		return nil, nil
+	}
+	cobertura, err := NewLabCoverageService(s.db).Build(patientID, false, true)
+	if err != nil {
+		return nil, err
+	}
+	feitoEm := make(map[string]string, len(cobertura.Entries))
+	for _, e := range cobertura.Entries {
+		feitoEm[e.Code] = e.LastDoneAt
+	}
+
+	idx, err := NewLabTestMatcher(s.db).BuildIndex()
+	if err != nil {
+		return nil, err
+	}
+
+	corte := lr.Date.Format("2006-01-02")
+	var out []string
+	visto := map[string]bool{}
+	for _, l := range strings.Split(lr.Exams, "\n") {
+		linha := strings.TrimSpace(l)
+		// Linha vazia separa blocos e "#" é justificativa; nenhuma das duas é exame. Cabeçalho de
+		// grupo não precisa de guarda: o matcher não o resolve, e linha não resolvida não entra.
+		if linha == "" || strings.HasPrefix(linha, "#") || visto[linha] {
+			continue
+		}
+		d := idx.Resolve(linha)
+		if d == nil {
+			continue
+		}
+		if q := feitoEm[d.Code]; q != "" && q >= corte {
+			visto[linha] = true
+			out = append(out, linha)
+		}
+	}
 	return out, nil
 }
 

@@ -327,8 +327,21 @@ func montaExamesQueFaltam(d *dto.PlanDossierResponse) []pdfdoc.DeckSlide {
 	if d.LabRequest == nil || strings.TrimSpace(d.LabRequest.Exams) == "" {
 		return nil
 	}
+	// O que já voltou não é o que falta. O dossiê traz as LINHAS do pedido que já têm resultado,
+	// escritas como estão aqui, então a comparação é igualdade de string: quem casa texto livre com
+	// catálogo é o serviço, que tem banco. Sem descontá-las o slide lista o pedido inteiro como
+	// pendente, inclusive o que chegou na semana seguinte.
+	voltou := make(map[string]bool, len(d.LabRequest.Returned))
+	for _, n := range d.LabRequest.Returned {
+		voltou[n] = true
+	}
+
 	var linhas []pdfdoc.DeckTableRow
 	total, inicioDeBloco := 0, true
+	// Se o exame corrente saiu da tabela (já voltou, ou passou do corte de oito), a justificativa
+	// dele tem de sair junto. Sem esta marca, todo "#" posterior ao oitavo exame aderia à oitava
+	// linha, e o slide saía dizendo que o cobre serve para calcular escore de cálcio coronariano.
+	linhaAberta := false
 	for _, l := range strings.Split(d.LabRequest.Exams, "\n") {
 		t := strings.TrimSpace(l)
 		// Linha em branco separa blocos no pedido, e é o que marca onde um cabeçalho pode estar.
@@ -340,7 +353,7 @@ func montaExamesQueFaltam(d *dto.PlanDossierResponse) []pdfdoc.DeckSlide {
 		// Consecutivas concatenam, igual a `parseExamBlocks` — sobrescrever perderia a segunda.
 		if strings.HasPrefix(t, "#") {
 			j := strings.TrimSpace(strings.TrimPrefix(t, "#"))
-			if j != "" && len(linhas) > 0 {
+			if j != "" && linhaAberta && len(linhas) > 0 {
 				if atual := linhas[len(linhas)-1].Cells[1]; atual != "" {
 					j = atual + " " + j
 				}
@@ -353,11 +366,17 @@ func montaExamesQueFaltam(d *dto.PlanDossierResponse) []pdfdoc.DeckSlide {
 			continue
 		}
 		inicioDeBloco = false
+		if voltou[t] {
+			linhaAberta = false
+			continue
+		}
 		total++
 		if len(linhas) >= 8 {
+			linhaAberta = false
 			continue
 		}
 		linhas = append(linhas, pdfdoc.DeckTableRow{Cells: []string{t, ""}})
+		linhaAberta = true
 	}
 	if len(linhas) == 0 {
 		return nil
@@ -380,8 +399,10 @@ func montaExamesQueFaltam(d *dto.PlanDossierResponse) []pdfdoc.DeckSlide {
 	}
 	// O corte se ANUNCIA. Oito linhas é o que cabe no slide; sumir com as outras em silêncio faria
 	// o paciente ler a lista como se fosse o pedido inteiro.
+	// O corte se anuncia contando o que ESTE slide conta, que é o pendente. Dizer "no pedido" com
+	// um número de pendentes descreveria uma lista que não é a da página.
 	if resto := total - len(linhas); resto > 0 {
-		celulas := []string{fmt.Sprintf("e mais %d exames no pedido", resto)}
+		celulas := []string{fmt.Sprintf("e mais %d que ainda não voltaram", resto)}
 		if len(colunas) > 1 {
 			celulas = append(celulas, "")
 		}
@@ -423,6 +444,7 @@ func ehCabecalhoDeGrupo(t string, inicioDeBloco bool) bool {
 	}
 	return false
 }
+
 
 // ---------------------------------------------------------------------------
 // o plano, uma conduta por slide
