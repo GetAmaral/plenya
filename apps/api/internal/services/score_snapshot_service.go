@@ -85,6 +85,12 @@ func (s *ScoreSnapshotService) CalculateSnapshot(dto CalculateSnapshotDTO, calcu
 		return nil, fmt.Errorf("failed to sync derived ratios: %w", err)
 	}
 
+	// A eTFG segue o mesmo caminho das razões, e pela mesma razão: ela não vem em laudo como medida,
+	// é conta sobre creatinina e/ou cistatina C. Ver score_tfg_derivada.go.
+	if err := SincronizaTFGDerivada(s.db, dto.PatientID); err != nil {
+		return nil, fmt.Errorf("failed to sync derived eGFR: %w", err)
+	}
+
 	// 4. Load patient's historical data (ENTIRE HISTORY - most recent values)
 	labResultsByCode, err := s.labResultRepo.GetHistoricalResultsByLabTestCode(dto.PatientID)
 	if err != nil {

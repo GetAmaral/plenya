@@ -1004,6 +1004,14 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 	// um lote de 2023 com o contexto de 2026 seria reescrever o passado.
 	contextoPorCodigo, errContexto := s.resultadosPorCodigoAte(batch.PatientID, batch.CollectionDate)
 	contexto := valoresPorCodigo(contextoPorCodigo)
+	if errContexto != nil {
+		// A guarda deixa de ser aplicada, o que é o lado seguro — mas em silêncio ela some para
+		// sempre se a consulta quebrar por uma migration ou uma coluna renomeada, e o %Free PSA
+		// volta a ganhar nível fora de contexto sem que nada acuse. O erro é engolido de propósito
+		// (classificar é best-effort), então o registro é a única pista que sobra.
+		fmt.Fprintf(os.Stderr, "classify: contexto de requires_lab_code indisponível no lote %s: %v\n",
+			batchID, errContexto)
+	}
 
 	// 2. Buscar paciente
 	var patient models.Patient
@@ -1062,6 +1070,13 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 				break
 			}
 
+			// A unidade do laudo é usada tanto para escolher a escala quanto para nomear o item
+			// bloqueado no motivo, então é lida antes das duas coisas.
+			unidadeDoLaudo := ""
+			if result.Unit != nil {
+				unidadeDoLaudo = *result.Unit
+			}
+
 			// Item de CONTEXTO: a escala só discrimina dentro de uma faixa de OUTRO exame. A razão
 			// %Free PSA marca ≤10% como o pior nível, mas isso só quer dizer alguma coisa com PSA
 			// total entre 4 e 10 ng/mL; com PSA total 0,36 a razão não é achado nenhum.
@@ -1079,7 +1094,15 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 					}
 				}
 				if len(comContexto) == 0 {
-					setReason(motivoDoContexto(&applicable[0], contextoPorCodigo, catalogo))
+					// O motivo vai para `classify_reason` e é o que o médico lê. Ele tem de nomear
+					// o exame de referência do item que SERIA escolhido, e não o do primeiro que o
+					// banco devolveu: variantes do mesmo exame podem ter `requires_lab_code`
+					// diferentes, e aí a frase apontaria um bloqueio que não é o daquele resultado.
+					bloqueado := pickScoringItem(filtraPelaUnidade(applicable, unidadeDoLaudo, catalogo.sinonimosDe))
+					if bloqueado == nil {
+						bloqueado = &applicable[0]
+					}
+					setReason(motivoDoContexto(bloqueado, contextoPorCodigo, catalogo))
 					break
 				}
 				applicable = comContexto
@@ -1088,10 +1111,6 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 			// A unidade do laudo escolhe a escala. Sem isto, o desempate por faixa etária podia
 			// entregar a escala em mg/dL para um resultado em nmol/L e a guarda abaixo recusava
 			// classificar, mesmo existindo a escala certa para aquele exame.
-			unidadeDoLaudo := ""
-			if result.Unit != nil {
-				unidadeDoLaudo = *result.Unit
-			}
 			item := pickScoringItem(filtraPelaUnidade(applicable, unidadeDoLaudo, catalogo.sinonimosDe))
 			if item == nil {
 				setReason("Exame não entra no escore (item sem faixas configuradas)")
@@ -1329,7 +1348,7 @@ func (s *LabResultBatchService) resultadosPorCodigoAte(patientID uuid.UUID, ate 
 	err := s.db.Table("lab_results r").
 		Select("d.code AS code, r.*").
 		Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id").
-		Joins("JOIN lab_test_definitions d ON d.id = r.lab_test_definition_id").
+		Joins("JOIN lab_test_definitions d ON d.id = r.lab_test_definition_id AND d.deleted_at IS NULL").
 		Where("b.patient_id = ? AND b.collection_date::date <= ?::date", patientID, ate).
 		Where("r.result_numeric IS NOT NULL OR r.level IS NOT NULL").
 		Where("r.deleted_at IS NULL AND b.deleted_at IS NULL").

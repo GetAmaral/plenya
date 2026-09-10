@@ -551,7 +551,18 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		if n := len(byCode[code]); n > 0 && !item.UnitMatches(unidadeDoResultado(byCode[code][n-1]), catalogo.sinonimosDe(item.LabTestCode)) {
 			continue
 		}
-		ruler, ok := buildRuler(code, item, byCode[code])
+		// A série também precisa ser filtrada, e não só a escolha da escala. `buildHistory` recalcula
+		// o nível de CADA ponto sobre a escala escolhida: com Lp(a) 5 mg/dL em 2023 e 12 nmol/L em
+		// 2026, escolher a escala pelo laudo mais recente conserta o ponto de 2026 e desenha o de
+		// 2023 como se fossem 5 nmol/L — uma "melhora" que nunca existiu, no deck do paciente.
+		// Ponto em outra grandeza não tem lugar nesta régua; some dela em vez de mentir nela.
+		serie := make([]labRow, 0, len(byCode[code]))
+		for _, r := range byCode[code] {
+			if item.UnitMatches(unidadeDoResultado(r), catalogo.sinonimosDe(item.LabTestCode)) {
+				serie = append(serie, r)
+			}
+		}
+		ruler, ok := buildRuler(code, item, serie)
 		if !ok {
 			continue
 		}
