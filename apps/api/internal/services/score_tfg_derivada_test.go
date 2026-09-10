@@ -4,6 +4,8 @@ import (
 	"math"
 	"testing"
 	"time"
+
+	"github.com/plenya/api/internal/models"
 )
 
 // As três equações são dado verificável, não escolha de projeto: um coeficiente trocado devolve uma
@@ -107,6 +109,43 @@ func TestCandidatoDoDiaPrefereAEquacaoMaisRica(t *testing.T) {
 		}
 		if melhor["2023-10-17"].equacao != tfgCombinada {
 			t.Errorf("ordem de chegada mudou o vencedor: veio %q", melhor["2023-10-17"].equacao)
+		}
+	}
+}
+
+// As faixas da eTFG têm de reproduzir a KDIGO EXATAMENTE no valor inteiro, que é como filtração é
+// reportada e é o que `SincronizaTFGDerivada` grava (arredonda para inteiro). A primeira versão
+// punha os limites em 15/30/45/60/90 e, com a convenção meio-aberta `(inferior, superior]`, jogava
+// toda fronteira um estágio PARA BAIXO: 60 saía G3a onde a KDIGO diz G2, 90 saía G2 onde ela diz G1.
+// Estágio errado muda meta de pressão, dose de droga e momento de encaminhar ao nefrologista.
+func TestFaixasDaTFGReproduzemAKDIGO(t *testing.T) {
+	niveis := []models.ScoreLevel{
+		{Level: 0, Name: "G5", Operator: "<=", UpperLimit: strPtr("14")},
+		{Level: 1, Name: "G4", Operator: "between", LowerLimit: strPtr("14"), UpperLimit: strPtr("29")},
+		{Level: 2, Name: "G3b", Operator: "between", LowerLimit: strPtr("29"), UpperLimit: strPtr("44")},
+		{Level: 3, Name: "G3a", Operator: "between", LowerLimit: strPtr("44"), UpperLimit: strPtr("59")},
+		{Level: 4, Name: "G2", Operator: "between", LowerLimit: strPtr("59"), UpperLimit: strPtr("89")},
+		{Level: 5, Name: "G1", Operator: ">", LowerLimit: strPtr("89")},
+	}
+	classifica := func(v float64) string {
+		for _, n := range niveis { // mesma ordem do motor: do nível 0 para cima, primeira que bate vence
+			if n.EvaluatesTrue(v) {
+				return n.Name
+			}
+		}
+		return "(nenhum)"
+	}
+
+	// Cada fronteira da KDIGO, dos dois lados.
+	for _, c := range []struct {
+		valor   float64
+		estagio string
+	}{
+		{120, "G1"}, {90, "G1"}, {89, "G2"}, {60, "G2"}, {59, "G3a"}, {45, "G3a"},
+		{44, "G3b"}, {30, "G3b"}, {29, "G4"}, {15, "G4"}, {14, "G5"}, {5, "G5"},
+	} {
+		if got := classifica(c.valor); got != c.estagio {
+			t.Errorf("eTFG %.0f = %s, a KDIGO diz %s", c.valor, got, c.estagio)
 		}
 	}
 }

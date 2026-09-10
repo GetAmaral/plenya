@@ -72,7 +72,9 @@ func SincronizaTFGDerivada(db *gorm.DB, patientID uuid.UUID) error {
 	// rápido da recepção grava data zerada (ver CreatePatientRequest), e isso não é erro: é só
 	// motivo para não calcular.
 	if paciente.BirthDate.IsZero() {
-		return nil
+		// Retira o que já houver: se a data de nascimento foi limpa depois, a eTFG antiga não pode
+		// continuar valendo 22 pontos sobre uma conta que o código agora se recusa a fazer.
+		return retiraTFGSemInsumo(db, patientID, def.ID, nil)
 	}
 
 	creatininas, err := componentesPorLote(db, patientID, codigoCreatinina)
@@ -90,7 +92,7 @@ func SincronizaTFGDerivada(db *gorm.DB, patientID uuid.UUID) error {
 	// omitido (patient_service.go), e é caminho normal, não erro — mas chutar masculino ali
 	// escreveria um estágio renal inventado no prontuário, com 22 pontos de escore atrás dele.
 	if paciente.Gender != models.GenderMale && paciente.Gender != models.GenderFemale {
-		return nil
+		return retiraTFGSemInsumo(db, patientID, def.ID, nil)
 	}
 	feminino := paciente.Gender == models.GenderFemale
 
@@ -265,50 +267,65 @@ func tfgCombinadaCKDEPI2021(scr, scys, idade float64, feminino bool) float64 {
 		math.Pow(0.9961, idade) * sexo
 }
 
-// gravaTFG insere ou atualiza a linha da eTFG naquele lote, com as mesmas duas guardas das razões:
-// nunca toca em resultado que não seja `derived`, e procura o já lançado pelo DIA DA COLETA e não
-// pelo lote, porque a mesma coleta se parte em lotes.
+// gravaTFG grava a eTFG do DIA, e não do lote.
 //
-// A guarda do que foi lançado por gente importa mais aqui do que nas razões: o laudo IMPRIME uma
-// eTFG, e ela costuma ser digitada junto com a creatinina. Sobrescrevê-la seria trocar em silêncio
-// o número que o médico leu no papel.
+// A busca do que já existe é pelo dia de coleta inteiro, porque a mesma coleta se parte em lotes:
+// procurando só dentro do lote escolhido, a sincronização não via a linha que estava no lote irmão,
+// contava "já tem uma no dia" e desistia — a eTFG nascia com o primeiro insumo que chegasse e nunca
+// mais era atualizada, mesmo quando a cistatina C aparecia depois e permitia a equação melhor.
+//
+// QUANDO A CONTA SUPERA O QUE ESTÁ NO PRONTUÁRIO
+//
+// A regra geral do projeto é que valor lançado por gente vence a conta, e ela vale para medida. A
+// eTFG não é medida: a que vem impressa no laudo é uma CONTA do laboratório, e sempre a de
+// creatinina isolada. Tratá-la como intocável fazia a feature ser inerte justamente no caso que a
+// motiva — coleta com creatinina, cistatina C e a eTFG impressa ao lado, em que a combinada é a
+// certa e nunca era gravada.
+//
+// Então a linha impressa é superada SÓ quando a nossa equação usa cistatina C, que é informação que
+// o laboratório comprovadamente não usou. Se o melhor que temos é creatinina isolada, é a mesma
+// conta que ele fez, e não se mexe. O valor original nunca some: fica escrito na interpretação da
+// linha, com a data em que foi substituído.
 func gravaTFG(db *gorm.DB, patientID, defID, lote uuid.UUID, dia string, valor float64, eq equacaoTFG) error {
 	nota := fmt.Sprintf("Calculada pelo escore por %s, a partir dos insumos da mesma coleta.", eq)
+	usaCistatina := eq == tfgCombinada || eq == tfgCistatinaC
 
 	var existente models.LabResult
-	err := db.Where("lab_result_batch_id = ? AND lab_test_definition_id = ? AND deleted_at IS NULL",
-		lote, defID).First(&existente).Error
+	err := db.Table("lab_results r").
+		Select("r.*").
+		Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id AND b.deleted_at IS NULL").
+		Where("b.patient_id = ? AND r.lab_test_definition_id = ?", patientID, defID).
+		Where("to_char(b.collection_date, 'YYYY-MM-DD') = ? AND r.deleted_at IS NULL", dia).
+		Order("r.created_at ASC").
+		First(&existente).Error
 
 	switch {
 	case err == nil:
 		if existente.Source != sourceRazaoDerivada {
-			return nil // veio do laudo: o que está no prontuário vale mais que a conta
+			if !usaCistatina {
+				return nil // mesma conta que o laboratório fez: não se mexe
+			}
+			original := "sem valor"
+			if existente.ResultNumeric != nil {
+				original = formatNumberPT(*existente.ResultNumeric)
+			}
+			nota = fmt.Sprintf("%s Substitui a eTFG impressa no laudo (%s), que é calculada só com "+
+				"creatinina.", nota, original)
 		}
 		if existente.ResultNumeric != nil && quaseIgual(*existente.ResultNumeric, valor) &&
 			existente.Interpretation != nil && *existente.Interpretation == nota {
 			return nil
 		}
 		unidade := unidadeTFG
-		return db.Model(&existente).Updates(map[string]any{
+		return db.Model(&models.LabResult{}).Where("id = ?", existente.ID).Updates(map[string]any{
 			"result_numeric": valor,
 			"unit":           unidade,
+			"unit_original":  unidade,
+			"source":         sourceRazaoDerivada,
 			"interpretation": nota,
 		}).Error
 
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		var noDia int64
-		if err := db.Table("lab_results r").
-			Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id AND b.deleted_at IS NULL").
-			Where("b.patient_id = ? AND r.lab_test_definition_id = ?", patientID, defID).
-			Where("to_char(b.collection_date, 'YYYY-MM-DD') = ?", dia).
-			Where("r.deleted_at IS NULL").
-			Count(&noDia).Error; err != nil {
-			return err
-		}
-		if noDia > 0 {
-			return nil
-		}
-
 		unidade := unidadeTFG
 		return db.Create(&models.LabResult{
 			LabResultBatchID:    lote,

@@ -149,7 +149,7 @@ func componentesPorLote(db *gorm.DB, patientID uuid.UUID, codigo string) (map[uu
 		Select("r.lab_result_batch_id AS lote_id, r.result_numeric AS valor, " +
 			"coalesce(r.unit, '') AS unid, to_char(b.collection_date, 'YYYY-MM-DD') AS dia").
 		Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id AND b.deleted_at IS NULL").
-		Joins("JOIN lab_test_definitions d ON d.id = r.lab_test_definition_id").
+		Joins("JOIN lab_test_definitions d ON d.id = r.lab_test_definition_id AND d.deleted_at IS NULL").
 		Where("b.patient_id = ? AND d.code = ?", patientID, codigo).
 		Where("r.deleted_at IS NULL AND r.result_numeric IS NOT NULL").
 		Order("r.lab_result_batch_id, r.created_at DESC").
