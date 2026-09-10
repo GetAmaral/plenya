@@ -525,17 +525,13 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		// isoforma da apo(a) muda a relação massa/molar de pessoa para pessoa). Escolher pela idade
 		// primeiro podia entregar a escala em nmol/L para um laudo em mg/dL, e aí a guarda logo
 		// abaixo apagava a régua mesmo existindo a escala certa.
-		if len(byCode[code]) > 0 {
-			unidade := unidadeDoResultado(byCode[code][0])
-			var naUnidade []models.ScoreItem
-			for i := range cands {
-				if cands[i].UnitMatches(unidade, catalogo.sinonimosDe(cands[i].LabTestCode)) {
-					naUnidade = append(naUnidade, cands[i])
-				}
-			}
-			if len(naUnidade) > 0 {
-				cands = naUnidade
-			}
+		// A escala sai do laudo MAIS RECENTE, não do primeiro da lista: `loadLabRows` ordena
+		// `collected ASC`, então o índice 0 é o mais antigo. Um exame que mudou de grandeza ao
+		// longo do tempo — Lp(a) em mg/dL em 2023 e em nmol/L em 2026 — escolhia a escala de 2023
+		// e plotava o valor de 2026 nela: 12 nmol/L caía dentro de "≤14 mg/dL" e a devolutiva
+		// mostrava ótimo, enquanto a linha do resultado carregava o nível calculado em nmol/L.
+		if n := len(byCode[code]); n > 0 {
+			cands = filtraPelaUnidade(cands, unidadeDoResultado(byCode[code][n-1]), catalogo.sinonimosDe)
 		}
 		item := pickScoringItem(cands)
 		if item == nil {
@@ -552,7 +548,7 @@ func (s *PatientPlanDossierService) buildRulers(patient *models.Patient, rows []
 		// "revisar" por serem grandezas diferentes, o motor do escore recusou classificar — e a
 		// régua desenhava assim mesmo, imprimindo "24,1 nmol/L" sobre um valor que ninguém
 		// converteu. A guarda existia e passava por comparar a unidade consigo mesma.
-		if len(byCode[code]) > 0 && !item.UnitMatches(unidadeDoResultado(byCode[code][0]), catalogo.sinonimosDe(item.LabTestCode)) {
+		if n := len(byCode[code]); n > 0 && !item.UnitMatches(unidadeDoResultado(byCode[code][n-1]), catalogo.sinonimosDe(item.LabTestCode)) {
 			continue
 		}
 		ruler, ok := buildRuler(code, item, byCode[code])

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strings"
 	"time"
 
@@ -998,6 +999,12 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 	// Sinônimos de unidade do catálogo, para não recusar `mEq/L` contra `mmol/L` no sódio.
 	catalogo := carregaCatalogoDeExames(s.db)
 
+	// Contexto para os itens que só discriminam junto de OUTRO exame (%Free PSA exige PSA total
+	// entre 4 e 10). Vale o resultado mais recente de cada código ATÉ a data desta coleta: julgar
+	// um lote de 2023 com o contexto de 2026 seria reescrever o passado.
+	contextoPorCodigo, errContexto := s.resultadosPorCodigoAte(batch.PatientID, batch.CollectionDate)
+	contexto := valoresPorCodigo(contextoPorCodigo)
+
 	// 2. Buscar paciente
 	var patient models.Patient
 	if err := s.db.First(&patient, batch.PatientID).Error; err != nil {
@@ -1055,7 +1062,37 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 				break
 			}
 
-			item := pickScoringItem(applicable)
+			// Item de CONTEXTO: a escala só discrimina dentro de uma faixa de OUTRO exame. A razão
+			// %Free PSA marca ≤10% como o pior nível, mas isso só quer dizer alguma coisa com PSA
+			// total entre 4 e 10 ng/mL; com PSA total 0,36 a razão não é achado nenhum.
+			//
+			// O motor do escore já respeitava isto (`RequirementMet`, em score_snapshot_service),
+			// e o classificador não: o escore excluía o item e a LINHA DO RESULTADO ficava com um
+			// nível ruim carimbado — que é o que a régua, a caixa de resultados e a devolutiva do
+			// paciente leem. Falso anormal em prontuário é pior do que ausência de nível.
+			// Contexto ilegível: não aplicar a guarda. Ver o comentário em resultadosPorCodigoAte.
+			if errContexto == nil {
+				comContexto := applicable[:0:0]
+				for _, it := range applicable {
+					if it.RequirementMet(contexto) {
+						comContexto = append(comContexto, it)
+					}
+				}
+				if len(comContexto) == 0 {
+					setReason(motivoDoContexto(&applicable[0], contextoPorCodigo, catalogo))
+					break
+				}
+				applicable = comContexto
+			}
+
+			// A unidade do laudo escolhe a escala. Sem isto, o desempate por faixa etária podia
+			// entregar a escala em mg/dL para um resultado em nmol/L e a guarda abaixo recusava
+			// classificar, mesmo existindo a escala certa para aquele exame.
+			unidadeDoLaudo := ""
+			if result.Unit != nil {
+				unidadeDoLaudo = *result.Unit
+			}
+			item := pickScoringItem(filtraPelaUnidade(applicable, unidadeDoLaudo, catalogo.sinonimosDe))
 			if item == nil {
 				setReason("Exame não entra no escore (item sem faixas configuradas)")
 				break
@@ -1076,10 +1113,6 @@ func (s *LabResultBatchService) ClassifyBatchResults(batchID uuid.UUID) error {
 				// sedimento urinário estão em `células/campo` e o laboratório reporta `/µL`:
 				// 0,5/µL cai na faixa "≤10 células/campo" e o resultado fica gravado como
 				// nível ÓTIMO, que é o que aparece na tela e na régua da devolutiva.
-				unidadeDoLaudo := ""
-				if result.Unit != nil {
-					unidadeDoLaudo = *result.Unit
-				}
 				if !item.UnitMatches(unidadeDoLaudo, catalogo.sinonimosDe(item.LabTestCode)) {
 					setReason(fmt.Sprintf(
 						"Não classificado: a faixa do escore está em %s e o resultado veio em %s",
@@ -1271,6 +1304,80 @@ func (s *LabResultBatchService) toInboxItem(batch *models.LabResultBatch) *dto.L
 	}
 }
 
+// resultadosPorCodigoAte devolve o resultado numérico mais recente de cada exame do paciente até a
+// data dada, que é o contexto que `ScoreItem.RequirementMet` consulta. O corte por data existe para
+// que reclassificar um lote antigo não use um exame que só veio depois dele.
+func (s *LabResultBatchService) resultadosPorCodigoAte(patientID uuid.UUID, ate time.Time) (map[string]models.LabResult, error) {
+	var linhas []struct {
+		Code string
+		models.LabResult
+	}
+	// Corte por DIA, não por instante: `collection_date` é timestamptz e os dois caminhos de carga
+	// gravam horas diferentes — a carga por SQL escreve meia-noite (`'2026-01-23'::date`) e a via
+	// HTTP escreve a hora real. Comparar instantes deixava o PSA total das 08:00 invisível para um
+	// lote da mesma data carimbado à meia-noite, e o item saía com "não foi medido" sobre um exame
+	// que está no prontuário.
+	//
+	// Desempate por `created_at`: dois lotes do mesmo código no mesmo dia (reenvio corrigido é o
+	// caso normal) precisam resolver para o MESMO valor que o motor do escore usa, senão os dois
+	// discordam sobre se o item de contexto se aplica — que é a divergência que este trecho existe
+	// para eliminar.
+	//
+	// `level IS NOT NULL` entra junto com o valor numérico porque um exame de referência pode ter
+	// vindo qualitativo: ele FOI medido, e dizer "não foi medido" mandaria pedir de novo um exame
+	// que já está no prontuário.
+	err := s.db.Table("lab_results r").
+		Select("d.code AS code, r.*").
+		Joins("JOIN lab_result_batches b ON b.id = r.lab_result_batch_id").
+		Joins("JOIN lab_test_definitions d ON d.id = r.lab_test_definition_id").
+		Where("b.patient_id = ? AND b.collection_date::date <= ?::date", patientID, ate).
+		Where("r.result_numeric IS NOT NULL OR r.level IS NOT NULL").
+		Where("r.deleted_at IS NULL AND b.deleted_at IS NULL").
+		Order("b.collection_date ASC, r.created_at ASC").
+		Scan(&linhas).Error
+	if err != nil {
+		// Devolver mapa vazio aqui reprovaria TODO item com `requires_lab_code`, apagando níveis
+		// corretos e gravando "não foi medido" no prontuário — um rebaixamento clínico silencioso,
+		// indistinguível do achado real. Melhor não aplicar a guarda de contexto do que aplicá-la
+		// sobre contexto que não conseguimos ler.
+		return nil, err
+	}
+
+	out := make(map[string]models.LabResult, len(linhas))
+	for _, l := range linhas {
+		out[l.Code] = l.LabResult // ordem ASC: o último a escrever é o mais recente
+	}
+	return out, nil
+}
+
+// filtraPelaUnidade deixa só as escalas que falam a mesma grandeza do laudo, ANTES de escolher.
+//
+// Um exame pode ter mais de uma escala quando a grandeza varia entre laboratórios: a
+// lipoproteína(a) tem item em nmol/L e item em mg/dL, porque não existe fator de conversão válido
+// entre as duas (o tamanho da isoforma da apo(a) muda a relação massa/molar de pessoa para
+// pessoa). `pickScoringItem` desempata por faixa etária e nenhuma das duas tem recorte, então a
+// escolha caía na ordem que o banco devolveu — e quando vinha a de mg/dL contra um laudo em
+// nmol/L, a guarda de unidade recusava classificar um resultado cuja escala certa existia ali do
+// lado. Foi o que deixou a Lp(a) 12 nmol/L sem nível.
+//
+// Se nenhuma escala casar, devolve a lista original de propósito: aí a guarda logo adiante recusa
+// e grava o MOTIVO, que é melhor do que classificar contra a grandeza errada em silêncio.
+//
+// O mesmo filtro existe em patient_plan_dossier_service.go, que monta a régua. Os dois precisam
+// escolher a MESMA escala: régua e nível divergentes sobre o mesmo exame é o pior dos dois mundos.
+func filtraPelaUnidade(items []models.ScoreItem, unidade string, sinonimos func(*string) [][2]string) []models.ScoreItem {
+	var naUnidade []models.ScoreItem
+	for i := range items {
+		if items[i].UnitMatches(unidade, sinonimos(items[i].LabTestCode)) {
+			naUnidade = append(naUnidade, items[i])
+		}
+	}
+	if len(naUnidade) == 0 {
+		return items
+	}
+	return naUnidade
+}
+
 // pickScoringItem escolhe qual ScoreItem manda quando o mesmo exame tem vários. Um laudo
 // como o IGF-1 tem itens por faixa etária MAIS um item guarda-chuva sem faixa nenhuma;
 // pegar o primeiro da lista deixava o resultado sem nível sempre que o guarda-chuva vinha
@@ -1348,7 +1455,33 @@ func normalizeQualitative(s string) string {
 	s = removeAccentsFromString(s)
 	s = stripParenthesized(s)
 	s = strings.NewReplacer("-", " ", "/", " / ").Replace(s)
+	s = separaPontuacaoDeFrase(s)
 	return strings.Join(strings.Fields(s), " ")
+}
+
+// separaPontuacaoDeFrase troca pontuação de fim de frase por espaço, PRESERVANDO o ponto que separa
+// milhar. Sem a troca, "Negativo." não casa com o nível "Negativo" — o token fica "negativo." — e o
+// resultado sai do escore em silêncio; laudo que escreve o qualitativo como frase com ponto final é
+// comum. Preservar o ponto entre dígitos é obrigatório porque em português ele é separador de
+// milhar: tratá-lo como pontuação transformava "Superior a 1.000,0" em "1 000,0" e o valor lido
+// virava 1.
+func separaPontuacaoDeFrase(s string) string {
+	r := []rune(s)
+	out := make([]rune, len(r))
+	for i, c := range r {
+		if !strings.ContainsRune(".;:!?", c) {
+			out[i] = c
+			continue
+		}
+		entreDigitos := i > 0 && i+1 < len(r) &&
+			r[i-1] >= '0' && r[i-1] <= '9' && r[i+1] >= '0' && r[i+1] <= '9'
+		if c == '.' && entreDigitos {
+			out[i] = c // separador de milhar
+			continue
+		}
+		out[i] = ' '
+	}
+	return string(out)
 }
 
 // stripParenthesized remove trechos entre parênteses ("Negativo (<15)" → "Negativo").
@@ -1450,16 +1583,81 @@ func matchQualitativeLevel(levels []models.ScoreLevel, text string) *int {
 		return l
 	}
 
-	// Sinônimos: o laudo diz "Amostra NEGATIVA", o nível se chama "Não-reagente".
-	for raw, canonical := range qualitativeSynonyms {
+	// Sinônimos: o laudo diz "Amostra NEGATIVA", o nível se chama "Não-reagente". Ordem fixa pela
+	// mesma razão do comentário em sinonimosQualitativosOrdenados: varrer o mapa tornava o nível
+	// gravado dependente da ordem de iteração do Go.
+	for _, raw := range sinonimosQualitativosOrdenados {
 		if !containsPhrase(tokens, strings.Fields(raw)) {
 			continue
 		}
-		if l := search(canonical, strings.Fields(canonical)); l != nil {
+		if l := search(qualitativeSynonyms[raw], strings.Fields(qualitativeSynonyms[raw])); l != nil {
 			return l
 		}
 	}
+
+	// O mapa acima traduz o TEXTO DO LAUDO para a forma canônica, e só. Quando é o NOME DO NÍVEL
+	// que está na outra forma, nada casa: o FAN do laboratório vem "Não reagente" e o nível se
+	// chama "Negativo", e a proteinúria vem "Negativa" contra um nível "Negativo (<10)". Os dois
+	// lados dizem a mesma coisa e o resultado ficava fora do escore em silêncio — inclusive a
+	// proteinúria, que é o dado que decide se há doença glomerular.
+	//
+	// Aqui a canonicalização vale para os DOIS lados: texto e nome do nível passam pelo mesmo mapa
+	// antes de comparar. Só resolve equivalência de vocabulário; nível cujo nome é uma faixa
+	// numérica ("0,6-1,1") continua exigindo número, como deve.
+	if canonico := canonicalizaQualitativo(tokens); canonico != "" {
+		var found *int
+		for i := range levels {
+			for _, alt := range levelNameAlternatives(levels[i].Name) {
+				if canonicalizaQualitativo(strings.Fields(alt)) != canonico {
+					continue
+				}
+				if found != nil && *found != levels[i].Level {
+					return nil // ambíguo
+				}
+				l := levels[i].Level
+				found = &l
+				break
+			}
+		}
+		if found != nil {
+			return found
+		}
+	}
 	return nil
+}
+
+// canonicalizaQualitativo devolve a forma canônica ("reagente" / "nao reagente") que aparece nos
+// tokens, ou "" quando nenhum termo do vocabulário está presente. É o mesmo mapa usado nos dois
+// lados da comparação, para que "Não reagente" e "Negativo" se encontrem.
+func canonicalizaQualitativo(tokens []string) string {
+	for _, raw := range sinonimosQualitativosOrdenados {
+		if containsPhrase(tokens, strings.Fields(raw)) {
+			return qualitativeSynonyms[raw]
+		}
+	}
+	return ""
+}
+
+// sinonimosQualitativosOrdenados fixa a ordem de varredura dos sinônimos, da frase mais longa para
+// a mais curta. Varrer o MAPA deixava o resultado à mercê da ordem aleatória de iteração do Go:
+// "Não detectado. Reagente para controle interno." casa com "nao detectado" (→ não reagente) e com
+// "reagente" (→ reagente), e o mesmo texto podia sair nível 5 numa execução e nível 0 na seguinte.
+// Frase mais longa primeiro porque ela é a mais específica: "nao detectado" tem que ganhar de
+// "detectado", e "nao reagente" de "reagente".
+var sinonimosQualitativosOrdenados = ordenaPorTamanho(qualitativeSynonyms)
+
+func ordenaPorTamanho(m map[string]string) []string {
+	chaves := make([]string, 0, len(m))
+	for k := range m {
+		chaves = append(chaves, k)
+	}
+	sort.Slice(chaves, func(i, j int) bool {
+		if len(chaves[i]) != len(chaves[j]) {
+			return len(chaves[i]) > len(chaves[j])
+		}
+		return chaves[i] < chaves[j] // desempate estável
+	})
+	return chaves
 }
 
 // comparativePrefixes são as formas com que o laudo entrega um número sem entregar o número

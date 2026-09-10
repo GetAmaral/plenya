@@ -1,12 +1,14 @@
 package services
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/plenya/api/internal/models"
 )
 
 func intPtr(v int) *int { return &v }
+func strPtr(v string) *string { return &v }
 
 // IGF-1 no catálogo tem itens por faixa etária MAIS um item guarda-chuva sem faixa nenhuma.
 // Pegar o primeiro da lista deixava o resultado sem nível quando o guarda-chuva vinha antes.
@@ -51,6 +53,157 @@ func TestPickScoringItem_TodosSemFaixas(t *testing.T) {
 
 // Casos reais do laudo que ficavam sem nível: rótulos com barra, plural, parêntese e
 // frases inteiras ("Amostra NEGATIVA").
+// A lipoproteína(a) tem DUAS escalas no catálogo, em nmol/L e em mg/dL, porque não existe fator de
+// conversão válido entre elas. Nenhuma tem recorte de idade, então o desempate por faixa etária não
+// separa as duas e a escolha caía na ordem que o banco devolveu. Quando vinha a de mg/dL contra um
+// laudo em nmol/L, a guarda de unidade recusava classificar — e a Lp(a) de 12 nmol/L ficava sem
+// nível com a escala certa ali do lado.
+//
+// O filtro já existia em patient_plan_dossier_service.go, que monta a régua, e não no
+// classificador: régua certa, nível ausente, sobre o mesmo exame.
+func TestFiltraPelaUnidade_EscolheAEscalaDaGrandezaDoLaudo(t *testing.T) {
+	semSinonimos := func(*string) [][2]string { return nil }
+	nmol := models.ScoreItem{
+		Name:        "Lipoproteína A",
+		Unit:        strPtr("nmol/L"),
+		LabTestCode: strPtr("PLNA31F0501"),
+		Levels:      []models.ScoreLevel{{Level: 5, Name: "≤30", Operator: "<=", UpperLimit: strPtr("30")}},
+	}
+	mgdl := models.ScoreItem{
+		Name:        "Lipoproteína A (mg/dL)",
+		Unit:        strPtr("mg/dL"),
+		LabTestCode: strPtr("PLNA31F0501"),
+		Levels:      []models.ScoreLevel{{Level: 5, Name: "≤14", Operator: "<=", UpperLimit: strPtr("14")}},
+	}
+
+	// A de mg/dL vem PRIMEIRO de propósito: é a ordem que reproduzia o defeito.
+	got := pickScoringItem(filtraPelaUnidade([]models.ScoreItem{mgdl, nmol}, "nmol/L", semSinonimos))
+	if got == nil || got.Name != nmol.Name {
+		t.Fatalf("laudo em nmol/L devia escolher a escala em nmol/L, veio %v", got)
+	}
+	if !got.UnitMatches("nmol/L", nil) {
+		t.Fatal("a escala escolhida tem que passar na guarda de unidade")
+	}
+
+	got = pickScoringItem(filtraPelaUnidade([]models.ScoreItem{nmol, mgdl}, "mg/dL", semSinonimos))
+	if got == nil || got.Name != mgdl.Name {
+		t.Fatalf("laudo em mg/dL devia escolher a escala em mg/dL, veio %v", got)
+	}
+}
+
+// Nenhuma escala casando, devolve a lista inteira: a guarda adiante recusa e grava o MOTIVO, que é
+// melhor do que classificar contra a grandeza errada em silêncio. É o caso do sedimento urinário,
+// com escala em células/campo e laudo em /µL.
+func TestFiltraPelaUnidade_SemCasarDevolveTudo(t *testing.T) {
+	semSinonimos := func(*string) [][2]string { return nil }
+	campo := models.ScoreItem{
+		Name:        "Hemácias (RBC) - Sedimento",
+		Unit:        strPtr("células/campo"),
+		LabTestCode: strPtr("PLN6B5C27A4"),
+		Levels:      []models.ScoreLevel{{Level: 5, Name: "≤5", Operator: "<=", UpperLimit: strPtr("5")}},
+	}
+
+	got := filtraPelaUnidade([]models.ScoreItem{campo}, "/µL", semSinonimos)
+	if len(got) != 1 {
+		t.Fatalf("esperava a lista original, veio %d itens", len(got))
+	}
+	if got[0].UnitMatches("/µL", nil) {
+		t.Fatal("células/campo e /µL não são a mesma grandeza: a guarda tem que recusar")
+	}
+}
+
+// O mapa de sinônimos traduzia só o TEXTO DO LAUDO. Quando é o NOME DO NÍVEL que está na outra
+// forma do mesmo vocabulário, nada casava: FAN "Não reagente" contra nível "Negativo", proteinúria
+// "Negativa" contra nível "Negativo (<10)". Os dois lados dizem a mesma coisa e o resultado saía do
+// escore em silêncio — a proteinúria inclusive, que é o dado que decide se há doença glomerular.
+func TestMatchQualitativeLevel_CanonicalizaOsDoisLados(t *testing.T) {
+	fan := []models.ScoreLevel{
+		{Level: 5, Name: "Negativo"},
+		{Level: 3, Name: "1:80"},
+		{Level: 0, Name: "≥1:640"},
+	}
+	if l := matchQualitativeLevel(fan, "Não reagente (AC-0), título não reagente"); l == nil || *l != 5 {
+		t.Fatalf("FAN não reagente devia cair no nível 5 (Negativo), veio %v", l)
+	}
+
+	proteinas := []models.ScoreLevel{
+		{Level: 5, Name: "Negativo (<10)"},
+		{Level: 3, Name: "10 a 29 (Traços)"},
+		{Level: 0, Name: "≥300 (3+ a 4+)"},
+	}
+	if l := matchQualitativeLevel(proteinas, "Negativa"); l == nil || *l != 5 {
+		t.Fatalf("proteinúria negativa devia cair no nível 5, veio %v", l)
+	}
+
+	// O caminho antigo continua valendo: texto na forma canônica, nível na forma coloquial.
+	sorologia := []models.ScoreLevel{{Level: 5, Name: "Não-reagente"}, {Level: 0, Name: "Reagente"}}
+	if l := matchQualitativeLevel(sorologia, "Negativo"); l == nil || *l != 5 {
+		t.Fatalf("texto negativo contra nível não-reagente devia continuar casando, veio %v", l)
+	}
+}
+
+// Texto com dois termos de canonicalização OPOSTA não pode depender da ordem de iteração do mapa:
+// "Não detectado" (→ não reagente) e "Reagente" (→ reagente) na mesma frase davam nível 5 ou nível 0
+// conforme a execução. A frase mais longa e mais específica ganha, sempre.
+func TestCanonicalizaQualitativo_Determinista(t *testing.T) {
+	// "detectado" (-> reagente) e "ausente" (-> nao reagente) na mesma frase: com varredura do mapa,
+	// o vencedor mudava de execução para execução.
+	ambiguo := strings.Fields(normalizeQualitative("Anticorpo detectado antigeno ausente"))
+	primeiro := canonicalizaQualitativo(ambiguo)
+	if primeiro == "" {
+		t.Fatal("esperava alguma forma canônica para um texto com dois termos do vocabulário")
+	}
+	for i := 0; i < 300; i++ {
+		if got := canonicalizaQualitativo(ambiguo); got != primeiro {
+			t.Fatalf("iteração %d devolveu %q, antes era %q: resultado dependente da ordem do mapa", i, got, primeiro)
+		}
+	}
+
+	// Especificidade: a frase mais longa ganha da palavra contida nela.
+	if got := canonicalizaQualitativo(strings.Fields(normalizeQualitative("Não detectado"))); got != "nao reagente" {
+		t.Fatalf("\"não detectado\" tem que ganhar de \"detectado\", veio %q", got)
+	}
+
+	// E a lista tem que estar mesmo do mais longo para o mais curto.
+	for i := 1; i < len(sinonimosQualitativosOrdenados); i++ {
+		if len(sinonimosQualitativosOrdenados[i-1]) < len(sinonimosQualitativosOrdenados[i]) {
+			t.Fatalf("ordem quebrada em %d: %q antes de %q",
+				i, sinonimosQualitativosOrdenados[i-1], sinonimosQualitativosOrdenados[i])
+		}
+	}
+}
+
+// Laudo que escreve o qualitativo como frase, com ponto final, é comum — e "Negativo." não casava
+// com o nível "Negativo" porque o token ficava "negativo.". O resultado saía do escore em silêncio.
+func TestMatchQualitativeLevel_PontuacaoDeFimDeFrase(t *testing.T) {
+	niveis := []models.ScoreLevel{{Level: 5, Name: "Não-reagente"}, {Level: 0, Name: "Reagente"}}
+	for _, txt := range []string{"Negativo", "Negativo.", "Não reagente.", "Negativo;", "Negativo!"} {
+		l := matchQualitativeLevel(niveis, txt)
+		if l == nil || *l != 5 {
+			t.Errorf("%q devia cair no nível 5, veio %v", txt, l)
+		}
+	}
+
+	// E o ponto que separa MILHAR tem que sobreviver: tratá-lo como pontuação transformava
+	// "Superior a 1.000,0" em "1 000,0" e o valor lido virava 1.
+	if v, ok := numericFromComparativeText("Superior a 1.000,0"); !ok || v != 1000 {
+		t.Errorf("separador de milhar corrompido: %v %v", v, ok)
+	}
+}
+
+// Nível cujo nome é faixa numérica continua exigindo número: "Normal" do urobilinogênio não pode
+// ser empurrado para dentro de "0,6-1,1" só porque soa saudável.
+func TestMatchQualitativeLevel_NaoInventaFaixaNumerica(t *testing.T) {
+	urobilinogenio := []models.ScoreLevel{
+		{Level: 5, Name: "0,6-1,1"},
+		{Level: 3, Name: "1,1-2,1 (1+)"},
+		{Level: 0, Name: "≤0,1 (Ausente)"},
+	}
+	if l := matchQualitativeLevel(urobilinogenio, "Normal"); l != nil {
+		t.Fatalf("\"Normal\" não é uma faixa: esperava sem nível, veio %v", *l)
+	}
+}
+
 func TestMatchQualitativeLevel_RotulosDeLaudo(t *testing.T) {
 	urina := []models.ScoreLevel{
 		{Level: 0, Name: "Turvo intenso/Purulento"},

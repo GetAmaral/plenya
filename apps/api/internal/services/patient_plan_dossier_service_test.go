@@ -564,6 +564,10 @@ func TestFerritinaQueDobraDentroDaMesmaFaixaEhWorsening(t *testing.T) {
 	}
 }
 
+// DOIS lugares precisam aplicar esta condição, e por muito tempo só um aplicava: o motor do escore
+// (score_snapshot_service) excluía o item, enquanto ClassifyBatchResults carimbava o nível na LINHA
+// DO RESULTADO — que é o que a régua, a caixa de resultados e a devolutiva leem. O escore ficava
+// certo e o prontuário mostrava um falso anormal. Ao mexer aqui, confira os dois.
 func TestItemCondicionadoSoValeDentroDoContexto(t *testing.T) {
 	// A razão %Free PSA marca ≤10% como o pior nível, mas isso só discrimina quando o PSA TOTAL
 	// está entre 4 e 10 ng/mL. Num paciente com PSA total 1,81 e razão 8,8% ela virava o achado
