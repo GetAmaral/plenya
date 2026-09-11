@@ -1,6 +1,6 @@
 # Parceria Plenya × Clínica Tatianna Perazolo: propostas de produto
 
-> **Status:** v1 em discussão (2026-09-11). Documento vivo, fonte do PDF da reunião.
+> **Status:** v2 (2026-09-11), cruzada com o RAG da casa (§10). Em discussão. Documento vivo, fonte do PDF da reunião.
 > **Parceira:** Dra. Tatianna Felix Perazolo, dermatologista, CRM-PR 25764, RQE 25491.
 > Clínica na R. Rubéns Carlos de Jesus, 300, sala 15, Terras de Santana II, Londrina (também atende
 > na Clinimed, Rolândia). Só particular. CNPJ 58.397.228/0001-47, aberto 12/2024, atividade
@@ -107,14 +107,25 @@ dermatológico. O discurso é "preparar o terreno", nunca "garantir resultado".
 
 | Quando | Plenya | Dermatologia |
 |---|---|---|
-| **−8 a −6 semanas** | Avaliação Plenya. Triagem: hemograma, ferritina + saturação de transferrina, albumina, 25-OH-D, B12, zinco, glicemia/HbA1c, TSH, função renal. Rastreio de tabagismo, sono, uso de suplementos | indica o procedimento e a data |
-| **−6 a −1 semana** | Corrige o que faltou: **ferro EV** se ferritina baixa (recarga em semanas, ao contrário dos meses do oral), **B12 IM**, vitamina D oral, zinco oral só se deficiente. Proteína (whey 20–30 g/dia de 7 a 14 dias antes no risco intermediário; 1,2–1,5 g/kg/dia no alto risco). Vitamina C oral. **Cessação do tabagismo pelo menos 4 semanas antes** (reduz complicação de ferida em cerca de 30% nas meta-análises cirúrgicas; cada semana a mais aumenta o efeito). Controle glicêmico. Sono | combina com a Plenya a suspensão do que aumenta sangramento/equimose antes de injetáveis (ômega-3 em dose alta, vitamina E, ginkgo, AINE) 🔲 protocolo dela |
+| **−8 a −6 semanas** | Avaliação Plenya. Triagem: hemograma, ferritina + saturação de transferrina, albumina, 25-OH-D, B12, zinco, glicemia/HbA1c, **insulina de jejum (HOMA-IR; curva insulinêmica se suspeita)**, **homocisteína (meta abaixo de 10)**, **PCR ultrassensível**, TSH, função renal. Bioimpedância ("falso magro", gordura visceral). Rastreio de tabagismo, sono, uso de suplementos, **uso de isotretinoína/acitretina** | indica o procedimento e a data; **a recepção dela aplica o questionário de triagem nutricional de 1 minuto** (bundle de Vitagliano 2023) e encaminha quem pontua |
+| **−6 a −1 semana** | Corrige o que faltou, pelo algoritmo de ferro da casa (hemoglobina abaixo de 13 investiga; ferritina abaixo de 30 repõe, **EV** quando o tempo é curto, porque recarrega em semanas e o oral leva meses; ferritina 30–100 com saturação abaixo de 20% ou PCR acima de 5 é inflamação, trata a inflamação antes; acima de 100 com saturação baixa e PCR alta, inflamação crônica). Magnésio oral. Vitamina A só se deficiente e **nunca em quem usa retinoide sistêmico**. Evitar vitamina E em dose alta (atrasa cicatrização). **B12 IM**, vitamina D oral, zinco oral só se deficiente. Proteína (whey 20–30 g/dia de 7 a 14 dias antes no risco intermediário; 1,2–1,5 g/kg/dia no alto risco). Vitamina C oral. **Cessação do tabagismo pelo menos 4 semanas antes** (reduz complicação de ferida em cerca de 30% nas meta-análises cirúrgicas; cada semana a mais aumenta o efeito). Controle glicêmico. Sono | combina com a Plenya a suspensão do que aumenta sangramento/equimose antes de injetáveis (ômega-3 em dose alta, vitamina E, ginkgo, AINE) 🔲 protocolo dela |
 | **Dia do procedimento** | nada | procedimento; profilaxias dela (antiviral etc.) |
-| **Fase de reparo (0 a 4 semanas)** | proteína, vitamina C oral (IV pontual só na fase de reparo, com gates G6PD e renal), zinco se deficiente, sono, glicemia | cuidados locais; GHK-Cu tópico pós-laser é opção dela (epitelização 25% mais rápida em multicêntrico de 2024) |
+| **Fase de reparo (0 a 4 semanas)** | proteína, **ômega-3 retomado** (EPA/DHA geram resolvinas, que encurtam a fase inflamatória), magnésio, vitamina C oral (IV pontual só na fase de reparo, com gates G6PD e renal), zinco se deficiente, sono, glicemia | cuidados locais; GHK-Cu tópico pós-laser é opção dela (epitelização 25% mais rápida em multicêntrico de 2024) |
 | **Remodelação (1 a 6 meses)** | reavaliação; manutenção nutricional; entrada em linha contínua se fizer sentido | reavaliação do resultado |
 
 **Entrega:** relatório de preparo com o que foi encontrado e corrigido, compartilhado com a
 Dra. Tatianna antes do procedimento.
+
+**Base na casa (RAG):** a revisão de Vitagliano et al. (Nutrients 2023), que está no RAG, é
+exatamente este produto: até 25% dos pacientes ambulatoriais de cirurgia plástica estão em risco
+nutricional, granulomas pós-preenchedor e cicatrizes hipertróficas aparecem associados a
+deficiência, e o artigo propõe um bundle de triagem e um fluxograma de fazer ou adiar o
+procedimento. O próprio artigo admite que falta evidência padrão-ouro de que o suporte reverte os
+desfechos: é o mesmo tom honesto que usamos. As aulas do Dr. Guilherme Sorrentino (cirurgião
+plástico) dão o método: sete pilares (porte, cardíaco, renal, hepático, nutricional, coagulação,
+inflamatório), "não opero sem ferritina", vitamina C, magnésio e vitamina D para todos, ômega-3
+na resolução. A aula AFI XVIII acrescenta a resistência insulínica como principal motor de
+complicação e pede insulina, não só glicemia.
 
 ### L2 · Menopausa: pele, corpo e hormônio
 
@@ -138,6 +149,9 @@ secura de mucosas. Pele e metabolismo mudam juntos, e as duas médicas atendem a
 - Composição corporal (bioimpedância + preensão), força, proteína, osso (vitamina D, K2, cálcio
   preferencialmente da dieta), cardiometabólico (ApoB, Lp(a), glicemia/insulina), sono, humor.
 - Suplementação de colágeno não entra como promessa (ver §7, evidência contestada).
+- Libido: testosterona transdérmica em dose feminina no desejo sexual hipoativo pós-menopausa
+  (há revisão no RAG); acompanhar os sinais androgênicos de pele junto com a dermatologia.
+- Quem não quer ou não pode THM: fórmulas fitoterápicas de climatério do catálogo da casa.
 
 **Dermatologia:** qualidade de pele, bioestimuladores, lasers, flacidez, melasma.
 
@@ -162,9 +176,19 @@ pacientes; o eflúvio crônico tem causas metabólicas comuns e corrigíveis.
 - **Camada 1, correção de deficiência (nossa, injetável quando indicado):** ferro EV, B12 IM,
   vitamina D, zinco oral só se deficiente. Biotina só em deficiência real, e suspensa 48 a 72 h
   antes de exames (interfere nos ensaios).
-- **Camada 2, terapia modificadora:** minoxidil oral em baixa dose, espironolactona, finasterida
-  ou dutasterida no homem. Quem prescreve se combina no protocolo (tende a ser dela).
-- **Camada 3, intradérmico:** MMP, PRP de couro cabeludo: dela.
+- **Camada 2, terapia modificadora:** minoxidil (a conduta da casa prefere o **tópico**; oral só
+  depois de checar pressão e desautonomia, sobretudo pós-COVID; cerca de um terço não responde por
+  polimorfismo SULT1A1, testável). Modulação de DHT de preferência tópica ou com saw palmetto.
+  Finasterida, dutasterida e espironolactona sistêmicas **só com consentimento informado
+  detalhado** (síndrome pós-finasterida). Quem prescreve se combina no protocolo.
+- **Tempo:** no eflúvio, reavaliar só após 3 a 5 meses; muitos casos resolvem sozinhos.
+- **Camada 3, intradérmico:** MMP, PRP de couro cabeludo: dela. **Ponto de protocolo conjunto
+  (aula 08 da casa):** couro cabeludo inflamado piora com microagulhamento e injeção, então
+  desinflamar antes do procedimento.
+- **Ponte hormonal:** quando a Plenya prescreve hormônio (testosterona, gestrinona), acne,
+  oleosidade e queda podem aparecer por DHT. A aula 07 da casa descreve o ciclo ruim: o paciente
+  vai ao dermatologista, recebe finasterida, e a culpa cai na testosterona. Com protocolo
+  compartilhado, a dermatologista sabe o que o paciente usa e os dois ajustam juntos.
 
 Honestidade: o soro não faz cabelo nascer. O injetável corrige deficiência; a eficácia vem da
 terapia modificadora.
@@ -186,6 +210,13 @@ ferritina/zinco/vitamina D antes e durante, vigilância do cabelo. Semaglutida p
 registrada (não manipulável, é biotecnológica); tirzepatida registrada ou magistral legal com
 controle de qualidade completo (NT 200/2025). Retaguarda oral conforme perfil (SGLT2, inositol,
 metformina).
+
+A casa já tem a linha montada: as aulas exigem **orientação escrita obrigatória** para quem usa
+GLP-1 ("prescrever sem orientação de nutrição e exercício é inaceitável") e citam 25 a 39% da
+perda como massa livre de gordura. O catálogo magistral traz fórmulas prontas para os efeitos do
+GLP-1: ciclo capilar, suporte dérmico pós-emagrecimento, preservação de massa magra (HMB),
+constipação, diarreia, digestão e saciedade. ⚠️ A fórmula capilar tem biotina 10 mg: suspender
+48 a 72 h antes de exames (interfere nos ensaios).
 
 **Dermatologia:** planeja volume, flacidez e qualidade de pele ao longo do processo; o momento da
 volumização definitiva em relação à estabilização do peso é decisão dela.
@@ -290,12 +321,15 @@ Nomes genéricos; marca e fornecedor ficam para a prescrição.
 | **Colágeno hidrolisado** | hidratação e elasticidade da pele | ⚠️ **contestado.** Meta-análise de 26 ECRs (Nutrients 2023) é positiva, mas a de 2025 (Am J Med, 23 ECRs) mostra efeito só nos estudos de baixa qualidade e nos financiados pela indústria; os de alta qualidade e independentes não mostram efeito. **Não é carro-chefe nem promessa**; no máximo opção para quem quer, com essa ressalva dita |
 | **Vitamina C + proteína adequada** | substrato da síntese de colágeno | fisiológico; é o que de fato sustenta a jornada |
 | **Silício orgânico estabilizado** (silanol) | pele, cabelo, unhas | ECR com ch-OSA; evitar cavalinha/bambu (biodisponibilidade 3–5%) |
-| **Nicotinamida 500 mg 2×/dia** | quimioprevenção de câncer de pele não melanoma no alto risco | ECR fase 3 ONTRAC |
+| **Nicotinamida 500 mg 2×/dia** | quimioprevenção de câncer de pele não melanoma no alto risco | ECR fase 3 ONTRAC. ⚠️ o catálogo da casa só tem nicotinamida a 25 mg: criar fórmula na dose do ensaio |
 | **Polypodium leucotomos** | adjuvante de fotoproteção, melasma, erupção polimorfa | revisões sistemáticas |
 | **Proteína (whey)** | preparo e reparo; GLP-1 | protocolo perioperatório |
 | **Ferro, vitamina D, B12, zinco, vitamina C** | correção de deficiência | por exame |
 | **Inositol 40:1, metformina** | resistência à insulina, SOP, acne | ECRs |
-| **Minoxidil oral baixa dose** | queda capilar | comparável ao tópico na alopecia androgenética |
+| **Minoxidil** | queda capilar | a casa prefere tópico; oral com triagem de PA e desautonomia (ver L3) |
+| **Fotoproteção oral** (fórmula da casa: Polypodium 250 mg + betacaroteno 15 mg + picnogenol 75 mg, 2×/dia) | adjuvante de fotoproteção, melasma | ⚠️ **contraindicar em fumante e ex-fumante recente**: 30 mg/dia de betacaroteno é a faixa que aumentou câncer de pulmão em fumantes (ATBC, CARET). Fazer versão sem betacaroteno |
+| **Pele, cabelo e unhas** (fórmula da casa: silício orgânico 300 mg + biotina 500 mcg + vitamina C + ácido hialurônico + peptídeo de colágeno) | anexos | silício com ECR; colágeno contestado; biotina suspensa antes de exames |
+| **Evitar colágeno em urticária e eczema ativos** | conduta da casa (AFI XVI) | colágeno é rico em histidina, que vira histamina |
 
 ## 8. Centro de infusão e exames em parceria: operação
 
@@ -345,8 +379,67 @@ continuidade (Continuum Médico) se fizer sentido.
 5. Referência ginecológica externa para rastreio (L2).
 6. Se o PDF leva modelo econômico ou só produto (regra da casa: sem preço em material externo).
 7. Tom e tamanho do PDF da reunião.
+8. As divergências entre o RAG e o portfólio listadas em §10.3, uma de cada vez.
 
-## 10. Fontes
+## 10. Cruzamento com o RAG da casa (2026-09-11)
+
+Consulta direta ao banco do EMR (dev): 1.183 artigos, 243 aulas, 38.277 chunks. Busca por texto
+nos chunks, nos itens de escore (com conduta) e no catálogo magistral.
+
+### 10.1 O que o RAG tem de dermatologia
+Pouco conteúdo dermatológico próprio. O que existe e foi lido:
+- **Vitagliano et al., Nutrients 2023**: preparo nutricional para cirurgia e procedimentos
+  estéticos (base da L1).
+- **Aulas Sorrentino 01 e 02** (cirurgia funcional; suplementação em cirurgia) e **AFI XVIII**
+  (resistência insulínica e cirurgia plástica).
+- **AFI XVI** (dermatologia funcional: acne, lácteos e IGF-1, eixo intestino-pele, colágeno e
+  histamina) e **AFI XVII** (tricologia: minoxidil e SULT1A1, síndrome pós-finasterida).
+- **MFI Reposição Hormonal 01 a 11** e **TRH Feminina I a III** (a aula 08 é inteira sobre
+  alopecia androgenética e ciclo capilar).
+- **SOP I e II** (acne e hirsutismo como ponta do iceberg metabólico).
+- Itens de escore com conduta completa: **Queda capilar**, **Enfraquecimento capilar**,
+  **Alterações em pelos**, **Pele e tegumento**, **Psoríase**, **Urticária**, mais os SNPs
+  capilares (AR, SRD5A1/2, SULT1A1 etc.).
+- Catálogo magistral: fotoproteção oral, pele/cabelo/unhas, suíte GLP-1 (7 fórmulas), climatério
+  (fitoterápico e transdérmico), SOP, antioxidantes.
+- **Não estão no RAG:** os 5 áudios de `docs/menopausa/` (terapia hormonal e pele, procedimentos na
+  menopausa, inflamação, nutrologia da pele, peptídeos). Nada sobre laser, peeling ou
+  bioestimulador no perioperatório.
+
+### 10.2 Onde o RAG confirma o documento
+- L1 inteira (Vitagliano + Sorrentino + AFI XVIII); triagem ampliada com insulina, homocisteína e
+  PCR-us incorporada.
+- Gatilhos cutâneos da L6: a conduta de "Pele e tegumento" já manda investigar resistência
+  insulínica na acantose e acrocórdons, e hormônios e glicação no envelhecimento cutâneo da
+  menopausa.
+- Acne na L5: insulina, DHT, SHBG e microbioma são os três desfechos que a AFI XVI manda avaliar.
+- Psoríase: a conduta da casa é a mesma da L5 (cardiometabólico de fundo, dermatologia para
+  todos).
+- GLP-1 em programa: posição explícita das aulas.
+- Soroterapia: as aulas chamam de "ferramenta potente, uso excessivamente comercial; usar com
+  critério baseado em medições", igual ao gate clínico.
+- Colágeno: a própria AFI XVI diz que os estudos do peptídeo de colágeno são patrocinados e os
+  resultados, modestos. Bate com a correção do §7.
+
+### 10.3 Divergências (decidir uma de cada vez)
+1. **Minoxidil oral × tópico.** O portfólio (§15 A5) põe o minoxidil oral como motor; as condutas
+   dos itens de escore e a aula 08 preferem o tópico e pedem cautela com o oral. O documento já
+   segue a conduta da casa; falta alinhar o portfólio.
+2. **Meta de ferritina capilar inconsistente** entre itens de escore: acima de 40 (Alterações em
+   pelos), 40 a 70 (Queda capilar), acima de 70 (Enfraquecimento capilar).
+3. **Via da THM.** O portfólio (§13.84) diz estradiol transdérmico registrado e veda implante e
+   "bioidêntico manipulado superior". As aulas MFI tratam implante como a via "mais efetiva", e o
+   catálogo tem um Pentravan de estradiol 1 mg + estriol 4 mg. Para uma parceria com
+   dermatologista, a via registrada é a mais defensável.
+4. **Teste de IgG alimentar e DAO.** A conduta de pele da casa usa; a evidência é fraca e as
+   sociedades de alergia não recomendam o IgG. Numa proposta para dermatologista, isso custa
+   credibilidade: sugiro deixar fora do PDF.
+5. **Fotoproteção oral com betacaroteno** 30 mg/dia: risco em fumante (ver §7).
+6. **Nicotinamida:** catálogo em 25 mg, contra 500 mg 2×/dia do ONTRAC.
+7. **Oxandrolona perioperatória** (AFI XVIII) e **soro de EDTA** (Programação Metabólica 05):
+   aparecem nas aulas, mas o portfólio veta para estética e quelação (§13.89, §13.106). Ficam fora.
+
+## 11. Fontes
 
 - Doctoralia, Dra. Tatianna Perazolo: https://www.doctoralia.com.br/tatianna-perazolo/dermatologista/rolandia-londrina
 - Protocolo perioperatório de proteína e vitaminas em cirurgia plástica: https://pmc.ncbi.nlm.nih.gov/articles/PMC13401341/
@@ -369,3 +462,5 @@ continuidade (Continuum Médico) se fizer sentido.
 - Código de Ética Médica: https://portal.cfm.org.br/images/PDF/cem2019.pdf
 - Res. CFM 2.336/2023: https://sistemas.cfm.org.br/normas/arquivos/resolucoes/BR/2023/2336_2023.pdf
 - Portfólio de injetáveis e plano do centro: docs/clinica/
+- Vitagliano T. et al. Preparing Patients for Cosmetic Surgery and Aesthetic Procedures. Nutrients 2023;15:352. https://doi.org/10.3390/nu15020352 (no RAG)
+- RAG da casa (EMR dev): aulas Sorrentino 01/02, AFI XVI/XVII/XVIII, MFI Reposição Hormonal 01–11, SOP I/II; score_items de pele e cabelo; magistral_formula_templates
