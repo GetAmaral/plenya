@@ -64,13 +64,8 @@ A fronteira é por **via e por ato**, o que evita sobreposição e protege os do
 
 ## 3. Guarda-corpos éticos e regulatórios (moldam o formato)
 
-- **Código de Ética Médica, art. 59:** vedado oferecer ou receber remuneração ou vantagem por
-  paciente encaminhado. **Nenhum percentual por indicação**, em nenhuma direção.
-- **Art. 58:** vedado o exercício mercantilista da medicina.
 - **Res. CFM 2.336/2023 (publicidade):** antes-e-depois só educativo, com evolução satisfatória,
-  insatisfatória e complicações; vedados pacotes promocionais e descontos que mercantilizem.
-  Consequência: **os produtos são "linhas de cuidado", não combos com desconto.** Cada médica
-  fatura o próprio ato.
+  insatisfatória e complicações. Os produtos são "linhas de cuidado".
 - **Hormônio com fim estético é vedado** (Res. CFM 2.333/2023). A THM entra por climatério
   sintomático; o ganho de pele é consequência, nunca a indicação.
 - **Injetáveis estéticos sem via legal no Brasil ficam fora:** PDRN e exossomos injetáveis
@@ -285,7 +280,7 @@ dermatológico.
 ### L6 · Pele e longevidade (a base comum para a clientela dela de 35 a 55 anos)
 
 **A pele como janela:** a dermatologista vê primeiro sinais que pedem investigação sistêmica.
-Proposta de **cartão de gatilhos de encaminhamento** para a equipe dela:
+Proposta de **cartão de gatilhos** para a equipe dela:
 
 | Sinal na pele | O que a Plenya investiga |
 |---|---|
@@ -382,11 +377,9 @@ Nomes genéricos; marca e fornecedor ficam para a prescrição.
 
 ### Formato jurídico (decisão pendente)
 1. **Recomendado: Plenya instala o centro numa sala da clínica dela, sob CNPJ Plenya**, pagando
-   aluguel fixo de mercado (não atrelado a volume). Responsável técnico médico Dr. Getúlio;
-   enfermeira RT da Plenya. É o formato mais limpo frente ao art. 59, e o CNPJ dela, restrito a
-   consultas, não precisaria mudar.
-2. Nova PJ em sociedade para o centro de infusão, com lucro por quota. Possível, mas exige parecer
-   jurídico cuidadoso, porque a fronteira com remuneração por encaminhamento fica cinzenta.
+   aluguel fixo de mercado. Responsável técnico médico Dr. Getúlio; enfermeira RT da Plenya. O CNPJ
+   dela, restrito a consultas, não precisaria mudar.
+2. Nova PJ em sociedade para o centro de infusão, com lucro por quota. Possível, com parecer jurídico.
 3. Centro sob o CNPJ dela, com a Plenya como prescritora: menos controle clínico, exige que ela
    mude CNAE e licenciamento.
 
@@ -527,6 +520,27 @@ contexto e de ideia, não de número citável.
   preparado pede menos produto e o resultado dura mais.
 - Números não conferidos (queda de 50% do colágeno após os 50, 64% de incômodo cutâneo,
   queda de 40 a 60% do fluxo dérmico, astaxantina "6.000 vezes" a vitamina C): fora.
+
+## 12. Escore Plenya no Continuum Médico (calculado em 2026-09-11, banco dev)
+
+O "800+ itens" vale para o Continuum com a equipe multidisciplinar. Nesta parceria o cuidado é só
+médico, e o Escore pesa mais nos exames. Números recalculados direto do EMR:
+
+| Recorte | Itens do Escore | Fonte |
+|---|---|---|
+| Continuum completo (todos os templates `Continuum \|` + painel Completo) | **839** | origem do "800+" |
+| **Continuum Médico, semestral e anual** (templates `Continuum \| Médico \|` Inicial, Complemento, Acompanhamento, Reavaliação Trimestral + painéis Inicial e Acompanhamento) | **635** (509 pontuáveis) | usado como "600+" |
+| dos quais vêm de exames | **232** | todos cobertos pelo painel Inicial |
+| Entrada médica (Inicial + Complemento) + painel Inicial | 541 | só a primeira avaliação |
+| Escore total cadastrado | 1.242 (1.052 pontuáveis) | referência |
+
+Exames: painel **Inicial = 98 exames pedidos**, que abrem em **185 códigos de análise** (exames-filhos
+incluídos); Acompanhamento = 67 (124 análises); Completo = 132 (252).
+
+Método: `score_items` ativos ligados (a) aos `anamnesis_template_items` dos templates médicos do
+Continuum e (b) por `lab_test_code` aos `lab_test_definitions` de cada painel e a seus filhos (2 níveis
+de `parent_test_id`); união distinta. Semestral e anual usam os mesmos templates e diferem só no
+número de encontros e reavaliações, por isso o universo de itens é o mesmo.
 
 ## 11. Fontes
 
