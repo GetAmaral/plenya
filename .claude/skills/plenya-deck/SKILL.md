@@ -1,6 +1,6 @@
 ---
 name: plenya-deck
-description: Gerador de decks comerciais Plenya em PPTX nativo, on-brand. Wrapper sobre a skill `pptx` que injeta paleta oficial (gold/petrol/ocean/sage/cream), tipografia, frases-âncora dos vídeos institucionais, estrutura narrativa Plenya (origem 40 anos → fragmentação → Normal vs Ótimo → Método AGIR → Escore 800+ → equipe → fechamento) e regras editoriais invariantes (sem preços, sem marcas comerciais, sem casos clínicos identificáveis, sem "medicina preditiva"). Invocar quando o usuário pedir "deck", "apresentação", "slides" ou "pitch" com qualquer relação à Plenya — corporativo, parceiros, paciente PJ, fornecedor, investidor, equipe. Para deck científico de Dr. Getúlio (voz pessoal, não institucional Plenya), usar contexto específico no prompt.
+description: Gerador de decks comerciais Plenya em PPTX nativo, on-brand. Wrapper sobre a skill `pptx` que injeta paleta oficial (gold/petrol/ocean/sage/cream), tipografia, frases-âncora dos vídeos institucionais, estrutura narrativa Plenya (origem (20+ anos de prática clínica) → fragmentação → Normal vs Ótimo → Método AGIR → Escore 800+ → equipe → fechamento) e regras editoriais invariantes (sem preços, sem marcas comerciais, sem casos clínicos identificáveis, sem "medicina preditiva"). Invocar quando o usuário pedir "deck", "apresentação", "slides" ou "pitch" com qualquer relação à Plenya — corporativo, parceiros, paciente PJ, fornecedor, investidor, equipe. Para deck científico de Dr. Getúlio (voz pessoal, não institucional Plenya), usar contexto específico no prompt.
 ---
 
 # Skill: `/plenya-deck` — Decks comerciais Plenya
@@ -131,7 +131,7 @@ Estrutura narrativa default para deck comercial corporativo. Ajustar contagem co
 | # | Slide | Conteúdo |
 |---|---|---|
 | 1 | **Capa** | Logo Plenya + tagline "Saúde, Performance & Longevidade" + claim. Fundo petrol. |
-| 2 | **Origem** | 40 anos de história — Nefroclínica → Plenya. Não é startup. |
+| 2 | **Origem** | 20+ anos de prática clínica do Dr. Getúlio; a Plenya nasce da paixão dele e da equipe (copy do site `about.origin*`). Não é startup. |
 | 3 | **O problema** | Fragmentação do cuidado. "O corpo não funciona em partes." Visual: paciente cercado de 5-6 especialistas isolados. |
 | 4 | **Insight central** | "Normal não é o mesmo que ótimo." Slide-impacto, fundo petrol, frase grande gold. |
 | 5 | **Quem atendemos** | 35-55 anos, alta demanda profissional, sinais de desgaste, exames "normais" mas mal. |
@@ -155,7 +155,7 @@ Aplicar a TODOS os decks gerados por esta skill, sem exceção:
 6. **Sem hashtags em slides** (resíduo de social).
 7. **Equipe sempre completa.** Quando mencionar profissionais, citar os 4 perfis. Nunca "médico e nutricionista" sozinho.
 8. **800+ itens** no Escore — sempre que falar do Escore, mencionar o número concreto.
-9. **40 anos** sempre que falar de origem.
+9. **20+ anos de prática clínica** quando falar de origem (nunca "40 anos" nem "evolução da Nefroclínica").
 10. **Sem travessões em-dash em copy de slide.** Trocar por vírgula, dois-pontos ou reescrever. (Travessão é AI-tell em 2026.)
 
 ## Princípios visuais (consolidados após v2)
@@ -214,7 +214,7 @@ Invocar a skill `pptx` com payload completo:
 
 ## Onde está documentado o que
 
-- **Marca Plenya:** memória `plenya_brand_essence` (40 anos, AGIR, Escore 800+, equipe, frases)
+- **Marca Plenya:** memória `plenya_brand_essence` (origem pelo site, AGIR, Escore 800+, equipe, frases)
 - **Voz/tom:** memórias `plenya_brand_voice_no_preditiva`, `plenya_regras_editoriais`, `plenya_agir_acts_canonical`
 - **Casos clínicos:** memórias `linkedin_casos_clinicos_genericos`, `no_chutar_dados_verificaveis`
 - **Travessões:** memória `linkedin_no_em_dash`

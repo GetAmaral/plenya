@@ -23,6 +23,7 @@ Mandar PNG de cada slide alterado para aprovação; **não** gerar PDF até a fa
 🚨 Ler a página do site (`apps/site/app/[locale]/<topico>`) ANTES de gerar slide Plenya.
 Sem preços · sem marcas comerciais · sem "medicina preditiva" (usar "antecipatório") · sem
 casos identificáveis · sem hashtags · sem em-dash · equipe sempre completa · citar "800+ itens"
-e "40 anos". Paleta: gold `B38645`, petrol `063B4F`, ocean `417E8E`, sage `92B8B4`, cream `EAE7DA`.
+(programa com equipe; no cuidado só médico são 600+) e "20+ anos de prática clínica" (nunca "40 anos" nem
+"evolução da Nefroclínica": conceito aposentado). Paleta: gold `B38645`, petrol `063B4F`, ocean `417E8E`, sage `92B8B4`, cream `EAE7DA`.
 Tipografia: Nalieta (logo) → Cormorant Garamond (títulos) → Inter (corpo).
 Imagens: gpt-image-2, petrol-dominante. Ver [images.md](images.md).
