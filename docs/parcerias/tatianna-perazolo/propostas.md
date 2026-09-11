@@ -53,7 +53,7 @@ que evolui, e é isso que a dermatologia sozinha não tem como montar.
 
 ## 2. Divisão de papéis (quem faz o quê)
 
-A fronteira é por **via e por ato**, o que evita sobreposição e protege as duas:
+A fronteira é por **via e por ato**, o que evita sobreposição e protege os dois lados:
 
 | | Dra. Tatianna (dermatologia) | Plenya (Dr. Getúlio) |
 |---|---|---|
@@ -78,7 +78,7 @@ A fronteira é por **via e por ato**, o que evita sobreposição e protege as du
   clareamento (ABRAN), GHK-Cu injetável.
 - **Centro de infusão:** gate clínico universal: toda infusão precede de consulta, exame que
   documenta a indicação e registro em prontuário. Nada de avulso para saudável com claim de
-  beleza, energia ou detox. É o que diferencia de "drip bar" e o que blinda as duas CRMs.
+  beleza, energia ou detox. É o que diferencia de "drip bar" e o que blinda os dois CRMs.
 - Formalizar tudo em contrato com revisão jurídica em direito médico.
 
 ## 4. Arquitetura da oferta
@@ -162,7 +162,7 @@ e cerca de 2% ao ano depois disso. Meta-análise (15 estudos, 1.589 mulheres) mo
 melhora elasticidade, espessura e conteúdo de colágeno da pele; um ECR com estrogênio sistêmico
 por 12 meses aumentou a espessura da pele em 11,5% e da derme em 33%. O mesmo período concentra
 fogachos, sono ruim, ganho de gordura visceral, perda de massa magra e óssea, queda de cabelo,
-secura de mucosas. Pele e metabolismo mudam juntos, e as duas médicas atendem a mesma paciente.
+secura de mucosas. Pele e metabolismo mudam juntos, e os dois médicos atendem a mesma paciente.
 
 **O cenário regulatório mudou a favor:** em 10/11/2025 o FDA iniciou a retirada dos boxed warnings
 de doença cardiovascular, câncer de mama e demência provável dos produtos de terapia hormonal da
@@ -412,7 +412,7 @@ devolutiva com Escore → protocolo co-assinado → infusões e orais → reaval
 continuidade (Continuum Médico) se fizer sentido.
 
 ### Governança da parceria
-- Protocolo escrito por linha, assinado pelas duas.
+- Protocolo escrito por linha, assinado pelos dois.
 - Reunião mensal de casos (1 h).
 - Prontuário no EMR Plenya, compartilhamento sob TCLE/LGPD.
 - Indicadores: intercorrências pós-procedimento, adesão, retorno, satisfação.
@@ -523,7 +523,7 @@ contexto e de ideia, não de número citável.
 - **Metformina como geroprotetor, jejum de 20 a 24 h, senolíticos:** evidência fraca ou
   controversa (portfólio §13.54, §13.66).
 - **A crítica à estética "agressiva"** (bioestimulador como inflamação, toxina reduzindo fluxo):
-  não entra no material da parceria. O enquadramento que serve às duas é positivo: terreno
+  não entra no material da parceria. O enquadramento que serve aos dois é positivo: terreno
   preparado pede menos produto e o resultado dura mais.
 - Números não conferidos (queda de 50% do colágeno após os 50, 64% de incômodo cutâneo,
   queda de 40 a 60% do fluxo dérmico, astaxantina "6.000 vezes" a vitamina C): fora.

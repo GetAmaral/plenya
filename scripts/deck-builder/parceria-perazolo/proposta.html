@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Plenya × Clínica Tatianna Perazolo · Proposta de parceria</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap');
+:root{--gold:#B38645;--gold-soft:#D4A86B;--gold-deep:#8A6534;--petrol:#063B4F;--petrol-deep:#041F2A;--ocean:#417E8E;--sage:#92B8B4;--cream:#EAE7DA;--cream-soft:#F5F1E8;--ink:#0A1F26;--muted:#4E6268;
+--serif:'Cormorant Garamond',Georgia,serif;--display:'Fraunces','Cormorant Garamond',Georgia,serif}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#8a8a8a}
+body{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;break-after:page;page-break-after:always;background:var(--cream-soft);color:var(--ink);font-family:var(--serif);font-size:13pt;line-height:1.4;margin:0 auto}
+.page.dark{background:var(--petrol-deep);color:var(--cream)}
+.page.petrol{background:var(--petrol);color:var(--cream)}
+.chrome{position:absolute;top:10.5mm;left:16mm;right:16mm;display:flex;justify-content:space-between;align-items:center;font-size:7.8pt;letter-spacing:.3em;text-transform:uppercase;z-index:6;color:inherit;opacity:.82;font-weight:600}
+.chrome .brand{display:flex;align-items:center;gap:2.6mm}
+.chrome img{height:4.4mm}
+.pgn{position:absolute;bottom:9.5mm;right:16mm;font-size:7.4pt;letter-spacing:.3em;opacity:.7;z-index:6;font-weight:600}
+.foot{position:absolute;bottom:9.5mm;left:16mm;font-size:7.4pt;letter-spacing:.3em;opacity:.55;z-index:6;text-transform:uppercase;font-weight:600}
+.body{position:absolute;top:25mm;left:18mm;right:18mm;bottom:17mm}
+.eyebrow{font-size:9pt;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:2.6mm}
+.dark .eyebrow,.petrol .eyebrow{color:var(--gold-soft)}
+h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.015em;margin:0}
+h2{font-size:32pt;line-height:1.04;margin-bottom:2.8mm}
+h3{font-size:14.8pt;line-height:1.16;margin-bottom:1.5mm}
+.d{color:var(--gold)}
+.sub{font-style:italic;font-size:16.2pt;line-height:1.25;color:var(--gold-deep);margin-bottom:6mm}
+.dark .sub,.petrol .sub{color:var(--gold-soft)}
+p{margin:0 0 2.4mm}
+.lead{font-size:14pt;line-height:1.42}
+.muted{color:var(--muted)}
+.dark .muted,.petrol .muted{color:var(--sage)}
+.rn{font-family:var(--display);font-style:italic;color:var(--gold);font-size:13.4pt;line-height:1.1}
+.dark .rn,.petrol .rn{color:var(--gold-soft)}
+.item{display:grid;grid-template-columns:10mm 1fr;gap:1mm;margin-bottom:4.2mm}
+.hair{border-left:.35mm solid rgba(179,134,69,.4);padding-left:4.2mm}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:9mm}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6mm}
+.img{background-size:cover;background-position:center;background-repeat:no-repeat}
+table.t{width:100%;border-collapse:collapse;font-size:11.3pt;line-height:1.3}
+table.t th{font-size:8.2pt;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);text-align:left;font-weight:700;padding:0 2.5mm 1.8mm 0;border-bottom:.3mm solid rgba(179,134,69,.55)}
+table.t td{padding:2.1mm 2.8mm 2.1mm 0;border-bottom:.2mm solid rgba(6,59,79,.13);vertical-align:top}
+.dark table.t th,.petrol table.t th{color:var(--gold-soft)}
+.dark table.t td,.petrol table.t td{border-bottom-color:rgba(234,231,218,.14)}
+table.t td.k{font-family:var(--display);font-size:11.6pt;width:27%;font-weight:500}
+.note{font-size:10.2pt;line-height:1.32;font-style:italic;color:var(--muted)}
+.dark .note,.petrol .note{color:var(--sage)}
+.closer{font-style:italic;font-size:14.6pt;line-height:1.3;color:var(--gold-deep)}
+.dark .closer,.petrol .closer{color:var(--gold-soft)}
+.small{font-size:11.6pt;line-height:1.36}
+.caps{font-size:8.4pt;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--gold-deep)}
+.dark .caps,.petrol .caps{color:var(--gold-soft)}
+.num{font-family:var(--display);font-size:30pt;line-height:1;color:var(--gold);font-weight:400}
+.dark .num,.petrol .num{color:var(--gold-soft)}
+ul.l{margin:0 0 2.4mm;padding:0;list-style:none}
+ul.l li{position:relative;padding-left:4.2mm;margin-bottom:1.5mm}
+ul.l li:before{content:"";position:absolute;left:0;top:2.35mm;width:1.3mm;height:1.3mm;border-radius:50%;background:var(--gold)}
+.page.roomy{font-size:14.2pt;line-height:1.44}
+.page.roomy .small{font-size:12.9pt;line-height:1.42}
+.page.roomy h2{font-size:34pt}
+.page.roomy h3{font-size:16.2pt;margin-bottom:2mm}
+.page.roomy .sub{font-size:17.4pt;margin-bottom:9mm}
+.page.roomy table.t{font-size:12.6pt;line-height:1.36}
+.page.roomy table.t td{padding:3.2mm 3mm 3.2mm 0}
+.page.roomy table.t td.k{font-size:12.8pt}
+.page.roomy table.t th{font-size:8.8pt;padding-bottom:2.4mm}
+.page.roomy .item{margin-bottom:6.4mm}
+.page.roomy .note{font-size:11.2pt}
+.page.roomy .closer{font-size:16pt}
+.page.roomy ul.l li{margin-bottom:2.2mm}
+.page.roomy .lead{font-size:15.2pt}
+.page.roomy .caps{font-size:9pt}
+.page.mid{font-size:13.6pt;line-height:1.42}
+.page.mid .small{font-size:12.2pt;line-height:1.38}
+.page.mid h3{font-size:15.4pt}
+.page.mid .sub{font-size:16.8pt;margin-bottom:7mm}
+.page.mid table.t{font-size:11.9pt;line-height:1.32}
+.page.mid table.t td{padding:2.5mm 2.9mm 2.5mm 0}
+.page.mid table.t td.k{font-size:12.2pt}
+.page.mid .item{margin-bottom:5mm}
+.page.mid .note{font-size:10.8pt}
+.page.mid .lead{font-size:14.6pt}
+.page.air .item{margin-bottom:5.6mm}
+.page.air .sub{margin-bottom:9mm}
+.page.air table.t td{padding:3.1mm 2.9mm 3.1mm 0}
+.page.air ul.l li{margin-bottom:2mm}
+.page.air p{margin-bottom:3.2mm}
+.page.tight{font-size:12.5pt}
+.page.tight .item{margin-bottom:3.2mm}
+.page.tight .sub{margin-bottom:5mm}
+.page.tight .small{font-size:11.2pt}
+.page.tight .lead{font-size:13.4pt}
+.fade-l{position:absolute;inset:0;background:linear-gradient(90deg,var(--petrol) 0%,rgba(6,59,79,.0) 38%)}
+</style>
+</head>
+<body>
+
+<!-- 01 CAPA -->
+<section class="page dark nochrome">
+  <div style="position:absolute;left:0;right:0;bottom:0;height:50%;display:grid;grid-template-columns:1fr 1fr">
+    <div class="img" style="background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/getulio-elegante.jpg);background-position:50% 16%"></div>
+    <div class="img" style="background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/tati-madeira-a.jpg);background-position:41% 28%"></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:50%;background:linear-gradient(180deg,var(--petrol-deep) 0%,rgba(4,31,42,0) 20%,rgba(4,31,42,0) 70%,rgba(4,31,42,.92) 100%)"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;height:50%;display:grid;grid-template-columns:1fr 1fr">
+    <div style="border-right:.35mm solid rgba(212,168,107,.5)"></div><div></div>
+  </div>
+  <div style="position:absolute;top:18mm;left:20mm;right:20mm">
+    <div style="display:flex;align-items:center;gap:4mm;margin-bottom:26mm">
+      <img src="../../../docs/branding/papelaria/assets/symbol-gold.svg" style="height:9mm">
+      <img src="../../../docs/branding/papelaria/assets/wordmark-cream.svg" style="height:4.6mm;opacity:.92">
+    </div>
+    <div class="eyebrow" style="font-size:9pt">Proposta de parceria</div>
+    <h1 style="font-size:50pt;line-height:.98;letter-spacing:-.025em;margin:1mm 0 6mm">Terreno antes<br>da técnica<span class="d">.</span></h1>
+    <p style="font-style:italic;font-size:16pt;line-height:1.3;color:var(--gold-soft);max-width:150mm;margin-bottom:9mm">Medicina funcional integrativa e dermatologia estética no mesmo cuidado, na clínica da Dra. Tatianna Perazolo, em Londrina.</p>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:12mm;display:grid;grid-template-columns:1fr 1fr;z-index:3">
+    <div style="padding:0 8mm 0 20mm"><div class="caps" style="color:var(--gold-soft);margin-bottom:1.2mm">Plenya</div><div style="font-family:var(--display);font-size:13pt">Dr. Getúlio Amaral Filho</div><div style="font-size:9.6pt;color:var(--sage)">Nefrologista · Direção Clínica</div></div>
+    <div style="padding:0 20mm 0 8mm"><div class="caps" style="color:var(--gold-soft);margin-bottom:1.2mm">Clínica Tatianna Perazolo</div><div style="font-family:var(--display);font-size:13pt">Dra. Tatianna Perazolo</div><div style="font-size:9.6pt;color:var(--sage)">Dermatologista</div></div>
+  </div>
+  <div style="position:absolute;top:18mm;right:20mm;text-align:right;font-size:7.6pt;letter-spacing:.3em;text-transform:uppercase;color:var(--sage);font-weight:600;line-height:1.8">Londrina<br>Setembro de 2026</div>
+</section>
+
+<!-- 02 RESUMO EXECUTIVO -->
+<section class="page tight">
+  <div class="body">
+    <div class="eyebrow">Resumo executivo</div>
+    <h2>Uma página para decidir<span class="d">.</span></h2>
+    <p class="sub">O que propomos, como funciona e por que protege os dois lados.</p>
+    <div style="display:grid;grid-template-columns:1fr 46mm;gap:9mm">
+      <div>
+        <div class="item"><div class="rn">I</div><div><h3>A tese</h3><p>O resultado de um procedimento depende do terreno em que ele acontece: hormônios, inflamação, glicação, nutrição e sono. A dermatologia trabalha a pele por fora. A Plenya prepara e sustenta esse terreno por dentro.</p></div></div>
+        <div class="item"><div class="rn">II</div><div><h3>O que propomos</h3><p>Uma base comum de avaliação (consulta, Escore Plenya com mais de 800 itens, exames e composição corporal), sete linhas de cuidado desenhadas em conjunto e um centro de infusão, tudo dentro da sua clínica.</p></div></div>
+        <div class="item"><div class="rn">III</div><div><h3>Quem faz o quê</h3><p>A dermatologia segue com tópico, intradérmico e procedimentos. A Plenya entra com as vias oral, intramuscular, subcutânea e endovenosa. Protocolo co-assinado por linha e prontuário compartilhado com consentimento.</p></div></div>
+        <div class="item"><div class="rn">IV</div><div><h3>Por que agora</h3><p>A menopausa ganha cuidado clínico completo no mesmo endereço, o GLP-1 cria a demanda mais aquecida do mercado e a própria dermatologia estética discutiu em 2026 o terreno antes da técnica.</p></div></div>
+        <div class="item"><div class="rn">V</div><div><h3>O que protege os dois lados</h3><p>Cada médico fatura o próprio ato. Nenhuma remuneração por encaminhamento (Código de Ética Médica, art. 59) e nenhum combo com desconto (Res. CFM 2.336/2023). Uma lista explícita do que não oferecemos.</p></div></div>
+        <div class="item" style="margin-bottom:0"><div class="rn">VI</div><div><h3>O próximo passo</h3><p>Escolher as linhas de lançamento, visitar o espaço e escrever juntos o protocolo da Jornada do Procedimento, a linha que proponho como carro-chefe.</p></div></div>
+      </div>
+      <div class="hair" style="padding-top:1mm">
+        <div class="num">800+</div><p class="small muted" style="margin-bottom:6mm">itens no Escore Plenya, organizados nos quatro pilares do Método AGIR</p>
+        <div class="num">40</div><p class="small muted" style="margin-bottom:6mm">anos de história em Londrina, desde a Nefroclínica</p>
+        <div class="num">7</div><p class="small muted" style="margin-bottom:6mm">linhas de cuidado entre dermatologia e medicina integrativa</p>
+        <div class="num">1</div><p class="small muted" style="margin-bottom:6mm">centro de infusão, com indicação sempre documentada em prontuário</p>
+        <div class="num">0</div><p class="small muted">remuneração por encaminhamento, em qualquer direção</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 A PERGUNTA -->
+<section class="page petrol tight">
+  <div class="img" style="position:absolute;top:0;bottom:0;right:0;width:47%;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/tati-madeira-b.jpg);background-position:54% 30%"></div>
+  <div style="position:absolute;top:0;bottom:0;right:0;width:47%;background:linear-gradient(90deg,var(--petrol) 0%,rgba(6,59,79,.35) 22%,rgba(6,59,79,0) 45%)"></div>
+  <div class="body" style="right:50%">
+    <div class="eyebrow">A pergunta</div>
+    <h2 style="font-size:25pt;line-height:1.1;margin-bottom:6mm">Por que duas pacientes da mesma idade, com a mesma técnica e o mesmo produto, respondem de forma diferente<span class="d">?</span></h2>
+    <p class="lead">Porque o procedimento acontece sobre um terreno. Estrogênio em queda, resistência à insulina, inflamação de baixo grau, ferro baixo, sono ruim: tudo isso decide quanto colágeno o fibroblasto consegue produzir, como a pele cicatriza e quanto tempo o resultado dura.</p>
+    <p>Essa foi a conclusão comum do bloco <em>Menopausa em Foco</em> do AMWC Brazil 2026. Cinco palestrantes de especialidades diferentes, sem combinação prévia, chegaram à mesma tese: preparar o terreno antes da técnica. Terreno preparado pede menos produto e sustenta o resultado por mais tempo.</p>
+    <p style="margin-bottom:7mm">A parceria é essa tese posta em operação, com duas moedas claras para a sua clínica:</p>
+    <div class="item"><div class="rn">I</div><div><h3>O resultado dura mais</h3><p class="small">A paciente chega ao procedimento sem deficiências e sai para uma recuperação conduzida.</p></div></div>
+    <div class="item"><div class="rn">II</div><div><h3>A paciente volta</h3><p class="small">Ela ganha um motivo clínico para continuar, além da agenda de procedimentos.</p></div></div>
+    <p class="closer" style="margin-top:6mm">O corpo não funciona em partes. A pele é onde isso aparece primeiro.</p>
+  </div>
+</section>
+
+<!-- 04 QUEM SOMOS -->
+<section class="page">
+  <div class="body">
+    <div class="eyebrow">Quem somos</div>
+    <h2>Duas práticas, uma mesma paciente<span class="d">.</span></h2>
+    <p class="sub">Especialidades diferentes, olhando para o mesmo terreno.</p>
+    <div class="g2" style="gap:8mm">
+      <div>
+        <div class="img" style="height:78mm;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/getulio-consulta.jpg);background-position:50% 32%;margin-bottom:4.5mm"></div>
+        <img src="../../../docs/branding/papelaria/assets/symbol-petrol.svg" style="height:10mm;display:block;margin-bottom:2.4mm">
+        <div class="caps">Plenya</div>
+        <h3 style="font-size:15pt;margin:1mm 0 .6mm">Dr. Getúlio Amaral Filho</h3>
+        <p class="small muted" style="margin-bottom:2.6mm">Nefrologista e clínico · CRM-PR 21.876 · RQE 16.038</p>
+        <p class="small">Título de Especialista em Nefrologia pela Sociedade Brasileira de Nefrologia, coordenador da Residência em Nefrologia da Santa Casa de Londrina e pós-graduado em Medicina Funcional Integrativa. Dirige a clínica da Plenya.</p>
+        <p class="small">A Plenya é a evolução da Nefroclínica, com 40 anos de história em Londrina. Organiza o cuidado pelo Método AGIR, mede pelo Escore Plenya (mais de 800 itens) e trabalha com médico, nutricionista, psicólogo e educador físico falando a mesma língua.</p>
+      </div>
+      <div>
+        <div class="img" style="height:78mm;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/tati-consultorio-a.jpg);background-position:30% 40%;margin-bottom:4.5mm"></div>
+        <img src="../../../docs/parcerias/tatianna-perazolo/assets/tati-logo.png" style="height:10mm;display:block;margin-bottom:2.4mm">
+        <div class="caps">Clínica Tatianna Perazolo</div>
+        <h3 style="font-size:15pt;margin:1mm 0 .6mm">Dra. Tatianna Perazolo</h3>
+        <p class="small muted" style="margin-bottom:2.6mm">Dermatologista · CRM-PR 25.764 · RQE 25.491</p>
+        <p class="small">Dermatologia clínica e estética em Terras de Santana, Londrina, com atendimento individualizado e tecnologia para diagnóstico e tratamento da pele.</p>
+        <p class="small" style="font-style:italic;color:var(--gold-deep)">“A dermatologia é o grande amor da minha vida.”</p>
+        <p class="small">A clínica já tem o que a parceria precisa: uma clientela que cuida de si, um espaço acolhedor e uma médica que acompanha a paciente de perto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 COMO DIVIDIMOS -->
+<section class="page air">
+  <div class="body">
+    <div class="eyebrow">Como dividimos o cuidado</div>
+    <h2>A fronteira é a via e o ato<span class="d">.</span></h2>
+    <p class="sub">Sem sobreposição, com os dois olhando para o mesmo plano.</p>
+    <table class="t" style="margin-bottom:9mm">
+      <tr><th></th><th>Dermatologia</th><th>Plenya</th></tr>
+      <tr><td class="k">Vias</td><td>Tópico, intradérmico e procedimentos: laser, peeling, toxina, preenchedor, bioestimulador, fios, cirurgia dermatológica, MMP e PRP capilar</td><td>Oral, intramuscular, subcutânea e endovenosa, no centro de infusão</td></tr>
+      <tr><td class="k">Diagnóstico</td><td>Dermatológico, dermatoscopia, tricoscopia</td><td>Metabólico, hormonal, nutricional e renal; Escore Plenya</td></tr>
+      <tr><td class="k">Terapias sistêmicas</td><td>As da dermatologia (isotretinoína, antivirais, antiandrogênicos na acne)</td><td>Terapia hormonal, GLP-1, reposição de deficiências, sensibilizadores de insulina, nutricosméticos com lastro</td></tr>
+      <tr><td class="k">Onde se encontram</td><td colspan="2">Protocolo co-assinado por linha de cuidado · prontuário compartilhado com consentimento (LGPD) · reunião mensal de casos</td></tr>
+    </table>
+    <div class="eyebrow">Os sete pilares e o Método AGIR</div>
+    <p style="margin-bottom:4mm">No AMWC 2026, a dermatologia apresentou sete pilares a cuidar antes de qualquer procedimento. Eles cabem inteiros nos quatro pilares do Método AGIR. A diferença é que a Plenya mede: o Escore transforma os pilares num número que evolui a cada reavaliação.</p>
+    <table class="t">
+      <tr><th>Pilar citado no congresso</th><th>Onde está no AGIR</th></tr>
+      <tr><td>Intestino e disbiose · atividade física e nutrição</td><td><b style="color:var(--gold-deep)">A</b> · Atividade Física, Alimentação e Suplementação Inteligente</td></tr>
+      <tr><td>Otimização hormonal · mitocôndria e inflamação</td><td><b style="color:var(--gold-deep)">G</b> · Gestão Clínica e Metabólica</td></tr>
+      <tr><td>Tempo de qualidade e descanso · emocional · espiritualidade</td><td><b style="color:var(--gold-deep)">I</b> · Integração Mente-Corpo</td></tr>
+      <tr><td>Sono e ciclo circadiano</td><td><b style="color:var(--gold-deep)">R</b> · Ritmo Circadiano e Repouso</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 06 ARQUITETURA -->
+<section class="page petrol roomy">
+  <div class="body">
+    <div class="eyebrow">A arquitetura</div>
+    <h2>Uma base, sete linhas, uma continuidade<span class="d">.</span></h2>
+    <p class="sub">Toda paciente entra pela mesma porta e segue pela linha que faz sentido para ela.</p>
+    <div class="hair" style="margin-bottom:7mm">
+      <div class="caps">Base comum</div>
+      <h3 style="font-size:16pt;margin:1mm 0 1.6mm">Avaliação Plenya na clínica</h3>
+      <p class="small" style="margin-bottom:1mm">Consulta médica, Escore Plenya, painel laboratorial ampliado (ApoB, Lp(a), insulina e HOMA-IR, HbA1c, PCR ultrassensível, ferritina e saturação de transferrina, tireoide, vitamina D, B12 e homocisteína, hormônios), bioimpedância e força de preensão. Coleta feita na própria clínica.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-bottom:7mm">
+      <div class="hair" style="padding-right:2mm"><div class="rn">I</div><h3 style="font-size:10.8pt;margin-top:1.5mm">Jornada do Procedimento</h3><p class="note" style="margin:0">carro-chefe</p></div>
+      <div class="hair" style="padding-right:2mm"><div class="rn">II</div><h3 style="font-size:10.8pt;margin-top:1.5mm">Menopausa</h3><p class="note" style="margin:0">pele, corpo e hormônio</p></div>
+      <div class="hair" style="padding-right:2mm"><div class="rn">III</div><h3 style="font-size:10.8pt;margin-top:1.5mm">Cabelo</h3><p class="note" style="margin:0">queda feminina</p></div>
+      <div class="hair" style="padding-right:2mm"><div class="rn">IV</div><h3 style="font-size:10.8pt;margin-top:1.5mm">GLP-1</h3><p class="note" style="margin:0">pele, cabelo e músculo</p></div>
+      <div class="hair" style="padding-right:2mm"><div class="rn">V</div><h3 style="font-size:10.8pt;margin-top:1.5mm">Pele metabólica</h3><p class="note" style="margin:0">acne adulta, SOP, psoríase</p></div>
+      <div class="hair" style="padding-right:2mm"><div class="rn">VI</div><h3 style="font-size:10.8pt;margin-top:1.5mm">Pele e longevidade</h3><p class="note" style="margin:0">a pele como janela</p></div>
+      <div class="hair" style="padding-right:2mm"><div class="rn">VII</div><h3 style="font-size:10.8pt;margin-top:1.5mm">Homem</h3><p class="note" style="margin:0">cabelo, peso, hormônio</p></div>
+    </div>
+    <div class="g2" style="gap:8mm;margin-bottom:6mm">
+      <div class="hair"><div class="caps">Camada transversal</div><h3 style="font-size:14pt;margin:1mm 0 1.4mm">Centro de infusão e cardápio oral</h3><p class="small">Reposição do que falta, na via que entrega, sempre por indicação documentada. Serve a todas as linhas.</p></div>
+      <div class="hair"><div class="caps">Continuidade</div><h3 style="font-size:14pt;margin:1mm 0 1.4mm">Continuum Médico</h3><p class="small">Para quem quer acompanhamento contínuo, online ou presencial em Londrina, com reavaliações periódicas do Escore.</p></div>
+    </div>
+    <p class="closer">A saúde não melhora com intenção. Melhora com direção.</p>
+  </div>
+</section>
+
+<!-- 07 L1 -->
+<section class="page" data-chrome="light">
+  <div class="img" style="position:absolute;top:0;left:0;right:0;height:78mm;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/preparo.jpg);background-position:50% 55%"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:78mm;background:linear-gradient(180deg,rgba(4,31,42,.55) 0%,rgba(4,31,42,0) 30%,rgba(245,241,232,0) 80%,var(--cream-soft) 100%)"></div>
+  <div class="body" style="top:84mm">
+    <div class="eyebrow">Linha I · carro-chefe</div>
+    <h2>Jornada do Procedimento<span class="d">.</span></h2>
+    <p class="sub">O resultado começa oito semanas antes.</p>
+    <div class="g2" style="gap:9mm">
+      <div>
+        <h3>Para quem</h3>
+        <p class="small">Pacientes com procedimento de maior porte agendado: laser ablativo ou fracionado, peeling médio ou profundo, bioestimulador de colágeno, fios, cirurgia dermatológica. Procedimentos pequenos não precisam da jornada completa.</p>
+        <h3 style="margin-top:3mm">Por que funciona</h3>
+        <p class="small">A revisão de Vitagliano e colaboradores (Nutrients, 2023) mostra que até 25% dos pacientes ambulatoriais de cirurgia plástica estão em risco nutricional, e associa deficiências a cicatrizes hipertróficas, granulomas e cicatrização lenta. O tabagismo multiplica de 1,8 a 12 vezes as complicações em procedimentos faciais; parar pelo menos quatro semanas antes reduz em cerca de 30% as complicações de ferida.</p>
+      </div>
+      <div>
+        <h3>O que a Plenya faz</h3>
+        <ul class="l small">
+          <li>Triagem ampliada oito a seis semanas antes: ferro, proteínas, vitaminas, zinco, insulina, homocisteína, inflamação e tireoide</li>
+          <li>Correção do que faltar, com ferro endovenoso quando o tempo é curto, porque recarrega em semanas</li>
+          <li>Proteína, vitamina C, magnésio e controle glicêmico</li>
+          <li>Parada do tabagismo e cuidado com o sono</li>
+          <li>Recuperação conduzida na fase de reparo</li>
+        </ul>
+        <h3 style="margin-top:3mm">A entrega</h3>
+        <p class="small">Um relatório de preparo, com o que foi encontrado e corrigido, enviado a você antes do procedimento.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:3mm">A evidência vem da cirurgia e da cicatrização; não há ensaio para cada procedimento dermatológico. Por isso a promessa é preparar o terreno, nunca garantir resultado.</p>
+  </div>
+</section>
+
+<!-- 08 L1 CRONOGRAMA -->
+<section class="page air">
+  <div class="body">
+    <div class="eyebrow">Linha I · cronograma</div>
+    <h2>Antes, durante e depois<span class="d">.</span></h2>
+    <p class="sub">Cada fase com o que cabe a cada uma.</p>
+    <table class="t">
+      <tr><th style="width:21%">Quando</th><th style="width:47%">Plenya</th><th>Dermatologia</th></tr>
+      <tr><td class="k">8 a 6 semanas antes</td><td>Avaliação Plenya. Hemograma, ferritina e saturação de transferrina, albumina, 25-OH vitamina D, B12, zinco, glicemia, HbA1c e insulina, homocisteína, PCR ultrassensível, TSH, função renal. Bioimpedância. Rastreio de tabagismo, sono, suplementos e uso de retinoide sistêmico.</td><td>Indica o procedimento e a data. A recepção aplica um questionário de triagem nutricional de um minuto e encaminha quem pontua.</td></tr>
+      <tr><td class="k">6 a 1 semana antes</td><td>Correção do que faltou, pelo algoritmo de ferro (abaixo de 30 repõe; entre 30 e 100 com saturação baixa ou PCR alta, trata a inflamação primeiro). Proteína de 1,2 a 1,5 g/kg nos casos de risco. Vitamina C e magnésio. Vitamina A só se deficiente e nunca com retinoide. Nada de vitamina E em dose alta. Parar de fumar.</td><td>Combina a suspensão do que aumenta sangramento e equimose antes de injetáveis, conforme o protocolo dela.</td></tr>
+      <tr><td class="k">Dia do procedimento</td><td>Nada a acrescentar.</td><td>Procedimento e profilaxias da dermatologia.</td></tr>
+      <tr><td class="k">Fase de reparo<br><span class="note">0 a 4 semanas</span></td><td>Proteína, ômega-3 retomado (resolve a fase inflamatória), magnésio, vitamina C oral; vitamina C endovenosa pontual só nesta fase e com triagem de G6PD e função renal. Sono e glicemia.</td><td>Cuidados locais e tópicos de reparo, a critério dela.</td></tr>
+      <tr><td class="k">Remodelação<br><span class="note">1 a 6 meses</span></td><td>Reavaliação, manutenção nutricional e, se fizer sentido, entrada numa linha contínua.</td><td>Reavaliação do resultado.</td></tr>
+    </table>
+    <div class="g2" style="margin-top:8mm;gap:9mm">
+      <div class="hair"><div class="caps">Princípio</div><p class="small" style="margin-top:1.4mm">Modular a inflamação, sem zerar. Um pouco de inflamação é o sinal que o tecido usa para se reconstruir; o objetivo é equilíbrio, não supressão.</p></div>
+      <div class="hair"><div class="caps">Base na literatura e na casa</div><p class="small" style="margin-top:1.4mm">Protocolos perioperatórios de cirurgia plástica, a revisão de Vitagliano (2023) e o método de preabilitação ensinado por cirurgiões plásticos na pós-graduação em medicina funcional integrativa.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 L2 MENOPAUSA -->
+<section class="page" data-chromeleft="47%">
+  <div class="img" style="position:absolute;top:0;bottom:0;left:0;width:40%;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/menopausa.jpg);background-position:38% 50%"></div>
+  <div class="body" style="left:47%">
+    <div class="eyebrow">Linha II</div>
+    <h2>Menopausa<span class="d">.</span></h2>
+    <p class="sub">Pele, corpo e hormônio no mesmo cuidado.</p>
+    <h3>Para quem</h3>
+    <p class="small">Mulheres de 40 a 60 anos, na transição ou até dez anos depois da menopausa. Entrada antecipada a partir dos 35, como prevenção sem hormônio: composição corporal, sono, metabolismo e qualidade de pele. O momento de agir é a transição, antes da menopausa instalada.</p>
+    <h3 style="margin-top:3mm">Por que funciona</h3>
+    <p class="small">Até 30% do colágeno da pele se perde nos cinco primeiros anos após a menopausa. Uma meta-análise com 1.589 mulheres mostrou que a terapia hormonal melhora elasticidade, espessura e colágeno. No mesmo período chegam fogachos, sono ruim, gordura visceral, perda de músculo e osso, queda de cabelo e secura de mucosas.</p>
+    <h3 style="margin-top:3mm">O que a Plenya faz</h3>
+    <ul class="l small">
+      <li>Terapia hormonal na janela de oportunidade, por sintoma do climatério, com estradiol transdérmico registrado e progesterona micronizada quando há útero</li>
+      <li>Síndrome geniturinária por via local, hormonal ou não</li>
+      <li>Composição corporal, força, proteína, osso, sono e risco cardiometabólico</li>
+    </ul>
+    <h3 style="margin-top:3mm">O que a dermatologia faz</h3>
+    <p class="small">Qualidade de pele, bioestimuladores, lasers, flacidez e melasma, sobre um terreno que volta a responder.</p>
+    <p class="note" style="margin-top:3mm">A pele melhora como consequência. Pelo CFM, hormônio não tem indicação estética.</p>
+  </div>
+</section>
+
+<!-- 10 L2 CONT -->
+<section class="page petrol roomy">
+  <div class="body">
+    <div class="eyebrow">Linha II · aprofundamento</div>
+    <h2>O que mudou e o que ninguém olha<span class="d">.</span></h2>
+    <p class="sub">Três argumentos novos para a mesma paciente.</p>
+    <div class="item"><div class="rn">I</div><div><h3>O cenário regulatório mudou</h3><p>Em 10 de novembro de 2025, o FDA iniciou a retirada dos alertas de tarja preta sobre doença cardiovascular, câncer de mama e demência dos produtos de terapia hormonal da menopausa, citando redução de mortalidade e de fraturas quando o início é antes dos 60 anos ou dos dez anos de menopausa. O alerta de câncer de endométrio para estrogênio isolado continua, e por isso a progesterona segue obrigatória quando há útero. É uma decisão americana; a bula brasileira não mudou por ela.</p></div></div>
+    <div class="item"><div class="rn">II</div><div><h3>O esqueleto do rosto também é menopausa</h3><p>A reabsorção óssea da face, na órbita, na maxila e na mandíbula, é maior depois da menopausa e acompanha a queda do estrogênio (JPRAS Open, 2026). A dermatologia repõe volume; a Plenya protege o osso que sustenta esse volume, com terapia hormonal na janela, vitamina D, cálcio da dieta, proteína, treino de força e parada do tabagismo.</p></div></div>
+    <div class="item"><div class="rn">III</div><div><h3>A linha não depende do hormônio</h3><p>Para a mulher com câncer de mama, em tamoxifeno ou inibidor de aromatase, ou que simplesmente não quer reposição, os outros pilares seguem inteiros: sono, composição corporal, inflamação, nutrição, osso e risco cardiometabólico, com a dermatologia no regenerativo. A síndrome geniturinária vai por via não hormonal, e qualquer via hormonal local só com o oncologista.</p></div></div>
+    <div class="hair" style="margin-top:6mm">
+      <div class="caps">Exames da linha</div>
+      <p class="small" style="margin-top:1.4mm">FSH e estradiol quando ajudam na transição, perfil lipídico com ApoB e Lp(a), glicemia, HbA1c e insulina, tireoide, vitamina D e ferritina. Mamografia e avaliação endometrial em dia antes de iniciar terapia hormonal; o exame ginecológico segue com a ginecologista da paciente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 L3 CABELO -->
+<section class="page air">
+  <div class="body">
+    <div class="eyebrow">Linha III</div>
+    <h2>Cabelo<span class="d">.</span></h2>
+    <p class="sub">A queda feminina tem causa, e a causa quase sempre é tratável.</p>
+    <p class="lead" style="margin-bottom:6mm">Eflúvio telógeno, alopecia de padrão feminino e quadros mistos. Queda depois do parto, da dieta, do GLP-1 ou de uma doença aguda. Ferritina e vitamina D baixas aparecem de forma consistente nessas mulheres, e o eflúvio crônico costuma ter causas metabólicas comuns e corrigíveis.</p>
+    <table class="t" style="margin-bottom:7mm">
+      <tr><th style="width:23%">Camada</th><th style="width:40%">Dermatologia</th><th>Plenya</th></tr>
+      <tr><td class="k">I · Diagnóstico</td><td>Tricoscopia e classificação: eflúvio, padrão ou misto</td><td>Anamnese dirigida (gatilho de 3 a 6 meses antes, eixo hormonal, medicações, dieta) e exames: ferritina, saturação de transferrina, vitamina D, B12, zinco, tireoide, androgênios quando indicado</td></tr>
+      <tr><td class="k">II · Correção</td><td></td><td>Ferro endovenoso, B12 intramuscular, vitamina D; zinco só se deficiente; biotina só em deficiência real e suspensa antes dos exames</td></tr>
+      <tr><td class="k">III · Terapia modificadora</td><td colspan="2">Minoxidil, de preferência tópico (o oral só depois de checar pressão e desautonomia); modulação androgênica preferencialmente local; bloqueadores sistêmicos apenas com consentimento informado detalhado. Quem prescreve se define no protocolo.</td></tr>
+      <tr><td class="k">IV · Intradérmico</td><td>MMP e PRP de couro cabeludo</td><td></td></tr>
+    </table>
+    <div class="g2" style="gap:9mm">
+      <div class="hair"><div class="caps">Ponto de protocolo conjunto</div><p class="small" style="margin-top:1.4mm">Couro cabeludo inflamado responde pior a microagulhamento e injeção. Desinflamar antes do procedimento é uma regra que os dois assinam.</p></div>
+      <div class="hair"><div class="caps">Ponte hormonal</div><p class="small" style="margin-top:1.4mm">Quando a Plenya prescreve hormônio, acne, oleosidade e queda podem aparecer pela conversão em DHT. Com o protocolo compartilhado, você sabe o que a paciente usa e ajustamos juntos, sem trocar uma causa por outra.</p></div>
+    </div>
+    <p class="note" style="margin-top:5mm">No eflúvio, reavaliar só depois de três a cinco meses: muitos casos resolvem sozinhos, e o recrescimento visível leva de seis a doze meses.</p>
+  </div>
+</section>
+
+<!-- 12 L4 GLP-1 -->
+<section class="page" data-chromeright="44%" data-pgn="left">
+  <div class="img" style="position:absolute;top:0;bottom:0;right:0;width:38%;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/forca.jpg);background-position:52% 50%"></div>
+  <div class="body" style="right:44%">
+    <div class="eyebrow">Linha IV</div>
+    <h2>GLP-1<span class="d">.</span></h2>
+    <p class="sub">Emagrecer sem pagar com a pele, o cabelo e o músculo.</p>
+    <p class="small">O emagrecimento rápido cobra do rosto (perda de volume e flacidez), do cabelo e do músculo. No subestudo de composição corporal do STEP 1, a massa magra caiu 9,7% e a gordura 19,3%, perto de 40% do peso perdido vindo de massa magra. A queda de cabelo associada ao GLP-1 aparece de três a seis meses após o início, é mais comum em mulheres e costuma resolver quando o peso estabiliza.</p>
+    <h3 style="margin-top:3mm">O que a Plenya faz</h3>
+    <ul class="l small">
+      <li>GLP-1 sempre dentro de um programa, nunca como injeção isolada</li>
+      <li>Titulação no ritmo que a pele acompanha</li>
+      <li>Proteína de 1,2 a 1,6 g/kg e treino de força</li>
+      <li>Bioimpedância e força de preensão seriadas</li>
+      <li>Ferritina, zinco e vitamina D antes e durante; vigilância do cabelo</li>
+      <li>Orientação escrita e suporte para os efeitos intestinais</li>
+    </ul>
+    <h3 style="margin-top:3mm">O que a dermatologia faz</h3>
+    <p class="small">Planeja volume, flacidez e qualidade de pele ao longo do processo, e decide o momento da volumização em relação à estabilização do peso.</p>
+    <p class="closer" style="margin-top:5mm">A demanda mais aquecida do mercado, e nenhuma das duas especialidades entrega o resultado completo sozinha.</p>
+  </div>
+</section>
+
+<!-- 13 L5 + L6 -->
+<section class="page roomy" data-chrome="light">
+  <div class="img" style="position:absolute;top:0;left:0;right:0;height:78mm;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg);background-position:50% 40%"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:78mm;background:linear-gradient(180deg,rgba(4,31,42,0) 60%,var(--cream-soft) 100%)"></div>
+  <div class="body" style="top:84mm">
+    <div class="g2" style="gap:9mm">
+      <div>
+        <div class="eyebrow">Linha V</div>
+        <h2 style="font-size:23pt">Pele metabólica e inflamatória<span class="d">.</span></h2>
+        <h3 style="margin-top:3mm">Acne adulta, SOP e hiperandrogenismo</h3>
+        <p class="small">A resistência à insulina é o motor. A metformina tem onze ensaios randomizados e nove coortes em acne associada à SOP, com melhora na maioria. A Plenya conduz o metabolismo (inositol, metformina, dieta de baixa carga glicêmica, composição corporal); a dermatologia conduz a pele.</p>
+        <h3 style="margin-top:3mm">Psoríase, hidradenite e rosácea</h3>
+        <p class="small">A psoríase moderada a grave se associa a síndrome metabólica e risco cardiovascular. A Plenya entra no manejo cardiometabólico de fundo, sem tocar no tratamento dermatológico.</p>
+      </div>
+      <div>
+        <div class="eyebrow">Linha VI</div>
+        <h2 style="font-size:23pt">Pele e longevidade<span class="d">.</span></h2>
+        <h3 style="margin-top:3mm">A clientela de 35 a 55 anos</h3>
+        <p class="small">A base comum de avaliação oferecida às pacientes que já cuidam da pele e querem entender o resto: metabolismo, hormônios, inflamação, sono.</p>
+        <h3 style="margin-top:3mm">Fotodano de alto risco</h3>
+        <p class="small">A nicotinamida oral, 500 mg duas vezes ao dia, reduziu em 23% os novos cânceres de pele não melanoma em doze meses no ensaio de fase 3 ONTRAC (NEJM, 2015), em pacientes com pelo menos dois cânceres prévios. O Polypodium leucotomos entra como adjuvante de fotoproteção, nunca no lugar do protetor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 GATILHOS + L7 -->
+<section class="page roomy">
+  <div class="body">
+    <div class="eyebrow">Linha VI · ferramenta para a sua equipe</div>
+    <h2>A pele como janela<span class="d">.</span></h2>
+    <p class="sub">Sinais que a dermatologia vê primeiro, e que pedem investigação sistêmica.</p>
+    <table class="t" style="margin-bottom:8mm">
+      <tr><th style="width:44%">Sinal na pele</th><th>O que a Plenya investiga</th></tr>
+      <tr><td>Acantose nigricans, acrocórdons múltiplos</td><td>Resistência à insulina, pré-diabetes</td></tr>
+      <tr><td>Xantelasma</td><td>Perfil lipídico, ApoB, Lp(a)</td></tr>
+      <tr><td>Queda difusa, unhas frágeis</td><td>Ferro, tireoide, vitamina D, B12, zinco</td></tr>
+      <tr><td>Acne tardia, hirsutismo</td><td>SOP, androgênios, resistência à insulina</td></tr>
+      <tr><td>Prurido crônico sem lesão</td><td>Função renal, hepática, tireoide, ferro</td></tr>
+      <tr><td>Cicatrização lenta, infecções de repetição</td><td>Glicemia, estado nutricional, deficiências</td></tr>
+      <tr><td>Pele seca com intolerância ao frio</td><td>Tireoide</td></tr>
+      <tr><td>Psoríase moderada ou grave</td><td>Risco cardiometabólico</td></tr>
+    </table>
+    <div class="g2" style="gap:9mm">
+      <div class="hair">
+        <div class="eyebrow" style="margin-bottom:1mm">Linha VII</div>
+        <h3 style="font-size:15pt">Homem<span class="d">.</span></h3>
+        <p class="small">Alopecia androgenética, com diagnóstico e terapia local na dermatologia e metabolismo na Plenya. GLP-1 em programa. Testosterona apenas em hipogonadismo diagnosticado, nunca com fim estético.</p>
+      </div>
+      <div class="hair">
+        <div class="eyebrow" style="margin-bottom:1mm">Transversal</div>
+        <h3 style="font-size:15pt">Encontros educativos<span class="d">.</span></h3>
+        <p class="small">Encontros periódicos para as suas pacientes, como “pele e menopausa” ou “GLP-1 sem perder o rosto”. Educativos, sem promessa e sem preço, dentro da Resolução CFM 2.336/2023.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 CENTRO DE INFUSAO -->
+<section class="page" data-chrome="light">
+  <div class="img" style="position:absolute;top:0;left:0;right:0;height:74mm;background-image:url(../../../docs/parcerias/tatianna-perazolo/assets/infusao.jpg);background-position:50% 58%"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:74mm;background:linear-gradient(180deg,rgba(4,31,42,.35) 0%,rgba(4,31,42,0) 30%,rgba(245,241,232,0) 78%,var(--cream-soft) 100%)"></div>
+  <div class="body" style="top:80mm">
+    <div class="eyebrow">Centro de infusão</div>
+    <h2>Repor o que falta, na via que entrega<span class="d">.</span></h2>
+    <p class="sub">Toda aplicação exige consulta, exame e indicação registrada em prontuário.</p>
+    <div class="g3" style="gap:6mm;margin-bottom:6mm">
+      <div class="hair"><div class="caps">Núcleo</div><p class="small" style="margin:1.4mm 0 1mm"><b>Reposição de deficiência documentada</b></p><ul class="l small"><li>Ferro endovenoso</li><li>B12 intramuscular</li><li>Vitamina D, oral (intramuscular só em má absorção)</li><li>Tiamina e complexo B</li><li>Magnésio endovenoso, com critério renal</li></ul></div>
+      <div class="hair"><div class="caps">Linhas específicas</div><p class="small" style="margin:1.4mm 0 1mm"><b>Indicação da linha</b></p><ul class="l small"><li>GLP-1 subcutâneo, sempre em programa</li><li>Vitamina C endovenosa funcional, na fase de reparo e como adjuvante no herpes-zóster</li><li>Testosterona, só em hipogonadismo diagnosticado</li></ul></div>
+      <div class="hair"><div class="caps">Bem-estar</div><p class="small" style="margin:1.4mm 0 1mm"><b>Experiência, com medida antes e depois</b></p><ul class="l small"><li>Protocolo de Myers</li><li>Hidratação e eletrólitos</li></ul><p class="note">Oferecidos como experiência de bem-estar, sem promessa de cura.</p></div>
+    </div>
+    <div class="hair">
+      <div class="caps">Operação</div>
+      <p class="small" style="margin-top:1.4mm">Uma sala na sua clínica, com poltronas de infusão e ambiente de medicina serena, longe da estética de bar de vitaminas. Aplicação apenas de produtos prontos ou manipulados nominais de farmácia licenciada para estéreis. Enfermeira responsável técnica, carrinho de emergência e desfibrilador, observação mínima de 30 minutos após ferro, rede de frio monitorada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 O QUE NAO OFERECEMOS -->
+<section class="page dark roomy">
+  <div class="body">
+    <div class="eyebrow">Governança</div>
+    <h2>O que a parceria não oferece<span class="d">.</span></h2>
+    <p class="sub">Uma médica expõe o próprio CRM ao se associar a um centro de infusão. Esta lista é o que protege o seu.</p>
+    <div class="item"><div class="rn">I</div><div><h3>Glutationa para clareamento</h3><p class="small muted">Vetada pela ABRAN para fins estéticos, com eventos graves descritos.</p></div></div>
+    <div class="item"><div class="rn">II</div><div><h3>Soro da beleza, detox, antioxidante master, NAD+ endovenoso</h3><p class="small muted">Sem desfecho clínico demonstrado; algumas combinações aumentam toxicidade. O NAD+ na veia sequer chega à pele.</p></div></div>
+    <div class="item"><div class="rn">III</div><div><h3>PDRN e exossomos injetáveis</h3><p class="small muted">No Brasil são regularizados apenas como cosmético tópico; o CRM-PR reforçou a vedação do PDRN injetável em 2025.</p></div></div>
+    <div class="item"><div class="rn">IV</div><div><h3>Peptídeos experimentais</h3><p class="small muted">GHK-Cu injetável, BPC-157, epitalon e similares: sem registro, mercado cinza, sem ensaio em humanos que sustente o uso.</p></div></div>
+    <div class="item"><div class="rn">V</div><div><h3>Hormônio com fim estético</h3><p class="small muted">Testosterona, DHEA ou GH para rejuvenescer são vedados pelo CFM. Hormônio só entra por deficiência ou sintoma documentado.</p></div></div>
+    <div class="item"><div class="rn">VI</div><div><h3>Combos com desconto e remuneração por indicação</h3><p class="small muted">A publicidade médica veda pacotes que mercantilizem, e o Código de Ética veda vantagem por paciente encaminhado.</p></div></div>
+    <p class="closer" style="margin-top:6mm">O que a maioria dos lounges de vitamina vende é exatamente o que recusamos.</p>
+  </div>
+</section>
+
+<!-- 17 CARDAPIO ORAL -->
+<section class="page air">
+  <div class="body">
+    <div class="eyebrow">Cardápio oral</div>
+    <h2>Nutricosméticos e fármacos com lastro<span class="d">.</span></h2>
+    <p class="sub">Nomes genéricos; marca e fornecedor ficam para a prescrição.</p>
+    <table class="t">
+      <tr><th style="width:30%">Item</th><th style="width:34%">Uso</th><th>Lastro</th></tr>
+      <tr><td class="k">Nicotinamida 500 mg, duas vezes ao dia</td><td>Quimioprevenção de câncer de pele não melanoma no alto risco</td><td>Ensaio de fase 3 ONTRAC (NEJM, 2015)</td></tr>
+      <tr><td class="k">Polypodium leucotomos</td><td>Adjuvante de fotoproteção, melasma, erupção polimorfa à luz</td><td>Revisões sistemáticas; versão sem betacaroteno para fumantes</td></tr>
+      <tr><td class="k">Silício orgânico estabilizado</td><td>Pele, cabelo e unhas</td><td>Ensaios randomizados com a forma estabilizada</td></tr>
+      <tr><td class="k">Proteína</td><td>Preparo, reparo e programa de GLP-1</td><td>Protocolos perioperatórios de cirurgia plástica</td></tr>
+      <tr><td class="k">Ferro, vitamina D, B12, zinco, vitamina C</td><td>Correção de deficiência</td><td>Sempre guiada por exame</td></tr>
+      <tr><td class="k">Inositol, metformina</td><td>Resistência à insulina, SOP, acne</td><td>Ensaios randomizados</td></tr>
+      <tr><td class="k">Minoxidil</td><td>Queda capilar</td><td>De preferência tópico; oral com triagem de pressão e desautonomia</td></tr>
+      <tr><td class="k">Colágeno hidrolisado</td><td>Hidratação e elasticidade</td><td>Evidência contestada: a meta-análise de 2025 não achou efeito nos estudos de alta qualidade e independentes. Opção, nunca promessa</td></tr>
+    </table>
+    <div class="g2" style="gap:9mm;margin-top:7mm">
+      <div class="hair"><div class="caps">Cuidado da casa</div><p class="small" style="margin-top:1.4mm">Evitar colágeno em urticária e eczema ativos: é rico em histidina, que vira histamina.</p></div>
+      <div class="hair"><div class="caps">Cuidado com exames</div><p class="small" style="margin-top:1.4mm">Biotina interfere em ensaios laboratoriais; suspender de dois a três dias antes de qualquer coleta.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 OPERACAO E ETICA -->
+<section class="page mid">
+  <div class="body">
+    <div class="eyebrow">Operação</div>
+    <h2>Como a parceria funciona no dia a dia<span class="d">.</span></h2>
+    <p class="sub">Simples para a paciente, limpo para os dois médicos.</p>
+    <div class="g2" style="gap:9mm">
+      <div>
+        <h3>Formato do centro de infusão</h3>
+        <div class="item" style="margin-bottom:2.4mm"><div class="rn">I</div><div class="small"><b>Recomendado.</b> A Plenya instala o centro numa sala da sua clínica, sob CNPJ Plenya, com aluguel fixo de mercado, sem vínculo com volume. O CNPJ da clínica não muda.</div></div>
+        <div class="item" style="margin-bottom:2.4mm"><div class="rn">II</div><div class="small">Uma sociedade nova para o centro, com lucro por quota. Possível, com parecer jurídico cuidadoso.</div></div>
+        <div class="item"><div class="rn">III</div><div class="small">O centro sob o CNPJ da clínica, com a Plenya como prescritora. Exige mudar atividade e licenciamento.</div></div>
+        <h3 style="margin-top:3mm">Exigências</h3>
+        <p class="small">Projeto aprovado na vigilância estadual antes da obra, licença sanitária municipal, CNES, bombeiros, plano de resíduos, enfermeira responsável técnica no COREN-PR. No mesmo espaço, posto de coleta com laboratório de apoio, bioimpedância e força de preensão.</p>
+      </div>
+      <div>
+        <h3>A jornada da paciente</h3>
+        <div class="item" style="margin-bottom:1.8mm"><div class="rn">I</div><div class="small">A sua equipe identifica um gatilho ou um interesse</div></div>
+        <div class="item" style="margin-bottom:1.8mm"><div class="rn">II</div><div class="small">Consulta Plenya na própria clínica</div></div>
+        <div class="item" style="margin-bottom:1.8mm"><div class="rn">III</div><div class="small">Coleta no local</div></div>
+        <div class="item" style="margin-bottom:1.8mm"><div class="rn">IV</div><div class="small">Devolutiva com o Escore e plano único</div></div>
+        <div class="item" style="margin-bottom:1.8mm"><div class="rn">V</div><div class="small">Protocolo co-assinado, infusões e orais</div></div>
+        <div class="item" style="margin-bottom:3mm"><div class="rn">VI</div><div class="small">Reavaliação conjunta e, se fizer sentido, continuidade</div></div>
+        <h3>Governança</h3>
+        <p class="small">Protocolo escrito por linha e assinado pelos dois, reunião mensal de casos, prontuário no EMR da Plenya com compartilhamento sob consentimento, e indicadores: intercorrências, adesão, retorno e satisfação.</p>
+      </div>
+    </div>
+    <div class="hair" style="margin-top:4mm">
+      <div class="caps">Guarda-corpos éticos</div>
+      <p class="small" style="margin-top:1.4mm">Nenhuma remuneração por paciente encaminhado (Código de Ética Médica, arts. 58 e 59). Nenhum pacote com desconto (Res. CFM 2.336/2023). Hormônio sem fim estético. Contrato revisado por advogado de direito médico antes de começar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 19 PROXIMOS PASSOS + FECHO -->
+<section class="page dark nochrome roomy">
+  <div class="body" style="top:22mm">
+    <div class="eyebrow">Próximos passos</div>
+    <h2>Por onde começar<span class="d">.</span></h2>
+    <p class="sub">Uma decisão de cada vez.</p>
+    <div class="item"><div class="rn">I</div><div><h3>Escolher as linhas de lançamento</h3><p class="small muted">Sugestão: Jornada do Procedimento, Menopausa e GLP-1. As outras entram numa segunda onda.</p></div></div>
+    <div class="item"><div class="rn">II</div><div><h3>Visitar o espaço</h3><p class="small muted">Dimensionar a sala de infusão, o posto de coleta e o fluxo da recepção.</p></div></div>
+    <div class="item"><div class="rn">III</div><div><h3>Escrever juntos o protocolo da Jornada do Procedimento</h3><p class="small muted">Com os procedimentos que você mais faz e o tempo de preparo de cada um.</p></div></div>
+    <div class="item"><div class="rn">IV</div><div><h3>Formalizar e licenciar</h3><p class="small muted">Contrato com revisão jurídica, licença sanitária, CNES e responsável técnica de enfermagem.</p></div></div>
+    <div class="item"><div class="rn">V</div><div><h3>Abrir com um encontro para as suas pacientes</h3><p class="small muted">A melhor apresentação da parceria é uma conversa educativa sobre pele e terreno.</p></div></div>
+  </div>
+  <div style="position:absolute;left:0;right:0;bottom:20mm;text-align:center">
+    <img src="../../../docs/branding/papelaria/assets/symbol-gold.svg" style="height:15mm;margin-bottom:6mm">
+    <div style="font-family:var(--display);font-style:italic;font-size:30pt;color:var(--gold-soft);line-height:1">Viva bem, viva mais.</div>
+    <div style="margin-top:6mm;font-size:7.6pt;letter-spacing:.34em;text-transform:uppercase;color:var(--sage);font-weight:600">Plenya · Saúde, Performance &amp; Longevidade · plenyasaude.com.br</div>
+  </div>
+</section>
+
+<!-- 20 REFERENCIAS -->
+<section class="page">
+  <div class="body">
+    <div class="eyebrow">Referências</div>
+    <h2 style="font-size:22pt">Fontes citadas<span class="d">.</span></h2>
+    <div style="columns:2;column-gap:9mm;font-size:9.3pt;line-height:1.34;margin-top:5mm">
+      <p>Vitagliano T. et al. Preparing patients for cosmetic surgery and aesthetic procedures: ensuring an optimal nutritional status for successful results. Nutrients. 2023;15:352.</p>
+      <p>Perioperative protein and vitamin supplementation in plastic surgery: an evidence-based proposal for an assessment and replacement protocol. PMC13401341.</p>
+      <p>Impact of nutrition on skin wound healing and aesthetic outcomes: a comprehensive narrative review. JPRAS Open. 2024.</p>
+      <p>Review on the impact of smoking on wound healing following facial procedures. Arch Craniofac Surg. 2025.</p>
+      <p>Mills E. et al. Smoking cessation reduces postoperative complications: a systematic review and meta-analysis. Am J Med. 2011.</p>
+      <p>Skin, hair and beyond: the impact of menopause. Climacteric. 2022.</p>
+      <p>Skin rejuvenation in women using menopausal hormone therapy: a systematic review and meta-analysis. J Menopausal Med. 2024.</p>
+      <p>FDA. HHS advances women’s health, removes misleading FDA warnings on hormone replacement therapy. 10 nov. 2025.</p>
+      <p>Lee K.W.A. et al. Facial bone aging: an update and literature review. JPRAS Open. 2026;48:828-845.</p>
+      <p>Serum ferritin and vitamin D in female hair loss: do they play a role? Skin Pharmacol Physiol. 2013.</p>
+      <p>Role of metformin in the management of polycystic ovarian syndrome-associated acne: a systematic review. PMC9511677.</p>
+      <p>Impact of semaglutide on body composition in adults with overweight or obesity: exploratory analysis of the STEP 1 study. J Endocr Soc. 2021.</p>
+      <p>Gupta A.K. et al. GLP-1 therapies and hair loss: a systematic review. 2026.</p>
+      <p>“Ozempic face” in plastic surgery: a systematic review. PMC12232544.</p>
+      <p>Chen A.C. et al. A phase 3 randomized trial of nicotinamide for skin-cancer chemoprevention. N Engl J Med. 2015;373:1618-26.</p>
+      <p>Polypodium leucotomos as an adjunct treatment of pigmentary disorders. J Clin Aesthet Dermatol. 2014.</p>
+      <p>Myung S.K., Park Y. Effects of collagen supplements on skin aging: a systematic review and meta-analysis of randomized controlled trials. Am J Med. 2025.</p>
+      <p>CRM-PR. Parecer 2.936/2025 sobre o uso injetável de PDRN em tratamentos estéticos.</p>
+      <p>Conselho Federal de Medicina. Código de Ética Médica (Res. CFM 2.217/2018), arts. 58 e 59.</p>
+      <p>Conselho Federal de Medicina. Resolução 2.336/2023 (publicidade médica) e Resolução 2.333/2023 (terapias hormonais).</p>
+      <p>AMWC Brazil 2026. Bloco Menopausa em Foco (Código 18). Anotações de estudo, não validadas pelos palestrantes.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const pages=[...document.querySelectorAll('.page')]; const total=String(pages.length).padStart(2,'0');
+  pages.forEach((p,i)=>{
+    if(p.classList.contains('nochrome')) return;
+    const dark=p.classList.contains('dark')||p.classList.contains('petrol')||p.dataset.chrome==='light';
+    const c=document.createElement('div'); c.className='chrome';
+    c.innerHTML='<div class="brand"><img src="../../../docs/branding/papelaria/assets/'+(dark?'symbol-gold.svg':'symbol-petrol.svg')+'"><span>Plenya × Clínica Tatianna Perazolo</span></div><span>Proposta de parceria</span>';
+    if(p.dataset.chrome==='light'){c.style.color='#EAE7DA';c.style.opacity='.95'}
+    if(p.dataset.chromeleft) c.style.left=p.dataset.chromeleft;
+    if(p.dataset.chromeright) c.style.right=p.dataset.chromeright;
+    if(p.dataset.chromeleft||p.dataset.chromeright){ c.lastElementChild.remove(); c.querySelector('.brand span').textContent='Plenya × Tatianna Perazolo'; }
+    p.appendChild(c);
+    const n=document.createElement('div'); n.className='pgn'; n.textContent=String(i+1).padStart(2,'0')+' / '+total; if(p.dataset.pgn==='left'){n.style.right='auto';n.style.left='18mm'} p.appendChild(n);
+  });
+})();
+</script>
+</body>
+</html>
