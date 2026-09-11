@@ -92,6 +92,27 @@ ul.l li:before{content:"";position:absolute;left:0;top:2.35mm;width:1.3mm;height
 .page.tight .sub{margin-bottom:5mm}
 .page.tight .small{font-size:11.2pt}
 .page.tight .lead{font-size:13.4pt}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm}
+.flow .num{font-size:28pt;margin-bottom:1.4mm}
+.flow .note{margin-top:1.6mm;font-size:10.4pt}
+.bars{display:flex;flex-direction:column;gap:3.4mm}
+.bar-row{display:grid;grid-template-columns:36mm 1fr;align-items:center;gap:2.5mm}
+.bar-name{font-size:11pt;line-height:1.1;text-align:right;color:var(--ink)}
+.bar-track{position:relative;display:flex;align-items:center;gap:1.6mm}
+.bar{display:block;height:4.4mm;background:var(--petrol);border-radius:0 1mm 1mm 0}
+.bar-val{font-size:10.4pt;color:var(--muted);font-variant-numeric:tabular-nums}
+.hband{position:relative;margin-top:17mm;padding-bottom:12mm}
+.segs{display:flex;gap:.5mm;height:8.5mm}
+.seg{display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:11pt;font-weight:500}
+.seg:first-child{border-radius:1mm 0 0 1mm}.seg:last-child{border-radius:0 1mm 1mm 0}
+.ticks{position:relative;height:5mm;font-size:8.6pt;color:var(--muted)}
+.tick{position:absolute;top:1mm;transform:translateX(-50%)}
+.unit{position:absolute;right:0;top:1mm}
+.bracket{position:absolute;top:-8mm;height:5mm;border:.3mm solid var(--muted);border-bottom:none}
+.bracket span{position:absolute;top:-4.6mm;left:0;font-size:8.8pt;font-style:italic;color:var(--muted);white-space:nowrap}
+.opt{position:absolute;top:18mm;transform:translateX(-50%)}
+.opt:before{content:"";position:absolute;left:50%;top:-4.5mm;width:.3mm;height:4mm;background:var(--gold)}
+.opt span{position:absolute;left:-2mm;top:0;font-size:8.8pt;font-style:italic;color:var(--gold-deep);white-space:nowrap}
 .fade-l{position:absolute;inset:0;background:linear-gradient(90deg,var(--petrol) 0%,rgba(6,59,79,.0) 38%)}
 </style>
 </head>
@@ -113,7 +134,7 @@ ul.l li:before{content:"";position:absolute;left:0;top:2.35mm;width:1.3mm;height
       <img src="../../../docs/branding/papelaria/assets/wordmark-cream.svg" style="height:4.6mm;opacity:.92">
     </div>
     <div class="eyebrow" style="font-size:9pt">Proposta de parceria</div>
-    <h1 style="font-size:50pt;line-height:.98;letter-spacing:-.025em;margin:1mm 0 6mm">O resultado<br>começa antes<span class="d">.</span></h1>
+    <h1 style="font-size:50pt;line-height:.98;letter-spacing:-.025em;margin:1mm 0 6mm">Cuidado<br>por inteiro<span class="d">.</span></h1>
     <p style="font-style:italic;font-size:16pt;line-height:1.3;color:var(--gold-soft);max-width:150mm;margin-bottom:9mm">Medicina funcional integrativa e dermatologia estética no mesmo cuidado, na clínica da Dra. Tatianna Perazolo, em Londrina.</p>
   </div>
   <div style="position:absolute;left:0;right:0;bottom:12mm;display:grid;grid-template-columns:1fr 1fr;z-index:3">
@@ -245,6 +266,54 @@ ul.l li:before{content:"";position:absolute;left:0;top:2.35mm;width:1.3mm;height
       <div class="hair"><div class="caps">Continuidade</div><h3 style="font-size:14pt;margin:1mm 0 1.4mm">Continuum Médico</h3><p class="small">Para quem quer acompanhamento contínuo, online ou presencial em Londrina, com reavaliações periódicas do Escore.</p></div>
     </div>
     <p class="closer">A saúde não melhora com intenção. Melhora com direção.</p>
+  </div>
+</section>
+
+<!-- 06b ESCORE POR DENTRO -->
+<section class="page roomy">
+  <div class="body">
+    <div class="eyebrow">Escore Plenya · por dentro</div>
+    <h2>Do tubo de coleta a um número<span class="d">.</span></h2>
+    <p class="sub">O que acontece com os 98 exames do painel inicial.</p>
+    <div class="flow">
+      <div class="hair"><div class="num">98</div><div class="caps">exames pedidos</div><p class="note">45 bioquímicos, 22 hormonais, 16 de imagem e 15 outros</p></div>
+      <div class="hair"><div class="num">185</div><div class="caps">análises</div><p class="note">painéis como hemograma e lipidograma abrem várias medidas</p></div>
+      <div class="hair"><div class="num">232</div><div class="caps">itens do Escore</div><p class="note">217 pontuam; os demais dão contexto à leitura</p></div>
+      <div class="hair"><div class="num">1.177</div><div class="caps">faixas</div><p class="note">cerca de cinco por item, com réguas por sexo e fase da vida</p></div>
+      <div class="hair"><div class="num">29</div><div class="caps">pilares clínicos</div><p class="note">510 vínculos: um exame conta para vários sistemas</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.12fr 1fr;gap:9mm;margin-top:11mm">
+      <div>
+        <h3>Onde o painel pesa</h3>
+        <p class="note" style="margin-bottom:3mm">Itens de exame por pilar clínico, nos 12 pilares mais tocados de 29. Um item pode contar para mais de um pilar.</p>
+        <div class="bars">
+<div class="bar-row"><span class="bar-name">Hormonal</span><span class="bar-track"><span class="bar" style="width:100.0%"></span><span class="bar-val">66</span></span></div>
+<div class="bar-row"><span class="bar-name">Cardiovascular</span><span class="bar-track"><span class="bar" style="width:89.4%"></span><span class="bar-val">59</span></span></div>
+<div class="bar-row"><span class="bar-name">Saúde urogenital e reprodutiva</span><span class="bar-track"><span class="bar" style="width:74.2%"></span><span class="bar-val">49</span></span></div>
+<div class="bar-row"><span class="bar-name">Renal</span><span class="bar-track"><span class="bar" style="width:72.7%"></span><span class="bar-val">48</span></span></div>
+<div class="bar-row"><span class="bar-name">Vida sexual</span><span class="bar-track"><span class="bar" style="width:45.5%"></span><span class="bar-val">30</span></span></div>
+<div class="bar-row"><span class="bar-name">Metabólico</span><span class="bar-track"><span class="bar" style="width:45.5%"></span><span class="bar-val">30</span></span></div>
+<div class="bar-row"><span class="bar-name">Hematológico</span><span class="bar-track"><span class="bar" style="width:43.9%"></span><span class="bar-val">29</span></span></div>
+<div class="bar-row"><span class="bar-name">Nutrologia e micronutrientes</span><span class="bar-track"><span class="bar" style="width:37.9%"></span><span class="bar-val">25</span></span></div>
+<div class="bar-row"><span class="bar-name">Vitalidade e disposição</span><span class="bar-track"><span class="bar" style="width:34.8%"></span><span class="bar-val">23</span></span></div>
+<div class="bar-row"><span class="bar-name">Imune e inflamatório</span><span class="bar-track"><span class="bar" style="width:34.8%"></span><span class="bar-val">23</span></span></div>
+<div class="bar-row"><span class="bar-name">Rastreio oncológico</span><span class="bar-track"><span class="bar" style="width:30.3%"></span><span class="bar-val">20</span></span></div>
+<div class="bar-row"><span class="bar-name">Hepático</span><span class="bar-track"><span class="bar" style="width:25.8%"></span><span class="bar-val">17</span></span></div>
+        </div>
+      </div>
+      <div>
+        <h3>Normal não é o mesmo que ótimo</h3>
+        <p class="small">A homocisteína, por exemplo. O laboratório costuma aceitar até 15 µmol/L. O Escore divide essa régua em faixas e só dá a pontuação máxima entre 6 e 8; um resultado de 14, normal no laudo, pontua 2 de 5. Valores muito baixos também perdem pontos.</p>
+        <div class="hband">
+          <div class="bracket" style="left:0;width:42.86%"><span>referência do laboratório: até 15</span></div>
+          <div class="segs"><span class="seg" style="width:17.14%;background:#34738A;color:#F5F1E8">3</span><span class="seg" style="width:5.71%;background:#B38645;color:#F5F1E8">5</span><span class="seg" style="width:8.57%;background:#1A5C78;color:#F5F1E8">4</span><span class="seg" style="width:11.43%;background:#4F8795;color:#F5F1E8">2</span><span class="seg" style="width:42.86%;background:#6A9AA0;color:var(--ink)">1</span><span class="seg" style="width:14.29%;background:#88AEAE;color:var(--ink)">0</span></div>
+          <div class="ticks"><span class="tick" style="left:17.14%">6</span><span class="tick" style="left:22.86%">8</span><span class="tick" style="left:31.43%">11</span><span class="tick" style="left:42.86%">15</span><span class="tick" style="left:85.71%">30</span><span class="unit">µmol/L</span></div>
+          <div class="opt" style="left:20.00%"><span>ótimo do Escore: 6 a 8</span></div>
+        </div>
+        <p class="note" style="margin-top:4mm">Número em cada faixa: pontos que o resultado recebe, de 0 a 5.</p>
+        <p class="small" style="margin-top:3mm">Cada item vira de 0 a 5 pontos pela faixa em que o resultado cai. A ferritina tem três réguas: homem, mulher antes e mulher depois da menopausa. A soma, organizada nos pilares do Método AGIR, é o número que acompanhamos a cada reavaliação.</p>
+      </div>
+    </div>
   </div>
 </section>
 
