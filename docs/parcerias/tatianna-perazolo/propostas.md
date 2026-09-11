@@ -1,6 +1,7 @@
 # Parceria Plenya × Clínica Tatianna Perazolo: propostas de produto
 
-> **Status:** v2 (2026-09-11), cruzada com o RAG da casa (§10). Em discussão. Documento vivo, fonte do PDF da reunião.
+> **Status:** v3 (2026-09-11), cruzada com o RAG da casa e com o bloco Menopausa em Foco do
+> AMWC Brazil 2026 (§10). Em discussão. Documento vivo, fonte do PDF da reunião.
 > **Parceira:** Dra. Tatianna Felix Perazolo, dermatologista, CRM-PR 25764, RQE 25491.
 > Clínica na R. Rubéns Carlos de Jesus, 300, sala 15, Terras de Santana II, Londrina (também atende
 > na Clinimed, Rolândia). Só particular. CNPJ 58.397.228/0001-47, aberto 12/2024, atividade
@@ -29,6 +30,26 @@ sono, inflamação. A proposta para a Dra. Tatianna tem duas moedas:
 
 A frase de marca que amarra: *o corpo não funciona em partes*. A pele é o órgão onde isso
 aparece primeiro.
+
+**A pergunta que abre a reunião:** por que duas pacientes da mesma idade, com a mesma
+profissional, a mesma técnica e o mesmo produto, respondem de forma diferente? A resposta é o
+terreno biológico: hormônio, inflamação, glicação, nutrição, sono. Essa foi a conclusão comum do
+bloco *Menopausa em Foco* do AMWC Brazil 2026, em que cinco palestrantes de especialidades
+diferentes (duas dermatologistas entre eles), sem combinação prévia, chegaram à mesma tese:
+**terreno antes da técnica**, e procedimento em terreno preparado pede menos produto e dura mais.
+A parceria é essa tese posta em operação.
+
+**Os "sete pilares" que a dermatologia do congresso propôs já são o Método AGIR:**
+
+| Pilar citado no AMWC (protocolo "Restore") | Onde está no AGIR |
+|---|---|
+| intestino e disbiose; atividade física e nutrição | **A**, Alimentação e Atividade |
+| otimização hormonal; mitocôndria e inflamação | **G**, Gestão metabólica |
+| tempo de qualidade e descanso; emocional; espiritualidade | **I**, Integração corpo e mente |
+| sono e ciclo circadiano | **R**, Ritmo |
+
+A diferença é que a Plenya mede: o Escore (mais de 800 itens) transforma os pilares num número
+que evolui, e é isso que a dermatologia sozinha não tem como montar.
 
 ## 2. Divisão de papéis (quem faz o quê)
 
@@ -130,7 +151,11 @@ complicação e pede insulina, não só glicemia.
 ### L2 · Menopausa: pele, corpo e hormônio
 
 **Para quem:** mulheres de 40 a 60 anos, na perimenopausa ou até 10 anos após a menopausa. Com a
-saída da ginecologista, a linha fica 100% Plenya na parte clínica.
+saída da ginecologista, a linha fica 100% Plenya na parte clínica. **Entrada antecipada a partir
+dos 35 anos**, como prevenção (composição corporal, sono, metabolismo, qualidade de pele), sem
+hormônio: o recado mais acionável do bloco do AMWC é tratar na transição, e não na menopausa
+instalada. ⚠️ A palestrante situa a queda do estradiol aos 30 a 35 anos; a transição menopausal
+costuma começar nos 40. Usar "a partir da transição" e não repetir a idade de 30.
 
 **Por que funciona:** até 30% do colágeno da pele se perde nos 5 primeiros anos após a menopausa,
 e cerca de 2% ao ano depois disso. Meta-análise (15 estudos, 1.589 mulheres) mostrou que a THM
@@ -138,6 +163,21 @@ melhora elasticidade, espessura e conteúdo de colágeno da pele; um ECR com est
 por 12 meses aumentou a espessura da pele em 11,5% e da derme em 33%. O mesmo período concentra
 fogachos, sono ruim, ganho de gordura visceral, perda de massa magra e óssea, queda de cabelo,
 secura de mucosas. Pele e metabolismo mudam juntos, e as duas médicas atendem a mesma paciente.
+
+**O cenário regulatório mudou a favor:** em 10/11/2025 o FDA iniciou a retirada dos boxed warnings
+de doença cardiovascular, câncer de mama e demência provável dos produtos de terapia hormonal da
+menopausa, com base nos dados de redução de mortalidade e fraturas quando o início é antes dos 10
+anos de menopausa ou dos 60 anos. Continua o alerta de câncer de endométrio para estrogênio
+sistêmico isolado (daí a progesterona obrigatória com útero). É decisão americana; a bula
+brasileira não mudou por isso.
+
+**O esqueleto do rosto também é menopausa:** a revisão de 2026 sobre envelhecimento ósseo facial
+(JPRAS Open) relata reabsorção maxilar 35% maior na pós-menopausa, perda correlacionada ao
+estrogênio e terapia hormonal reduzindo a reabsorção em 40% (dados de estudos primários citados
+pela revisão; conferir antes de citar número em material externo). A dermatologia repõe volume; a
+Plenya protege o osso que sustenta esse volume (THM na janela, vitamina D, cálcio da dieta,
+proteína, treino de força, parar de fumar). Não há dado de que D3 com K2 previna reabsorção facial
+especificamente: é hipótese razoável, não promessa.
 
 **Plenya:**
 - THM na janela de oportunidade (menos de 10 anos de menopausa ou menos de 60 anos), por
@@ -154,6 +194,13 @@ secura de mucosas. Pele e metabolismo mudam juntos, e as duas médicas atendem a
 - Quem não quer ou não pode THM: fórmulas fitoterápicas de climatério do catálogo da casa.
 
 **Dermatologia:** qualidade de pele, bioestimuladores, lasers, flacidez, melasma.
+
+**Variante sem hormônio (L2b):** mulher com câncer de mama, em tamoxifeno ou inibidor de
+aromatase, ou que não quer THM. Os outros pilares seguem inteiros (sono, composição corporal,
+inflamação, nutrição, osso, cardiometabólico) e a dermatologia faz o regenerativo. Síndrome
+geniturinária por via não hormonal (gel vaginal de ocitocina, hidratantes); qualquer via
+hormonal local só com o oncologista. O bloco do AMWC mostrou exatamente esse caso, com
+acompanhamento de quatro anos: é o melhor argumento de que a linha não depende do hormônio.
 
 **Exames:** FSH/estradiol quando útil na perimenopausa, perfil lipídico com ApoB e Lp(a),
 glicemia/HbA1c/insulina, TSH, 25-OH-D, ferritina. **Rastreio obrigatório antes de THM em dia:
@@ -439,6 +486,48 @@ Pouco conteúdo dermatológico próprio. O que existe e foi lido:
 7. **Oxandrolona perioperatória** (AFI XVIII) e **soro de EDTA** (Programação Metabólica 05):
    aparecem nas aulas, mas o portfólio veta para estética e quelação (§13.89, §13.106). Ficam fora.
 
+### 10.4 Bloco *Menopausa em Foco*, AMWC Brazil 2026 (agora no RAG)
+
+Seis artigos novos no RAG (dev): as cinco palestras com transcrição integral e o resumo de cada
+uma no abstract, mais a síntese do bloco. Journal `AMWC Brazil 2026 · Menopausa em Foco`.
+Transcrição automática, documento de estudo pessoal, não validado pelos palestrantes: serve de
+contexto e de ideia, não de número citável.
+
+**Incorporado ao plano:**
+- A tese e a pergunta de abertura (§1).
+- Os sete pilares mapeados no AGIR (§1).
+- Entrada antecipada da L2 na transição, com prevenção a partir dos 35 (sem a idade de 30).
+- Variante sem hormônio L2b (caso de câncer de mama em tamoxifeno).
+- Esqueleto facial como parte da L2, com fonte verificada (JPRAS Open 2026).
+- Mudança do FDA sobre a THM, com fonte primária e com o que ficou no rótulo.
+- Na L1, o argumento de que pele inflamada responde mal, que reforça a triagem com PCR-us e
+  insulina; e o princípio de **modular, não zerar** a inflamação (o mesmo raciocínio do
+  portfólio para a vitamina C, que não entra em bloco de adaptação ao treino).
+- Na L2, dose de melatonina pensada junto com o status de cortisol (alerta clínico da
+  palestrante; opinião, sem ensaio).
+
+**Não incorporado, e por quê:**
+- **"Vascular priming"** com minoxidil + tadalafila + ioimbina (e pentoxifilina ou ginkgo como
+  resgate) para "abrir a estrada" do nutriente: não há ensaio com desfecho cutâneo, a
+  combinação de vasodilatadores soma risco de hipotensão, a ioimbina tem efeito adverso
+  cardiovascular e ansioso, e ginkgo e pentoxifilina aumentam sangramento, justamente o que a
+  L1 manda suspender antes de injetável.
+- **Implantes hormonais** (colágeno tipo 3 num estudo com N=10, preliminar pelo próprio
+  palestrante) e o discurso de "o WHI foi uma fraude": a posição defensável é a da janela de
+  oportunidade com via registrada.
+- **PDRN injetado "por conta e risco"**, exossomas humanos, epitalon, superóxido dismutase
+  injetável: sem via legal no Brasil (§6). O fato de palestrantes injetarem off-label em palco
+  reforça o valor da nossa lista de recusas.
+- **NAD+ intravenoso:** o próprio palestrante 5 diz que o que se põe na veia não chega à pele;
+  bate com o veto do portfólio.
+- **Metformina como geroprotetor, jejum de 20 a 24 h, senolíticos:** evidência fraca ou
+  controversa (portfólio §13.54, §13.66).
+- **A crítica à estética "agressiva"** (bioestimulador como inflamação, toxina reduzindo fluxo):
+  não entra no material da parceria. O enquadramento que serve às duas é positivo: terreno
+  preparado pede menos produto e o resultado dura mais.
+- Números não conferidos (queda de 50% do colágeno após os 50, 64% de incômodo cutâneo,
+  queda de 40 a 60% do fluxo dérmico, astaxantina "6.000 vezes" a vitamina C): fora.
+
 ## 11. Fontes
 
 - Doctoralia, Dra. Tatianna Perazolo: https://www.doctoralia.com.br/tatianna-perazolo/dermatologista/rolandia-londrina
@@ -463,4 +552,7 @@ Pouco conteúdo dermatológico próprio. O que existe e foi lido:
 - Res. CFM 2.336/2023: https://sistemas.cfm.org.br/normas/arquivos/resolucoes/BR/2023/2336_2023.pdf
 - Portfólio de injetáveis e plano do centro: docs/clinica/
 - Vitagliano T. et al. Preparing Patients for Cosmetic Surgery and Aesthetic Procedures. Nutrients 2023;15:352. https://doi.org/10.3390/nu15020352 (no RAG)
+- FDA, 10/11/2025, retirada dos boxed warnings da THM: https://www.fda.gov/news-events/press-announcements/hhs-advances-womens-health-removes-misleading-fda-warnings-hormone-replacement-therapy
+- Lee K.W.A. et al. Facial bone aging: an update and literature review. JPRAS Open 2026;48:828-845. https://pmc.ncbi.nlm.nih.gov/articles/PMC12914125/
+- Bloco Menopausa em Foco, AMWC Brazil 2026 (transcrições de estudo, docs/menopausa/; no RAG)
 - RAG da casa (EMR dev): aulas Sorrentino 01/02, AFI XVI/XVII/XVIII, MFI Reposição Hormonal 01–11, SOP I/II; score_items de pele e cabelo; magistral_formula_templates
