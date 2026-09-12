@@ -777,12 +777,43 @@ decisoes_do_dr_2026-09-11:
     decisao: IGNORAR
     re: "Lead de 26/08 com telefone (43999256879) pedindo contato. Janela Messenger de 24h e tag de 7 dias expiradas: so app/WhatsApp. Dr decidiu ignorar. NAO re-flaggar."
 
+# Engajamento raso: o Dr mandou responder TODOS com um unico emoji "👍🏻❤️" (11/09).
+# 23 replies postadas, todas com sucesso. Padrao ja usado por ele no passado
+# (as rajadas de "☺️❤️" em 12/07, 23/06 e 11/06).
+engajamento_respondido_com_emoji_2026-09-11:
+  emoji: "👍🏻❤️"
+  by: dr_api
+  total: 23
+  post_18133163317568193_10-09:   # "Muito alem da balanca"
+    - {who: '@regina.garcia.777',  comment_id: '18093477761556805', reply_id: '18089294177457370'}
+    - {who: '@mateusamaral10',     comment_id: '17898960363378351', reply_id: '17909400522524874'}
+    - {who: '@gustavogarib_',      comment_id: '18009648293765653', reply_id: '18112840877003372'}
+    - {who: '@amaral_eng',         comment_id: '18124054096894204', reply_id: '18116113825982947'}
+  post_18224350024329425_08-09:   # "Doutor, mas voce nao e nefrologista?" (CTA "como conheceu meu trabalho")
+    - {who: '@malugarib',                comment_id: '17904742776334248', reply_id: '18133275427639512'}
+    - {who: '@leninhacasarin',           comment_id: '18042091379683997', reply_id: '18023580170703403'}
+    - {who: '@patricia.ribeiro.3158',    comment_id: '18115002637944699', reply_id: '17967744366154527'}
+    - {who: '@joceyrcarvalhoguilherme',  comment_id: '18033289439847729', reply_id: '18117695953978625'}   # PACIENTE
+    - {who: '@anaccorreamattos',         comment_id: '18089533847441024', reply_id: '17914840458445711'}
+    - {who: '@drmichelmoro',             comment_id: '17868284706646525', reply_id: '18109711016149487'}
+    - {who: '@amaralseila',              comment_id: '18113428739318970', reply_id: '18115277155943077'}
+    - {who: '@vaniafreitasdacosta',      comment_id: '18407843695085446', reply_id: '18090373547190341'}
+    - {who: '@fernanda.circhia',         comment_id: '18423711676147611', reply_id: '18112898219083914'}
+    - {who: '@dr_danilo_cunha',          comment_id: '18191135527393673', reply_id: '18131535976680106'}
+    - {who: '@amaral_eng',               comment_id: '18029294108677460', reply_id: '18411258577091788'}
+    - {who: '@salete.mcamargo',          comment_id: '18136464043714622', reply_id: '18105823378987148'}
+    - {who: '@gustavogarib_',            comment_id: '18181905061422668', reply_id: '18094851575434863'}
+    - {who: '@mateusamaral10',           comment_id: '18209457175365655', reply_id: '18631159240026011'}
+    # @fatimabarusso NAO entrou aqui: recebeu resposta propria (luto). Ver answered_2026-09-11.
+  ads_ig_side:
+    - {ad: 'GLP-1 Ep2', who: '@baninmarialucia',   comment_id: '17879366766690407', reply_id: '18130671925742944'}
+    - {ad: 'GLP-1 Ep2', who: '@anselma.oliveira.3', comment_id: '18120876658702596', reply_id: '18462808357140058'}
+    - {ad: 'GLP-1 Ep1', who: '@analice.andrade1',   comment_id: '18114483614284025', reply_id: '18093187040556689'}
+  ads_fb_side:
+    - {ad: 'GLP-1 Ep2', who: anonimo, comment_id: '1095803862959167', reply_id: '1095803862959167_1363998339050273'}
+    - {ad: 'GLP-1 Ep2', who: anonimo, comment_id: '2024124441641363', reply_id: '2024124441641363_1561091605225003'}
+
 nao_respondidos_por_triagem_2026-09-11:
-  engajamento_raso:
-    - "@baninmarialucia (ad Ep2 IG, 10/09): elogio + 'bem carinho viu'"
-    - "@anselma.oliveira.3 (ad Ep2 IG, 09/09): 'Estou na 5 aplicacao...'"
-    - "anonimo (ad Ep2 FB, 09/09): '100 por cento confiavel' (2 comentarios identicos)"
-    - "CTAs do post 08/09 'como conheceu meu trabalho': @malugarib, @joceyrcarvalhoguilherme, @drmichelmoro, @anaccorreamattos, @amaral_eng, @salete.mcamargo e outros"
   descartados:
     - "Messenger FB, Tiziana Gatta (02/09): GOLPE/phishing 'sua pagina foi sinalizada, verifique a conta ou sera excluida'. MESMO padrao de @douwe.dejong.7 (24/05). NAO interagir, denunciar no app."
     - "@canalmarketingvirtual (DM, 26/08): pitch de agencia de marketing medico."
