@@ -823,7 +823,7 @@ nao_respondidos_por_triagem_2026-09-11:
 
 gaps_de_varredura_2026-09-11:
   - "MENTIONS/TAGS: INSTAGRAM_GET_IG_USER_TAGS segue INEXISTENTE nesta build do Composio. Gap declarado."
-  - "CAIXINHA DE PERGUNTAS / ENQUETE DE STORY: a Graph API NAO expoe as respostas de sticker. Nao ha endpoint. So no app. (Stories em si foram checados: 4 ativos em 11/09, todos com comments_count=0 — story no IG nao tem comentario publico; resposta de story vira DM e essa superficie ESTA coberta.)"
+  - "CAIXINHA DE PERGUNTAS / ENQUETE DE STORY: a Graph API NAO expoe as respostas de sticker. Nao ha endpoint, e TAMBEM nao da para POSTAR story de resposta via API. So no app. FLUXO QUE FUNCIONOU EM 11/09: o Dr abriu o story no celular, mandou print das perguntas, eu escrevi as respostas e ele publicou. (Stories em si foram checados: 4 ativos em 11/09, todos com comments_count=0 — story no IG nao tem comentario publico; resposta de story vira DM e essa superficie ESTA coberta.)"
   - "2 conversas DM subcode 33 (padrao de ID 281152...), persistentes desde 26/05. Pedidos de mensagem. Checar aba 'Solicitacoes' no app."
 
 conversas_inacessiveis_vistas_em_2026-09-11:
@@ -833,3 +833,26 @@ conversas_inacessiveis_vistas_em_2026-09-11:
   - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTE4MDA5NTEwMjE5NTQz
     updated_time: '2026-09-02T23:50'
     nota: "NOVA nesta varredura. Mesmo padrao de ID 281152 = pedido de mensagem."
+
+# Caixinha de perguntas do story de 11/09 (tema: perda de massa magra no uso de GLP-1).
+# 106 visualizacoes, 1 recompartilhamento, 2 perguntas. Texto escrito por mim,
+# PUBLICADO PELO DR no app (a API nao posta story).
+caixinha_story_2026-09-11:
+  story_tema: "Perda de massa magra no uso de GLP-1 (puxa o post 18133163317568193, 'Muito alem da balanca')"
+  by: dr_app
+  perguntas:
+    - who: '@pedro.hoam'
+      pergunta: "Como saber se estou emagrecendo massa ou gordura?"
+      resposta_re: "Balanca mede massa total. 3 sinais: cintura caindo junto com o peso (gordura) vs peso caindo e cintura parada (alerta); queda de forca no treino / subir escada / levantar da cadeira (musculo saindo); ritmo rapido demais leva massa magra. Medida real: bioimpedancia para tendencia, DEXA como mais preciso."
+    - who: '@fernanda.circhia'
+      pergunta: "Como podemos fazer esse monitoramento em casa, Dr? Quais os pontos que devemos observar?"
+      resposta_re: "Protocolo caseiro: fita metrica na cintura (altura do umbigo, 1x/semana, mesmo horario); teste da cadeira (sentar e levantar 5x sem apoiar os bracos, cronometrado, acima de 15s = forca baixa, corte do EWGSOP2); sinais do dia a dia (abrir potes, sacola, escada). Anotar e olhar a TENDENCIA."
+  nota_de_fonte: |
+    ATENCAO para reuso: os 15 segundos do teste da cadeira vem do EWGSOP2
+    (Cruz-Jentoft AJ et al. Age Ageing. 2019;48(1):16-31), NAO das referencias
+    da legenda do post (ABESO 2024, Wilding NEJM 2021/STEP 1, EASO 2023).
+    Nao creditar o numero as referencias do video.
+  nao_usado: |
+    Forca de preensao palmar (EWGSOP2: <27 kg homens, <16 kg mulheres) ficou de
+    fora de proposito: exige dinamometro e a pergunta era sobre monitoramento
+    caseiro. Guardado para um conteudo futuro sobre avaliacao de sarcopenia.
