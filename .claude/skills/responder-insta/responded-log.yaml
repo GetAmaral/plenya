@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-08-25'
+last_updated: '2026-09-11'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -86,7 +86,7 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-08-25'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
+comments_baseline_swept_through: '2026-09-11'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
 
 # Varredura 2026-08-25 (16a iteracao): 60 posts organicos (3 paginas, TODOS com
 # comments_count>0), 4 ads (GLP1 Ep1/Ep2 ATIVOS + Ep1/Ep2 novos PAUSADOS) nos DOIS
@@ -699,3 +699,106 @@ resolvido_dr_app_2026-06-23:
 notas:
   - "Lado IG dos ads NÃO oculta autor: buscar via conexão IG Business (INSTAGRAM_GET_IG_MEDIA_COMMENTS no effective_instagram_media_id) popula from{username} + replies. O curl com Marketing API é que mascara. Ver memória responder_insta_ads_dark_fb."
   - "Em 23/05 a API Composio estava instável (muitos 'Streamable HTTP error') — reenviar chamadas que falham."
+
+
+# ============================================================================
+# Varredura 2026-09-11 (17a iteracao) — COMPLETA
+# ============================================================================
+# Cobertura: 62 posts organicos (3 paginas, TODOS com comments_count>0),
+# 62 conversas DM movimentadas desde 25/08 (2 paginas ate esgotar), 10 ads nos
+# DOIS lados (7 media IG unicas + 10 posts FB), FB Page Messenger (4 conversas).
+#
+# INCIDENTE DE INICIO DE SESSAO: token IG do Composio invalidado pela Meta
+# (OAuthException code 190, "session invalidated because the user changed their
+# password"). FB e Marketing API seguiam validos. Fix: POST /api/v3/
+# connected_accounts/ca_ro8bpPO5Iv7h/refresh -> redirect_url -> usuario clicou.
+# Ver memoria composio_mcp_reconectar_toolkit.
+#
+# ERRO DE METODO CORRIGIDO NA PROPRIA SESSAO: varri o lado IG dos ads por curl
+# na Marketing API, que mascara autor E NAO TRAZ REPLIES. Refiz por
+# INSTAGRAM_GET_IG_MEDIA_COMMENTS no effective_instagram_media_id e confirmei
+# (a) os autores reais e (b) que nenhuma resposta minha duplicou resposta
+# existente. A nota que evita isso ja estava neste arquivo, em "notas". SEMPRE
+# usar a conexao IG Business para o lado IG dos ads.
+
+answered_2026-09-11:
+  comments:
+    - post: Creatina (18106582283492757)
+      comment_id: '18183016345370506'
+      who: '@cacsconsultora'
+      reply_id: '17887069245616849'
+      by: dr_api
+      re: "Pediu marcas de creatina. Respondido SEM marca: Anvisa analisou 41 produtos de 29 fabricantes, 40 com incorrecao de ROTULAGEM mas qualidade dentro do esperado; criterios = monoidratada como ingrediente unico, notificacao Anvisa no rotulo, laudo com pureza + creatinina/diciandiamida/di-hidrotriazina."
+    - post: "Doutor, mas voce nao e nefrologista? (18224350024329425)"
+      comment_id: '17910202650465551'
+      who: '@fatimabarusso'
+      reply_id: '18117338519005668'
+      by: dr_api
+      re: "LUTO. Conheceu o Dr quando ele cuidou da Alana; o Dr informou que o Luiz, pai da Alana, faleceu logo depois dela. Condolencias pelos dois, sem atribuir parentesco dela e sem detalhe clinico."
+    - post: GLP-1 (18337463062212973)
+      comment_id: '18111966503089824'
+      who: '@josilenegnr'
+      reply_id: '18164915428466683'
+      by: dr_api
+      re: "Fechamento gentil apos agradecimento dela (26/08). Reforco: seguir cardiologista, LDL e pressao na meta sao o que move o ponteiro na carotida."
+    - post: Retatrutida (17956252052997350)
+      comment_id: '18068901398764988'
+      who: '@genadircristinadacosta'
+      reply_id: '18085768391262056'
+      by: dr_api
+      re: "'Eu quero dr' num post sobre molecula NAO aprovada. Alerta de procedencia (falsificado) + existem opcoes aprovadas, comecar por avaliacao."
+  ads_ig_side:
+    - ad: GLP-1 Ep2 (ig_media 18100461958813577)
+      comment_id: '18008403635971115'
+      who: '@valeriacardosofabri'
+      reply_id: '17986670178058941'
+      by: dr_api
+      re: "Ia bem com Saxenda, medica trocou para Wegovy e passou muito mal. Explicado: meia-vida 13h vs 7 dias, nao existe tabela de equivalencia, reiniciar pela dose minima, tolerar liraglutida nao prediz tolerar semaglutida. Sem citar dose em mg e sem culpar a medica."
+  ads_fb_side:
+    - ad: GLP-1 Ep1 (story 1046561478538408_1418583016711401)
+      comment_id: '2057991014851628'
+      who: anonimo (Meta mascara autor no lado FB)
+      reply_id: '2057991014851628_1867450494664213'
+      by: page
+      re: "Depoimento: psoriase desapareceu com tirzepatida. Explicado peso/inflamacao + imunomodulacao (IL-6, PCR, celulas iNKT), com DUAS ressalvas: nao e aprovado para psoriase e nao substitui dermato; melhora acompanha o peso, reganho pode trazer as lesoes de volta. + recado de risco cardiometabolico na psoriase."
+    - ad: GLP-1 Ep2 (story 1046561478538408_1646264863054912)
+      comment_id: '1747869903211129'
+      who: anonimo
+      reply_id: '1747869903211129_1338138701471230'
+      by: page
+      re: "'Eu preciso dr urgente'. Acolhido + caminho e avaliacao medica do conjunto + ressalva explicita de procurar atendimento hoje se for urgencia real. Sem telefone e sem preco."
+  dms_entregues_ao_dr_para_colar:
+    - who: '@nelydasilvapinto'
+      igsid: '38422998670678044'
+      re: "Vai comecar Ozivy por DM2 e nao quer emagrecer muito. API recusou com subcode 2534022 MESMO a mensagem sendo do proprio dia (11/09 11:59) => padrao de PEDIDO DE MENSAGEM. Texto curto (~540 chars) entregue ao Dr. Confirmar no app se foi colado."
+
+decisoes_do_dr_2026-09-11:
+  - who: 'FB:Joicy Resende'
+    decisao: IGNORAR
+    re: "Lead de 26/08 com telefone (43999256879) pedindo contato. Janela Messenger de 24h e tag de 7 dias expiradas: so app/WhatsApp. Dr decidiu ignorar. NAO re-flaggar."
+
+nao_respondidos_por_triagem_2026-09-11:
+  engajamento_raso:
+    - "@baninmarialucia (ad Ep2 IG, 10/09): elogio + 'bem carinho viu'"
+    - "@anselma.oliveira.3 (ad Ep2 IG, 09/09): 'Estou na 5 aplicacao...'"
+    - "anonimo (ad Ep2 FB, 09/09): '100 por cento confiavel' (2 comentarios identicos)"
+    - "CTAs do post 08/09 'como conheceu meu trabalho': @malugarib, @joceyrcarvalhoguilherme, @drmichelmoro, @anaccorreamattos, @amaral_eng, @salete.mcamargo e outros"
+  descartados:
+    - "Messenger FB, Tiziana Gatta (02/09): GOLPE/phishing 'sua pagina foi sinalizada, verifique a conta ou sera excluida'. MESMO padrao de @douwe.dejong.7 (24/05). NAO interagir, denunciar no app."
+    - "@canalmarketingvirtual (DM, 26/08): pitch de agencia de marketing medico."
+    - "@enedinagomes (ad Ep2 IG, 06/09 + DM): so tag de terceiro (@julianagomes25)."
+  spam_em_anuncio_pago:
+    - "@f_lorentz (ad Ep1 IG, 01/08): divulga link de YouTube + planilha de custos de canetas DENTRO do anuncio pago do Dr. Sinalizado ao Dr para ocultar/denunciar. NAO deletado (exige ordem explicita)."
+
+gaps_de_varredura_2026-09-11:
+  - "MENTIONS/TAGS: INSTAGRAM_GET_IG_USER_TAGS segue INEXISTENTE nesta build do Composio. Gap declarado."
+  - "CAIXINHA DE PERGUNTAS / ENQUETE DE STORY: a Graph API NAO expoe as respostas de sticker. Nao ha endpoint. So no app. (Stories em si foram checados: 4 ativos em 11/09, todos com comments_count=0 — story no IG nao tem comentario publico; resposta de story vira DM e essa superficie ESTA coberta.)"
+  - "2 conversas DM subcode 33 (padrao de ID 281152...), persistentes desde 26/05. Pedidos de mensagem. Checar aba 'Solicitacoes' no app."
+
+conversas_inacessiveis_vistas_em_2026-09-11:
+  - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTAzNjY5NzI4MDgzMzc2
+    updated_time: '2026-09-10T11:56'
+    nota: "Mesma conversa ja vista em 26/05, 11/07 e 25/08, agora com mensagem NOVA de 10/09. Persistente, nunca acessivel via API."
+  - id: aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUyNTE4MDA5NTEwMjE5NTQz
+    updated_time: '2026-09-02T23:50'
+    nota: "NOVA nesta varredura. Mesmo padrao de ID 281152 = pedido de mensagem."

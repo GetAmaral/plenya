@@ -19,7 +19,8 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-08-25'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
+last_updated: '2026-09-11'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
+# last_updated anterior: '2026-08-25'  # 16a iteracao
 # last_updated anterior: '2026-07-11'  # 15ª iteração — varredura COMPLETA (46 posts + ads IG/FB + 50 DMs + Messenger); reautenticação IG Composio no início (todas EXPIRED). +nil_negro, +jaquelinecarrador, +ritakassia74, +karina.fiorii, +robertaadami15, +cidabastos122, +tatiana.saliba.7, +dirceschilipack, +magnalucia.silva, +elisanee
 
 # IMPORTANTE: Dr Getúlio + Fer têm filha **Bianca**.
@@ -27,6 +28,121 @@ last_updated: '2026-08-25'  # 16ª iteração — varredura COMPLETA (60 posts o
 # Madrinha da Bianca = @jeane_clucena (prima do Dr).
 
 contacts:
+
+  # ============================================
+  # NOVOS (cadastrados 2026-09-11)
+  # ============================================
+
+  '@cacsconsultora':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Perguntou marcas de creatina ("ouvi dizer que tem muitas marcas ruins").
+      Respondida SEM citar marca (regra editorial): dado da Anvisa (41 produtos,
+      29 fabricantes, 40 com erro de ROTULAGEM mas qualidade dentro do esperado)
+      + critérios de escolha (monoidratada como ingrediente único, notificação
+      Anvisa no rótulo, laudo com pureza e as 3 impurezas de síntese).
+    avoid:
+      - indicar marca comercial de suplemento
+    last: "2026-09-11 — reply post Creatina (como escolher sem marca)"
+
+  '@valeriacardosofabri':
+    rel: seguidora em tratamento
+    tone: clínico-respeitoso / acolhedor
+    notes: |
+      Comentou no ad GLP1 Ep2 (lado IG): usava Saxenda (liraglutida) e ia bem,
+      a médica trocou para Wegovy (semaglutida) e ela passou muito mal.
+      Respondida com a mecânica da troca (meia-vida 13h vs 7 dias, ausência de
+      tabela de equivalência, reiniciar pela dose mínima) sem culpar a médica.
+      PENDENTE DE DESFECHO: se responder, vale acompanhar.
+    avoid:
+      - sugerir dose em miligramas (ela não informou em que dose está)
+      - dizer que a médica errou
+    last: "2026-09-11 — reply ad GLP1 Ep2 IG (troca liraglutida→semaglutida)"
+
+  '@nelydasilvapinto':
+    rel: seguidora / provável pedido de mensagem
+    name: Nely
+    tone: clínico-respeitoso / tranquilizador
+    notes: |
+      DM 11/09: vai começar Ozivy por diabetes tipo 2 e NÃO quer emagrecer muito.
+      Resposta preparada (DM2 emagrece menos: ~10% no STEP 2 vs ~15% no STEP 1;
+      dose escalonada permite parar de subir; proteína + treino de força; pedir
+      creatinina/TFG/albuminúria). API BLOQUEOU com subcode 2534022 mesmo a
+      mensagem sendo do próprio dia => padrão de PEDIDO DE MENSAGEM. Texto
+      entregue ao Dr para colar no app (versão curta de ~540 caracteres).
+    last: "2026-09-11 — DM triada, resposta entregue para o Dr colar no app"
+
+  '@fatimabarusso':
+    rel: família de pacientes falecidos
+    name: Fátima
+    tone: afetivo / sóbrio
+    notes: |
+      LUTO DUPLO. O Dr cuidou da **Alana** e do **Luiz**, pai da Alana, que
+      faleceu logo depois dela. Fátima escreveu no post "você não é nefrologista?"
+      dizendo que conheceu o Dr quando ele cuidou da "minha amada Alana ❤️💔".
+      Vínculo exato dela com os dois NÃO confirmado (não escrever "sua filha"
+      nem "seu marido"). Seguidora constante desde jan/2026, sempre elogio curto.
+    avoid:
+      - atribuir parentesco não confirmado
+      - qualquer detalhe clínico dos dois (caso identificável)
+      - tom animado ou fecho comercial
+    last: "2026-09-11 — reply post 08/09 (condolências por Alana e Luiz)"
+
+  '@genadircristinadacosta':
+    rel: seguidora / lead
+    tone: cordial
+    notes: |
+      Comentou "Eu quero dr" no post da RETATRUTIDA, que é justamente sobre a
+      molécula NÃO estar aprovada. Respondida com o alerta de procedência
+      (risco de falsificado) + existem opções aprovadas, começar por avaliação.
+    last: "2026-09-11 — reply post Retatrutida (não aprovada, risco de comprar fora)"
+
+  '@baninmarialucia':
+    rel: seguidora em tratamento
+    tone: cordial
+    notes: |
+      Ad GLP1 Ep2 (IG), 10/09: "estou tomando semaglutida, realmente é ótimo,
+      bem carinho viu, mas vale a pena". Elogio + queixa de preço. Não respondida
+      nesta sessão (triada como engajamento raso).
+    last: "2026-09-11 — triada, não respondida (elogio + custo)"
+
+  '@anselma.oliveira.3':
+    rel: seguidora em tratamento
+    tone: cordial
+    notes: |
+      Ad GLP1 Ep2 (IG), 09/09: "Estou na 5 aplicação...". Engajamento.
+      Não respondida nesta sessão.
+    last: "2026-09-11 — triada, não respondida (engajamento)"
+
+  '@analice.andrade1':
+    rel: seguidora
+    tone: cordial
+    notes: "Ad GLP1 Ep1 (IG), 26/08: só palmas. Sem conteúdo."
+    last: "2026-09-11 — triada, sem necessidade de resposta"
+
+  '@f_lorentz':
+    rel: SPAM / divulgação de terceiro
+    tone: nao-responder
+    notes: |
+      01/08, no ad GLP1 Ep1 (lado IG): posta link de YouTube e "planilha de
+      simulação de custos do tratamento com canetas em 12 meses". É divulgação
+      de terceiro dentro de anúncio PAGO do Dr. Candidato a ocultar/denunciar,
+      mas NUNCA deletar sem ordem explícita do usuário.
+    avoid:
+      - responder
+      - deletar sem pedido explícito
+    last: "2026-09-11 — identificado como spam em ad pago, sinalizado ao Dr"
+
+  'FB:Joicy Resende':
+    rel: lead (FB Messenger, PSID 29250765981191559)
+    tone: profissional-caloroso
+    notes: |
+      26/08, Messenger da Página: "Oi boa noite / Poderia me chamar / 43999256879".
+      Rótulo automático do CRM marcou "Em análise". Janela de 24h (e a tag de 7
+      dias) EXPIRADAS: não dá para responder pela API, só app/WhatsApp.
+      DECISÃO DO DR EM 11/09: IGNORAR. Não re-flaggar como pendência.
+    last: "2026-09-11 — triada e IGNORADA por decisão do Dr"
 
   # ============================================
   # NOVOS (cadastrados 2026-08-25)
@@ -41,7 +157,7 @@ contacts:
       infarto/AVC, MAS ECR com exenatida (631 pessoas/18 meses) não mostrou mudança
       no volume nem na composição da placa. Quem move placa é LDL baixo + PA + parar
       de fumar. Se voltar, provável interesse em prevenção cardiovascular.
-    last: "2026-08-25 — reply post GLP1 Ep2 (placa de carótida)"
+    last: "2026-09-11 — fechamento gentil após agradecimento dela (26/08). Está em acompanhamento com cardiologista e seguindo as orientações."
 
   '@andreacasinilucas':
     rel: seguidora (esposa de paciente potencial)
