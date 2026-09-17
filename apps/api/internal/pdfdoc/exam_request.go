@@ -84,7 +84,16 @@ func ExamPagesFromText(text string) [][]ExamItem {
 	return pages
 }
 
-// examItemsHTML — cada exame é um bloco .exitem independente (paginado pelo motor único).
+// ATENÇÃO: `.exitem` NÃO é um bloco do paginador — a lista de exames INTEIRA (`.exwrap`) é um bloco
+// único e indivisível.
+//
+// O motor sabe dividir um container: basta marcá-lo `.split` e os filhos passam a paginar (é o que
+// a fórmula magistral faz). Aqui NÃO dá, porque `.exwrap` é um flex de DUAS COLUNAS: tirar os
+// `.exitem` de dentro dele para paginá-los individualmente desmonta a coluna. Enquanto for assim,
+// quem segura o tamanho da página é só `maxPerPage`, que conta exames e é cego à altura da
+// justificativa. Um exame com justificativa longa estoura a folha, e aí a rede em paginateDoc
+// recusa o PDF em vez de emiti-lo com a assinatura cortada.
+//
 // examPadding — espaçamento dinâmico por item: generoso com poucos exames, mínimo com 20+ na coluna.
 func examPadding(n int) string {
 	const minPad, maxPad = 1.5, 7.0

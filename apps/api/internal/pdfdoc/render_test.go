@@ -80,3 +80,43 @@ func TestExamPaginationLogic(t *testing.T) {
 		t.Fatalf("contagem por página errada: %d, %d", len(pages[0]), len(pages[1]))
 	}
 }
+
+// justificativaGigante — uma justificativa maior que a folha, no formato real do pedido de exames
+// ("#" adere ao exame de cima). Reproduz o caso que quebrou em produção em 17/09/2026.
+func justificativaGigante() string {
+	linhas := []string{"Angiotomografia coronariana"}
+	for i := 0; i < 60; i++ {
+		linhas = append(linhas, "# Paciente sintomática, com dor torácica intermitente, tontura, "+
+			"palpitação e cansaço aos esforços, em investigação de doença arterial coronariana.")
+	}
+	return strings.Join(linhas, "\n")
+}
+
+// TestRenderExamRequestRecusaTransbordo — a rede de transbordo precisa RECUSAR o PDF. Sem ela, o
+// documento sai com a primeira página vazia e o texto por cima da assinatura, em silêncio.
+func TestRenderExamRequestRecusaTransbordo(t *testing.T) {
+	if !chromiumAvailable() {
+		t.Skip("chromium ausente — pulando render")
+	}
+	in := sampleExamRequest()
+	in.ExamPages = ExamPagesFromText(justificativaGigante())
+	_, err := RenderExamRequest(in)
+	if err == nil {
+		t.Fatal("justificativa maior que a folha passou sem erro: a rede de transbordo não pegou")
+	}
+	if !strings.Contains(err.Error(), "não cabe") {
+		t.Fatalf("erro não explica o problema para quem gera o pedido: %v", err)
+	}
+	t.Logf("recusado como esperado: %v", err)
+}
+
+// TestRenderExamRequestNaoRegridePaginaCheia — a rede NÃO pode recusar o caso normal: 40 exames em
+// 2 colunas enchem a folha "até a borda" de propósito (é para isso que existe o TOL).
+func TestRenderExamRequestNaoRegridePaginaCheia(t *testing.T) {
+	if !chromiumAvailable() {
+		t.Skip("chromium ausente — pulando render")
+	}
+	if _, err := RenderExamRequest(sampleExamRequest()); err != nil {
+		t.Fatalf("pedido de exames normal (40 exames + imagem) passou a falhar: %v", err)
+	}
+}

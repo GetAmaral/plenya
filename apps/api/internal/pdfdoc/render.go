@@ -16,6 +16,7 @@ package pdfdoc
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -119,14 +120,19 @@ func renderHTMLToPDFHook(html string, opts *proto.PagePrintToPDF, beforePrint fu
 	defer browserMu.Unlock()
 
 	// Qualquer panic interno do rod (timeout/conexão) vira erro — nunca derruba a API.
-	// E em QUALQUER falha (panic OU erro retornado, ex.: "new page: context deadline exceeded"),
+	// E em falha de TRANSPORTE (panic OU erro do rod, ex.: "new page: context deadline exceeded"),
 	// descarta o browser compartilhado: ele pode ter ficado wedged e, se mantido no singleton,
 	// faria todo render seguinte falhar para sempre. Nulificar força relançar um Chromium limpo.
+	//
+	// ErrConteudoNaoCabe é a EXCEÇÃO: é recusa de conteúdo, não browser doente. O Chromium está
+	// perfeito — ele acabou de medir a página para nós. Descartá-lo faria cada tentativa do médico
+	// de encurtar o texto relançar um Chromium inteiro, numa VPS de 8GB e com os renders
+	// serializados por browserMu.
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("pdf render: %v", r)
 		}
-		if err != nil && sharedBrowser != nil {
+		if err != nil && !errors.Is(err, ErrConteudoNaoCabe) && sharedBrowser != nil {
 			old := sharedBrowser
 			sharedBrowser = nil
 			go old.Close() // assíncrono: não trava o request se o browser estiver pendurado

@@ -95,15 +95,44 @@ func medsHTML(meds []Med) string {
 	return b.String()
 }
 
+// compHTML — uma linha da composição: substância à esquerda, quantidade à direita, pontilhado
+// ligando as duas, e a observação EMBAIXO. Sai envolvida no próprio .fcomps para que cada
+// componente seja um bloco do paginador sem perder o recuo da coluna do nome.
+func compHTML(c FormulaComponent) string {
+	qty := esc(c.Quantity)
+	if c.AsElemental {
+		qty += ` <span class="compelem">(do elemento)</span>`
+	}
+	s := `<div class="fcomps"><div class="comp"><span class="compname">` + esc(c.Substance) +
+		`</span><span class="dots"></span><span class="compqty">` + qty + `</span></div>`
+	// A observação vai EMBAIXO, não no meio da linha. Inline, ela empurrava o pontilhado e a
+	// quantidade para a direita — "Palmitato de ascorbila <nota de duas linhas> 100 mg" deixava
+	// de parecer receituário.
+	if c.Note != "" {
+		s += `<div class="compnote">` + esc(c.Note) + `</div>`
+	}
+	return s + `</div>`
+}
+
 // formulasHTML — layout clássico do receituário magistral: substância à esquerda, quantidade à
-// direita, pontilhado ligando as duas. Cada fórmula é UM bloco (unidade atômica de paginação).
+// direita, pontilhado ligando as duas.
+//
+// Cada fórmula é um container DIVISÍVEL (.split): os filhos é que paginam, e o .formula é reaberto
+// na página seguinte com as mesmas classes. Antes ela era um bloco atômico, e por isso a validação
+// limitava o número de componentes — mitigação que não bastava: uma fórmula de 20 componentes, o
+// próprio teto, saía com a caixa de aviamento por cima da assinatura, em silêncio.
 func formulasHTML(formulas []Formula) string {
 	var b strings.Builder
 	for i, f := range formulas {
-		b.WriteString(`<div class="formula">`)
+		b.WriteString(`<div class="formula split">`)
 
 		// Cabeçalho: número em dourado, nome em serifa, forma farmacêutica embaixo e a tarja de
 		// uso à direita. A régua dourada fecha o cabeçalho e abre a composição.
+		//
+		// O cabeçalho sai GRUDADO no primeiro componente, num bloco só: cabeçalho de fórmula sozinho
+		// no pé da página é órfão, e num manipulado a composição da página seguinte passaria a ler
+		// como se fosse de outra fórmula.
+		b.WriteString(`<div class="fstart">`)
 		b.WriteString(`<div class="fhead"><div class="ftitle"><span class="fnum">` + itoa(i+1) + `</span>`)
 		name := f.Name
 		if name == "" {
@@ -120,25 +149,19 @@ func formulasHTML(formulas []Formula) string {
 		b.WriteString(`</div><div class="frule"></div>`)
 
 		// Composição: substância à esquerda, quantidade à direita, pontilhado ligando as duas.
-		b.WriteString(`<div class="fcomps">`)
-		for _, c := range f.Components {
-			qty := esc(c.Quantity)
-			if c.AsElemental {
-				qty += ` <span class="compelem">(do elemento)</span>`
-			}
-			b.WriteString(`<div class="comp"><span class="compname">` + esc(c.Substance) +
-				`</span><span class="dots"></span><span class="compqty">` + qty + `</span></div>`)
-			// A observação vai EMBAIXO, não no meio da linha. Inline, ela empurrava o pontilhado e
-			// a quantidade para a direita — "Palmitato de ascorbila <nota de duas linhas> 100 mg"
-			// deixava de parecer receituário.
-			if c.Note != "" {
-				b.WriteString(`<div class="compnote">` + esc(c.Note) + `</div>`)
-			}
+		// O primeiro componente fecha o bloco do cabeçalho; os demais são blocos irmãos, e é entre
+		// eles que a fórmula longa quebra de página.
+		if len(f.Components) > 0 {
+			b.WriteString(compHTML(f.Components[0]))
+		}
+		b.WriteString(`</div>`) // fecha .fstart
+		for _, c := range f.Components[min(1, len(f.Components)):] {
+			b.WriteString(compHTML(c))
 		}
 		if f.Vehicle != "" {
-			b.WriteString(`<div class="fveh"><span class="compname">` + esc(f.Vehicle) + `</span><span class="dots"></span></div>`)
+			b.WriteString(`<div class="fcomps"><div class="fveh"><span class="compname">` +
+				esc(f.Vehicle) + `</span><span class="dots"></span></div></div>`)
 		}
-		b.WriteString(`</div>`)
 
 		// Aviamento e posologia num painel próprio: é o que a farmácia e a paciente procuram, e
 		// solto no meio do texto virava mais três linhas iguais às outras.

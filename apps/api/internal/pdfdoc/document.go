@@ -1,10 +1,26 @@
 package pdfdoc
 
 import (
+	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/go-rod/rod"
 )
+
+// ErrConteudoNaoCabe — recusa de CONTEÚDO (um bloco mais alto do que a folha comporta), não falha
+// de render. Existe para o `renderHTMLToPDFHook` não descartar o Chromium compartilhado nesse caso:
+// o browser está sadio, quem não cabe é o texto.
+var ErrConteudoNaoCabe = errors.New("conteúdo não cabe na página")
+
+// DocOverflow — página em que o RODAPÉ (assinatura + NAP) não coube na folha. Só acontece quando um
+// ÚNICO bloco é mais alto que a página, porque o motor não quebra bloco por dentro.
+type DocOverflow struct {
+	Page        int    `json:"page"`
+	ExcessMM    int    `json:"excessMM"`
+	ExcessLines int    `json:"excessLines"`
+	Text        string `json:"text"`
+}
 
 // Doc — especificação genérica de QUALQUER documento da papelaria Plenya (receituário, pedido de
 // exames, atestado/declaração/laudo, recibo, relatório). O motor renderDocument cuida de TUDO que
@@ -77,7 +93,7 @@ func titleBlockHTML(kind, title, right string) string {
 // da NAP. Medir em caixa fora da página ou antes das webfonts carregarem dava medida errada e
 // cortava o rodapé — por isso forçamos o load das fontes e medimos dentro da própria página.
 func paginateDoc(page *rod.Page) error {
-	_, err := page.Eval(`async () => {
+	res, err := page.Eval(`async () => {
 		await Promise.all(Array.from(document.fonts).map(f => f.load().catch(() => {})));
 		await document.fonts.ready;
 		const mm = v => v * 96 / 25.4;
@@ -105,11 +121,15 @@ func paginateDoc(page *rod.Page) error {
 		const footH = napH + sigH;   // rodapé COMPLETO (assinatura + NAP) repetido em TODA página
 		meas.remove();
 
-		// blocos (NÓS) na ordem; cada filho de um .docbody é um bloco do miolo (paginável).
+		// blocos (NÓS) na ordem. Um container marcado .docbody ou .split é DIVISÍVEL: quem pagina são
+		// os filhos dele, e o container é reaberto em cada página preservando as PRÓPRIAS classes —
+		// é assim que uma fórmula magistral longa atravessa a quebra sem virar outro layout no meio.
+		// Sem isto, um container alto demais é um bloco atômico que transborda por cima do rodapé.
+		const divisivel = el => el.classList.contains('docbody') || el.classList.contains('split');
 		const blocks = [];
 		for (const el of Array.from(src.children)) {
-			if (el.classList.contains('docbody')) {
-				for (const c of Array.from(el.children)) blocks.push({body:true, el:c});
+			if (divisivel(el)) {
+				for (const c of Array.from(el.children)) blocks.push({body:true, el:c, wrap:el});
 			} else {
 				blocks.push({body:false, el});
 			}
@@ -133,13 +153,27 @@ func paginateDoc(page *rod.Page) error {
 			foot.innerHTML = (hasSig ? sigHTML : '') + napHTML;   // assinatura em TODA página, acima da NAP
 			frame.appendChild(foot);
 			pg.appendChild(frame); out.appendChild(pg);
-			return {pb, foot, doc: null};
+			return {pb, foot, doc: null, wrap: null};
 		};
 		const place = (b, pg) => {
 			if (b.body) {
-				if (!pg.doc) { pg.doc = document.createElement('div'); pg.doc.className = 'docbody'; pg.pb.appendChild(pg.doc); }
+				// Reabre o container quando a página é nova OU quando os blocos passaram a vir de OUTRO
+				// container: duas fórmulas seguidas não podem cair dentro do mesmo .formula, senão o
+				// espaço que separa uma da outra some e a composição de uma lê como continuação da
+				// anterior — num manipulado isso é erro de dispensação.
+				if (!pg.doc || pg.wrap !== b.wrap) {
+					pg.doc = document.createElement('div');
+					pg.doc.className = b.wrap.className;
+					// REABERTURA em página nova ganha marca de continuação. Numa fórmula magistral, uma
+					// composição que começa no alto da página sem dizer de quem é lê como fórmula nova —
+					// e aí a farmácia manipula a lista errada.
+					if (b.wrap.dataset.aberto) { pg.doc.dataset.cont = '1'; }
+					b.wrap.dataset.aberto = '1';
+					pg.wrap = b.wrap;
+					pg.pb.appendChild(pg.doc);
+				}
 				pg.doc.appendChild(b.el);
-			} else { pg.doc = null; pg.pb.appendChild(b.el); }
+			} else { pg.doc = null; pg.wrap = null; pg.pb.appendChild(b.el); }
 		};
 		let cur = mkPage(); let n = 0; let brk = false;
 		for (const b of blocks) {
@@ -150,12 +184,68 @@ func paginateDoc(page *rod.Page) error {
 			brk = false;
 			place(b, cur); n++;
 			if (n > 1 && cur.pb.getBoundingClientRect().height > avail + TOL) {
+				const w = cur.doc;             // container onde o bloco caiu (null se for bloco solto)
 				b.el.remove();                 // não coube: tira da página atual
+				// Container que ficou VAZIO nunca chegou a aparecer nesta página: desfaz o wrapper e a
+				// marca de "já aberto". Sem isto, uma fórmula empurrada INTEIRA para a página seguinte
+				// sairia anunciando "continuação da fórmula anterior" logo acima do próprio cabeçalho.
+				if (w && b.wrap && !w.children.length) {
+					w.remove(); delete b.wrap.dataset.aberto; cur.doc = null; cur.wrap = null;
+				}
 				cur = mkPage(); n = 1;
 				place(b, cur);                 // recoloca na página nova
 			}
 		}
-		return out.children.length;
+
+		// REDE DE TRANSBORDO. O empacotador não quebra um bloco POR DENTRO, e a lista de exames é um
+		// bloco só (.exwrap é filho direto de #src, não de .docbody). Um exame com justificativa longa
+		// vira um bloco mais alto que a folha: a guarda "n > 1" acima o expulsa da página — que fica
+		// VAZIA — e na página seguinte ele é o primeiro bloco, então fica e passa POR CIMA da
+		// assinatura, sem que nada acuse. Foi o que entregou um pedido de exames quebrado ao convênio
+		// em 17/09/2026. Aqui a medição final transforma esse silêncio em erro: recusar o PDF é melhor
+		// do que emitir documento clínico quebrado.
+		// O limiar NÃO é "passou de avail + TOL" — esse é o do empacotador, e é deliberadamente
+		// apertado. O .frame tem 13mm de padding inferior que ABSORVE excesso, empurrando o rodapé
+		// para dentro dele sem estragar nada: quatro justificativas de uma linha num painel de 40
+		// exames estouram avail+TOL em 12mm e imprimem perfeitamente. Recusar ali proibiria pedido
+		// de rotina.
+		//
+		// O documento só se danifica quando o RODAPÉ deixa de caber na folha: .page tem
+		// overflow:hidden, então o que passa da borda é CORTADO — foi assim que a assinatura sumiu.
+		// Por isso a medida é direta: o rodapé ainda cabe na página?
+		const over = [];
+		const pgs = Array.from(out.children);
+		for (let i = 0; i < pgs.length; i++) {
+			const pg = pgs[i];
+			const foot = pg.querySelector('.foot');
+			const pb = pg.querySelector('.pagebody');
+			if (!foot || !pb) continue;
+			const excesso = foot.getBoundingClientRect().bottom - pg.getBoundingClientRect().bottom;
+			if (excesso <= 0) continue;   // rodapé inteiro na folha: documento íntegro
+			const cs = getComputedStyle(pb);
+			let lh = parseFloat(cs.lineHeight);
+			if (!isFinite(lh) || lh <= 0) lh = (parseFloat(cs.fontSize) || 10) * 1.4;
+			over.push({
+				page: i + 1,
+				// Math.ceil e piso de 1: arredondar para baixo mandava "encurte em 0mm", instrução
+				// que ninguém consegue seguir.
+				excessMM: Math.max(1, Math.ceil(excesso / mm(1))),
+				excessLines: Math.max(1, Math.ceil(excesso / lh)),
+				text: (pb.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 80),
+			});
+		}
+		return over;
 	}`)
-	return err
+	if err != nil {
+		return err
+	}
+	var over []DocOverflow
+	// Falha de leitura da medição NÃO derruba o render: esta guarda é uma rede, não um gargalo.
+	if uErr := res.Value.Unmarshal(&over); uErr != nil || len(over) == 0 {
+		return nil
+	}
+	o := over[0]
+	return fmt.Errorf("%w: página %d, o rodapé passa da folha em %dmm (~%d linha(s)). "+
+		"Um bloco não é quebrado entre páginas — encurte o texto. Trecho: %q",
+		ErrConteudoNaoCabe, o.Page, o.ExcessMM, o.ExcessLines, o.Text)
 }

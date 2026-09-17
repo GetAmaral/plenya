@@ -1,7 +1,9 @@
 package pdfdoc
 
 import (
+	"bytes"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -67,4 +69,62 @@ func TestRenderPrescription(t *testing.T) {
 	}
 	_ = os.WriteFile("/tmp/prescription-controlada.pdf", pdf2, 0o644)
 	t.Logf("OK comum=%d controlada=%d", len(pdf), len(pdf2))
+}
+
+// formulaLonga — o teto da validação (20 componentes), que é o caso que saía quebrado.
+func formulaLonga(n int) Prescription {
+	comps := make([]FormulaComponent, 0, n)
+	for i := 0; i < n; i++ {
+		comps = append(comps, FormulaComponent{
+			Substance: "Substância de teste com nome longo " + itoa(i+1),
+			Quantity:  itoa((i+1)*25) + " mg",
+		})
+	}
+	return Prescription{
+		Compounded: true,
+		Patient:    Patient{Name: "Paciente Teste"},
+		Formulas: []Formula{{
+			Name: "Fórmula longa", Form: "cápsula", UsageLabel: "USO INTERNO",
+			Components: comps, Vehicle: "Excipiente qsp 1 cápsula",
+			Dispense: "60 (sessenta) cápsulas", Posology: "1 cápsula ao deitar",
+		}},
+		Doctor:    Doctor{Name: "Dr. Teste", Credentials: "CRM-PR 12345"},
+		Signature: Signature{Digital: true, ValidateURL: "https://app.plenyasaude.com.br/x"},
+	}
+}
+
+// TestFormulaEhContainerDivisivel — a fórmula precisa ser .split (container divisível) e emitir um
+// bloco por componente. Como bloco atômico ela transbordava por cima da assinatura em silêncio.
+func TestFormulaEhContainerDivisivel(t *testing.T) {
+	html := formulasHTML(formulaLonga(20).Formulas)
+	if !strings.Contains(html, `class="formula split"`) {
+		t.Error("fórmula não está marcada como container divisível (.split): volta a ser bloco atômico")
+	}
+	if !strings.Contains(html, `class="fstart"`) {
+		t.Error("cabeçalho não está grudado no primeiro componente: pode ficar órfão no pé da página")
+	}
+	// 20 componentes + o veículo, cada um no seu .fcomps (bloco do paginador).
+	if got := strings.Count(html, `class="fcomps"`); got != 21 {
+		t.Errorf("esperava 21 blocos .fcomps (20 componentes + veículo), obtive %d", got)
+	}
+}
+
+// TestRenderFormulaLongaQuebraEmVezDeTransbordar — o teste antigo afirmava no comentário que 20
+// componentes cabiam numa página e só checava se a saída era um PDF válido; não cabiam, e a caixa
+// de aviamento saía por cima da assinatura. Agora tem de quebrar em 2 páginas, sem erro.
+func TestRenderFormulaLongaQuebraEmVezDeTransbordar(t *testing.T) {
+	if !chromiumAvailable() {
+		t.Skip("chromium ausente — pulando render")
+	}
+	b, err := RenderPrescription(formulaLonga(20))
+	if err != nil {
+		t.Fatalf("fórmula de 20 componentes não renderizou: %v", err)
+	}
+	// Não conto páginas por bytes do PDF: "/Type /Page\n" depende da serialização exata do
+	// Chromium, e um upgrade que emita object streams faria o teste falhar num documento correto.
+	// Que a fórmula DIVIDE está travado estruturalmente em TestFormulaEhContainerDivisivel; aqui o
+	// que importa é que 20 componentes não são mais recusados pela rede de transbordo.
+	if len(b) < 1000 || !bytes.HasPrefix(b, []byte("%PDF")) {
+		t.Fatalf("saída não parece um PDF válido (%d bytes)", len(b))
+	}
 }

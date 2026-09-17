@@ -135,9 +135,12 @@ html,body{ background:#fff; }
 .medpos{ font-size:12.5px; color:var(--petrol); margin-top:3px; }
 .medqty{ flex:0 0 auto; white-space:nowrap; font-size:12.5px; font-weight:600; color:var(--ink2); }
 .medinstr{ font-size:11.5px; color:var(--ink2); margin-top:2px; font-style:italic; }
-/* ---- Receituário magistral (manipulado). Cada .formula é um bloco atômico de paginação, por
-   isso o número de componentes é limitado na validação: um bloco maior que a página não é
-   quebrado pelo paginador, ele transborda em silêncio.
+/* ---- Receituário magistral (manipulado). Cada .formula é um container DIVISÍVEL (.split): quem
+   pagina são os filhos, e o .formula é reaberto na página seguinte com as mesmas classes. Era um
+   bloco atômico, e aí o limite de componentes da validação era o que segurava a página — mitigação
+   que não bastava: 20 componentes, o próprio teto, saíam com a caixa de aviamento por cima da
+   assinatura, em silêncio. Hoje a fórmula quebra entre componentes e a rede em paginateDoc recusa
+   o PDF se ainda assim algum bloco não couber.
 
    O que separa uma fórmula da outra é ESPAÇO, não um filete. Com as fórmulas encostadas, a
    composição de uma lia como continuação da anterior — e num manipulado isso é erro de
@@ -145,6 +148,12 @@ html,body{ background:#fff; }
    indentada sob o nome, e o painel de aviamento/posologia destacado no fim. */
 .formula{ margin-top:30px; }
 .sec + .formula{ margin-top:0; }
+/* Fórmula que atravessou a quebra: o paginador marca data-cont ao reabrir o container. Sem este
+   rótulo, a composição que sobra no alto da página seguinte lê como fórmula nova. */
+.formula[data-cont]{ margin-top:0; }
+.formula[data-cont]::before{ content:"Continuação da fórmula anterior"; display:block;
+  margin:0 0 11px 34px; font-size:9.5px; letter-spacing:1px; text-transform:uppercase;
+  color:var(--ink3); font-weight:600; }
 .fhead{ display:flex; align-items:flex-start; justify-content:space-between; gap:14px; }
 .ftitle{ min-width:0; }
 /* Numeral em Inter, não em Cormorant: a serifa usa algarismos old-style e o "1" saía idêntico a
