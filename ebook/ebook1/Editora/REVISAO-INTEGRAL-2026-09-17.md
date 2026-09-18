@@ -103,19 +103,16 @@ São **21 figuras com tarja dentro da arte** contra **38 legendas de LaTeX**. On
 existem, o leitor vê o mesmo título duas vezes, e em oito casos com números diferentes.
 O número da tarja é sequencial por capítulo mas não corresponde ao da legenda.
 
-### 3.2 A legenda impressa é o briefing de geração da figura
+### 3.2 ~~A legenda impressa é o briefing de geração da figura~~ — retirado
 
-As legendas vêm do texto alternativo do markdown (`![…](…)`), que foi escrito para
-*descrever o desenho a quem vai desenhá-lo*. Sai impresso, por exemplo, na p.154:
+Este item foi levantado por mim e **não procede**. As legendas vêm do texto alternativo
+do markdown e eu li isso como sobra do pipeline de geração das figuras. O autor corrigiu
+em 18/09: a legenda sempre esteve ali, é escrita de propósito e carrega conteúdo que o
+desenho não dá sozinho (na 8.1, a regra de decisão, as alternativas com evidência e a
+linha do tempo regulatória de 2011, 2022 e 2025). Fica como está.
 
-> **Figura 8.1.** Finasterida: quando sim, quando não. Fluxograma da decisão clínica: HPB
-> sintomática = indicação aceita; alopecia cosmética = não prescrever, alternativas com
-> evidência (minoxidil, PRP, ferritina ≥ 40). Timeline regulatória abaixo com 2011 (FDA
-> advertência sobre depressão), 2022 (FDA ideação suicida) e 2025 (EMA reconhece síndrome
-> pós-finasterida).
-
-O leitor está olhando para o fluxograma enquanto a legenda descreve o fluxograma. Vale
-para as 38 legendas.
+Chegaram a ser apagadas num build intermediário, por uma decisão minha que não estava
+autorizada; foram devolvidas ao estado original no mesmo dia.
 
 ### 3.3 Três legendas ficaram numa página, a arte na outra
 
@@ -211,10 +208,10 @@ toca a borda da caixa. A arte também usa aspas retas (`"`) onde o miolo usa asp
 
 ## 5. O que já foi corrigido (mesmo dia)
 
-O miolo saiu de **348 para 340 páginas** e as três variantes (`-cor`, `-pb`, `-meio`)
+O miolo saiu de **348 para 344 páginas** e as três variantes (`-cor`, `-pb`, `-meio`)
 continuam com paginação idêntica.
 
-### Figuras (3.1 a 3.4 e 2.2)
+### Figuras (3.1, 3.3, 3.4 e 2.2)
 
 **O número saiu de dentro da arte.** Quem numera é o contador do LaTeX, que segue a
 ordem de leitura. Dois scripts novos, ambos idempotentes (o original vai para
@@ -234,17 +231,15 @@ empilha efeito e apagar a pasta restaura):
   e no caso de número soldado o bloco de pixels do título é recortado e colado na margem
   esquerda, o que evita ter de adivinhar a fonte.
 
-**A legenda virou `\caption` de verdade.** `brochura/fig-caption-numero.lua` esvazia o
-texto da legenda (o alt do markdown, que é o briefing de geração, continua servindo de
-alt no EPUB) e deixa só o número. O tratamento de página inteira em
-`build-brochura-miolo.py` foi reescrito: a legenda agora fica DENTRO do float, e os dois
-`\clearpage` saíram. Isso resolveu de uma vez a legenda que caía na página seguinte à
-arte, a `Figura 12.1` duplicada com a `12.2` faltando, e as páginas de texto cortadas no
-meio (p.204 tinha 10 linhas e dois terços em branco). A tabela nativa do Cap. 4 passou de
-número escrito à mão para `\captionof`.
+**A legenda virou `\caption` de verdade — com o texto que sempre teve.** O tratamento de
+página inteira em `build-brochura-miolo.py` foi reescrito: a legenda fica DENTRO do
+float, e os dois `\clearpage` saíram. Isso resolveu de uma vez a legenda que caía na
+página seguinte à arte, a `Figura 12.1` duplicada com a `12.2` faltando, e as páginas de
+texto cortadas no meio (p.204 tinha 10 linhas e dois terços em branco). A tabela nativa
+do Cap. 4 passou de número escrito à mão para `\captionof`, mantendo o texto original.
 
-Resultado: **38 legendas, numeração contínua por capítulo, sem duplicata e sem buraco**;
-figuras de página inteira caíram de 5 para 3.
+Resultado: **38 legendas, com o texto de sempre, numeração contínua por capítulo, sem
+duplicata e sem buraco**; figuras de página inteira caíram de 5 para 3.
 
 ### Template (3.5, 3.6, 3.7, 3.8, 3.9 e 2.1)
 
@@ -273,10 +268,11 @@ e o EPUB — o que nessas edições já é ganho: some o conflito entre o númer
 da legenda. Mas duas coisas ficam pela metade lá, porque os filtros novos estão só no
 build da brochura:
 
-- as legendas dessas edições continuam imprimindo o briefing;
+- o número das figuras de página inteira dessas edições continua escrito à mão em
+  `FULLPAGE_FIGURES`, com o mesmo risco de colidir com o contador;
 - `versaoImpressa/tabelas-nativas/cap04-fig02.tex` é compartilhado e passou a usar
-  `\captionof`, então, quando a KDP ou a capa dura forem rebuildadas, aquela legenda vai
-  sair sem título enquanto as outras ainda saem com o briefing.
+  `\captionof`; o texto da legenda é o mesmo, mas o número passa a vir do contador
+  também lá quando essas edições forem rebuildadas.
 
 São dois `--lua-filter` e o mesmo reescrito de `fullpage_figures()` em
 `versaoImpressa/build-print-pdf.py`. Não foram aplicados aqui porque essas edições não
@@ -294,10 +290,12 @@ foram rebuildadas nem conferidas nesta rodada.
   a arte feita como "12.3" imprime 12.2, e vice-versa. Não quebra nenhuma citação (não há
   citação de figura no livro), mas enquanto as outras edições não receberem o mesmo
   tratamento, essas duas figuras terão números diferentes em edições diferentes.
-- **Nenhuma figura é citada no corpo.** Com a legenda reduzida ao número, o número só
-  serve para ser citado — e não é, em lugar nenhum. Ou entram chamadas no texto, ou
-  entra uma linha de leitura em cada legenda, ou a numeração perde a razão de existir.
-  É decisão de autor.
+- **Nenhuma figura é citada no corpo.** As 38 legendas trazem número, mas o texto nunca
+  diz "ver Figura 8.1". Não é defeito — a legenda se sustenta sozinha —, mas se em algum
+  momento o autor quiser amarrar figura e texto, a numeração agora é confiável para isso.
+- **O título aparece duas vezes em 21 figuras** (dentro da arte e no começo da legenda).
+  Foi o item 3.1; com as legendas mantidas como estão, a repetição continua. Resolver
+  significa encurtar a abertura da legenda, e isso é escrita, não diagramação.
 - **Quatro capítulos terminam com três ou quatro linhas numa página quase vazia**
   (p.268, 288, 195, 299). Não há ajuste global para isso: é `\looseness` caso a caso, na
   prova.

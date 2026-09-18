@@ -64,7 +64,6 @@ WORK_DIR     = BUILD_DIR / f"work-brochura-{LANG}-{VARIANT}"
 TEMPLATE     = BUILD_DIR / ("brochura-template-pb.tex" if VARIANT == "pb"
                             else "brochura-template.tex")
 DROPCAP_LUA  = BUILD_DIR / "print-dropcaps.lua"   # cópia local: capitular na Introdução
-FIGCAP_LUA   = BUILD_DIR / "fig-caption-numero.lua"  # legenda de figura = só o número
 DESTAQUE_LUA = BUILD_DIR / "linha-de-destaque.lua"   # linha "***Pilar X***" não hifeniza
 _suffix      = {"pb": "-pb", "cor": "-cor", "meio": ""}[VARIANT]
 OUT_PDF      = BUILD_DIR / f"Antes-{LANG}-brochura-miolo{_suffix}.pdf"
@@ -227,8 +226,21 @@ def fullpage_figures(text, available_overrides):
     Usa o filename real disponível em images/ (override .pdf ganha prioridade
     sobre PNG original).
     """
-    # O prefixo e o escape do texto alternativo saíram junto com a legenda crua:
-    # agora quem imprime a legenda é o \caption, e ela é só o número.
+    # O texto alternativo é a legenda. Só o prefixo "Figura X.Y — " sai dele,
+    # porque o número agora vem do contador do \caption.
+    figure_prefix = re.compile(r'^Figura\s+\d+(?:\.\d+)?\s*[—-]\s*', re.IGNORECASE)
+
+    def escape_tex(s):
+        return (s
+            .replace("\\", r"\textbackslash{}")
+            .replace("&", r"\&")
+            .replace("%", r"\%")
+            .replace("#", r"\#")
+            .replace("_", r"\_")
+            .replace("$", r"\$")
+            .replace("{", r"\{")
+            .replace("}", r"\}"))
+
     # O segundo campo de FULLPAGE_FIGURES (o número escrito à mão) não é mais
     # usado aqui — quem numera é o \caption. Ele continua vivo em
     # versaoImpressa/build-print-pdf.py, que ainda não recebeu este tratamento.
@@ -250,6 +262,8 @@ def fullpage_figures(text, available_overrides):
 
         def make_replacer(file_local):
             def _r(match):
+                alt = match.group(1)
+                clean = escape_tex(figure_prefix.sub("", alt).strip())
                 # A legenda fica DENTRO do float, com \caption de verdade. A versão
                 # anterior imprimia a legenda como texto cru depois de um
                 # \clearpage, o que produzia três defeitos de uma vez: a legenda
@@ -264,7 +278,7 @@ def fullpage_figures(text, available_overrides):
                     "\\centering\n"
                     f"\\includegraphics[height=0.88\\textheight, width=\\linewidth, keepaspectratio]"
                     f"{{images/{file_local}}}\n"
-                    "\\caption{}\n"
+                    "\\caption{" + clean + "}\n"
                     "\\end{figure}\n"
                     "```\n"
                 )
@@ -606,7 +620,7 @@ def pad_to_signature(pdf_path, multiple=4):
 def main():
     print(f"📖 Building PRINT PDF (versaoImpressa) for language: {LANG}")
     print(f"   build root: {BUILD_DIR}")
-    for required, label in [(MD_DIR, "markdown"), (TEMPLATE, "template"), (DROPCAP_LUA, "lua filter"), (FIGCAP_LUA, "lua filter de legenda"), (DESTAQUE_LUA, "lua filter de destaque")]:
+    for required, label in [(MD_DIR, "markdown"), (TEMPLATE, "template"), (DROPCAP_LUA, "lua filter"), (DESTAQUE_LUA, "lua filter de destaque")]:
         if not required.exists():
             sys.exit(f"❌ {label} não encontrado: {required}")
 
@@ -691,7 +705,6 @@ def main():
         f"--template={TEMPLATE}",
         f"--resource-path={WORK_DIR}",
         f"--lua-filter={DROPCAP_LUA}",
-        f"--lua-filter={FIGCAP_LUA}",
         f"--lua-filter={DESTAQUE_LUA}",
         "--top-level-division=chapter",
         "--toc-depth=1",
