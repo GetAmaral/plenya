@@ -94,6 +94,30 @@ def main():
                          (THIS_DIR / "Antes-pt-BR-brochura-capa-guias.png", "-GUIAS.png")):
             if src.exists():
                 src.replace(OUT_DIR / (base + ext))
+        # Versão leve, para quem for ABRIR o arquivo (a gráfica, o autor).
+        #
+        # A capa cheia é uma única imagem de 11.887 × 5.575 px que descomprime para
+        # ~190 MB de memória: alguns leitores travam ou recusam. Esta sai a 300 dpi
+        # (a arte da 1ª capa é 300 dpi nativa, então não se perde nada dela) com
+        # JPEG de alta qualidade, e cai de ~15 MB para menos de 1 MB. MediaBox,
+        # TrimBox e BleedBox são preservados. A cheia continua sendo a que vai para
+        # a impressão.
+        leve = OUT_DIR / (base + "-LEVE.pdf")
+        gs = shutil.which("gs")
+        if gs:
+            r2 = subprocess.run([
+                gs, "-q", "-dNOPAUSE", "-dBATCH", "-sDEVICE=pdfwrite",
+                "-dCompatibilityLevel=1.5",
+                "-dDownsampleColorImages=true", "-dColorImageResolution=300",
+                "-dColorImageDownsampleType=/Bicubic",
+                "-dAutoFilterColorImages=false", "-dColorImageFilter=/DCTEncode",
+                "-dJPEGQ=95", "-dColorConversionStrategy=/LeaveColorUnchanged",
+                f"-sOutputFile={leve}", str(OUT_DIR / (base + ".pdf")),
+            ], capture_output=True, text=True)
+            if r2.returncode != 0 or not leve.exists():
+                print(r2.stderr[-500:])
+                sys.exit(f"❌ falhou ao gerar a versão leve de {papel}")
+
         # O PNG de conferência rápida não vai para capas-papeis: um por papel
         # seriam 100 MB de arquivo idêntico exceto pela largura da lombada.
         solto = THIS_DIR / "Antes-pt-BR-brochura-capa.png"
