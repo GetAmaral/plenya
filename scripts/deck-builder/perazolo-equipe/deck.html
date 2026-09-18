@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Plenya × Clínica Tatianna Perazolo · Apresentação à equipe</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap');
+:root{--gold:#B38645;--gold-soft:#D4A86B;--gold-deep:#8A6534;--petrol:#063B4F;--petrol-deep:#041F2A;--ocean:#417E8E;--sage:#92B8B4;--cream:#EAE7DA;--cream-soft:#F5F1E8;--ink:#0A1F26;--muted:#4E6268;
+--serif:'Cormorant Garamond',Georgia,serif;--display:'Fraunces','Cormorant Garamond',Georgia,serif}
+@page{size:1920px 1080px;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#8a8a8a}
+body{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.slide{width:1920px;height:1080px;position:relative;overflow:hidden;break-after:page;page-break-after:always;
+  background:var(--cream-soft);color:var(--ink);font-family:var(--serif);font-size:42px;line-height:1.35;margin:0 auto}
+.slide.dark{background:var(--petrol-deep);color:var(--cream)}
+.slide.petrol{background:var(--petrol);color:var(--cream)}
+.chrome{position:absolute;top:56px;left:110px;right:110px;display:flex;justify-content:space-between;align-items:center;
+  font-size:24px;letter-spacing:.3em;text-transform:uppercase;z-index:6;opacity:.8;font-weight:600}
+.pgn{position:absolute;bottom:52px;right:110px;font-size:24px;letter-spacing:.3em;opacity:.65;z-index:6;font-weight:600}
+.body{position:absolute;top:150px;left:110px;right:110px;bottom:100px;z-index:4}
+.eyebrow{font-size:27px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:22px}
+.dark .eyebrow,.petrol .eyebrow{color:var(--gold-soft)}
+h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.018em;margin:0}
+h1{font-size:150px;line-height:.96}
+h2{font-size:92px;line-height:1.02;margin-bottom:34px}
+h2.sm{font-size:74px}
+h3{font-size:50px;line-height:1.14;margin-bottom:10px}
+.d{color:var(--gold)}
+.sub{font-style:italic;font-size:52px;line-height:1.24;color:var(--gold-deep);margin-bottom:46px}
+.dark .sub,.petrol .sub{color:var(--gold-soft)}
+p{margin:0 0 20px}
+.lead{font-size:48px;line-height:1.36}
+.muted{color:var(--muted)}
+.dark .muted,.petrol .muted{color:var(--sage)}
+ul.l{margin:0;padding:0;list-style:none}
+ul.l li{position:relative;padding-left:44px;margin-bottom:26px;font-size:42px;line-height:1.3}
+ul.l li:before{content:"";position:absolute;left:0;top:20px;width:13px;height:13px;border-radius:50%;background:var(--gold)}
+.dark ul.l li:before,.petrol ul.l li:before{background:var(--gold-soft)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:86px}
+.g2.tight{gap:60px}
+table.t{width:100%;border-collapse:collapse;font-size:39px;line-height:1.26}
+table.t th{font-size:25px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);text-align:left;font-weight:700;
+  padding:0 26px 16px 0;border-bottom:2px solid rgba(179,134,69,.55)}
+table.t td{padding:19px 26px 19px 0;border-bottom:1px solid rgba(6,59,79,.14);vertical-align:top}
+table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500}
+.dark table.t th,.petrol table.t th{color:var(--gold-soft)}
+.dark table.t td,.petrol table.t td{border-bottom-color:rgba(234,231,218,.16)}
+.num{font-family:var(--display);font-size:104px;line-height:1;color:var(--gold);font-weight:400}
+.dark .num,.petrol .num{color:var(--gold-soft)}
+.numsm{font-family:var(--display);font-size:78px;line-height:1;color:var(--gold);font-weight:400}
+.dark .numsm,.petrol .numsm{color:var(--gold-soft)}
+.caps{font-size:26px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--gold-deep)}
+.dark .caps,.petrol .caps{color:var(--gold-soft)}
+.note{font-size:32px;line-height:1.3;font-style:italic;color:var(--muted)}
+.dark .note,.petrol .note{color:var(--sage)}
+.closer{font-style:italic;font-size:54px;line-height:1.24;color:var(--gold-deep)}
+.dark .closer,.petrol .closer{color:var(--gold-soft)}
+.img{position:absolute;inset:0;background-size:cover;background-position:center;z-index:1}
+.veil{position:absolute;inset:0;z-index:2}
+.veil.dark-l{background:linear-gradient(90deg,rgba(4,31,42,.94) 0%,rgba(4,31,42,.80) 44%,rgba(4,31,42,.12) 100%)}
+.veil.dark-full{background:rgba(4,31,42,.80)}
+.veil.petrol-l{background:linear-gradient(90deg,rgba(6,59,79,.95) 0%,rgba(6,59,79,.78) 46%,rgba(6,59,79,.10) 100%)}
+.half{position:absolute;top:0;right:0;width:42%;height:100%;background-size:cover;background-position:center;z-index:1}
+.half+.body{right:calc(42% + 90px)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
+.flow .numsm{margin-bottom:14px}
+.flow p{font-size:37px;line-height:1.26;margin:0}
+.card{border:2px solid rgba(179,134,69,.5);border-radius:8px;padding:40px 44px}
+.dark .card,.petrol .card{border-color:rgba(212,168,107,.55)}
+.rule{height:2px;background:rgba(179,134,69,.45);margin:34px 0}
+.slide.dense table.t{font-size:38px;line-height:1.2}
+.slide.dense table.t td{padding:15px 26px 15px 0}
+.slide.dense table.t td.k{font-size:39px}
+.slide.dense h2{margin-bottom:20px}
+.slide.dense table.t{margin-top:52px}
+</style>
+</head>
+<body>
+
+<!-- 01 CAPA -->
+<section class="slide dark">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-consulta.jpg')"></div>
+  <div class="body">
+    <div class="eyebrow">Plenya &nbsp;×&nbsp; Clínica Tatianna Perazolo</div>
+    <h1>Cuidado<br>por inteiro<span class="d">.</span></h1>
+    <div style="margin-top:56px" class="closer">O corpo não funciona em partes.<br>A pele é onde isso aparece primeiro.</div>
+    <div style="position:absolute;bottom:0;left:0" class="caps">Saúde, Performance &amp; Longevidade</div>
+  </div>
+</section>
+
+<!-- 02 QUEM SOU -->
+<section class="slide">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-elegante.jpg')"></div>
+  <div class="chrome"><span>Plenya</span><span>Quem fala com vocês</span></div>
+  <div class="body">
+    <div class="eyebrow">Quem sou</div>
+    <h2 class="sm">Getúlio Amaral Filho<span class="d">.</span></h2>
+    <div class="sub">Nefrologista. Medicina Funcional Integrativa.</div>
+    <ul class="l">
+      <li>Mais de 20 anos de prática clínica.</li>
+      <li>Membro do Comitê Cardiorrenal da Sociedade Brasileira de Nefrologia.</li>
+      <li>Autor e palestrante em saúde, performance e longevidade.</li>
+      <li>Fundador da Plenya, em Londrina.</li>
+    </ul>
+    <p class="note" style="margin-top:38px">A formação nefrológica define o jeito da casa: função renal,
+    eletrólitos e segurança de dose entram antes de qualquer conduta.</p>
+  </div>
+  <div class="pgn">02</div>
+</section>
+
+<!-- 03 O QUE A PLENYA FAZ -->
+<section class="slide petrol">
+  <div class="body">
+    <div class="eyebrow">O que a Plenya faz</div>
+    <h2>Nós tratamos o terreno<span class="d">.</span></h2>
+    <div class="sub">Ferro, proteína, glicemia, hormônios, sono, inflamação.</div>
+    <div class="g2">
+      <div>
+        <h3>A dermatologia trata a pele por fora,</h3>
+        <p>num tempo curto de procedimento, com técnica e produto.</p>
+      </div>
+      <div>
+        <h3>A Plenya trata o terreno em que</h3>
+        <p>esse procedimento cicatriza, remodela e dura.</p>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <p class="lead">Não competimos por via nem por ato. A fronteira é clara, e está no slide 7.</p>
+  </div>
+  <div class="pgn">03</div>
+</section>
+
+<!-- 04 A PERGUNTA -->
+<section class="slide dark">
+  <div class="img" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
+  <div class="veil dark-l"></div>
+  <div class="body" style="right:44%">
+    <div class="eyebrow">A pergunta que abre tudo</div>
+    <h2 class="sm">Por que duas pacientes da mesma idade, com a mesma profissional, a mesma técnica e o mesmo produto, respondem de forma diferente<span class="d">?</span></h2>
+    <p class="lead" style="margin-top:40px">A resposta não está na técnica. Está no terreno biológico:
+    hormônio, inflamação, glicação, nutrição, sono.</p>
+    <p class="note">Foi a conclusão comum do bloco Menopausa em Foco do AMWC Brazil 2026, em que cinco
+    palestrantes de especialidades diferentes chegaram à mesma tese: terreno antes da técnica.</p>
+  </div>
+  <div class="pgn">04</div>
+</section>
+
+<!-- 05 AGIR -->
+<section class="slide">
+  <div class="chrome"><span>Plenya</span><span>Método</span></div>
+  <div class="body">
+    <div class="eyebrow">Como organizamos o terreno</div>
+    <h2>Método AGIR<span class="d">.</span></h2>
+    <div class="g2 tight" style="margin-top:46px">
+      <div>
+        <div class="numsm">A</div><h3>Alimentação e Atividade</h3>
+        <p class="note">nutrição, composição corporal, força</p>
+        <div style="height:46px"></div>
+        <div class="numsm">G</div><h3>Gestão metabólica</h3>
+        <p class="note">glicemia, lipídios, hormônios, inflamação</p>
+      </div>
+      <div>
+        <div class="numsm">I</div><h3>Integração corpo e mente</h3>
+        <p class="note">estresse, vínculo, propósito</p>
+        <div style="height:46px"></div>
+        <div class="numsm">R</div><h3>Ritmo</h3>
+        <p class="note">sono e ciclo circadiano</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:44px">Os sete pilares que a dermatologia do congresso propôs já estão aqui dentro.
+    A diferença é que nós medimos.</p>
+  </div>
+  <div class="pgn">05</div>
+</section>
+
+<!-- 06 O ESCORE -->
+<section class="slide petrol">
+  <div class="body">
+    <div class="eyebrow">O que a dermatologia sozinha não monta</div>
+    <h2>Do tubo de coleta a um número<span class="d">.</span></h2>
+    <div class="g2" style="margin-top:56px">
+      <div>
+        <div class="num">635</div>
+        <h3>itens avaliados</h3>
+        <p class="note">no programa médico da parceria</p>
+        <div style="height:56px"></div>
+        <div class="num">232</div>
+        <h3>vêm de exames</h3>
+        <p class="note">e não de perguntas</p>
+      </div>
+      <div>
+        <div class="num">98</div>
+        <h3>exames no painel inicial</h3>
+        <p class="note">que abrem em 185 análises</p>
+        <div style="height:56px"></div>
+        <p class="lead">Tudo isso vira <strong>um número que evolui</strong>, com devolutiva em consulta
+        e reavaliação marcada.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pgn">06</div>
+</section>
+
+<!-- 07 QUEM FAZ O QUE -->
+<section class="slide">
+  <div class="chrome"><span>Plenya × Perazolo</span><span>A fronteira</span></div>
+  <div class="body">
+    <div class="eyebrow">Para ninguém ficar em dúvida</div>
+    <h2>Quem faz o quê<span class="d">.</span></h2>
+    <table class="t" style="margin-top:34px">
+      <tr><th>Clínica Tatianna Perazolo</th><th>Plenya</th></tr>
+      <tr><td class="k">Tópico, intradérmico e procedimentos: laser, peeling, toxina, preenchedor, bioestimulador, fios, cirurgia dermatológica</td>
+          <td>Oral, intramuscular, subcutâneo e endovenoso, no centro de infusão</td></tr>
+      <tr><td class="k">Diagnóstico dermatológico, tricoscopia, dermatoscopia</td>
+          <td>Metabólico, hormonal, nutricional, renal, e o Escore</td></tr>
+      <tr><td class="k">Terapias sistêmicas da dermatologia</td>
+          <td>Reposição hormonal da menopausa, GLP-1 em programa, correção de deficiências</td></tr>
+    </table>
+    <p class="lead" style="margin-top:40px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição,
+    e é isso que protege as duas práticas.</p>
+  </div>
+  <div class="pgn">07</div>
+</section>
+
+<!-- 08 GATILHOS 1 -->
+<section class="slide dark dense">
+  <div class="body">
+    <div class="eyebrow">O slide mais importante desta conversa</div>
+    <h2>Quando a pele pede investigação<span class="d">.</span></h2>
+    <table class="t" style="margin-top:30px">
+      <tr><th>Se você vê isto</th><th>Nós investigamos</th></tr>
+      <tr><td class="k">Acantose nigricans, acrocórdons múltiplos</td><td>Resistência à insulina, pré-diabetes</td></tr>
+      <tr><td class="k">Queda difusa, unhas frágeis</td><td>Ferro, tireoide, vitamina D, B12, zinco</td></tr>
+      <tr><td class="k">Acne tardia, hirsutismo</td><td>Ovário policístico, androgênios, insulina</td></tr>
+      <tr><td class="k">Prurido crônico sem lesão</td><td>Função renal e hepática, tireoide, ferro</td></tr>
+      <tr><td class="k">Cicatrização lenta, infecções de repetição</td><td>Glicemia, nutrição, deficiências</td></tr>
+      <tr><td class="k">Xantelasma</td><td>Perfil lipídico, ApoB, Lp(a)</td></tr>
+    </table>
+  </div>
+  <div class="pgn">08</div>
+</section>
+
+<!-- 09 GATILHOS 2 -->
+<section class="slide">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/menopausa.jpg')"></div>
+  <div class="chrome"><span>Plenya × Perazolo</span><span>Encaminhamento</span></div>
+  <div class="body">
+    <div class="eyebrow">E quando a paciente conta isto</div>
+    <h2 class="sm">Situações que já são nossas<span class="d">.</span></h2>
+    <ul class="l" style="margin-top:34px">
+      <li>Queda de cabelo que não responde ao tópico.</li>
+      <li>Paciente em GLP-1 perdendo massa magra, pele e cabelo.</li>
+      <li>Fogacho, insônia, libido, ganho de peso na transição.</li>
+      <li>Procedimento marcado, para preparar e recuperar melhor.</li>
+      <li>Cansaço, disposição, sono ruim sem explicação.</li>
+      <li>Homem com alopecia e perfil metabólico junto.</li>
+    </ul>
+  </div>
+  <div class="pgn">09</div>
+</section>
+
+<!-- 10 O QUE ACONTECE DEPOIS -->
+<section class="slide petrol">
+  <div class="body">
+    <div class="eyebrow">O que acontece depois que você encaminha</div>
+    <h2>A jornada da paciente<span class="d">.</span></h2>
+    <div class="flow" style="margin-top:70px">
+      <div><div class="numsm">1</div><p>Consulta Plenya, aqui na clínica.</p></div>
+      <div><div class="numsm">2</div><p>Coleta no local e exames.</p></div>
+      <div><div class="numsm">3</div><p>Devolutiva com o Escore e o plano.</p></div>
+      <div><div class="numsm">4</div><p>Tratamento oral e centro de infusão.</p></div>
+      <div><div class="numsm">5</div><p>Reavaliação conjunta.</p></div>
+    </div>
+    <div class="rule" style="margin-top:70px"></div>
+    <p class="lead">Ela não sai daqui. O cuidado acontece dentro da clínica, e vocês acompanham.</p>
+  </div>
+  <div class="pgn">10</div>
+</section>
+
+<!-- 11 A PACIENTE VOLTA -->
+<section class="slide">
+  <div class="chrome"><span>Plenya × Perazolo</span><span>A garantia</span></div>
+  <div class="body">
+    <div class="eyebrow">A pergunta que todo mundo faz em silêncio</div>
+    <h2 class="sm">Eu perco a minha paciente<span class="d">?</span></h2>
+    <div class="card" style="margin-top:42px">
+      <ul class="l">
+        <li><strong>Não.</strong> A paciente continua de vocês. O procedimento é de vocês.</li>
+        <li>Cada profissional atende e fatura o seu próprio ato.</li>
+        <li><strong>Ninguém recebe por encaminhar.</strong> É vedado pelo Código de Ética Médica, e a parceria foi desenhada assim de propósito.</li>
+        <li>Protocolo escrito e assinado pelos dois lados, por linha de cuidado.</li>
+        <li>Reunião mensal de casos, uma hora, para alinhar o que está funcionando.</li>
+      </ul>
+    </div>
+    <p class="lead" style="margin-top:40px">A paciente ganha um motivo clínico para voltar, e não só uma agenda de procedimentos.</p>
+  </div>
+  <div class="pgn">11</div>
+</section>
+
+<!-- 12 O QUE NAO OFERECEMOS -->
+<section class="slide dark">
+  <div class="body">
+    <div class="eyebrow">O que nos separa do resto</div>
+    <h2>O que a parceria não oferece<span class="d">.</span></h2>
+    <div class="g2" style="margin-top:44px">
+      <div>
+        <ul class="l">
+          <li>Glutationa para clareamento ou brilho.</li>
+          <li>Soro da beleza, detox, antioxidante master.</li>
+          <li>NAD+ endovenoso.</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="l">
+          <li>Polinucleotídeos e exossomos injetáveis.</li>
+          <li>Peptídeos experimentais sem registro.</li>
+          <li>Hormônio com finalidade estética.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <p class="lead">Toda aplicação exige consulta, exame que documenta a indicação e registro em prontuário.
+    Nada avulso, nada de balcão.</p>
+    <p class="closer" style="margin-top:26px">A lista do que recusamos é o que protege o CRM de quem encaminha.</p>
+  </div>
+  <div class="pgn">12</div>
+</section>
+
+<!-- 13 COMO ENCAMINHAR -->
+<section class="slide">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/infusao.jpg')"></div>
+  <div class="chrome"><span>Plenya × Perazolo</span><span>Na prática</span></div>
+  <div class="body">
+    <div class="eyebrow">Como encaminhar</div>
+    <h2 class="sm">Três passos<span class="d">.</span></h2>
+    <ul class="l" style="margin-top:36px">
+      <li>Reconheceu um gatilho dos slides 8 e 9, comente com a paciente em uma frase:
+      <em>tem uma avaliação clínica aqui na clínica que investiga isso por dentro</em>.</li>
+      <li>A recepção agenda a avaliação Plenya, no mesmo endereço.</li>
+      <li>Você recebe o retorno do caso, e a paciente segue com você no que é seu.</li>
+    </ul>
+    <p class="note" style="margin-top:44px">Prontuário compartilhado com consentimento da paciente,
+    conforme a lei de proteção de dados.</p>
+  </div>
+  <div class="pgn">13</div>
+</section>
+
+<!-- 14 FECHO -->
+<section class="slide dark">
+  <div class="img" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/tati-consultorio-a.jpg')"></div>
+  <div class="veil dark-full"></div>
+  <div class="body" style="display:flex;flex-direction:column;justify-content:center">
+    <div class="eyebrow">Plenya &nbsp;×&nbsp; Clínica Tatianna Perazolo</div>
+    <h2 style="font-size:104px">Terreno preparado pede menos produto, e o resultado dura mais<span class="d">.</span></h2>
+    <p class="closer" style="margin-top:46px">Obrigado. As perguntas são a melhor parte.</p>
+    <div style="position:absolute;bottom:0;left:0" class="caps">Viva bem, viva mais</div>
+  </div>
+</section>
+
+</body>
+</html>
