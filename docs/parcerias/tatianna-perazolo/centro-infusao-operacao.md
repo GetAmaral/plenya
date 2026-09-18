@@ -444,6 +444,50 @@ dermatologia. **Todo item exige consulta, exame e indicação em prontuário —
 | **F · Imune/reparo** | Vitamina C funcional (≤ 15 g) na fase de reparo pós-procedimento; zóster | IV | G6PD + renal + insumo sem metabissulfito |
 | **G · Bem-estar** | **Myers** e hidratação/eletrólitos, **com disclaimer honesto** | IV | Gate renal pelo magnésio; medir VAS antes/depois; é experiência/QoL, não cura |
 
+### 5.1 Decisão do Dr. (18/09): a sala abre com o cardápio inteiro
+
+Os **sete eixos A–G entram no dia 1**. Não há segunda onda. Isso é decisão tomada; o que segue é o
+que ela obriga a ter pronto **antes** de abrir, e que um lançamento faseado deixaria para depois.
+
+⚠️ **Uma ressalva, dita uma vez:** o eixo **G (bem-estar/QoL)** é o que mais se parece com o drip bar
+que o posicionamento recusa. Abrir com ele no dia 1 significa que a disciplina que o separa do drip bar
+— indicação médica em prontuário, disclaimer honesto e **desfecho medido** — tem de estar funcionando
+desde a primeira sessão, não sendo construída depois. É factível, e é o item 2 abaixo.
+
+#### As cinco coisas que passam a ser obrigação de dia 1
+
+| # | O que | Por causa de quê | Sem isso… |
+|---|---|---|---|
+| 1 | **G6PD no painel pré-infusão** | Vitamina C IV (eixo F/G) e azul de metileno (eixo C) | Dois eixos não podem rodar. Deixa de ser exame "quando precisar" e vira triagem de rotina |
+| 2 | **Instrumento de desfecho subjetivo no EMR** — VAS de fadiga, SF-12, PSQI, com registro antes e depois | Eixo G inteiro e os combos exploratórios do C | O disclaimer vira retórica. Só é honesto dizer "experiência/QoL" se houver medida |
+| 3 | **Governança hormonal CFM documentada** — critérios de hipogonadismo (TT <264, ou 264–350 com T livre/Vermeulen), teste de estímulo para GHD, janela da THM | Eixo E | É o eixo com vedação expressa do CFM 2.333/2023. Não dá para "ajustar depois" |
+| 4 | **Azul de metileno: grau farmacêutico + triagem dupla** (G6PD e serotoninérgicos) | Eixo C | É o item mais exigente do cardápio. Ou entra com a disciplina completa, ou não entra |
+| 5 | **Termo de consentimento por protocolo** | Todos | Especialmente nos combos exploratórios e no eixo G |
+
+#### Delta de estoque em relação ao §4.3
+
+O §4.3 foi escrito para uma abertura enxuta. Abrindo com tudo, entram:
+
+| Item | Como | Nota |
+|---|---|---|
+| **Vitamina C injetável sem metabissulfito** | estoque (deixa de ser sob demanda) | Acima de 2–3 g o insumo com metabissulfito está fora |
+| **ALA 600 mg** | nominal, manipulado | Frasco âmbar, preparar na hora, só SF |
+| **SAMe IV/IM** | nominal | Gate bipolar e serotoninérgico |
+| **Azul de metileno** | nominal, **grau farmacêutico** | Avisar da urina azul |
+| **PQQ** (soro mito) | nominal | Combo C4 é candidato com disclaimer, não conduta fechada |
+| **Timosina α1 SC** | nominal | Registrado, não-WADA |
+| **hCG SC/IM** | nominal | Adjunto do eixo E |
+
+Continua valendo a regra dos controlados: **testosterona e nandrolona não entram no estoque** — receita,
+o paciente adquire, a aplicação acontece na sala.
+
+#### O que não muda
+
+Equipe (médico + enfermeiro ERT), espaço (16–20 m², 3 poltronas), carrinho de emergência e rede de frio
+seguem iguais. **Abrir com tudo não pede mais gente nem mais metro quadrado — pede mais POP.** Cada
+protocolo dos eixos A–G precisa do seu cartão de sala, e a mecânica já está pronta no
+[§9 e §15 do portfólio](../../clinica/portfolio-injetaveis.md).
+
 **O que a sala não faz** (e isso é argumento de venda, não limitação): glutationa para clareamento,
 "soro da beleza"/detox/antioxidante master, NAD+ IV, PDRN e exossomos injetáveis, peptídeos experimentais,
 hormônio com finalidade estética. A Dra. Tatianna expõe o CRM dela ao se associar a um centro de infusão;
