@@ -617,6 +617,57 @@ def pad_to_signature(pdf_path, multiple=4):
     return n + falta
 
 
+def set_print_boxes(pdf_path, bleed_mm=2.5):
+    """Declara TrimBox/BleedBox/ArtBox em todas as páginas.
+
+    Sem isto, o PDF sai com MediaBox = CropBox = TrimBox = 165 × 235 mm e a gráfica
+    não tem como saber que o refile é 160 × 230 — o livro sairia 5 mm maior em cada
+    dimensão e a capa, montada para 160 mm, não fecharia. Não dá para resolver com
+    marcas de corte: elas precisariam de mais espaço do que os 2,5 mm de sangria.
+
+    Roda como pós-processo pelo mesmo caminho do pad_to_signature (pikepdf no
+    python do sistema), para não criar dependência nova no venv das figuras.
+    """
+    # TrimBox e ArtBox NÃO podem coexistir: a ISO 15930 (PDF/X) manda a página ter
+    # um ou outro, nunca os dois, e Acrobat Preflight e PitStop reportam isso como
+    # erro. Só o TrimBox é escrito.
+    script = (
+        "import sys, pikepdf\n"
+        "path, bleed = sys.argv[1], float(sys.argv[2])\n"
+        "s = bleed * 72 / 25.4\n"
+        "with pikepdf.open(path, allow_overwriting_input=True) as pdf:\n"
+        "    for page in pdf.pages:\n"
+        "        mb = [float(v) for v in page.MediaBox]\n"
+        "        trim = [mb[0]+s, mb[1]+s, mb[2]-s, mb[3]-s]\n"
+        "        page.TrimBox = trim\n"
+        "        page.BleedBox = mb\n"
+        "        if '/ArtBox' in page: del page['/ArtBox']\n"
+        "    pdf.save()\n"
+        "    w = (trim[2]-trim[0]) * 25.4 / 72\n"
+        "    h = (trim[3]-trim[1]) * 25.4 / 72\n"
+        "print(f'{w:.2f} {h:.2f} {len(pdf.pages)}')\n"
+    )
+    erro = "nenhum interpretador com pikepdf"
+    for exe in (sys.executable, shutil.which("python3")):
+        if not exe:
+            continue
+        try:
+            out = subprocess.run([exe, "-c", script, str(pdf_path), str(bleed_mm)],
+                                 capture_output=True, text=True)
+        except OSError as exc:                                  # noqa: PERF203
+            erro = str(exc)
+            continue
+        if out.returncode == 0:
+            # imprime o que foi realmente escrito, não o que se esperava escrever
+            w, h, n = out.stdout.split()
+            print(f"   TrimBox {w} × {h} mm em {n} páginas (sangria {bleed_mm} mm)")
+            return True
+        erro = (out.stderr.strip().splitlines() or ["?"])[-1]
+    # Sem TrimBox a gráfica não sabe onde cortar: é o defeito que este passo existe
+    # para fechar, então ele para o build em vez de avisar e seguir.
+    sys.exit(f"❌ Não foi possível declarar TrimBox em {pdf_path.name}: {erro}")
+
+
 def main():
     print(f"📖 Building PRINT PDF (versaoImpressa) for language: {LANG}")
     print(f"   build root: {BUILD_DIR}")
@@ -728,6 +779,7 @@ def main():
     if not OUT_PDF.exists():
         sys.exit("❌ PDF não foi gerado")
     pad_to_signature(OUT_PDF)
+    set_print_boxes(OUT_PDF)
 
     # 5. Reporta
     size_mb = OUT_PDF.stat().st_size / (1024 * 1024)

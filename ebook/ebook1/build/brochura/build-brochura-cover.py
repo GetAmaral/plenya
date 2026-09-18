@@ -388,6 +388,34 @@ def main():
     with open(OUT_PDF, "wb") as out:
         out.write(img2pdf.convert(buf.read(), layout_fun=layout))
 
+    # TrimBox/BleedBox: sem eles o PDF sai com todas as caixas iguais ao papel
+    # inteiro (capa + orelhas + sangria) e a gráfica não tem onde ler o refile
+    # nem as quatro dobras. O TrimBox é a capa aberta sem sangria; as dobras
+    # continuam só no PNG de guias, porque marca impressa não cabe em 3 mm.
+    #
+    # ArtBox não entra: a ISO 15930 (PDF/X) manda a página ter TrimBox OU ArtBox,
+    # nunca os dois, e os preflights comerciais reportam a coexistência como erro.
+    #
+    # E isto não é aviso: é o passo que fecha justamente o defeito de a gráfica não
+    # saber onde cortar. Se falhar, o script para, em vez de imprimir ✅ com a capa
+    # sem TrimBox — ou, pior, com o arquivo truncado por uma falha no save().
+    import pikepdf
+
+    s_pt = img2pdf.mm_to_pt(BLEED_MM)
+    with pikepdf.open(OUT_PDF, allow_overwriting_input=True) as pdf:
+        for page in pdf.pages:
+            mb = [float(v) for v in page.MediaBox]
+            trim = [mb[0] + s_pt, mb[1] + s_pt, mb[2] - s_pt, mb[3] - s_pt]
+            page.TrimBox = trim
+            page.BleedBox = mb
+            if "/ArtBox" in page:
+                del page["/ArtBox"]
+        pdf.save()
+    with pikepdf.open(OUT_PDF) as pdf:                 # confere o que ficou gravado
+        t = [float(v) for v in pdf.pages[0].TrimBox]
+        print(f"✅ TrimBox {(t[2]-t[0])*25.4/72:.1f} × {(t[3]-t[1])*25.4/72:.1f} mm "
+              f"(sangria {BLEED_MM} mm)")
+
     print(f"\n✅ Capa (lossless, {DPI} DPI): {OUT_PDF}  —  {OUT_PDF.stat().st_size/1048576:.1f} MB")
     print(f"✅ Preview: {OUT_PNG}")
     print(f"✅ Conferência com guias: {OUT_GUIDES}")

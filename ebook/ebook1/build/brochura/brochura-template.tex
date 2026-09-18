@@ -85,7 +85,11 @@
 \usepackage[table]{xcolor}   % [table] habilita \rowcolor (tabelas nativas)
 \definecolor{petrol}{HTML}{063b4f}
 \definecolor{gold}{HTML}{b38645}
-\definecolor{ink}{HTML}{1a1a1a}
+% ink é neutro (#1a1a1a = R=G=B), então sai como cinza de uma chapa: é o cabeço
+% de toda página e não tem por que virar preto de quatro cores na conversão. As
+% duas cores cromáticas (petrol e gold) seguem em RGB até a gráfica dizer com que
+% perfil converte — a mesma regra da papelaria, CMYK só depois de aprovação.
+\definecolor{ink}{gray}{0.102}
 
 % --- Drop caps ---
 \usepackage{lettrine}

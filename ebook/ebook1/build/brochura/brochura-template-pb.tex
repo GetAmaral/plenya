@@ -89,9 +89,15 @@
 % corpo de texto (#1a1a1a), deixando o título mais fraco que o parágrafo. No
 % impresso a hierarquia tem de vir do peso e do corpo da fonte, então petrol
 % vira quase preto e o gold vira um cinza claramente acessório.
-\definecolor{petrol}{HTML}{111111}   % títulos, capitulares, rótulo de legenda
-\definecolor{gold}{HTML}{767676}     % numeração "PARTE N" / "CAPÍTULO N"
-\definecolor{ink}{HTML}{1a1a1a}      % corpo — inalterado
+% {gray} e não {HTML}: em miolo P&B o preto tem de sair de UMA chapa. Definidas
+% em HTML, estas três cores viravam DeviceRGB — 2.824 operadores rg/RG em 321 das
+% 344 páginas, inclusive o cabeço de 8,25 pt de toda página. Neutro em RGB
+% (R=G=B) ainda é RGB: numa conversão para CMYK sem preservar preto vira preto de
+% quatro cores, e texto pequeno em quatro chapas dá halo de registro. Os valores
+% de cinza abaixo são os mesmos tons de antes (17, 118 e 26 em 255).
+\definecolor{petrol}{gray}{0.067}    % títulos, capitulares, rótulo de legenda
+\definecolor{gold}{gray}{0.463}      % numeração "PARTE N" / "CAPÍTULO N"
+\definecolor{ink}{gray}{0.102}       % corpo — inalterado
 
 % --- Drop caps ---
 \usepackage{lettrine}
