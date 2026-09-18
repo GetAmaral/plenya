@@ -179,15 +179,92 @@ ou se faz cirurgia dermatológica, **a clínica já está com o enquadramento de
 independentemente da Plenya. Duas leituras possíveis, e só o documento resolve: ou ela tem **os dois
 CNAEs** (saúde + estética), ou o alvará é só de estética e há irregularidade preexistente.
 
-🚨 **Nada do enquadramento dela está verificado.** A frase "o CNPJ dela, restrito a consultas" circulou
-na `propostas.md` desde 11/09 **sem fonte** — não veio dela, de documento nem do Dr.; foi suposição de
-uma sessão anterior, e nesta ela chegou a ser traduzida para "CNAE 8630-5/03", inferência sobre
-inferência. Ambas foram retiradas. O único dado de origem conhecida é o do Dr. em 17/09: alvará de
-"clínica de estética com pequenos procedimentos", relatado de memória.
+✅ **Resolvido em parte pela consulta pública de 17/09 (ver §2.4):** o CNPJ dela declara **8630-5/03 como
+principal e 8630-5/01, 8630-5/02 e 9602-5/02 como secundários**. As duas descrições ("restrito a
+consultas" e "clínica de estética") estavam ambas certas e ambas incompletas. O que continua aberto é o
+**alvará e a licença sanitária**: quais desses CNAEs foram efetivamente licenciados no endereço.
 🔲 **Pedir a ela o alvará e o cartão CNPJ** (o alvará lista os CNAEs). É de dois minutos e desfaz a dúvida.
 
 Levar o tema como cuidado com o CRM dela, nunca como auditoria: quem entra com infusão numa clínica é
 quem tem mais a perder se o enquadramento do imóvel estiver errado.
+
+### 2.4 O que os registros públicos mostram (consulta em 17/09/2026)
+
+Fonte: Receita Federal via BrasilAPI · CNES/DATASUS (endpoint de consulta, validado com caso-controle) ·
+Res. SESA 1034/2020, Anexos III e IV (texto integral).
+
+**Existem DOIS CNPJs ativos no mesmo endereço, com CNAEs idênticos.**
+
+| | **Clínica Médica Tatianna Perazolo Ltda** | **Tatianna Perazolo Dermatologia Ltda** |
+|---|---|---|
+| CNPJ | 33.714.844/0001-53 | 58.397.228/0001-47 |
+| Abertura | 23/05/2019 | 09/12/2024 |
+| Endereço | R. Rubens Carlos de Jesus 300, **Loja 15 e 16** | mesma, **Sala 15 e 16** |
+| Porte / tributação | ME, **Simples Nacional** | Demais, **Lucro Presumido** |
+| Capital social | R$ 100.000 | R$ 50.000 |
+| Sócia-administradora | Tatianna Felix Perazolo | Tatianna Felix Perazolo |
+| Situação | **ATIVA** | **ATIVA** |
+| CNAE principal | **8630-5/03** — atividade médica ambulatorial restrita a consultas | idem |
+| CNAEs secundários | **8630-5/01** · **8630-5/02** · **9602-5/02** | idênticos |
+
+Leitura provável: migração de Simples para Lucro Presumido em dez/2024, com o CNPJ antigo mantido
+aberto. 🔲 **Qual dos dois detém o alvará, a licença sanitária e vai assinar a locação?** É contratual.
+
+**Correção da nota anterior:** "restrito a consultas" batia com o CNAE **principal**. O problema não era
+estar errado, era estar **incompleto** — e o que faltava é justamente o que decide o projeto.
+
+#### O mapa de risco dos CNAEs que ela já declara
+
+| CNAE declarado | Onde está na Res. SESA 1034/2020 | Grau | **PBA prévio?** |
+|---|---|---|---|
+| 8630-5/03 restrita a consultas | Anexo IV (condicionado), revisto pela 750/2026 | invasivo → **alto** | **Não**, se não processa dispositivo médico |
+| **8630-5/01** proc. cirúrgicos | **Anexo III — alto risco fixo** | **alto** | **SIM** |
+| **8630-5/02** exames complementares | **Anexo III — alto risco fixo** | **alto** | **SIM** |
+| 9602-5/02 estética | Anexo IV (condicionado) | invasivo → **alto** | **Não** |
+
+Como o estabelecimento é licenciado **pelo CNAE de maior risco** (art. 8º), o CNPJ dela, do jeito que
+está na Receita, aponta para **alto risco com PBA**. A saída existe e está no art. 4º §1º: atividade
+**não exercida no local** pode ser declarada como tal e **não entra** na classificação de risco. É
+provavelmente assim que a clínica está licenciada hoje, o que explica o alvará descrito como "estética
+com pequenos procedimentos". 🔲 Só o alvará e a licença dizem o que foi de fato licenciado.
+
+#### 🎯 A consequência prática para a Plenya
+
+**O CNAE que a Plenya declarar nesse endereço decide se haverá PBA.** Regra a seguir:
+
+- ✅ **CNPJ Plenya com 8630-5/03**, respondendo "sim" a procedimento invasivo e "não" a processamento de
+  dispositivo médico → **alto risco, sem PBA**. É o desenho que a própria Res. 750/2026 contempla.
+- ❌ **Não incluir 8630-5/01 nem 8630-5/02** no CNPJ que ocupar a sala. Ambos são alto risco **com PBA
+  obrigatório** e a revisão de 2026 não os tocou.
+- ⚠️ **O posto de coleta cobra esse preço.** Laboratório clínico é **8640-2/02**, Anexo III, **com PBA**.
+  Se a coleta entrar no mesmo CNPJ/endereço, o PBA volta. Alternativas: a coleta ficar sob o CNPJ do
+  laboratório de apoio, ou aceitar o PBA e fazer as duas coisas de uma vez.
+- ⚠️ **Risco de enquadramento:** a VISA pode entender que um centro de infusão é **8640-2/99**
+  (complementação diagnóstica e terapêutica não especificada), que é Anexo III **com PBA**. 🔲 Alinhar
+  o enquadramento com a VISA **antes** de protocolar, não depois.
+- 🚫 **Nunca descrever o serviço como "nutrição parenteral".** 8650-0/07 é alto risco com PBA e traz
+  junto a regulamentação de TNP. Nosso serviço é reposição e terapia injetável sob prescrição, não TNP.
+
+#### CNES: não existe
+
+Consulta ao CNES pelos dois CNPJs retorna vazio, e a busca nacional por "PERAZOLO" e por "TATIANNA" não
+traz nenhum estabelecimento em Londrina. O endpoint foi validado com caso-controle (outra clínica de
+Londrina retorna normalmente), então o vazio é informativo, não falha de consulta.
+
+Ou seja: **a clínica não tem estabelecimento de saúde cadastrado no CNES.** É pendência dela, não nossa,
+mas vira nossa no momento em que a Plenya operar ali: o CNES da Plenya é obrigatório e é pedido no
+licenciamento. 🔲 Confirmar com ela (pode haver cadastro sob CPF que a busca por nome não alcançou).
+
+#### ANVISA: não se aplica
+
+Clínica não tem registro nem autorização da ANVISA. AFE e Autorização Especial são para farmácia,
+drogaria, distribuidora e importadora. A ANVISA entra aqui como **norma** (RDC 50, 222, 430, 67), e
+quem licencia e fiscaliza é a VISA estadual/municipal. Não há o que consultar.
+
+#### Licença sanitária de Londrina: só com os documentos dela
+
+O consultor público do município exige nº de protocolo, ano, CNPJ e CMC. Não há busca aberta por CNPJ.
+**A licença tem de vir dela.**
 
 > **Nota de método:** a RDC 50/2002 continua em vigor (a revisão da ANVISA está em curso, mas normas de
 > 2025 ainda remetem a ela "ou outra que venha a substituí-la"). Não planejar em cima da norma nova.
@@ -310,7 +387,9 @@ hormônio com finalidade estética. A Dra. Tatianna expõe o CRM dela ao se asso
 
 **Para a conversa com ela (ordem de importância):**
 1. ✅ **Respondido (17/09):** clínica é 100% descartável, sem processamento de dispositivo médico → **sem PBA**.
-2. 🔲 **Pedir o alvará e o cartão CNPJ** — quais CNAEs constam de fato (ver §2.3).
+2. ✅ **Cartão CNPJ resolvido por consulta pública** (§2.4). 🔲 Falta o **alvará e a licença sanitária**:
+   quais CNAEs foram licenciados no endereço, e por qual dos dois CNPJs.
+2b. 🔲 **Ela tem CNES?** A consulta pública não achou nenhum.
 3. 🔲 Ela aceita o **Caminho A** (CNPJ Plenya com alvará próprio na sala alugada)?
 4. **Metragem real** disponível e se comporta 16–20 m² exclusivos.
 5. O **abrigo de resíduos do imóvel aceita Grupo B e Grupo E**?
@@ -353,6 +432,8 @@ hormônio com finalidade estética. A Dra. Tatianna expõe o CRM dela ao se asso
 [Alvará de Licença de Localização e Funcionamento — Londrina](https://servicos.londrina.pr.gov.br/Servico/Details/539?banner=true) ·
 [Legislação do Alvará — Londrina (Decreto 45/2026)](https://portal.londrina.pr.gov.br/index.php?id=774&option=com_content&view=article) ·
 [CNAE 9602-5/02 — IBGE/Concla (exclusões)](https://concla.ibge.gov.br/busca-online-cnae.html?subclasse=9602502&view=subclasse) ·
+[Res. SESA 1034/2020 — texto com Anexos I a V](https://www.fiepr.org.br/relacoes-governamentais/uploadAddress/Resolucao-SESA-n-1034%5B93547%5D.pdf) ·
+Receita Federal via [BrasilAPI](https://brasilapi.com.br/api/cnpj/v1/58397228000147) · [CNES/DATASUS](https://cnes.datasus.gov.br/) ·
 [VISA Londrina](https://saude.londrina.pr.gov.br/index.php/vigilancia-sanitaria.html) ·
 [Decreto municipal de dispensa de baixo risco](https://blog.londrina.pr.gov.br/?p=107031)
 
@@ -364,7 +445,7 @@ RDC 222/2018 (PGRSS) · RDC 430/2020 (rede de frio) · RDC 67/2007 Anexo IV (man
 Portaria SVS/MS 344/1998 (controlados)
 
 ---
-**Documento vivo.** Atualizado em 2026-09-17 (v2: alvará e caminho jurídico). Relacionados:
+**Documento vivo.** Atualizado em 2026-09-17 (v3: registros públicos — 2 CNPJs, CNAEs, sem CNES). Relacionados:
 [centro-infusao-e-exames.md](../../clinica/centro-infusao-e-exames.md) ·
 [portfolio-injetaveis.md](../../clinica/portfolio-injetaveis.md) ·
 [programa-arquitetonico.md](../../clinica/programa-arquitetonico.md) ·
