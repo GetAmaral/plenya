@@ -45,7 +45,12 @@ SPINE_MM = float(sys.argv[2]) if len(sys.argv) > 2 else DEFAULT_SPINE_MM
 FLAP_MM = float(sys.argv[3]) if len(sys.argv) > 3 else DEFAULT_FLAP_MM
 
 # --- Paths ---
-CAPA_FRONT    = BOOK_ROOT / "capas" / LANG / "capa.jpg"
+# Arte da 1ª capa. Versão de setembro/2026: o travessão que abria "onde a saúde é
+# decidida" saiu e virou um fio dourado acima da linha — é a alternativa que o autor
+# fechou para o apontamento do editor de 26/08 ("aquele travessão da esquerda parece
+# que fica um pouco perdido na arte"). As outras edições (EPUB, KDP, capa dura)
+# continuam em capas/<lang>/capa.jpg até serem repassadas.
+CAPA_FRONT    = BOOK_ROOT / "capas" / LANG / "capa-setembro-2026.png"
 BARCODE       = BOOK_ROOT / "capas" / LANG / "isbn-barcode-978-65-02-07691-0.png"
 AUTHOR_BW     = BOOK_ROOT / "fotos" / "getulio_bw_halfbody_fullres.jpg"
 SYMBOL_GOLD   = BOOK_ROOT.parent.parent / "apps" / "site" / "public" / "brand" / "symbol" / "gold.png"
