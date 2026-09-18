@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-09-11'
+last_updated: '2026-09-17'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -86,7 +86,7 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-09-11'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
+comments_baseline_swept_through: '2026-09-17'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
 
 # Varredura 2026-08-25 (16a iteracao): 60 posts organicos (3 paginas, TODOS com
 # comments_count>0), 4 ads (GLP1 Ep1/Ep2 ATIVOS + Ep1/Ep2 novos PAUSADOS) nos DOIS
@@ -856,3 +856,123 @@ caixinha_story_2026-09-11:
     Forca de preensao palmar (EWGSOP2: <27 kg homens, <16 kg mulheres) ficou de
     fora de proposito: exige dinamometro e a pergunta era sobre monitoramento
     caseiro. Guardado para um conteudo futuro sobre avaliacao de sarcopenia.
+
+
+# ============================================================================
+# VARREDURA 2026-09-17 (17a iteracao) - COMPLETA
+# ============================================================================
+# Cobertura: 64 posts organicos (3 paginas, esgotado; comments buscados em TODOS
+# com comments_count>0) + 51 conversas DM (2 paginas) + ads dark GLP-1 Ep1/Ep2/Ep7
+# nos DOIS lados (IG via Marketing API, FB via Composio) + FB Page Messenger (4
+# conversas) + sanity do perfil (13.230 seguidores, 70 no media_count).
+#
+# GAPS DECLARADOS (nao varrido, com motivo):
+#   - tags/mentions: INSTAGRAM_GET_IG_USER_TAGS NAO EXISTE nesta build do Composio
+#     (3a iteracao consecutiva com esse gap).
+#   - 1 conversa DM com subcode 33 (grupo dr_danilo_cunha + draanamaral,
+#     id ...281152503669728083376): padrao de pedido de mensagem, checar no app.
+#
+# ACHADO TECNICO NOVO: INSTAGRAM_SEND_TEXT_MESSAGE tem limite de 1000 BYTES UTF-8.
+# Uma DM de 1.083 bytes foi recusada por validacao ANTES de chegar na Meta
+# ("Message text exceeds the 1000-byte UTF-8 limit"). Nao confundir com o limite
+# de comentario (que aceita 1180+ chars, ver memoria composio_ig_reply_char_limit).
+# Em PT-BR acentuado, 1000 bytes ~ 900-950 caracteres.
+
+answered_2026-09-17:
+  comments_organicos:
+    - post: Antes/infarto (18560281441079944)
+      comment_id: '18112429496045792'
+      who: '@pedro.hoam'
+      reply_id: '18056201234796887'
+      by: dr_api
+      re: "Quanto o LDL esta ligado ao infarto. Causalidade (estudos geneticos), exposicao acumulada (magnitude x tempo), reducao proporcional de eventos ao baixar LDL, e leitura de RISCO TOTAL (pressao, glicose, tabagismo, gordura visceral, historico familiar, Lp(a))."
+    - post: Antes/infarto (18560281441079944)
+      comment_id: '17910551823532829'
+      who: '@clovensamaral'   # PRIMO E COMPADRE (confirmado pelo Dr nesta sessao)
+      reply_id: '18140982181594465'
+      by: dr_api
+      re: "Da para comecar aos 50. Conhecer os numeros (PA, LDL/ApoB, glicose/HbA1c, Lp(a) uma vez na vida), nao fumar, 150 min/semana + 2 dias de forca, investigar apneia, e escore de calcio coronariano como desempate de risco intermediario."
+    - post: Antes/infarto (18560281441079944)
+      lote: "6 elogios respondidos com 👍🏻❤️ (padrao do Dr)"
+      by: dr_api
+      itens:
+        - {who: '@eloanabarbara',     comment_id: '18075421328715551', reply_id: '18100709075210124'}
+        - {who: '@amaralseila',       comment_id: '17986113669116533', reply_id: '18133994890573978'}
+        - {who: '@amaral_eng',        comment_id: '18108880306882142', reply_id: '17904085401589375'}
+        - {who: '@fabiomondek',       comment_id: '18126506785694838', reply_id: '18426663736151428'}
+        - {who: '@fatimabarusso',     comment_id: '18006762785999413', reply_id: '18116216149956173'}
+        - {who: '@regina.garcia.777', comment_id: '18116795729068521', reply_id: '18099856505322051'}
+    - post: ITU / infeccao urinaria (18218514997337565)
+      comment_id: '18115134857087218'
+      who: '@amaral_eng'
+      reply_id: '17940045774360274'
+      by: dr_api
+      re: "Elogio (👏) no reel novo. 👍🏻❤️"
+
+  ads_ig_side:   # GLP-1 Ep2 (ig_media 18100461958813577) - autores anonimos (dark post)
+    - comment_id: '17900107872666519'
+      reply_id: '18132757702647779'
+      by: dr_api
+      re: "Poviztra entra na explicacao do video? SIM: e semaglutida (mesma molecula de Ozempic/Wegovy). Coracao e rim sao os pontos solidos, a bula BR ja traz reducao de risco CV e MASH com fibrose moderada-avancada. Ressalvas: beneficio nas doses altas com tempo, e parte do video vem de estudos com TIRZEPATIDA (molecula diferente)."
+      fonte: "Bula do paciente Poviztra (Novo Nordisk BR), aprovada Anvisa 04/05/2026, lida na integra nesta sessao."
+    - comment_id: '18101949905204758'
+      reply_id: '18432170245178483'
+      by: dr_api
+      re: "'Perda de peso e muito lenta': escalonamento e dose baixa de proposito, resposta maior na manutencao, estudos medidos em >1 ano; DM2 emagrece menos; comida e proteina+forca seguram o resultado; comparacao direta semaglutida x tirzepatida favorece a tirzepatida (citada SEM numeros, artigo nao aberto nesta sessao)."
+    - comment_id: '18123967766305183'
+      reply_id: '17933954991386728'
+      by: dr_api
+      re: "'Vi uma medica criticando': onde a critica tem razao (uso sem indicacao/estetico, sem acompanhamento, perda de musculo, reganho ao parar) e onde nao tem (beneficio CV e renal em quem tem indicacao). Filtro: desfecho de verdade x impressao pessoal. Sem desqualificar a colega."
+    - comment_id: '17879366766690407'
+      reply_id: '17870648553649404'
+      by: dr_api
+      re: "Depoimento positivo (mencionou preco; NAO entrei em preco, regra editorial). Reforco de proteina + treino de forca + acompanhamento."
+    - comment_id: '18120876658702596'
+      reply_id: '17972573532134533'
+      by: dr_api
+      re: "'Estou na 5a aplicacao': ainda em escalonamento, manejo do enjoo, montar a base (proteina + forca), pergunta de volta."
+    - comment_id: '18008403635971115'
+      reply_id: '18137518135540340'
+      by: dr_api
+      re: "Saxenda -> Wegovy, 'passei muito mal': liraglutida diaria x semaglutida semanal (efeito se espalha pelos dias), troca direta para dose alta piora; voltar um degrau e esticar a etapa e opcao legitima; sinais de alarme (vomito que nao para, nao manter liquidos, dor que vai para as costas)."
+  ads_fb_side:   # GLP-1 Ep2 (story 1046561478538408_1646264863054912)
+    - comment_id: '1646264863054912_1111156691433596'
+      reply_id: '1111156691433596_3023119238024998'
+      by: page
+      re: "Acesso/custo. SEM citar preco (regra editorial): queda de patente ja trouxe versao nacional, formas orais tendem a ampliar oferta, e a base (proteina, forca, caminhada, sono) segue acessivel. Mesma linha da resposta a @vettoratoadriana em 23/05."
+    - comment_id: '1646264863054912_1740443720548121'
+      reply_id: '1740443720548121_1094318393037296'
+      by: page
+      re: "'Obrigada dr' - fechamento gentil."
+
+  dms_entregues_para_o_dr_colar_no_app:   # API barrou: janela de 24h fechada
+    - who: '@cabrienelediane'
+      by: dr_app
+      status: PENDENTE_DE_COLAR
+      erro_api: "403 subcode 2534022 (outside allowed window) - ultima msg dela em 13/09"
+      re: "Medo depois da 1a dose de GLP-1 prescrito ('videos dizendo que ta morrendo gente'). Texto de 937 bytes: desconforto comum x evento grave raro com sinais claros; ela FOI avaliada e tem prescricao; nao parar nem mudar dose sozinha; contar o medo ao medico."
+
+  pulados:
+    - who: '@nelydasilvapinto'
+      motivo: "Ciclo fechado - ela so agradeceu a resposta do Dr de 12/09. Janela fechada; nao vale gerar trabalho manual para dizer 'de nada'. Decisao do Dr em 17/09."
+    - who: '@cacsconsultora'
+      motivo: "Fechamento gentil opcional ('me deu um norte') apos a resposta de 11/09 sobre criterios de creatina. Dr optou por pular."
+
+# ---- Messenger da FB Page (1046561478538408) ----
+messenger_2026-09-17:
+  - who: "Tiziana Gatta (38260731210239018)"
+    conversation: t_1752524809231706
+    by: ignorar
+    re: "GOLPE/phishing: 'sua pagina foi sinalizada por violacoes, verifique a conta imediatamente ou sera excluida'. Mesmo padrao do @douwe.dejong.7 (24/05). Alvo e o acesso da Page e da conta de anuncios. NAO responder, NAO clicar. Denunciar e bloquear no app. Decisao confirmada pelo Dr em 17/09."
+  - who: "Joicy Resende (29250765981191559)"
+    conversation: t_913466491840407
+    by: encaminhado_recepcao
+    re: "LEAD REAL sem resposta ha 22 dias: 'oi boa noite / poderia me chamar / 43999256879' (26/08). A unica coisa depois disso foi o rotulo automatico do CRM da Meta ('Estagio do lead: Em analise'). Janela do Messenger vencida => caminho certo e a RECEPCAO ligar/mandar WhatsApp para o numero que ela deixou. Repassado ao Dr em 17/09."
+  - who: "Elaine Cristina"
+    conversation: t_1582149466952440
+    by: na
+    re: "Somente '🙏' (26/08). Nao requer resposta."
+  - who: "Aida Costa"
+    conversation: t_1578109250423898
+    by: na
+    re: "Sem mensagem nova desde 06/08."

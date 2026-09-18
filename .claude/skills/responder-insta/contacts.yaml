@@ -19,7 +19,8 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-09-11'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
+last_updated: '2026-09-17'  # 17ª iteração — varredura COMPLETA (64 posts orgânicos, 3 pág + 51 DMs, 2 pág + ads dark GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAP: tags/mentions (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build). +clovensamaral (PRIMO E COMPADRE), +cabrienelediane, +regina.garcia.777, +fabiomondek, +eloanabarbara
+# last_updated anterior: '2026-09-11'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
 # last_updated anterior: '2026-08-25'  # 16a iteracao
 # last_updated anterior: '2026-07-11'  # 15ª iteração — varredura COMPLETA (46 posts + ads IG/FB + 50 DMs + Messenger); reautenticação IG Composio no início (todas EXPIRED). +nil_negro, +jaquelinecarrador, +ritakassia74, +karina.fiorii, +robertaadami15, +cidabastos122, +tatiana.saliba.7, +dirceschilipack, +magnalucia.silva, +elisanee
 
@@ -40,6 +41,59 @@ contacts:
       protocolo caseiro (fita métrica na cintura, teste da cadeira 5x com corte
       de 15s do EWGSOP2, sinais do dia a dia).
     last: "2026-09-11 — caixinha do story (monitoramento caseiro de massa magra)"
+
+  # ============================================
+  # NOVOS (cadastrados 2026-09-17)
+  # ============================================
+
+  '@clovensamaral':
+    rel: primo e compadre
+    name: Clovens
+    tone: familiar-afetuoso
+    notes: |
+      PRIMO E COMPADRE do Dr (confirmado por ele em 17/09/2026). Sobrenome Amaral.
+      Comentarista constante e sempre elogioso ("Bom demais Dr", "conteúdo
+      esclarecedor e muito útil"). Em 15/09 fez pergunta clínica de verdade no Reel
+      do infarto: melhor forma de prevenir e se dá para começar aos 50 anos.
+      Sinal de que ele mesmo está na faixa dos 50 e olhando para a própria saúde.
+    last: "2026-09-17 — reply post Antes/infarto (prevenção CV aos 50: números, não fumar, 150 min + força, apneia, escore de cálcio)"
+
+  '@cabrienelediane':
+    rel: seguidora
+    tone: clínico-respeitoso / tranquilizador
+    notes: |
+      DM 13/09: MEDO depois de tomar a primeira dose de GLP-1 prescrito pelo médico
+      dela ("as pessoas fica fazendo vídeo que tá morrendo gente"). Não disse qual
+      medicação. Resposta preparada: separar desconforto comum (enjoo, intestino,
+      estômago cheio) de evento grave raro com sinais claros; reforçar que ela FOI
+      avaliada e tem prescrição (diferente de quem compra por conta própria); não
+      parar nem mudar dose sozinha. API bloqueou (subcode 2534022, janela de 24h já
+      fechada há 4 dias) => texto entregue ao Dr para colar no app.
+    avoid:
+      - minimizar o medo dela
+      - citar medicação específica (ela não disse qual é)
+    last: "2026-09-17 — DM triada, resposta entregue ao Dr para colar no app"
+
+  '@regina.garcia.777':
+    rel: seguidora antiga
+    tone: familiar-afetuoso
+    notes: |
+      Uma das comentaristas mais constantes do perfil, presente desde jan/2026 em
+      praticamente todo post. Sempre elogio curto e caloroso ("show de conhecimento",
+      "parabéns, compartilhando conhecimento"). Padrão de resposta do Dr: 👍🏻❤️.
+    last: "2026-09-17 — 👍🏻❤️ no post Antes/infarto"
+
+  '@fabiomondek':
+    rel: seguidor
+    tone: profissional-caloroso
+    notes: "Elogios curtos (👏). Também aparece nas DMs (share sem texto)."
+    last: "2026-09-17 — 👍🏻❤️ no post Antes/infarto"
+
+  '@eloanabarbara':
+    rel: seguidora
+    tone: profissional-caloroso
+    notes: "Elogio curto (👏) no post Antes/infarto. Primeira interação registrada."
+    last: "2026-09-17 — 👍🏻❤️ no post Antes/infarto"
 
   # ============================================
   # NOVOS (cadastrados 2026-09-11)
@@ -83,7 +137,7 @@ contacts:
       creatinina/TFG/albuminúria). API BLOQUEOU com subcode 2534022 mesmo a
       mensagem sendo do próprio dia => padrão de PEDIDO DE MENSAGEM. Texto
       entregue ao Dr para colar no app (versão curta de ~540 caracteres).
-    last: "2026-09-11 — DM triada, resposta entregue para o Dr colar no app"
+    last: "2026-09-17 — agradeceu a resposta do Dr (ciclo fechado, nada pendente)"
 
   '@fatimabarusso':
     rel: família de pacientes falecidos
@@ -460,7 +514,7 @@ contacts:
     rel: seguidora
     tone: familiar-afetuoso
     notes: "Provável família (sobrenome Amaral). Elogios recorrentes."
-    last: "2026-06-11 — reply de agradecimento (post SIBO)"
+    last: "2026-09-17 — 👍🏻❤️ no post Antes/infarto"
 
   '@mariadasmercespeixoto':
     rel: seguidora
@@ -581,7 +635,7 @@ contacts:
     notes: |
       Família Amaral. Engenheiro.
       Primeiro nome não confirmado — manter "meu querido" até confirmar.
-    last: "2026-05-11 - reply MTB + Dia das Mães"
+    last: "2026-09-17 — 👍🏻❤️ nos posts Antes/infarto e ITU"
 
   # ============================================
   # FAMÍLIA DA ESPOSA (Zanon / Calsavara / Calzavara)
@@ -859,7 +913,7 @@ contacts:
       Handle .hoam = empresa HOAM Digital (também aparece como @hoamdigital em DMs).
       Trabalham juntos no conteúdo — relação profissional próxima.
       Pediu pauta sobre biotipo em comment do Reel 6K (18/05).
-    last: "2026-09-11 — caixinha de perguntas do story: \"como saber se estou emagrecendo massa ou gordura?\". Respondido em story (fita métrica, força, ritmo, bioimpedância/DEXA)."
+    last: "2026-09-17 — reply no comment do post Antes/infarto (LDL e risco: causalidade, exposição acumulada, risco total). Antes: caixinha do story 11/09."
 
   # ============================================
   # AMIGAS DA ESPOSA / FAMÍLIA (que comentam dirigindo-se à Fer)
