@@ -98,7 +98,7 @@ giro Ø 1,50 m e barras).
 
 1. **Projeto arquitetônico (PBA) aprovado na DAPES/SESA-PR ANTES da reforma** (Res. SESA 1.891/2024, art. 6 — até 90 dias/análise) — **⚠️ mas ver item 2: desde 06/2026 o PBA pode não ser exigido.**
 2. **Classificação de risco sanitário** (Res. SESA 1.034/2020, alterada pela **Res. SESA 750/2026**). Para o CNAE 8630-5/03, a condicionante agora é: procedimento invasivo → **alto risco**; e o PBA prévio só é exigido **se houver processamento de dispositivos médicos no local** (autoclave). Sem autoclave = **alto risco SEM PBA**. Alto risco = inspeção prévia, 90 dias, silêncio = deferimento (art. 15-16).
-3. **Licença Sanitária Municipal** (VISA Londrina) + **Alvará** (Decreto Municipal 45/2026 — atividade de saúde com infusão **não** é baixo risco).
+3. **Licença Sanitária Municipal** (VISA Londrina, Decreto Municipal 964/2021 — atividade de saúde com infusão **não** é baixo risco) + **Alvará de Localização e Funcionamento** (Decreto Municipal 45/2026, via Empresa Fácil Paraná). São documentos distintos; o alvará **vale só para o endereço e a atividade que constam nele**.
 4. **Cadastro CNES** via gestor municipal.
 5. **AVCB/Bombeiros (CBMPR)** + licença ambiental se exigida.
 6. **PGRSS aprovado** + contrato com empresa licenciada de RSS (RDC 222/2018): perfurocortantes Grupo E (recipiente rígido, não exceder limite do fabricante), resíduos farmacológicos Grupo B, abrigo de resíduos com piso/parede laváveis.

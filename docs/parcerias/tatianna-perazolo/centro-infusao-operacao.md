@@ -123,14 +123,70 @@ clínica dela, o Anexo II passou a valer assim:
    principal — o que **favorece o formato jurídico nº 1** já recomendado na [proposta §8](propostas.md).
    🔲 **Confirmar essa leitura com a VISA Londrina antes de assinar contrato** — é o ponto que mais
    preocupa a Dra. Tatianna, e é respondível com uma consulta.
-4. **Londrina:** a licença sanitária municipal é emitida pela VISA da Autarquia Municipal de Saúde;
-   o licenciamento (e as dispensas de baixo risco) está regulamentado pelo **Decreto Municipal nº 964,
-   de 27/08/2021**. Atividade de saúde com infusão **não** é baixo risco, então não há autodeclaração:
-   é processo com análise. 🔲 O plano de maio citava um "Decreto Municipal 45/2026" — **checar qual é o
-   vigente** no balcão da VISA (Londrina, engenharia da VISA: 3372-9424).
+4. **Londrina — dois documentos diferentes, não confundir:**
+   - **Alvará de Licença de Localização e Funcionamento** (Secretaria de Fazenda / Prefeitura),
+     regulamentado pelo **Decreto Municipal nº 45/2026**. Pedido e alteração pelo **Empresa Fácil
+     Paraná (Redesim)**; prazo de primeira resposta de 60 dias.
+   - **Licença Sanitária** (VISA da Autarquia Municipal de Saúde), regulamentada pelo **Decreto
+     Municipal nº 964, de 27/08/2021**, que é o que lista as dispensas de baixo risco. Atividade de
+     saúde com infusão **não** é baixo risco: não há autodeclaração, é processo com análise.
+     (Engenharia da VISA Londrina: 3372-9424.)
 5. Segue valendo, sem mudança: **CNES**, **AVCB/CBMPR**, **PGRSS** (RDC 222/2018) com contrato de coleta
    de resíduos Grupo B (farmacológico) e Grupo E (perfurocortante), e **RT médico no CRM-PR** + **ERT
    enfermagem no COREN-PR**.
+
+### 2.1 O alvará atual dela **não** contempla a infusão
+
+Fato apurado com o Dr. em 17/09/2026: **a clínica é 100% descartável** (nenhum processamento de
+dispositivo médico no local) e o **alvará é de "clínica de estética com pequenos procedimentos"**.
+Isso resolve uma coisa e abre outra.
+
+**Resolve:** sem autoclave, **não há exigência de PBA prévio**. O caminho é licença direta, sem passar
+pela DAPES antes da obra.
+
+**Abre:** o alvará **não cobre** o centro de infusão, por dois motivos independentes:
+
+1. **O alvará vale apenas para o endereço e a atividade para os quais foi expedido.** Incluir atividade
+   nova exige alteração pelo Empresa Fácil Paraná, com nova análise municipal.
+2. **Estética não abrange ato médico.** O CNAE **9602-5/02** (atividades de estética e outros serviços de
+   cuidados com a beleza) cobre limpeza de pele, massagem, depilação e afins, e **exclui expressamente**
+   clínica dermatológica com recursos para procedimentos, que é a família **8630-5**. Procedimento que
+   perfura a pele, sob prescrição médica e com RT médico no CRM, é atividade médica ambulatorial.
+   Infusão IV é exatamente isso.
+
+Além do alvará, são documentos à parte: **licença sanitária** (que vai para **alto risco**, com inspeção
+prévia) e **cadastro no CNES** como estabelecimento de saúde.
+
+### 2.2 Dois caminhos — e o recomendado não mexe no alvará dela
+
+| | **Caminho A — CNPJ Plenya na sala alugada** ✅ recomendado | **Caminho B — incluir a atividade no CNPJ dela** |
+|---|---|---|
+| O que se faz | A Plenya tira **alvará próprio + licença sanitária própria** no endereço dela, com contrato de locação de sala | Ela inclui CNAE 8630-5/xx, nomeia RT médico e relicencia o estabelecimento |
+| Alvará dela | **Não muda** | Muda |
+| Licença dela | Não é rebaixada (leitura do art. 19 §1º da Res. SESA 1034/2020) 🔲 confirmar na VISA | O estabelecimento passa a ser licenciado pelo **CNAE de maior risco** (art. 8º) |
+| Tributação dela | Não muda | Muda (estética e saúde têm enquadramento diferente) |
+| Responsabilidade | Do CNPJ Plenya, RT médico Dr. Getúlio, ERT enfermagem Plenya | Ela vira corresponsável pelo serviço médico |
+| O que trava | Viabilidade/zoneamento para 2º CNPJ no mesmo endereço; AVCB do imóvel cobrir o uso | Disposição dela de mexer no próprio enquadramento |
+
+**O Caminho A é o mesmo "formato jurídico nº 1" já recomendado na [proposta §8](propostas.md)** — e a
+pergunta do alvará acabou de dar um segundo motivo, agora regulatório, para ele: preserva o
+enquadramento dela intacto.
+
+### 2.3 ⚠️ Um alerta que precisa ser dito a ela com cuidado
+
+Se o alvará é mesmo de **estética** (9602-5/02) e no local já se aplica toxina botulínica, preenchimento
+ou se faz cirurgia dermatológica, **a clínica já está com o enquadramento defasado hoje**, antes e
+independentemente da Plenya. Duas leituras possíveis, e só o documento resolve:
+
+- ela tem **os dois CNAEs** (saúde + estética) e o alvará foi descrito de memória; ou
+- o alvará é só de estética, e aí há uma irregularidade preexistente.
+
+Nossa nota anterior registrou o CNPJ dela como "restrito a consultas", que é o **8630-5/03** — o que
+**contradiz** "clínica de estética". Não dá para decidir isso por dedução.
+🔲 **Pedir a ela o alvará e o cartão CNPJ** (o alvará lista os CNAEs). É de dois minutos e desfaz a dúvida.
+
+Levar o tema como cuidado com o CRM dela, nunca como auditoria: quem entra com infusão numa clínica é
+quem tem mais a perder se o enquadramento do imóvel estiver errado.
 
 > **Nota de método:** a RDC 50/2002 continua em vigor (a revisão da ANVISA está em curso, mas normas de
 > 2025 ainda remetem a ela "ou outra que venha a substituí-la"). Não planejar em cima da norma nova.
@@ -252,17 +308,19 @@ hormônio com finalidade estética. A Dra. Tatianna expõe o CRM dela ao se asso
 ## 6. Pendências 🔲
 
 **Para a conversa com ela (ordem de importância):**
-1. A clínica **processa instrumental (autoclave) no local?** — define PBA sim/não e todo o cronograma.
-2. Qual o **CNAE e o grau de risco atual** da licença sanitária dela, e se ela já declara procedimento invasivo.
-3. **Metragem real** disponível e se comporta 16–20 m² exclusivos.
-4. O **abrigo de resíduos do imóvel aceita Grupo B e Grupo E**?
-5. Ela tem **enfermeira** hoje? (se tiver, muda o custo do degrau mínimo)
+1. ✅ **Respondido (17/09):** clínica é 100% descartável, sem processamento de dispositivo médico → **sem PBA**.
+2. 🔲 **Pedir o alvará e o cartão CNPJ** — quais CNAEs constam de fato (ver §2.3).
+3. 🔲 Ela aceita o **Caminho A** (CNPJ Plenya com alvará próprio na sala alugada)?
+4. **Metragem real** disponível e se comporta 16–20 m² exclusivos.
+5. O **abrigo de resíduos do imóvel aceita Grupo B e Grupo E**?
+6. Ela tem **enfermeira** hoje? (se tiver, muda o custo do degrau mínimo)
 
 **Para a VISA Londrina (uma visita resolve):**
-6. Confirmar a leitura do art. 19 §1º: **CNPJ Plenya albergado no imóvel dela tem licença própria sem
+7. Confirmar a leitura do art. 19 §1º: **CNPJ Plenya albergado no imóvel dela tem licença própria sem
    rebaixar a licença dela**?
-7. Decreto municipal vigente de licenciamento (964/2021 ou posterior) e exigência de **DEA**.
-8. Se o porte do estoque de medicamentos dispara exigência de **RT farmacêutico** no município.
+8. **Viabilidade/zoneamento** de um 2º CNPJ no mesmo endereço (consulta prévia na Prefeitura) e se o
+   **AVCB** do imóvel cobre o uso.
+9. Exigência de **DEA** e se o porte do estoque dispara **RT farmacêutico** no município.
 
 **Para o COREN-PR:**
 9. Documentação da **ART/CRT** do ERT e se o COREN-PR tem exigência própria para serviço de terapia infusional.
@@ -291,6 +349,9 @@ hormônio com finalidade estética. A Dra. Tatianna expõe o CRM dela ao se asso
 [Resolução SESA-PR 1891/2024 (PBA)](https://www.sjp.pr.gov.br/wp-content/uploads/2025/01/Resolucao_1891_2024.pdf) ·
 [DAPES/SESA-PR](https://www.saude.pr.gov.br/Pagina/Divisao-de-Analise-de-Projetos-de-Estabelecimentos-de-Saude-DAPES) ·
 [Licença Sanitária — Carta de Serviços de Londrina](https://servicos.londrina.pr.gov.br/Servico/Details/477) ·
+[Alvará de Licença de Localização e Funcionamento — Londrina](https://servicos.londrina.pr.gov.br/Servico/Details/539?banner=true) ·
+[Legislação do Alvará — Londrina (Decreto 45/2026)](https://portal.londrina.pr.gov.br/index.php?id=774&option=com_content&view=article) ·
+[CNAE 9602-5/02 — IBGE/Concla (exclusões)](https://concla.ibge.gov.br/busca-online-cnae.html?subclasse=9602502&view=subclasse) ·
 [VISA Londrina](https://saude.londrina.pr.gov.br/index.php/vigilancia-sanitaria.html) ·
 [Decreto municipal de dispensa de baixo risco](https://blog.londrina.pr.gov.br/?p=107031)
 
@@ -302,7 +363,7 @@ RDC 222/2018 (PGRSS) · RDC 430/2020 (rede de frio) · RDC 67/2007 Anexo IV (man
 Portaria SVS/MS 344/1998 (controlados)
 
 ---
-**Documento vivo.** Atualizado em 2026-09-17. Relacionados:
+**Documento vivo.** Atualizado em 2026-09-17 (v2: alvará e caminho jurídico). Relacionados:
 [centro-infusao-e-exames.md](../../clinica/centro-infusao-e-exames.md) ·
 [portfolio-injetaveis.md](../../clinica/portfolio-injetaveis.md) ·
 [programa-arquitetonico.md](../../clinica/programa-arquitetonico.md) ·
