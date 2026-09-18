@@ -245,6 +245,74 @@ com pequenos procedimentos". 🔲 Só o alvará e a licença dizem o que foi de 
 - 🚫 **Nunca descrever o serviço como "nutrição parenteral".** 8650-0/07 é alto risco com PBA e traz
   junto a regulamentação de TNP. Nosso serviço é reposição e terapia injetável sob prescrição, não TNP.
 
+### 2.5 Decisão do Dr. (17/09): fazer tudo no CNPJ dela
+
+**O CNPJ dela já contempla a infusão. Não precisa mudar CNAE.**
+
+- **8630-5/03** (principal) é "atividade médica ambulatorial restrita a consultas", e a própria
+  Res. SESA 750/2026 prevê expressamente esse CNAE **realizando procedimentos invasivos** — é o cenário
+  que o regulador desenhou.
+- **8630-5/01** (secundário) cobre atividade médica ambulatorial com recursos para procedimentos.
+- Infusão IV sob prescrição médica cabe dentro disso. Não é atividade nova de objeto social.
+
+⚠️ **Correção:** a opção 3 da [proposta §8](propostas.md) dizia que esse caminho "exige que ela mude
+CNAE e licenciamento". A metade do CNAE está errada e foi corrigida. O licenciamento, sim, muda.
+
+#### O que falta, item a item, para operar no CNPJ dela
+
+| # | O que fazer | Quem | Observação |
+|---|---|---|---|
+| 1 | **Relicenciar na VISA como alto risco** | CNPJ dela | Declarar "sim" a procedimento invasivo. Inspeção prévia, prazo de 90 dias, deferimento por decurso |
+| 2 | **Conferir o alvará** e incluir o que faltar | CNPJ dela | Vale só para endereço e atividade expedidos |
+| 3 | **Criar o CNES** | CNPJ dela | Não existe hoje (§2.4). É pedido no licenciamento |
+| 4 | **RT médico da atividade** no CRM-PR | ela ou Dr. Getúlio | Ver a armadilha abaixo |
+| 5 | **ERT enfermagem** com ART/CRT **no CNPJ dela** | enfermeiro | Res. COFEN 782/2025 |
+| 6 | **PGRSS do estabelecimento** cobrindo Grupo B e E | CNPJ dela | Hoje provavelmente só cobre o da dermatologia |
+| 7 | **Rede de frio, carrinho de emergência, POPs** | operação | §3 e §4 deste documento |
+| 8 | **Desenho contratual da remuneração** | jurídico | Ver a armadilha do art. 59 |
+
+#### 🚨 A armadilha que esse caminho traz: o PBA volta pela cirurgia dela
+
+A [divisão de papéis da proposta §2](propostas.md) coloca **cirurgia dermatológica** na coluna dela. Se
+ela opera no local, então **8630-5/01 é atividade exercida**, e 8630-5/01 está no **Anexo III: alto
+risco com PBA obrigatório**. A revisão de 2026 não o tocou.
+
+Isso significa que, no CNPJ dela, **o PBA provavelmente é exigido de qualquer forma** — não por causa da
+infusão, mas por causa da cirurgia. Dois desfechos:
+
+- **Se ela já está licenciada corretamente** (alto risco, com PBA aprovado), incluir a sala de infusão é
+  uma alteração de projeto. Caminho curto, e o melhor cenário possível.
+- **Se ela está licenciada como estética ou médio risco**, o relicenciamento para incluir a infusão vai
+  **expor a cirurgia** e trazer o PBA junto. O centro de infusão passa a carregar o custo e o prazo de
+  regularizar uma pendência que não é nossa.
+
+🔲 **É a pergunta a fazer: ela faz cirurgia dermatológica na clínica, e o que diz a licença atual?**
+
+*(Sob CNPJ Plenya com 8630-5/03 apenas, sem cirurgia e tudo descartável, não haveria PBA. Essa é a
+diferença concreta entre os dois caminhos — e agora ela tem nome e número.)*
+
+#### 🚨 A segunda armadilha: a remuneração
+
+Com tudo faturando no CNPJ dela, quem prescreve a infusão não é quem a fatura. É exatamente a
+configuração que o **art. 59 do CEM** (vedação de remuneração por encaminhamento) mais vigia, e foi o
+motivo pelo qual a proposta escolheu o formato 1 desde o início.
+
+Não é impedimento, é desenho contratual. O que **não** pode: o Dr. Getúlio receber percentual sobre a
+receita da infusão que ele mesmo indicou. O que resolve: ele ser remunerado por **ato próprio**
+(consulta, honorário médico, responsabilidade técnica, hora clínica), com valor que não varia em função
+do volume de infusões indicadas. ✅ Levar ao parecer jurídico em direito médico, que a proposta §3 já
+previa.
+
+#### O que mais muda ao concentrar tudo nela
+
+- **Responsabilidade sanitária e civil** do serviço inteiro passa a ser do CNPJ dela.
+- **Tributação:** a receita da infusão entra no faturamento dela (Simples no CNPJ de 2019, Lucro
+  Presumido no de 2024) e pode deslocar o enquadramento. 🔲 Contador dela precisa ver antes.
+- **Controle clínico:** a Plenya opera dentro da estrutura dela, não da própria. O protocolo co-assinado
+  e o prontuário no EMR Plenya passam a ser o único instrumento de governança. Vale reforçá-los.
+- **Qual dos dois CNPJs?** São dois ativos no mesmo endereço (§2.4). A escolha tem efeito tributário e
+  contratual. 🔲 Decidir com o contador dela.
+
 #### CNES: não existe
 
 Consulta ao CNES pelos dois CNPJs retorna vazio, e a busca nacional por "PERAZOLO" e por "TATIANNA" não

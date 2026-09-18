@@ -382,8 +382,13 @@ Nomes genéricos; marca e fornecedor ficam para a prescrição.
    mudar. 🔲 O CNAE/alvará atual dela é **desconhecido** — pedir o alvará e o cartão CNPJ
    (ver `centro-infusao-operacao.md` §2.3).
 2. Nova PJ em sociedade para o centro de infusão, com lucro por quota. Possível, com parecer jurídico.
-3. Centro sob o CNPJ dela, com a Plenya como prescritora: menos controle clínico, exige que ela
-   mude CNAE e licenciamento.
+3. **Centro sob o CNPJ dela, com a Plenya como prescritora — decisão do Dr. em 17/09.** ✅ **Não exige
+   mudar CNAE**: o CNPJ dela já traz 8630-5/03 e 8630-5/01, e a Res. SESA 750/2026 prevê o 8630-5/03
+   realizando procedimento invasivo. **Exige relicenciamento sanitário como alto risco, CNES novo
+   (não existe), ERT de enfermagem no CNPJ dela e desenho contratual da remuneração (art. 59).**
+   ⚠️ Se ela faz cirurgia dermatológica no local, o 8630-5/01 é exercido e puxa **PBA obrigatório**
+   (Anexo III). Checklist completo em
+   [centro-infusao-operacao.md §2.5](centro-infusao-operacao.md).
 
 ### Exigências (do plano do centro de infusão)
 - Projeto aprovado na DAPES/SESA-PR **antes** da reforma; classificação de risco sanitário;
