@@ -313,6 +313,24 @@ previa.
 - **Qual dos dois CNPJs?** São dois ativos no mesmo endereço (§2.4). A escolha tem efeito tributário e
   contratual. 🔲 Decidir com o contador dela.
 
+### 2.6 O que a presença pública dela mostra (consulta 18/09/2026)
+
+Levantado para checar a plausibilidade do caso do deck da equipe, e acabou respondendo à pergunta do PBA.
+
+| Achado | Fonte | Por que importa |
+|---|---|---|
+| Instagram **@tatiannaperazolo_dermato**, "Clínica Tatianna Perazolo de Dermatologia. Dra. Tatianna Perazolo **e Equipe Médica**" | bio do perfil | Confirma que **há outros médicos na clínica**. São eles a plateia do deck de equipe |
+| Titulação declarada: **SBD e SBCD** | bio do perfil | **SBCD é Cirurgia Dermatológica.** 🚨 Reforça a hipótese de §2.5: se ela opera no local, **8630-5/01 é atividade exercida** e puxa PBA obrigatório |
+| **Bioestimulador de colágeno é oferta recorrente** (vários reels dedicados), ao lado de preenchimento com ácido hialurônico | publicações públicas | Torna o caso do deck plausível para a plateia. É procedimento da casa, não hipótese |
+| Fala publicamente de **alopecia frontal fibrosante** e queda capilar | publicação pública | O eixo capilar da parceria tem terreno comum |
+| "Tecnologias e protocolos personalizados" | bio | Posicionamento compatível com o nosso |
+| Telefone divulgado: **(43) 3336-1616** | publicações | ⚠️ Diferente do telefone do CNPJ na Receita (43 3332-1451). Confirmar qual é o de contato |
+| Atende também em **Rolândia** (Clinimed, R. Estilac Leal 77), além das duas salas de Londrina | Doctoralia | Ela divide agenda entre duas cidades. Afeta a frequência realista da reunião mensal de casos |
+| Doctoralia: **só particular**, sem convênio, sem agendamento online | Doctoralia | Público compatível com o da Plenya |
+
+🔲 **Pergunta que isso torna mais urgente:** ela faz cirurgia dermatológica **na sala de Londrina** ou só
+em Rolândia? É o que decide se o PBA entra no caminho do CNPJ dela (§2.5).
+
 #### CNES: não existe
 
 Consulta ao CNES pelos dois CNPJs retorna vazio, e a busca nacional por "PERAZOLO" e por "TATIANNA" não
