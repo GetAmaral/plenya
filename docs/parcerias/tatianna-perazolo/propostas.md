@@ -339,9 +339,8 @@ clínica. **Todo item exige consulta, exame e indicação em prontuário.**
 | **Myers** | IV | ECR não superou placebo: oferecido como experiência/QoL, com medida antes/depois; gate renal pelo magnésio |
 | **Hidratação e eletrólitos** | IV | reidratação pontual |
 
-> Nota interna: [centro-infusao-e-exames.md](../../clinica/centro-infusao-e-exames.md) §I.4
-> ainda lista o Myers em "não oferecer"; a decisão posterior do §15 do portfólio o reposicionou
-> como QoL com disclaimer. Vale a do §15; alinhar o documento antigo.
+> ✅ **Alinhado em 17/09:** o §I.4 de [centro-infusao-e-exames.md](../../clinica/centro-infusao-e-exames.md)
+> foi corrigido e agora remete ao §15 do portfólio, que prevalece. O Myers é QoL com disclaimer.
 
 ### O que a parceria NÃO oferece (e por que isso é argumento de venda)
 - **Glutationa para clareamento ou "glow"**: vetada pela ABRAN, eventos graves descritos.

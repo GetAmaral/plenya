@@ -114,8 +114,12 @@ abaixo prioriza a defensabilidade clínica e a reputação de um centro liderado
 
 > 📎 **Detalhamento molécula a molécula** (formas/produtos BR, doses, via IM/IV, gates, indicações
 > ampliadas, segurança, ângulo nefrológico) no anexo **[portfolio-injetaveis.md](portfolio-injetaveis.md)**.
-> O núcleo está fechado e aprofundado (ferro EV · B12 · vitamina D · magnésio · complexo B/tiamina);
-> o "seletivo" (vit C alta dose, ALA) segue em discussão.
+>
+> ⚠️ **Esta seção I.4 é o resumo de MAIO e foi superada.** O portfólio foi fechado molécula a molécula
+> (111 cartas, inventário + 2 blocos complementares) e consolidado em **protocolos ofertáveis por eixo
+> A–G no §15**. Onde houver divergência, **vale o §15**. Duas mudanças relevantes desde este texto:
+> **vitamina C** entrou como ✅ funcional em dose baixa-média (§7) e **ALA** como ✅ (§8) — nenhum dos
+> dois segue "em discussão"; e o **Myers** foi reposicionado (ver abaixo).
 
 ### ✅ Núcleo (oferecer — alta defensabilidade)
 | Item | Indicação com respaldo | Evidência | Nota nefro |
@@ -131,7 +135,10 @@ abaixo prioriza a defensabilidade clínica e a reputação de um centro liderado
 - **Vitamina C alta dose** — **só** com braço de oncologia integrativa formal, triagem obrigatória de **G6PD** + função renal. Caso contrário **não incluir** (risco de oxalato/litíase é especialmente sensível numa clínica de nefrologia).
 
 ### ❌ Não oferecer (risco reputacional/regulatório > retorno)
-- Coquetel **"Myers"** e similares como wellness genérico (marketing, sem evidência sem deficiência).
+- ~~Coquetel **"Myers"**~~ — **REPOSICIONADO pelo §15 (G1), que prevalece.** O Myers é ofertável **como
+  experiência/QoL com disclaimer honesto** (o ECR de Katz não superou placebo), com medida de VAS antes
+  e depois e gate renal pelo magnésio. O que continua vedado é vendê-lo como cura, detox ou imunidade.
+  Similares como **wellness genérico sem indicação** seguem fora.
 - **Glutationa IV** (clareamento/"detox") — sem evidência, alertas regulatórios internacionais 2025.
 - **NAD+ IV** — ineficiente (piloto 2025: entrada celular muito baixa), efeitos adversos na infusão, sem desfecho de longevidade humano.
 - **Peptídeos** injetáveis (BPC-157, TB-500, timosina) — risco regulatório/jurídico alto, doping (WADA).
