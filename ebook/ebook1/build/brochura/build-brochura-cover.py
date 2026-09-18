@@ -367,15 +367,31 @@ def main():
 
     canvas = Image.new("RGB", (CANVAS_W, CANVAS_H), PETROL)
 
-    # 1ª capa: a arte ocupa o trim e é estendida para a sangria por replicação de borda
+    # 1ª capa: a arte cobre o painel inteiro, sangria incluída, SEM distorcer.
+    #
+    # O painel tem 160 mm de largura (entre a dobra da lombada e a dobra da orelha,
+    # sem sangria lateral) e 236 mm de altura (230 de trim + 3 mm de sangria em cima
+    # e 3 embaixo). A arte vem mais alta que isso de propósito: é a sobra que vira
+    # sangria. Encaixada pela largura, os 1920×3072 dão 160 × 256 mm e sobram 10 mm
+    # em cima e 10 embaixo, que é o que se corta.
+    #
+    # A versão anterior fazia resize(160 × 230) sem preservar proporção — esticava a
+    # arte 11,3% na horizontal, engordando o "ANTES" — e depois fabricava a sangria
+    # esticando 8 px da borda de cima e de baixo, o que duplicava conteúdo em vez de
+    # usar o que a arte já trazia.
     front_w = FRONT_X1 - FRONT_X0
-    front_h = TRIM_Y1 - TRIM_Y0
-    front = Image.open(CAPA_FRONT).convert("RGB").resize((front_w, front_h), Image.LANCZOS)
-    canvas.paste(front, (FRONT_X0, TRIM_Y0))
-    top = front.crop((0, 0, front_w, 8)).resize((front_w, TRIM_Y0), Image.LANCZOS)
-    canvas.paste(top, (FRONT_X0, 0))
-    bot = front.crop((0, front_h - 8, front_w, front_h)).resize((front_w, CANVAS_H - TRIM_Y1), Image.LANCZOS)
-    canvas.paste(bot, (FRONT_X0, TRIM_Y1))
+    front_h = CANVAS_H                       # trim + sangria de cima e de baixo
+    art = Image.open(CAPA_FRONT).convert("RGB")
+    escala = max(front_w / art.width, front_h / art.height)
+    art = art.resize((max(front_w, round(art.width * escala)),
+                      max(front_h, round(art.height * escala))), Image.LANCZOS)
+    off_x = (art.width - front_w) // 2
+    off_y = (art.height - front_h) // 2
+    front = art.crop((off_x, off_y, off_x + front_w, off_y + front_h))
+    canvas.paste(front, (FRONT_X0, 0))
+    sobra_mm = (art.height - front_h) / DPI * 25.4
+    print(f"   1ª capa        : arte {art.width}×{art.height} px → painel "
+          f"{front_w}×{front_h} px, corte de {sobra_mm/2:.1f} mm em cima e embaixo")
 
     draw = ImageDraw.Draw(canvas)
     draw_back_cover(canvas, draw)
