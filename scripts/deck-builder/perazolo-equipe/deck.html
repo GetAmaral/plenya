@@ -5,533 +5,554 @@
 <title>Plenya × Clínica Tatianna Perazolo · Apresentação à equipe</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap');
-:root{--gold:#B38645;--gold-soft:#D4A86B;--gold-deep:#8A6534;--petrol:#063B4F;--petrol-deep:#041F2A;--ocean:#417E8E;--sage:#92B8B4;--cream:#EAE7DA;--cream-soft:#F5F1E8;--ink:#0A1F26;--muted:#4E6268;
+:root{--gold:#B38645;--gold-soft:#D4A86B;--gold-deep:#8A6534;--petrol:#063B4F;--petrol-deep:#041F2A;
+--sage:#92B8B4;--cream:#EAE7DA;--cream-soft:#F5F1E8;--ink:#0A1F26;--muted:#4E6268;
 --serif:'Cormorant Garamond',Georgia,serif;--display:'Fraunces','Cormorant Garamond',Georgia,serif}
 @page{size:1920px 1080px;margin:0}
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#8a8a8a}
+html,body{margin:0;padding:0;background:#6d6d6d}
 body{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+/* ---------- GRADE ÚNICA ----------
+   Todo slide normal: chrome no topo, olho + título no mesmo lugar,
+   conteúdo SEMPRE começando em y=380. Título nunca desloca o conteúdo. */
 .slide{width:1920px;height:1080px;position:relative;overflow:hidden;break-after:page;page-break-after:always;
-  background:var(--cream-soft);color:var(--ink);font-family:var(--serif);font-size:42px;line-height:1.35;margin:0 auto}
+  background:var(--cream-soft);color:var(--ink);font-family:var(--serif);font-size:42px;line-height:1.34;margin:0 auto}
 .slide.dark{background:var(--petrol-deep);color:var(--cream)}
 .slide.petrol{background:var(--petrol);color:var(--cream)}
-.chrome{position:absolute;top:56px;left:110px;right:110px;display:flex;justify-content:space-between;align-items:center;
-  font-size:24px;letter-spacing:.3em;text-transform:uppercase;z-index:6;opacity:.8;font-weight:600}
-.pgn{position:absolute;bottom:52px;right:110px;font-size:24px;letter-spacing:.3em;opacity:.6;z-index:6;font-weight:600}
-.body{position:absolute;top:150px;left:110px;right:110px;bottom:100px;z-index:4}
-.body.mid{display:flex;flex-direction:column;justify-content:center}
-.eyebrow{font-size:27px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:22px}
+.chrome{position:absolute;top:62px;left:120px;right:120px;display:flex;justify-content:space-between;
+  font-size:23px;letter-spacing:.3em;text-transform:uppercase;z-index:6;opacity:.62;font-weight:600}
+.pgn{position:absolute;bottom:56px;right:120px;font-size:23px;letter-spacing:.28em;opacity:.5;z-index:6;font-weight:600}
+.body{position:absolute;top:172px;left:120px;right:120px;bottom:104px;z-index:4}
+.eyebrow{font-size:26px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:700;
+  height:34px;margin:0}
 .dark .eyebrow,.petrol .eyebrow{color:var(--gold-soft)}
 h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.018em;margin:0}
-h1{font-size:150px;line-height:.96}
-h2{font-size:92px;line-height:1.02;margin-bottom:34px}
-h2.sm{font-size:74px}
-h2.xl{font-size:118px;line-height:1.0}
-h3{font-size:50px;line-height:1.14;margin-bottom:10px}
+h2{font-size:86px;line-height:1.04;margin-top:26px}
+.content{position:absolute;top:336px;left:0;right:0;bottom:0}
+.content.up{top:288px}  /* slides densos: tabela longa ou quatro réguas */
 .d{color:var(--gold)}
-.sub{font-style:italic;font-size:52px;line-height:1.24;color:var(--gold-deep);margin-bottom:46px}
-.dark .sub,.petrol .sub{color:var(--gold-soft)}
-p{margin:0 0 20px}
-.lead{font-size:48px;line-height:1.36}
-.muted{color:var(--muted)}
-.dark .muted,.petrol .muted{color:var(--sage)}
-ul.l{margin:0;padding:0;list-style:none}
-ul.l li{position:relative;padding-left:44px;margin-bottom:26px;font-size:42px;line-height:1.3}
-ul.l li:before{content:"";position:absolute;left:0;top:20px;width:13px;height:13px;border-radius:50%;background:var(--gold)}
-.dark ul.l li:before,.petrol ul.l li:before{background:var(--gold-soft)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:86px}
-.g2.wide{grid-template-columns:1.1fr 1fr;gap:72px}
-table.t{width:100%;border-collapse:collapse;font-size:39px;line-height:1.26}
-table.t th{font-size:25px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);text-align:left;font-weight:700;
-  padding:0 26px 16px 0;border-bottom:2px solid rgba(179,134,69,.55)}
-table.t td{padding:19px 26px 19px 0;border-bottom:1px solid rgba(6,59,79,.14);vertical-align:top}
-table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500}
-.dark table.t th,.petrol table.t th{color:var(--gold-soft)}
-.dark table.t td,.petrol table.t td{border-bottom-color:rgba(234,231,218,.16)}
-.num{font-family:var(--display);font-size:104px;line-height:1;color:var(--gold);font-weight:400}
-.numsm{font-family:var(--display);font-size:78px;line-height:1;color:var(--gold);font-weight:400}
-.dark .num,.petrol .num,.dark .numsm,.petrol .numsm{color:var(--gold-soft)}
-.mega{font-family:var(--display);font-size:340px;line-height:.9;color:var(--gold-soft);font-weight:400}
-.caps{font-size:26px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--gold-deep)}
-.dark .caps,.petrol .caps{color:var(--gold-soft)}
-.note{font-size:32px;line-height:1.3;font-style:italic;color:var(--muted)}
+.dark .d,.petrol .d{color:var(--gold-soft)}
+
+/* slide-declaração: só nele o texto centraliza */
+.slide.stmt .body{display:flex;flex-direction:column;justify-content:center}
+.slide.stmt h2{font-size:104px;line-height:1.04;margin:0}
+.slide.stmt .content{position:static;margin-top:44px}
+
+h3{font-size:46px;line-height:1.14;margin-bottom:8px}
+p{margin:0 0 22px}
+.lead{font-size:46px;line-height:1.34}
+.big{font-size:54px;line-height:1.26}
+.note{font-size:31px;line-height:1.3;font-style:italic;color:var(--muted)}
 .dark .note,.petrol .note{color:var(--sage)}
-.closer{font-style:italic;font-size:54px;line-height:1.24;color:var(--gold-deep)}
+.closer{font-style:italic;font-size:50px;line-height:1.26;color:var(--gold-deep)}
 .dark .closer,.petrol .closer{color:var(--gold-soft)}
-.disc{position:absolute;bottom:52px;left:110px;font-size:24px;font-style:italic;opacity:.55;z-index:6;max-width:1200px}
+.caps{font-size:25px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;color:var(--gold-deep)}
+.dark .caps,.petrol .caps{color:var(--gold-soft)}
+ul.l{margin:0;padding:0;list-style:none}
+ul.l li{position:relative;padding-left:42px;margin-bottom:24px;font-size:42px;line-height:1.28}
+ul.l li:before{content:"";position:absolute;left:0;top:19px;width:12px;height:12px;border-radius:50%;background:var(--gold)}
+.dark ul.l li:before,.petrol ul.l li:before{background:var(--gold-soft)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.g2.wide{grid-template-columns:1.08fr 1fr;gap:70px}
+.hair{border-left:3px solid rgba(179,134,69,.4);padding-left:26px}
+.dark .hair,.petrol .hair{border-left-color:rgba(212,168,107,.45)}
+.card{border:2px solid rgba(179,134,69,.45);border-radius:8px;padding:32px 40px}
+.dark .card,.petrol .card{border-color:rgba(212,168,107,.5)}
+.rule{height:2px;background:rgba(179,134,69,.4);margin:30px 0}
+table.t.dense td{padding:12px 24px 12px 0}
+table.t.dense th{padding-bottom:12px}
+.num{font-family:var(--display);font-size:96px;line-height:1;color:var(--gold);font-weight:400}
+.numsm{font-family:var(--display);font-size:70px;line-height:1;color:var(--gold);font-weight:400}
+.dark .num,.petrol .num,.dark .numsm,.petrol .numsm{color:var(--gold-soft)}
+.mega{font-family:var(--display);font-size:300px;line-height:.9;color:var(--gold-soft);font-weight:400}
+table.t{width:100%;border-collapse:collapse;font-size:38px;line-height:1.24}
+table.t th{font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);text-align:left;
+  font-weight:700;padding:0 24px 15px 0;border-bottom:2px solid rgba(179,134,69,.5)}
+table.t td{padding:17px 24px 17px 0;border-bottom:1px solid rgba(6,59,79,.13);vertical-align:top}
+table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500}
+.dark table.t th,.petrol table.t th{color:var(--gold-soft)}
+.dark table.t td,.petrol table.t td{border-bottom-color:rgba(234,231,218,.15)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:36px}
+.flow .numsm{margin-bottom:12px}
+.flow p{font-size:36px;line-height:1.24;margin:0}
 .img{position:absolute;inset:0;background-size:cover;background-position:center;z-index:1}
-.veil{position:absolute;inset:0;z-index:2}
-.veil.dark-l{background:linear-gradient(90deg,rgba(4,31,42,.95) 0%,rgba(4,31,42,.82) 44%,rgba(4,31,42,.14) 100%)}
-.veil.dark-full{background:rgba(4,31,42,.82)}
-.half{position:absolute;top:0;right:0;width:42%;height:100%;background-size:cover;background-position:center;z-index:1}
-.half+.chrome+.body,.half+.body{right:calc(42% + 90px)}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
-.flow .numsm{margin-bottom:14px}
-.flow p{font-size:37px;line-height:1.26;margin:0}
-.hair{border-left:3px solid rgba(179,134,69,.42);padding-left:28px}
-.card{border:2px solid rgba(179,134,69,.5);border-radius:8px;padding:40px 44px}
-.dark .card,.petrol .card{border-color:rgba(212,168,107,.55)}
-.rule{height:2px;background:rgba(179,134,69,.45);margin:34px 0}
-.slide.dense table.t{font-size:38px;line-height:1.2;margin-top:52px}
-.slide.dense table.t td{padding:15px 26px 15px 0}
-.slide.dense table.t td.k{font-size:39px}
-.slide.dense h2{margin-bottom:20px}
-/* barras de resultado — mesma linguagem visual da devolutiva do paciente */
-.bars{display:flex;flex-direction:column;gap:22px}
-.bar-row{display:grid;grid-template-columns:340px 1fr;align-items:center;gap:20px}
-.bar-name{font-size:34px;line-height:1.1;text-align:right}
-.bar-track{position:relative;display:flex;align-items:center;gap:16px}
-.bar{display:block;height:28px;background:var(--petrol);border-radius:0 6px 6px 0}
-.dark .bar,.petrol .bar{background:var(--sage)}
-.bar-val{font-size:32px;color:var(--muted);font-variant-numeric:tabular-nums}
-.dark .bar-val,.petrol .bar-val{color:var(--sage)}
-.hband{position:relative;margin-top:104px;padding-bottom:78px}
-.segs{display:flex;gap:3px;height:58px}
-.seg{display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:34px;font-weight:500}
+.veil{position:absolute;inset:0;z-index:2;background:rgba(4,31,42,.84)}
+.half{position:absolute;top:0;right:0;width:40%;height:100%;background-size:cover;background-position:center;z-index:1}
+.slide.split .body{right:calc(40% + 96px)}
+.disc{position:absolute;bottom:56px;left:120px;font-size:23px;font-style:italic;opacity:.5;z-index:6}
+
+/* régua explicada (uma só, grande) */
+.hband{position:relative;padding-bottom:70px}
+.segs{display:flex;gap:3px;height:56px}
+.seg{display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:33px;font-weight:500}
 .seg:first-child{border-radius:6px 0 0 6px}.seg:last-child{border-radius:0 6px 6px 0}
-.ticks{position:relative;height:34px;font-size:30px;color:var(--muted)}
+.ticks{position:relative;height:32px;font-size:29px;color:var(--muted)}
 .dark .ticks,.petrol .ticks{color:var(--sage)}
 .tick{position:absolute;top:8px;transform:translateX(-50%)}
 .unit{position:absolute;right:0;top:8px}
-.bracket{position:absolute;top:-52px;height:30px;border:2px solid var(--muted);border-bottom:none}
+.bracket{position:absolute;top:-50px;height:28px;border:2px solid var(--muted);border-bottom:none}
 .dark .bracket,.petrol .bracket{border-color:var(--sage)}
-.bracket span{position:absolute;top:-42px;left:0;font-size:30px;font-style:italic;color:var(--muted);white-space:nowrap}
+.bracket span{position:absolute;top:-40px;left:0;font-size:29px;font-style:italic;color:var(--muted);white-space:nowrap}
 .dark .bracket span,.petrol .bracket span{color:var(--sage)}
-.opt{position:absolute;top:140px;transform:translateX(-50%)}
-.opt:before{content:"";position:absolute;left:50%;top:-26px;width:3px;height:22px;background:var(--gold)}
-.opt span{position:absolute;left:-14px;top:0;font-size:30px;font-style:italic;color:var(--gold-deep);white-space:nowrap}
-.dark .opt span,.petrol .opt span{color:var(--gold-soft)}
-.mark{position:absolute;top:-96px;transform:translateX(-50%);text-align:center;white-space:nowrap}
-.mark:after{content:"";position:absolute;left:50%;top:76px;width:3px;height:74px;background:var(--gold)}
-.mark span{font-family:var(--display);font-size:44px;color:var(--gold)}
-.mini{display:grid;grid-template-columns:330px 1fr 130px;align-items:center;gap:26px;margin-bottom:54px}
-.mini-name{font-size:35px;line-height:1.1;text-align:right}
-.mini-name small{display:block;font-size:27px;font-style:italic;opacity:.72;margin-top:4px}
+.optlab{position:absolute;top:104px;transform:translateX(-50%)}
+.optlab:before{content:"";position:absolute;left:50%;top:-26px;width:3px;height:22px;background:var(--gold)}
+.optlab span{position:absolute;left:-14px;top:0;font-size:29px;font-style:italic;color:var(--gold-deep);white-space:nowrap}
+.dark .optlab span,.petrol .optlab span{color:var(--gold-soft)}
+
+/* quatro réguas compactas */
+.mini{display:grid;grid-template-columns:320px 1fr 118px;align-items:center;gap:22px;margin-bottom:40px}
+.mini-name{font-size:34px;line-height:1.1;text-align:right}
+.mini-name small{display:block;font-size:26px;font-style:italic;opacity:.7;margin-top:3px}
 .mini-band{position:relative}
-.mini-segs{display:flex;gap:2px;height:36px}
+.mini-segs{display:flex;gap:2px;height:34px}
 .mini-segs span{display:block}
 .mini-segs span:first-child{border-radius:5px 0 0 5px}.mini-segs span:last-child{border-radius:0 5px 5px 0}
-.mini-mark{position:absolute;top:-58px;transform:translateX(-50%);white-space:nowrap}
-.mini-mark b{font-family:var(--display);font-weight:500;font-size:34px;color:var(--gold-soft)}
-.mini-mark:after{content:"";position:absolute;left:50%;top:40px;width:4px;height:56px;background:var(--gold-soft);transform:translateX(-50%)}
-.mini-score{font-family:var(--display);font-size:52px;line-height:1;text-align:right}
-.mini-score small{font-size:28px;opacity:.7}
+.mini-mark{position:absolute;top:-56px;transform:translateX(-50%);white-space:nowrap}
+.mini-mark b{font-family:var(--display);font-weight:500;font-size:33px;color:var(--gold-soft)}
+.mini-mark:after{content:"";position:absolute;left:50%;top:38px;width:4px;height:54px;background:var(--gold-soft);transform:translateX(-50%)}
+.mini-score{font-family:var(--display);font-size:50px;line-height:1;text-align:right}
+.mini-score small{font-size:27px;opacity:.65}
 .s5{background:#B38645}.s4{background:#1A5C78}.s3{background:#34738A}.s2{background:#4F8795}.s1{background:#7E9FA3}.s0{background:#A8B9B6}
-.dark .mark span,.petrol .mark span{color:var(--gold-soft)}
-.dark .mark:after,.petrol .mark:after{background:var(--gold-soft)}
+.bars{display:flex;flex-direction:column;gap:20px}
+.bar-row{display:grid;grid-template-columns:330px 1fr;align-items:center;gap:18px}
+.bar-name{font-size:33px;line-height:1.1;text-align:right}
+.bar-track{position:relative;display:flex;align-items:center;gap:15px}
+.bar{display:block;height:26px;background:var(--sage);border-radius:0 5px 5px 0}
+.bar-val{font-size:31px;color:var(--sage);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
 
-<!-- 01 ABERTURA -->
-<section class="slide dark">
-  <div class="body mid">
-    <h2 class="xl" style="margin-bottom:56px">Há dois anos, Helena fez bioestimulador de colágeno e o resultado foi ótimo<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1460px">Ela tem 47 anos e gostou tanto que, em maio,
-    repetiu o mesmo protocolo, com a mesma profissional e o mesmo produto.</p>
+<!-- 01 · CAPA -->
+<section class="slide dark stmt">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-consulta.jpg')"></div>
+  <div class="body" style="right:calc(40% + 96px)">
+    <div class="eyebrow">Plenya &nbsp;na&nbsp; Clínica Tatianna Perazolo</div>
+    <h2 style="margin-top:30px">Vou trabalhar aqui, ao lado de vocês<span class="d">.</span></h2>
+    <div class="content">
+      <p class="closer">Getúlio Amaral Filho, nefrologista.<br>Medicina Funcional Integrativa.</p>
+    </div>
+    <div style="position:absolute;bottom:0;left:0" class="caps">Saúde, Performance &amp; Longevidade</div>
   </div>
-  <div class="disc">Caso composto, construído a partir de padrões clínicos frequentes. Não retrata uma paciente específica.</div>
 </section>
 
-<!-- 02 O PROCEDIMENTO -->
-<section class="slide dark">
-  <div class="body mid">
-    <div class="eyebrow">O que foi feito, exatamente</div>
-    <h2 class="sm" style="margin-bottom:44px">Duas sessões de PLLA, terço médio e inferior, com oito semanas de intervalo<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1500px">Mesma diluição. Mesmo tempo de reconstituição. Mesmo plano de pontos.
-    Mesma foto padronizada, na mesma luz.</p>
-    <p class="lead" style="max-width:1500px;margin-top:34px">O bioestimulador não preenche. Ele pede ao fibroblasto dela
-    que produza colágeno novo. Tudo depende do que acontece depois que a agulha sai.</p>
+<!-- 02 · O COMBINADO DA CONVERSA -->
+<section class="slide">
+  <div class="chrome"><span>Plenya</span><span>Para que é esta conversa</span></div>
+  <div class="body">
+    <div class="eyebrow">Vinte minutos, e um objetivo só</div>
+    <h2>No fim, vocês vão saber quando me mandar uma paciente<span class="d">.</span></h2>
+    <div class="content">
+      <ul class="l">
+        <li>Começo com um caso, para vocês verem o problema antes de ouvirem a solução.</li>
+        <li>Depois explico o que a Plenya faz e o que é o nosso Escore.</li>
+        <li>Fecho com a lista de sinais que valem um encaminhamento.</li>
+      </ul>
+      <p class="lead" style="margin-top:44px">Nenhuma paciente muda de mãos. Volto nisso no fim, porque sei que é a dúvida.</p>
+    </div>
   </div>
   <div class="pgn">02</div>
 </section>
 
-<!-- 03 O QUE DEU RUIM -->
-<section class="slide dark">
-  <div class="body mid">
-    <div class="eyebrow">Seis meses depois, na foto de controle</div>
-    <h2 style="margin-bottom:46px">Quase nada tinha mudado<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1520px">Firmeza mínima, contorno praticamente igual ao da linha de base.</p>
-    <p class="closer" style="margin-top:44px;font-size:58px">E ela perguntou se o produto usado nela<br>tinha sido o mesmo da vez anterior.</p>
+<!-- 03 · O CASO -->
+<section class="slide dark stmt">
+  <div class="body">
+    <div class="eyebrow">Um caso para começar</div>
+    <h2>Helena tem 47 anos. Há dois anos fez bioestimulador de colágeno e o resultado foi ótimo<span class="d">.</span></h2>
+    <div class="content">
+      <p class="lead">Gostou tanto que, em maio, repetiu o mesmo protocolo,
+      com a mesma profissional e o mesmo produto.</p>
+    </div>
   </div>
+  <div class="disc">Caso composto, construído a partir de padrões clínicos frequentes. Não retrata uma paciente específica.</div>
   <div class="pgn">03</div>
 </section>
 
-<!-- 04 ABSOLVIÇÃO -->
-<section class="slide petrol">
-  <div class="body mid">
-    <div class="eyebrow">Antes que alguém se culpe</div>
-    <h2 class="xl" style="margin-bottom:56px">Mesma profissional. Mesma técnica. Mesma paciente<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1520px">Era o mesmo procedimento que tinha funcionado nela dois anos antes.
-    Não havia o que revisar na sala.</p>
-    <p class="lead" style="max-width:1520px;margin-top:34px">O que tinha mudado em dois anos estava fora dela.</p>
+<!-- 04 · O QUE FOI FEITO -->
+<section class="slide">
+  <div class="chrome"><span>O caso</span><span>O que foi feito</span></div>
+  <div class="body">
+    <div class="eyebrow">Duas sessões, oito semanas de intervalo</div>
+    <h2>Tudo igual à primeira vez<span class="d">.</span></h2>
+    <div class="content">
+      <div class="g2">
+        <div>
+          <ul class="l">
+            <li>Mesma diluição e mesmo tempo de reconstituição.</li>
+            <li>Mesmo plano de pontos, terço médio e inferior.</li>
+            <li>Mesma foto padronizada, na mesma luz.</li>
+          </ul>
+        </div>
+        <div class="hair">
+          <p class="big">O bioestimulador não preenche.</p>
+          <p class="big">Ele pede ao fibroblasto dela que produza colágeno novo.</p>
+          <p class="note">Tudo depende do que acontece depois que a agulha sai.</p>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="pgn">04</div>
 </section>
 
-<!-- 05 O QUE ELA FEZ -->
-<section class="slide">
-  <div class="chrome"><span>Plenya</span><span>O pré-operatório</span></div>
+<!-- 05 · O QUE DEU ERRADO -->
+<section class="slide dark stmt">
   <div class="body">
-    <div class="eyebrow">Ela tinha exames recentes, e eram bons</div>
-    <h2 class="sm">Os dois que ela fez<span class="d">.</span></h2>
-    <div class="g2" style="margin-top:80px">
-      <div class="hair"><div class="num">94</div><div class="caps" style="margin-top:14px">glicose de jejum, mg/dL</div>
-        <p class="note" style="margin-top:16px">Referência do laboratório: abaixo de 100. Normal.</p></div>
-      <div class="hair"><div class="num">5,6</div><div class="caps" style="margin-top:14px">hemoglobina glicada, %</div>
-        <p class="note" style="margin-top:16px">Referência do laboratório: abaixo de 5,7. Normal.</p></div>
+    <div class="eyebrow">Seis meses depois, na foto de controle</div>
+    <h2>Quase nada tinha mudado<span class="d">.</span></h2>
+    <div class="content">
+      <p class="closer" style="font-size:54px">E ela perguntou se o produto usado nela<br>tinha sido o mesmo da vez anterior.</p>
     </div>
-    <p class="lead" style="margin-top:80px;max-width:1560px">Dois laudos normais. Qualquer um de nós teria seguido em frente.</p>
   </div>
   <div class="pgn">05</div>
 </section>
 
-<!-- 06 O QUE NINGUEM PEDIU -->
-<section class="slide dark">
-  <div class="body mid">
-    <div class="eyebrow">Os dois que ninguém pediu</div>
-    <div class="mega">4,4</div>
-    <p class="lead" style="margin-top:30px">HOMA-IR. Insulina de jejum em 19.</p>
-    <p class="lead" style="max-width:1520px;margin-top:26px">Resistência à insulina instalada, com a glicemia ainda normal.
-    É assim que ela se comporta durante anos, antes de aparecer em qualquer glicose de jejum.</p>
+<!-- 06 · A ABSOLVIÇÃO -->
+<section class="slide petrol">
+  <div class="chrome"><span>O caso</span><span>Antes que alguém se culpe</span></div>
+  <div class="body">
+    <div class="eyebrow">A primeira coisa que se revisa é a sala</div>
+    <h2>E na sala não havia o que revisar<span class="d">.</span></h2>
+    <div class="content">
+      <p class="lead">Mesma profissional. Mesma técnica. Mesmo produto. <strong>Mesma paciente</strong>,
+      que dois anos antes tinha respondido bem a esse mesmo protocolo.</p>
+      <div class="rule"></div>
+      <p class="big">Quando a técnica se repete e o resultado não, o que mudou não estava na sala.
+      Estava <strong>dentro dela</strong>.</p>
+    </div>
   </div>
   <div class="pgn">06</div>
 </section>
 
-<!-- 07 AS QUATRO REGUAS -->
-<section class="slide petrol">
+<!-- 07 · O QUE ELA JÁ TINHA -->
+<section class="slide">
+  <div class="chrome"><span>O caso</span><span>A investigação</span></div>
   <div class="body">
-    <div class="eyebrow">As mesmas quatro medidas, nas réguas do Escore</div>
-    <h2 class="sm" style="margin-bottom:64px">O laudo e a régua discordam<span class="d">.</span></h2>
-
-    <div class="mini">
-      <div class="mini-name">Glicose de jejum<small>normal no laudo</small></div>
-      <div class="mini-band">
-        <div class="mini-mark" style="left:48.6%"><b>94</b></div>
-        <div class="mini-segs">
-          <span class="s2" style="width:0%"></span><span class="s5" style="width:35.7%"></span><span class="s4" style="width:21.4%"></span>
-          <span class="s3" style="width:14.3%"></span><span class="s1" style="width:22.9%"></span><span class="s0" style="width:5.7%"></span>
-        </div>
+    <div class="eyebrow">Ela tinha exames recentes, e eram bons</div>
+    <h2>Dois laudos normais<span class="d">.</span></h2>
+    <div class="content">
+      <div class="g2">
+        <div class="hair"><div class="num">94</div>
+          <div class="caps" style="margin-top:12px">glicose de jejum, mg/dL</div>
+          <p class="note" style="margin-top:14px">Referência do laboratório: abaixo de 100.</p></div>
+        <div class="hair"><div class="num">5,6</div>
+          <div class="caps" style="margin-top:12px">hemoglobina glicada, %</div>
+          <p class="note" style="margin-top:14px">Referência do laboratório: abaixo de 5,7.</p></div>
       </div>
-      <div class="mini-score">4<small>/5</small></div>
+      <p class="lead" style="margin-top:74px">Qualquer um de nós teria olhado esses dois laudos e seguido em frente.</p>
     </div>
-
-    <div class="mini">
-      <div class="mini-name">Hemoglobina glicada<small>normal no laudo</small></div>
-      <div class="mini-band">
-        <div class="mini-mark" style="left:53.3%"><b>5,6</b></div>
-        <div class="mini-segs">
-          <span class="s4" style="width:26.7%"></span><span class="s5" style="width:16.6%"></span><span class="s3" style="width:13.4%"></span>
-          <span class="s1" style="width:26.6%"></span><span class="s0" style="width:16.7%"></span>
-        </div>
-      </div>
-      <div class="mini-score">3<small>/5</small></div>
-    </div>
-
-    <div class="mini">
-      <div class="mini-name">Insulina de jejum<small>não foi pedida</small></div>
-      <div class="mini-band">
-        <div class="mini-mark" style="left:54.3%"><b>19</b></div>
-        <div class="mini-segs">
-          <span class="s3" style="width:5.7%"></span><span class="s5" style="width:11.4%"></span><span class="s4" style="width:11.5%"></span>
-          <span class="s2" style="width:22.8%"></span><span class="s1" style="width:34.3%"></span><span class="s0" style="width:14.3%"></span>
-        </div>
-      </div>
-      <div class="mini-score">1<small>/5</small></div>
-    </div>
-
-    <div class="mini" style="margin-bottom:0">
-      <div class="mini-name">HOMA-IR<small>não foi calculado</small></div>
-      <div class="mini-band">
-        <div class="mini-mark" style="left:73.3%"><b>4,4</b></div>
-        <div class="mini-segs">
-          <span class="s5" style="width:16.7%"></span><span class="s4" style="width:15.0%"></span><span class="s2" style="width:10.0%"></span>
-          <span class="s1" style="width:16.6%"></span><span class="s0" style="width:41.7%"></span>
-        </div>
-      </div>
-      <div class="mini-score">0<small>/5</small></div>
-    </div>
-
-    <p class="lead" style="margin-top:44px">Os dois que ela fez estavam bons.
-    <strong>Os dois que ninguém pediu estavam no chão.</strong></p>
-    <p class="note" style="margin-top:10px">A faixa dourada é o ótimo do Escore em cada régua.</p>
   </div>
   <div class="pgn">07</div>
 </section>
 
-<!-- 08 O MECANISMO -->
-<section class="slide">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
-  <div class="chrome"><span>Plenya</span><span>O mecanismo</span></div>
+<!-- 08 · O CONCEITO NOVO -->
+<section class="slide petrol">
+  <div class="chrome"><span>Plenya</span><span>O conceito que muda tudo</span></div>
   <div class="body">
-    <div class="eyebrow">Por que isso chega no bioestimulador</div>
-    <h2 class="sm">A matriz que recebeu o estímulo era outra<span class="d">.</span></h2>
-    <p class="lead" style="margin-top:36px">A glicação cria no colágeno da derme ligações cruzadas
-    <strong>não enzimáticas</strong>, que deixam a fibra rígida e <strong>resistente à degradação</strong>
-    que a remodelação exige.</p>
-    <p class="lead">Em cultura, fibroblasto sobre colágeno glicado <strong>invade menos</strong>.</p>
-    <div class="rule" style="margin:28px 0"></div>
-    <p class="lead">O estímulo estava certo. O terreno que recebeu o estímulo é que era outro.</p>
+    <div class="eyebrow">Antes de continuar, uma ideia só</div>
+    <h2>Normal não é o mesmo que ótimo<span class="d">.</span></h2>
+    <div class="content">
+      <p class="lead">O laboratório responde uma pergunta: <strong>isso é doença?</strong>
+      Por isso a faixa dele é larga.</p>
+      <p class="lead">Nós respondemos outra: <strong>isso está no melhor ponto possível?</strong>
+      Por isso a nossa faixa é estreita.</p>
+      <div class="rule"></div>
+      <p class="big">Entre "não é doença" e "está ótimo" existe um espaço enorme.
+      É nesse espaço que mora quase todo paciente de vocês.</p>
+    </div>
   </div>
   <div class="pgn">08</div>
 </section>
 
-<!-- 09 NORMAL x OTIMO -->
+<!-- 09 · A RÉGUA EXPLICADA -->
 <section class="slide">
-  <div class="chrome"><span>Plenya</span><span>O princípio</span></div>
+  <div class="chrome"><span>Plenya</span><span>Como a gente mede</span></div>
   <div class="body">
-    <div class="eyebrow">O princípio que organiza tudo</div>
-    <h2>Normal não é o mesmo que ótimo<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1560px">Não é só com a insulina. A vitamina B12: o laboratório considera normal
-    de 211 a 911. O Escore só dá a pontuação máxima entre 600 e 1.100.</p>
-    <div class="hband" style="margin-top:120px">
-      <div class="bracket" style="left:15.07%;width:50.00%"><span>referência do laboratório: 211 a 911</span></div>
-      <div class="segs">
-        <span class="seg" style="width:10.71%;background:#88AEAE;color:#0A1F26">0</span>
-        <span class="seg" style="width:10.71%;background:#4F8795;color:#F5F1E8">2</span>
-        <span class="seg" style="width:21.43%;background:#1A5C78;color:#F5F1E8">4</span>
-        <span class="seg" style="width:35.79%;background:#B38645;color:#F5F1E8">5</span>
-        <span class="seg" style="width:21.36%;background:#34738A;color:#F5F1E8">3</span>
+    <div class="eyebrow">Um exemplo fácil, com vitamina B12</div>
+    <h2>Toda medida vira uma régua de zero a cinco<span class="d">.</span></h2>
+    <div class="content">
+      <div class="hband" style="margin-top:96px">
+        <div class="bracket" style="left:15.07%;width:50.00%"><span>o laboratório chama tudo isto de normal: 211 a 911</span></div>
+        <div class="segs">
+          <span class="seg" style="width:10.71%;background:#A8B9B6;color:#0A1F26">0</span>
+          <span class="seg" style="width:10.71%;background:#4F8795;color:#F5F1E8">2</span>
+          <span class="seg" style="width:21.43%;background:#1A5C78;color:#F5F1E8">4</span>
+          <span class="seg" style="width:35.79%;background:#B38645;color:#F5F1E8">5</span>
+          <span class="seg" style="width:21.36%;background:#34738A;color:#F5F1E8">3</span>
+        </div>
+        <div class="ticks"><span class="tick" style="left:10.71%">150</span><span class="tick" style="left:21.43%">300</span>
+          <span class="tick" style="left:42.86%">600</span><span class="tick" style="left:78.64%">1.100</span><span class="unit">pg/mL</span></div>
+        <div class="optlab" style="left:60.71%"><span>a nossa faixa ótima</span></div>
       </div>
-      <div class="ticks"><span class="tick" style="left:10.71%">150</span><span class="tick" style="left:21.43%">300</span>
-        <span class="tick" style="left:42.86%">600</span><span class="tick" style="left:78.64%">1.100</span><span class="unit">pg/mL</span></div>
-      <div class="opt" style="left:60.71%"><span>ótimo do Escore: 600 a 1.100</span></div>
+      <p class="lead" style="margin-top:34px">Um resultado de 250 sai <strong>normal</strong> no laudo
+      e recebe <strong>2 pontos de 5</strong> na régua.</p>
     </div>
-    <p class="lead" style="margin-top:32px">Um resultado de 250 sai <strong>normal</strong> no laudo e pontua <strong>2 de 5</strong> aqui.</p>
   </div>
   <div class="pgn">09</div>
 </section>
 
-<!-- 08 O QUE A PACIENTE VÊ -->
-<section class="slide petrol">
+<!-- 10 · O QUE NINGUÉM PEDIU -->
+<section class="slide dark stmt">
   <div class="body">
-    <div class="eyebrow">O que a paciente vê na devolutiva</div>
-    <h2 class="sm">Onde o painel pesa<span class="d">.</span></h2>
-    <div class="g2 wide" style="margin-top:44px">
-      <div>
-        <div class="bars">
-          <div class="bar-row"><span class="bar-name">Hormonal</span><span class="bar-track"><span class="bar" style="width:100%"></span><span class="bar-val">66</span></span></div>
-          <div class="bar-row"><span class="bar-name">Cardiovascular</span><span class="bar-track"><span class="bar" style="width:89.4%"></span><span class="bar-val">59</span></span></div>
-          <div class="bar-row"><span class="bar-name">Urogenital e reprodutiva</span><span class="bar-track"><span class="bar" style="width:74.2%"></span><span class="bar-val">49</span></span></div>
-          <div class="bar-row"><span class="bar-name">Renal</span><span class="bar-track"><span class="bar" style="width:72.7%"></span><span class="bar-val">48</span></span></div>
-          <div class="bar-row"><span class="bar-name">Metabólico</span><span class="bar-track"><span class="bar" style="width:45.5%"></span><span class="bar-val">30</span></span></div>
-          <div class="bar-row"><span class="bar-name">Hematológico</span><span class="bar-track"><span class="bar" style="width:43.9%"></span><span class="bar-val">29</span></span></div>
-          <div class="bar-row"><span class="bar-name">Nutrologia e micronutrientes</span><span class="bar-track"><span class="bar" style="width:37.9%"></span><span class="bar-val">25</span></span></div>
-          <div class="bar-row"><span class="bar-name">Imune e inflamatório</span><span class="bar-track"><span class="bar" style="width:34.8%"></span><span class="bar-val">23</span></span></div>
-        </div>
-        <p class="note" style="margin-top:28px">Itens de exame por pilar clínico. Um exame conta para mais de um sistema.</p>
-      </div>
-      <div>
-        <p class="lead">Cada item do painel vira uma régua como as dos slides anteriores, e cada régua vira de zero a cinco pontos.</p>
-        <p class="lead">A soma, organizada nos pilares, é <strong>um número que ela leva para casa</strong> e que muda na reavaliação.</p>
-        <p class="lead">É isso que ela não consegue montar sozinha, e é isso que a faz voltar.</p>
-      </div>
+    <div class="eyebrow">Voltando à Helena: os dois exames que ninguém pediu</div>
+    <h2 style="font-size:70px">Insulina de jejum em 19. HOMA-IR em 4,4<span class="d">.</span></h2>
+    <div class="content">
+      <p class="lead">Resistência à insulina já instalada, com a glicemia ainda normal.
+      É assim que ela se comporta por anos, antes de aparecer em qualquer glicose de jejum.</p>
     </div>
   </div>
   <div class="pgn">10</div>
 </section>
 
-<!-- 09 A ESCALA -->
-<section class="slide">
-  <div class="chrome"><span>Plenya</span><span>Escore</span></div>
+<!-- 11 · AS QUATRO RÉGUAS -->
+<section class="slide petrol">
+  <div class="chrome"><span>O caso</span><span>As quatro medidas</span></div>
   <div class="body">
-    <div class="eyebrow">Do tubo de coleta a um número</div>
-    <h2 class="sm">O que acontece com o painel inicial<span class="d">.</span></h2>
-    <div class="flow" style="margin-top:76px">
-      <div class="hair"><div class="numsm">98</div><div class="caps" style="margin-top:12px">exames pedidos</div></div>
-      <div class="hair"><div class="numsm">185</div><div class="caps" style="margin-top:12px">análises</div></div>
-      <div class="hair"><div class="numsm">232</div><div class="caps" style="margin-top:12px">itens do Escore</div></div>
-      <div class="hair"><div class="numsm">1.177</div><div class="caps" style="margin-top:12px">faixas</div></div>
-      <div class="hair"><div class="numsm">29</div><div class="caps" style="margin-top:12px">pilares clínicos</div></div>
+    <div class="eyebrow">As mesmas quatro medidas, agora nas réguas</div>
+    <h2>O laudo e a régua discordam<span class="d">.</span></h2>
+    <div class="content up">
+      <div class="mini">
+        <div class="mini-name">Glicose de jejum<small>normal no laudo</small></div>
+        <div class="mini-band"><div class="mini-mark" style="left:48.6%"><b>94</b></div>
+          <div class="mini-segs"><span class="s5" style="width:35.7%"></span><span class="s4" style="width:21.4%"></span>
+            <span class="s3" style="width:14.3%"></span><span class="s1" style="width:22.9%"></span><span class="s0" style="width:5.7%"></span></div></div>
+        <div class="mini-score">4<small>/5</small></div>
+      </div>
+      <div class="mini">
+        <div class="mini-name">Hemoglobina glicada<small>normal no laudo</small></div>
+        <div class="mini-band"><div class="mini-mark" style="left:53.3%"><b>5,6</b></div>
+          <div class="mini-segs"><span class="s4" style="width:26.7%"></span><span class="s5" style="width:16.6%"></span>
+            <span class="s3" style="width:13.4%"></span><span class="s1" style="width:26.6%"></span><span class="s0" style="width:16.7%"></span></div></div>
+        <div class="mini-score">3<small>/5</small></div>
+      </div>
+      <div class="mini">
+        <div class="mini-name">Insulina de jejum<small>não foi pedida</small></div>
+        <div class="mini-band"><div class="mini-mark" style="left:54.3%"><b>19</b></div>
+          <div class="mini-segs"><span class="s3" style="width:5.7%"></span><span class="s5" style="width:11.4%"></span>
+            <span class="s4" style="width:11.5%"></span><span class="s2" style="width:22.8%"></span>
+            <span class="s1" style="width:34.3%"></span><span class="s0" style="width:14.3%"></span></div></div>
+        <div class="mini-score">1<small>/5</small></div>
+      </div>
+      <div class="mini" style="margin-bottom:0">
+        <div class="mini-name">HOMA-IR<small>não foi calculado</small></div>
+        <div class="mini-band"><div class="mini-mark" style="left:73.3%"><b>4,4</b></div>
+          <div class="mini-segs"><span class="s5" style="width:16.7%"></span><span class="s4" style="width:15.0%"></span>
+            <span class="s2" style="width:10.0%"></span><span class="s1" style="width:16.6%"></span><span class="s0" style="width:41.7%"></span></div></div>
+        <div class="mini-score">0<small>/5</small></div>
+      </div>
+      <p class="lead" style="margin-top:30px">Os dois que ela fez estavam bons.
+      <strong>Os dois que ninguém pediu estavam no chão.</strong></p>
     </div>
-    <p class="lead" style="margin-top:80px;max-width:1560px">Cerca de cinco faixas por item, com réguas separadas por sexo e fase da vida.
-    A insulina de jejum da Helena era uma delas.</p>
   </div>
   <div class="pgn">11</div>
 </section>
 
-<!-- 10 QUEM SOU -->
-<section class="slide">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-elegante.jpg')"></div>
-  <div class="chrome"><span>Plenya</span><span>Quem fala com vocês</span></div>
+<!-- 12 · O MECANISMO -->
+<section class="slide split">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
+  <div class="chrome" style="right:calc(40% + 96px)"><span>O caso</span><span>Por que chega na pele</span></div>
   <div class="body">
-    <div class="eyebrow">Só agora, e rápido</div>
-    <h2 class="sm">Getúlio Amaral Filho<span class="d">.</span></h2>
-    <div class="sub">Nefrologista. Medicina Funcional Integrativa.</div>
-    <ul class="l">
-      <li>Mais de 20 anos de prática clínica.</li>
-      <li>Comitê Cardiorrenal da Sociedade Brasileira de Nefrologia.</li>
-      <li>Autor e palestrante em saúde, performance e longevidade.</li>
-    </ul>
-    <p class="note" style="margin-top:38px">A formação nefrológica define o jeito da casa: função renal,
-    eletrólitos e segurança de dose entram antes de qualquer conduta.</p>
+    <div class="eyebrow">O elo entre o exame e o resultado</div>
+    <h2>Açúcar a mais endurece o colágeno<span class="d">.</span></h2>
+    <div class="content">
+      <p class="lead">Glicose sobrando por anos gruda no colágeno da derme e cria travas entre as fibras.
+      A fibra fica rígida e <strong>resiste a ser degradada</strong>, primeiro passo de toda remodelação.</p>
+      <div class="rule" style="margin:24px 0"></div>
+      <p class="big">O estímulo estava certo. O terreno que recebeu o estímulo é que era outro.</p>
+    </div>
   </div>
   <div class="pgn">12</div>
 </section>
 
-<!-- 11 QUEM FAZ O QUE -->
-<section class="slide">
-  <div class="chrome"><span>Plenya × Perazolo</span><span>A fronteira</span></div>
+<!-- 13 · O QUE É A PLENYA -->
+<section class="slide petrol">
+  <div class="chrome"><span>Plenya</span><span>O que fazemos</span></div>
   <div class="body">
-    <div class="eyebrow">Para ninguém ficar em dúvida</div>
-    <h2>Quem faz o quê<span class="d">.</span></h2>
-    <table class="t" style="margin-top:30px">
-      <tr><th>Clínica Tatianna Perazolo</th><th>Plenya</th></tr>
-      <tr><td class="k">Tópico, intradérmico e procedimentos: laser, peeling, toxina, preenchedor, bioestimulador, fios, cirurgia</td>
-          <td>Oral, intramuscular, subcutâneo e endovenoso, no centro de infusão</td></tr>
-      <tr><td class="k">Diagnóstico dermatológico, tricoscopia, dermatoscopia</td>
-          <td>Metabólico, hormonal, nutricional, renal, e o Escore</td></tr>
-      <tr><td class="k">Terapias sistêmicas da dermatologia</td>
-          <td>Reposição hormonal da menopausa, GLP-1 em programa, correção de deficiências</td></tr>
-    </table>
-    <p class="lead" style="margin-top:34px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição.</p>
+    <div class="eyebrow">Agora sim, o que eu faço</div>
+    <h2>Nós cuidamos do terreno<span class="d">.</span></h2>
+    <div class="content">
+      <div class="g2">
+        <div class="hair">
+          <h3>Vocês tratam a pele</h3>
+          <p>por fora, num tempo curto, com técnica e produto.</p>
+        </div>
+        <div class="hair">
+          <h3>Nós tratamos o terreno</h3>
+          <p>em que esse trabalho cicatriza, remodela e dura: ferro, proteína, glicemia, hormônios, sono, inflamação.</p>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:44px">Consulta, painel de exames, devolutiva com um plano
+      e reavaliação marcada.</p>
+    </div>
   </div>
   <div class="pgn">13</div>
 </section>
 
-<!-- 12 GATILHOS 1 -->
-<section class="slide dark dense">
+<!-- 14 · O ESCORE -->
+<section class="slide">
+  <div class="chrome"><span>Plenya</span><span>O Escore</span></div>
   <div class="body">
-    <div class="eyebrow">O slide para fotografar</div>
-    <h2>Quando a pele pede investigação<span class="d">.</span></h2>
-    <table class="t">
-      <tr><th>Se você vê isto</th><th>Nós investigamos</th></tr>
-      <tr><td class="k">Queda difusa, unhas frágeis</td><td>Ferro, tireoide, vitamina D, B12, zinco</td></tr>
-      <tr><td class="k">Cicatrização lenta, resultado aquém do esperado</td><td>Ferro, vitamina C, proteína, glicemia</td></tr>
-      <tr><td class="k">Acantose nigricans, acrocórdons múltiplos</td><td>Resistência à insulina, pré-diabetes</td></tr>
-      <tr><td class="k">Acne tardia, hirsutismo</td><td>Ovário policístico, androgênios, insulina</td></tr>
-      <tr><td class="k">Prurido crônico sem lesão</td><td>Função renal e hepática, tireoide, ferro</td></tr>
-      <tr><td class="k">Xantelasma</td><td>Perfil lipídico, ApoB, Lp(a)</td></tr>
-    </table>
+    <div class="eyebrow">Quando somamos todas as réguas</div>
+    <h2>O resultado é um número que a paciente acompanha<span class="d">.</span></h2>
+    <div class="content">
+      <div class="flow">
+        <div class="hair"><div class="numsm">98</div><div class="caps" style="margin-top:10px">exames no painel</div></div>
+        <div class="hair"><div class="numsm">185</div><div class="caps" style="margin-top:10px">análises</div></div>
+        <div class="hair"><div class="numsm">232</div><div class="caps" style="margin-top:10px">itens medidos</div></div>
+        <div class="hair"><div class="numsm">1.177</div><div class="caps" style="margin-top:10px">faixas de régua</div></div>
+        <div class="hair"><div class="numsm">29</div><div class="caps" style="margin-top:10px">sistemas do corpo</div></div>
+      </div>
+      <p class="lead" style="margin-top:80px">Cerca de cinco faixas por medida, com réguas separadas
+      por sexo e fase da vida. A insulina da Helena era uma delas.</p>
+    </div>
   </div>
   <div class="pgn">14</div>
 </section>
 
-<!-- 13 GATILHOS 2 -->
+<!-- 15 · A FRONTEIRA -->
 <section class="slide">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/menopausa.jpg')"></div>
-  <div class="chrome"><span>Plenya × Perazolo</span><span>Encaminhamento</span></div>
+  <div class="chrome"><span>Plenya na clínica</span><span>A fronteira</span></div>
   <div class="body">
-    <div class="eyebrow">E quando a paciente conta isto</div>
-    <h2 class="sm">Situações que já são nossas<span class="d">.</span></h2>
-    <ul class="l" style="margin-top:34px">
-      <li>Procedimento marcado, para preparar o terreno antes.</li>
-      <li>Queda de cabelo que não responde ao tópico.</li>
-      <li>Paciente em GLP-1 perdendo massa magra, pele e cabelo.</li>
-      <li>Fogacho, insônia, libido, ganho de peso na transição.</li>
-      <li>Cansaço e sono ruim sem explicação.</li>
-      <li>Homem com alopecia e perfil metabólico junto.</li>
-    </ul>
+    <div class="eyebrow">Para ninguém ficar em dúvida</div>
+    <h2>Quem faz o quê<span class="d">.</span></h2>
+    <div class="content up">
+      <table class="t" style="font-size:36px">
+        <tr><th>Aqui na clínica</th><th>Plenya</th></tr>
+        <tr><td class="k">Procedimentos: laser, peeling, toxina, preenchedor, bioestimulador, cirurgia</td>
+            <td>Oral, intramuscular, subcutâneo e endovenoso, no centro de infusão</td></tr>
+        <tr><td class="k">Diagnóstico dermatológico, tricoscopia</td>
+            <td>Metabólico, hormonal, nutricional, renal, e o Escore</td></tr>
+        <tr><td class="k">Terapias sistêmicas da dermatologia</td>
+            <td>Menopausa, GLP-1 em programa, correção de deficiências</td></tr>
+      </table>
+      <p class="lead" style="margin-top:40px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição.</p>
+    </div>
   </div>
   <div class="pgn">15</div>
 </section>
 
-<!-- 14 A JORNADA -->
-<section class="slide petrol">
+<!-- 16 · GATILHOS NA PELE -->
+<section class="slide dark">
+  <div class="chrome"><span>O pedido</span><span>Quando encaminhar</span></div>
   <div class="body">
-    <div class="eyebrow">O que acontece depois que você encaminha</div>
-    <h2>A jornada da paciente<span class="d">.</span></h2>
-    <div class="flow" style="margin-top:80px">
-      <div><div class="numsm">1</div><p>Consulta Plenya, aqui na clínica.</p></div>
-      <div><div class="numsm">2</div><p>Coleta no local e exames.</p></div>
-      <div><div class="numsm">3</div><p>Devolutiva com o Escore e o plano.</p></div>
-      <div><div class="numsm">4</div><p>Tratamento oral e centro de infusão.</p></div>
-      <div><div class="numsm">5</div><p>Reavaliação conjunta.</p></div>
+    <div class="eyebrow">O slide para fotografar</div>
+    <h2>Quando a pele pede investigação<span class="d">.</span></h2>
+    <div class="content up">
+      <table class="t dense" style="font-size:36px">
+        <tr><th>Se você vê isto</th><th>Nós investigamos</th></tr>
+        <tr><td class="k">Resultado aquém, cicatrização lenta</td><td>Glicemia e insulina, ferro, proteína</td></tr>
+        <tr><td class="k">Queda difusa, unhas frágeis</td><td>Ferro, tireoide, vitamina D, B12, zinco</td></tr>
+        <tr><td class="k">Acantose nigricans, acrocórdons</td><td>Resistência à insulina, pré-diabetes</td></tr>
+        <tr><td class="k">Acne tardia, hirsutismo</td><td>Ovário policístico, androgênios, insulina</td></tr>
+        <tr><td class="k">Prurido crônico sem lesão</td><td>Função renal e hepática, tireoide</td></tr>
+        <tr><td class="k">Xantelasma</td><td>Perfil lipídico, ApoB, Lp(a)</td></tr>
+      </table>
     </div>
-    <div class="rule" style="margin-top:80px"></div>
-    <p class="lead">Ela não sai daqui. O cuidado acontece dentro da clínica, e vocês acompanham.</p>
   </div>
   <div class="pgn">16</div>
 </section>
 
-<!-- 15 EU PERCO A MINHA PACIENTE -->
-<section class="slide">
-  <div class="chrome"><span>Plenya × Perazolo</span><span>A garantia</span></div>
+<!-- 17 · GATILHOS NA CONVERSA -->
+<section class="slide split">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/menopausa.jpg')"></div>
+  <div class="chrome" style="right:calc(40% + 96px)"><span>O pedido</span><span>Quando encaminhar</span></div>
   <div class="body">
-    <div class="eyebrow">A pergunta que todo mundo faz em silêncio</div>
-    <h2 class="sm">Eu perco a minha paciente<span class="d">?</span></h2>
-    <div class="card" style="margin-top:46px">
+    <div class="eyebrow">E quando a paciente conta isto</div>
+    <h2>Situações que já são nossas<span class="d">.</span></h2>
+    <div class="content">
       <ul class="l">
-        <li><strong>Não.</strong> A paciente continua de vocês, e o procedimento continua de vocês.</li>
-        <li>Cada profissional segue responsável pelo seu próprio ato.</li>
-        <li>Vocês recebem o retorno de cada caso encaminhado.</li>
-        <li>Protocolo escrito e assinado pelos dois lados, por linha de cuidado.</li>
-        <li>Reunião mensal de casos, uma hora, para alinhar o que está funcionando.</li>
+        <li>Procedimento marcado, para preparar o terreno antes.</li>
+        <li>Queda de cabelo que não responde ao tópico.</li>
+        <li>Paciente em GLP-1 perdendo massa magra, pele e cabelo.</li>
+        <li>Fogacho, insônia, libido, ganho de peso na transição.</li>
+        <li>Cansaço e sono ruim sem explicação.</li>
       </ul>
     </div>
-    <p class="lead" style="margin-top:46px">A paciente ganha um motivo clínico para voltar, e não só uma agenda de procedimentos.</p>
   </div>
   <div class="pgn">17</div>
 </section>
 
-<!-- 16 O QUE NAO OFERECEMOS -->
-<section class="slide dark">
+<!-- 18 · COMO ENCAMINHAR -->
+<section class="slide">
+  <div class="chrome"><span>O pedido</span><span>Na prática</span></div>
   <div class="body">
-    <div class="eyebrow">O que nos separa do resto</div>
-    <h2>O que a parceria não oferece<span class="d">.</span></h2>
-    <div class="g2" style="margin-top:50px">
-      <div>
-        <ul class="l">
-          <li>Glutationa para clareamento ou brilho.</li>
-          <li>Soro da beleza, detox, antioxidante master.</li>
-          <li>NAD+ endovenoso.</li>
-        </ul>
-      </div>
-      <div>
-        <ul class="l">
-          <li>Polinucleotídeos e exossomos injetáveis.</li>
-          <li>Peptídeos experimentais sem registro.</li>
-          <li>Hormônio com finalidade estética.</li>
-        </ul>
-      </div>
+    <div class="eyebrow">Como encaminhar, sem burocracia</div>
+    <h2>Três passos<span class="d">.</span></h2>
+    <div class="content">
+      <ul class="l">
+        <li>Reconheceu um sinal, diga uma frase à paciente:
+        <em>tem uma avaliação aqui na clínica que investiga isso por dentro</em>.</li>
+        <li>A recepção agenda a avaliação Plenya, no mesmo endereço.</li>
+        <li>Você recebe o retorno do caso, e a paciente segue com você no que é seu.</li>
+      </ul>
+      <p class="note" style="margin-top:50px">Prontuário compartilhado com consentimento da paciente,
+      conforme a lei de proteção de dados.</p>
     </div>
-    <div class="rule"></div>
-    <p class="lead">Toda aplicação exige consulta, exame que documenta a indicação e registro em prontuário.
-    Nada avulso, nada de balcão.</p>
-    <p class="closer" style="margin-top:26px">A lista do que recusamos é o que protege o CRM de quem encaminha.</p>
   </div>
   <div class="pgn">18</div>
 </section>
 
-<!-- CALLBACK HELENA -->
+<!-- 19 · A OBJEÇÃO -->
 <section class="slide petrol">
-  <div class="body mid">
-    <div class="eyebrow">Voltando para a Helena</div>
-    <h2 class="sm" style="margin-bottom:46px">Ela não precisava de outro produto, nem de outra técnica<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1560px">Precisava que alguém tivesse pedido duas dosagens a mais,
-    quatro meses antes da primeira sessão, e tratado o que elas mostrassem.</p>
-    <p class="lead" style="max-width:1560px;margin-top:38px">Terreno preparado pede menos produto, e o resultado dura mais.</p>
+  <div class="chrome"><span>A dúvida</span><span>Prometi voltar nisso</span></div>
+  <div class="body">
+    <div class="eyebrow">A pergunta que todo mundo faz em silêncio</div>
+    <h2>Eu perco a minha paciente<span class="d">?</span></h2>
+    <div class="content up">
+      <div class="card">
+        <ul class="l">
+          <li><strong>Não.</strong> A paciente continua de vocês, e o procedimento continua de vocês.</li>
+          <li>Cada profissional segue responsável pelo seu próprio ato.</li>
+          <li>Vocês recebem o retorno de cada caso encaminhado.</li>
+          <li>Reunião mensal de casos, uma hora, para alinhar o que está funcionando.</li>
+        </ul>
+      </div>
+      <p class="lead" style="margin-top:34px">A paciente ganha um motivo clínico para voltar,
+      e não só uma agenda de procedimentos.</p>
+    </div>
   </div>
   <div class="pgn">19</div>
 </section>
 
-<!-- 18 COMO ENCAMINHAR -->
+<!-- 20 · O QUE NÃO OFERECEMOS -->
 <section class="slide">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/infusao.jpg')"></div>
-  <div class="chrome"><span>Plenya × Perazolo</span><span>Na prática</span></div>
+  <div class="chrome"><span>A dúvida</span><span>O que nos separa</span></div>
   <div class="body">
-    <div class="eyebrow">Como encaminhar</div>
-    <h2 class="sm">Três passos<span class="d">.</span></h2>
-    <ul class="l" style="margin-top:40px">
-      <li>Reconheceu um gatilho, comente em uma frase: <em>tem uma avaliação aqui na clínica que investiga isso por dentro</em>.</li>
-      <li>A recepção agenda a avaliação Plenya, no mesmo endereço.</li>
-      <li>Você recebe o retorno do caso, e a paciente segue com você no que é seu.</li>
-    </ul>
-    <p class="note" style="margin-top:46px">Prontuário compartilhado com consentimento da paciente,
-    conforme a lei de proteção de dados.</p>
+    <div class="eyebrow">Vocês estão colocando o nome de vocês nisso</div>
+    <h2>O que a gente recusa<span class="d">.</span></h2>
+    <div class="content">
+      <div class="g2">
+        <div><ul class="l">
+          <li>Glutationa para clareamento ou brilho.</li>
+          <li>Soro da beleza, detox, antioxidante master.</li>
+          <li>NAD+ endovenoso.</li>
+        </ul></div>
+        <div><ul class="l">
+          <li>Polinucleotídeos e exossomos injetáveis.</li>
+          <li>Peptídeos experimentais sem registro.</li>
+          <li>Hormônio com finalidade estética.</li>
+        </ul></div>
+      </div>
+      <div class="rule"></div>
+      <p class="lead">Toda aplicação exige consulta, exame que documenta a indicação e registro em prontuário.
+      Nada avulso, nada de balcão.</p>
+    </div>
   </div>
   <div class="pgn">20</div>
 </section>
 
-<!-- 19 FECHO -->
-<section class="slide dark">
+<!-- 21 · FECHO -->
+<section class="slide dark stmt">
   <div class="img" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/tati-consultorio-a.jpg')"></div>
-  <div class="veil dark-full"></div>
-  <div class="body mid">
-    <div class="eyebrow">Plenya &nbsp;×&nbsp; Clínica Tatianna Perazolo</div>
-    <h2 style="font-size:104px">Vocês veem a pele antes de todo mundo<span class="d">.</span></h2>
-    <p class="closer" style="margin-top:46px">Quando ela pedir ajuda, a gente investiga junto.</p>
-    <div style="position:absolute;bottom:0;left:0" class="caps">Viva bem, viva mais</div>
+  <div class="veil"></div>
+  <div class="body">
+    <div class="eyebrow">Voltando à Helena</div>
+    <h2>Ela não precisava de outro produto, nem de outra técnica<span class="d">.</span></h2>
+    <div class="content">
+      <p class="lead">Precisava que alguém tivesse pedido duas dosagens a mais, antes da primeira sessão.</p>
+      <p class="closer" style="margin-top:40px">Vocês veem a pele antes de todo mundo.
+      Quando ela pedir ajuda, a gente investiga junto.</p>
+    </div>
   </div>
 </section>
 
