@@ -104,114 +104,186 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
 .mark{position:absolute;top:-96px;transform:translateX(-50%);text-align:center;white-space:nowrap}
 .mark:after{content:"";position:absolute;left:50%;top:76px;width:3px;height:74px;background:var(--gold)}
 .mark span{font-family:var(--display);font-size:44px;color:var(--gold)}
+.mini{display:grid;grid-template-columns:330px 1fr 130px;align-items:center;gap:26px;margin-bottom:54px}
+.mini-name{font-size:35px;line-height:1.1;text-align:right}
+.mini-name small{display:block;font-size:27px;font-style:italic;opacity:.72;margin-top:4px}
+.mini-band{position:relative}
+.mini-segs{display:flex;gap:2px;height:36px}
+.mini-segs span{display:block}
+.mini-segs span:first-child{border-radius:5px 0 0 5px}.mini-segs span:last-child{border-radius:0 5px 5px 0}
+.mini-mark{position:absolute;top:-58px;transform:translateX(-50%);white-space:nowrap}
+.mini-mark b{font-family:var(--display);font-weight:500;font-size:34px;color:var(--gold-soft)}
+.mini-mark:after{content:"";position:absolute;left:50%;top:40px;width:4px;height:56px;background:var(--gold-soft);transform:translateX(-50%)}
+.mini-score{font-family:var(--display);font-size:52px;line-height:1;text-align:right}
+.mini-score small{font-size:28px;opacity:.7}
+.s5{background:#B38645}.s4{background:#1A5C78}.s3{background:#34738A}.s2{background:#4F8795}.s1{background:#7E9FA3}.s0{background:#A8B9B6}
 .dark .mark span,.petrol .mark span{color:var(--gold-soft)}
 .dark .mark:after,.petrol .mark:after{background:var(--gold-soft)}
 </style>
 </head>
 <body>
 
-<!-- 01 ABERTURA CINEMATOGRÁFICA -->
+<!-- 01 ABERTURA -->
 <section class="slide dark">
   <div class="body mid">
-    <h2 class="xl" style="margin-bottom:56px">Marina tem 44 anos e marcou o procedimento com quatro meses de antecedência, porque a filha ia casar<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1400px">Pele boa. Sem comorbidade. Não fuma. A profissional que a atendeu é excelente,
-    a técnica estava correta e o produto era o certo.</p>
+    <h2 class="xl" style="margin-bottom:56px">Há dois anos, Helena fez bioestimulador de colágeno nesta clínica e o resultado foi ótimo<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1460px">Ela tem 47 anos, indicou a clínica para três amigas
+    e voltou em maio para repetir o mesmo protocolo, com a mesma profissional.</p>
   </div>
   <div class="disc">Caso composto, construído a partir de padrões clínicos frequentes. Não retrata uma paciente específica.</div>
 </section>
 
-<!-- 02 O QUE DEU ERRADO -->
+<!-- 02 O PROCEDIMENTO -->
 <section class="slide dark">
   <div class="body mid">
-    <div class="eyebrow">Três meses depois</div>
-    <h2 style="margin-bottom:50px">O resultado veio aquém do esperado<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1400px">E ela começou a juntar cabelo no ralo do chuveiro.</p>
-    <p class="lead" style="max-width:1400px;margin-top:38px">Voltou ao consultório achando que tinha feito algo errado.
-    Perguntou se podia repetir o procedimento.</p>
+    <div class="eyebrow">O que foi feito, exatamente</div>
+    <h2 class="sm" style="margin-bottom:44px">Duas sessões de PLLA, terço médio e inferior, com oito semanas de intervalo<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1500px">Mesma diluição. Mesmo tempo de reconstituição. Mesmo plano de pontos.
+    Mesma foto padronizada, na mesma luz.</p>
+    <p class="lead" style="max-width:1500px;margin-top:34px">O bioestimulador não preenche. Ele pede ao fibroblasto dela
+    que produza colágeno novo. Tudo depende do que acontece depois que a agulha sai.</p>
   </div>
   <div class="pgn">02</div>
 </section>
 
-<!-- 03 A ABSOLVIÇÃO -->
-<section class="slide petrol">
+<!-- 03 O QUE DEU RUIM -->
+<section class="slide dark">
   <div class="body mid">
-    <div class="eyebrow">A pergunta que a sala faz</div>
-    <h2 class="xl">De quem foi a culpa<span class="d">?</span></h2>
-    <p class="lead" style="margin-top:56px;max-width:1500px">De ninguém que estava naquela sala.</p>
-    <p class="lead" style="max-width:1500px">A técnica estava certa. O produto estava certo. A mão estava certa.</p>
+    <div class="eyebrow">Seis meses depois, na foto de controle</div>
+    <h2 style="margin-bottom:46px">Quase nada tinha mudado<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1520px">Firmeza mínima, contorno praticamente igual ao da linha de base.</p>
+    <p class="closer" style="margin-top:44px;font-size:58px">E ela perguntou se o produto usado nela<br>tinha sido o mesmo da vez anterior.</p>
   </div>
   <div class="pgn">03</div>
 </section>
 
-<!-- 04 O NÚMERO -->
-<section class="slide dark">
+<!-- 04 ABSOLVIÇÃO -->
+<section class="slide petrol">
   <div class="body mid">
-    <div class="eyebrow">O exame que ninguém tinha pedido</div>
-    <div class="mega">18</div>
-    <p class="lead" style="margin-top:34px">Ferritina, em nanogramas por mililitro.</p>
-    <p class="note" style="font-size:38px;margin-top:26px">Marina vinha com fluxo menstrual aumentado havia dois anos.
-    Achava que era normal para a idade.</p>
+    <div class="eyebrow">Antes que alguém se culpe</div>
+    <h2 class="xl" style="margin-bottom:56px">Mesma profissional. Mesma técnica. Mesma paciente<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1520px">Era o mesmo procedimento que tinha funcionado nela dois anos antes.
+    Não havia o que revisar na sala.</p>
+    <p class="lead" style="max-width:1520px;margin-top:34px">O que tinha mudado em dois anos estava fora dela.</p>
   </div>
   <div class="pgn">04</div>
 </section>
 
-<!-- 05 POR QUE A PELE DEPENDIA DISSO -->
+<!-- 05 O QUE ELA FEZ -->
 <section class="slide">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
-  <div class="chrome"><span>Plenya</span><span>O mecanismo</span></div>
+  <div class="chrome"><span>Plenya</span><span>O pré-operatório</span></div>
   <div class="body">
-    <div class="eyebrow">Por que isso apareceu na pele</div>
-    <h2 class="sm">Colágeno novo não amarra sem ferro<span class="d">.</span></h2>
-    <p class="lead" style="margin-top:36px">As enzimas que estabilizam a fibra de colágeno recém-formada
-    dependem de dois cofatores: <strong>ferro</strong> e <strong>vitamina C</strong>.</p>
-    <p class="lead">Sem eles, o estímulo é dado e a remodelação entrega menos.</p>
-    <div class="rule"></div>
-    <p class="lead">O mesmo ferro que faltava para a pele estava faltando para o cabelo.
-    Era um problema só, em dois lugares.</p>
+    <div class="eyebrow">Ela tinha exames recentes, e eram bons</div>
+    <h2 class="sm">Os dois que ela fez<span class="d">.</span></h2>
+    <div class="g2" style="margin-top:80px">
+      <div class="hair"><div class="num">94</div><div class="caps" style="margin-top:14px">glicose de jejum, mg/dL</div>
+        <p class="note" style="margin-top:16px">Referência do laboratório: abaixo de 100. Normal.</p></div>
+      <div class="hair"><div class="num">5,6</div><div class="caps" style="margin-top:14px">hemoglobina glicada, %</div>
+        <p class="note" style="margin-top:16px">Referência do laboratório: abaixo de 5,7. Normal.</p></div>
+    </div>
+    <p class="lead" style="margin-top:80px;max-width:1560px">Dois laudos normais. Qualquer um de nós teria seguido em frente.</p>
   </div>
   <div class="pgn">05</div>
 </section>
 
-<!-- 06 A RÉGUA DA FERRITINA -->
-<section class="slide petrol">
-  <div class="body">
-    <div class="eyebrow">A régua do Escore · ferritina, mulher antes da menopausa</div>
-    <h2 class="sm">Onde os 18 caem<span class="d">.</span></h2>
-    <div class="hband" style="margin-top:150px">
-      <div class="mark" style="left:11.0%"><span>Marina: 18</span></div>
-      <div class="segs">
-        <span class="seg" style="width:9.0%;background:#88AEAE;color:#0A1F26">1</span>
-        <span class="seg" style="width:6.0%;background:#4F8795;color:#F5F1E8">2</span>
-        <span class="seg" style="width:9.0%;background:#34738A;color:#F5F1E8">3</span>
-        <span class="seg" style="width:24.6%;background:#B38645;color:#F5F1E8">5</span>
-        <span class="seg" style="width:41.4%;background:#1A5C78;color:#F5F1E8">4</span>
-        <span class="seg" style="width:10.0%;background:#88AEAE;color:#0A1F26">0</span>
-      </div>
-      <div class="ticks">
-        <span class="tick" style="left:9.0%">15</span>
-        <span class="tick" style="left:15.0%">25</span>
-        <span class="tick" style="left:24.0%">40</span>
-        <span class="tick" style="left:48.6%">81</span>
-        <span class="tick" style="left:90.0%">150</span>
-        <span class="unit">ng/mL</span>
-      </div>
-      <div class="opt" style="left:36.3%"><span>ótimo do Escore: 40 a 81</span></div>
-    </div>
-    <p class="lead" style="margin-top:36px">O número dentro de cada faixa é a pontuação, de 0 a 5.
-    <strong>Marina tirou 2 de 5.</strong></p>
-    <p class="note" style="margin-top:14px">A ferritina tem três réguas diferentes: homem, mulher antes e mulher depois da menopausa.</p>
+<!-- 06 O QUE NINGUEM PEDIU -->
+<section class="slide dark">
+  <div class="body mid">
+    <div class="eyebrow">Os dois que ninguém pediu</div>
+    <div class="mega">4,4</div>
+    <p class="lead" style="margin-top:30px">HOMA-IR. Insulina de jejum em 19.</p>
+    <p class="lead" style="max-width:1520px;margin-top:26px">Resistência à insulina instalada, com a glicemia ainda normal.
+    É assim que ela se comporta durante anos, antes de aparecer em qualquer glicose de jejum.</p>
   </div>
   <div class="pgn">06</div>
 </section>
 
-<!-- 07 NORMAL x ÓTIMO -->
+<!-- 07 AS QUATRO REGUAS -->
+<section class="slide petrol">
+  <div class="body">
+    <div class="eyebrow">As mesmas quatro medidas, nas réguas do Escore</div>
+    <h2 class="sm" style="margin-bottom:64px">O laudo e a régua discordam<span class="d">.</span></h2>
+
+    <div class="mini">
+      <div class="mini-name">Glicose de jejum<small>normal no laudo</small></div>
+      <div class="mini-band">
+        <div class="mini-mark" style="left:48.6%"><b>94</b></div>
+        <div class="mini-segs">
+          <span class="s2" style="width:0%"></span><span class="s5" style="width:35.7%"></span><span class="s4" style="width:21.4%"></span>
+          <span class="s3" style="width:14.3%"></span><span class="s1" style="width:22.9%"></span><span class="s0" style="width:5.7%"></span>
+        </div>
+      </div>
+      <div class="mini-score">4<small>/5</small></div>
+    </div>
+
+    <div class="mini">
+      <div class="mini-name">Hemoglobina glicada<small>normal no laudo</small></div>
+      <div class="mini-band">
+        <div class="mini-mark" style="left:53.3%"><b>5,6</b></div>
+        <div class="mini-segs">
+          <span class="s4" style="width:26.7%"></span><span class="s5" style="width:16.6%"></span><span class="s3" style="width:13.4%"></span>
+          <span class="s1" style="width:26.6%"></span><span class="s0" style="width:16.7%"></span>
+        </div>
+      </div>
+      <div class="mini-score">3<small>/5</small></div>
+    </div>
+
+    <div class="mini">
+      <div class="mini-name">Insulina de jejum<small>não foi pedida</small></div>
+      <div class="mini-band">
+        <div class="mini-mark" style="left:54.3%"><b>19</b></div>
+        <div class="mini-segs">
+          <span class="s3" style="width:5.7%"></span><span class="s5" style="width:11.4%"></span><span class="s4" style="width:11.5%"></span>
+          <span class="s2" style="width:22.8%"></span><span class="s1" style="width:34.3%"></span><span class="s0" style="width:14.3%"></span>
+        </div>
+      </div>
+      <div class="mini-score">1<small>/5</small></div>
+    </div>
+
+    <div class="mini" style="margin-bottom:0">
+      <div class="mini-name">HOMA-IR<small>não foi calculado</small></div>
+      <div class="mini-band">
+        <div class="mini-mark" style="left:73.3%"><b>4,4</b></div>
+        <div class="mini-segs">
+          <span class="s5" style="width:16.7%"></span><span class="s4" style="width:15.0%"></span><span class="s2" style="width:10.0%"></span>
+          <span class="s1" style="width:16.6%"></span><span class="s0" style="width:41.7%"></span>
+        </div>
+      </div>
+      <div class="mini-score">0<small>/5</small></div>
+    </div>
+
+    <p class="lead" style="margin-top:44px">Os dois que ela fez estavam bons.
+    <strong>Os dois que ninguém pediu estavam no chão.</strong></p>
+    <p class="note" style="margin-top:10px">A faixa dourada é o ótimo do Escore em cada régua.</p>
+  </div>
+  <div class="pgn">07</div>
+</section>
+
+<!-- 08 O MECANISMO -->
+<section class="slide">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
+  <div class="chrome"><span>Plenya</span><span>O mecanismo</span></div>
+  <div class="body">
+    <div class="eyebrow">Por que isso chega no bioestimulador</div>
+    <h2 class="sm">A matriz que recebeu o estímulo era outra<span class="d">.</span></h2>
+    <p class="lead" style="margin-top:36px">A glicação cria no colágeno da derme ligações cruzadas
+    <strong>não enzimáticas</strong>, que deixam a fibra rígida e <strong>resistente à degradação</strong>
+    que a remodelação exige.</p>
+    <p class="lead">Em cultura, fibroblasto sobre colágeno glicado <strong>invade menos</strong>.</p>
+    <div class="rule" style="margin:28px 0"></div>
+    <p class="lead">O estímulo estava certo. O terreno que recebeu o estímulo é que era outro.</p>
+  </div>
+  <div class="pgn">08</div>
+</section>
+
+<!-- 09 NORMAL x OTIMO -->
 <section class="slide">
   <div class="chrome"><span>Plenya</span><span>O princípio</span></div>
   <div class="body">
     <div class="eyebrow">O princípio que organiza tudo</div>
     <h2>Normal não é o mesmo que ótimo<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1560px">A vitamina B12, por exemplo. O laboratório considera normal de 211 a 911.
-    O Escore só dá a pontuação máxima entre 600 e 1.100.</p>
+    <p class="lead" style="max-width:1560px">Não é só com a insulina. A vitamina B12: o laboratório considera normal
+    de 211 a 911. O Escore só dá a pontuação máxima entre 600 e 1.100.</p>
     <div class="hband" style="margin-top:120px">
       <div class="bracket" style="left:15.07%;width:50.00%"><span>referência do laboratório: 211 a 911</span></div>
       <div class="segs">
@@ -227,7 +299,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     </div>
     <p class="lead" style="margin-top:32px">Um resultado de 250 sai <strong>normal</strong> no laudo e pontua <strong>2 de 5</strong> aqui.</p>
   </div>
-  <div class="pgn">07</div>
+  <div class="pgn">09</div>
 </section>
 
 <!-- 08 O QUE A PACIENTE VÊ -->
@@ -256,7 +328,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
       </div>
     </div>
   </div>
-  <div class="pgn">08</div>
+  <div class="pgn">10</div>
 </section>
 
 <!-- 09 A ESCALA -->
@@ -273,9 +345,9 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
       <div class="hair"><div class="numsm">29</div><div class="caps" style="margin-top:12px">pilares clínicos</div></div>
     </div>
     <p class="lead" style="margin-top:80px;max-width:1560px">Cerca de cinco faixas por item, com réguas separadas por sexo e fase da vida.
-    A ferritina da Marina foi uma delas.</p>
+    A insulina de jejum da Helena era uma delas.</p>
   </div>
-  <div class="pgn">09</div>
+  <div class="pgn">11</div>
 </section>
 
 <!-- 10 QUEM SOU -->
@@ -294,7 +366,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     <p class="note" style="margin-top:38px">A formação nefrológica define o jeito da casa: função renal,
     eletrólitos e segurança de dose entram antes de qualquer conduta.</p>
   </div>
-  <div class="pgn">10</div>
+  <div class="pgn">12</div>
 </section>
 
 <!-- 11 QUEM FAZ O QUE -->
@@ -314,7 +386,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     </table>
     <p class="lead" style="margin-top:34px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição.</p>
   </div>
-  <div class="pgn">11</div>
+  <div class="pgn">13</div>
 </section>
 
 <!-- 12 GATILHOS 1 -->
@@ -332,7 +404,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
       <tr><td class="k">Xantelasma</td><td>Perfil lipídico, ApoB, Lp(a)</td></tr>
     </table>
   </div>
-  <div class="pgn">12</div>
+  <div class="pgn">14</div>
 </section>
 
 <!-- 13 GATILHOS 2 -->
@@ -351,7 +423,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
       <li>Homem com alopecia e perfil metabólico junto.</li>
     </ul>
   </div>
-  <div class="pgn">13</div>
+  <div class="pgn">15</div>
 </section>
 
 <!-- 14 A JORNADA -->
@@ -369,7 +441,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     <div class="rule" style="margin-top:80px"></div>
     <p class="lead">Ela não sai daqui. O cuidado acontece dentro da clínica, e vocês acompanham.</p>
   </div>
-  <div class="pgn">14</div>
+  <div class="pgn">16</div>
 </section>
 
 <!-- 15 EU PERCO A MINHA PACIENTE -->
@@ -389,7 +461,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     </div>
     <p class="lead" style="margin-top:46px">A paciente ganha um motivo clínico para voltar, e não só uma agenda de procedimentos.</p>
   </div>
-  <div class="pgn">15</div>
+  <div class="pgn">17</div>
 </section>
 
 <!-- 16 O QUE NAO OFERECEMOS -->
@@ -418,19 +490,19 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     Nada avulso, nada de balcão.</p>
     <p class="closer" style="margin-top:26px">A lista do que recusamos é o que protege o CRM de quem encaminha.</p>
   </div>
-  <div class="pgn">16</div>
+  <div class="pgn">18</div>
 </section>
 
-<!-- 17 CALLBACK MARINA -->
+<!-- CALLBACK HELENA -->
 <section class="slide petrol">
   <div class="body mid">
-    <div class="eyebrow">Voltando para a Marina</div>
-    <h2 class="sm" style="margin-bottom:46px">Nada daquilo exigia um procedimento diferente<span class="d">.</span></h2>
-    <p class="lead" style="max-width:1560px">Exigia um tubo de sangue, quatro meses antes,
-    e alguém que olhasse a ferritina antes de olhar a pele.</p>
+    <div class="eyebrow">Voltando para a Helena</div>
+    <h2 class="sm" style="margin-bottom:46px">Ela não precisava de outro produto, nem de outra técnica<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1560px">Precisava que alguém tivesse pedido duas dosagens a mais,
+    quatro meses antes da primeira sessão, e tratado o que elas mostrassem.</p>
     <p class="lead" style="max-width:1560px;margin-top:38px">Terreno preparado pede menos produto, e o resultado dura mais.</p>
   </div>
-  <div class="pgn">17</div>
+  <div class="pgn">19</div>
 </section>
 
 <!-- 18 COMO ENCAMINHAR -->
@@ -448,7 +520,7 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     <p class="note" style="margin-top:46px">Prontuário compartilhado com consentimento da paciente,
     conforme a lei de proteção de dados.</p>
   </div>
-  <div class="pgn">18</div>
+  <div class="pgn">20</div>
 </section>
 
 <!-- 19 FECHO -->
