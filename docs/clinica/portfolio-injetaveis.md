@@ -2715,3 +2715,69 @@ Nefro: [4PY e inflamação vascular, *Nature Medicine* 2024](https://www.nature.
 [COMBINE, *JASN* 2019](https://jasn.asnjournals.org/content/30/6/1096).
 Regulatório: [IN 28/2018 consolidada — Anexos I e IV](https://www.legisweb.com.br/legislacao/?id=478112) ·
 [IN 418/2025](https://www.legisweb.com.br/legislacao/?id=488162).
+
+### 17.8 Como prescrever (cartões de prescrição)
+
+#### 🟢 Niacinamida — quimioprevenção de câncer de pele
+
+**Quem recebe (o gate é o do ensaio, não "quem quiser"):** adulto **imunocompetente** com
+**≥ 2 carcinomas queratinocíticos (CBC ou CEC) nos últimos 5 anos**. Foi essa a população dos 386
+participantes do ONTRAC. Fora dela não há dado de desfecho.
+**Quem não recebe:** **transplantado de órgão sólido** — o ONTRANS foi negativo. E gestante/lactante.
+
+**Receita (magistral — a dose de ensaio não existe como suplemento):**
+
+```
+Nicotinamida (niacinamida) ................... 500 mg
+Excipiente q.s.p. ............................ 1 cápsula
+Mandar 60 cápsulas.
+
+Posologia: tomar 1 cápsula por via oral 2 vezes ao dia
+(manhã e noite), uso contínuo.
+
+Obs. ao farmacêutico: NÃO substituir por ácido nicotínico (niacina).
+```
+
+🚨 **A observação ao farmacêutico não é decorativa.** As duas formas se chamam "vitamina B3" e a troca
+no balcão é fácil. O ácido nicotínico dá flushing, mexe em lipídios e **não é o que o ONTRAC testou**.
+É o mesmo erro de mecanismo que contaminou as 4 condutas do §17.5, agora do outro lado do balcão.
+
+**Por que magistral:** 500 mg 2×/dia = **1.000 mg/dia**, quase 30× o teto de suplemento alimentar
+(35 mg NE/dia, §17.4). A dose de ensaio só existe por prescrição. Insumo barato e disponível em
+qualquer farmácia de manipulação brasileira.
+
+**Duração e acompanhamento:** o ensaio durou 12 meses, com avaliação dermatológica **a cada 3 meses**.
+A redução de ceratose actínica já aparece aos 3 meses (11%), chega a 20% aos 9 e fica em 13% aos 12.
+🚨 **O efeito cessa quando se para** — então é uso contínuo enquanto o risco persistir, e isso precisa
+ser dito ao paciente na hora da prescrição, não depois.
+
+**Segurança:** sem diferença de número ou tipo de eventos adversos contra placebo nos 12 meses.
+
+**Co-manejo:** quem examina a pele a cada 3 meses é a dermatologista. Este é, literalmente, um produto
+de parceria: indicação e prescrição de um lado, vigilância dermatológica do outro.
+
+#### 🟡 NMN — se entrar, entra como suplemento e com a verdade dita
+
+Não é receita magistral: é **produto industrializado regularizado**, dentro do teto de **35 mg NE/dia**
+(≈ 95 mg de NMN, 🔲 confirmar o fator), com a advertência de rótulo obrigatória para gestantes,
+lactantes e crianças.
+
+**O que dizer ao paciente, em uma frase:** *"é legal no Brasil desde dezembro, mas a dose autorizada
+aqui é bem menor do que a que foi estudada, e os estudos na dose cheia não mostraram benefício clínico."*
+
+Se algum dia se quiser a dose de ensaio, o caminho é magistral — 🔲 e falta confirmar se o NMN é insumo
+permitido para manipulação. **Não prescrever como geroprotetor.**
+
+#### 🔴 NR (Niagen) — não prescrever
+
+Não consta entre os constituintes autorizados (§17.4), e o que a casa escreveu sobre ele está errado
+(§17.5). Sai das 4 condutas.
+
+#### 🚦 Gate transversal — antes de qualquer precursor de NAD+ em dose alta
+
+1. **Função renal e risco cardiovascular.** Não usar dose alta em **DRC** nem em **risco CV alto** —
+   2PY e 4PY são de eliminação renal, acumulam, e o 4PY induz VCAM-1 (§17.3a). Entra no eixo ao lado
+   do gate renal do magnésio.
+2. **Não é agente lipídico.** Se o alvo é HDL ou triglicerídeo, o agente é outro (§17.5).
+3. **Não é agente de fósforo.** COMBINE foi negativo na DRC 3b/4 (§17.3b).
+4. **Não é molécula de longevidade.** A indicação com desfecho é dermatológica, e só ela.
