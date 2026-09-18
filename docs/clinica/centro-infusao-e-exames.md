@@ -48,7 +48,14 @@ centro de infusão. A infusão IV é ato médico (indicação/prescrição), por
 - **Enfermeiro Responsável Técnico (ERT)** com CRT no **COREN-PR** — obrigatório para qualquer
   serviço com enfermagem (Resolução COFEN 782/2025).
 - **Técnico de enfermagem** pode puncionar acesso periférico e administrar medicação **sob
-  supervisão do enfermeiro** (Parecer Normativo COFEN 001/2021).
+  supervisão do enfermeiro** (Pareceres COREN-PR 66/2023 e COREN-SP 007/2023).
+- **Biomédico não serve para a infusão** — a **Nota Técnica CFBM 01/2023** diz que soroterapia não é
+  competência da Biomedicina, e o TRF1 anulou a Res. CFBM 241/2014 (acórdão mantido em 2026). O encaixe
+  do biomédico é o **posto de coleta**, não a poltrona.
+- **Farmacêutico RT não é obrigatório no Cenário A** (é exigência de farmácia/drogaria).
+
+> 📎 Detalhamento de **equipe, espaço e estoque mínimos** no cenário "dentro da clínica da Dra. Tatianna":
+> [docs/parcerias/tatianna-perazolo/centro-infusao-operacao.md](../parcerias/tatianna-perazolo/centro-infusao-operacao.md).
 
 Ou seja: o centro de infusão é o serviço que define a primeira contratação de enfermagem da clínica.
 Recomenda-se faseá-lo **depois** do centro de exames, quando a operação justificar a equipe.
@@ -89,13 +96,13 @@ giro Ø 1,50 m e barras).
 
 ## I.3 Licenças e compliance (sequência)
 
-1. **Projeto arquitetônico aprovado na DAPES/SESA-PR ANTES da reforma** (Res. SESA 1.891/2024, art. 6 — até 90 dias/análise).
-2. **Classificação de risco sanitário** (Res. SESA 1.034/2020) — infusão tende a médio/alto risco. 🔲 confirmar grau com VISA Londrina (alto risco = inspeção prévia).
+1. **Projeto arquitetônico (PBA) aprovado na DAPES/SESA-PR ANTES da reforma** (Res. SESA 1.891/2024, art. 6 — até 90 dias/análise) — **⚠️ mas ver item 2: desde 06/2026 o PBA pode não ser exigido.**
+2. **Classificação de risco sanitário** (Res. SESA 1.034/2020, alterada pela **Res. SESA 750/2026**). Para o CNAE 8630-5/03, a condicionante agora é: procedimento invasivo → **alto risco**; e o PBA prévio só é exigido **se houver processamento de dispositivos médicos no local** (autoclave). Sem autoclave = **alto risco SEM PBA**. Alto risco = inspeção prévia, 90 dias, silêncio = deferimento (art. 15-16).
 3. **Licença Sanitária Municipal** (VISA Londrina) + **Alvará** (Decreto Municipal 45/2026 — atividade de saúde com infusão **não** é baixo risco).
 4. **Cadastro CNES** via gestor municipal.
 5. **AVCB/Bombeiros (CBMPR)** + licença ambiental se exigida.
 6. **PGRSS aprovado** + contrato com empresa licenciada de RSS (RDC 222/2018): perfurocortantes Grupo E (recipiente rígido, não exceder limite do fabricante), resíduos farmacológicos Grupo B, abrigo de resíduos com piso/parede laváveis.
-7. **RT médico (CRM-PR)** + **ERT enfermagem (COREN-PR)** + dimensionamento de equipe (Res. COFEN 543/2017, por nº de poltronas).
+7. **RT médico (CRM-PR)** + **ERT enfermagem (COREN-PR, Res. COFEN 782/2025)**. ⚠️ O dimensionamento por nº de poltronas **não existe mais**: a Res. COFEN 543/2017 foi revogada pela **743/2024**, e quem planeja a força de trabalho é o enfermeiro (Parecer Normativo COFEN 01/2024).
 8. **Rede frio** (RDC 430/2020 e 304/2019): geladeira/câmara exclusiva 2–8 °C, monitoramento contínuo + POP.
 9. **Carrinho de emergência:** adrenalina, anti-histamínico, corticoide, broncodilatador, atropina, amiodarona, reposição volêmica + **O₂** + ambu + **DEA/desfibrilador** + via aérea + oxímetro; conferência diária registrada. 🔲 confirmar exigência de DEA com VISA Londrina.
 10. **Publicidade conforme CFM 2.336/2023** — proibido promessa de resultado, "antes/depois" sem texto educativo, atribuição de capacidade privilegiada.
@@ -286,8 +293,8 @@ assinatura**; rejeite o framing estético/sem-médico.
 **Regulatório infusão:** RDC 50/2002 (estrutura física), RDC 307/2002, RDC 222/2018 (PGRSS),
 RDC 67/2007 Anexo IV (manipulação estéril — Cenário B), RDC 430/2020 e 304/2019 (rede frio),
 RDC 45/2003 e 63/2011 (boas práticas), RDC 894/2024 (cosmetovigilância); Res. SESA-PR 1.891/2024
-(projetos) e 1.034/2020 (risco); Licença Sanitária/Alvará Prefeitura de Londrina; CNES/DATASUS;
-Parecer Normativo COFEN 001/2021 + Res. COFEN 782/2025 e 543/2017; NBR 9050:2020.
+(projetos), 1.034/2020 e **750/2026** (risco); Licença Sanitária/Alvará Prefeitura de Londrina; CNES/DATASUS;
+Res. COFEN 782/2025 (ART/RT) e 743/2024 (revoga o dimensionamento da 543/2017); pareceres COREN-PR 66 e 81/2023, COREN-SP 007/2023; Nota Técnica CFBM 01/2023; NBR 9050:2020.
 
 **Soroterapia/ética:** Res. CFM 1.938/2010 (ortomolecular/megadoses), 1.999/2012 e 2.333/2023
 (hormônios), 2.336/2023 (publicidade); Posicionamento ABRAN soroterapia estética; pareceres CRM-MS
