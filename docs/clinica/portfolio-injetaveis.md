@@ -296,6 +296,10 @@ Cartão de infusão do ALA IV no §9.
 
 ## 9. Cartões de protocolo de infusão — núcleo IV/IM
 
+> 📎 **Versão operacional para a poltrona:** [cartoes-sala-infusao.md](cartoes-sala-infusao.md) —
+> um cartão por protocolo dos eixos A–G, com checagem de liberação, preparo, tempo, observação e o que
+> registrar. Esta seção continua sendo a **fonte** da mecânica; lá é onde a enfermagem trabalha.
+
 > Números das bulas BR / monografias (links no fim do anexo). Doses de ferro = **ferro elementar**.
 > Itens marcados 🔲 confirmar na bula do produto adotado antes de protocolar.
 

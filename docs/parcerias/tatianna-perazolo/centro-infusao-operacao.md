@@ -487,6 +487,9 @@ Equipe (médico + enfermeiro ERT), espaço (16–20 m², 3 poltronas), carrinho 
 seguem iguais. **Abrir com tudo não pede mais gente nem mais metro quadrado — pede mais POP.** Cada
 protocolo dos eixos A–G precisa do seu cartão de sala, e a mecânica já está pronta no
 [§9 e §15 do portfólio](../../clinica/portfolio-injetaveis.md).
+✅ **Cartões escritos (18/09):** [cartoes-sala-infusao.md](../../clinica/cartoes-sala-infusao.md) —
+faltam 10 números de bula (lista no fim do arquivo) e a **validação e assinatura do enfermeiro RT**
+antes de virarem POP oficial do serviço.
 
 **O que a sala não faz** (e isso é argumento de venda, não limitação): glutationa para clareamento,
 "soro da beleza"/detox/antioxidante master, NAD+ IV, PDRN e exossomos injetáveis, peptídeos experimentais,
