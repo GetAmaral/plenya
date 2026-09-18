@@ -176,13 +176,14 @@ enquadramento dela intacto.
 
 Se o alvará é mesmo de **estética** (9602-5/02) e no local já se aplica toxina botulínica, preenchimento
 ou se faz cirurgia dermatológica, **a clínica já está com o enquadramento defasado hoje**, antes e
-independentemente da Plenya. Duas leituras possíveis, e só o documento resolve:
+independentemente da Plenya. Duas leituras possíveis, e só o documento resolve: ou ela tem **os dois
+CNAEs** (saúde + estética), ou o alvará é só de estética e há irregularidade preexistente.
 
-- ela tem **os dois CNAEs** (saúde + estética) e o alvará foi descrito de memória; ou
-- o alvará é só de estética, e aí há uma irregularidade preexistente.
-
-Nossa nota anterior registrou o CNPJ dela como "restrito a consultas", que é o **8630-5/03** — o que
-**contradiz** "clínica de estética". Não dá para decidir isso por dedução.
+🚨 **Nada do enquadramento dela está verificado.** A frase "o CNPJ dela, restrito a consultas" circulou
+na `propostas.md` desde 11/09 **sem fonte** — não veio dela, de documento nem do Dr.; foi suposição de
+uma sessão anterior, e nesta ela chegou a ser traduzida para "CNAE 8630-5/03", inferência sobre
+inferência. Ambas foram retiradas. O único dado de origem conhecida é o do Dr. em 17/09: alvará de
+"clínica de estética com pequenos procedimentos", relatado de memória.
 🔲 **Pedir a ela o alvará e o cartão CNPJ** (o alvará lista os CNAEs). É de dois minutos e desfaz a dúvida.
 
 Levar o tema como cuidado com o CRM dela, nunca como auditoria: quem entra com infusão numa clínica é

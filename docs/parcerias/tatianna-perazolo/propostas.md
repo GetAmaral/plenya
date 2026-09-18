@@ -377,8 +377,10 @@ Nomes genéricos; marca e fornecedor ficam para a prescrição.
 
 ### Formato jurídico (decisão pendente)
 1. **Recomendado: Plenya instala o centro numa sala da clínica dela, sob CNPJ Plenya**, pagando
-   aluguel fixo de mercado. Responsável técnico médico Dr. Getúlio; enfermeira RT da Plenya. O CNPJ
-   dela, restrito a consultas, não precisaria mudar.
+   aluguel fixo de mercado. Responsável técnico médico Dr. Getúlio; enfermeira RT da Plenya.
+   Vantagem: a Plenya tira alvará e licença sanitária próprios, e o enquadramento dela não precisa
+   mudar. 🔲 O CNAE/alvará atual dela é **desconhecido** — pedir o alvará e o cartão CNPJ
+   (ver `centro-infusao-operacao.md` §2.3).
 2. Nova PJ em sociedade para o centro de infusão, com lucro por quota. Possível, com parecer jurídico.
 3. Centro sob o CNPJ dela, com a Plenya como prescritora: menos controle clínico, exige que ela
    mude CNAE e licenciamento.
