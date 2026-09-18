@@ -2587,3 +2587,131 @@ Literatura: [NAD+ IV × NR IV, Frontiers in Aging 2026](https://www.frontiersin.
 [TACT2 — leitura do ACC](https://www.acc.org/latest-in-cardiology/clinical-trials/2024/04/05/04/40/tact2) ·
 [cerebrolisina — Cochrane e revisões](https://pubmed.ncbi.nlm.nih.gov/41018475/) ·
 [vanádio e DRC](https://pubmed.ncbi.nlm.nih.gov/39779506/).
+
+---
+
+## 17. Decisão entre os três precursores orais de NAD+ — NMN × NR × niacinamida (2026-09-18)
+
+> Pergunta do Dr. após o §16: **dados para decidir entre os três.** Card montado na regra da casa
+> (pesquisa exaustiva · disponibilidade BR regular e magistral · doses · segurança · ângulo nefro ·
+> ⚖️ composição corporal · 🧠 cognição · 📚 RAG). **Todos ORAIS — o IV segue fora (§13.3, §16.1).**
+
+### 17.1 O que são, e a conversão entre eles
+
+| | O que é | Equivalência |
+|---|---|---|
+| **Niacinamida** (nicotinamida) | Amida da vitamina B3. Barata, registrada, já no catálogo da casa a 25 mg | — |
+| **NR** (nicotinamida ribosídeo, marca Niagen) | Nucleosídeo de B3 | 100 mg de NR ≈ 42 mg de nicotinamida |
+| **NMN** (mononucleotídeo de beta-nicotinamida) | Nucleotídeo de B3, autorizado no BR em dez/2025 | Tratado pela ANVISA **como fonte de niacina** (§17.4) |
+
+Os três **elevam NAD+ no sangue**. A pergunta útil não é essa; é o que acontece depois.
+
+### 17.2 Evidência humana — o que cada um entrega de desfecho
+
+| | Eleva NAD+? | Desfecho clínico | Leitura |
+|---|---|---|---|
+| **NMN** | Sim (meta-análise com efeito significativo) | **Nenhum consistente.** Meta-análises de ECRs: **sem** efeito em glicemia de jejum, insulina, HbA1c, marcadores de resistência insulínica, perfil lipídico, peso, IMC ou PAS. Performance física "não significativamente melhorada". Doses de 250 a 2.000 mg/dia, 14 dias a 24 semanas | Segurança boa (sem aumento de eventos adversos, sem elevação de ALT/AST). Revisão recente conclui que **"pode existir exagero dos benefícios"** no campo |
+| **NR** | Sim, robusto — **dobra o NAD+** | **Majoritariamente nulo.** Em comprometimento cognitivo leve: NAD+ dobrou e **não houve** melhora cognitiva (desfecho primário), nem de fluxo cerebral, nem de PA. Segundo ECR em CCL: idem. **Uma exceção positiva: doença arterial periférica** (NICE, *Nat Commun* 2024) — melhora do teste de caminhada de 6 minutos | O padrão do NR é o mais didático do trio: **subir NAD+ é fácil, virar desfecho não** |
+| **Niacinamida** | Sim | **O único com desfecho duro positivo: ONTRAC** (*NEJM* 2015, fase 3), 500 mg 2×/dia → **23% menos carcinomas queratinocíticos** em imunocompetentes de alto risco. ⚠️ O efeito **cessa ao parar**. ⚠️ **ONTRANS** (*NEJM* 2023), em transplantados: **negativo** — encerrado cedo por recrutamento baixo (158 de 254), com tendência não significativa em CEC invasivo | O benefício é **dermatológico e específico**, não "de longevidade" |
+
+### 17.3 🚨 Os dois achados nefrológicos que governam a decisão
+
+**(a) 2PY e 4PY — o metabólito terminal que o rim não elimina.**
+*Nature Medicine* 2024 (Cleveland Clinic): metabolômica não dirigida em pacientes cardíacos estáveis
+ligou o metabolismo da niacina a MACE; os metabólitos terminais **2PY e 4PY** associaram-se a maior
+risco de MACE em 3 anos em coortes de validação. **4PY induz VCAM-1** e adesão leucocitária à parede
+vascular; variantes no gene **ACMSD** associam-se aos níveis de 2PY, 4PY e sVCAM-1 solúvel.
+**O excesso de NAD+ é metabolizado justamente a 2PY e 4PY.**
+
+E existe trabalho dedicado mostrando **concentrações altas de 2PY e 4PY na DRC** como potencial fator
+de risco cardiovascular — são metabólitos de eliminação renal, e acumulam quando o rim falha. A
+literatura conclui explicitamente que **precursores de NAD+ devem ser usados com cautela em quem tem
+risco cardiovascular aumentado**, citando nominalmente a nicotinamida usada na hiperfosfatemia da DRC.
+
+➡️ **Para uma clínica liderada por nefrologista, esse é o achado central:** quem menos deve receber
+dose alta de precursor de NAD+ é exatamente o paciente renal, que é onde o metabólito se acumula.
+É um argumento que nenhum concorrente de "drip de longevidade" vai fazer, e é verdadeiro.
+
+**(b) Nicotinamida NÃO funcionou como agente de fósforo na DRC.**
+**COMBINE** (*JASN* 2019), 205 participantes com DRC 3b/4, eGFR médio 32, 12 meses, nicotinamida ×
+carbonato de lantânio × ambos × placebo: **nenhum braço reduziu fósforo sérico nem FGF23**, com taxas
+altíssimas de descontinuação por intolerância gastrointestinal. Há ainda relato de **trombocitopenia**
+com nicotinamida em diálise. Ou seja, a narrativa "nicotinamida é droga renal" **não se sustenta** —
+e é bom saber disso antes de alguém oferecê-la assim.
+
+### 17.4 Regulatório BR — conferido no texto consolidado da IN 28/2018
+
+| | Situação | Teto legal como suplemento |
+|---|---|---|
+| **NMN** | ✅ **Autorizado** — incluído no Anexo I (constituintes autorizados) pela **IN 418/2025**, CAS 1094-61-7, **sob o nutriente Niacina**. Rótulo obrigatório: *"Este produto não deve ser consumido por gestantes, lactantes e crianças."* | Sujeito ao Anexo IV: **35 mg/dia de niacina equivalente (NE) para ≥19 anos** |
+| **Niacinamida** | ✅ Autorizada (Anexo I, CAS 98-92-0) | Mesmos **35 mg NE/dia** |
+| **NR** | ⚠️ **Não consta** na lista de constituintes autorizados do Anexo I, que traz nicotinamida/niacinamida, NMN e ácido nicotínico. 🔲 Confirmar — se confirmado, **NR não tem via de suplemento no Brasil** | — |
+
+🚨 **A consequência que desmonta metade da euforia do §16.3:** os ECRs de NMN usaram **250 a 2.000 mg/dia**.
+O fator de conversão NMN → NE está numa nota de rodapé que não consegui ler na captura do texto
+consolidado; fonte secundária indica **1 mg NE = 2,71 mg de NMN**, o que colocaria o teto em
+**~95 mg de NMN/dia**. 🔲 Confirmar no DOU. De um jeito ou de outro, **o teto legal de suplemento fica
+entre um terço e um vigésimo da dose estudada.** A liberação é real; a dose é quase simbólica.
+
+**A saída conhecida é a magistral.** Fórmula manipulada com prescrição é trilha regulatória distinta
+(RDC 67/2007) e **não está presa ao teto da IN 28/2018** — é assim que a dose do ONTRAC
+(1.000 mg/dia de nicotinamida) existe, e a [proposta da parceria §7](../parcerias/tatianna-perazolo/propostas.md)
+já previa criar essa fórmula. 🔲 Confirmar se **NMN** é insumo permitido para manipulação.
+
+### 17.5 📚 RAG — e uma correção do catálogo da casa
+
+Cruzamento com `score_items` e com as aulas da pós-graduação MFI revelou um erro que está **em produção**:
+
+- **4 itens de escore** (`Dislipidemia`, `HDL Colesterol`, `Apolipoproteína A1 - homem`, `LCAT rs5923`)
+  recomendam **"Niagen (nicotinamida ribosídeo) ~300 mg"** como alternativa **sem flushing** à niacina,
+  para modular HDL e ApoA-I. Outros **10** citam hexaniacinato de inositol e **25** citam niacina.
+- A origem é a aula **Cardiologia V**, que diz literalmente: *"Atenção ao flushing da niacina comum;
+  alternativas como Niagen (nicotinamida ribosídeo) ou Hexaniacinato de Inositol evitam flushing,
+  porém são mais caras. Dosagens sugeridas: Niagen 300 mg"*.
+
+**Isso está farmacologicamente errado, e o erro é do mesmo mecanismo.** O flushing da niacina é mediado
+pelo receptor **GPR109A**, ativado pelo **ácido nicotínico** — e é pela mesma via que o ácido nicotínico
+mexe em HDL e triglicerídeos. **NR e nicotinamida não ativam o GPR109A**: é por isso que não dão
+flushing, **e é exatamente por isso que não têm o efeito lipídico**. Trocar niacina por Niagen "para
+evitar o flushing" entrega ao paciente um produto que **não faz o que a conduta quer que ele faça**.
+
+(Vale a regra da casa: aula da MFI é **referência de terceiros**, não conduta da casa. Aqui a
+divergência é resolvida pela MBE — a aula erra.)
+
+🔲 **Tarefa de dado (não de código):** corrigir as 4 condutas. Se o alvo é HDL/TG, o agente é **ácido
+nicotínico** (com o flushing que vem junto) ou outra classe — não NR.
+
+### 17.6 Recomendação
+
+- **Se o objetivo é desfecho:** o único dos três com ECR positivo de desfecho duro é a **niacinamida**,
+  e a indicação é **dermatológica** — quimioprevenção de carcinoma queratinocítico no imunocompetente
+  de alto risco, 500 mg 2×/dia, por magistral. É precisamente o público da parceria com a dermatologia,
+  e já está previsto na proposta.
+- **Se o objetivo é "elevar NAD+":** os três elevam, **nenhum** mostrou que isso vira benefício clínico,
+  e o 2PY/4PY dá um motivo nefrológico concreto para **não** empilhar dose.
+- **Proposta ao Dr.:**
+  1. 🟢 **Niacinamida em dose de ensaio, magistral, com indicação dermatológica** — entra como
+     quimioprevenção, **não** como molécula de longevidade.
+  2. 🟡 **NMN opcional, como suplemento, no teto legal**, com disclaimer honesto de que a dose
+     autorizada no Brasil está abaixo da estudada. Não vender como geroprotetor.
+  3. 🔴 **NR fica fora** enquanto não houver via regulatória — e sai das 4 condutas onde entrou por erro.
+  4. 🚫 **Gate nefro transversal:** dose alta de precursor de NAD+ **não** em DRC nem em risco CV alto
+     (2PY/4PY). Entra como princípio do eixo, ao lado do gate renal do magnésio.
+
+### 17.7 Fontes
+
+NMN: [meta-análise glicose/lipídios (Tandfonline 2024)](https://www.tandfonline.com/doi/full/10.1080/10408398.2024.2387324) ·
+[meta-análise metabólica (PMC11557618)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11557618/) ·
+[revisão de performance física (PMC11365583)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11365583/) ·
+[segurança e desfechos metabólicos (2026)](https://pubmed.ncbi.nlm.nih.gov/42514320/) ·
+[ECR dose-dependente em adultos de meia-idade](https://pubmed.ncbi.nlm.nih.gov/36482258/).
+NR: [CCL — NAD+ dobrou sem ganho cognitivo](https://pubmed.ncbi.nlm.nih.gov/42478598/) ·
+[ECR em CCL 2023](https://pubmed.ncbi.nlm.nih.gov/37994989/) ·
+[NICE — DAP, *Nat Commun* 2024](https://www.nature.com/articles/s41467-024-49092-5).
+Niacinamida: [ONTRAC, *NEJM* 2015](https://www.nejm.org/doi/full/10.1056/NEJMoa1506197) ·
+[ONTRANS, *NEJM* 2023](https://www.nejm.org/doi/full/10.1056/NEJMoa2203086).
+Nefro: [4PY e inflamação vascular, *Nature Medicine* 2024](https://www.nature.com/articles/s41591-023-02793-8) ·
+[2PY/4PY na DRC (PMC12072460)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12072460/) ·
+[COMBINE, *JASN* 2019](https://jasn.asnjournals.org/content/30/6/1096).
+Regulatório: [IN 28/2018 consolidada — Anexos I e IV](https://www.legisweb.com.br/legislacao/?id=478112) ·
+[IN 418/2025](https://www.legisweb.com.br/legislacao/?id=488162).
