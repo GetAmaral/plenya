@@ -29,6 +29,14 @@
 
 % --- Language / typography ---
 \usepackage{polyglossia}
+% O polyglossia transforma cada hífen num \discretionary{-}{-}{-} e REPETE o
+% hífen na linha seguinte (splithyphens, ligado por padrão). Em palavra
+% composta portuguesa essa repetição é a regra do Acordo Ortográfico e fica.
+% Desligar aqui, global, custava caro: sem o discretionary o
+% \exhyphenpenalty=10000 abaixo proíbe qualquer quebra em hífen existente, e
+% um DOI passava 34 pt para fora da margem. O ajuste é local, no capítulo de
+% Referências, onde estão os títulos em inglês e os DOIs — ver o bloco
+% {=latex} no topo de md/pt-BR/18-referencias-recursos.md.
 \setdefaultlanguage[variant=brazilian]{portuguese}
 \usepackage{fontspec}
 \usepackage{microtype}
@@ -120,6 +128,10 @@
 \titlespacing{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 % --- Headers / footers ---
+% A folha que o \cleardoublepage insere para o capítulo abrir em ímpar saía
+% com cabeço e fólio ("40 · ANTES" numa página vazia). O \cleardoublepage do
+% LaTeX base não aplica \thispagestyle{empty}; o emptypage aplica.
+\usepackage{emptypage}
 \usepackage{fancyhdr}
 \setlength{\headheight}{14pt}
 \pagestyle{fancy}
@@ -130,12 +142,28 @@
 % would normally hold the section title — we override \sectionmark to a no-op
 % so the chapter title persists across the whole chapter on every page.
 \fancyhead[LE]{\sffamily\footnotesize\color{ink}\thepage\quad\textcolor{gray}{·}\quad ANTES}
-\fancyhead[RO]{\sffamily\footnotesize\color{ink}\nouppercase{\leftmark}\quad\textcolor{gray}{·}\quad\thepage}
+% Quando não há \chaptermark (Introdução, textos de abertura de parte) o
+% \leftmark vem vazio e o cabeço saía como "· 15", com o separador solto.
+\makeatletter
+\newcommand{\plenyaheadmark}{%
+  \protected@edef\@tempa{\leftmark}%
+  \ifx\@tempa\@empty\else
+    \nouppercase{\leftmark}\quad\textcolor{gray}{·}\quad
+  \fi}
+\makeatother
+\fancyhead[RO]{\sffamily\footnotesize\color{ink}\plenyaheadmark\thepage}
 % Chapter mark for headers: keep only the short title (text before the
 % first em-dash), to avoid long chapter titles overflowing the right margin.
+% O corte era só no travessão, então os quatro capítulos cujo título usa
+% dois-pontos (4, 6, 15, 17) iam inteiros para o cabeço — o do 4 ocupava
+% 280 dos 337 pt da medida, o dobro dos outros. Corta nos dois.
 \makeatletter
-\def\@firstdash#1 — #2\@nil{#1}
-\renewcommand{\chaptermark}[1]{\markboth{\@firstdash#1 — \@nil}{}}
+\def\plenya@cutdash#1 — #2\@nil{\def\plenya@mark{#1}}
+\def\plenya@cutcolon#1: #2\@nil{\def\plenya@mark{#1}}
+\renewcommand{\chaptermark}[1]{%
+  \plenya@cutdash#1 — \@nil
+  \expandafter\plenya@cutcolon\plenya@mark: \@nil
+  \markboth{\plenya@mark}{}}
 \makeatother
 \renewcommand{\sectionmark}[1]{}
 
@@ -185,7 +213,12 @@
 \hyphenpenalty=8000
 \exhyphenpenalty=10000
 \doublehyphendemerits=10000
-\finalhyphendemerits=10000
+%   finalhyphendemerits=100000 (era 10000) desencoraja a quebra que deixa o
+%     rabo da palavra sozinho na última linha do parágrafo. Sozinho mexe
+%     pouco (11 casos → 10); o que resolveu o pior deles, "Suplementação
+%     Inteli-" / "gente" nas p.120 e p.137, foi brochura/linha-de-destaque.lua,
+%     que trata a linha "***Pilar X — ...***" como título e não a hifeniza.
+\finalhyphendemerits=100000
 % \lefthyphenmin / \righthyphenmin vivem depois do \begin{document} (ver lá):
 % o polyglossia troca o idioma dentro do \begin{document} e restaura os valores
 % do padrão de hifenização (2/3), apagando qualquer ajuste feito aqui no

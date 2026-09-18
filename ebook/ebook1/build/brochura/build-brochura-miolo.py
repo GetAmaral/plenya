@@ -64,6 +64,8 @@ WORK_DIR     = BUILD_DIR / f"work-brochura-{LANG}-{VARIANT}"
 TEMPLATE     = BUILD_DIR / ("brochura-template-pb.tex" if VARIANT == "pb"
                             else "brochura-template.tex")
 DROPCAP_LUA  = BUILD_DIR / "print-dropcaps.lua"   # cópia local: capitular na Introdução
+FIGCAP_LUA   = BUILD_DIR / "fig-caption-numero.lua"  # legenda de figura = só o número
+DESTAQUE_LUA = BUILD_DIR / "linha-de-destaque.lua"   # linha "***Pilar X***" não hifeniza
 _suffix      = {"pb": "-pb", "cor": "-cor", "meio": ""}[VARIANT]
 OUT_PDF      = BUILD_DIR / f"Antes-{LANG}-brochura-miolo{_suffix}.pdf"
 
@@ -225,20 +227,12 @@ def fullpage_figures(text, available_overrides):
     Usa o filename real disponível em images/ (override .pdf ganha prioridade
     sobre PNG original).
     """
-    figure_prefix = re.compile(r'^Figura\s+\d+(?:\.\d+)?\s*[—-]\s*', re.IGNORECASE)
-
-    def escape_tex(s):
-        return (s
-            .replace("\\", r"\textbackslash{}")
-            .replace("&", r"\&")
-            .replace("%", r"\%")
-            .replace("#", r"\#")
-            .replace("_", r"\_")
-            .replace("$", r"\$")
-            .replace("{", r"\{")
-            .replace("}", r"\}"))
-
-    for safe_basename, label in FULLPAGE_FIGURES:
+    # O prefixo e o escape do texto alternativo saíram junto com a legenda crua:
+    # agora quem imprime a legenda é o \caption, e ela é só o número.
+    # O segundo campo de FULLPAGE_FIGURES (o número escrito à mão) não é mais
+    # usado aqui — quem numera é o \caption. Ele continua vivo em
+    # versaoImpressa/build-print-pdf.py, que ainda não recebeu este tratamento.
+    for safe_basename, _label in FULLPAGE_FIGURES:
         # Skip se a figura foi substituída por LaTeX nativo (já não é mais PNG).
         if any(b == safe_basename for b, _ in NATIVE_REPLACEMENTS):
             continue
@@ -254,31 +248,29 @@ def fullpage_figures(text, available_overrides):
             re.IGNORECASE
         )
 
-        def make_replacer(label_local, file_local):
+        def make_replacer(file_local):
             def _r(match):
-                alt = match.group(1)
-                clean = figure_prefix.sub("", alt).strip()
-                clean = escape_tex(clean)
+                # A legenda fica DENTRO do float, com \caption de verdade. A versão
+                # anterior imprimia a legenda como texto cru depois de um
+                # \clearpage, o que produzia três defeitos de uma vez: a legenda
+                # caía na página seguinte à arte (p.205/206, 211/212, 301/302), o
+                # número era fixo no código e colidia com o do contador
+                # (“Figura 12.1” saiu duas vezes e a 12.2 não existia), e o
+                # \clearpage da frente cortava a página de texto no meio, deixando
+                # até dois terços dela em branco (p.204, 210, 300).
                 return (
                     "\n```{=latex}\n"
-                    "\\clearpage\n"
-                    "\\thispagestyle{empty}\n"
                     "\\begin{figure}[p]\n"
                     "\\centering\n"
-                    "\\vspace*{\\fill}\n"
-                    f"\\includegraphics[height=0.95\\textheight, width=\\linewidth, keepaspectratio]"
+                    f"\\includegraphics[height=0.88\\textheight, width=\\linewidth, keepaspectratio]"
                     f"{{images/{file_local}}}\n"
-                    "\\vspace*{\\fill}\n"
+                    "\\caption{}\n"
                     "\\end{figure}\n"
-                    "\\clearpage\n"
-                    f"\\noindent{{\\sffamily\\footnotesize\\textbf{{Figura {label_local}.\\ }}"
-                    + clean + "\\par}\n"
-                    "\\bigskip\n"
                     "```\n"
                 )
             return _r
 
-        text = pattern.sub(make_replacer(label, final_name), text)
+        text = pattern.sub(make_replacer(final_name), text)
     return text
 
 
@@ -614,7 +606,7 @@ def pad_to_signature(pdf_path, multiple=4):
 def main():
     print(f"📖 Building PRINT PDF (versaoImpressa) for language: {LANG}")
     print(f"   build root: {BUILD_DIR}")
-    for required, label in [(MD_DIR, "markdown"), (TEMPLATE, "template"), (DROPCAP_LUA, "lua filter")]:
+    for required, label in [(MD_DIR, "markdown"), (TEMPLATE, "template"), (DROPCAP_LUA, "lua filter"), (FIGCAP_LUA, "lua filter de legenda"), (DESTAQUE_LUA, "lua filter de destaque")]:
         if not required.exists():
             sys.exit(f"❌ {label} não encontrado: {required}")
 
@@ -699,6 +691,8 @@ def main():
         f"--template={TEMPLATE}",
         f"--resource-path={WORK_DIR}",
         f"--lua-filter={DROPCAP_LUA}",
+        f"--lua-filter={FIGCAP_LUA}",
+        f"--lua-filter={DESTAQUE_LUA}",
         "--top-level-division=chapter",
         "--toc-depth=1",
         "-V", "documentclass=book",

@@ -98,10 +98,13 @@ Albumina sérica & 3{,}5--5{,}0 g/dL & \textbf{$\geq$ 4{,}5 g/dL} & Síntese hep
 \end{tabular}}
 
 \vspace{0.25em}
-{\scriptsize\itshape\color{ink}\noindent%
-\textbf{Figura 4.2.}\ Biomarcadores para longevidade: faixas normais vs.\ ótimas.
-M = homens; F = mulheres. Faixas de referência podem variar conforme método/laboratório.
-Interpretar com painel clínico completo (ESC/EAS, ACC/AHA, ABRAN).\par}
+% \captionof em vez de número fixo: esta tabela não é float, então não incrementava
+% o contador, e o "4.2" era escrito à mão — drift garantido a cada figura nova. O
+% \captionof numera pelo contador e aplica o mesmo estilo das outras legendas.
+% O título saiu da legenda: ele já está no alto da própria tabela.
+\captionof{figure}{M = homens; F = mulheres. Faixas de referência podem variar
+conforme método/laboratório. Interpretar com painel clínico completo (ESC/EAS,
+ACC/AHA, ABRAN).}
 \endgroup
 
 \medskip

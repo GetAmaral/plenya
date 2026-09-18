@@ -9,6 +9,22 @@ last_reviewed: 2026-04-21
 
 ## Capítulo 18 — Referências e Recursos
 
+```{=latex}
+% Daqui para baixo o hífen volta a se comportar como em inglês: quebra sem
+% repetir na linha seguinte, e pode quebrar. O padrão do português (repetir o
+% hífen, regra do Acordo Ortográfico) vale no corpo do livro, mas aqui o que
+% tem hífen é título em inglês, nome de ensaio e DOI, onde a repetição sai
+% errada ("10.1186/s12958-023-" / "-01055-z", "OCEAN(a)-" / "-DOSE",
+% "meta-" / "-analysis"). Sem soltar também o \exhyphenpenalty, um DOI sem
+% ponto de quebra passava 34 pt para fora da margem.
+% O grupo é o que impede o ajuste de vazar: sem ele os dois valores valem até o
+% \end{document} e levariam junto Agradecimentos e Sobre o Autor, que vêm depois
+% deste capítulo na ordem de leitura e são português corrente.
+\begingroup
+\XeTeXcharclass`\- 0
+\exhyphenpenalty=2000
+```
+
 As referências abaixo estão organizadas por capítulo e por tipo. Todas foram verificadas individualmente quanto a autoria, periódico, ano e existência real da publicação. Quando disponível, o DOI é incluído para acesso direto. As ferramentas práticas listadas ao final são de acesso livre.
 
 ---
@@ -466,3 +482,6 @@ Estimativa de risco cardiovascular em 10 anos baseada em idade, sexo, colesterol
 
 **Relógios epigenéticos:** Serviços comerciais como TruAge (TruDiagnostic) e GrimAge oferecem medição de idade biológica por metilação do DNA. Custos variáveis. Útil como *baseline* e para acompanhamento longitudinal.
 
+```{=latex}
+\endgroup
+```
