@@ -312,3 +312,17 @@ A varredura é reexecutável a cada build:
 
     build/.venv-figures/bin/python3 Editora/audit-miolo.py \
         build/brochura/Antes-pt-BR-brochura-miolo-cor.pdf
+
+---
+
+## Escopo: só a brochura
+
+Decidido em 18/09: **as outras edições ficam fora desta rodada.** EPUB, KDP 6×9 e capa
+dura seguem como estão — com `capa.jpg`, com a legenda de figura vinda do texto
+alternativo e com o mesmo esticamento de 11,3% na 1ª capa que foi corrigido aqui
+(`build-print-cover.py`, `build-print-cover-en.py`, `capa-dura/build-hardcover-cover.py`).
+As menções a elas neste arquivo ficam como registro do que existe, não como pendência.
+
+O que muda nelas de qualquer jeito, porque os arquivos são compartilhados: as artes das
+figuras (o número saiu de dentro do desenho) e `versaoImpressa/tabelas-nativas/cap04-fig02.tex`
+(o número da legenda passou a vir do contador).

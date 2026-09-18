@@ -184,3 +184,17 @@ figuras e fica para quando valer a pena.
   log mostra o valor real em vez de afirmar 160 × 230 por hábito.
 - **O fallback de interpretador** usa `shutil.which("python3")` e trata `OSError`, como já
   fazia o `pad_to_signature`.
+
+---
+
+## Escopo: só a brochura
+
+Decidido em 18/09: **as outras edições ficam fora desta rodada.** EPUB, KDP 6×9 e capa
+dura seguem como estão — com `capa.jpg`, com a legenda de figura vinda do texto
+alternativo e com o mesmo esticamento de 11,3% na 1ª capa que foi corrigido aqui
+(`build-print-cover.py`, `build-print-cover-en.py`, `capa-dura/build-hardcover-cover.py`).
+As menções a elas neste arquivo ficam como registro do que existe, não como pendência.
+
+O que muda nelas de qualquer jeito, porque os arquivos são compartilhados: as artes das
+figuras (o número saiu de dentro do desenho) e `versaoImpressa/tabelas-nativas/cap04-fig02.tex`
+(o número da legenda passou a vir do contador).
