@@ -17,14 +17,16 @@ body{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
 .slide.petrol{background:var(--petrol);color:var(--cream)}
 .chrome{position:absolute;top:56px;left:110px;right:110px;display:flex;justify-content:space-between;align-items:center;
   font-size:24px;letter-spacing:.3em;text-transform:uppercase;z-index:6;opacity:.8;font-weight:600}
-.pgn{position:absolute;bottom:52px;right:110px;font-size:24px;letter-spacing:.3em;opacity:.65;z-index:6;font-weight:600}
+.pgn{position:absolute;bottom:52px;right:110px;font-size:24px;letter-spacing:.3em;opacity:.6;z-index:6;font-weight:600}
 .body{position:absolute;top:150px;left:110px;right:110px;bottom:100px;z-index:4}
+.body.mid{display:flex;flex-direction:column;justify-content:center}
 .eyebrow{font-size:27px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:22px}
 .dark .eyebrow,.petrol .eyebrow{color:var(--gold-soft)}
 h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.018em;margin:0}
 h1{font-size:150px;line-height:.96}
 h2{font-size:92px;line-height:1.02;margin-bottom:34px}
 h2.sm{font-size:74px}
+h2.xl{font-size:118px;line-height:1.0}
 h3{font-size:50px;line-height:1.14;margin-bottom:10px}
 .d{color:var(--gold)}
 .sub{font-style:italic;font-size:52px;line-height:1.24;color:var(--gold-deep);margin-bottom:46px}
@@ -38,7 +40,7 @@ ul.l li{position:relative;padding-left:44px;margin-bottom:26px;font-size:42px;li
 ul.l li:before{content:"";position:absolute;left:0;top:20px;width:13px;height:13px;border-radius:50%;background:var(--gold)}
 .dark ul.l li:before,.petrol ul.l li:before{background:var(--gold-soft)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:86px}
-.g2.tight{gap:60px}
+.g2.wide{grid-template-columns:1.1fr 1fr;gap:72px}
 table.t{width:100%;border-collapse:collapse;font-size:39px;line-height:1.26}
 table.t th{font-size:25px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);text-align:left;font-weight:700;
   padding:0 26px 16px 0;border-bottom:2px solid rgba(179,134,69,.55)}
@@ -47,201 +49,293 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
 .dark table.t th,.petrol table.t th{color:var(--gold-soft)}
 .dark table.t td,.petrol table.t td{border-bottom-color:rgba(234,231,218,.16)}
 .num{font-family:var(--display);font-size:104px;line-height:1;color:var(--gold);font-weight:400}
-.dark .num,.petrol .num{color:var(--gold-soft)}
 .numsm{font-family:var(--display);font-size:78px;line-height:1;color:var(--gold);font-weight:400}
-.dark .numsm,.petrol .numsm{color:var(--gold-soft)}
+.dark .num,.petrol .num,.dark .numsm,.petrol .numsm{color:var(--gold-soft)}
+.mega{font-family:var(--display);font-size:340px;line-height:.9;color:var(--gold-soft);font-weight:400}
 .caps{font-size:26px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;color:var(--gold-deep)}
 .dark .caps,.petrol .caps{color:var(--gold-soft)}
 .note{font-size:32px;line-height:1.3;font-style:italic;color:var(--muted)}
 .dark .note,.petrol .note{color:var(--sage)}
 .closer{font-style:italic;font-size:54px;line-height:1.24;color:var(--gold-deep)}
 .dark .closer,.petrol .closer{color:var(--gold-soft)}
+.disc{position:absolute;bottom:52px;left:110px;font-size:24px;font-style:italic;opacity:.55;z-index:6;max-width:1200px}
 .img{position:absolute;inset:0;background-size:cover;background-position:center;z-index:1}
 .veil{position:absolute;inset:0;z-index:2}
-.veil.dark-l{background:linear-gradient(90deg,rgba(4,31,42,.94) 0%,rgba(4,31,42,.80) 44%,rgba(4,31,42,.12) 100%)}
-.veil.dark-full{background:rgba(4,31,42,.80)}
-.veil.petrol-l{background:linear-gradient(90deg,rgba(6,59,79,.95) 0%,rgba(6,59,79,.78) 46%,rgba(6,59,79,.10) 100%)}
+.veil.dark-l{background:linear-gradient(90deg,rgba(4,31,42,.95) 0%,rgba(4,31,42,.82) 44%,rgba(4,31,42,.14) 100%)}
+.veil.dark-full{background:rgba(4,31,42,.82)}
 .half{position:absolute;top:0;right:0;width:42%;height:100%;background-size:cover;background-position:center;z-index:1}
-.half+.body{right:calc(42% + 90px)}
+.half+.chrome+.body,.half+.body{right:calc(42% + 90px)}
 .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
 .flow .numsm{margin-bottom:14px}
 .flow p{font-size:37px;line-height:1.26;margin:0}
+.hair{border-left:3px solid rgba(179,134,69,.42);padding-left:28px}
 .card{border:2px solid rgba(179,134,69,.5);border-radius:8px;padding:40px 44px}
 .dark .card,.petrol .card{border-color:rgba(212,168,107,.55)}
 .rule{height:2px;background:rgba(179,134,69,.45);margin:34px 0}
-.slide.dense table.t{font-size:38px;line-height:1.2}
+.slide.dense table.t{font-size:38px;line-height:1.2;margin-top:52px}
 .slide.dense table.t td{padding:15px 26px 15px 0}
 .slide.dense table.t td.k{font-size:39px}
 .slide.dense h2{margin-bottom:20px}
-.slide.dense table.t{margin-top:52px}
+/* barras de resultado — mesma linguagem visual da devolutiva do paciente */
+.bars{display:flex;flex-direction:column;gap:22px}
+.bar-row{display:grid;grid-template-columns:340px 1fr;align-items:center;gap:20px}
+.bar-name{font-size:34px;line-height:1.1;text-align:right}
+.bar-track{position:relative;display:flex;align-items:center;gap:16px}
+.bar{display:block;height:28px;background:var(--petrol);border-radius:0 6px 6px 0}
+.dark .bar,.petrol .bar{background:var(--sage)}
+.bar-val{font-size:32px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dark .bar-val,.petrol .bar-val{color:var(--sage)}
+.hband{position:relative;margin-top:104px;padding-bottom:78px}
+.segs{display:flex;gap:3px;height:58px}
+.seg{display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:34px;font-weight:500}
+.seg:first-child{border-radius:6px 0 0 6px}.seg:last-child{border-radius:0 6px 6px 0}
+.ticks{position:relative;height:34px;font-size:30px;color:var(--muted)}
+.dark .ticks,.petrol .ticks{color:var(--sage)}
+.tick{position:absolute;top:8px;transform:translateX(-50%)}
+.unit{position:absolute;right:0;top:8px}
+.bracket{position:absolute;top:-52px;height:30px;border:2px solid var(--muted);border-bottom:none}
+.dark .bracket,.petrol .bracket{border-color:var(--sage)}
+.bracket span{position:absolute;top:-42px;left:0;font-size:30px;font-style:italic;color:var(--muted);white-space:nowrap}
+.dark .bracket span,.petrol .bracket span{color:var(--sage)}
+.opt{position:absolute;top:140px;transform:translateX(-50%)}
+.opt:before{content:"";position:absolute;left:50%;top:-26px;width:3px;height:22px;background:var(--gold)}
+.opt span{position:absolute;left:-14px;top:0;font-size:30px;font-style:italic;color:var(--gold-deep);white-space:nowrap}
+.dark .opt span,.petrol .opt span{color:var(--gold-soft)}
+.mark{position:absolute;top:-96px;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.mark:after{content:"";position:absolute;left:50%;top:76px;width:3px;height:74px;background:var(--gold)}
+.mark span{font-family:var(--display);font-size:44px;color:var(--gold)}
+.dark .mark span,.petrol .mark span{color:var(--gold-soft)}
+.dark .mark:after,.petrol .mark:after{background:var(--gold-soft)}
 </style>
 </head>
 <body>
 
-<!-- 01 CAPA -->
+<!-- 01 ABERTURA CINEMATOGRÁFICA -->
 <section class="slide dark">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-consulta.jpg')"></div>
-  <div class="body">
-    <div class="eyebrow">Plenya &nbsp;×&nbsp; Clínica Tatianna Perazolo</div>
-    <h1>Cuidado<br>por inteiro<span class="d">.</span></h1>
-    <div style="margin-top:56px" class="closer">O corpo não funciona em partes.<br>A pele é onde isso aparece primeiro.</div>
-    <div style="position:absolute;bottom:0;left:0" class="caps">Saúde, Performance &amp; Longevidade</div>
+  <div class="body mid">
+    <h2 class="xl" style="margin-bottom:56px">Marina tem 44 anos e marcou o procedimento com quatro meses de antecedência, porque a filha ia casar<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1400px">Pele boa. Sem comorbidade. Não fuma. A profissional que a atendeu é excelente,
+    a técnica estava correta e o produto era o certo.</p>
   </div>
+  <div class="disc">Caso composto, construído a partir de padrões clínicos frequentes. Não retrata uma paciente específica.</div>
 </section>
 
-<!-- 02 QUEM SOU -->
-<section class="slide">
-  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-elegante.jpg')"></div>
-  <div class="chrome"><span>Plenya</span><span>Quem fala com vocês</span></div>
-  <div class="body">
-    <div class="eyebrow">Quem sou</div>
-    <h2 class="sm">Getúlio Amaral Filho<span class="d">.</span></h2>
-    <div class="sub">Nefrologista. Medicina Funcional Integrativa.</div>
-    <ul class="l">
-      <li>Mais de 20 anos de prática clínica.</li>
-      <li>Membro do Comitê Cardiorrenal da Sociedade Brasileira de Nefrologia.</li>
-      <li>Autor e palestrante em saúde, performance e longevidade.</li>
-      <li>Fundador da Plenya, em Londrina.</li>
-    </ul>
-    <p class="note" style="margin-top:38px">A formação nefrológica define o jeito da casa: função renal,
-    eletrólitos e segurança de dose entram antes de qualquer conduta.</p>
+<!-- 02 O QUE DEU ERRADO -->
+<section class="slide dark">
+  <div class="body mid">
+    <div class="eyebrow">Três meses depois</div>
+    <h2 style="margin-bottom:50px">O resultado veio aquém do esperado<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1400px">E ela começou a juntar cabelo no ralo do chuveiro.</p>
+    <p class="lead" style="max-width:1400px;margin-top:38px">Voltou ao consultório achando que tinha feito algo errado.
+    Perguntou se podia repetir o procedimento.</p>
   </div>
   <div class="pgn">02</div>
 </section>
 
-<!-- 03 O QUE A PLENYA FAZ -->
+<!-- 03 A ABSOLVIÇÃO -->
 <section class="slide petrol">
-  <div class="body">
-    <div class="eyebrow">O que a Plenya faz</div>
-    <h2>Nós tratamos o terreno<span class="d">.</span></h2>
-    <div class="sub">Ferro, proteína, glicemia, hormônios, sono, inflamação.</div>
-    <div class="g2">
-      <div>
-        <h3>A dermatologia trata a pele por fora,</h3>
-        <p>num tempo curto de procedimento, com técnica e produto.</p>
-      </div>
-      <div>
-        <h3>A Plenya trata o terreno em que</h3>
-        <p>esse procedimento cicatriza, remodela e dura.</p>
-      </div>
-    </div>
-    <div class="rule"></div>
-    <p class="lead">Não competimos por via nem por ato. A fronteira é clara, e está no slide 7.</p>
+  <div class="body mid">
+    <div class="eyebrow">A pergunta que a sala faz</div>
+    <h2 class="xl">De quem foi a culpa<span class="d">?</span></h2>
+    <p class="lead" style="margin-top:56px;max-width:1500px">De ninguém que estava naquela sala.</p>
+    <p class="lead" style="max-width:1500px">A técnica estava certa. O produto estava certo. A mão estava certa.</p>
   </div>
   <div class="pgn">03</div>
 </section>
 
-<!-- 04 A PERGUNTA -->
+<!-- 04 O NÚMERO -->
 <section class="slide dark">
-  <div class="img" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
-  <div class="veil dark-l"></div>
-  <div class="body" style="right:44%">
-    <div class="eyebrow">A pergunta que abre tudo</div>
-    <h2 class="sm">Por que duas pacientes da mesma idade, com a mesma profissional, a mesma técnica e o mesmo produto, respondem de forma diferente<span class="d">?</span></h2>
-    <p class="lead" style="margin-top:40px">A resposta não está na técnica. Está no terreno biológico:
-    hormônio, inflamação, glicação, nutrição, sono.</p>
-    <p class="note">Foi a conclusão comum do bloco Menopausa em Foco do AMWC Brazil 2026, em que cinco
-    palestrantes de especialidades diferentes chegaram à mesma tese: terreno antes da técnica.</p>
+  <div class="body mid">
+    <div class="eyebrow">O exame que ninguém tinha pedido</div>
+    <div class="mega">18</div>
+    <p class="lead" style="margin-top:34px">Ferritina, em nanogramas por mililitro.</p>
+    <p class="note" style="font-size:38px;margin-top:26px">Marina vinha com fluxo menstrual aumentado havia dois anos.
+    Achava que era normal para a idade.</p>
   </div>
   <div class="pgn">04</div>
 </section>
 
-<!-- 05 AGIR -->
+<!-- 05 POR QUE A PELE DEPENDIA DISSO -->
 <section class="slide">
-  <div class="chrome"><span>Plenya</span><span>Método</span></div>
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/pele.jpg')"></div>
+  <div class="chrome"><span>Plenya</span><span>O mecanismo</span></div>
   <div class="body">
-    <div class="eyebrow">Como organizamos o terreno</div>
-    <h2>Método AGIR<span class="d">.</span></h2>
-    <div class="g2 tight" style="margin-top:46px">
-      <div>
-        <div class="numsm">A</div><h3>Alimentação e Atividade</h3>
-        <p class="note">nutrição, composição corporal, força</p>
-        <div style="height:46px"></div>
-        <div class="numsm">G</div><h3>Gestão metabólica</h3>
-        <p class="note">glicemia, lipídios, hormônios, inflamação</p>
-      </div>
-      <div>
-        <div class="numsm">I</div><h3>Integração corpo e mente</h3>
-        <p class="note">estresse, vínculo, propósito</p>
-        <div style="height:46px"></div>
-        <div class="numsm">R</div><h3>Ritmo</h3>
-        <p class="note">sono e ciclo circadiano</p>
-      </div>
-    </div>
-    <p class="note" style="margin-top:44px">Os sete pilares que a dermatologia do congresso propôs já estão aqui dentro.
-    A diferença é que nós medimos.</p>
+    <div class="eyebrow">Por que isso apareceu na pele</div>
+    <h2 class="sm">Colágeno novo não amarra sem ferro<span class="d">.</span></h2>
+    <p class="lead" style="margin-top:36px">As enzimas que estabilizam a fibra de colágeno recém-formada
+    dependem de dois cofatores: <strong>ferro</strong> e <strong>vitamina C</strong>.</p>
+    <p class="lead">Sem eles, o estímulo é dado e a remodelação entrega menos.</p>
+    <div class="rule"></div>
+    <p class="lead">O mesmo ferro que faltava para a pele estava faltando para o cabelo.
+    Era um problema só, em dois lugares.</p>
   </div>
   <div class="pgn">05</div>
 </section>
 
-<!-- 06 O ESCORE -->
+<!-- 06 A RÉGUA DA FERRITINA -->
 <section class="slide petrol">
   <div class="body">
-    <div class="eyebrow">O que a dermatologia sozinha não monta</div>
-    <h2>Do tubo de coleta a um número<span class="d">.</span></h2>
-    <div class="g2" style="margin-top:56px">
-      <div>
-        <div class="num">635</div>
-        <h3>itens avaliados</h3>
-        <p class="note">no programa médico da parceria</p>
-        <div style="height:56px"></div>
-        <div class="num">232</div>
-        <h3>vêm de exames</h3>
-        <p class="note">e não de perguntas</p>
+    <div class="eyebrow">A régua do Escore · ferritina, mulher antes da menopausa</div>
+    <h2 class="sm">Onde os 18 caem<span class="d">.</span></h2>
+    <div class="hband" style="margin-top:150px">
+      <div class="mark" style="left:11.0%"><span>Marina: 18</span></div>
+      <div class="segs">
+        <span class="seg" style="width:9.0%;background:#88AEAE;color:#0A1F26">1</span>
+        <span class="seg" style="width:6.0%;background:#4F8795;color:#F5F1E8">2</span>
+        <span class="seg" style="width:9.0%;background:#34738A;color:#F5F1E8">3</span>
+        <span class="seg" style="width:24.6%;background:#B38645;color:#F5F1E8">5</span>
+        <span class="seg" style="width:41.4%;background:#1A5C78;color:#F5F1E8">4</span>
+        <span class="seg" style="width:10.0%;background:#88AEAE;color:#0A1F26">0</span>
       </div>
-      <div>
-        <div class="num">98</div>
-        <h3>exames no painel inicial</h3>
-        <p class="note">que abrem em 185 análises</p>
-        <div style="height:56px"></div>
-        <p class="lead">Tudo isso vira <strong>um número que evolui</strong>, com devolutiva em consulta
-        e reavaliação marcada.</p>
+      <div class="ticks">
+        <span class="tick" style="left:9.0%">15</span>
+        <span class="tick" style="left:15.0%">25</span>
+        <span class="tick" style="left:24.0%">40</span>
+        <span class="tick" style="left:48.6%">81</span>
+        <span class="tick" style="left:90.0%">150</span>
+        <span class="unit">ng/mL</span>
       </div>
+      <div class="opt" style="left:36.3%"><span>ótimo do Escore: 40 a 81</span></div>
     </div>
+    <p class="lead" style="margin-top:36px">O número dentro de cada faixa é a pontuação, de 0 a 5.
+    <strong>Marina tirou 2 de 5.</strong></p>
+    <p class="note" style="margin-top:14px">A ferritina tem três réguas diferentes: homem, mulher antes e mulher depois da menopausa.</p>
   </div>
   <div class="pgn">06</div>
 </section>
 
-<!-- 07 QUEM FAZ O QUE -->
+<!-- 07 NORMAL x ÓTIMO -->
+<section class="slide">
+  <div class="chrome"><span>Plenya</span><span>O princípio</span></div>
+  <div class="body">
+    <div class="eyebrow">O princípio que organiza tudo</div>
+    <h2>Normal não é o mesmo que ótimo<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1560px">A vitamina B12, por exemplo. O laboratório considera normal de 211 a 911.
+    O Escore só dá a pontuação máxima entre 600 e 1.100.</p>
+    <div class="hband" style="margin-top:120px">
+      <div class="bracket" style="left:15.07%;width:50.00%"><span>referência do laboratório: 211 a 911</span></div>
+      <div class="segs">
+        <span class="seg" style="width:10.71%;background:#88AEAE;color:#0A1F26">0</span>
+        <span class="seg" style="width:10.71%;background:#4F8795;color:#F5F1E8">2</span>
+        <span class="seg" style="width:21.43%;background:#1A5C78;color:#F5F1E8">4</span>
+        <span class="seg" style="width:35.79%;background:#B38645;color:#F5F1E8">5</span>
+        <span class="seg" style="width:21.36%;background:#34738A;color:#F5F1E8">3</span>
+      </div>
+      <div class="ticks"><span class="tick" style="left:10.71%">150</span><span class="tick" style="left:21.43%">300</span>
+        <span class="tick" style="left:42.86%">600</span><span class="tick" style="left:78.64%">1.100</span><span class="unit">pg/mL</span></div>
+      <div class="opt" style="left:60.71%"><span>ótimo do Escore: 600 a 1.100</span></div>
+    </div>
+    <p class="lead" style="margin-top:32px">Um resultado de 250 sai <strong>normal</strong> no laudo e pontua <strong>2 de 5</strong> aqui.</p>
+  </div>
+  <div class="pgn">07</div>
+</section>
+
+<!-- 08 O QUE A PACIENTE VÊ -->
+<section class="slide petrol">
+  <div class="body">
+    <div class="eyebrow">O que a paciente vê na devolutiva</div>
+    <h2 class="sm">Onde o painel pesa<span class="d">.</span></h2>
+    <div class="g2 wide" style="margin-top:44px">
+      <div>
+        <div class="bars">
+          <div class="bar-row"><span class="bar-name">Hormonal</span><span class="bar-track"><span class="bar" style="width:100%"></span><span class="bar-val">66</span></span></div>
+          <div class="bar-row"><span class="bar-name">Cardiovascular</span><span class="bar-track"><span class="bar" style="width:89.4%"></span><span class="bar-val">59</span></span></div>
+          <div class="bar-row"><span class="bar-name">Urogenital e reprodutiva</span><span class="bar-track"><span class="bar" style="width:74.2%"></span><span class="bar-val">49</span></span></div>
+          <div class="bar-row"><span class="bar-name">Renal</span><span class="bar-track"><span class="bar" style="width:72.7%"></span><span class="bar-val">48</span></span></div>
+          <div class="bar-row"><span class="bar-name">Metabólico</span><span class="bar-track"><span class="bar" style="width:45.5%"></span><span class="bar-val">30</span></span></div>
+          <div class="bar-row"><span class="bar-name">Hematológico</span><span class="bar-track"><span class="bar" style="width:43.9%"></span><span class="bar-val">29</span></span></div>
+          <div class="bar-row"><span class="bar-name">Nutrologia e micronutrientes</span><span class="bar-track"><span class="bar" style="width:37.9%"></span><span class="bar-val">25</span></span></div>
+          <div class="bar-row"><span class="bar-name">Imune e inflamatório</span><span class="bar-track"><span class="bar" style="width:34.8%"></span><span class="bar-val">23</span></span></div>
+        </div>
+        <p class="note" style="margin-top:28px">Itens de exame por pilar clínico. Um exame conta para mais de um sistema.</p>
+      </div>
+      <div>
+        <p class="lead">Cada item do painel vira uma régua como as dos slides anteriores, e cada régua vira de zero a cinco pontos.</p>
+        <p class="lead">A soma, organizada nos pilares, é <strong>um número que ela leva para casa</strong> e que muda na reavaliação.</p>
+        <p class="lead">É isso que ela não consegue montar sozinha, e é isso que a faz voltar.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pgn">08</div>
+</section>
+
+<!-- 09 A ESCALA -->
+<section class="slide">
+  <div class="chrome"><span>Plenya</span><span>Escore</span></div>
+  <div class="body">
+    <div class="eyebrow">Do tubo de coleta a um número</div>
+    <h2 class="sm">O que acontece com o painel inicial<span class="d">.</span></h2>
+    <div class="flow" style="margin-top:76px">
+      <div class="hair"><div class="numsm">98</div><div class="caps" style="margin-top:12px">exames pedidos</div></div>
+      <div class="hair"><div class="numsm">185</div><div class="caps" style="margin-top:12px">análises</div></div>
+      <div class="hair"><div class="numsm">232</div><div class="caps" style="margin-top:12px">itens do Escore</div></div>
+      <div class="hair"><div class="numsm">1.177</div><div class="caps" style="margin-top:12px">faixas</div></div>
+      <div class="hair"><div class="numsm">29</div><div class="caps" style="margin-top:12px">pilares clínicos</div></div>
+    </div>
+    <p class="lead" style="margin-top:80px;max-width:1560px">Cerca de cinco faixas por item, com réguas separadas por sexo e fase da vida.
+    A ferritina da Marina foi uma delas.</p>
+  </div>
+  <div class="pgn">09</div>
+</section>
+
+<!-- 10 QUEM SOU -->
+<section class="slide">
+  <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/getulio-elegante.jpg')"></div>
+  <div class="chrome"><span>Plenya</span><span>Quem fala com vocês</span></div>
+  <div class="body">
+    <div class="eyebrow">Só agora, e rápido</div>
+    <h2 class="sm">Getúlio Amaral Filho<span class="d">.</span></h2>
+    <div class="sub">Nefrologista. Medicina Funcional Integrativa.</div>
+    <ul class="l">
+      <li>Mais de 20 anos de prática clínica.</li>
+      <li>Comitê Cardiorrenal da Sociedade Brasileira de Nefrologia.</li>
+      <li>Autor e palestrante em saúde, performance e longevidade.</li>
+    </ul>
+    <p class="note" style="margin-top:38px">A formação nefrológica define o jeito da casa: função renal,
+    eletrólitos e segurança de dose entram antes de qualquer conduta.</p>
+  </div>
+  <div class="pgn">10</div>
+</section>
+
+<!-- 11 QUEM FAZ O QUE -->
 <section class="slide">
   <div class="chrome"><span>Plenya × Perazolo</span><span>A fronteira</span></div>
   <div class="body">
     <div class="eyebrow">Para ninguém ficar em dúvida</div>
     <h2>Quem faz o quê<span class="d">.</span></h2>
-    <table class="t" style="margin-top:34px">
+    <table class="t" style="margin-top:30px">
       <tr><th>Clínica Tatianna Perazolo</th><th>Plenya</th></tr>
-      <tr><td class="k">Tópico, intradérmico e procedimentos: laser, peeling, toxina, preenchedor, bioestimulador, fios, cirurgia dermatológica</td>
+      <tr><td class="k">Tópico, intradérmico e procedimentos: laser, peeling, toxina, preenchedor, bioestimulador, fios, cirurgia</td>
           <td>Oral, intramuscular, subcutâneo e endovenoso, no centro de infusão</td></tr>
       <tr><td class="k">Diagnóstico dermatológico, tricoscopia, dermatoscopia</td>
           <td>Metabólico, hormonal, nutricional, renal, e o Escore</td></tr>
       <tr><td class="k">Terapias sistêmicas da dermatologia</td>
           <td>Reposição hormonal da menopausa, GLP-1 em programa, correção de deficiências</td></tr>
     </table>
-    <p class="lead" style="margin-top:40px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição,
-    e é isso que protege as duas práticas.</p>
+    <p class="lead" style="margin-top:34px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição.</p>
   </div>
-  <div class="pgn">07</div>
+  <div class="pgn">11</div>
 </section>
 
-<!-- 08 GATILHOS 1 -->
+<!-- 12 GATILHOS 1 -->
 <section class="slide dark dense">
   <div class="body">
-    <div class="eyebrow">O slide mais importante desta conversa</div>
+    <div class="eyebrow">O slide para fotografar</div>
     <h2>Quando a pele pede investigação<span class="d">.</span></h2>
-    <table class="t" style="margin-top:30px">
+    <table class="t">
       <tr><th>Se você vê isto</th><th>Nós investigamos</th></tr>
-      <tr><td class="k">Acantose nigricans, acrocórdons múltiplos</td><td>Resistência à insulina, pré-diabetes</td></tr>
       <tr><td class="k">Queda difusa, unhas frágeis</td><td>Ferro, tireoide, vitamina D, B12, zinco</td></tr>
+      <tr><td class="k">Cicatrização lenta, resultado aquém do esperado</td><td>Ferro, vitamina C, proteína, glicemia</td></tr>
+      <tr><td class="k">Acantose nigricans, acrocórdons múltiplos</td><td>Resistência à insulina, pré-diabetes</td></tr>
       <tr><td class="k">Acne tardia, hirsutismo</td><td>Ovário policístico, androgênios, insulina</td></tr>
       <tr><td class="k">Prurido crônico sem lesão</td><td>Função renal e hepática, tireoide, ferro</td></tr>
-      <tr><td class="k">Cicatrização lenta, infecções de repetição</td><td>Glicemia, nutrição, deficiências</td></tr>
       <tr><td class="k">Xantelasma</td><td>Perfil lipídico, ApoB, Lp(a)</td></tr>
     </table>
   </div>
-  <div class="pgn">08</div>
+  <div class="pgn">12</div>
 </section>
 
-<!-- 09 GATILHOS 2 -->
+<!-- 13 GATILHOS 2 -->
 <section class="slide">
   <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/menopausa.jpg')"></div>
   <div class="chrome"><span>Plenya × Perazolo</span><span>Encaminhamento</span></div>
@@ -249,61 +343,61 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     <div class="eyebrow">E quando a paciente conta isto</div>
     <h2 class="sm">Situações que já são nossas<span class="d">.</span></h2>
     <ul class="l" style="margin-top:34px">
+      <li>Procedimento marcado, para preparar o terreno antes.</li>
       <li>Queda de cabelo que não responde ao tópico.</li>
       <li>Paciente em GLP-1 perdendo massa magra, pele e cabelo.</li>
       <li>Fogacho, insônia, libido, ganho de peso na transição.</li>
-      <li>Procedimento marcado, para preparar e recuperar melhor.</li>
-      <li>Cansaço, disposição, sono ruim sem explicação.</li>
+      <li>Cansaço e sono ruim sem explicação.</li>
       <li>Homem com alopecia e perfil metabólico junto.</li>
     </ul>
   </div>
-  <div class="pgn">09</div>
+  <div class="pgn">13</div>
 </section>
 
-<!-- 10 O QUE ACONTECE DEPOIS -->
+<!-- 14 A JORNADA -->
 <section class="slide petrol">
   <div class="body">
     <div class="eyebrow">O que acontece depois que você encaminha</div>
     <h2>A jornada da paciente<span class="d">.</span></h2>
-    <div class="flow" style="margin-top:70px">
+    <div class="flow" style="margin-top:80px">
       <div><div class="numsm">1</div><p>Consulta Plenya, aqui na clínica.</p></div>
       <div><div class="numsm">2</div><p>Coleta no local e exames.</p></div>
       <div><div class="numsm">3</div><p>Devolutiva com o Escore e o plano.</p></div>
       <div><div class="numsm">4</div><p>Tratamento oral e centro de infusão.</p></div>
       <div><div class="numsm">5</div><p>Reavaliação conjunta.</p></div>
     </div>
-    <div class="rule" style="margin-top:70px"></div>
+    <div class="rule" style="margin-top:80px"></div>
     <p class="lead">Ela não sai daqui. O cuidado acontece dentro da clínica, e vocês acompanham.</p>
   </div>
-  <div class="pgn">10</div>
+  <div class="pgn">14</div>
 </section>
 
-<!-- 11 A PACIENTE VOLTA -->
+<!-- 15 EU PERCO A MINHA PACIENTE -->
 <section class="slide">
   <div class="chrome"><span>Plenya × Perazolo</span><span>A garantia</span></div>
   <div class="body">
     <div class="eyebrow">A pergunta que todo mundo faz em silêncio</div>
     <h2 class="sm">Eu perco a minha paciente<span class="d">?</span></h2>
-    <div class="card" style="margin-top:42px">
+    <div class="card" style="margin-top:46px">
       <ul class="l">
-        <li><strong>Não.</strong> A paciente continua de vocês. O procedimento é de vocês.</li>
-        <li>Cada profissional atende e fatura o seu próprio ato.</li>
-        <li><strong>Ninguém recebe por encaminhar.</strong> É vedado pelo Código de Ética Médica, e a parceria foi desenhada assim de propósito.</li>
+        <li><strong>Não.</strong> A paciente continua de vocês, e o procedimento continua de vocês.</li>
+        <li>Cada profissional segue responsável pelo seu próprio ato.</li>
+        <li>Vocês recebem o retorno de cada caso encaminhado.</li>
         <li>Protocolo escrito e assinado pelos dois lados, por linha de cuidado.</li>
         <li>Reunião mensal de casos, uma hora, para alinhar o que está funcionando.</li>
       </ul>
     </div>
-    <p class="lead" style="margin-top:40px">A paciente ganha um motivo clínico para voltar, e não só uma agenda de procedimentos.</p>
+    <p class="lead" style="margin-top:46px">A paciente ganha um motivo clínico para voltar, e não só uma agenda de procedimentos.</p>
   </div>
-  <div class="pgn">11</div>
+  <div class="pgn">15</div>
 </section>
 
-<!-- 12 O QUE NAO OFERECEMOS -->
+<!-- 16 O QUE NAO OFERECEMOS -->
 <section class="slide dark">
   <div class="body">
     <div class="eyebrow">O que nos separa do resto</div>
     <h2>O que a parceria não oferece<span class="d">.</span></h2>
-    <div class="g2" style="margin-top:44px">
+    <div class="g2" style="margin-top:50px">
       <div>
         <ul class="l">
           <li>Glutationa para clareamento ou brilho.</li>
@@ -324,36 +418,47 @@ table.t td.k{font-family:var(--display);font-size:40px;width:46%;font-weight:500
     Nada avulso, nada de balcão.</p>
     <p class="closer" style="margin-top:26px">A lista do que recusamos é o que protege o CRM de quem encaminha.</p>
   </div>
-  <div class="pgn">12</div>
+  <div class="pgn">16</div>
 </section>
 
-<!-- 13 COMO ENCAMINHAR -->
+<!-- 17 CALLBACK MARINA -->
+<section class="slide petrol">
+  <div class="body mid">
+    <div class="eyebrow">Voltando para a Marina</div>
+    <h2 class="sm" style="margin-bottom:46px">Nada daquilo exigia um procedimento diferente<span class="d">.</span></h2>
+    <p class="lead" style="max-width:1560px">Exigia um tubo de sangue, quatro meses antes,
+    e alguém que olhasse a ferritina antes de olhar a pele.</p>
+    <p class="lead" style="max-width:1560px;margin-top:38px">Terreno preparado pede menos produto, e o resultado dura mais.</p>
+  </div>
+  <div class="pgn">17</div>
+</section>
+
+<!-- 18 COMO ENCAMINHAR -->
 <section class="slide">
   <div class="half" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/infusao.jpg')"></div>
   <div class="chrome"><span>Plenya × Perazolo</span><span>Na prática</span></div>
   <div class="body">
     <div class="eyebrow">Como encaminhar</div>
     <h2 class="sm">Três passos<span class="d">.</span></h2>
-    <ul class="l" style="margin-top:36px">
-      <li>Reconheceu um gatilho dos slides 8 e 9, comente com a paciente em uma frase:
-      <em>tem uma avaliação clínica aqui na clínica que investiga isso por dentro</em>.</li>
+    <ul class="l" style="margin-top:40px">
+      <li>Reconheceu um gatilho, comente em uma frase: <em>tem uma avaliação aqui na clínica que investiga isso por dentro</em>.</li>
       <li>A recepção agenda a avaliação Plenya, no mesmo endereço.</li>
       <li>Você recebe o retorno do caso, e a paciente segue com você no que é seu.</li>
     </ul>
-    <p class="note" style="margin-top:44px">Prontuário compartilhado com consentimento da paciente,
+    <p class="note" style="margin-top:46px">Prontuário compartilhado com consentimento da paciente,
     conforme a lei de proteção de dados.</p>
   </div>
-  <div class="pgn">13</div>
+  <div class="pgn">18</div>
 </section>
 
-<!-- 14 FECHO -->
+<!-- 19 FECHO -->
 <section class="slide dark">
   <div class="img" style="background-image:url('../../../docs/parcerias/tatianna-perazolo/assets/tati-consultorio-a.jpg')"></div>
   <div class="veil dark-full"></div>
-  <div class="body" style="display:flex;flex-direction:column;justify-content:center">
+  <div class="body mid">
     <div class="eyebrow">Plenya &nbsp;×&nbsp; Clínica Tatianna Perazolo</div>
-    <h2 style="font-size:104px">Terreno preparado pede menos produto, e o resultado dura mais<span class="d">.</span></h2>
-    <p class="closer" style="margin-top:46px">Obrigado. As perguntas são a melhor parte.</p>
+    <h2 style="font-size:104px">Vocês veem a pele antes de todo mundo<span class="d">.</span></h2>
+    <p class="closer" style="margin-top:46px">Quando ela pedir ajuda, a gente investiga junto.</p>
     <div style="position:absolute;bottom:0;left:0" class="caps">Viva bem, viva mais</div>
   </div>
 </section>
