@@ -198,3 +198,26 @@ As menções a elas neste arquivo ficam como registro do que existe, não como p
 O que muda nelas de qualquer jeito, porque os arquivos são compartilhados: as artes das
 figuras (o número saiu de dentro do desenho) e `versaoImpressa/tabelas-nativas/cap04-fig02.tex`
 (o número da legenda passou a vir do contador).
+
+---
+
+## Papel escolhido (18/09)
+
+**Pólen Bold 90 g/m², lombada 17,2 mm.** O par que vai para a gráfica:
+
+| | arquivo |
+|---|---|
+| miolo | `build/brochura/Antes-pt-BR-brochura-miolo-pb.pdf` — 344 pp, trim 160 × 230 |
+| capa | `build/brochura/capas-papeis/Antes-capa-brochura_Polen-Bold-90g_lombada-17.2mm.pdf` — trim 497,2 × 230 |
+| conferência | `…_Polen-Bold-90g_lombada-17.2mm-GUIAS.png` (dobras e linha de corte marcadas) |
+
+Miolo P&B porque é o que o cabeçalho do template define para esta edição ("miolo P&B;
+a cor vive só na capa"). Os outros dois PDFs (`-cor` e o default `-meio`) continuam no
+diretório como prova, com a mesma paginação.
+
+**A ressalva do Pólen Bold continua de pé.** A lombada de 17,2 mm vem de 0,100 mm/folha,
+da tabela da PoloPrinter — o mesmo valor que ela dá para o Couché 115 g, o que implica
+volume ~1,11 e contradiz o que a Suzano vende (papel de alto volume). Se o volume real
+for 1,8, a lombada vai para ~28 mm e a capa tem de ser refeita. **Confirmar a espessura
+com a gráfica antes de mandar imprimir**; o `gera-capas-papeis.py` refaz as seis capas a
+partir da paginação do próprio miolo.
