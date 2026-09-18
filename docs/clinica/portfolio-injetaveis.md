@@ -2497,3 +2497,93 @@ Nichos: ômega-3 · EDTA (quelação) · ozonioterapia · outros.
 - 🔴 **"Antioxidante/detox master" (glutationa + vit C alta + ALA IV)** — o detox drip mais vendido. **Evidência 2024:** ALA + vit C alta dose **aumentou toxicidade** (vit C alta age por peróxido; ALA tiol interfere) sem benefício; interações pouco entendidas. Reforça o veto ao modelo de drip antioxidante.
 - 🔴 **NAD+ IV / "NAD+ + glutationa detox"** (§13.3) · 🔴 **"beleza"/clareamento com glutationa** (§13.1, ABRAN) · 🔴 **soro de imunidade vendido como preventivo/cura** · 🔴 **qualquer combo com claim de cura/anti-aging/detox.**
 - **Fio:** combos só com lastro + disclaimer honesto; o que a maioria dos "drip bars" vende (detox/antioxidante/beleza/NAD) é justamente o que recusamos. **A varredura de campo não revelou injetável novo ofertável — só combinações de moléculas que já temos.**
+
+---
+
+## 16. Revisão das recusas (literatura + regulamentação, 2026-09-17)
+
+> Pedido do Dr.: revisar as 13 recusas de governança e procurar brecha — algo pode entrar?
+> **Resultado: 12 continuam fora, e duas ficaram MAIS fáceis de recusar. O único movimento
+> aproveitável não estava na lista.**
+
+### 16.1 Veredito item a item
+
+| # | Item | O que mudou desde maio | Veredito |
+|---|---|---|---|
+| 1 | **NAD+ IV** | Estudo 2026 comparando NAD+ IV × NR IV: **500 mg de NAD+ IV elevou o NAD+ sanguíneo só 2% em 24 h**, abaixo do NR IV (pico +20,7%) e abaixo até do NR **oral**. Segurança sem alteração de enzimas hepáticas/inflamação em 30 dias; eficácia ausente | 🔴 **Fora — e agora com número.** O problema nunca foi segurança, é que não entra na célula |
+| 2 | **Glutationa de clareamento** | ANVISA seguiu suspendendo empresas e cancelando registros de cosmético usado como injetável; produto injetável com fim estético **tem de ser registrado como medicamento ou produto para saúde**, não como cosmético. Nenhuma glutationa injetável registrada no BR | 🔴 **Fora** |
+| 3 | **BPC-157** | 🇺🇸 **Movimento real:** removido da Categoria 2 da FDA em **22/04/2026**; o PCAC votou **8×6 em 23-24/07/2026** recomendando Categoria 1, **atrelado a uma indicação de retocolite ulcerativa**. Recomendação é consultiva; a FDA ainda decide | 🔴 **Fora no Brasil** (ver §16.2) |
+| 4 | **TB-500** | Removido da Categoria 2 no mesmo lote de abril/2026; PCAC recomendou inclusão na lista 503A | 🔴 **Fora no Brasil** |
+| 5 | **MOTS-c** | Idem — Categoria 2 removida, PCAC recomendou 503A | 🔴 **Fora no Brasil** |
+| 6 | **Epitalon** | Idem | 🔴 **Fora no Brasil** |
+| 7 | **Melanotan II** | Saiu da Categoria 2 no mesmo lote. Não muda o veto clínico: MT-II é a molécula perigosa (a afamelanotida registrada é outra coisa, e serve a **protoporfiria eritropoiética**, fora do nosso escopo) | 🔴 **Fora** |
+| 8 | **GHK-Cu injetável** | Caminho partido: **tópico** saindo da Categoria 1, **injetável** saindo da Categoria 2, ambos para revisão do PCAC **até fev/2027**. O tópico segue com o melhor dossiê humano do trio (redução de rugas em duplo-cego; densidade e espessura em 12 semanas) | 🟢 **tópico mantido** · 🔴 **injetável fora** |
+| 9 | **PDRN** | Nada mudou, e **piorou para nós**: o **CRM-PR Parecer 2.936/2025** veda o uso injetável em estética **e a própria publicidade** dele. É parecer do nosso estado | 🔴 **Fora** — e é o item mais sensível numa parceria com dermatologia |
+| 10 | **Exossomos** | ANVISA mantém como cosmético, portanto tópico. Derivados de célula humana caem em **terapias avançadas**, com regulação ainda em construção. SBD publicou nota técnica de alerta. ANVISA **cancelou registros de cosméticos com exossomos** em 2026 | 🔴 **Fora** |
+| 11 | **EDTA / quelação** | **Desfecho duro publicado:** **TACT2** (JAMA 2024), 959 pacientes pós-IAM com diabetes, 40 infusões semanais, mediana de 48 meses — composto cardiovascular **35,6% no EDTA × 35,7% no placebo**, sem subgrupo beneficiado. Enterrou o sinal do TACT original | 🔴 **Fora, agora com ECR negativo além da vedação do CFM e do veto nefrológico** |
+| 12 | **Cerebrolisina** | Cochrane 2023 (7 ECRs, 1.773 participantes): sem efeito em mortalidade e **aumento estatisticamente significativo de eventos adversos graves não fatais**; certeza baixa a muito baixa nas três edições (2010, 2020, 2023). Não aprovada pela FDA. Não registrada no BR — existe **importação por pessoa física** pelo mecanismo da ANVISA para produto aprovado por outra agência, condicionada a não haver similar registrado | 🔴 **Fora.** A via legal que existe é do **paciente importando para uso próprio**, não da clínica estocando e aplicando |
+| 13 | **Vanádio** | Evidência humana segue pequena e contraditória (revisão sistemática negativa × meta-análise de 15 ECRs positiva para glicemia de jejum), e a **toxicidade renal ficou mais documentada** — inclusive trabalho de 2024-2025 ligando exposição ambiental a DRC | 🔴 **Fora.** Numa clínica liderada por nefrologista, é a leitura óbvia |
+
+### 16.2 🚨 O movimento americano NÃO é via brasileira
+
+Em **abril de 2026** o HHS/FDA removeu **12 peptídeos** da Categoria 2 — BPC-157, TB-500, MOTS-c,
+GHK-Cu injetável, melanotan II, Semax, PEG-MGF, DSIP, epitalon, KPV, LL-37 e dihexa — e em julho o
+PCAC recomendou levar vários para a lista 503A. **Isso vai chegar como argumento de fornecedor**, e
+precisa de resposta pronta:
+
+1. **Sair da Categoria 2 não é aprovação.** São três coisas diferentes: sair da Cat. 2, ser recomendado
+   para a 503A, e ter registro. Nenhum desses peptídeos tem o terceiro.
+2. **A recomendação do PCAC é consultiva.** A FDA decide depois, com parecer próprio.
+3. **E nada disso é brasileiro.** O Brasil andou **na direção oposta** no mesmo período:
+   - **NT 200/2025 + Despacho 97/2025:** importar IFA para manipulação só se **existir produto
+     registrado na ANVISA contendo a molécula**. Sem referência registrada, não manipula. É esta regra
+     que barra todos eles.
+   - A Receita apreendeu **cerca de uma tonelada** de peptídeos injetáveis em Viracopos entre janeiro e
+     março de 2026, em mais de 700 remessas expressas vindas da China e de Hong Kong com conteúdo
+     declarado falsamente.
+   - Em **abril de 2026** a ANVISA abriu instrução para **endurecer ainda mais** a importação de IFA de
+     GLP-1 para manipulação (CBPF, controle de qualidade no Brasil, farmacovigilância na farmácia).
+
+**Conclusão:** a política da casa não muda por causa da FDA. Se e quando a ANVISA registrar algum
+desses, reavalia-se — molécula a molécula, como sempre.
+
+### 16.3 A brecha real (e ela não estava na lista)
+
+**NMN oral deixou de ser proibido no Brasil.**
+
+- A **RE ANVISA nº 1.139/2022** proibia comercialização, fabricação, importação e propaganda de NMN em
+  alimentos. Ela foi **revogada** (RE nº 3.245).
+- A abertura veio da **IN nº 418, de 18/12/2025**, que incluiu o **NMN como constituinte autorizado em
+  suplementos alimentares, na condição de fonte de niacina (vitamina B3)**.
+- Não é liberação irrestrita: vale dentro dos limites da **IN 28/2018** (alterada pela 418/2025) e dos
+  requisitos da **RDC 243/2018**.
+- 🔲 Confirmar a data exata da revogação e o número da RE no DOU antes de citar em material formal
+  (as fontes consultadas são secundárias; a IN 418/2025 está confirmada em base de legislação).
+
+**Por que isso importa:** o §13.3 fechou "NAD+ e precursores" com **IV fora e o valor no oral**, mas
+naquele momento o NMN estava **proibido** no Brasil e a casa ficou com a niacinamida. A proibição caiu.
+Não muda nada sobre o NAD+ IV — ao contrário, a evidência de 2026 reforça a recusa. Muda o que se pode
+oferecer **por via oral**.
+
+🔲 **Decisão pendente do Dr.:** entra **NMN oral** no cardápio, e em que posição em relação à
+niacinamida e ao NR? Exige card próprio no §13 (evidência humana, dose, forma, comparação com NR e
+niacinamida, ⚖️ composição corporal, 🧠 cognição, ângulo nefro).
+
+### 16.4 Fontes
+
+FDA/PCAC: [remoção da Categoria 2, abril/2026](https://www.optimantra.com/news/fda-signals-major-shift-on-peptides-category-2-removals-could-reshape-compounding-landscape) ·
+[PCAC julho/2026](https://www.mcdermottlaw.com/insights/bulk-list-bound-pcac-backs-majority-of-peptides-in-two-day-public-meeting/) ·
+[BPC-157: limbo regulatório ≠ sinal verde](https://djholtlaw.com/regulatory-alert-the-legal-status-of-bpc-157-in-compounding-and-clinical-practice/) ·
+[GHK-Cu caminho partido](https://www.chemverify.com/learn/ghk-cu-fda-category-2-removal-2026).
+Brasil: [NT 200/2025 e endurecimento de GLP-1 magistral](https://portugues.medscape.com/viewarticle/anvisa-quer-endurecer-regras-glp-1-manipulados-brasil-2026a1000f2o) ·
+[apreensão de 1 t de peptídeos em Viracopos](https://ictq.com.br/assuntos-regulatorios/5404-uma-tonelada-de-peptideos-asiaticos-entra-pelo-aeroporto-enquanto-a-anvisa-proibe-a-manipulacao-legal) ·
+[CRM-PR Parecer 2.936/2025 (PDRN)](https://www.crmpr.org.br/Parecer-do-CRMPR-reforca-vedacao-ao-uso-injetavel-do-PDRN-em-tratamentos-esteticos-11-60402.shtml) ·
+[SBD — nota técnica exossomos](https://www.sbd.org.br/nota-tecnica-uso-dermatologico-de-exossomos-em-dermatologia/) ·
+[ANVISA — proibição de cosméticos injetáveis](https://agenciagov.ebc.com.br/noticias/202310/anvisa-publica-novas-medidas-para-proibir-produtos-cosmeticos-utilizados-de-forma-injetavel) ·
+[IN ANVISA 418/2025](https://www.legisweb.com.br/legislacao/?id=488162) ·
+[revogação da proibição do NMN](https://atlaspublico.com.br/noticias/anvisa-revoga-proibicao-de-nmn-em-suplementos-alimentares-80617).
+Literatura: [NAD+ IV × NR IV, Frontiers in Aging 2026](https://www.frontiersin.org/journals/aging/articles/10.3389/fragi.2026.1652582/full) ·
+[TACT2, JAMA 2024](https://jamanetwork.com/journals/jama/fullarticle/2822472) ·
+[TACT2 — leitura do ACC](https://www.acc.org/latest-in-cardiology/clinical-trials/2024/04/05/04/40/tact2) ·
+[cerebrolisina — Cochrane e revisões](https://pubmed.ncbi.nlm.nih.gov/41018475/) ·
+[vanádio e DRC](https://pubmed.ncbi.nlm.nih.gov/39779506/).
