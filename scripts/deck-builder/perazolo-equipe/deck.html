@@ -98,6 +98,9 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
 .optlab{position:absolute;top:104px;transform:translateX(-50%)}
 .optlab:before{content:"";position:absolute;left:50%;top:-26px;width:3px;height:22px;background:var(--gold)}
 .optlab span{position:absolute;left:-14px;top:0;font-size:29px;font-style:italic;color:var(--gold-deep);white-space:nowrap}
+.hmark{position:absolute;top:-52px;transform:translateX(-50%);white-space:nowrap;z-index:5}
+.hmark b{font-family:var(--display);font-weight:500;font-size:38px;color:var(--gold)}
+.hmark:after{content:"";position:absolute;left:50%;top:44px;width:4px;height:60px;background:var(--gold);transform:translateX(-50%)}
 .dark .optlab span,.petrol .optlab span{color:var(--gold-soft)}
 
 /* quatro réguas compactas */
@@ -113,6 +116,14 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
 .mini-mark:after{content:"";position:absolute;left:50%;top:38px;width:4px;height:54px;background:var(--gold-soft);transform:translateX(-50%)}
 .mini-score{font-family:var(--display);font-size:50px;line-height:1;text-align:right}
 .mini-score small{font-size:27px;opacity:.65}
+.agA{background:#0f8f5f}.agG{background:#c07520}.agI{background:#b04a8a}.agR{background:#2a6fb0}
+.agir{display:flex;flex-direction:column;gap:22px}
+.agir-row{display:grid;grid-template-columns:58px 1fr 104px;align-items:center;gap:20px}
+.agir-let{font-family:var(--display);font-size:50px;line-height:1;text-align:center}
+.agir-track{height:30px;background:rgba(234,231,218,.14);border-radius:6px;overflow:hidden}
+.agir-fill{height:100%;border-radius:6px}
+.agir-name{font-size:28px;line-height:1.15;opacity:.85;margin-top:8px}
+.agir-pct{font-family:var(--display);font-size:42px;line-height:1;text-align:right}
 .s5{background:#B38645}.s4{background:#1A5C78}.s3{background:#34738A}.s2{background:#4F8795}.s1{background:#7E9FA3}.s0{background:#A8B9B6}
 .bars{display:flex;flex-direction:column;gap:20px}
 .bar-row{display:grid;grid-template-columns:330px 1fr;align-items:center;gap:18px}
@@ -149,7 +160,8 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
         <li>Depois explico o que a Plenya faz e o que é o nosso Escore.</li>
         <li>Fecho com a lista de sinais que valem um encaminhamento.</li>
       </ul>
-      <p class="lead" style="margin-top:44px">Nenhuma paciente muda de mãos. Volto nisso no fim, porque sei que é a dúvida.</p>
+      <p class="lead" style="margin-top:44px">É uma conversa de trabalho entre quem cuida da mesma paciente,
+      cada um pelo seu lado.</p>
     </div>
   </div>
   <div class="pgn">02</div>
@@ -268,24 +280,29 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
 <section class="slide">
   <div class="chrome"><span>Plenya</span><span>Como a gente mede</span></div>
   <div class="body">
-    <div class="eyebrow">Um exemplo fácil, com vitamina B12</div>
-    <h2>Toda medida vira uma régua de zero a cinco<span class="d">.</span></h2>
+    <div class="eyebrow">Com o próprio exame da Helena</div>
+    <h2>A glicose dela, na nossa régua<span class="d">.</span></h2>
     <div class="content">
       <div class="hband" style="margin-top:96px">
-        <div class="bracket" style="left:15.07%;width:50.00%"><span>o laboratório chama tudo isto de normal: 211 a 911</span></div>
+        <div class="bracket" style="left:0%;width:56.25%"><span>o laboratório chama tudo isto de normal</span></div>
+        <div class="hmark" style="left:48.75%"><b>94</b></div>
         <div class="segs">
-          <span class="seg" style="width:10.71%;background:#A8B9B6;color:#0A1F26">0</span>
-          <span class="seg" style="width:10.71%;background:#4F8795;color:#F5F1E8">2</span>
-          <span class="seg" style="width:21.43%;background:#1A5C78;color:#F5F1E8">4</span>
-          <span class="seg" style="width:35.79%;background:#B38645;color:#F5F1E8">5</span>
-          <span class="seg" style="width:21.36%;background:#34738A;color:#F5F1E8">3</span>
+          <span class="seg" style="width:6.25%;background:#4F8795;color:#F5F1E8">2</span>
+          <span class="seg" style="width:31.25%;background:#B38645;color:#F5F1E8">5</span>
+          <span class="seg" style="width:18.75%;background:#1A5C78;color:#F5F1E8">4</span>
+          <span class="seg" style="width:12.5%;background:#34738A;color:#F5F1E8">3</span>
+          <span class="seg" style="width:20%;background:#7E9FA3;color:#0A1F26">1</span>
+          <span class="seg" style="width:11.25%;background:#A8B9B6;color:#0A1F26">0</span>
         </div>
-        <div class="ticks"><span class="tick" style="left:10.71%">150</span><span class="tick" style="left:21.43%">300</span>
-          <span class="tick" style="left:42.86%">600</span><span class="tick" style="left:78.64%">1.100</span><span class="unit">pg/mL</span></div>
-        <div class="optlab" style="left:60.71%"><span>a nossa faixa ótima</span></div>
+        <div class="ticks">
+          <span class="tick" style="left:6.25%">60</span><span class="tick" style="left:37.5%">85</span>
+          <span class="tick" style="left:56.25%">100</span><span class="tick" style="left:68.75%">110</span>
+          <span class="tick" style="left:88.75%">126</span><span class="unit">mg/dL</span>
+        </div>
+        <div class="optlab" style="left:21.9%"><span>a nossa faixa ótima: 60 a 85</span></div>
       </div>
-      <p class="lead" style="margin-top:34px">Um resultado de 250 sai <strong>normal</strong> no laudo
-      e recebe <strong>2 pontos de 5</strong> na régua.</p>
+      <p class="lead" style="margin-top:34px">Os <strong>94</strong> dela caem aqui: normais para o laboratório,
+      <strong>4 pontos de 5</strong> para nós. Toda medida vira uma régua assim.</p>
     </div>
   </div>
   <div class="pgn">09</div>
@@ -388,7 +405,49 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
   <div class="pgn">13</div>
 </section>
 
-<!-- 14 · O ESCORE -->
+<!-- 14 · O ESCORE COMO A PACIENTE VÊ -->
+<section class="slide dark">
+  <div class="chrome"><span>Plenya</span><span>O Escore</span></div>
+  <div class="body">
+    <div class="eyebrow">O que ela recebe na devolutiva</div>
+    <h2>Um número, e onde ele se perde<span class="d">.</span></h2>
+    <div class="content up">
+      <div class="g2" style="grid-template-columns:.74fr 1fr;gap:58px">
+        <div style="text-align:center">
+          <svg viewBox="0 0 300 190" style="width:100%;max-width:400px">
+            <path d="M 30 170 A 120 120 0 1 1 270 170" fill="none" stroke="rgba(234,231,218,.16)" stroke-width="26" stroke-linecap="round"/>
+            <path d="M 30 170 A 120 120 0 0 1 231 81" fill="none" stroke="#B38645" stroke-width="26" stroke-linecap="round"/>
+            <text x="150" y="150" text-anchor="middle" fill="#EAE7DA" style="font-family:Fraunces,serif;font-size:76px">68%</text>
+          </svg>
+          <div class="caps" style="margin-top:6px">Escore Plenya</div>
+        </div>
+        <div class="agir">
+          <div class="agir-row"><div class="agir-let" style="color:#2b9c6d">A</div>
+            <div><div class="agir-track"><div class="agir-fill agA" style="width:74%"></div></div>
+              <div class="agir-name">Atividade, alimentação e suplementação</div></div>
+            <div class="agir-pct">74%</div></div>
+          <div class="agir-row"><div class="agir-let" style="color:#c9822f">G</div>
+            <div><div class="agir-track"><div class="agir-fill agG" style="width:52%"></div></div>
+              <div class="agir-name">Gestão clínica e metabólica</div></div>
+            <div class="agir-pct">52%</div></div>
+          <div class="agir-row"><div class="agir-let" style="color:#b85e93">I</div>
+            <div><div class="agir-track"><div class="agir-fill agI" style="width:81%"></div></div>
+              <div class="agir-name">Integração mente e corpo</div></div>
+            <div class="agir-pct">81%</div></div>
+          <div class="agir-row"><div class="agir-let" style="color:#4585bc">R</div>
+            <div><div class="agir-track"><div class="agir-fill agR" style="width:63%"></div></div>
+              <div class="agir-name">Ritmo circadiano e repouso</div></div>
+            <div class="agir-pct">63%</div></div>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:34px">O número sozinho não serve. <strong>A letra G é onde a Helena
+      estava perdendo</strong>, e é ali que o plano dela começa.</p>
+    </div>
+  </div>
+  <div class="pgn">14</div>
+</section>
+
+<!-- 15 · A ESCALA -->
 <section class="slide">
   <div class="chrome"><span>Plenya</span><span>O Escore</span></div>
   <div class="body">
@@ -406,7 +465,7 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
       por sexo e fase da vida. A insulina da Helena era uma delas.</p>
     </div>
   </div>
-  <div class="pgn">14</div>
+  <div class="pgn">15</div>
 </section>
 
 <!-- 15 · A FRONTEIRA -->
@@ -428,7 +487,7 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
       <p class="lead" style="margin-top:40px">A fronteira é <strong>por via e por ato</strong>. Não há sobreposição.</p>
     </div>
   </div>
-  <div class="pgn">15</div>
+  <div class="pgn">16</div>
 </section>
 
 <!-- 16 · GATILHOS NA PELE -->
@@ -449,7 +508,7 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
       </table>
     </div>
   </div>
-  <div class="pgn">16</div>
+  <div class="pgn">17</div>
 </section>
 
 <!-- 17 · GATILHOS NA CONVERSA -->
@@ -469,7 +528,7 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
       </ul>
     </div>
   </div>
-  <div class="pgn">17</div>
+  <div class="pgn">18</div>
 </section>
 
 <!-- 18 · COMO ENCAMINHAR -->
@@ -489,29 +548,29 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
       conforme a lei de proteção de dados.</p>
     </div>
   </div>
-  <div class="pgn">18</div>
+  <div class="pgn">19</div>
 </section>
 
-<!-- 19 · A OBJEÇÃO -->
+<!-- 19 · COMO TRABALHAMOS JUNTOS -->
 <section class="slide petrol">
-  <div class="chrome"><span>A dúvida</span><span>Prometi voltar nisso</span></div>
+  <div class="chrome"><span>A parceria</span><span>Como trabalhamos</span></div>
   <div class="body">
-    <div class="eyebrow">A pergunta que todo mundo faz em silêncio</div>
-    <h2>Eu perco a minha paciente<span class="d">?</span></h2>
-    <div class="content up">
+    <div class="eyebrow">O que fica combinado entre nós</div>
+    <h2>Dois cuidados, uma paciente só<span class="d">.</span></h2>
+    <div class="content">
       <div class="card">
         <ul class="l">
-          <li><strong>Não.</strong> A paciente continua de vocês, e o procedimento continua de vocês.</li>
-          <li>Cada profissional segue responsável pelo seu próprio ato.</li>
-          <li>Vocês recebem o retorno de cada caso encaminhado.</li>
-          <li>Reunião mensal de casos, uma hora, para alinhar o que está funcionando.</li>
+          <li><strong>Protocolo escrito por linha de cuidado</strong>, assinado pelos dois lados.</li>
+          <li>Vocês recebem o <strong>retorno de cada caso</strong> encaminhado.</li>
+          <li><strong>Reunião mensal de casos</strong>, uma hora, para ajustar o que está funcionando.</li>
+          <li>Prontuário compartilhado, com consentimento da paciente.</li>
         </ul>
       </div>
-      <p class="lead" style="margin-top:34px">A paciente ganha um motivo clínico para voltar,
-      e não só uma agenda de procedimentos.</p>
+      <p class="lead" style="margin-top:28px">O procedimento é de vocês, a investigação é minha,
+      e a paciente tem os dois no mesmo lugar.</p>
     </div>
   </div>
-  <div class="pgn">19</div>
+  <div class="pgn">20</div>
 </section>
 
 <!-- 20 · O QUE NÃO OFERECEMOS -->
@@ -538,7 +597,7 @@ table.t td.k{font-family:var(--display);font-size:39px;width:47%;font-weight:500
       Nada avulso, nada de balcão.</p>
     </div>
   </div>
-  <div class="pgn">20</div>
+  <div class="pgn">21</div>
 </section>
 
 <!-- 21 · FECHO -->

@@ -15,7 +15,9 @@ const slideArg = (args.find(a => a.startsWith("--slide=")) || "").split("=")[1];
       const top = s.getBoundingClientRect().top; let max = 0;
       s.querySelectorAll(".body *").forEach(e => {
         if (e.classList.contains("content")) return;
-        if (!e.textContent.trim() && !e.className.match(/seg|bar|band|rule|mark/)) return;
+        const cn = typeof e.className === "string" ? e.className : (e.className && e.className.baseVal) || "";
+        if (e instanceof SVGElement && e.tagName !== "svg") return;
+        if (!e.textContent.trim() && !/seg|bar|band|rule|mark|track|fill/.test(cn)) return;
         const b = e.getBoundingClientRect().bottom - top; if (b > max) max = b;
       });
       const small = [...s.querySelectorAll(".body p,.body li,.body td,.body h2,.body h3")]
