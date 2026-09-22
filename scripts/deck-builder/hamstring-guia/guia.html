@@ -67,6 +67,14 @@ table.t td.k{font-family:var(--display);font-size:11pt;font-weight:500;width:26%
 .page.tight table.t td{padding:1.5mm 2.4mm 1.5mm 0}
 .page.tight h2{margin-bottom:2.4mm}
 .page.tight .box{padding:2.8mm 3.2mm}
+.page.cover{background:var(--petrol-deep)}
+.page.cover .photo{position:absolute;inset:0;background-image:url('file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/capa.webp');
+  background-size:cover;background-position:center 8%}
+.page.cover .scrimtop{position:absolute;top:0;left:0;right:0;height:60%;
+  background:linear-gradient(to bottom,rgba(245,241,232,.97) 0%,rgba(245,241,232,.95) 46%,rgba(245,241,232,.7) 72%,rgba(245,241,232,.22) 89%,rgba(245,241,232,0) 100%)}
+.page.cover .scrimbot{position:absolute;bottom:0;left:0;right:0;height:50%;
+  background:linear-gradient(to top,rgba(4,31,42,.97) 0%,rgba(4,31,42,.95) 54%,rgba(4,31,42,.82) 74%,rgba(4,31,42,.34) 90%,rgba(4,31,42,0) 100%)}
+.page.cover .body{z-index:4}
 /* ---- cartões de exercício ---- */
 .ex{background:#fff;border:.28mm solid rgba(6,59,79,.14);border-radius:1.6mm;padding:3.4mm 3.8mm 3.2mm;margin-bottom:4mm}
 .ex .exhead{display:flex;align-items:baseline;gap:2.4mm;margin-bottom:1.6mm}
@@ -112,32 +120,35 @@ svg .bar{fill:var(--gold);stroke:none}
 <body>
 
 <!-- ============================ p1 · CAPA ============================ -->
-<section class="page petrol">
-  <div class="chrome"><span class="brand"><img src="file:///home/user/plenya/docs/branding/papelaria/assets/wordmark-cream.svg"></span><span>Guia de conduta</span></div>
+<section class="page cover">
+  <div class="photo"></div>
+  <div class="scrimtop"></div>
+  <div class="scrimbot"></div>
+  <div class="chrome" style="color:var(--petrol);opacity:.72"><span class="brand"><img src="file:///home/user/plenya/docs/branding/papelaria/assets/wordmark-petrol.svg"></span><span>Guia de conduta</span></div>
   <div class="body">
-    <div style="position:absolute;top:26mm;left:0;right:0">
-      <div class="eyebrow">Dor no ísquio que piora sentado</div>
+    <div style="position:absolute;top:14mm;left:0;right:0;color:var(--ink)">
+      <div class="eyebrow" style="color:var(--gold-deep)">Dor no ísquio que piora sentado</div>
       <h1>Tendinopatia<br>proximal dos<br><span class="d">isquiotibiais</span></h1>
-      <div class="sub">O que fazer, o que evitar e os exercícios,<br>estágio por estágio.</div>
+      <div class="sub" style="margin-bottom:0;color:var(--petrol);opacity:.86">O que fazer, o que evitar e os exercícios,<br>estágio por estágio.</div>
     </div>
-    <div style="position:absolute;bottom:34mm;left:0;right:0">
-      <div class="rule" style="background:rgba(212,168,107,.45)"></div>
+    <div style="position:absolute;bottom:30mm;left:0;right:0;color:var(--cream)">
+      <div class="rule" style="background:rgba(212,168,107,.5)"></div>
       <div class="g2" style="gap:9mm">
         <div>
-          <div class="caps">Para quem é</div>
-          <p class="small muted" style="margin-top:1.6mm">Documento de dupla via. As páginas 2 a 9 são para o paciente e para o fisioterapeuta que conduzirá a reabilitação. As páginas 10 e 11 são a régua de decisão clínica: reavaliação, adjuvantes, indicação cirúrgica e o tamanho real da evidência.</p>
+          <div class="caps" style="color:var(--gold-soft)">Para quem é</div>
+          <p class="small" style="margin-top:1.6mm;color:var(--sage)">Documento de dupla via. As páginas 2 a 9 são para o paciente e para o fisioterapeuta que conduzirá a reabilitação. As páginas 10 e 11 são a régua de decisão clínica: reavaliação, adjuvantes, indicação cirúrgica e o tamanho real da evidência.</p>
         </div>
         <div>
-          <div class="caps">Paciente</div>
-          <p class="small muted" style="margin-top:1.6mm;border-bottom:.25mm solid rgba(234,231,218,.3);padding-bottom:3mm">&nbsp;</p>
-          <div class="caps" style="margin-top:3mm">Data</div>
-          <p class="small muted" style="margin-top:1.6mm;border-bottom:.25mm solid rgba(234,231,218,.3);padding-bottom:3mm">&nbsp;</p>
+          <div class="caps" style="color:var(--gold-soft)">Paciente</div>
+          <p class="small" style="margin-top:1.6mm;border-bottom:.25mm solid rgba(234,231,218,.34);padding-bottom:3mm">&nbsp;</p>
+          <div class="caps" style="color:var(--gold-soft);margin-top:3mm">Data</div>
+          <p class="small" style="margin-top:1.6mm;border-bottom:.25mm solid rgba(234,231,218,.34);padding-bottom:3mm">&nbsp;</p>
         </div>
       </div>
-      <p class="tiny muted" style="margin-top:6mm;opacity:.75">Material de orientação clínica. Não substitui a avaliação presencial nem a condução do fisioterapeuta. A progressão entre estágios depende de reavaliação.</p>
+      <p class="tiny" style="margin-top:5mm;color:var(--sage);opacity:.85">Material de orientação clínica. Não substitui a avaliação presencial nem a condução do fisioterapeuta. A progressão entre estágios depende de reavaliação.</p>
     </div>
   </div>
-  <div class="foot">Plenya Saúde</div>
+  <div class="foot" style="color:var(--cream);opacity:.55">Plenya Saúde</div>
 </section>
 
 <!-- ============================ p2 · RESUMO DA CONDUTA ============================ -->
