@@ -1,8 +1,8 @@
 # Geração de imagens (OpenAI gpt-image-2.5)
 
 **Modelo correto:** família `gpt-image-2.5` — `gpt-image-2.5-sunburst` (qualidade) e `gpt-image-2.5-flare` (velocidade), snapshot `-2026-09-08`. `gpt-image-2` é a geração anterior.
-NÃO usar `gpt-image-1` nem `dall-e-3` (legado). Memória `openai_image_model`. **Não gerar figura de
-exercício ou mecânica clínica por IA** — sai bonita e errada; memória `ai_imagem_nao_serve_para_figura_de_exercicio`.
+NÃO usar `gpt-image-1` nem `dall-e-3` (legado). Memória `openai_image_model`. **Figura de
+exercício por IA: só com o nome canônico do exercício no prompt e conferência de cada uma**; memória `ai_imagem_nao_serve_para_figura_de_exercicio`.
 
 Endpoint: `POST https://api.openai.com/v1/images/generations` com `"model": "gpt-image-2.5-sunburst"`.
 Imagem de referência: `POST /v1/images/edits` (multipart, `-F image=@ref.png`).
