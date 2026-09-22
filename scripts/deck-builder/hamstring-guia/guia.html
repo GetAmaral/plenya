@@ -68,7 +68,7 @@ table.t td.k{font-family:var(--display);font-size:11pt;font-weight:500;width:26%
 .page.tight h2{margin-bottom:2.4mm}
 .page.tight .box{padding:2.8mm 3.2mm}
 .page.cover{background:var(--petrol-deep)}
-.page.cover .photo{position:absolute;inset:0;background-image:url('file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/capa.webp');
+.page.cover .photo{position:absolute;inset:0;background-image:url('file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/capa.jpg');
   background-size:cover;background-position:center 8%}
 .page.cover .scrimtop{position:absolute;top:0;left:0;right:0;height:60%;
   background:linear-gradient(to bottom,rgba(245,241,232,.97) 0%,rgba(245,241,232,.95) 46%,rgba(245,241,232,.7) 72%,rgba(245,241,232,.22) 89%,rgba(245,241,232,0) 100%)}
@@ -76,10 +76,13 @@ table.t td.k{font-family:var(--display);font-size:11pt;font-weight:500;width:26%
   background:linear-gradient(to top,rgba(4,31,42,.97) 0%,rgba(4,31,42,.95) 54%,rgba(4,31,42,.82) 74%,rgba(4,31,42,.34) 90%,rgba(4,31,42,0) 100%)}
 .page.cover .body{z-index:4}
 /* ---- cartões de exercício ---- */
-.ex{background:#fff;border:.28mm solid rgba(6,59,79,.14);border-radius:1.6mm;padding:3.4mm 3.8mm 3.2mm;margin-bottom:4mm}
+.ex{background:var(--cream-soft);border:.28mm solid rgba(6,59,79,.18);border-radius:1.6mm;padding:3.4mm 3.8mm 3.2mm;margin-bottom:4mm}
 .ex .exhead{display:flex;align-items:baseline;gap:2.4mm;margin-bottom:1.6mm}
 .ex .exn{font-family:var(--display);font-size:12.6pt;color:var(--gold);line-height:1}
 .ex svg{display:block;width:100%;height:auto;margin:1mm 0 2mm}
+.figbox{position:relative;margin:1.2mm 0 2.2mm}
+.figbox img{display:block;width:100%;height:auto;border-radius:1.2mm}
+.figbox .ban{position:absolute;top:1.4mm;left:1.4mm;width:6.4mm;height:6.4mm}
 .ex .dose{font-size:9.7pt;line-height:1.3;color:var(--petrol);background:rgba(146,184,180,.2);border-radius:1mm;padding:1.6mm 2.2mm;margin-top:1.4mm}
 .ex .dose b{font-weight:700}
 .exrow{display:grid;grid-template-columns:1fr 1fr;gap:4.5mm}
@@ -277,62 +280,17 @@ svg .bar{fill:var(--gold);stroke:none}
     <div class="exrow3">
       <div class="ex">
         <div class="exhead"><span class="exn">A</span><h4>Assim</h4></div>
-        <svg viewBox="0 0 170 182">
-          <text class="lblg" x="164" y="26" text-anchor="end">quadril mais alto</text>
-          <line class="gr" x1="6" y1="172" x2="164" y2="172"/>
-          <rect class="eq" x="78" y="106" width="74" height="8" rx="2"/>
-          <rect class="eq" x="82" y="114" width="5" height="58"/>
-          <rect class="eq" x="143" y="114" width="5" height="58"/>
-          <rect class="eq" x="144" y="50" width="10" height="58" rx="3"/>
-          <rect class="cush" x="78" y="96" width="74" height="10" rx="4"/>
-          <circle class="head" cx="138" cy="36" r="10"/>
-          <line class="bd torso" x1="136" y1="48" x2="132" y2="90"/>
-          <line class="bd limb work" x1="132" y1="90" x2="90" y2="104"/>
-          <line class="bd limb work" x1="90" y1="104" x2="84" y2="164"/>
-          <line class="bd ft work" x1="74" y1="170" x2="96" y2="170"/>
-          <line class="bd arm" x1="136" y1="52" x2="122" y2="72"/>
-          <line class="bd arm" x1="122" y1="72" x2="106" y2="96"/>
-          <text class="lbl" x="4" y="90">almofada</text>
-          <line class="aux" x1="42" y1="94" x2="74" y2="100" stroke-width="1.4"/>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/d1.jpg" alt="Sentar com o quadril acima do joelho, sobre almofada"></div>
         <p class="small" style="margin-bottom:0"><b>Quadril acima do joelho</b>, almofada de dispersão de pressão, encosto apoiando as costas, pé firme no chão.</p>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn" style="color:var(--stop)">B</span><h4>Assim não</h4></div>
-        <svg viewBox="0 0 170 182">
-          <text class="lbls" x="164" y="26" text-anchor="end">quadril afundado</text>
-          <circle cx="26" cy="26" r="15" fill="none" class="stopstroke"/>
-          <line class="stopstroke" x1="16" y1="16" x2="36" y2="36"/>
-          <line class="gr" x1="6" y1="172" x2="164" y2="172"/>
-          <rect class="eq" x="72" y="126" width="84" height="9" rx="2"/>
-          <rect class="eq" x="78" y="135" width="5" height="37"/>
-          <rect class="eq" x="144" y="135" width="5" height="37"/>
-          <rect class="eq" x="146" y="74" width="11" height="54" rx="3"/>
-          <circle class="head" cx="142" cy="64" r="10"/>
-          <line class="bd torso" x1="140" y1="76" x2="134" y2="122"/>
-          <line class="bd limb" x1="134" y1="122" x2="92" y2="102"/>
-          <line class="bd limb" x1="92" y1="102" x2="84" y2="164"/>
-          <line class="bd ft" x1="74" y1="170" x2="96" y2="170"/>
-          <line class="bd arm" x1="140" y1="80" x2="124" y2="100"/>
-        </svg>
+        <div class="figbox"><svg class="ban" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="#9B4A3A" stroke-width="4"/><line x1="9.5" y1="9.5" x2="30.5" y2="30.5" stroke="#9B4A3A" stroke-width="4" stroke-linecap="round"/></svg><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/d2.jpg" alt="Sentar afundado em sofá baixo, com o joelho acima do quadril"></div>
         <p class="small" style="margin-bottom:0">Sofá fundo e macio, banco duro, assento baixo do carro. Tudo isso afunda o quadril e prensa o tendão.</p>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn" style="color:var(--stop)">C</span><h4>Nem isso</h4></div>
-        <svg viewBox="0 0 170 182">
-          <text class="lbls" x="164" y="26" text-anchor="end">compressão</text>
-          <circle cx="26" cy="26" r="15" fill="none" class="stopstroke"/>
-          <line class="stopstroke" x1="16" y1="16" x2="36" y2="36"/>
-          <line class="gr" x1="6" y1="172" x2="164" y2="172"/>
-          <path d="M72,90 C66,110 68,126 74,134" stroke="#B38645" stroke-width="7" fill="none" stroke-linecap="round" opacity=".85"/>
-          <circle class="head" cx="124" cy="114" r="10"/>
-          <line class="bd torso" x1="78" y1="84" x2="112" y2="104"/>
-          <line class="bd limb" x1="78" y1="84" x2="80" y2="128"/>
-          <line class="bd limb" x1="80" y1="128" x2="82" y2="162"/>
-          <line class="bd ft" x1="70" y1="170" x2="96" y2="170"/>
-          <line class="bd arm" x1="112" y1="104" x2="98" y2="156"/>
-          <circle cx="73" cy="84" r="7" fill="#9B4A3A"/>
-        </svg>
+        <div class="figbox"><svg class="ban" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="#9B4A3A" stroke-width="4"/><line x1="9.5" y1="9.5" x2="30.5" y2="30.5" stroke="#9B4A3A" stroke-width="4" stroke-linecap="round"/></svg><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/d3.jpg" alt="Alongamento de isquiotibiais em pé"></div>
         <p class="small" style="margin-bottom:0">Alongamento de isquiotibiais, em qualquer variação. Sustenta exatamente a compressão que está doendo.</p>
       </div>
     </div>
@@ -377,37 +335,13 @@ svg .bar{fill:var(--gold);stroke:none}
     <div class="exrow">
       <div class="ex">
         <div class="exhead"><span class="exn">1</span><h4>Ponte de isquiotibiais, dois pés</h4></div>
-        <svg viewBox="0 30 240 134">
-          <line class="gr" x1="8" y1="144" x2="232" y2="144"/>
-          <line class="dash" x1="56" y1="136" x2="178" y2="98"/>
-          <circle class="head" cx="40" cy="130" r="10"/>
-          <line class="bd torso" x1="56" y1="136" x2="120" y2="104"/>
-          <line class="bd arm" x1="62" y1="136" x2="94" y2="140"/>
-          <line class="bd limb work" x1="120" y1="104" x2="178" y2="98"/>
-          <line class="bd limb work" x1="178" y1="98" x2="220" y2="138"/>
-          <line class="bd ft work" x1="220" y1="138" x2="228" y2="124"/>
-          <path class="aux" d="M112,94 L112,68 M112,68 l-5,7 M112,68 l5,7"/>
-          <text class="lblg" x="122" y="72">sobe o quadril</text>
-          <text class="lbl" x="196" y="158" text-anchor="middle">calcanhares no chão</text>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e1.jpg" alt="Ponte de isquiotibiais com os dois calcanhares no chão"></div>
         <p class="small">Deitado de costas, joelhos pouco dobrados e <b>calcanhares</b> apoiados, não a planta do pé. Sobe o quadril até alinhar ombro, quadril e joelho. Sem tremer e sem deixar a pelve cair para um lado.</p>
         <div class="dose"><b>5 repetições de 30 a 45 segundos</b>, 90 segundos de descanso entre elas. Até 4 vezes ao dia se a dor estiver alta, ou 1 vez como aquecimento antes do estágio 2.</div>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn">2</span><h4>Progressão: uma perna só</h4></div>
-        <svg viewBox="0 30 240 134">
-          <line class="gr" x1="8" y1="144" x2="232" y2="144"/>
-          <circle class="head" cx="40" cy="130" r="10"/>
-          <line class="bd torso" x1="56" y1="136" x2="120" y2="100"/>
-          <line class="bd arm" x1="62" y1="136" x2="94" y2="140"/>
-          <line class="bd limb work" x1="120" y1="100" x2="178" y2="94"/>
-          <line class="bd limb work" x1="178" y1="94" x2="220" y2="136"/>
-          <line class="bd ft work" x1="220" y1="136" x2="228" y2="122"/>
-          <line class="bd limb" x1="120" y1="100" x2="128" y2="60"/>
-          <line class="bd limb" x1="128" y1="60" x2="166" y2="48"/>
-          <line class="bd ft" x1="166" y1="48" x2="178" y2="44"/>
-          <text class="lbl" x="150" y="36" text-anchor="middle">perna livre no ar</text>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e2.jpg" alt="Ponte de isquiotibiais numa perna só"></div>
         <p class="small">Mesma ponte, agora com uma perna só. A perna livre sobe com o joelho dobrado, sem ajudar. Progride quando você sustenta as cinco repetições de 45 segundos com qualidade.</p>
         <div class="dose">Mesma dosagem. Faça <b>os dois lados</b>, sempre, mesmo que o lado sadio precise de mais carga para chegar ao mesmo esforço.</div>
       </div>
@@ -444,38 +378,13 @@ svg .bar{fill:var(--gold);stroke:none}
     <div class="exrow">
       <div class="ex">
         <div class="exhead"><span class="exn">3</span><h4>Ponte de isquiotibiais com movimento</h4></div>
-        <svg viewBox="0 30 240 134">
-          <line class="gr" x1="8" y1="144" x2="232" y2="144"/>
-          <line class="dash" x1="56" y1="138" x2="118" y2="130"/>
-          <line class="dash" x1="118" y1="130" x2="176" y2="116"/>
-          <circle class="head" cx="40" cy="130" r="10"/>
-          <line class="bd torso" x1="56" y1="136" x2="118" y2="104"/>
-          <line class="bd arm" x1="62" y1="136" x2="94" y2="140"/>
-          <line class="bd limb work" x1="118" y1="104" x2="176" y2="98"/>
-          <line class="bd limb work" x1="176" y1="98" x2="218" y2="138"/>
-          <line class="bd ft work" x1="218" y1="138" x2="226" y2="124"/>
-          <path class="aux" d="M110,62 L110,96 M110,62 l-5,7 M110,62 l5,7 M110,96 l-5,-7 M110,96 l5,-7"/>
-          <text class="lblg" x="120" y="72">2 s sobe</text>
-          <text class="lblg" x="120" y="86">3 s desce</text>
-        </svg>
-        <p class="small">A mesma ponte, subindo e descendo devagar, sem deixar o quadril bater no chão entre as repetições. Progride para uma perna só e depois com peso sobre a pelve.</p>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e3.jpg" alt="Ponte de isquiotibiais com peso sobre a pelve"></div>
+        <p class="small">A mesma ponte, subindo e descendo devagar, sem deixar o quadril bater no chão entre as repetições. Progride para uma perna só e depois com peso sobre a pelve, como na figura.</p>
         <div class="dose">Começa em <b>2 a 3 séries de 10 a 15 repetições</b> e evolui para <b>4 a 5 séries de 6 a 8</b> com mais carga. <b>3 vezes por semana</b>, em dias alternados.</div>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn">4</span><h4>Flexão de joelho de bruços</h4></div>
-        <svg viewBox="0 30 240 134">
-          <rect class="eq" x="14" y="120" width="212" height="9" rx="2"/>
-          <line class="dash" x1="184" y1="114" x2="224" y2="114"/>
-          <circle class="head" cx="40" cy="105" r="10"/>
-          <line class="bd arm" x1="24" y1="117" x2="56" y2="117"/>
-          <line class="bd torso" x1="58" y1="114" x2="130" y2="114"/>
-          <line class="bd limb work" x1="130" y1="114" x2="184" y2="114"/>
-          <line class="bd limb work" x1="184" y1="114" x2="184" y2="72"/>
-          <line class="bd ft work" x1="184" y1="72" x2="196" y2="66"/>
-          <rect x="176" y="80" width="17" height="11" rx="4" class="bar"/>
-          <path class="aux" d="M214,110 A34,34 0 0,0 198,78 M198,78 l9,1 M198,78 l1,9"/>
-          <text class="lbl" x="120" y="150" text-anchor="middle">quadril colado na superfície</text>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e4.jpg" alt="Flexão de joelho em decúbito ventral com caneleira"></div>
         <p class="small">De bruços, dobra o joelho devagar e desce mais devagar ainda. O quadril fica colado: se a pelve levanta, o glúteo assumiu o trabalho. Caneleira ou faixa elástica no tornozelo.</p>
         <div class="dose">Mesma dosagem do exercício 3, como alternativa ou complemento. Útil quando a ponte incomoda a lombar.</div>
       </div>
@@ -501,65 +410,19 @@ svg .bar{fill:var(--gold);stroke:none}
     <div class="exrow3">
       <div class="ex">
         <div class="exhead"><span class="exn">5</span><h4>Panturrilha no degrau</h4></div>
-        <svg viewBox="0 0 170 182">
-          <line class="gr" x1="6" y1="172" x2="164" y2="172"/>
-          <rect class="eq" x="78" y="144" width="86" height="28"/>
-          <rect class="eq" x="132" y="12" width="4" height="160"/>
-          <circle class="head" cx="70" cy="18" r="10"/>
-          <line class="bd torso" x1="72" y1="30" x2="76" y2="66"/>
-          <line class="bd arm" x1="72" y1="32" x2="98" y2="44"/>
-          <line class="bd arm" x1="98" y1="44" x2="128" y2="50"/>
-          <line class="bd limb" x1="76" y1="66" x2="88" y2="98"/>
-          <line class="bd limb" x1="88" y1="98" x2="72" y2="82"/>
-          <line class="bd limb work" x1="76" y1="66" x2="80" y2="100"/>
-          <line class="bd limb work" x1="80" y1="100" x2="86" y2="134"/>
-          <polyline class="bd ft work" points="66,138 86,136 106,144" fill="none"/>
-          <path class="aux" d="M50,158 L50,126 M50,126 l-5,7 M50,126 l5,7"/>
-          <text class="lblg" x="4" y="118">devagar</text>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e5.jpg" alt="Elevação de panturrilha unilateral no degrau"></div>
         <p class="small">Antepé no degrau, calcanhar livre. Sobe e desce devagar, na amplitude toda. Apoie a mão para equilibrar, não para tirar peso.</p>
         <div class="dose">Resistência: <b>2 × até 20</b>. Depois força: <b>3 × 6 a 10</b>. Meta: 22 a 25 repetições numa perna só.</div>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn">6</span><h4>Elevação pélvica apoiada</h4></div>
-        <svg viewBox="0 0 170 182">
-          <line class="gr" x1="6" y1="172" x2="164" y2="172"/>
-          <rect class="eq" x="10" y="94" width="60" height="10" rx="2"/>
-          <rect class="eq" x="14" y="104" width="5" height="68"/>
-          <rect class="eq" x="60" y="104" width="5" height="68"/>
-          <line class="dash" x1="48" y1="90" x2="136" y2="96"/>
-          <circle class="head" cx="34" cy="82" r="10"/>
-          <line class="bd torso" x1="48" y1="90" x2="102" y2="92"/>
-          <line class="bd arm" x1="52" y1="92" x2="70" y2="110"/>
-          <line class="bd limb work" x1="102" y1="92" x2="136" y2="96"/>
-          <line class="bd limb work" x1="136" y1="96" x2="140" y2="164"/>
-          <line class="bd ft work" x1="130" y1="170" x2="154" y2="170"/>
-          <rect x="86" y="76" width="32" height="9" rx="4" class="bar"/>
-          <text class="lblg" x="96" y="62">peso na pelve</text>
-          <line class="aux" x1="108" y1="66" x2="104" y2="74" stroke-width="1.4"/>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e6.jpg" alt="Elevação pélvica com as costas apoiadas no banco"></div>
         <p class="small">Costas apoiadas no banco, sobe o quadril até alinhar ombro, quadril e joelho. Trabalha glúteo e adutor magno, os dois que mais faltam aqui.</p>
         <div class="dose">Resistência: <b>2 × até 20</b>. Depois força: <b>3 × 6 a 10</b>. Meta: <b>3 × 10</b> numa perna só.</div>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn">7</span><h4>Abdução em pé com faixa</h4></div>
-        <svg viewBox="0 0 170 182">
-          <line class="gr" x1="6" y1="172" x2="164" y2="172"/>
-          <line class="dash" x1="56" y1="92" x2="100" y2="92"/>
-          <circle class="head" cx="78" cy="24" r="11"/>
-          <line class="bd torso" x1="78" y1="38" x2="78" y2="92"/>
-          <line class="bd arm" x1="78" y1="46" x2="56" y2="72"/>
-          <line class="bd arm" x1="78" y1="46" x2="100" y2="72"/>
-          <line class="bd limb" x1="70" y1="92" x2="68" y2="130"/>
-          <line class="bd limb" x1="68" y1="130" x2="66" y2="166"/>
-          <line class="bd ft" x1="56" y1="172" x2="78" y2="172"/>
-          <line class="bd limb work" x1="86" y1="92" x2="110" y2="124"/>
-          <line class="bd limb work" x1="110" y1="124" x2="128" y2="152"/>
-          <line class="bd ft work" x1="120" y1="157" x2="142" y2="157"/>
-          <path class="band" d="M66,160 Q96,170 128,148"/>
-          <path class="aux" d="M136,146 L156,137 M156,137 l-8,0 M156,137 l-2,7"/>
-          <text class="lblg" x="4" y="88">pelve nivelada</text>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e7.jpg" alt="Abdução de quadril em pé com faixa elástica"></div>
         <p class="small">Em pé, faixa nos tornozelos, abre a perna sem jogar o tronco para o lado. Só repetições de boa qualidade contam.</p>
         <div class="dose">Até <b>60 repetições</b> no total, em séries de 3 a 10. Para no instante em que a pelve começa a cair.</div>
       </div>
@@ -582,43 +445,13 @@ svg .bar{fill:var(--gold);stroke:none}
     <div class="exrow">
       <div class="ex">
         <div class="exhead"><span class="exn">8</span><h4>Levantamento terra com amplitude crescente</h4></div>
-        <svg viewBox="0 30 240 152">
-          <line class="gr" x1="8" y1="172" x2="232" y2="172"/>
-          <line class="dash" x1="114" y1="96" x2="152" y2="94"/>
-          <line class="dash" x1="114" y1="96" x2="148" y2="128"/>
-          <circle class="head" cx="167" cy="119" r="10"/>
-          <line class="bd torso" x1="114" y1="96" x2="154" y2="112"/>
-          <line class="bd arm" x1="154" y1="112" x2="160" y2="146"/>
-          <rect x="140" y="146" width="44" height="9" rx="4" class="bar"/>
-          <line class="bd limb work" x1="114" y1="96" x2="116" y2="128"/>
-          <line class="bd limb work" x1="116" y1="128" x2="118" y2="164"/>
-          <line class="bd ft work" x1="104" y1="172" x2="136" y2="172"/>
-          <path class="aux" d="M196,94 L196,140 M196,94 l-5,7 M196,94 l5,7 M196,140 l-5,-7 M196,140 l5,-7"/>
-          <text class="lblg" x="215" y="112" text-anchor="middle">mais</text>
-          <text class="lblg" x="215" y="126" text-anchor="middle">flexão</text>
-          <text class="lbl" x="60" y="86">coluna neutra</text>
-          <line class="aux" x1="98" y1="90" x2="112" y2="96" stroke-width="1.4"/>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e8.jpg" alt="Levantamento terra romeno"></div>
         <p class="small">O peso começa no que você precisa levantar na vida real e quase não muda. O que progride é o <b>ângulo</b>: a cada sessão bem tolerada, desce um pouco mais. Coluna neutra do começo ao fim.</p>
         <div class="dose"><b>2 × 4 a 6</b> evoluindo para <b>3 × 6 a 8</b>, 3 vezes por semana. Encerra quando duas ou três sessões no ângulo necessário passarem sem piora.</div>
       </div>
       <div class="ex">
         <div class="exhead"><span class="exn">9</span><h4>Avanço</h4></div>
-        <svg viewBox="0 30 240 152">
-          <line class="gr" x1="8" y1="172" x2="232" y2="172"/>
-          <circle class="head" cx="124" cy="64" r="10"/>
-          <line class="bd torso" x1="126" y1="76" x2="128" y2="120"/>
-          <line class="bd arm" x1="126" y1="80" x2="136" y2="106"/>
-          <line class="bd limb" x1="128" y1="120" x2="96" y2="158"/>
-          <line class="bd limb" x1="96" y1="158" x2="86" y2="170"/>
-          <line class="bd ft" x1="86" y1="170" x2="70" y2="172"/>
-          <line class="bd limb work" x1="128" y1="120" x2="166" y2="128"/>
-          <line class="bd limb work" x1="166" y1="128" x2="170" y2="164"/>
-          <line class="bd ft work" x1="156" y1="172" x2="188" y2="172"/>
-          <path class="aux" d="M196,110 L196,152 M196,110 l-5,7 M196,110 l5,7 M196,152 l-5,-7 M196,152 l5,-7"/>
-          <text class="lblg" x="215" y="128" text-anchor="middle">mais</text>
-          <text class="lblg" x="215" y="142" text-anchor="middle">fundo</text>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e9.jpg" alt="Avanço"></div>
         <p class="small">Alternativa ao levantamento terra quando há dor lombar, ou complemento para quem precisa de amplitude maior. A perna da frente é a que recebe a compressão.</p>
         <div class="dose">Mesma dosagem do exercício 8. A profundidade cresce sessão a sessão, nunca de uma vez.</div>
       </div>
@@ -644,20 +477,7 @@ svg .bar{fill:var(--gold);stroke:none}
     <div class="g2" style="gap:6mm">
       <div class="ex" style="margin-bottom:0">
         <div class="exhead"><span class="exn">10</span><h4>Agachamento búlgaro</h4></div>
-        <svg viewBox="0 30 240 152">
-          <line class="gr" x1="8" y1="172" x2="232" y2="172"/>
-          <rect class="eq" x="178" y="132" width="54" height="9" rx="2"/>
-          <rect class="eq" x="202" y="141" width="6" height="31"/>
-          <circle class="head" cx="142" cy="68" r="10"/>
-          <line class="bd torso" x1="142" y1="80" x2="140" y2="122"/>
-          <line class="bd arm" x1="142" y1="84" x2="152" y2="110"/>
-          <line class="bd limb" x1="140" y1="122" x2="162" y2="160"/>
-          <line class="bd limb" x1="162" y1="160" x2="194" y2="132"/>
-          <line class="bd ft" x1="194" y1="131" x2="212" y2="130"/>
-          <line class="bd limb work" x1="140" y1="122" x2="112" y2="128"/>
-          <line class="bd limb work" x1="112" y1="128" x2="108" y2="164"/>
-          <line class="bd ft work" x1="96" y1="172" x2="122" y2="172"/>
-        </svg>
+        <div class="figbox"><img src="file:///home/user/plenya/scripts/deck-builder/hamstring-guia/assets/fig/e10.jpg" alt="Agachamento búlgaro"></div>
         <p class="small" style="margin-bottom:0">Pé de trás apoiado atrás, tronco ereto, desce controlando. A fase de armazenamento entra primeiro. A de devolução, com salto, só depois.</p>
         <div class="dose"><b>3 séries de 8 a 20</b> repetições de um ou dois exercícios, 2 a 3 vezes por semana. Limiar de dor neste estágio: <b>até 2 em 10</b>, não 4.</div>
       </div>
