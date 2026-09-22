@@ -30,3 +30,11 @@ def preparar(nome, tw, th):
 
 for n in sorted(QUADRADO):  preparar(n, 900, 900)
 for n in sorted(TRES_DOIS): preparar(n, 1100, 733)
+
+# O esquema anatômico entra inteiro: os dois painéis já vêm na mesma escala e
+# o recorte automático quebraria o alinhamento entre eles. As setas de pressão
+# são um overlay SVG no guia.html, posicionado em coordenadas desta imagem.
+if (RAW / "anat.png").exists():
+    Image.open(RAW / "anat.png").convert("RGB").save(
+        OUT / "anat.jpg", "JPEG", quality=92, optimize=True, subsampling=0)
+    print("anat (inteiro)")

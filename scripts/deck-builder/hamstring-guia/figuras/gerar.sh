@@ -7,14 +7,18 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 RAW="$HERE/raw"; mkdir -p "$RAW"
-STYLE="$(cat "$HERE/style.txt")"
+# esquema anatômico usa um bloco de estilo próprio (ossos, sem figura humana)
+STYLE_CORPO="$(cat "$HERE/style.txt")"
+STYLE_ANAT="$(cat "$HERE/style-anat.txt")"
 K="$(grep -E '^OPENAI_API_KEY=' /home/user/plenya/apps/api/.env | cut -d= -f2- | tr -d '"'"'"'\r')"
 WANT=("$@")
 gen() {
   local id="$1" prompt="$2" tmp; tmp="$(mktemp)"
+  local style="$STYLE_CORPO"
+  if [ "$id" = anat ]; then style="$STYLE_ANAT"; fi
   local code; code=$(curl -s -o "$tmp" -w "%{http_code}" https://api.openai.com/v1/images/generations \
     -H "Authorization: Bearer $K" -H "Content-Type: application/json" \
-    -d "$(jq -n --arg m gpt-image-2.5-sunburst --arg p "${prompt}${STYLE}" \
+    -d "$(jq -n --arg m gpt-image-2.5-sunburst --arg p "${prompt}${style}" \
           '{model:$m,prompt:$p,size:"1536x1024",quality:"high",n:1}')")
   [ "$code" = 200 ] || { echo "ERRO $id ($code)"; head -c 300 "$tmp"; rm -f "$tmp"; return 1; }
   jq -r '.data[0].b64_json' "$tmp" | base64 -d > "$RAW/$id.png"; rm -f "$tmp"; echo "ok $id"
