@@ -987,6 +987,15 @@ func setupRoutes(
 	prices.Get("/", middleware.RequireAdminOps(), paymentHandler.ListPrices)
 	prices.Put("/", middleware.RequireAdmin(), paymentHandler.UpsertPrice)
 
+	// Validação pública por QR code (sem auth). ORDEM IMPORTA: estas rotas ficam ANTES dos
+	// grupos /prescriptions e /lab-requests porque `Group.Use(middleware.Auth)` casa por
+	// PREFIXO e roda na ordem de registro — declarada depois do grupo, a rota pública existia
+	// mas o Auth do grupo respondia 401 antes dela, e o QR impresso na receita assinada caía
+	// em "Prescrição Não Encontrada" na página de validação.
+	v1.Get("/prescriptions/validate/:id", prescriptionHandler.ValidatePublic)
+	v1.Get("/lab-requests/validate/:id", labRequestHandler.ValidatePublic)
+	v1.Get("/documents/validate/:id", issuedDocumentHandler.ValidatePublic)
+
 	// Prescriptions routes (protegidas).
 	// C2 — bloqueia patient role. Pacientes usam /patient/me/prescriptions.
 	prescriptions := v1.Group("/prescriptions")
@@ -1016,10 +1025,6 @@ func setupRoutes(
 	issuedDocs.Post("/:docId/sign", middleware.RequireDoctor(), issuedDocumentHandler.Sign)
 	issuedDocs.Delete("/:docId", middleware.RequireDoctor(), issuedDocumentHandler.Delete)
 
-	// Validation routes (public - no auth)
-	v1.Get("/prescriptions/validate/:id", prescriptionHandler.ValidatePublic)
-	v1.Get("/lab-requests/validate/:id", labRequestHandler.ValidatePublic)
-	v1.Get("/documents/validate/:id", issuedDocumentHandler.ValidatePublic)
 	// Link público por documento (token JWT escopado) — serve o PDF inline, sem login.
 	v1.Get("/documents/shared/:token", documentShareHandler.Serve)
 
