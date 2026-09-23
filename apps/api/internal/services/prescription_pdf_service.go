@@ -162,7 +162,7 @@ func (s *PrescriptionPDFService) GenerateSignedPrescriptionPDF(
 	// escrita de nil desde que o PDF passou a montar o QR sozinho, e ficava permanentemente nulo
 	// na resposta da API enquanto o papel trazia o código.
 	if mode == "digital" {
-		url := fmt.Sprintf("https://app.plenyasaude.com.br/prescriptions/validate/%s", prescription.ID)
+		url := PrescriptionValidationURL(prescription.ID)
 		prescription.QRCodeData = &url
 	} else {
 		// Modo manual não tem validação digital por QR.

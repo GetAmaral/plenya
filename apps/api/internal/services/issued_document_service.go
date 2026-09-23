@@ -50,7 +50,7 @@ func NewIssuedDocumentService(
 }
 
 func (s *IssuedDocumentService) validationURL(id uuid.UUID) string {
-	return fmt.Sprintf("https://plenya.com.br/documentos/validar/%s", id)
+	return IssuedDocumentValidationURL(id)
 }
 
 // Create cria um documento em rascunho (draft).

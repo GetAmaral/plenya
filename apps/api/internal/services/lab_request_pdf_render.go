@@ -129,7 +129,7 @@ func buildExamRequest(lr *models.LabRequest) pdfdoc.ExamRequest {
 	sig := pdfdoc.Signature{
 		Digital:     lr.Doctor != nil && lr.Doctor.CertificateActive && lr.SignedAt != nil,
 		SignedAt:    signedAtPT(lr.SignedAt),
-		ValidateURL: fmt.Sprintf("https://app.plenyasaude.com.br/lab-requests/validate/%s", lr.ID),
+		ValidateURL: LabRequestValidationURL(lr.ID),
 		PlaceDate:   placeDatePT(lr.Date),
 	}
 	return pdfdoc.ExamRequest{

@@ -87,7 +87,10 @@ func (s *SignatureService) signPDF(
 				Name:        name,
 				Location:    "Brasil",
 				Reason:      reason,
-				ContactInfo: "https://plenya.com.br",
+				// O domínio plenya.com.br não responde. Isto vai no dicionário da assinatura e é o
+				// que o Adobe Reader mostra como contato do emissor ao conferir um PDF assinado:
+				// entregar ali uma URL morta é o mesmo defeito do QR, uma camada acima.
+				ContactInfo: "https://plenyasaude.com.br",
 			},
 			CertType:   sign.CertificationSignature,
 			DocMDPPerm: sign.AllowFillingExistingFormFieldsAndSignaturesPerms,

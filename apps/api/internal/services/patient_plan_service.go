@@ -509,7 +509,7 @@ func (s *PatientPlanService) PublishReport(planID, patientID, doctorID uuid.UUID
 		return "", err
 	}
 
-	validationURL := fmt.Sprintf("https://app.plenyasaude.com.br/documentos/validar/%s", doc.ID)
+	validationURL := IssuedDocumentValidationURL(doc.ID)
 	now := time.Now()
 
 	render := func(digital bool) ([]byte, error) {

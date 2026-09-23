@@ -63,7 +63,7 @@ func (s *LabRequestPDFService) GenerateSignedLabRequestPDF(
 	}
 
 	// 3. Gerar QR Code data (página real de validação por ID)
-	qrCodeData := fmt.Sprintf("https://app.plenyasaude.com.br/lab-requests/validate/%s", labRequestID)
+	qrCodeData := LabRequestValidationURL(labRequestID)
 	labRequest.QRCodeData = &qrCodeData
 
 	// 4. Gerar PDF vetorial (sistema-base pdfdoc) — agora com SignedAt já configurado se digital

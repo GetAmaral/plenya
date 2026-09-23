@@ -19861,7 +19861,7 @@ export interface components {
             pdfUrl?: string;
             /**
              * @description Dados do QR Code (URL de validação)
-             *     @example https://plenya.com.br/lab-requests/validate/550e8400...
+             *     @example https://app.plenyasaude.com.br/lab-requests/validate/550e8400...
              */
             qrCodeData?: string;
             /** @description Data/hora da assinatura digital */

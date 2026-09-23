@@ -77,7 +77,7 @@ func (s *CarePlanReportService) GenerateAndPublish(patientID, doctorID uuid.UUID
 		return "", err
 	}
 
-	validationURL := fmt.Sprintf("https://app.plenyasaude.com.br/documentos/validar/%s", doc.ID)
+	validationURL := IssuedDocumentValidationURL(doc.ID)
 	reportNow := time.Now()
 
 	render := func(digital bool) ([]byte, error) {

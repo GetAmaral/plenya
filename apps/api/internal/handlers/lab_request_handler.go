@@ -424,7 +424,7 @@ func (h *LabRequestHandler) GeneratePDF(c *fiber.Ctx) error {
 	pdfPath := "/app/uploads/lab-requests/" + pdfURL[len("/uploads/lab-requests/"):]
 
 	// QR Code (independe de assinatura).
-	qrData := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", id)
+	qrData := services.LabRequestValidationURL(id)
 	qrCodeData = &qrData
 	if qrCodeBytes, qrErr := qrcode.Encode(qrData, qrcode.Medium, 256); qrErr == nil {
 		os.WriteFile(fmt.Sprintf("/app/uploads/lab-requests/qr_%s.png", id), qrCodeBytes, 0644)

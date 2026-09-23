@@ -276,7 +276,7 @@ func buildPrescription(p *models.Prescription, manual bool) pdfdoc.Prescription 
 		Signature: pdfdoc.Signature{
 			Digital:     !manual,
 			SignedAt:    signedAtPT(p.SignedAt),
-			ValidateURL: fmt.Sprintf("https://app.plenyasaude.com.br/prescriptions/validate/%s", p.ID),
+			ValidateURL: PrescriptionValidationURL(p.ID),
 			PlaceDate:   placeDatePT(p.PrescriptionDate),
 		},
 	}

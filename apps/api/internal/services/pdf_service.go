@@ -151,7 +151,7 @@ func addSignatureSection(pdf *gofpdf.Fpdf, req *models.LabRequest, startY float6
 		)
 
 		// QR Code (à direita)
-		qrCodeURL := fmt.Sprintf("https://plenya.com.br/lab-requests/validate/%s", req.ID)
+		qrCodeURL := LabRequestValidationURL(req.ID)
 		qrCodePath := fmt.Sprintf("/tmp/qr_lab_%s.png", req.ID)
 
 		qrCode, qrErr := qrcode.Encode(qrCodeURL, qrcode.Medium, 256)
@@ -238,7 +238,7 @@ func addSignatureSection(pdf *gofpdf.Fpdf, req *models.LabRequest, startY float6
 		currentY += 2.5
 
 		pdf.SetXY(textX, currentY)
-		fullValidationURL := "https://plenya.com.br/lab-requests/validate/" + req.ID.String()
+		fullValidationURL := LabRequestValidationURL(req.ID)
 		pdf.Cell(textWidth, 2.5, fullValidationURL)
 		currentY += 3
 

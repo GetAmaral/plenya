@@ -75,7 +75,7 @@ type Prescription struct {
 	SignedPDFHash *string `gorm:"type:varchar(64)" json:"signedPdfHash,omitempty"`
 
 	// Dados do QR Code (URL de validação)
-	// @example https://plenya.com.br/prescriptions/validate/550e8400...
+	// @example https://app.plenyasaude.com.br/prescriptions/validate/550e8400...
 	QRCodeData *string `gorm:"type:text" json:"qrCodeData,omitempty"`
 
 	// Data/hora da assinatura digital
