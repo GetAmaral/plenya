@@ -1,5 +1,6 @@
 'use client'
 
+import { use } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import {
   CheckCircle2,
@@ -24,15 +25,20 @@ import { validatePublic } from '@/lib/api/prescriptions'
 import { formatDate } from '@/lib/format-date'
 
 interface PageProps {
-  params: {
+  // No Next 16 o `params` da rota é uma Promise. Lido direto num componente client, `params.id`
+  // sai `undefined` e a página pedia /prescriptions/validate/undefined, que volta 400 e a tela
+  // mostra "Prescrição Não Encontrada" para uma receita perfeitamente válida.
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default function ValidatePrescriptionPage({ params }: PageProps) {
+  const { id } = use(params)
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ['prescription-validation', params.id],
-    queryFn: () => validatePublic(params.id),
+    queryKey: ['prescription-validation', id],
+    queryFn: () => validatePublic(id),
     retry: false,
   })
 

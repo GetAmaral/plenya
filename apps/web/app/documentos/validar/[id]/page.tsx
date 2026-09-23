@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { formatDate } from '@/lib/format-date';
 import { CheckCircle2, AlertCircle, FileCheck, User, Stethoscope, Shield, ExternalLink } from 'lucide-react';
@@ -39,10 +40,14 @@ async function validateDocument(id: string): Promise<ValidationResult> {
   return res.json();
 }
 
-export default function ValidateDocumentPage({ params }: { params: { id: string } }) {
+// `params` é Promise no Next 16: lido direto num componente client vira `undefined` e a página
+// valida o id errado. Mesmo defeito que derrubou a validação da receita.
+export default function ValidateDocumentPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ['document-validation', params.id],
-    queryFn: () => validateDocument(params.id),
+    queryKey: ['document-validation', id],
+    queryFn: () => validateDocument(id),
     retry: false,
   });
 
