@@ -5,6 +5,9 @@
 # Output: /home/user/plenya/apps/site/public/images/blog/<slug>/<kind>.webp
 set -euo pipefail
 
+# modelo de imagem: fonte única em scripts/lib/openai-image.sh
+. "$(dirname "${BASH_SOURCE[0]}")/../lib/openai-image.sh"
+
 SLUG="${1:?slug required}"
 KIND="${2:?kind required: hero|inline}"
 PROMPT="${3:?prompt required}"
@@ -34,7 +37,7 @@ trap 'rm -f "$TMP_JSON"' EXIT
 
 # jq builds the JSON safely (handles quotes, newlines)
 PAYLOAD=$(jq -n \
-  --arg model "gpt-image-2" \
+  --arg model "$OPENAI_IMAGE_MODEL" \
   --arg prompt "$FULL_PROMPT" \
   --arg size "$SIZE" \
   --arg quality "high" \

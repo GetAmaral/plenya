@@ -13,11 +13,14 @@
 # luz natural, sem texto, sem rosto reconhecível.
 set -euo pipefail
 
+# modelo de imagem: fonte única em scripts/lib/openai-image.sh
+. "$(dirname "${BASH_SOURCE[0]}")/../lib/openai-image.sh"
+
 NAME="${1:?nome required (ex.: 04-caso)}"
 PROMPT="${2:?prompt required}"
 NAME="${NAME//\//-}"
 
-MODEL="${TX_IMG_MODEL:-gpt-image-2.5-sunburst}"
+MODEL="${TX_IMG_MODEL:-$OPENAI_IMAGE_MODEL}"
 SIZE="${TX_IMG_SIZE:-1536x1024}"
 
 if [ -z "${OPENAI_API_KEY:-}" ]; then

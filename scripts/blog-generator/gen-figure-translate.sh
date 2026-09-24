@@ -12,6 +12,9 @@
 #   gen-figure-translate.sh slug figura-1 "Replace 'O método AGIR' with 'The ACTS Method'. ..."
 set -euo pipefail
 
+# modelo de imagem: fonte única em scripts/lib/openai-image.sh
+. "$(dirname "${BASH_SOURCE[0]}")/../lib/openai-image.sh"
+
 SLUG="${1:?slug required}"
 NAME="${2:?name required}"
 PROMPT="${3:?prompt required}"
@@ -39,7 +42,7 @@ TMP_JSON="$(mktemp)"
 HTTP_CODE=$(curl -s -o "$TMP_JSON" -w "%{http_code}" \
   https://api.openai.com/v1/images/edits \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -F model="gpt-image-2" \
+  -F model="$OPENAI_IMAGE_MODEL" \
   -F image="@${TMP_PNG}" \
   -F "prompt=${INSTRUCTION}" \
   -F size="1024x1024" \

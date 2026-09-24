@@ -4,6 +4,9 @@
 # Output: /home/user/plenya/docs/decks/_assets/style-refs/<name>.png
 set -euo pipefail
 
+# modelo de imagem: fonte única em scripts/lib/openai-image.sh
+. "$(dirname "${BASH_SOURCE[0]}")/../lib/openai-image.sh"
+
 NAME="${1:?name required}"
 PROMPT="${2:?prompt required}"
 
@@ -19,7 +22,7 @@ TMP_JSON="$(mktemp)"
 trap 'rm -f "$TMP_JSON"' EXIT
 
 PAYLOAD=$(jq -n \
-  --arg model "gpt-image-2" \
+  --arg model "$OPENAI_IMAGE_MODEL" \
   --arg prompt "$PROMPT" \
   --arg size "1536x1024" \
   --arg quality "high" \

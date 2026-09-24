@@ -10,6 +10,9 @@
 # Output path is printed on success (1024x1024 webp).
 set -euo pipefail
 
+# modelo de imagem: fonte única em scripts/lib/openai-image.sh
+. "$(dirname "${BASH_SOURCE[0]}")/../lib/openai-image.sh"
+
 SLUG="${1:?slug required}"
 NAME="${2:?name required (e.g. concept-1)}"
 PROMPT="${3:?prompt required}"
@@ -36,7 +39,7 @@ TMP_JSON="$(mktemp)"
 trap 'rm -f "$TMP_JSON"' EXIT
 
 PAYLOAD=$(jq -n \
-  --arg model "gpt-image-2" \
+  --arg model "$OPENAI_IMAGE_MODEL" \
   --arg prompt "$FULL_PROMPT" \
   --arg size "1024x1024" \
   --arg quality "high" \
