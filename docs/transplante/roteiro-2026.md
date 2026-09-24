@@ -2,28 +2,30 @@
 
 **Subtítulo:** A enfermagem como pilar na jornada do transplante
 **Evento:** Setembro Verde 2026
-**Equipe:** Dr. Getúlio Amaral Filho, Dr. Michel Moro, Dra. Taynara Fratoni, Dra. Karoline Araujo
+**Apresentação:** Dr. Getúlio Amaral Filho, do começo ao fim.
+**Suporte pontual:** Dr. Michel Moro, Dra. Taynara Fratoni e Dra. Karoline Araujo, chamados
+nominalmente nos três pontos marcados no roteiro (slides 6, 9 e 14).
 **Serviço:** Equipe Nefroclínica, Serviço de Transplante Renal, Santa Casa de Londrina (ISCAL)
 **Público:** equipe de enfermagem (enfermeiros e técnicos) de UTI, enfermaria e centro cirúrgico
-**Duração:** 45 minutos, 21 slides, 4 blocos com um apresentador cada
+**Duração:** 45 minutos, 20 slides, 4 blocos
 **Caso condutor:** Sr. J., 52 anos, diabético, 4 anos em hemodiálise, receptor de doador
-falecido. Aparece no slide 4, volta nos slides 8, 15 e 19, e fecha no 21.
+falecido. Aparece no slide 4, volta nos slides 8, 15 e 19, e fecha no 20.
 
 Todo número deste roteiro tem fonte em `dados-2026.md`. Os pontos corrigidos em relação à
 versão 2025 estão marcados com **[corrigido]** e explicados em `auditoria-versao-2025.md`.
 
 ---
 
-## BLOCO 0 — Abertura · Dr. Getúlio · slides 1 a 4 · 6 min
+## BLOCO 0 — Abertura · slides 1 a 4 · 6 min
 
 ### Slide 1 — Capa
 > Cuidados com o Paciente Transplantado Renal
 > A enfermagem como pilar na jornada do transplante
 > Setembro Verde 2026
-> Dr. Getúlio Amaral Filho · Dr. Michel Moro · Dra. Taynara Fratoni · Dra. Karoline Araujo
+> Dr. Getúlio Amaral Filho
 > Equipe Nefroclínica · Santa Casa de Londrina
 
-Imagem: fachada da Santa Casa (a da versão 2025 serve).
+Imagem: fachada da Santa Casa (a da versão 2025 serve). **Foto real, não gerar.**
 
 ---
 
@@ -70,13 +72,17 @@ Foto da equipe (a da versão 2025 serve).
 > Recebeu ligação às 2h da manhã: apareceu um rim.
 > Doador falecido, morte encefálica, 41 anos, isquemia fria de 18 horas.
 
+Imagem: `images/04-caso.webp` (mesa de cabeceira, o telefone tocando às 2h).
+
 **Fala:** "Ele é o paciente que vocês vão receber. Não o do folheto, que urina 200 ml por hora
 já na sala de recuperação. Esse aqui, doador falecido, longa diálise, diabético. É a maioria.
 Vamos acompanhar ele até a alta."
 
 ---
 
-## BLOCO 1 — O transplante e o que sustenta o resultado · Dr. Michel · slides 5 a 8 · 10 min
+## BLOCO 1 — O transplante e o que sustenta o resultado · slides 5 a 8 · 10 min
+
+> **Suporte:** Dr. Michel no slide 6 (anatomia e o que o paciente traz do centro cirúrgico).
 
 ### Slide 5 — O rim é acrescentado, não trocado  **[corrigido]**
 
@@ -85,6 +91,9 @@ Vamos acompanhar ele até a alta."
 > O paciente passa a ter **três rins**.
 > Nefrectomia do rim nativo é exceção: rim policístico volumoso, infecção de repetição,
 > neoplasia, proteinúria maciça refratária.
+
+Imagem: `images/05-anatomia.svg` (esquema: os dois nativos no lugar, o enxerto na fossa
+ilíaca, as três anastomoses numeradas). Serve nos slides 5 e 6.
 
 **Por que isso importa para a enfermagem:** o rim nativo continua lá, e continua não
 funcionando. A diurese que o paciente tinha antes (se tinha) não é sinal de função do enxerto.
@@ -145,22 +154,39 @@ primeiras 72 horas é alta, e isso não é uma complicação: é o esperado. Sli
 
 ---
 
-## BLOCO 2 — Imunossupressão · Dra. Taynara · slides 9 a 12 · 10 min
+## BLOCO 2 — Imunossupressão · slides 9 a 12 · 10 min
 
-### Slide 9 — Indução: o que entra no dia 0  **[novo]**
+> **Suporte:** Dra. Taynara no slide 9 (quando a indução entra e o que muda no plantão).
 
-Recomendação KDIGO: **todo receptor** recebe indução com agente biológico.
+### Slide 9 — Indução: quando entra, e o que muda no plantão  **[novo]**
+
+> **No nosso serviço a indução não é rotina.**
+> Ela é reservada aos casos de **mismatch HLA severo**.
+> A maioria dos pacientes começa direto na tríplice de manutenção.
+>
+> **E ela puxa outra coisa junto:** quem faz indução faz profilaxia de CMV. Slide 12.
+
+Quando a indução entra, o plantão muda, e muda diferente conforme o agente:
 
 | | Basiliximabe (anti-CD25) | Timoglobulina / ATG (policlonal depletor) |
 |---|---|---|
-| Para quem | baixo risco imunológico | alto risco: retransplante, sensibilizado, doador com critério expandido, risco alto de DGF |
+| O que é | anticorpo monoclonal, bloqueia o receptor de IL-2 | policlonal, **depleta linfócitos** |
 | Esquema | 2 doses: dia 0 e dia 4 | dose diária por 3 a 7 dias |
 | Pré-medicação | não obrigatória | **obrigatória**: corticoide + anti-histamínico + antitérmico |
 | Acesso | periférico aceitável | **central**, infusão lenta |
 | Vigiar | boa tolerância | **síndrome de liberação de citocinas** nas primeiras horas: febre, calafrio, hipotensão, dispneia. E **plaquetopenia e leucopenia** nos dias seguintes |
 
-**Fala:** "Se a prescrição tem timoglobulina, o plantão muda. Pré-medicação antes, infusão
-lenta, e alguém de olho no paciente na primeira hora."
+**[CONFERIR antes do slide]** qual dos dois agentes o serviço usa nos casos de mismatch
+severo, e se há critério escrito para escolher entre eles. Não subir a tabela sugerindo
+que o serviço usa os dois se usa só um.
+
+**Fala:** "A indução aqui não é para todo mundo, é para o mismatch severo. Mas quando ela
+aparece na prescrição, principalmente se for timoglobulina, o plantão muda: pré-medicação
+antes, infusão lenta, e alguém de olho no paciente na primeira hora."
+
+**Nota para o apresentador, não vai para a tela:** a diretriz KDIGO recomenda indução para
+todo receptor. A prática do serviço é mais restritiva, e é uma escolha deliberada. Se
+alguém da plateia perguntar, a resposta é essa, e não "a diretriz manda".
 
 ---
 
@@ -173,6 +199,8 @@ lenta, e alguém de olho no paciente na primeira hora."
 Horários do protocolo do serviço:
 - Prednisona: sempre às 10h.
 - Tacrolimus, micofenolato, sirolimo: sempre às 8h e às 20h.
+
+Imagem: `images/10-medicacao.webp` (organizador semanal e frascos, sem rótulo legível).
 
 **Administração, o que muda o nível sérico:**
 - Horário fixo, 12 em 12 horas.
@@ -213,17 +241,29 @@ realmente custa enxerto, e é um erro de enfermagem, e é cem por cento evitáve
 **Fala:** "Quem vê a prescrição inteira é a enfermagem. Quando entra um antibiótico novo
 num transplantado, vale a pergunta: isso mexe no tacrolimus? Em geral mexe."
 
-**Profilaxias que acompanham o esquema, e que vocês conferem todo dia:**
-sulfametoxazol-trimetoprima para *Pneumocystis*; valganciclovir para citomegalovírus conforme
-a sorologia do par doador/receptor, com **D+/R−** como o grupo de maior risco; antifúngico
-tópico oral; e monitorização de carga viral de **vírus BK**.
+**Profilaxias no nosso serviço. A regra do CMV é condicional, e por isso ela falha:**
+
+> **Citomegalovírus: não é profilaxia de rotina.** Entra em duas situações, e só nelas:
+> 1. quando houve **indução**;
+> 2. quando o **doador é CMV positivo e o receptor é CMV negativo** (D+/R−).
+>
+> ***Pneumocystis*:** sulfametoxazol-trimetoprima. **[CONFERIR]** se é rotina no serviço.
+> **Vírus BK:** monitorização de carga viral. A resposta é reduzir imunossupressão,
+> não antiviral.
+
+**Fala:** "Essa regra do CMV é condicional, e regra condicional é a que mais escapa.
+Duas perguntas no plantão resolvem: esse paciente fez indução? E qual era a sorologia do
+doador e a dele? Se a resposta for indução sim, ou doador positivo com receptor negativo,
+tem que ter profilaxia na prescrição. Se não tiver, pergunta."
 
 **Checagem com a plateia (1 de 3):** "Paciente transplantado há 20 dias, começou
 claritromicina ontem para uma pneumonia. O que vai acontecer com o tacrolimus dele?"
 
 ---
 
-## BLOCO 3 — As três fases do cuidado · Dra. Karoline · slides 13 a 17 · 13 min
+## BLOCO 3 — As três fases do cuidado · slides 13 a 17 · 13 min
+
+> **Suporte:** Dra. Karoline no slide 14 (leitura da tabela de PAM e da reposição de diurese).
 
 ### Slide 13 — Fase 1: pré-transplante  **[corrigido]**
 
@@ -244,6 +284,8 @@ claritromicina ontem para uma pneumonia. O que vai acontecer com o tacrolimus de
 >
 > **Psicológico:** paciente e família. Quem está sendo chamado às 2h da manhã depois de
 > quatro anos de fila está com medo, não com alegria.
+
+Imagem: `images/13-preparo.webp` (maca vazia no corredor, portas do centro cirúrgico).
 
 ---
 
@@ -268,8 +310,11 @@ claritromicina ontem para uma pneumonia. O que vai acontecer com o tacrolimus de
 > **Exames diários:** hemograma, ureia, creatinina, sódio, potássio, **cálcio, fósforo,
 > magnésio**, gasometria.
 
-**Alvo de pressão e reposição** (protocolo do serviço, tabela redesenhada legível no slide,
-versão a ser reemitida):
+Imagem: `images/14-uti.webp` (bombas de infusão, telas apagadas).
+
+**Alvo de pressão e reposição.** Tabela do protocolo **vigente** do serviço
+(Cuidados PO Tx Renal — Doador Vivo, v1.1), reproduzida sem alteração e redesenhada
+legível no slide, sem print de PDF:
 
 PAM alvo **80 a 110 mmHg**, ajuste a cada 5 minutos no pós-operatório imediato.
 
@@ -329,6 +374,8 @@ estável. O que você faz?"
 > **Sinais a vigiar:** creatinina subindo, diurese caindo, febre, dor no enxerto,
 > ganho de peso inexplicado.
 
+Imagem: `images/16-enfermaria.webp` (quarto com luz de tarde, andador ao lado do leito).
+
 ---
 
 ### Slide 17 — Educação para alta: o protocolo  **[reformulado]**
@@ -351,7 +398,7 @@ O paciente só recebe alta quando **ele** consegue responder, sem consultar pape
 
 ---
 
-## BLOCO 4 — Complicações, horizonte e fechamento · Dr. Getúlio · slides 18 a 21 · 6 min
+## BLOCO 4 — Complicações e fechamento · slides 18 a 20 · 6 min
 
 ### Slide 18 — Primeiras 72 horas  **[corrigido]**
 
@@ -397,26 +444,7 @@ sexto dia. Voltou ao ambulatório em 48 horas.
 
 ---
 
-### Slide 20 — O que vem aí  **[novo]**
-
-> **Perfusão hipotérmica em máquina.** Em vez de o rim viajar no gelo, viaja perfundido.
-> Reduz a função tardia do enxerto em **20% a 40%** de risco relativo, com número necessário
-> para tratar entre **8 e 13**. Custo-efetiva sobretudo em enxerto de risco.
->
-> **Imlifidase.** Enzima que cliva a IgG circulante em horas, permitindo transplantar
-> pacientes altamente sensibilizados que hoje envelhecem na fila.
->
-> **Felzartamab.** Em fase 3 para rejeição tardia mediada por anticorpos, que hoje não tem
-> tratamento eficaz.
->
-> **dd-cfDNA.** DNA livre circulante do doador no sangue do receptor, para detectar rejeição
-> sem biópsia.
-
-Rodapé: *Braz J Nephrol 2026;48(4). Nenhuma dessas terapias é rotina no Brasil hoje.*
-
----
-
-### Slide 21 — Fechamento
+### Slide 20 — Fechamento
 
 > O Sr. J. está no ambulatório, sem diálise, há um ano.
 >
@@ -430,31 +458,67 @@ Rodapé: *Braz J Nephrol 2026;48(4). Nenhuma dessas terapias é rotina no Brasil
 Uma única frase de fecho, escolhida entre as nove da versão 2025:
 *"O conhecimento nos capacita, mas é o amor pelo que fazemos que transforma vidas."*
 
-Imagem: campanha institucional de doação. Se for usada foto de paciente identificável,
-**anexar o termo de autorização de uso de imagem ao arquivo da aula**.
+Imagem: `images/20-conversa.webp` (duas xícaras de café e quatro mãos numa mesa de cozinha,
+sem rosto). A imagem é a conversa que o slide pede, não o laço verde.
+
+Se preferirem foto de paciente identificável no lugar, **anexar o termo de autorização de
+uso de imagem ao arquivo da aula**.
 
 ---
 
-### Slide 22 (opcional) — Referências
+### Slide 21 (opcional) — Referências
 
 1. Registro Brasileiro de Transplantes (RBT) 2025, jan/dez. ABTO, 2026.
 2. A nova era dos tratamentos para receptores de transplante renal. Braz J Nephrol.
-   2026;48(4). DOI 10.1590/2175-8239-JBN-2026-0018pt.
+   2026;48(4). DOI 10.1590/2175-8239-JBN-2026-0018pt. (Fonte do dado de DGF do slide 15.)
 3. KDIGO Clinical Practice Guideline for the Care of Kidney Transplant Recipients.
-4. Protocolo Cuidados PO Tx Renal, Serviço de Transplante Renal ISCAL / Nefroclínica,
-   versão a ser reemitida em 2026.
+4. Cuidados PO Tx Renal — Doador Vivo. Serviço de Transplante Renal ISCAL / Nefroclínica,
+   versão 1.1, 02/12/2023. Autores: Dr. Getúlio Amaral Filho, Dr. Michel Moro.
+   Protocolo **vigente**. `nefroclinica.com/tx/pdf/CuidadosPODoadorVivo.pdf`
 
 ---
 
 ## Pendências antes de apresentar
 
 1. Conferir os três números do serviço no slide 3 (`dados-2026.md` § 4).
-2. Reemitir o protocolo "Cuidados PO Tx Renal" (a versão em circulação é 1.1, de 02/12/2023)
-   e redesenhar a tabela de PAM como slide legível, sem print de PDF.
-3. Confirmar o termo de autorização de uso de imagem da foto do slide de fechamento.
-4. Substituir as imagens sintéticas de banco (a do slide 3 da versão 2025 tem texto ilegível
-   na tela do monitor) por fotos reais do serviço.
-5. Ensaiar a divisão entre os quatro apresentadores: 6 / 10 / 10 / 13 / 6 minutos.
+2. Conferir, no slide 9, qual agente de indução o serviço usa no mismatch severo.
+3. Conferir, no slide 12, se a profilaxia de *Pneumocystis* com sulfametoxazol-trimetoprima
+   é rotina no serviço. A regra do CMV já está confirmada.
+4. Decidir os seis ajustes propostos ao protocolo em [protocolo-ajustes.md](protocolo-ajustes.md).
+   O protocolo está vigente e a tabela de PAM do slide 14 reproduz a dele; o que está em
+   discussão é escopo, exames diários e a linha de profilaxias.
+5. Confirmar o termo de autorização de uso de imagem, se for usada foto de paciente no fecho.
+6. Combinar com Michel, Taynara e Karoline as três entradas de suporte (slides 6, 9 e 14).
+7. Ensaiar o tempo dos blocos: 6 / 10 / 10 / 13 / 6 minutos.
+
+## Imagens
+
+Sete imagens em `images/`. Seis são fotográficas, geradas com gpt-image-2.5-sunburst; a
+sétima é vetorial, desenhada à mão.
+
+| Arquivo | Slide | O que é |
+|---|---|---|
+| `04-caso.webp` | 4 | mesa de cabeceira, telefone tocando às 2h |
+| `05-anatomia.svg` | 5 e 6 | esquema da posição do enxerto e das três anastomoses |
+| `10-medicacao.webp` | 10 | organizador semanal e frascos sem rótulo |
+| `13-preparo.webp` | 13 | maca vazia no corredor pré-operatório |
+| `14-uti.webp` | 14 | bombas de infusão, telas apagadas |
+| `16-enfermaria.webp` | 16 | quarto de enfermaria com luz de tarde |
+| `20-conversa.webp` | 20 | duas xícaras de café, quatro mãos, sem rosto |
+
+Nenhuma tem texto, logo ou rosto reconhecível, que era o defeito das imagens de 2025
+(a do slide 3 trazia "PATIENT: SARAH MILLER" legível na tela do monitor).
+
+Para refazer: `scripts/transplante/gen-all-images.sh` regenera todas, ou
+`gen-all-images.sh 14-uti` refaz uma. Os prompts estão dentro do script, não no chat.
+
+Os `.webp` **não vão para o git** (`.gitignore` ignora `docs/**/*.webp`, para não engordar o
+repositório). O que é versionado é o script com os prompts, que é o que permite refazê-las.
+O SVG da anatomia vai para o git, porque é fonte editável e leve.
+
+A anatomia fica fora do gerador de propósito: modelo de imagem por IA não acerta topografia
+anatômica, e esquema anatômico errado numa aula de enfermagem é pior que nenhum. Ela é SVG,
+editável em `images/05-anatomia.svg`.
 
 ---
-**Versão:** 2026.1 · **Escrito em:** 2026-09-24
+**Versão:** 2026.2 · **Escrito em:** 2026-09-24

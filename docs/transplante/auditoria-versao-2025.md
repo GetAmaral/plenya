@@ -69,8 +69,16 @@ gera nível falso e decisão de dose errada, e aí sim o enxerto paga. O protoco
 (slide 9) já traz isso: colher 7h30, administrar 8h.
 
 ### A7. Slide 6: falta a terapia de indução
-A "tríplice terapia padrão" do slide descreve só a manutenção. Falta o que a enfermagem
-administra no **dia 0**, que é recomendação KDIGO (1.2) para todo receptor:
+A "tríplice terapia padrão" do slide descreve só a manutenção e não menciona indução em
+nenhum momento. **No serviço a indução não é rotina: é reservada a mismatch HLA severo**
+(confirmado pelo Dr. Getúlio). Ainda assim o buraco é real, por dois motivos: quando ela
+entra, o plantão muda inteiro; e é a indução que dispara a profilaxia de CMV (item A8).
+
+Registro de divergência, para quem for questionado: a diretriz KDIGO (1.2) recomenda indução
+para **todo** receptor. A prática do serviço é deliberadamente mais restritiva. Isso não é
+erro do slide, é uma escolha do serviço, e o roteiro 2026 a apresenta como tal.
+
+Os dois agentes, para quando ela entra:
 
 - **Basiliximabe**, anti-CD25, para baixo risco imunológico. Duas doses, dia 0 e dia 4.
   Bem tolerado, sem pré-medicação obrigatória.
@@ -84,13 +92,17 @@ Isso é conteúdo de enfermagem de primeira linha e está inteiramente fora da v
 
 ### A8. Slide 6 e 12: faltam as profilaxias
 A aula diz que há "risco aumentado de infecção pela imunossupressão" e não diz o que se faz
-contra ela. As profilaxias são prescrição de rotina que a enfermagem confere e administra:
+contra ela. No serviço a regra é **condicional**, e regra condicional é justamente a que
+escapa no plantão, o que torna a ausência mais grave, não menos:
 
-- **Sulfametoxazol-trimetoprima** para *Pneumocystis jirovecii*.
-- **Valganciclovir ou ganciclovir** para citomegalovírus, conforme a sorologia do par
-  doador/receptor. O grupo de maior risco é **D+/R−** (doador positivo, receptor negativo).
-- Antifúngico tópico oral para candidíase.
+- **Citomegalovírus: não é profilaxia de rotina.** Entra em duas situações, e só nelas
+  (confirmado pelo Dr. Getúlio): quando houve **indução**, ou quando o **doador é CMV
+  positivo e o receptor é CMV negativo** (D+/R−).
+- **Sulfametoxazol-trimetoprima** para *Pneumocystis jirovecii*. **[CONFERIR]** se é rotina
+  no serviço.
 - **Vigilância de vírus BK** por carga viral, com redução de imunossupressão como resposta.
+
+O protocolo escrito também não traz essa linha. Ver [protocolo-ajustes.md](protocolo-ajustes.md), item E.
 
 ### A9. Slide 7: "Jejum 8h"
 Desatualizado. A recomendação de jejum pré-operatório é **6 horas para sólidos leves e
@@ -146,10 +158,19 @@ Classificação de Banff, biópsia do enxerto, e tratamentos diferentes para cad
 enfermagem o recado prático muda: o gatilho não é mais "esperar febre", é **creatinina subindo
 e queda de diurese num paciente que estava bem**.
 
-### A16. Slide 9: print de protocolo ilegível e defasado
-É uma captura de tela de PDF, ilegível em projeção, com **"Versão 1.1 (02/12/2023)"** visível.
-Em uma aula de 2026 isso anuncia três anos de defasagem. A tabela de PAM com noradrenalina e
-nitroprussiato é boa e deve ficar, mas redesenhada como slide, legível, e com versão nova.
+### A16. Slide 9: print de protocolo ilegível
+**Correção desta auditoria:** a primeira versão deste documento tratou o protocolo como
+defasado por causa da data. Ele está **vigente** (Cuidados PO Tx Renal — Doador Vivo, v1.1,
+02/12/2023, confirmado pelo Dr. Getúlio), e a tabela de PAM do slide 14 do roteiro 2026
+reproduz a dele sem alteração.
+
+O que continua valendo como problema é a **forma**: é uma captura de tela de PDF, ilegível em
+projeção. A tabela é boa e deve ficar, redesenhada como slide.
+
+Sobre o conteúdo do protocolo, seis ajustes ficaram propostos em
+[protocolo-ajustes.md](protocolo-ajustes.md). Nenhum deles é correção de erro; são escopo
+(o documento se chama "Doador Vivo" e é usado para os dois), exames diários e a linha de
+profilaxias que hoje não existe no papel.
 
 ### A17. Slide 2: os três números do serviço
 "Mais de 40 anos", "desde 1985", "350+ transplantes renais". Se o início foi 1985, em 2026
@@ -240,4 +261,4 @@ Uma aula que cita 6.000 transplantes, 95% e 85% sem fonte não deixa a plateia c
 Quatro nomes na capa e nenhuma indicação de quem fala o quê. O roteiro 2026 propõe a divisão.
 
 ---
-**Auditado em:** 2026-09-24
+**Auditado em:** 2026-09-24 · **Revisto em:** 2026-09-24 (A7, A8 e A16, após a prática do serviço e o protocolo vigente)

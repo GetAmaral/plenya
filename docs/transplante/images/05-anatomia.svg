@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 720" width="1140" height="720" role="img" aria-label="Esquema do transplante renal: os dois rins nativos permanecem no lugar e o enxerto é implantado na fossa ilíaca direita, com anastomose arterial e venosa na ilíaca externa e o ureter reimplantado na bexiga.">
+  <title>Posição do rim transplantado</title>
+  <defs>
+    <style>
+      .lbl{font-family:'Archivo','Helvetica Neue',Arial,sans-serif;font-size:17px;fill:#2A332D}
+      .lbl-sm{font-family:'Archivo','Helvetica Neue',Arial,sans-serif;font-size:15px;fill:#5C6660}
+      .lbl-b{font-family:'Archivo','Helvetica Neue',Arial,sans-serif;font-size:19px;font-weight:700;fill:#1A211D}
+      .cap{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.14em;fill:#8A938C}
+      .mk{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:15px;font-weight:600;fill:#FFFFFF}
+      .leader{stroke:#A7AFA8;stroke-width:1.2;fill:none}
+      .art{fill:none;stroke:#9E4327;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+      .art-thin{fill:none;stroke:#9E4327;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+      .vei{fill:none;stroke:#3C6E8F;stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+      .vei-thin{fill:none;stroke:#3C6E8F;stroke-width:6.5;stroke-linecap:round;stroke-linejoin:round}
+      .ure{fill:none;stroke:#B99A3E;stroke-width:4.5;stroke-linecap:round}
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1140" height="720" fill="#FBFCFA"/>
+
+  <!-- ===== torso / pelvis silhouette ===== -->
+  <path d="M498 74 C498 74 540 56 660 56 C780 56 822 74 822 74
+           L838 372 C848 430 848 470 830 506
+           C812 542 772 576 742 612 L578 612
+           C548 576 508 542 490 506
+           C472 470 472 430 482 372 Z"
+        fill="#EFF2ED" stroke="#DFE4DC" stroke-width="1.5"/>
+  <path d="M492 396 C534 436 556 470 566 512" fill="none" stroke="#E2E7DF" stroke-width="12" stroke-linecap="round"/>
+  <path d="M828 396 C786 436 764 470 754 512" fill="none" stroke="#E2E7DF" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- ===== native kidneys (muted) ===== -->
+  <g opacity=".6">
+    <path d="M556 146 C516 146 494 180 494 218 C494 260 520 294 556 294
+             C579 294 592 275 592 250 C592 229 577 221 577 221
+             C577 221 592 213 592 192 C592 166 579 146 556 146 Z"
+          fill="#C8CEC6" stroke="#A9B2A8" stroke-width="2"/>
+    <path d="M764 146 C804 146 826 180 826 218 C826 260 800 294 764 294
+             C741 294 728 275 728 250 C728 229 743 221 743 221
+             C743 221 728 213 728 192 C728 166 741 146 764 146 Z"
+          fill="#C8CEC6" stroke="#A9B2A8" stroke-width="2"/>
+    <path class="ure" d="M584 240 C602 330 606 430 620 520 C628 566 634 588 640 598" opacity=".45"/>
+    <path class="ure" d="M736 240 C718 330 714 430 700 520 C692 566 686 588 680 598" opacity=".45"/>
+  </g>
+
+  <!-- ===== great vessels ===== -->
+  <path class="vei" d="M634 118 L634 400"/>
+  <path class="art" d="M686 118 L686 400"/>
+
+  <!-- common iliacs, both crossing to each side -->
+  <path class="vei" d="M634 400 C634 430 612 444 586 462"/>
+  <path class="art" d="M686 400 C686 430 708 444 734 462"/>
+  <path class="art-thin" d="M686 400 C686 430 664 444 638 462"/>
+  <path class="vei-thin" d="M634 400 C634 430 656 444 682 462"/>
+
+  <!-- external iliacs -->
+  <path class="vei" d="M586 462 C572 476 562 492 556 514"/>
+  <path class="art-thin" d="M638 462 C626 476 616 492 610 514"/>
+  <path class="art" d="M734 462 C748 476 758 492 764 514"/>
+  <path class="vei-thin" d="M682 462 C694 476 704 492 710 514"/>
+
+  <!-- internal iliac stubs -->
+  <path class="art-thin" d="M638 462 C636 490 636 508 638 524" opacity=".38"/>
+  <path class="art-thin" d="M734 462 C736 490 736 508 734 524" opacity=".38"/>
+
+  <!-- ===== bladder ===== -->
+  <path d="M660 566 C706 566 732 586 732 608 C732 630 706 642 660 642
+           C614 642 588 630 588 608 C588 586 614 566 660 566 Z"
+        fill="#E6DFC9" stroke="#C3B893" stroke-width="2"/>
+
+  <!-- ===== transplanted kidney: RIGHT iliac fossa = viewer LEFT ===== -->
+  <g>
+    <path class="art-thin" d="M556 504 C578 500 596 502 610 508"/>
+    <path class="vei-thin" d="M556 518 C566 512 572 502 576 494"/>
+    <path class="ure" d="M550 562 C576 578 596 588 612 592 C632 597 648 600 656 602"/>
+    <path d="M520 462 C486 462 468 492 468 526 C468 562 490 590 522 590
+             C542 590 554 574 554 552 C554 534 540 527 540 527
+             C540 527 554 520 554 501 C554 479 542 462 520 462 Z"
+          fill="#B7654A" stroke="#8E4A33" stroke-width="2.5"/>
+  </g>
+
+  <!-- ===== anastomosis markers (na ordem em que o cirurgião faz) ===== -->
+  <g>
+    <circle cx="612" cy="508" r="14" fill="#9E4327" stroke="#FBFCFA" stroke-width="2.5"/>
+    <text class="mk" x="612" y="514" text-anchor="middle">1</text>
+    <circle cx="576" cy="490" r="14" fill="#3C6E8F" stroke="#FBFCFA" stroke-width="2.5"/>
+    <text class="mk" x="576" y="496" text-anchor="middle">2</text>
+    <circle cx="646" cy="600" r="14" fill="#9A7E28" stroke="#FBFCFA" stroke-width="2.5"/>
+    <text class="mk" x="646" y="606" text-anchor="middle">3</text>
+  </g>
+
+  <!-- ===== top-left statement ===== -->
+  <text class="cap" x="40" y="80">O PACIENTE PASSA A TER</text>
+  <text x="40" y="146" font-family="Archivo,'Helvetica Neue',Arial,sans-serif" font-size="64" font-weight="700" fill="#2D6A4C">3 rins</text>
+  <text class="lbl" x="40" y="180">o rim é acrescentado, não trocado</text>
+
+  <!-- ===== graft label (left, leader to the graft) ===== -->
+  <text class="lbl-b" x="40" y="296">Rim transplantado</text>
+  <text class="lbl-sm" x="40" y="320">fossa ilíaca, geralmente à direita</text>
+  <text class="lbl-sm" x="40" y="340">superficial: dá para palpar</text>
+  <path class="leader" d="M300 348 L392 404 L462 472"/>
+  <circle cx="464" cy="474" r="3.5" fill="#A7AFA8"/>
+
+  <!-- ===== legend, lower left ===== -->
+  <g>
+    <line x1="40" y1="410" x2="404" y2="410" stroke="#DFE4DC" stroke-width="1.5"/>
+    <text class="cap" x="40" y="438">AS TRÊS ANASTOMOSES</text>
+
+    <circle cx="54" cy="482" r="14" fill="#9E4327"/>
+    <text class="mk" x="54" y="488" text-anchor="middle">1</text>
+    <text class="lbl" x="80" y="478">Artéria renal → ilíaca externa</text>
+    <text class="lbl-sm" x="80" y="500">término-lateral, a mais comum</text>
+
+    <circle cx="54" cy="546" r="14" fill="#3C6E8F"/>
+    <text class="mk" x="54" y="552" text-anchor="middle">2</text>
+    <text class="lbl" x="80" y="542">Veia renal → ilíaca externa</text>
+    <text class="lbl-sm" x="80" y="564">término-lateral</text>
+
+    <circle cx="54" cy="610" r="14" fill="#9A7E28"/>
+    <text class="mk" x="54" y="616" text-anchor="middle">3</text>
+    <text class="lbl" x="80" y="606">Ureter → bexiga</text>
+    <text class="lbl-sm" x="80" y="628">ureteroneocistostomia, em geral</text>
+    <text class="lbl-sm" x="80" y="648">sobre cateter duplo J</text>
+  </g>
+
+  <!-- ===== native kidneys label, right ===== -->
+  <path class="leader" d="M830 208 L878 196"/>
+  <text class="lbl-b" x="890" y="188">Rins nativos</text>
+  <text class="lbl-sm" x="890" y="212">permanecem no lugar,</text>
+  <text class="lbl-sm" x="890" y="232">e continuam sem funcionar</text>
+  <text class="lbl-sm" x="890" y="266">nefrectomia do nativo</text>
+  <text class="lbl-sm" x="890" y="286">é exceção</text>
+
+  <text class="cap" x="1100" y="690" text-anchor="end">VISTA ANTERIOR · ESQUEMÁTICO</text>
+</svg>
