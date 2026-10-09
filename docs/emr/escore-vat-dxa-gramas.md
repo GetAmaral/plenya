@@ -1,7 +1,7 @@
 # Escore — Gordura visceral (VAT) por DXA em gramas e cm³
 
-> Estudo de 2026-10-09 para criar o item de escore. Status: **proposta, aguardando aprovação do
-> Dr. Getúlio**. Nada aplicado em catálogo ainda (vai por migration goose quando aprovado).
+> Estudo de 2026-10-09 para criar o item de escore. Status: **aprovado pelo Dr. Getúlio em
+> 2026-10-09**; implementado na migration `00108_gordura_visceral_dxa_em_gramas.sql` (exame `PLNDXAVAT01`).
 
 ## Por que um item novo
 
