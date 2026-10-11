@@ -19,7 +19,8 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-09-17'  # 17ª iteração — varredura COMPLETA (64 posts orgânicos, 3 pág + 51 DMs, 2 pág + ads dark GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAP: tags/mentions (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build). +clovensamaral (PRIMO E COMPADRE), +cabrienelediane, +regina.garcia.777, +fabiomondek, +eloanabarbara
+last_updated: '2026-10-11'  # 18ª iteração — varredura COMPLETA (70 posts orgânicos, 1 pág + 35 DMs ativas desde 17/09, 2 pág + ads GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAPs: tags (tool inexistente) e DM em grupo renalmentevivos+pedro.hoam (subcode 33). +patricia_piresdeoliveira, +fabiaveronica20, +marcinha_barreiros, +alessandra_limaodonto, +mardume
+# last_updated anterior: '2026-09-17'  # 17ª iteração — varredura COMPLETA (64 posts orgânicos, 3 pág + 51 DMs, 2 pág + ads dark GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAP: tags/mentions (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build). +clovensamaral (PRIMO E COMPADRE), +cabrienelediane, +regina.garcia.777, +fabiomondek, +eloanabarbara
 # last_updated anterior: '2026-09-11'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
 # last_updated anterior: '2026-08-25'  # 16a iteracao
 # last_updated anterior: '2026-07-11'  # 15ª iteração — varredura COMPLETA (46 posts + ads IG/FB + 50 DMs + Messenger); reautenticação IG Composio no início (todas EXPIRED). +nil_negro, +jaquelinecarrador, +ritakassia74, +karina.fiorii, +robertaadami15, +cidabastos122, +tatiana.saliba.7, +dirceschilipack, +magnalucia.silva, +elisanee
@@ -40,7 +41,7 @@ contacts:
       como monitorar perda de massa magra EM CASA. Respondida em story com o
       protocolo caseiro (fita métrica na cintura, teste da cadeira 5x com corte
       de 15s do EWGSOP2, sinais do dia a dia).
-    last: "2026-09-11 — caixinha do story (monitoramento caseiro de massa magra)"
+    last: "2026-10-11 — reply Reel Ozempic&cia (elogio)"
 
   # ============================================
   # NOVOS (cadastrados 2026-09-17)
@@ -56,7 +57,7 @@ contacts:
       esclarecedor e muito útil"). Em 15/09 fez pergunta clínica de verdade no Reel
       do infarto: melhor forma de prevenir e se dá para começar aos 50 anos.
       Sinal de que ele mesmo está na faixa dos 50 e olhando para a própria saúde.
-    last: "2026-09-17 — reply post Antes/infarto (prevenção CV aos 50: números, não fumar, 150 min + força, apneia, escore de cálcio)"
+    last: "2026-10-11 — fechamento no Reel Infarto ('Farei isso imediatamente')"
 
   '@cabrienelediane':
     rel: seguidora
@@ -153,7 +154,7 @@ contacts:
       - atribuir parentesco não confirmado
       - qualquer detalhe clínico dos dois (caso identificável)
       - tom animado ou fecho comercial
-    last: "2026-09-11 — reply post 08/09 (condolências por Alana e Luiz)"
+    last: "2026-10-11 — reply Reel Ozempic&cia ('Importante orientação e clareza'), tom sóbrio"
 
   '@genadircristinadacosta':
     rel: seguidora / lead
@@ -223,7 +224,7 @@ contacts:
       infarto/AVC, MAS ECR com exenatida (631 pessoas/18 meses) não mostrou mudança
       no volume nem na composição da placa. Quem move placa é LDL baixo + PA + parar
       de fumar. Se voltar, provável interesse em prevenção cardiovascular.
-    last: "2026-09-11 — fechamento gentil após agradecimento dela (26/08). Está em acompanhamento com cardiologista e seguindo as orientações."
+    last: "2026-10-11 — 'Por nada' fechando a thread das carótidas (Ep2)"
 
   '@andreacasinilucas':
     rel: seguidora (esposa de paciente potencial)
@@ -501,7 +502,7 @@ contacts:
     notes: |
       Paciente do Dr. Agradece recorrentemente pelo atendimento "à mim e minha família"
       e relata resultados muito bons do tratamento (GLP-1). Trata o Dr por "meu irmão" às vezes.
-    last: "2026-06-11 — reply em comentário no post SIBO (gratidão de paciente)"
+    last: "2026-10-11 — reply Reel Sono (agradecimento, fechamento)"
 
   '@monicabezerramarques':
     rel: seguidora
@@ -1430,3 +1431,47 @@ contacts:
       Animada pra começar o tratamento, comentou empolgada no post ep3. Engajamento.
     last: "2026-06-05 - reply post GLP-1 ep3 (engajamento)"
 
+  # ============================================
+  # NOVOS (cadastrados 2026-10-11)
+  # ============================================
+
+  '@patricia_piresdeoliveira':
+    rel: seguidora
+    name: Patricia
+    tone: clínico-respeitoso / acolhedor
+    notes: |
+      Sobrevivente de câncer de mama (quimio, cirurgia, radio), agora em
+      tamoxifeno + abemaciclibe (Verzenios). Ganhou peso no último ano de
+      tratamento e perguntou sobre GLP-1. Respondida: sem proibição; estudos
+      observacionais 2025-26 sem sinal de alerta; atenção à diarreia do Verzenios
+      somada aos efeitos GI da caneta; decidir com o oncologista.
+    avoid:
+      - afirmar interação medicamentosa não verificada
+      - culpa pelo ganho de peso
+    last: "2026-10-11 — reply Ep4 GLP-1 (câncer de mama + hormonioterapia)"
+
+  '@fabiaveronica20':
+    rel: seguidora
+    tone: clínico-respeitoso
+    last: "2026-10-11 — reply Reel Jejum (duração da janela: 12→14→16h, não é teste de resistência)"
+
+  '@marcinha_barreiros':
+    rel: seguidora frequente
+    name: Marcinha
+    tone: leve / próximo
+    notes: |
+      Comenta com frequência e bom humor. Acorda às 4h nos dias de semana.
+    last: "2026-10-11 — reply Reel Sono (horário regular de acordar)"
+
+  '@alessandra_limaodonto':
+    rel: seguidora (provável dentista)
+    name: Alessandra
+    tone: cordial
+    notes: |
+      Religiosa (católica: "que a nossa mãezinha interceda").
+    last: "2026-10-11 — 'Amém' no Reel ITU"
+
+  '@mardume':
+    rel: seguidora
+    tone: cordial
+    last: "2026-10-11 — 'Muito obrigado' no Reel pessoal Dia das Mães"

@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-09-17'
+last_updated: '2026-10-11'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -86,7 +86,7 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-09-17'  # varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
+comments_baseline_swept_through: '2026-10-11'  # varredura COMPLETA 11/10: 70 posts orgânicos (todos com comments) + ads Ep1/Ep2/Ep7 IG+FB + 35 DMs + Messenger. GAPs: tags; DM grupo renalmentevivos+pedro.hoam (subcode 33). Anterior: varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
 
 # Varredura 2026-08-25 (16a iteracao): 60 posts organicos (3 paginas, TODOS com
 # comments_count>0), 4 ads (GLP1 Ep1/Ep2 ATIVOS + Ep1/Ep2 novos PAUSADOS) nos DOIS
@@ -976,3 +976,42 @@ messenger_2026-09-17:
     conversation: t_1578109250423898
     by: na
     re: "Sem mensagem nova desde 06/08."
+
+# ---- Sessão 2026-10-11 (18ª iteração) ----
+answered_2026-10-11:
+  comments_ig:   # by: dr_api
+    - {who: '@patricia_piresdeoliveira', comment_id: '18037976168832543', reply_id: '18115658333026605', re: "Câncer de mama + tamoxifeno + Verzenios: GLP-1 sem proibição, coortes 2025-26 sem alerta, cuidado diarreia somada, oncologista decide."}
+    - {who: '@fabiaveronica20', comment_id: '18108589169241988', reply_id: '18155983804515647', re: "Jejum: 12→14→16h, não é teste de resistência; sinais de janela longa demais; quem precisa de orientação antes."}
+    - {who: 'anônimo (ad Ep2 IG)', comment_id: '18121885628477897', reply_id: '18129975451705589', re: "Ozivy e Poviztra funcionam: ambos semaglutida; Poviztra = Novo Nordisk (obesidade); Ozivy = EMS, sintética, aprovada 26/05/2026, DM2, geladeira."}
+    - {who: '@marcinha_barreiros', comment_id: '17906217711576869', reply_id: '18115484834004722', re: "Acordar no mesmo horário é bom sinal."}
+    - {who: '@joceyrcarvalhoguilherme', comment_id: '18078516539398510', reply_id: '18124437001909493', re: "Agradecimento."}
+    - {who: '@fatimabarusso', comment_id: '18115353784978979', reply_id: '17965621635187861', re: "Agradecimento sóbrio."}
+    - {who: '@fernanda.circhia', comment_id: '17999225294798303', reply_id: '18160555918498001', re: "Agradecimento."}
+    - {who: '@alessandra_limaodonto', comment_id: '17953026159255652', reply_id: '18074217926775086', re: "Amém."}
+    - {who: '@mardume', comment_id: '18125085484893921', reply_id: '18104292512628492', re: "Obrigado (post Dia das Mães)."}
+    - {who: '@josilenegnr', comment_id: '18066992972260637 (thread)', reply_id: '17965487603982562', re: "Por nada (fecha carótidas)."}
+    - {who: 'anônimo (ad Ep2 IG)', comment_id: '18101949905204758 (thread)', reply_id: '18169076428469505', re: "Por nada (perda de peso lenta)."}
+    - {who: '@clovensamaral', comment_id: '17910551823532829 (thread)', reply_id: '18350497099223285', re: "Fechamento prevenção infarto."}
+    - {who: 'lote palmas (17)', re: "👍🏻❤️ em Cápsula x4, Banheira x4, Cansaço x2, Sono x1 (mateusamaral10), Ozempic&cia x3, Infarto x1, post 31/07 x1, 'Viva as canetinhas' (ad Ep2)."}
+  comments_fb_ads:   # by: page
+    - {ad: Ep2, comment_id: '1784388939434105', re: "Diabética em regressão: pode, ajuda manter remissão; cuidado insulina/sulfonilureia."}
+    - {ad: Ep2, comment_id: '895915340269646', re: "Ozivy passando mal/dor no estômago: sinais de alarme, falar com prescritor, não mudar dose sozinha."}
+    - {ad: Ep2, comment_id: '2130972244203258', re: "Apneia + pré-DM, 0,25→0,5: esquema correto; não largar CPAP; proteína/força."}
+    - {ad: Ep1, comment_id: '4162246097240791', re: "3 meses sem perder: 4 causas (dose, procedência, hábitos incl. exercício e sono, outras condições/remédios). Editado 2x pelo Dr."}
+    - {ad: Ep1, comment_id: '1566450388841380', re: "Depoimento negativo Mounjaro: explicação, reganho esperado ao parar, retomar com acompanhamento."}
+    - {ad: Ep2, comment_id: '2171940666719720', re: "Como adquirir: só com receita, fugir de caneta sem procedência, avaliação via inbox da página."}
+    - {ad: Ep2, comment_id: '2494528471027197', re: "Quero saber de tudo: série no perfil."}
+    - {ad: Ep2, comment_id: '2885011635225595', re: "Segundo vidro, bem."}
+    - {ad: Ep2, comment_id: '948326087737713', re: "5ª dose, maravilhoso."}
+    - {ad: Ep2, comment_id: '1082190848060240', re: "Vou tomar: só com receita e avaliação."}
+    - {ad: Ep2, comment_id: '1424304369676980', re: "Cunhado vivo graças a marca-passo/CDI."}
+    - {ad: Ep1, comment_id: '1412138397708724', re: "Maravilhoso monjaro."}
+  dms_sem_acao:
+    - {who: '@dr_danilo_cunha', re: "29/09 'Olha os caras copiando o seu projeto' + reel. Pessoal, Dr trata no app."}
+    - {who: '@dias.14v', re: "23/09 piada '9 dedos'. Pessoal, fora da janela."}
+    - {who: '@elainesantos552', re: "Corrente de bebê desaparecido. Descarte."}
+    - {who: 'demais', re: "Só shares/story mentions/reações sem texto (incorpore, plenyasaude, hoamdigital, joceyr, anaccorreamattos etc.)."}
+  messenger:
+    - {who: 'Roseni Monteiro (28461392400219194)', conversation: t_1013430708440106, re: "Só 'Oi' em 20/09. Janela vencida, sem telefone. Não respondido."}
+  descartes:
+    - "FB Ep2 'Fabiana Fabbris Oliveira' (marcação de amiga)."
