@@ -71,6 +71,25 @@ NUNCA peça `username` flat no `fields=`. O Meta IG Graph API só popula `userna
 
 Pra acessar o handle nos resultados: `comment.from.username` (não `comment.username`).
 
+**⚡ Varredura rápida de TODOS os posts por curl (validado 2026-10-11):**
+Chamar `GET_IG_MEDIA_COMMENTS` em ~70 posts pelo Composio é lento e estoura o contexto. O
+`$META_MARKETING_TOKEN` lê comments orgânicos direto na Graph API, num loop bash:
+```bash
+source ~/.secrets/plenya-meta.env
+curl -s "https://graph.facebook.com/v21.0/$MEDIA_ID/comments?access_token=$META_MARKETING_TOKEN&fields=id,text,timestamp,replies%7Bid,text,timestamp%7D&limit=100"
+```
+Filtrar com jq por `timestamp >= baseline` **nos top-level E dentro de `replies.data`** (esse
+endpoint NÃO achata as replies na lista; um "obrigada" novo em thread antiga só aparece ali).
+Limite: esse token **não devolve autor** (sem `from`/`username`). Por isso o curl só serve para
+achar ONDE há coisa nova; depois rodar `GET_IG_MEDIA_COMMENTS` com `from{id,username}` apenas
+nos posts que tiveram novidade, para identificar quem escreveu. A lista de media
+(`GET_IG_USER_MEDIA` com `limit=100`) sai grande demais para o contexto: usar `fields` mínimos
+(`id,permalink,timestamp,comments_count`) e ler o arquivo salvo com jq.
+
+**DMs sem texto:** a maioria das "pendências" de DM é share de reel, menção em story ou reação, que
+vêm com `message: ""`. Pedir só `fields=from{username},message,created_time` e `limit=3`; texto vazio
+não é pendência. A DM em grupo (`renalmentevivos` + `pedro.hoam`) devolve subcode 33: declarar como gap.
+
 ---
 
 ## Fase A2 — Ads dark da FB Page (Marketing API)
