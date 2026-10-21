@@ -35,8 +35,9 @@ A aula tem **duas histórias paralelas**, e a segunda é o contraponto permanent
 - **Sr. J.**, 52 anos, diabético, quatro anos de hemodiálise, recebe rim de **doador falecido**
   (homem de 41 anos, morte encefálica, num hospital da macrorregião). É a história principal,
   como são 87% dos transplantes renais no Brasil.
-- **Ana**, 34 anos, glomerulonefrite, recebe o rim do **irmão, Paulo**, 38 anos. Transplante
-  agendado, antes de precisar de diálise. É 13% dos casos, e mostra por contraste o que o
+- **Ana**, 34 anos, glomerulonefrite, recebe o rim do **irmão, Paulo**, 38 anos. Ela está
+  em diálise há pouco mais de um ano, menos tempo que o Sr. J., e a cirurgia tem data marcada.
+  É 13% dos casos, e mostra por contraste o que o
   relógio da isquemia, a fila e a função tardia custam ao Sr. J.
 
 Ambos são perfis compostos, sem paciente real.
@@ -45,9 +46,14 @@ Ambos são perfis compostos, sem paciente real.
 em outra cor, com o que muda para Ana e Paulo. O olho aprende o padrão no terceiro slide e
 passa a procurar o contraponto sozinho.
 
-E o contraponto tem uma consequência que fecha o arco: **Paulo também vira paciente da UBS,
-para sempre.** O doador vivo precisa de acompanhamento anual por toda a vida. A rede básica
-recebe dois pacientes de um transplante intervivos.
+E o contraponto tem uma consequência que fecha o arco: **Paulo também vira paciente do
+ambulatório de transplante, para sempre.** O doador vivo é revisto pelo menos uma vez por ano
+pelo resto da vida. Um transplante intervivos gera dois pacientes de seguimento.
+
+**Divisão do seguimento (definida pelo Dr. Getúlio, 2026-10-21):** o **ambulatório de
+transplante** cuida do transplante e do doador: enxerto, imunossupressão, complicações,
+profilaxias, rastreio de pele, gestação e o seguimento do doador vivo. A **UBS** cuida das
+doenças crônicas (hipertensão, diabetes, dislipidemia) e continua sendo a porta de entrada.
 
 ## Os outros recursos
 
@@ -71,7 +77,7 @@ No sétimo dia ele urina.
 - **OPO e CIHDOTT** (slide 9): "O doador passou a noite com noradrenalina em dose alta e a
   captação atrasou seis horas. O que isso muda para quem vai receber esse rim?"
 - **Hospital** (slide 15): "Dia 2, Sr. J. anúrico, PAM 95, estável. O que vocês fazem?"
-- **Rede básica** (slide 20): "Sr. J., seis meses de transplante, chega à UBS com sinusite e
+- **Rede básica** (slide 19): "Sr. J., seis meses de transplante, chega à UBS com sinusite e
   recebe claritromicina. O que acontece com o tacrolimus?"
 
 ---
@@ -107,9 +113,8 @@ contraponto do doador vivo.
   falar de transplante (KDIGO 2020: avaliar 6 a 12 meses antes da diálise; 8.041 art. 188 § 1º);
   inscrição em lista conforme a norma do SNT.
 - Ele chegou ao nefrologista com TFG 12 e entrou em diálise de urgência por cateter.
-- ▸ Vivo: Ana foi encaminhada cedo, com tempo para avaliar o irmão. Transplante **preemptivo**
-  com doador vivo é o tratamento preferido para quem é elegível (KDIGO 2020), e a norma
-  brasileira não restringe o preemptivo com doador vivo.
+- ▸ Vivo: Ana foi encaminhada cedo. Entrou em diálise, mas por fístula, programada, e com o
+  irmão já em avaliação.
 
 **5. Dois caminhos** *(junta "doador vivo × falecido" e sobrevida)*
 - Tabela [R]: proporção 13% × 87%; isquemia fria minutos × horas; função imediata × tardia;
@@ -175,7 +180,7 @@ nutrição, psicologia, serviço social.*
 - Pele: tricotomizador elétrico só se necessário, imediatamente antes; nunca lâmina.
 - Acesso central pela nefrologia; sonda vesical no centro cirúrgico.
 - Quem é chamado às 2h depois de quatro anos de fila está com medo, não com alegria.
-- ▸ Vivo: internação programada, preparo sem pressa, sem diálise de véspera.
+- ▸ Vivo: internação programada, diálise na véspera, preparo sem pressa. O doador interna junto.
 
 **12. Intraoperatório: o rim é acrescentado, não trocado [R]**
 - Fossa ilíaca; os rins nativos ficam. Três rins.
@@ -240,38 +245,42 @@ serviço social numa tela de quatro colunas)*
 - ▸ Vivo: Paulo tem alta em poucos dias, antes da irmã (nefrectomia laparoscópica).
 
 ### ATO IV · DE VOLTA PARA CASA · 7 min
-*Quem segura o rim: rede básica, para sempre, junto com o ambulatório de transplante.*
+*Quem segura o rim: o ambulatório de transplante, para sempre. A UBS cuida das doenças
+crônicas e continua sendo a porta de entrada.*
 
 **18. De volta à UBS [C]**
-- O círculo fecha.
-- Seguimento compartilhado: o centro transplantador cuida do enxerto e da imunossupressão; a
-  UBS continua sendo a porta e cuida de pressão, glicemia, vacinas, rastreios e do resto.
-- A contrarreferência é onde a informação se perde. O telefone do centro tem de estar no
+- O círculo fecha, com a divisão clara de quem cuida do quê.
+- **Ambulatório de transplante:** o enxerto, a imunossupressão, os níveis, as complicações, as
+  profilaxias, o rastreio de pele, a gestação.
+- **UBS:** as doenças crônicas, hipertensão, diabetes, dislipidemia, e a porta de entrada para
+  todo o resto. Boa parte dessas crônicas, no transplantado, nasce do próprio remédio:
+  diabetes pós-transplante em 10% a 30% no 1º ano, hipertensão, dislipidemia.
+- A contrarreferência é onde a informação se perde. O telefone do ambulatório tem de estar no
   prontuário da UBS.
-- ▸ Vivo: **a UBS recebe dois pacientes.** Ana, transplantada, e Paulo, doador, que precisa de
-  pressão, IMC, creatinina e albuminúria **pelo menos uma vez por ano** (KDIGO 2017). O risco
-  de DRC terminal é maior que o de não doadores saudáveis, e pequeno em números absolutos.
-  Se Paulo vier a precisar de um rim, ganha 10 pontos na lista.
+- ▸ Vivo: Paulo também segue no **ambulatório de transplante**, com pressão, IMC, creatinina e
+  albuminúria pelo menos uma vez por ano, para sempre (KDIGO 2017). Na UBS, ele é alguém com
+  um rim só, e isso precisa estar escrito no prontuário. Se um dia precisar de um rim, ganha
+  10 pontos na lista.
 
-**19. O que a UBS precisa saber** *(junta remédios, vacinas, rastreios e gestação)*
-- Imunossupressor nunca é suspenso pela UBS sem falar com o centro. Falta de imunossupressor
-  é urgência: avisar o centro no mesmo dia (orientação; não há fluxo oficial publicado).
-- Interações na prática da UBS: claritromicina, fluconazol, anti-inflamatório.
-- Vacinas: tríplice viral, varicela, febre amarela, BCG e dengue, não; influenza todo ano,
-  pneumocócicas, hepatite B, HPV, sim. Conviventes devem se vacinar, inclusive com as vivas.
-- Pele: carcinoma espinocelular 65 a 250 vezes mais frequente; exame anual de pele e lábios
-  e fotoproteção por toda a vida (KDIGO).
-- Gestação: micofenolato causa perda gestacional em quase metade e malformação em um quarto;
-  contracepção até 6 semanas após suspender; gravidez só planejada com o centro.
-- ▸ Vivo: doadora que engravida depois tem o dobro de risco de hipertensão gestacional ou
-  pré-eclâmpsia (11% contra 5%, Garg NEJM 2015); pré-natal atento à pressão.
+**19. A UBS tratando as crônicas de um transplantado**
+- Imunossupressor não é suspenso nem ajustado pela UBS. Falta de imunossupressor é urgência:
+  avisar o ambulatório no mesmo dia (orientação; não há fluxo oficial publicado).
+- Antes de prescrever, a pergunta: isso mexe no tacrolimus? Diltiazem e verapamil (que a UBS
+  usa na hipertensão), claritromicina, fluconazol sobem o nível; anti-inflamatório agride o
+  enxerto. [R]
+- Diabetes e hipertensão do transplantado se tratam como crônicas, combinando o alvo com o
+  ambulatório, porque o tacrolimus e o corticoide estão na origem delas.
+- Sala de vacina: tríplice viral, varicela, febre amarela, BCG e dengue, não; influenza todo
+  ano, pneumocócicas, hepatite B, sim. Conviventes devem se vacinar, inclusive com as vivas.
+  (Manual dos CRIE 2023)
+- Pergunta para a rede básica (claritromicina).
 
-**20. Quando ligar para o centro**
+**20. Quando a UBS aciona o ambulatório de transplante**
 - Febre acima de 38 °C, queda de diurese, dor no enxerto.
 - Vômito que faz perder dose. **Diarreia persistente sobe o nível do tacrolimus** e pode
   intoxicar (Lemahieu, AJT 2005).
 - Creatinina subindo num exame de rotina, mesmo sem sintoma.
-- Pergunta para a rede básica (claritromicina).
+- Qualquer remédio novo de uso contínuo.
 
 **21. O agente comunitário e a conversa em casa**
 - 45% das famílias recusaram a doação em 2025 [R], quase sempre porque nunca ouviram a pessoa
