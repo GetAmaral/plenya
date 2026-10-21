@@ -37,9 +37,13 @@ suporte pontual nos slides 6, 9 e 14.
 
 ## Antes de apresentar
 
-Três números do serviço estão marcados CONFERIR no slide 3, e dois pontos clínicos ficaram
-pendentes de confirmação (qual agente de indução o serviço usa, e se a profilaxia de
-*Pneumocystis* é rotina). Lista completa no fim do [roteiro-2026.md](roteiro-2026.md).
+Três números do serviço estão marcados CONFERIR no slide 3. Os dois pontos clínicos estão
+resolvidos (2026-10-20): indução com timoglobulina só com 5 ou mais mismatches HLA, e
+profilaxia de *Pneumocystis* com sulfametoxazol-trimetoprima por 3 meses, sempre. Lista
+completa no fim do [roteiro-2026.md](roteiro-2026.md).
+
+Para a aula de **22/10/2026** (capacitação das CIHDOTT da Macronorte, público misto de OPO,
+hospitais e UBS) ver [cihdott-2026-10-22/](cihdott-2026-10-22/).
 
 ---
 **Atualizado:** 2026-09-24 · **Versão do roteiro:** 2026.2

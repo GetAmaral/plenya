@@ -176,9 +176,9 @@ Quando a indução entra, o plantão muda, e muda diferente conforme o agente:
 | Acesso | periférico aceitável | **central**, infusão lenta |
 | Vigiar | boa tolerância | **síndrome de liberação de citocinas** nas primeiras horas: febre, calafrio, hipotensão, dispneia. E **plaquetopenia e leucopenia** nos dias seguintes |
 
-**[CONFERIR antes do slide]** qual dos dois agentes o serviço usa nos casos de mismatch
-severo, e se há critério escrito para escolher entre eles. Não subir a tabela sugerindo
-que o serviço usa os dois se usa só um.
+**Confirmado pelo Dr. Getúlio (2026-10-20):** o serviço usa **timoglobulina**, e só quando
+há **5 ou mais mismatches HLA**. "Mismatch severo" no slide passa a ser esse critério escrito.
+A coluna do basiliximabe sai da tela e fica como nota, porque o serviço não o usa.
 
 **Fala:** "A indução aqui não é para todo mundo, é para o mismatch severo. Mas quando ela
 aparece na prescrição, principalmente se for timoglobulina, o plantão muda: pré-medicação
@@ -247,7 +247,7 @@ num transplantado, vale a pergunta: isso mexe no tacrolimus? Em geral mexe."
 > 1. quando houve **indução**;
 > 2. quando o **doador é CMV positivo e o receptor é CMV negativo** (D+/R−).
 >
-> ***Pneumocystis*:** sulfametoxazol-trimetoprima. **[CONFERIR]** se é rotina no serviço.
+> ***Pneumocystis*:** sulfametoxazol-trimetoprima **por 3 meses, sempre**, em todo transplantado.
 > **Vírus BK:** monitorização de carga viral. A resposta é reduzir imunossupressão,
 > não antiviral.
 
@@ -481,9 +481,8 @@ uso de imagem ao arquivo da aula**.
 ## Pendências antes de apresentar
 
 1. Conferir os três números do serviço no slide 3 (`dados-2026.md` § 4).
-2. Conferir, no slide 9, qual agente de indução o serviço usa no mismatch severo.
-3. Conferir, no slide 12, se a profilaxia de *Pneumocystis* com sulfametoxazol-trimetoprima
-   é rotina no serviço. A regra do CMV já está confirmada.
+2. ~~Agente de indução~~ resolvido: timoglobulina, só com 5 ou mais mismatches HLA.
+3. ~~Profilaxia de *Pneumocystis*~~ resolvido: sulfametoxazol-trimetoprima por 3 meses, sempre.
 4. Decidir os seis ajustes propostos ao protocolo em [protocolo-ajustes.md](protocolo-ajustes.md).
    O protocolo está vigente e a tabela de PAM do slide 14 reproduz a dele; o que está em
    discussão é escopo, exames diários e a linha de profilaxias.
