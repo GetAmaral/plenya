@@ -89,8 +89,8 @@ S = []
 
 # 01 capa
 S.append(f'''<section class="slide s" id="s01">
-  <div class="ph ph--cover" style="width:54%"><img src="images/santacasa-fachada.jpg" alt="" style="object-position:30% 50%"></div>
-  <p class="credit">Foto: Folha de Londrina</p>
+  <div class="ph ph--cover" style="width:54%"><img src="images/santacasa-iscal.jpg" alt="" style="object-position:50% 50%"></div>
+  <p class="credit">Foto: Irmandade Santa Casa de Londrina</p>
   <div class="body cover" style="right:calc(54% + 80px)">
     <h1 class="cover-t">Transplante renal: a volta inteira</h1>
     <p class="cover-s">Da UBS à UBS, pelas mãos de cada um nesta sala</p>
