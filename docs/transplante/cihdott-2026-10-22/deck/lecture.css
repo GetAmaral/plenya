@@ -1,0 +1,324 @@
+/* ============================================================
+   Cuidados com o Paciente Transplantado Renal — Setembro Verde 2026
+   Sistema claro: fundo branco, tipografia geométrica leve, muito ar.
+   Herda a linguagem do deck original da equipe e sobe o acabamento.
+   Render: Playwright headless 1920x1080 → PNG/PDF
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --paper:      #FFFFFF;
+  --paper-soft: #F7F9F8;
+  --wash:       #F2F6F3;   /* fundo de nota, verde muito lavado */
+  --wash-warm:  #FAF6EF;   /* fundo de nota, dourado muito lavado */
+
+  --title:      #5A7075;   /* petrol acinzentado, leve mas com contraste */
+  --title-deep: #3C5257;
+  --ink:        #333F42;   /* corpo */
+  --ink-soft:   #6E7F83;
+  --ink-faint:  #9BA8AB;
+
+  --gold:       #B38645;
+  --gold-deep:  #8A6534;
+  --sage:       #8FB09E;
+  --petrol:     #0D4A5B;
+  --alert:      #A8503C;
+
+  --rule:       #E6EBE8;
+  --rule-soft:  #F0F3F1;
+
+  --display:'Jost','Century Gothic','Questrial',sans-serif;
+  --body:'Inter',-apple-system,system-ui,sans-serif;
+
+  --pad-x: 124px;
+  --pad-t: 168px;
+  --pad-b: 162px;
+  --photo-w: 46%;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#DCDFDD}
+body{font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+/* ───────── slide ───────── */
+.s{
+  position:relative; width:1920px; height:1080px; overflow:hidden;
+  background:var(--paper); page-break-after:always; break-after:page;
+}
+.s:last-child{page-break-after:auto}
+.s--soft{background:var(--paper-soft)}
+
+/* ───────── chrome ───────── */
+.brand{
+  position:absolute; top:64px; left:var(--pad-x); z-index:5;
+  font-family:var(--body); font-size:32px; font-weight:400;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--ink-faint);
+}
+.foot{
+  position:absolute; left:var(--pad-x); bottom:60px; z-index:5;
+  display:flex; align-items:baseline; gap:26px;
+  font-family:var(--body); font-size:32px; color:var(--ink-faint);
+  max-width:calc(100% - var(--pad-x) * 2);
+}
+.foot .pg{ letter-spacing:.18em; white-space:nowrap }
+.foot .ref{ color:var(--ink-faint) }
+.foot .ref b{ color:var(--gold-deep); font-weight:600; margin-right:6px }
+.narrow ~ .foot, .foot.narrow{ max-width:calc(100% - var(--photo-w) - var(--pad-x) - 70px) }
+
+/* ───────── foto ───────── */
+.ph{
+  position:absolute; right:0; top:0; bottom:0; width:var(--photo-w);
+  z-index:1; overflow:hidden;
+}
+.ph img{ width:100%; height:100%; object-fit:cover; display:block }
+.ph--wide{ width:54% }
+.ph--full{ width:100% }
+.ph--full::after{
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.92) 40%, rgba(255,255,255,.55) 62%, rgba(255,255,255,.04) 88%);
+}
+
+/* ───────── caixa de conteúdo ───────── */
+.body{
+  position:absolute; z-index:3;
+  left:var(--pad-x); right:var(--pad-x);
+  top:var(--pad-t); bottom:var(--pad-b);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.body.narrow{ right:calc(var(--photo-w) + 84px) }
+.body.cover { right:calc(42% + 90px) }
+.ph.ph--cover{ width:42% }
+.body.wide  { right:52% }
+.body.top   { justify-content:flex-start }
+
+/* ───────── tipografia ───────── */
+.kicker{
+  font-family:var(--display); font-weight:400; font-size:34px;
+  letter-spacing:.24em; text-transform:uppercase; color:var(--gold);
+  margin-bottom:28px;
+}
+h1{
+  font-family:var(--display); font-weight:300; font-size:84px; line-height:1.07;
+  letter-spacing:-.004em; color:var(--title); text-wrap:balance;
+}
+h2{
+  font-family:var(--display); font-weight:300; font-size:66px; line-height:1.12;
+  letter-spacing:-.003em; color:var(--title); text-wrap:balance;
+}
+h3{
+  font-family:var(--display); font-weight:400; font-size:44px; line-height:1.2;
+  color:var(--title-deep);
+}
+.lead{
+  font-family:var(--display); font-weight:300; font-size:42px; line-height:1.34;
+  color:var(--ink-soft); margin-top:24px; max-width:26ch;
+}
+.lead--wide{ max-width:44ch }
+p.t{ font-family:var(--body); font-size:37px; line-height:1.46; color:var(--ink); margin-top:24px }
+strong{ font-weight:600; color:var(--title-deep) }
+em{ font-style:italic }
+
+/* ───────── listas ───────── */
+ul.b{ list-style:none; margin-top:28px }
+ul.b li{
+  font-family:var(--body); font-size:37px; line-height:1.38; color:var(--ink);
+  padding:15px 0; border-bottom:1px solid var(--rule-soft);
+}
+ul.b li:last-child{ border-bottom:0 }
+ul.b.airy li{ padding:21px 0 }
+
+ol.n{ list-style:none; counter-reset:n; margin-top:30px }
+ol.n li{
+  counter-increment:n; position:relative; padding:15px 0 15px 70px;
+  font-family:var(--body); font-size:36px; line-height:1.38; color:var(--ink);
+  border-bottom:1px solid var(--rule-soft);
+}
+ol.n li::before{
+  content:counter(n); position:absolute; left:0; top:16px;
+  font-family:var(--display); font-weight:300; font-size:42px; color:var(--gold);
+}
+ol.n li:last-child{ border-bottom:0 }
+
+/* ───────── números grandes ───────── */
+.nums{ display:grid; grid-template-columns:repeat(3,1fr); gap:70px; margin-top:44px }
+.num{
+  font-family:var(--display); font-weight:200; font-size:124px; line-height:1;
+  letter-spacing:-.02em; color:var(--title);
+}
+.num.alert{ color:var(--alert) }
+.num-cap{
+  font-family:var(--body); font-size:35px; line-height:1.36; color:var(--ink-soft);
+  margin-top:20px;
+}
+
+/* ───────── tabela ───────── */
+table{
+  width:100%; border-collapse:collapse; margin-top:30px;
+  font-family:var(--body); font-variant-numeric:tabular-nums;
+}
+th{
+  font-family:var(--display); font-weight:400; font-size:32px;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep);
+  text-align:left; padding:0 26px 18px 0; border-bottom:1px solid var(--rule);
+  vertical-align:bottom;
+}
+td{
+  font-size:36px; line-height:1.32; color:var(--ink);
+  padding:16px 26px 16px 0; border-bottom:1px solid var(--rule-soft);
+  vertical-align:top;
+}
+tr:last-child td{ border-bottom:0 }
+td.k{ color:var(--title-deep); font-weight:500 }
+tr.hi td{ background:var(--wash) }
+.gold{ color:var(--gold-deep); font-weight:600 }
+
+/* ───────── nota ───────── */
+.note{
+  margin-top:30px; padding:25px 32px; background:var(--wash);
+  border-left:3px solid var(--sage);
+  font-family:var(--body); font-size:35px; line-height:1.4; color:var(--ink);
+}
+.note--warm{ background:var(--wash-warm); border-left-color:var(--gold) }
+.note .lbl{
+  display:block; font-family:var(--display); font-weight:400; font-size:31px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--gold-deep);
+  margin-bottom:12px;
+}
+.note--warm .lbl{ color:var(--gold-deep) }
+
+/* ───────── grades ───────── */
+.g2{ display:grid; grid-template-columns:1fr 1fr; gap:70px; margin-top:28px }
+.g3{ display:grid; grid-template-columns:repeat(3,1fr); gap:60px; margin-top:34px }
+.col-lbl{
+  font-family:var(--display); font-weight:400; font-size:33px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--gold);
+  padding-bottom:16px; border-bottom:1px solid var(--rule);
+}
+.col-lbl + ul.b{ margin-top:8px }
+
+/* ───────── retratos ───────── */
+.docs{ display:grid; grid-template-columns:repeat(3,1fr); gap:66px; margin-top:36px }
+.docs figure{ margin:0 }
+.docs img{
+  width:100%; aspect-ratio:4/5; object-fit:cover; object-position:50% 14%;
+  border-radius:2px; display:block;
+}
+.docs figcaption{
+  margin-top:22px; font-family:var(--body); font-size:36px; font-weight:500;
+  color:var(--title-deep); line-height:1.26; text-wrap:balance;
+}
+.docs .role{
+  display:block; margin-top:6px; font-family:var(--display); font-weight:300;
+  font-size:33px; color:var(--ink-soft);
+}
+
+/* ───────── capa e fecho ───────── */
+.cover-t{
+  font-family:var(--display); font-weight:300; font-size:82px; line-height:1.08;
+  letter-spacing:-.006em; color:var(--title); text-wrap:balance;
+}
+.cover-s{
+  font-family:var(--display); font-weight:300; font-size:44px; line-height:1.35;
+  color:var(--ink-soft); margin-top:34px;
+}
+.cover-m{
+  font-family:var(--body); font-size:34px; line-height:1.72; color:var(--ink-soft);
+  margin-top:56px;
+}
+.cover-m b{ color:var(--title-deep); font-weight:500 }
+
+.closing{
+  font-family:var(--display); font-weight:300; font-size:76px; line-height:1.22;
+  letter-spacing:-.004em; color:var(--title); max-width:20ch;
+}
+.closing .g{ color:var(--gold) }
+
+.rule{ width:92px; height:1px; background:var(--gold); margin:34px 0 }
+
+/* ───────── figura ───────── */
+.fig{ margin-top:22px }
+.fig svg{ display:block; width:100%; height:auto }
+
+/* ───────── referências ───────── */
+ol.refs{ list-style:none; counter-reset:r; margin-top:40px;
+  display:grid; grid-template-columns:1fr 1fr; gap:34px 74px }
+ol.refs li{
+  counter-increment:r; position:relative; padding-left:56px;
+  font-family:var(--body); font-size:34px; line-height:1.42; color:var(--ink);
+}
+ol.refs li::before{
+  content:counter(r) "."; position:absolute; left:0; top:0;
+  font-family:var(--display); font-weight:400; font-size:34px; color:var(--gold);
+}
+.pmid{ color:var(--gold-deep) }
+
+/* ============================================================
+   Aula CIHDOTT 22/10/2026 — componentes novos
+   ============================================================ */
+:root{ --vivo-w: 560px; --sage-deep:#5E8571; --vivo-bg:#EEF4F0 }
+
+/* trilha da rede (topo direito) */
+.trail{
+  position:absolute; top:62px; right:var(--pad-x); z-index:6;
+  display:flex; align-items:center; gap:14px;
+  font-family:var(--body); font-size:32px; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--gold-deep);
+}
+.trail .tl{ margin-right:14px }
+.trail i{ display:block; width:13px; height:13px; border-radius:50%; background:#D9E0DC }
+.trail i.on{ width:24px; height:24px; background:var(--gold) }
+.trail i.done{ background:#C9B48F }
+
+/* coluna do doador vivo */
+.vivo{
+  position:absolute; right:0; top:0; bottom:0; width:var(--vivo-w); z-index:2;
+  background:var(--vivo-bg); padding:var(--pad-t) 64px var(--pad-b) 58px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.vivo .vl{
+  font-family:var(--display); font-weight:400; font-size:32px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--sage-deep); padding-bottom:16px;
+  border-bottom:1px solid #D3E0D7; margin-bottom:22px;
+}
+.vivo p{ font-family:var(--body); font-size:35px; line-height:1.42; color:var(--ink) }
+.vivo p + p{ margin-top:18px }
+.vivo .who{ font-family:var(--display); font-size:40px; font-weight:300; color:var(--title-deep); margin-bottom:14px }
+.s.has-vivo .trail{ right:calc(var(--vivo-w) + 60px) }
+.body.wv{ right:calc(var(--vivo-w) + 84px) }
+.foot.wv{ max-width:calc(100% - var(--vivo-w) - var(--pad-x) - 70px) }
+
+.note--vivo{ background:var(--vivo-bg); border-left-color:var(--sage-deep) }
+.note--vivo .lbl{ color:var(--sage-deep) }
+.note--alert{ background:#FBF1EE; border-left-color:var(--alert) }
+.note--alert .lbl{ color:var(--alert) }
+
+/* corpo mais denso quando preciso */
+ul.b.tight li{ font-size:35px; padding:11px 0 }
+.g4{ display:grid; grid-template-columns:repeat(4,1fr); gap:46px; margin-top:34px }
+.g4 ul.b li{ font-size:33px; line-height:1.34; padding:12px 0 }
+.chips{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px 26px; margin-top:26px }
+.chips span{ font-family:var(--body); font-size:34px; color:var(--title-deep);
+  padding:12px 0; border-bottom:1px solid var(--rule) }
+
+/* dois tempos de uma madrugada */
+.duo{ position:absolute; inset:0 0 330px 0; display:grid; grid-template-columns:1fr 1fr; gap:8px; z-index:1 }
+.duo img{ width:100%; height:100%; object-fit:cover; display:block }
+.duo-cap{ position:absolute; left:var(--pad-x); right:var(--pad-x); bottom:70px; z-index:3;
+  display:grid; grid-template-columns:1fr 1fr; gap:80px }
+.duo-cap p{ font-family:var(--display); font-weight:300; font-size:44px; line-height:1.3; color:var(--ink-soft) }
+.duo-line{ position:absolute; left:0; right:0; bottom:236px; text-align:center; z-index:3;
+  font-family:var(--display); font-weight:300; font-size:56px; color:var(--title) }
+
+/* hora grande */
+.hour{ display:flex; gap:56px; align-items:flex-end; margin-top:26px }
+.hour div{ font-family:var(--display); font-weight:200; font-size:120px; line-height:1; color:var(--title) }
+.hour small{ display:block; font-family:var(--body); font-size:33px; color:var(--ink-soft); margin-top:10px; font-weight:400 }
+
+/* mapa */
+.map svg{ display:block; width:100%; height:auto }
+.nums.n2{ grid-template-columns:1fr 1fr; gap:60px; margin-top:30px }
+.nums.n2 .num{ font-size:112px }
+.side-nums .num{ font-size:96px }
+.side-nums .num-cap{ font-size:33px; margin-top:10px }
+.side-nums > div + div{ margin-top:40px }
