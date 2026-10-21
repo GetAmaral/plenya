@@ -1,4 +1,4 @@
-# Roteiro de fala — Transplante renal: a volta inteira (v2)
+# Roteiro de fala — Transplante renal: a volta inteira (v2.1, 43 slides)
 
 Um slide, uma ideia. O que não está na tela está aqui. Números e fontes em `verificacao.md`.
 Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os claros pedem 1 a 2 minutos.
@@ -38,21 +38,22 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 26. **7h30 · 8h.** O erro de enfermagem que mais custa enxerto e é 100% evitável.
 27. **As regras do serviço.** Timoglobulina só com 5 ou mais incompatibilidades (pré-medicação, acesso central, infusão lenta, vigiar a primeira hora e plaquetas). Sulfametoxazol-trimetoprima 3 meses, sempre. CMV condicional: perguntar no plantão se houve indução e qual a sorologia.
 28. **Dia 2.** Deixar a pergunta da família no ar.
-29. **Não.** Função tardia: diálise na primeira semana. Esperada no doador falecido. +41% de risco de perda em 3 anos. A enfermagem muda isso. No dia 7 ele urina.
-30. **Abrupto não é esperado.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que vocês fazem?"
-31. **A equipe que não aparece na foto.** Farmácia: reconciliação, interações, pedido do remédio de alto custo antes da alta (leva até 60 dias). Nutrição: da dieta restrita da diálise à do transplantado; diabetes pós-transplante em 10% a 30% no 1º ano; nada cru ou não pasteurizado; toranja não. Psicologia: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social: transporte, remédio, trabalho.
-32. **A alta é uma prova oral.** As perguntas que o paciente responde sem papel. Não-adesão é a causa evitável número um de perda tardia.
+29. **Não.** Função tardia: diálise na primeira semana. Esperada no doador falecido. +41% de risco de perda em 3 anos. A enfermagem muda isso.
+30. **Dia 7. Ele urina.** Dialisou no terceiro dia. Deixar a foto falar.
+31. **Esperado é estável. Súbito é urgência.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que vocês fazem?"
+32. **A equipe que não aparece na foto.** Farmácia: reconciliação, interações, pedido do remédio de alto custo antes da alta (leva até 60 dias). Nutrição: da dieta restrita da diálise à do transplantado; diabetes pós-transplante em 10% a 30% no 1º ano; nada cru ou não pasteurizado; toranja não. Psicologia: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social: transporte, remédio, trabalho.
+33. **A alta é uma prova oral.** As perguntas que o paciente responde sem papel. Não-adesão é a causa evitável número um de perda tardia.
 
 ## 4 · De volta para casa · 7 min
-33. **Capítulo 4.**
-34. **Quem cuida do quê.** Ambulatório: enxerto, imunossupressão, complicações, pele, gestação e o doador vivo (pressão, creatinina e albuminúria pelo menos uma vez por ano, para sempre; KDIGO 2017). UBS: as crônicas, muitas nascidas do próprio remédio; a porta de entrada.
-35. **Isso mexe no tacrolimus?** Pergunta à plateia: "seis meses de transplante, sinusite, claritromicina. O que acontece?" Vacina viva nunca depois do transplante.
-36. **Quando ligar.** Diarreia persistente sobe o nível do tacrolimus e intoxica (Lemahieu 2005).
-37. **A conversa começa em casa.** 45% de recusa familiar em 2025. O agente comunitário é quem entra nas casas.
+34. **Capítulo 4.**
+35. **Quem cuida do quê.** Ambulatório: enxerto, imunossupressão, complicações, pele, gestação e o doador vivo (pressão, creatinina e albuminúria pelo menos uma vez por ano, para sempre; KDIGO 2017). UBS: as crônicas, muitas nascidas do próprio remédio; a porta de entrada.
+36. **Isso mexe no tacrolimus?** Pergunta à plateia: "seis meses de transplante, sinusite, claritromicina. O que acontece?" Vacina viva nunca depois do transplante.
+37. **Quando ligar.** Diarreia persistente sobe o nível do tacrolimus e intoxica (Lemahieu 2005).
+38. **A conversa começa em casa.** 45% de recusa familiar em 2025. O agente comunitário é quem entra nas casas.
 
 ## Epílogo · 3 min
-38. **Sem diálise.** E Ana e Paulo almoçam juntos no domingo.
-39. **Ele nunca vai saber o nome.** Decreto 9.175/2017, art. 52.
-40. **Mais de vinte mãos.** Olhar para a plateia.
-41. **O conhecimento nos capacita…** Ler a frase. "Converse com a sua família."
-42. **Referências.**
+39. **Sem diálise.** E Ana e Paulo almoçam juntos no domingo.
+40. **Ele nunca vai saber o nome.** Decreto 9.175/2017, art. 52.
+41. **Mais de vinte mãos.** Olhar para a plateia.
+42. **O conhecimento nos capacita…** Ler a frase. "Converse com a sua família."
+43. **Referências.**
