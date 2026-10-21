@@ -89,15 +89,16 @@ S = []
 
 # 01 capa
 S.append(f'''<section class="slide s" id="s01">
-  <div class="ph ph--cover"><img src="images/santacasa.jpg" alt=""></div>
-  <div class="body cover">
+  <div class="ph ph--cover" style="width:54%"><img src="images/santacasa-fachada.jpg" alt="" style="object-position:30% 50%"></div>
+  <p class="credit">Foto: Folha de Londrina</p>
+  <div class="body cover" style="right:calc(54% + 80px)">
     <h1 class="cover-t">Transplante renal: a volta inteira</h1>
     <p class="cover-s">Da UBS à UBS, pelas mãos de cada um nesta sala</p>
     <div class="rule"></div>
     <p class="cover-m">
       <b>Dr. Getúlio Amaral Filho</b><br>
-      Serviço de Transplante Renal · Santa Casa de Londrina<br>
-      Doação e Transplante: Uma Rede que Salva Vidas<br>
+      Serviço de Transplante Renal<br>
+      Santa Casa de Londrina<br>
       22 de outubro de 2026
     </p>
   </div>
@@ -517,6 +518,7 @@ html = f'''<!DOCTYPE html>
 ol.refs.refs--dense{{ gap:16px 60px; margin-top:28px }}
 .fig--anat svg{{ max-height:440px; width:auto; max-width:100% }}
 li.vv{{ color:var(--sage-deep) }}
+.credit{{ position:absolute; right:28px; bottom:22px; z-index:4; font-family:var(--body); font-size:22px; color:rgba(255,255,255,.85); text-shadow:0 1px 3px rgba(0,0,0,.4) }}
 ol.refs.refs--dense li{{ font-size:30px; line-height:1.3; padding-left:48px }}
 ol.refs.refs--dense li::before{{ font-size:30px }}
 </style>
