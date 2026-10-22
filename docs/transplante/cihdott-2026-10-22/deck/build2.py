@@ -181,17 +181,10 @@ statement("O cuidado com o doador<br>é o <em>primeiro cuidado</em> com o recept
 number("1 em 2", "rins de doador falecido no Brasil demora a funcionar.",
        small="O receptor ainda precisa de diálise na primeira semana. As causas, segundo os autores: encaminhamento tardio e manutenção inadequada do doador.",
        s="Sandes-Freitas TV et al. Transpl Int 2021 · 3.992 transplantes, 18 centros")
-S.append(f'''<section class="slide dark">{bg("captacao.jpg")}
-  <div class="center">
-    <p class="statement" style="font-size:80px">A manutenção do doador <em>muda esse número.</em></p>
-    <div class="duo-num">
-      <div><p class="lbl">Metas de manutenção cumpridas</p><div class="big">17%</div><p class="cap">dos rins demoram a funcionar</p></div>
-      <div><p class="lbl">Metas não cumpridas</p><div class="big alert">30%</div><p class="cap">dos rins demoram a funcionar</p></div>
-    </div>
-    <p class="small">Metas como pressão, diurese e dose de vasopressor, avaliadas no momento do consentimento da família.</p>
-  </div>
-  {src("Malinoski DJ et al. Am J Transplant 2013 · 722 rins")}{pg()}
-</section>''')
+statement("Doador mantido nas metas:<br>esse risco cai <em>quase pela metade.</em>",
+          sub="Pressão, diurese e dose de vasopressor dentro das metas no momento do consentimento da família.",
+          s="Malinoski DJ et al. Am J Transplant 2013 · 722 rins, EUA: função tardia de 30% para 17% com as metas cumpridas",
+          img="captacao.jpg")
 photo("caixa.jpg", "Cada hora conta.", kicker="Isquemia fria",
       sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.<br>No doador vivo, as salas são vizinhas: cerca de uma hora.",
       q="Somos guardiões de milagres que acontecem todos os dias.", s="Sandes-Freitas TV et al. Transpl Int 2021", pos="60% center")

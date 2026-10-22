@@ -27,7 +27,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 17. **Capítulo 2.** "A Emanuelle mostrou como o sim acontece. Eu vou mostrar o que ele faz."
 18. **O cuidado com o doador é o primeiro cuidado com o receptor.** Deixar a frase na tela.
 19. **1 em 2.** Metade dos rins de doador falecido no Brasil demora a funcionar (função tardia do enxerto, 54% em 18 centros, de 30% a 88% entre centros). O receptor precisa de diálise na primeira semana. Os autores apontam duas causas: encaminhamento tardio e manutenção inadequada do doador.
-20. **A manutenção do doador muda esse número.** Metas cumpridas no consentimento: 17%. Não cumpridas: 30% (Malinoski 2013, 722 rins). Pergunta à plateia: "o doador passou a noite com noradrenalina alta e a captação atrasou seis horas. O que muda para quem recebe?"
+20. **Doador mantido nas metas: o risco cai quase pela metade.** Estudo americano (Malinoski 2013, 722 rins): função tardia de 30% sem as metas cumpridas para 17% com elas. A população é outra, por isso a tela mostra o efeito e não o número absoluto; no Brasil o ponto de partida é 1 em 2. Pergunta à plateia: "o doador passou a noite com noradrenalina alta e a captação atrasou seis horas. O que muda para quem recebe?"
 21. **Cada hora conta.** +4% de chance de função tardia por hora. Máquina de perfusão reduz. No doador vivo, cerca de uma hora.
 22. **22 horas.** Pausa. Dentro da média do doador falecido (20 a 24 h).
 
