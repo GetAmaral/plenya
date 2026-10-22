@@ -184,8 +184,8 @@ nutrição, psicologia, serviço social.*
 
 **12. Intraoperatório: o rim é acrescentado, não trocado [R]**
 - Fossa ilíaca; os rins nativos ficam. Três rins.
-- Artéria, veia e ureter sobre duplo J.
-- Volta do centro cirúrgico com ferida, dreno, sonda, acesso central, duplo J.
+- Artéria, veia e ureter (o serviço não usa duplo J).
+- Volta do centro cirúrgico com ferida, dreno, sonda, acesso central.
 - Esquema anatômico SVG (images/05-anatomia.svg).
 - ▸ Vivo: na sala ao lado, nefrectomia do doador por videolaparoscopia, em geral o rim
   esquerdo, que tem a veia mais longa (KDIGO 2017).

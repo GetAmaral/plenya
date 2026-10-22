@@ -261,3 +261,4 @@ i.ok{border:4px solid var(--gold);background:transparent}
 .icons-key{display:flex;gap:60px;margin-top:26px;font:300 32px var(--display);color:rgba(255,255,255,.8)}
 .icons-key span{display:flex;align-items:center;gap:16px}
 .icons-key i{display:inline-block;width:28px;height:28px;border-radius:50%}
+.anat .quote{position:absolute;z-index:4;left:var(--px);bottom:96px;max-width:760px}

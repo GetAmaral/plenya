@@ -96,7 +96,7 @@ S.append('''<section class="slide cover">
 photo("cihdott-f.jpg", "Uma família diz sim.", kicker="23h · Interior do Paraná", pos="60% center", night=True)
 photo("telefone-f.jpg", "Um telefone toca.", kicker="2h · Londrina", pos="60% center", night=True)
 statement("Entre essas duas cenas existe uma rede inteira.<br><em>E ela está nesta sala.</em>",
-          sub="Hoje vamos percorrê-la de ponta a ponta, da UBS à UBS.", img="maos.jpg")
+          sub="Hoje vamos percorrê-la de ponta a ponta.", img="maos.jpg")
 number("38.925", "brasileiros esperavam um rim em dezembro de 2025. <b style='font-weight:400;color:#E2C48F'>2.093</b> no Paraná.",
        s="Registro Brasileiro de Transplantes 2025, ABTO", alert=True)
 S.append(f'''<section class="slide dark teamslide">{bg("equipe-nefroclinica.jpg")}
@@ -144,7 +144,7 @@ light("Três marcos quando o rim começa a falhar",
 photo("dialise.jpg", "Ele chegou tarde.", kicker="O que aconteceu",
       sub="TFG 12. Diálise de urgência, por cateter.<br>Quatro anos de máquina, três vezes por semana.", pos="65% center")
 photo("irmaos-f.jpg", "Ana tem 34 anos.<br>O doador é o irmão.", kicker="Ao mesmo tempo, outra história",
-      sub="Encaminhada cedo. Diálise programada, por fístula. Cirurgia com data marcada.", pos="60% center")
+      sub="Encaminhada cedo. Diálise programada, por fístula.", pos="60% center")
 S.append(f'''<section class="slide dark">
   <div class="center">
     <p class="statement" style="font-size:80px">Dois caminhos.</p>
@@ -190,7 +190,7 @@ S.append(f'''<section class="slide dark">{bg("captacao.jpg")}
   {src("Sandes-Freitas, Transpl Int 2021 (Brasil, 18 centros) · Malinoski, Am J Transplant 2013 (EUA)")}{pg()}
 </section>''')
 photo("caixa.jpg", "Cada hora conta.", kicker="Isquemia fria",
-      sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.<br>No doador vivo, as salas são vizinhas: cerca de uma hora.",
+      sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.",
       q="Somos guardiões de milagres que acontecem todos os dias.", s="Sandes-Freitas TV et al. Transpl Int 2021", pos="60% center")
 number("22 horas", "de isquemia fria até o rim do Sr. J. voltar a receber sangue.", img="caixa.jpg")
 
@@ -208,13 +208,12 @@ S.append(f'''<section class="slide anat">
   <div class="txt">
     <h2>O rim é acrescentado, não trocado.</h2>
     <p class="cap">O rim novo fica embaixo, na fossa ilíaca direita.</p>
-    <ol><li>Os rins nativos ficam no lugar</li><li>Artéria e veia na ilíaca externa</li><li>Ureter na bexiga, sobre duplo J</li></ol>
-    <p class="note" style="color:#5C6F74;font-size:32px;margin-top:26px"><span class="vivo-tag">Doador vivo</span>Na sala ao lado, Paulo doa o rim esquerdo, por vídeo.</p>
+    <ol><li>Os rins nativos ficam no lugar</li><li>Artéria e veia na ilíaca externa</li><li>Ureter na bexiga</li></ol>
   </div>
   {quote("Conhecer a cirurgia nos torna parceiros do cirurgião no cuidado.")}{pg()}
 </section>''')
 photo("uti2.jpg", "A enfermagem mede o rim de hora em hora.", kicker="UTI · dias 0 a 3",
-      extra='<div class="chips"><span>Sinais vitais 15/15 min</span><span>Diurese horária</span><span>PAM 80 a 110 mmHg</span><span>Repor 70% acima de 100 ml/h</span></div>',
+      extra='<div class="chips"><span>Sinais vitais 15/15 min</span><span>PAM 80 a 110 mmHg</span><span>Repor 70% acima de 100 ml/h</span></div>',
       q="Na UTI, nossa vigilância é o escudo protetor do novo rim.", s="Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica", pos="60% center", night=True)
 photo("coleta.jpg", "<span style='color:#E2C48F'>7h30</span> colhe.<br><span style='color:#E2C48F'>8h</span> dá a dose.", kicker="O nível do tacrolimus",
       sub="Colhido fora da janela, o número mente, e a dose sai errada.",
@@ -228,9 +227,8 @@ light("As regras do nosso serviço",
 photo("mao.jpg", "Dia 2.<br>O rim não urina.", kicker="A virada", sub="A família pergunta: rejeitou?", pos="60% center")
 statement("Não. O rim carrega as <em>últimas horas</em> de outra pessoa.",
           sub="Função tardia do enxerto: esperada no doador falecido, e ainda assim 41% mais risco de perder o rim em 3 anos. PAM no alvo, volemia e diurese anotada com honestidade mudam esse desfecho.",
-          small="No doador vivo, a função tardia é de 3,6%.",
-          s="Braz J Nephrol 2026;48(4) · Redfield, Transpl Int 2016", img="mao.jpg")
-photo("dia7.jpg", "Dia 7.<br>Ele urina.", kicker="A espera", sub="Dialisou no terceiro dia. No sétimo, o rim acordou.", pos="65% center")
+          s="Braz J Nephrol 2026;48(4)", img="mao.jpg")
+photo("dia7.jpg", "Dia 7.<br>Ele urina.", kicker="A espera", sub="Dialisou no terceiro dia. Agora o rim acordou.", pos="65% center")
 statement("Esperado é estável.<br><em style='color:#E08A70'>Súbito é urgência.</em>",
        sub="Queda súbita da diurese em quem urinava bem é trombose até prova em contrário. Doppler agora.",
        q="Nossa observação atenta pode ser a diferença entre sucesso e complicação.")
