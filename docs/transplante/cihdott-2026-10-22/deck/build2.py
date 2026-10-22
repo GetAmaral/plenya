@@ -89,7 +89,7 @@ S.append('''<section class="slide cover">
     <p class="ev">CIHDOTT · Macronorte · PR</p>
     <h1>Transplante renal:<br><em>a volta inteira</em></h1>
     <p class="sub">Da UBS à UBS, pelas mãos de cada um nesta sala</p>
-    <p class="meta"><b>Dr. Getúlio Amaral Filho · Dr. Michel Moro<br>Dra. Taynara Fratoni · Dra. Karoline Araujo</b><br>Equipe Nefroclínica · Santa Casa de Londrina<br>22 de outubro de 2026</p>
+    <p class="meta"><b>Dr. Getúlio Amaral Filho · Dr. Michel Moro<br>Dra. Taynara Fratoni · Dra. Karoline Araujo</b><br>Nefrologistas · Equipe Nefroclínica<br>Santa Casa de Londrina<br>22 de outubro de 2026</p>
   </div>
 </section>''')
 
@@ -99,16 +99,16 @@ statement("Entre essas duas cenas existe uma rede inteira.<br><em>E ela está ne
           sub="Hoje vamos percorrê-la de ponta a ponta, da UBS à UBS.", img="maos.jpg")
 number("38.925", "brasileiros esperavam um rim em dezembro de 2025. <b style='font-weight:400;color:#E2C48F'>2.093</b> no Paraná.",
        s="Registro Brasileiro de Transplantes 2025, ABTO", alert=True)
-S.append(f'''<section class="slide dark">{bg("cirurgia.jpg")}
+S.append(f'''<section class="slide dark teamslide">{bg("equipe-nefroclinica.jpg")}
   <div class="center">
-    <p class="kicker">Equipe Nefroclínica · Santa Casa de Londrina</p>
-    <div class="team">
-      <figure><div class="pic"><img src="images/p-getulio.jpg" alt=""></div><figcaption>Dr. Getúlio Amaral Filho<span>Nefrologia</span></figcaption></figure>
-      <figure><div class="pic"><img src="images/p-michel.jpg" alt=""></div><figcaption>Dr. Michel Moro<span>Cirurgia do transplante</span></figcaption></figure>
-      <figure><div class="pic"><img src="images/p-taynara.jpg" alt=""></div><figcaption>Dra. Taynara Fratoni<span>Nefrologia</span></figcaption></figure>
-      <figure><div class="pic"><div class="mono">KA</div></div><figcaption>Dra. Karoline Araujo<span>&nbsp;</span></figcaption></figure>
+    <div>
+      <p class="kicker">Quem somos</p>
+      <h2>Equipe Nefroclínica</h2>
+      <p class="names">Dr. Getúlio Amaral Filho<br>Dr. Michel Moro<br>Dra. Taynara Fratoni<br>Dra. Karoline Araujo</p>
+      <p class="role">Nefrologistas</p>
+      <p class="quote" style="margin-top:44px">Cada transplante que acompanhamos é uma história de superação que nos motiva todos os dias.</p>
     </div>
-    <p class="quote" style="margin-top:50px">Cada transplante que acompanhamos é uma história de superação que nos motiva todos os dias.</p>
+    <div class="photo-frame"><img src="images/equipe-nefroclinica.jpg" alt="Equipe Nefroclínica"></div>
   </div>{pg()}
 </section>''')
 

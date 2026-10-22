@@ -211,3 +211,10 @@ body{font-family:var(--body);-webkit-font-smoothing:antialiased}
 .team figcaption{margin-top:24px;font:400 36px/1.25 var(--display);color:#fff}
 .team figcaption span{display:block;font:300 28px var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:8px}
 .cover .meta .docs{color:#fff}
+/* equipe completa */
+.teamslide .center{display:grid !important;grid-template-columns:640px 1fr;gap:80px;align-items:center}
+.teamslide .photo-frame{border-radius:6px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45);border:1px solid rgba(201,160,99,.35)}
+.teamslide .photo-frame img{display:block;width:100%;height:auto}
+.teamslide h2{font:300 84px/1.05 var(--display);color:#fff;margin-top:6px}
+.teamslide .names{font:400 36px/1.6 var(--display);color:#fff;margin-top:34px}
+.teamslide .role{font:300 30px var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:18px}
