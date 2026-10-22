@@ -42,7 +42,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 30. **Não.** Função tardia: diálise na primeira semana. Esperada no doador falecido. +41% de risco de perda em 3 anos. A enfermagem muda isso.
 31. **Dia 7. Ele urina.** Dialisou no terceiro dia. Deixar a foto falar.
 32. **Esperado é estável. Súbito é urgência.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que vocês fazem?"
-33. **A equipe que não aparece na foto.** Farmácia: reconciliação, interações, pedido do remédio de alto custo antes da alta (leva até 60 dias). Nutrição: da dieta restrita da diálise à do transplantado; diabetes pós-transplante em 10% a 30% no 1º ano; nada cru ou não pasteurizado; toranja não. Psicologia: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social: transporte, remédio, trabalho.
+33. **Cada profissão protege o rim de um jeito.** Farmácia: reconciliação, interações, pedido do remédio de alto custo antes da alta (leva até 60 dias). Nutrição: da dieta restrita da diálise à do transplantado; diabetes pós-transplante em 10% a 30% no 1º ano; nada cru ou não pasteurizado; toranja não. Psicologia: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social: transporte, remédio, trabalho.
 34. **A alta é uma prova oral.** As perguntas que o paciente responde sem papel. Não-adesão é a causa evitável número um de perda tardia.
 
 ## 4 · De volta para casa · 7 min

@@ -219,3 +219,15 @@ body{font-family:var(--body);-webkit-font-smoothing:antialiased}
 .teamslide .names{font:400 36px/1.6 var(--display);color:#fff;margin-top:34px}
 .teamslide .role{font:300 30px var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:18px}
 .teamslide .center{grid-template-columns:560px 1fr}
+/* quadro da equipe multiprofissional */
+.board{margin-top:44px;border-top:2px solid var(--gold)}
+.board div{display:grid;grid-template-columns:400px 260px 1fr;align-items:baseline;gap:40px;padding:22px 0;border-bottom:1px solid #E6E0D4}
+.board b{font:400 46px var(--display);color:var(--night)}
+.board i{font:italic 300 44px var(--serif);color:var(--gold-deep)}
+.board span{font:400 36px/1.32 var(--body);color:var(--ink)}
+.board{margin-top:30px}
+.board div{padding:14px 0;grid-template-columns:380px 250px 1fr}
+.board b{font-size:42px}.board i{font-size:40px}.board span{font-size:34px}
+.light .quote.inline{position:static;margin-top:30px;max-width:none}
+.light .wrap:has(.board){top:90px;bottom:120px}
+.light .wrap:has(.board) h2{font-size:82px}

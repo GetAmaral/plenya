@@ -226,17 +226,15 @@ photo("dia7.jpg", "Dia 7.<br>Ele urina.", kicker="A espera", sub="Dialisou no te
 statement("Esperado é estável.<br><em style='color:#E08A70'>Súbito é urgência.</em>",
        sub="Queda súbita da diurese em quem urinava bem é trombose até prova em contrário. Doppler agora.",
        q="Nossa observação atenta pode ser a diferença entre sucesso e complicação.")
-S.append(f'''<section class="slide">
-  <div class="tiles">
-    <figure><img src="images/farmacia.jpg" style="object-position:55% center"><figcaption><b>Farmácia clínica</b><span>Nenhum remédio novo sem olhar o tacrolimus.</span></figcaption></figure>
-    <figure><img src="images/nutricao.jpg" style="object-position:60% center"><figcaption><b>Nutrição</b><span>Da dieta da diálise para a do transplante.</span></figcaption></figure>
-    <figure><img src="images/psicologia.jpg" style="object-position:40% center"><figcaption><b>Psicologia</b><span>O rim de outra pessoa: gratidão e medo.</span></figcaption></figure>
-    <figure><img src="images/social.jpg" style="object-position:50% center"><figcaption><b>Serviço social</b><span>Transporte, remédio, volta ao trabalho.</span></figcaption></figure>
-  </div>
-  <p class="tiles-head">A equipe que não aparece na foto</p>
-  <p class="tiles-quote">Técnica com humanização transforma procedimentos em cuidado integral.</p>
-  {pg()}
-</section>''')
+light("Cada profissão protege o rim de um jeito",
+      '<div class="board">'
+      '<div><b>Enfermagem</b><i>a vigilância</i><span>diurese hora a hora, nível colhido na janela, alta ensinada</span></div>'
+      '<div><b>Farmácia clínica</b><i>a prescrição</i><span>reconciliação, interações com o tacrolimus, remédio pedido antes da alta</span></div>'
+      '<div><b>Nutrição</b><i>o prato</i><span>sai a dieta da diálise; entram glicemia, peso e alimento seguro</span></div>'
+      '<div><b>Psicologia</b><i>a adesão</i><span>o medo, o rim de outra pessoa, a decisão livre do doador vivo</span></div>'
+      '<div><b>Serviço social</b><i>o caminho</i><span>transporte, acesso ao remédio, rede de apoio, volta ao trabalho</span></div>'
+      '</div><p class="quote inline">Técnica com humanização transforma procedimentos em cuidado integral.</p>',
+      s="PCDT Imunossupressão no Transplante Renal, 2021 · KDIGO 2009 · Avery, Clin Transplant 2019")
 photo("alta-f.jpg", "A alta é uma prova oral.", kicker="Enfermaria e alta",
       sub="Ele sabe cada remédio e horário, o que fazer se vomitar a dose, por que nunca parar e quando ligar.",
       q="Educar é empoderar: um paciente bem orientado é nosso melhor aliado.", pos="60% center")
