@@ -186,7 +186,7 @@ number("30% → 17%", "de função tardia quando as metas de manutenção do doa
 photo("caixa.jpg", "Cada hora conta.", kicker="Isquemia fria",
       sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.<br>No doador vivo, as salas são vizinhas: cerca de uma hora.",
       q="Somos guardiões de milagres que acontecem todos os dias.", s="Sandes-Freitas TV et al. Transpl Int 2021", pos="60% center")
-number("18 horas", "de isquemia fria até o rim do Sr. J. voltar a receber sangue.", img="caixa.jpg")
+number("22 horas", "de isquemia fria até o rim do Sr. J. voltar a receber sangue.", img="caixa.jpg")
 
 # ------------------------------------------------------------------ 3 · DENTRO DO HOSPITAL
 chapter("cirurgia.jpg", "3", "Dentro do hospital", "pré · intra · pós", pos="60% center")

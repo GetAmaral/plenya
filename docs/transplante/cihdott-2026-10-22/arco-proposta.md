@@ -60,7 +60,7 @@ doenças crônicas (hipertensão, diabetes, dislipidemia) e continua sendo a por
 1. **O mapa circular da rede.** Inteiro no slide 3, depois como faixa discreta no topo de cada
    slide marcando onde estamos.
 2. **O relógio.** Carimbo de tempo em cada slide da história: *14 anos antes*, *H+0*,
-   *18 horas de isquemia*, *Dia 2*, *1 ano depois*.
+   *22 horas de isquemia*, *Dia 2*, *1 ano depois*.
 3. **"Quem segura o rim agora."** As profissões presentes em cada fase. A enfermagem aparece em
    quase todas.
 
@@ -68,7 +68,7 @@ doenças crônicas (hipertensão, diabetes, dislipidemia) e continua sendo a por
 
 **Dia 2.** O rim do Sr. J. não urina; o de Ana urinou na sala de cirurgia. A família dele
 pergunta se rejeitou. A resposta liga os atos: o rim carrega as últimas horas de outra pessoa.
-A instabilidade do doador e as 18 horas de isquemia fria aparecem como função tardia do
+A instabilidade do doador e as 22 horas de isquemia fria aparecem como função tardia do
 enxerto. O que a comissão fez de madrugada no interior está na diurese da UTI em Londrina.
 No sétimo dia ele urina.
 
@@ -168,7 +168,7 @@ relógio da isquemia)*
 
 **10. 2h da manhã [C]**
 - O telefone do Sr. J. toca. Volta à cena do slide 2.
-- Doador de 41 anos, morte encefálica. Até a reperfusão: 18 horas de isquemia fria.
+- Doador de 41 anos, morte encefálica. Até a reperfusão: 22 horas de isquemia fria.
 
 ### ATO III · DENTRO DO HOSPITAL · 15 min
 *Quem segura o rim: enfermagem em todas as fases; cirurgia, nefrologia, farmácia clínica,

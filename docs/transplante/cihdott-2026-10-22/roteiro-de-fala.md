@@ -29,7 +29,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 19. **54%.** Estudo brasileiro, 18 centros, 3.992 transplantes: variação de 30% a 88% entre centros. Os autores dizem: encaminhamento tardio e manutenção inadequada do doador.
 20. **30% → 17%.** Metas de manutenção cumpridas no consentimento (Malinoski 2013). Pergunta à plateia: "o doador passou a noite com noradrenalina alta e a captação atrasou seis horas. O que muda para quem recebe?"
 21. **Cada hora conta.** +4% de chance de função tardia por hora. Máquina de perfusão reduz. No doador vivo, cerca de uma hora.
-22. **18 horas.** Pausa.
+22. **22 horas.** Pausa. Dentro da média do doador falecido (20 a 24 h).
 
 ## 3 · Dentro do hospital · 14 min
 23. **Capítulo 3.**

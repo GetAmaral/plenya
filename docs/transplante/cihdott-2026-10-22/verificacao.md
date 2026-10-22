@@ -258,6 +258,6 @@ com doador vivo e 5.844 com doador falecido em 2025.
   item 1 (MS 2014, TelessaúdeRS 2015) usam < 30 como critério central; o rodapé do slide diz
   "prática do serviço".
 - **Isquemia fria:** doador falecido em média **20 a 24 horas**, doador vivo **cerca de 1 hora**
-  (prática do serviço; não há fonte publicada citada no slide). O Sr. J. fica com 18 horas.
+  (prática do serviço; não há fonte publicada citada no slide). O Sr. J. fica com 22 horas, dentro da média.
 - No slide "Dois caminhos", 54% de função tardia é dado brasileiro e 3,6% é dado americano;
   a origem passou a aparecer no rótulo.
