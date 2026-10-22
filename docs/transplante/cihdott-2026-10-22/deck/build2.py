@@ -104,8 +104,6 @@ S.append(f'''<section class="slide dark teamslide">{bg("equipe-nefroclinica.jpg"
     <div>
       <p class="kicker">Quem somos</p>
       <h2>Equipe Nefroclínica</h2>
-      <p class="names">Dr. Getúlio Amaral Filho<br>Dr. Michel Moro<br>Dra. Taynara Fratoni<br>Dra. Karoline Araujo</p>
-      <p class="role">Nefrologistas</p>
       <p class="quote" style="margin-top:44px">Cada transplante que acompanhamos é uma história de superação que nos motiva todos os dias.</p>
     </div>
     <div class="photo-frame"><img src="images/equipe-nefroclinica.jpg" alt="Equipe Nefroclínica"></div>

@@ -218,3 +218,4 @@ body{font-family:var(--body);-webkit-font-smoothing:antialiased}
 .teamslide h2{font:300 84px/1.05 var(--display);color:#fff;margin-top:6px}
 .teamslide .names{font:400 36px/1.6 var(--display);color:#fff;margin-top:34px}
 .teamslide .role{font:300 30px var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:18px}
+.teamslide .center{grid-template-columns:560px 1fr}
