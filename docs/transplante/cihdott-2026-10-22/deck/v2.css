@@ -269,3 +269,10 @@ i.ok{border:4px solid var(--gold);background:transparent}
 .ubscare .txt{width:960px}
 .ubscare .venn{width:940px}
 .ubscare::after{background:linear-gradient(90deg,rgba(6,22,28,.92) 0%,rgba(6,22,28,.85) 45%,rgba(6,22,28,.25) 60%,rgba(6,22,28,0) 70%)}
+.meds .center{top:0;bottom:0}
+.medcols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:56px;margin-top:40px}
+.medcols>div{border-top:3px solid var(--gold);padding-top:20px}
+.medcols h4{font:300 58px var(--display);color:#fff;margin-bottom:14px}
+.medcols .lb{font:500 22px var(--body);letter-spacing:.2em;text-transform:uppercase;margin-top:18px}
+.medcols .lb.up{color:#E2C48F}.medcols .lb.dn{color:#8FB09E}.medcols .lb.fx{color:#E08A70}.medcols .lb.al{color:#B7C7E0}
+.medcols p:not(.lb){font:400 31px/1.3 var(--body);color:#fff;margin-top:6px}

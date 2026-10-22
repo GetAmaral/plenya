@@ -253,22 +253,27 @@ S.append(f'''<section class="slide photo ubscare">
     <p class="kicker">Depois da alta</p>
     <h1>Um paciente, dois endereços de cuidado.</h1>
     <svg viewBox="0 0 960 560" class="venn"><defs><clipPath id="vj"><circle cx="480" cy="280" r="96"/></clipPath></defs><circle cx="310" cy="280" r="270" fill="rgba(143,176,158,.25)" stroke="#8FB09E" stroke-width="3"/><circle cx="650" cy="280" r="270" fill="rgba(201,160,99,.25)" stroke="#C9A063" stroke-width="3"/><text x="185" y="228" text-anchor="middle" font-family="Jost, sans-serif" font-size="26" letter-spacing="3" fill="#B7D1C2">AMBULATÓRIO</text><text x="185" y="262" text-anchor="middle" font-family="Jost, sans-serif" font-size="26" letter-spacing="3" fill="#B7D1C2">DE TRANSPLANTE</text><text x="185" y="330" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="54" fill="#FFFFFF">o rim</text><text x="778" y="196" text-anchor="middle" font-family="Jost, sans-serif" font-size="26" letter-spacing="3" fill="#E2C48F">UBS</text><text x="778" y="256" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">a pressão,</text><text x="778" y="302" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">o açúcar,</text><text x="778" y="348" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">o resto</text><text x="778" y="394" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">da vida</text><image href="images/sr-j-rosto.jpg" x="384" y="184" width="192" height="192" clip-path="url(#vj)" preserveAspectRatio="xMidYMid slice"/><circle cx="480" cy="280" r="96" fill="none" stroke="#FFFFFF" stroke-width="4"/><text x="480" y="414" text-anchor="middle" font-family="Jost, sans-serif" font-size="30" fill="#FFFFFF">Sr. J.</text></svg>
-    <p class="sub" style="font-size:34px;margin-top:6px">O que liga os dois círculos: <b style="color:#E2C48F;font-weight:500">o telefone do ambulatório no prontuário da UBS.</b></p>
   </div>{pg()}
 </section>''')
-S.append(f'''<section class="slide dark dsplit">
-  <div class="ph"><img src="images/prescricao.jpg" alt=""></div>
+S.append(f'''<section class="slide dark meds">{bg("imunossupressores.jpg")}
   <div class="center">
-    <p class="statement" style="font-size:72px">Antes de prescrever: <em>isso mexe no tacrolimus?</em></p>
-    <div class="drows">
-      <div><b>Sobem o nível</b><span>diltiazem, verapamil, claritromicina, fluconazol</span></div>
-      <div><b>Derrubam o nível</b><span>rifampicina, fenitoína, carbamazepina</span></div>
-      <div><b>Agridem o rim</b><span>anti-inflamatórios</span></div>
+    <p class="statement" style="font-size:70px">Antes de prescrever: <em>isso mexe na tríplice?</em></p>
+    <div class="medcols">
+      <div><h4>Tacrolimus</h4>
+        <p class="lb up">sobe o nível</p><p>diltiazem, verapamil, claritromicina, fluconazol</p>
+        <p class="lb dn">derruba o nível</p><p>rifampicina, fenitoína, carbamazepina</p>
+        <p class="lb fx">vigiar</p><p>creatinina, tremor, pressão, glicemia</p></div>
+      <div><h4>Micofenolato</h4>
+        <p class="lb dn">derruba o nível</p><p>antiácido com magnésio ou alumínio, omeprazol e similares, sevelâmer, colestiramina, rifampicina</p>
+        <p class="lb fx">vigiar</p><p>diarreia, vômito, leucócitos, infecção</p>
+        <p class="lb al">e mais</p><p>reduz o efeito do anticoncepcional oral</p></div>
+      <div><h4>Prednisona</h4>
+        <p class="lb dn">derruba o efeito</p><p>fenitoína, fenobarbital, rifampicina</p>
+        <p class="lb fx">vigiar</p><p>glicemia, pressão, retenção de líquido, osso, humor, infecção</p></div>
     </div>
-    <p class="small" style="margin-top:56px">E o imunossupressor nunca é suspenso na UBS. Se faltar, é urgência.</p>
+    <p class="small" style="margin-top:34px">Anti-inflamatório agride o enxerto. Imunossupressor nunca é suspenso sem falar com o ambulatório; se faltar, é urgência.</p>
   </div>
-  <p class="quote" style="position:absolute;left:130px;bottom:96px">Conhecer os riscos nos torna detectores precoces de problemas.</p>
-  {src("KDIGO 2009 · bula do tacrolimo")}{pg()}
+  {src("Bulas FDA de tacrolimo (2023), micofenolato de mofetila (2019) e prednisona · KDIGO 2009")}{pg()}
 </section>''')
 light("Quando ligar para o ambulatório",
       '<div class="cols" style="margin-top:30px">' + ul(["Febre acima de 38 °C", "Diurese caindo", "Dor no enxerto"]) +
