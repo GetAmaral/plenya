@@ -248,3 +248,9 @@ body{font-family:var(--body);-webkit-font-smoothing:antialiased}
 .light.split .rows b{font-size:48px}
 .light.split .rows span{font-size:36px}
 .vs .r span{font-size:34px}
+.duo-num{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:50px;max-width:1500px}
+.duo-num>div{padding:0 60px 0 0}
+.duo-num>div+div{padding-left:70px;border-left:1px solid rgba(255,255,255,.2)}
+.duo-num .lbl{font:400 30px var(--display);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.duo-num .big{font-size:220px;margin-top:10px}
+.duo-num .cap{font:300 42px var(--display);color:#fff;margin-top:6px}
