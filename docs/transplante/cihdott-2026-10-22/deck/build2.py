@@ -178,13 +178,17 @@ light("Estar na fila é ter tarefa",
 # ------------------------------------------------------------------ 2 · O SIM
 chapter("captacao.jpg", "2", "O sim", "comissões · OPO · central · captação", pos="70% center")
 statement("O cuidado com o doador<br>é o <em>primeiro cuidado</em> com o receptor.", img="uti.jpg")
-number("1 em 2", "rins de doador falecido no Brasil demora a funcionar.",
-       small="O receptor ainda precisa de diálise na primeira semana. As causas, segundo os autores: encaminhamento tardio e manutenção inadequada do doador.",
-       s="Sandes-Freitas TV et al. Transpl Int 2021 · 3.992 transplantes, 18 centros")
-statement("Doador mantido nas metas:<br>esse risco cai <em>quase pela metade.</em>",
-          sub="Pressão, diurese e dose de vasopressor dentro das metas no momento do consentimento da família.",
-          s="Malinoski DJ et al. Am J Transplant 2013 · 722 rins, EUA: função tardia de 30% para 17% com as metas cumpridas",
-          img="captacao.jpg")
+S.append(f'''<section class="slide dark">{bg("captacao.jpg")}
+  <div class="center">
+    <p class="kicker">O que o sim carrega</p>
+    <p class="statement" style="font-size:76px">No Brasil, <em>1 em cada 2</em> rins de doador falecido demora a funcionar.</p>
+    <div class="icons"><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i></div>
+    <div class="icons-key"><span><i class="bad"></i>precisa de diálise na primeira semana</span><span><i class="ok"></i>funciona logo</span></div>
+    <p class="sub" style="font-size:44px;color:#fff;margin-top:54px">A manutenção do doador é a parte dessa conta que está <em style="color:#E2C48F;font-style:italic">nas mãos desta sala.</em></p>
+    <p class="small">Pressão, diurese e vasopressor dentro das metas no consentimento reduziram esse risco quase pela metade.</p>
+  </div>
+  {src("Sandes-Freitas, Transpl Int 2021 (Brasil, 18 centros) · Malinoski, Am J Transplant 2013 (EUA)")}{pg()}
+</section>''')
 photo("caixa.jpg", "Cada hora conta.", kicker="Isquemia fria",
       sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.<br>No doador vivo, as salas são vizinhas: cerca de uma hora.",
       q="Somos guardiões de milagres que acontecem todos os dias.", s="Sandes-Freitas TV et al. Transpl Int 2021", pos="60% center")
