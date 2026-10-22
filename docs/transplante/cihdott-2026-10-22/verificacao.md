@@ -261,3 +261,9 @@ com doador vivo e 5.844 com doador falecido em 2025.
   (prática do serviço; não há fonte publicada citada no slide). O Sr. J. fica com 22 horas, dentro da média.
 - No slide "Dois caminhos", 54% de função tardia é dado brasileiro e 3,6% é dado americano;
   a origem passou a aparecer no rótulo.
+
+- **Protocolo do doador vivo (slide 14):** contraindicações absolutas no serviço, por decisão do
+  Dr. Getúlio: hipertensão, diabetes, obesidade, dislipidemia, doença renal, tabagismo, câncer.
+  São mais restritivas que o KDIGO 2017 (que admite, por exemplo, hipertensão controlada em casos
+  selecionados); o slide diz "no nosso serviço". Prova cruzada negativa na doação intervivos:
+  Portaria 2.600/2009, art. 61 § 3º.

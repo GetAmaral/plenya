@@ -276,3 +276,14 @@ i.ok{border:4px solid var(--gold);background:transparent}
 .medcols .lb{font:500 22px var(--body);letter-spacing:.2em;text-transform:uppercase;margin-top:18px}
 .medcols .lb.up{color:#E2C48F}.medcols .lb.dn{color:#8FB09E}.medcols .lb.fx{color:#E08A70}.medcols .lb.al{color:#B7C7E0}
 .medcols p:not(.lb){font:400 31px/1.3 var(--body);color:#fff;margin-top:6px}
+.donor .center{top:0;bottom:0}
+.donorgrid{display:grid;grid-template-columns:1.15fr 1fr;gap:80px;margin-top:40px}
+.donorgrid h4{font:400 28px var(--display);letter-spacing:.22em;text-transform:uppercase;padding-bottom:16px;margin-bottom:8px}
+.donorgrid .yes h4{color:var(--gold);border-bottom:2px solid var(--gold)}
+.donorgrid .no h4{color:#E08A70;border-bottom:2px solid #E08A70}
+.req{display:grid;grid-template-columns:190px 1fr;gap:24px;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.req b{font:300 40px var(--display);color:#fff}
+.req span{font:400 30px/1.3 var(--body);color:rgba(255,255,255,.88)}
+.chipsx{display:flex;flex-wrap:wrap;gap:16px;margin-top:22px}
+.chipsx span{font:400 36px var(--display);color:#fff;padding:12px 26px;border-radius:40px;border:2px solid rgba(224,138,112,.75);background:rgba(200,100,75,.18)}
+.donorgrid .why{font:italic 300 36px/1.35 var(--serif);color:var(--gold-soft);margin-top:40px}

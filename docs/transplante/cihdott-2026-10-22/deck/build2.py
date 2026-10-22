@@ -163,6 +163,27 @@ S.append(f'''<section class="slide dark">
   </div>
   {src("RBT 2025, ABTO · Sandes-Freitas, Transpl Int 2021 · Redfield, Transpl Int 2016 · isquemia fria: prática do serviço")}{pg()}
 </section>''')
+S.append(f'''<section class="slide dark donor">{bg("irmaos.jpg")}
+  <div class="center">
+    <p class="kicker">O protocolo do doador vivo</p>
+    <p class="statement" style="font-size:84px">Paulo pode doar?</p>
+    <div class="donorgrid">
+      <div class="yes">
+        <h4>Precisa ter</h4>
+        <div class="req"><b>A lei</b><span>cônjuge, companheiro ou parente até o 4º grau; não aparentado, só com juiz e Comissão de Ética</span></div>
+        <div class="req"><b>O sangue</b><span>grupo ABO compatível com o de Ana</span></div>
+        <div class="req"><b>O HLA</b><span>tipagem e prova cruzada negativa</span></div>
+        <div class="req"><b>A vontade</b><span>livre, sem pressão; pode desistir até a cirurgia</span></div>
+      </div>
+      <div class="no">
+        <h4>Não pode ter, no nosso serviço</h4>
+        <div class="chipsx"><span>hipertensão</span><span>diabetes</span><span>obesidade</span><span>dislipidemia</span><span>doença renal</span><span>tabagismo</span><span>câncer</span></div>
+        <p class="why">Quem doa fica com um rim só pelo resto da vida.</p>
+      </div>
+    </div>
+  </div>
+  {src("Lei 9.434/1997 · Decreto 9.175/2017 · Portaria GM/MS 2.600/2009 · critérios de exclusão: protocolo do serviço")}{pg()}
+</section>''')
 photo("equipe.jpg", "Ninguém entra na fila sozinho.", kicker="Avaliação pré-transplante",
       sub="Nefrologia, cirurgia, urologia, cardiologia, odontologia, enfermagem, psicologia, serviço social, nutrição e farmácia.",
       q="Cada cuidado nosso é uma ponte para uma nova vida.", pos="70% center")
