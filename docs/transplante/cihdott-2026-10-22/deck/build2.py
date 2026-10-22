@@ -237,9 +237,41 @@ S.append(f'''<section class="slide anat">
   </div>
   {quote("Conhecer a cirurgia nos torna parceiros do cirurgião no cuidado.")}{pg()}
 </section>''')
-photo("uti2.jpg", "A enfermagem mede o rim de hora em hora.", kicker="UTI · dias 0 a 3",
-      extra='<div class="chips"><span>Sinais vitais 15/15 min</span><span>PAM 80 a 110 mmHg</span><span>Repor 70% acima de 100 ml/h</span></div>',
-      q="Na UTI, nossa vigilância é o escudo protetor do novo rim.", s="Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica", pos="60% center", night=True)
+S.append(f'''<section class="slide dark utiproto">
+  <div class="ph"><img src="images/uti2.jpg" alt=""></div>
+  <div class="center">
+    <p class="kicker">UTI · dias 0 a 3</p>
+    <p class="statement" style="font-size:72px">A enfermagem mede o rim <em>de hora em hora.</em></p>
+    <div class="proto4">
+      <div><h5>Antes de ele chegar</h5><p>Box privativo, pressão arterial invasiva, noradrenalina e nitroprussiato já montados na bomba</p></div>
+      <div><h5>Hora a hora</h5><p>Sinais vitais de 15 em 15 minutos nas 3 primeiras horas. Diurese horária e balanço rigoroso</p></div>
+      <div><h5>O enxerto</h5><p>Palpar com suavidade, procurar hematoma, não comprimir a fossa ilíaca, curativo asséptico</p></div>
+      <div><h5>Sonda e dreno</h5><p>Presilha sempre aberta. Débito do dreno anotado</p></div>
+    </div>
+    <p class="small" style="margin-top:28px">Todo dia: hemograma, ureia, creatinina, sódio, potássio, cálcio, fósforo, magnésio e gasometria.</p>
+  </div>
+  <p class="quote" style="position:absolute;left:130px;bottom:90px;z-index:3">Na UTI, nossa vigilância é o escudo protetor do novo rim.</p>
+  {src("Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica")}{pg()}
+</section>''')
+S.append(f'''<section class="slide dark pam">
+  <div class="center">
+    <p class="kicker">O protocolo da pressão</p>
+    <p class="statement" style="font-size:76px">PAM entre <em>80 e 110 mmHg.</em> Ajuste a cada 5 minutos.</p>
+    <div class="pamgrid">
+      <div class="scale">
+        <div class="head"><b>PAM</b><span class="nora">Noradrenalina</span><span class="nitro">Nitroprussiato</span></div>
+        <div class="band hi"><b>&gt; 110</b><span class="nora off">desligar</span><span class="nitro up">iniciar ou +1 ml/h</span></div><div class="band hi2"><b>100 a 110</b><span class="nora off">desligar</span><span class="nitro keep">manter</span></div><div class="band mid"><b>90 a 100</b><span class="nora dn">−1 ml/h</span><span class="nitro dn">−1 ml/h</span></div><div class="band lo2"><b>80 a 90</b><span class="nora keep">manter</span><span class="nitro off">desligar</span></div><div class="band lo"><b>&lt; 80</b><span class="nora up">iniciar ou +1 ml/h</span><span class="nitro off">desligar</span></div>
+      </div>
+      <div class="rep">
+        <h5>Reposição da diurese</h5>
+        <p class="rule">Urinou mais de 100 ml na hora: repor <b>70%</b> na hora seguinte.</p>
+        <div class="ex"><div><small>16h às 17h</small><span>urinou</span><b>400 ml</b></div><i>→</i><div><small>17h às 18h</small><span>repõe</span><b>280 ml</b></div></div>
+        <p class="note2">Soro fisiológico 0,9% 1.000 ml + KCl 5 ml em bomba. Abaixo de 100 ml/h, não repõe.</p>
+      </div>
+    </div>
+  </div>
+  {src("Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica: noradrenalina 4 amp + SG 5% 100 ml; nitroprussiato 1 amp + SG 5% 250 ml")}{pg()}
+</section>''')
 photo("coleta.jpg", "<span style='color:#E2C48F'>7h30</span> colhe.<br><span style='color:#E2C48F'>8h</span> dá a dose.", kicker="O nível do tacrolimus",
       sub="Colhido fora da janela, o número mente, e a dose sai errada.",
       q="Somos os guardiões da precisão que protege o novo rim.", pos="60% center")
@@ -319,7 +351,7 @@ S.append(f'''<section class="slide dark closing2">{bg("paciente-2025.jpg")}
   <div class="center">
     <p class="statement" style="font-style:italic">O conhecimento nos capacita, mas é o <em>amor pelo que fazemos</em> que transforma vidas.</p>
     <p class="sub" style="margin-top:60px">Converse com a sua família sobre doação de órgãos.</p>
-    <p class="small" style="margin-top:50px;max-width:none">Dr. Getúlio Amaral Filho · Santa Casa de Londrina</p>
+    <p class="small" style="margin-top:50px;max-width:none;line-height:1.6"><b style="color:#fff;font-weight:500">Dr. Getúlio Amaral Filho · Dr. Michel Moro<br>Dra. Taynara Fratoni · Dra. Karoline Araujo</b><br>Nefrologistas · Equipe Nefroclínica · Santa Casa de Londrina</p>
   </div>{pg()}
 </section>''')
 

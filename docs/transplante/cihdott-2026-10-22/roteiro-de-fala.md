@@ -1,4 +1,4 @@
-# Roteiro de fala — Transplante renal: a volta inteira (v2.5, 44 slides)
+# Roteiro de fala — Transplante renal: a volta inteira (v2.6, 45 slides)
 
 Um slide, uma ideia. O que não está na tela está aqui. Números e fontes em `verificacao.md`.
 Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os claros pedem 1 a 2 minutos.
@@ -9,7 +9,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 3. **Um telefone toca.** "Duas horas depois, em Londrina, um homem que faz hemodiálise há quatro anos atende o telefone."
 4. **Entre essas duas cenas.** "Entre a família e o telefone há dezenas de pessoas. A maior parte está aqui."
 5. **38.925.** Recorde de 6.697 transplantes em 2025 e ainda assim metade da necessidade. Frase do ano passado.
-6. **Equipe Nefroclínica.** Getúlio apresenta; Michel, Taynara e Karoline entram como suporte nos slides 26, 27 e 29. Frase do ano passado.
+6. **Equipe Nefroclínica.** Getúlio apresenta; Michel, Taynara e Karoline entram como suporte nos slides 26, 28 e 30. Frase do ano passado.
 7. **A volta inteira.** O mapa da aula: começa na UBS e termina na UBS. "Vamos dar a volta inteira."
 
 ## 1 · Antes do telefone · 9 min
@@ -36,25 +36,26 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 24. **Pré-operatório.** Jejum abreviado, tricotomia só se preciso e com aparelho, acesso central antes, sonda no centro cirúrgico. O medo.
 25. **Três a quatro horas.** A foto do centro cirúrgico: cirurgia, anestesia, enfermagem. Na sala ao lado, Paulo doa o rim esquerdo, por vídeo.
 26. **O rim é acrescentado.** **[Suporte: Dr. Michel]** o que o paciente traz do centro cirúrgico. Os nativos ficam: três rins. Artéria e veia na ilíaca externa, ureter na bexiga. Volta com dreno, sonda e acesso central. O enxerto é superficial e palpável.
-27. **UTI.** **[Suporte: Dra. Karoline]** a tabela de PAM do protocolo e a reposição da diurese. Sinais vitais 15/15 min nas 3 primeiras horas, depois horários. Diurese horária. PAM 80 a 110 mmHg pela tabela do protocolo. Acima de 100 ml/h, repor 70% na hora seguinte. Sonda sem presilha. Ana urina 100 a 200 ml por hora; o Sr. J. talvez não urine nada, e é esperado.
-28. **7h30 colhe. 8h dá a dose.** O erro de enfermagem que mais custa enxerto e é 100% evitável.
-29. **As regras do serviço.** **[Suporte: Dra. Taynara]** quando a indução entra e o que muda no plantão. Timoglobulina só com 5 ou mais incompatibilidades (pré-medicação, acesso central, infusão lenta, vigiar a primeira hora e plaquetas). Sulfametoxazol-trimetoprima 3 meses, sempre. CMV condicional: perguntar no plantão se houve indução e qual a sorologia.
-30. **Dia 2.** Deixar a pergunta da família no ar.
-31. **Não.** Função tardia: diálise na primeira semana. Esperada no doador falecido. +41% de risco de perda em 3 anos. A enfermagem muda isso.
-32. **Dia 7. Ele urina.** Dialisou no terceiro dia. Deixar a foto falar.
-33. **Esperado é estável. Súbito é urgência.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que fazer?"
-34. **Cinco guardiões em volta de um rim.** A roda com o Sr. J. no centro. Enfermagem, a vigilância: diurese hora a hora, nível na janela, alta ensinada. Farmácia clínica, a prescrição: reconciliação, interações, remédio de alto custo pedido antes da alta (leva até 60 dias). Nutrição, o prato: da dieta da diálise à do transplantado, diabetes pós-transplante em 10% a 30% no 1º ano, nada cru ou não pasteurizado, toranja não. Psicologia, a adesão: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social, o caminho: transporte, remédio, trabalho.
-35. **A alta é uma prova oral.** As perguntas que o paciente responde sem papel. Não-adesão é a causa evitável número um de perda tardia.
+27. **UTI: a enfermagem mede o rim de hora em hora.** Antes de ele chegar: box privativo (precaução-padrão, não isolamento protetor), pressão arterial invasiva, noradrenalina e nitroprussiato já montados. Sinais vitais 15/15 min nas 3 primeiras horas, depois horários; diurese horária e balanço. Enxerto: palpar com suavidade, procurar hematoma, não comprimir a fossa ilíaca, curativo asséptico. Sonda com presilha sempre aberta; débito do dreno anotado. Exames diários. Ana urina 100 a 200 ml por hora; o Sr. J. talvez não urine nada, e é esperado.
+28. **PAM entre 80 e 110 mmHg.** **[Suporte: Dra. Karoline]** a tabela do protocolo vigente, faixa por faixa: acima de 110 desliga a noradrenalina e inicia ou sobe o nitroprussiato; 100 a 110 mantém o nitro; 90 a 100 reduz os dois; 80 a 90 mantém a nora e desliga o nitro; abaixo de 80 inicia ou sobe a nora. Ajuste a cada 5 minutos no pós-operatório imediato. Reposição: acima de 100 ml na hora, repor 70% na hora seguinte (400 ml → 280 ml), SF 0,9% 1.000 ml + KCl 5 ml; abaixo de 100 ml/h, não repõe.
+29. **7h30 colhe. 8h dá a dose.** O erro de enfermagem que mais custa enxerto e é 100% evitável.
+30. **As regras do serviço.** **[Suporte: Dra. Taynara]** quando a indução entra e o que muda no plantão. Timoglobulina só com 5 ou mais incompatibilidades (pré-medicação, acesso central, infusão lenta, vigiar a primeira hora e plaquetas). Sulfametoxazol-trimetoprima 3 meses, sempre. CMV condicional: perguntar no plantão se houve indução e qual a sorologia.
+31. **Dia 2.** Deixar a pergunta da família no ar.
+32. **Não.** Função tardia: diálise na primeira semana. Esperada no doador falecido. +41% de risco de perda em 3 anos. A enfermagem muda isso.
+33. **Dia 7. Ele urina.** Dialisou no terceiro dia. Deixar a foto falar.
+34. **Esperado é estável. Súbito é urgência.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que fazer?"
+35. **Cinco guardiões em volta de um rim.** A roda com o Sr. J. no centro. Enfermagem, a vigilância: diurese hora a hora, nível na janela, alta ensinada. Farmácia clínica, a prescrição: reconciliação, interações, remédio de alto custo pedido antes da alta (leva até 60 dias). Nutrição, o prato: da dieta da diálise à do transplantado, diabetes pós-transplante em 10% a 30% no 1º ano, nada cru ou não pasteurizado, toranja não. Psicologia, a adesão: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social, o caminho: transporte, remédio, trabalho.
+36. **A alta é uma prova oral.** As perguntas que o paciente responde sem papel. Não-adesão é a causa evitável número um de perda tardia.
 
 ## 4 · De volta para casa · 7 min
-36. **Capítulo 4.**
-37. **Um paciente, dois endereços de cuidado.** Dois círculos, o Sr. J. no meio. Ambulatório de transplante: o rim (enxerto, imunossupressão, níveis, complicações, pele, gestação e o doador vivo, revisto todo ano). UBS: a pressão, o açúcar, o resto da vida; muitas dessas doenças crônicas nascem do próprio imunossupressor, e o alvo se combina com o ambulatório. Falar da ponte entre os dois: o telefone do ambulatório no prontuário da UBS.
-38. **Isso mexe na tríplice?** Tacrolimus: diltiazem, verapamil, claritromicina e fluconazol sobem o nível; rifampicina, fenitoína e carbamazepina derrubam; vigiar creatinina, tremor, pressão, glicemia. Micofenolato: antiácido com magnésio ou alumínio (dar 2 h depois), inibidor de bomba de prótons, sevelâmer (2 h depois), colestiramina e rifampicina derrubam o nível; vigiar diarreia, vômito, leucopenia, infecção; reduz o efeito do anticoncepcional oral (usar método de barreira junto). Prednisona: fenitoína, fenobarbital e rifampicina aceleram a eliminação; vigiar glicemia, pressão, retenção de líquido, osso, humor, infecção. Pergunta à plateia: "seis meses de transplante, sinusite, claritromicina. O que acontece?" Fontes: bulas FDA (tacrolimo 2023, micofenolato de mofetila 2019, prednisona DailyMed).
-39. **Quando ligar.** Diarreia persistente sobe o nível do tacrolimus e intoxica (Lemahieu 2005).
-40. **A conversa começa em casa.** 45% de recusa familiar em 2025. O agente comunitário é quem entra nas casas.
+37. **Capítulo 4.**
+38. **Um paciente, dois endereços de cuidado.** Dois círculos, o Sr. J. no meio. Ambulatório de transplante: o rim (enxerto, imunossupressão, níveis, complicações, pele, gestação e o doador vivo, revisto todo ano). UBS: a pressão, o açúcar, o resto da vida; muitas dessas doenças crônicas nascem do próprio imunossupressor, e o alvo se combina com o ambulatório. Falar da ponte entre os dois: o telefone do ambulatório no prontuário da UBS.
+39. **Isso mexe na tríplice?** Tacrolimus: diltiazem, verapamil, claritromicina e fluconazol sobem o nível; rifampicina, fenitoína e carbamazepina derrubam; vigiar creatinina, tremor, pressão, glicemia. Micofenolato: antiácido com magnésio ou alumínio (dar 2 h depois), inibidor de bomba de prótons, sevelâmer (2 h depois), colestiramina e rifampicina derrubam o nível; vigiar diarreia, vômito, leucopenia, infecção; reduz o efeito do anticoncepcional oral (usar método de barreira junto). Prednisona: fenitoína, fenobarbital e rifampicina aceleram a eliminação; vigiar glicemia, pressão, retenção de líquido, osso, humor, infecção. Pergunta à plateia: "seis meses de transplante, sinusite, claritromicina. O que acontece?" Fontes: bulas FDA (tacrolimo 2023, micofenolato de mofetila 2019, prednisona DailyMed).
+40. **Quando ligar.** Diarreia persistente sobe o nível do tacrolimus e intoxica (Lemahieu 2005).
+41. **A conversa começa em casa.** 45% de recusa familiar em 2025. O agente comunitário é quem entra nas casas.
 
 ## Epílogo · 3 min
-41. **Um ano depois. Sem diálise.** A família que disse sim nunca vai ver esta cena, e ele nunca vai saber o nome dela (Decreto 9.175/2017, art. 52). E Ana e Paulo almoçam juntos todo domingo.
-42. **Mais de vinte mãos.** Olhar para a plateia.
-43. **O conhecimento nos capacita…** Ao lado, a foto real da aula de 2025: mãe e filho com a camiseta "Doe órgãos". Ler a frase. "Converse com a sua família." Antes de apresentar: confirmar que o termo de autorização de uso de imagem dessa família está assinado e arquivado.
-44. **Referências.**
+42. **Um ano depois. Sem diálise.** A família que disse sim nunca vai ver esta cena, e ele nunca vai saber o nome dela (Decreto 9.175/2017, art. 52). E Ana e Paulo almoçam juntos todo domingo.
+43. **Mais de vinte mãos.** Olhar para a plateia.
+44. **O conhecimento nos capacita…** Ao lado, a foto real da aula de 2025: mãe e filho com a camiseta "Doe órgãos". Ler a frase. "Converse com a sua família." Antes de apresentar: confirmar que o termo de autorização de uso de imagem dessa família está assinado e arquivado.
+45. **Referências.**
