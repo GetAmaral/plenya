@@ -265,5 +265,5 @@ com doador vivo e 5.844 com doador falecido em 2025.
 - **Protocolo do doador vivo (slide 14):** contraindicações absolutas no serviço, por decisão do
   Dr. Getúlio: hipertensão, diabetes, obesidade, dislipidemia, doença renal, tabagismo, câncer.
   São mais restritivas que o KDIGO 2017 (que admite, por exemplo, hipertensão controlada em casos
-  selecionados); o slide diz "no nosso serviço". Prova cruzada negativa na doação intervivos:
+  selecionados); a pedido do Dr. Getúlio o slide não diz "no nosso serviço"; se alguém citar o KDIGO, a resposta é que este é o protocolo do serviço. Prova cruzada negativa na doação intervivos:
   Portaria 2.600/2009, art. 61 § 3º.

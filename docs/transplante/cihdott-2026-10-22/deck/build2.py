@@ -167,22 +167,26 @@ S.append(f'''<section class="slide dark donor">{bg("irmaos.jpg")}
   <div class="center">
     <p class="kicker">O protocolo do doador vivo</p>
     <p class="statement" style="font-size:84px">Paulo pode doar?</p>
-    <div class="donorgrid">
+    <div class="donorgrid3">
       <div class="yes">
         <h4>Precisa ter</h4>
         <div class="req"><b>A lei</b><span>cônjuge, companheiro ou parente até o 4º grau; não aparentado, só com juiz e Comissão de Ética</span></div>
-        <div class="req"><b>O sangue</b><span>grupo ABO compatível com o de Ana</span></div>
         <div class="req"><b>O HLA</b><span>tipagem e prova cruzada negativa</span></div>
         <div class="req"><b>A vontade</b><span>livre, sem pressão; pode desistir até a cirurgia</span></div>
       </div>
+      <div class="aboc">
+        <h4>O sangue</h4>
+        <svg viewBox="0 0 520 540" class="abo"><text x="90" y="30" text-anchor="middle" font-family="Jost, sans-serif" font-size="24" letter-spacing="4" fill="#E2C48F">DOADOR</text><text x="430" y="30" text-anchor="middle" font-family="Jost, sans-serif" font-size="24" letter-spacing="4" fill="#E2C48F">RECEPTOR</text><line x1="136" y1="90" x2="384" y2="90" stroke="#E2C48F" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="90" x2="384" y2="215" stroke="#E2C48F" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="90" x2="384" y2="340" stroke="#E2C48F" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="90" x2="384" y2="465" stroke="#E2C48F" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="215" x2="384" y2="215" stroke="#8FB09E" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="215" x2="384" y2="465" stroke="#8FB09E" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="340" x2="384" y2="340" stroke="#7FB3C4" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="340" x2="384" y2="465" stroke="#7FB3C4" stroke-width="5" stroke-opacity=".85"/><line x1="136" y1="465" x2="384" y2="465" stroke="#D49A7A" stroke-width="5" stroke-opacity=".85"/><circle cx="90" cy="90" r="44" fill="#0A2730" stroke="#E2C48F" stroke-width="4"/><text x="90" y="104" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#FFFFFF">O</text><circle cx="430" cy="90" r="44" fill="#0A2730" stroke="#E2C48F" stroke-width="4"/><text x="430" y="104" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#FFFFFF">O</text><circle cx="90" cy="215" r="44" fill="#0A2730" stroke="#8FB09E" stroke-width="4"/><text x="90" y="229" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#FFFFFF">A</text><circle cx="430" cy="215" r="44" fill="#0A2730" stroke="#8FB09E" stroke-width="4"/><text x="430" y="229" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#FFFFFF">A</text><circle cx="90" cy="340" r="44" fill="#0A2730" stroke="#7FB3C4" stroke-width="4"/><text x="90" y="354" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#FFFFFF">B</text><circle cx="430" cy="340" r="44" fill="#0A2730" stroke="#7FB3C4" stroke-width="4"/><text x="430" y="354" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#FFFFFF">B</text><circle cx="90" cy="465" r="44" fill="#0A2730" stroke="#D49A7A" stroke-width="4"/><text x="90" y="479" text-anchor="middle" font-family="Jost, sans-serif" font-size="34" font-weight="500" fill="#FFFFFF">AB</text><circle cx="430" cy="465" r="44" fill="#0A2730" stroke="#D49A7A" stroke-width="4"/><text x="430" y="479" text-anchor="middle" font-family="Jost, sans-serif" font-size="34" font-weight="500" fill="#FFFFFF">AB</text></svg>
+        <p class="abonote">O doa para todos. AB recebe de todos.</p>
+      </div>
       <div class="no">
-        <h4>Não pode ter, no nosso serviço</h4>
+        <h4>Não pode ter</h4>
         <div class="chipsx"><span>hipertensão</span><span>diabetes</span><span>obesidade</span><span>dislipidemia</span><span>doença renal</span><span>tabagismo</span><span>câncer</span></div>
         <p class="why">Quem doa fica com um rim só pelo resto da vida.</p>
       </div>
     </div>
   </div>
-  {src("Lei 9.434/1997 · Decreto 9.175/2017 · Portaria GM/MS 2.600/2009 · critérios de exclusão: protocolo do serviço")}{pg()}
+  {src("Lei 9.434/1997 · Decreto 9.175/2017 · Portaria GM/MS 2.600/2009")}{pg()}
 </section>''')
 photo("equipe.jpg", "Ninguém entra na fila sozinho.", kicker="Avaliação pré-transplante",
       sub="Nefrologia, cirurgia, urologia, cardiologia, odontologia, enfermagem, psicologia, serviço social, nutrição e farmácia.",
