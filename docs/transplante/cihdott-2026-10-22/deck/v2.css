@@ -298,3 +298,8 @@ i.ok{border:4px solid var(--gold);background:transparent}
 .donorgrid3 .chipsx span{font-size:32px;padding:10px 22px}
 .donorgrid3 .why{font:italic 300 32px/1.35 var(--serif);color:var(--gold-soft);margin-top:30px}
 .donor .statement{margin-top:-10px}
+.closing2 .ph{position:absolute;right:0;top:0;bottom:0;width:36%;z-index:2}
+.closing2 .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.closing2 .ph::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--night) 0%,rgba(10,39,48,0) 22%)}
+.closing2 .center{right:calc(36% + 60px)}
+.closing2 .statement{font-size:84px}

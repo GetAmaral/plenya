@@ -314,11 +314,12 @@ photo("um-ano-f.jpg", "Sem diálise.", kicker="Um ano depois",
       extra='<p class="sub" style="font-size:34px;color:#E2C48F;margin-top:26px">E Ana e Paulo almoçam juntos todo domingo.</p>',
       s="Decreto 9.175/2017, art. 52", pos="65% center")
 photo("maos.jpg", "O rim do Sr. J. passou por mais de vinte mãos.", sub="A maior parte delas está nesta sala.", soft=True)
-S.append(f'''<section class="slide dark">{bg("um-ano.jpg")}
-  <div class="center" style="align-items:center;text-align:center">
-    <p class="statement" style="font-style:italic;max-width:1400px">O conhecimento nos capacita, mas é o <em>amor pelo que fazemos</em> que transforma vidas.</p>
-    <p class="sub" style="margin-top:70px">Converse com a sua família sobre doação de órgãos.</p>
-    <p class="small" style="margin-top:60px;max-width:none">Dr. Getúlio Amaral Filho · Santa Casa de Londrina</p>
+S.append(f'''<section class="slide dark closing2">{bg("paciente-2025.jpg")}
+  <div class="ph"><img src="images/paciente-2025.jpg" alt=""></div>
+  <div class="center">
+    <p class="statement" style="font-style:italic">O conhecimento nos capacita, mas é o <em>amor pelo que fazemos</em> que transforma vidas.</p>
+    <p class="sub" style="margin-top:60px">Converse com a sua família sobre doação de órgãos.</p>
+    <p class="small" style="margin-top:50px;max-width:none">Dr. Getúlio Amaral Filho · Santa Casa de Londrina</p>
   </div>{pg()}
 </section>''')
 

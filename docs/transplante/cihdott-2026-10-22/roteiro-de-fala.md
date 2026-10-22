@@ -56,5 +56,5 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 ## Epílogo · 3 min
 41. **Um ano depois. Sem diálise.** A família que disse sim nunca vai ver esta cena, e ele nunca vai saber o nome dela (Decreto 9.175/2017, art. 52). E Ana e Paulo almoçam juntos todo domingo.
 42. **Mais de vinte mãos.** Olhar para a plateia.
-43. **O conhecimento nos capacita…** Ler a frase. "Converse com a sua família."
+43. **O conhecimento nos capacita…** Ao lado, a foto real da aula de 2025: mãe e filho com a camiseta "Doe órgãos". Ler a frase. "Converse com a sua família." Antes de apresentar: confirmar que o termo de autorização de uso de imagem dessa família está assinado e arquivado.
 44. **Referências.**
