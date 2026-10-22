@@ -164,7 +164,7 @@ S.append(f'''<section class="slide dark">
   {src("RBT 2025, ABTO · Sandes-Freitas, Transpl Int 2021 · Redfield, Transpl Int 2016 · isquemia fria: prática do serviço")}{pg()}
 </section>''')
 photo("equipe.jpg", "Ninguém entra na fila sozinho.", kicker="Avaliação pré-transplante",
-      sub="Nefrologia, cirurgia, cardiologia, odontologia, enfermagem, psicologia, serviço social, nutrição e farmácia.",
+      sub="Nefrologia, cirurgia, urologia, cardiologia, odontologia, enfermagem, psicologia, serviço social, nutrição e farmácia.",
       q="Cada cuidado nosso é uma ponte para uma nova vida.", pos="70% center")
 light("O que a UBS pode adiantar",
       ul(["Vacina de vírus vivo 4 semanas antes", "Dentes tratados", "Rastreios de câncer em dia"]) +
