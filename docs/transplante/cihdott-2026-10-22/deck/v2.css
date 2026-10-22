@@ -231,3 +231,19 @@ body{font-family:var(--body);-webkit-font-smoothing:antialiased}
 .light .quote.inline{position:static;margin-top:30px;max-width:none}
 .light .wrap:has(.board){top:90px;bottom:120px}
 .light .wrap:has(.board) h2{font-size:82px}
+/* escuro com foto lateral */
+.dark.dsplit .ph{position:absolute;right:0;top:0;bottom:0;width:36%;z-index:1}
+.dark.dsplit .ph img{width:100%;height:100%;object-fit:cover}
+.dark.dsplit .ph::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--night) 0%,rgba(10,39,48,0) 35%)}
+.dark.dsplit .center{right:calc(36% + 40px)}
+.dark.dsplit .cols p{font-size:40px}
+.dark.dsplit .quote,.dark.dsplit .src{max-width:1000px}
+.drows{margin-top:46px;border-top:1px solid rgba(201,160,99,.5)}
+.drows div{display:grid;grid-template-columns:330px 1fr;gap:34px;align-items:baseline;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.drows b{font:400 30px var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.drows span{font:400 40px/1.3 var(--body);color:#fff}
+.light.split .ph{width:36%}
+.light.split .wrap{right:calc(36% + 80px)}
+.light.split .rows div{grid-template-columns:330px 1fr;gap:30px;padding:20px 0}
+.light.split .rows b{font-size:48px}
+.light.split .rows span{font-size:36px}

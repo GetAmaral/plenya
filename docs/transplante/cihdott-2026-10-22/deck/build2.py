@@ -195,6 +195,8 @@ light("Pré-operatório",
           "Acesso central antes, sonda no centro cirúrgico", "Medo, não alegria: acolher"]),
       q="Cada detalhe no preparo é um tijolo na construção do sucesso.",
       s="Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica", img="preop.jpg", pos="48% center")
+photo("enxerto.jpg", "Três a quatro horas.", kicker="Intraoperatório",
+      sub="Cirurgia, anestesia e enfermagem do centro cirúrgico.<br>Na sala ao lado, Paulo doa o rim esquerdo, por vídeo.", pos="65% center")
 S.append(f'''<section class="slide anat">
   <img src="images/anatomia.jpg" alt="">
   <div class="txt">
@@ -205,18 +207,18 @@ S.append(f'''<section class="slide anat">
   </div>
   {quote("Conhecer a cirurgia nos torna parceiros do cirurgião no cuidado.")}{pg()}
 </section>''')
-photo("uti-f.jpg", "A enfermagem mede o rim de hora em hora.", kicker="UTI · dias 0 a 3",
+photo("uti2.jpg", "A enfermagem mede o rim de hora em hora.", kicker="UTI · dias 0 a 3",
       extra='<div class="chips"><span>Sinais vitais 15/15 min</span><span>Diurese horária</span><span>PAM 80 a 110 mmHg</span><span>Repor 70% acima de 100 ml/h</span></div>',
-      q="Na UTI, nossa vigilância é o escudo protetor do novo rim.", s="Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica", pos="65% center", night=True)
-number("7h30 · 8h", "Colher o tacrolimus. Depois, dar a dose.",
-       small="Colhido fora da janela, o número mente, e a dose sai errada.", img="uti.jpg",
-       q="Somos os guardiões da precisão que protege o novo rim.")
+      q="Na UTI, nossa vigilância é o escudo protetor do novo rim.", s="Cuidados PO Tx Renal v1.1, ISCAL / Nefroclínica", pos="60% center", night=True)
+photo("coleta.jpg", "<span style='color:#E2C48F'>7h30</span> colhe.<br><span style='color:#E2C48F'>8h</span> dá a dose.", kicker="O nível do tacrolimus",
+      sub="Colhido fora da janela, o número mente, e a dose sai errada.",
+      q="Somos os guardiões da precisão que protege o novo rim.", pos="60% center")
 light("As regras do nosso serviço",
       rows([("Indução", "timoglobulina, só com 5 ou mais incompatibilidades HLA"),
             ("Manutenção", "tacrolimus, micofenolato e prednisona"),
             ("Pneumocistose", "sulfametoxazol-trimetoprima por 3 meses, sempre"),
             ("Citomegalovírus", "profilaxia se houve indução, ou doador positivo e receptor negativo")]),
-      s="Serviço de Transplante Renal, Santa Casa de Londrina")
+      s="Serviço de Transplante Renal, Santa Casa de Londrina", img="imunossupressores.jpg", pos="60% center")
 photo("mao.jpg", "Dia 2.<br>O rim não urina.", kicker="A virada", sub="A família pergunta: rejeitou?", pos="60% center")
 statement("Não. O rim carrega as <em>últimas horas</em> de outra pessoa.",
           sub="Função tardia do enxerto: esperada no doador falecido, e ainda assim 41% mais risco de perder o rim em 3 anos. PAM no alvo, volemia e diurese anotada com honestidade mudam esse desfecho.",
@@ -226,15 +228,15 @@ photo("dia7.jpg", "Dia 7.<br>Ele urina.", kicker="A espera", sub="Dialisou no te
 statement("Esperado é estável.<br><em style='color:#E08A70'>Súbito é urgência.</em>",
        sub="Queda súbita da diurese em quem urinava bem é trombose até prova em contrário. Doppler agora.",
        q="Nossa observação atenta pode ser a diferença entre sucesso e complicação.")
-light("Cada profissão protege o rim de um jeito",
-      '<div class="board">'
-      '<div><b>Enfermagem</b><i>a vigilância</i><span>diurese hora a hora, nível colhido na janela, alta ensinada</span></div>'
-      '<div><b>Farmácia clínica</b><i>a prescrição</i><span>reconciliação, interações com o tacrolimus, remédio pedido antes da alta</span></div>'
-      '<div><b>Nutrição</b><i>o prato</i><span>sai a dieta da diálise; entram glicemia, peso e alimento seguro</span></div>'
-      '<div><b>Psicologia</b><i>a adesão</i><span>o medo, o rim de outra pessoa, a decisão livre do doador vivo</span></div>'
-      '<div><b>Serviço social</b><i>o caminho</i><span>transporte, acesso ao remédio, rede de apoio, volta ao trabalho</span></div>'
-      '</div><p class="quote inline">Técnica com humanização transforma procedimentos em cuidado integral.</p>',
-      s="PCDT Imunossupressão no Transplante Renal, 2021 · KDIGO 2009 · Avery, Clin Transplant 2019")
+S.append(f'''<section class="slide dark">{bg("dia7.jpg")}
+  <svg viewBox="0 0 1920 1080" style="position:absolute;inset:0;width:100%;height:100%;z-index:2"><path d="M1306.5,110.3 A430,430 0 0 1 1693.6,391.5 L1491.8,465.8 A215,215 0 0 0 1298.3,325.2 Z" fill="#C9A063"/><text x="1480" y="271" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#0A2730">Enfermagem</text><text x="1480" y="319" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="36" fill="#0A2730">a vigilância</text><path d="M1703.8,422.9 A430,430 0 0 1 1555.9,877.9 L1423.0,709.0 A215,215 0 0 0 1496.9,481.5 Z" fill="#8FB09E"/><text x="1597" y="610" text-anchor="middle" font-family="Jost, sans-serif" font-size="38" font-weight="500" fill="#0A2730">Farmácia</text><text x="1597" y="650" text-anchor="middle" font-family="Jost, sans-serif" font-size="38" font-weight="500" fill="#0A2730">clínica</text><text x="1597" y="696" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="36" fill="#0A2730">a prescrição</text><path d="M1529.2,897.3 A430,430 0 0 1 1050.8,897.3 L1170.4,718.7 A215,215 0 0 0 1409.6,718.7 Z" fill="#5E9AA8"/><text x="1290" y="854" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#0A2730">Nutrição</text><text x="1290" y="902" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="36" fill="#0A2730">o prato</text><path d="M1024.1,877.9 A430,430 0 0 1 876.2,422.9 L1083.1,481.5 A215,215 0 0 0 1157.0,709.0 Z" fill="#D49A7A"/><text x="983" y="632" text-anchor="middle" font-family="Jost, sans-serif" font-size="40" font-weight="500" fill="#0A2730">Psicologia</text><text x="983" y="680" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="36" fill="#0A2730">a adesão</text><path d="M886.4,391.5 A430,430 0 0 1 1273.5,110.3 L1281.7,325.2 A215,215 0 0 0 1088.2,465.8 Z" fill="#B7C7A0"/><text x="1100" y="249" text-anchor="middle" font-family="Jost, sans-serif" font-size="38" font-weight="500" fill="#0A2730">Serviço</text><text x="1100" y="289" text-anchor="middle" font-family="Jost, sans-serif" font-size="38" font-weight="500" fill="#0A2730">social</text><text x="1100" y="335" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="36" fill="#0A2730">o caminho</text><defs><clipPath id="cc"><circle cx="1290" cy="540" r="193"/></clipPath></defs><image href="images/sr-j-rosto.jpg" x="1097" y="347" width="386" height="386" clip-path="url(#cc)" preserveAspectRatio="xMidYMid slice"/><circle cx="1290" cy="540" r="193" fill="none" stroke="#C9A063" stroke-width="4"/></svg>
+  <div style="position:absolute;z-index:3;left:130px;top:0;bottom:0;width:640px;display:flex;flex-direction:column;justify-content:center">
+    <p class="kicker">A equipe multiprofissional</p>
+    <p class="statement" style="font-size:84px">Cinco guardiões em volta de um rim.</p>
+    <p class="sub" style="font-size:38px;margin-top:34px">E a enfermagem em todos os turnos.</p>
+    <p class="quote" style="margin-top:56px">Técnica com humanização transforma procedimentos em cuidado integral.</p>
+  </div>{pg()}
+</section>''')
 photo("alta-f.jpg", "A alta é uma prova oral.", kicker="Enfermaria e alta",
       sub="Ele sabe cada remédio e horário, o que fazer se vomitar a dose, por que nunca parar e quando ligar.",
       q="Educar é empoderar: um paciente bem orientado é nosso melhor aliado.", pos="60% center")
@@ -245,13 +247,14 @@ light("Quem cuida do quê",
       '<div class="cols"><div><h3>Ambulatório de transplante</h3><p>O enxerto, a imunossupressão, as complicações.</p><p>E o doador vivo, todo ano, para sempre.</p></div>'
       '<div><h3>UBS</h3><p>Hipertensão, diabetes, colesterol, muitas vezes causados pelo próprio remédio.</p><p>A porta de entrada para todo o resto.</p></div></div>',
       s="KDIGO, doador vivo, 2017 · KDIGO, receptor, 2009")
-S.append(f'''<section class="slide dark">
+S.append(f'''<section class="slide dark dsplit">
+  <div class="ph"><img src="images/prescricao.jpg" alt=""></div>
   <div class="center">
     <p class="statement" style="font-size:72px">Antes de prescrever: <em>isso mexe no tacrolimus?</em></p>
-    <div class="cols" style="grid-template-columns:1fr 1fr 1fr;gap:60px;margin-top:60px">
-      <div><h3>Sobem o nível</h3><p>Diltiazem, verapamil, claritromicina, fluconazol</p></div>
-      <div><h3>Derrubam o nível</h3><p>Rifampicina, fenitoína, carbamazepina</p></div>
-      <div><h3>Agridem o rim</h3><p>Anti-inflamatórios</p></div>
+    <div class="drows">
+      <div><b>Sobem o nível</b><span>diltiazem, verapamil, claritromicina, fluconazol</span></div>
+      <div><b>Derrubam o nível</b><span>rifampicina, fenitoína, carbamazepina</span></div>
+      <div><b>Agridem o rim</b><span>anti-inflamatórios</span></div>
     </div>
     <p class="small" style="margin-top:56px">E o imunossupressor nunca é suspenso na UBS. Se faltar, é urgência.</p>
   </div>
@@ -267,9 +270,10 @@ photo("acs-f.jpg", "A conversa sobre doação começa em casa.", kicker="Na comu
       s="Registro Brasileiro de Transplantes 2025, ABTO", pos="65% center")
 
 # ------------------------------------------------------------------ EPÍLOGO
-photo("um-ano-f.jpg", "Sem diálise.", kicker="Um ano depois", sub="E Ana e Paulo almoçam juntos no domingo.", pos="65% center")
-statement("Ele nunca vai saber o nome da família que disse sim.", sub="A lei guarda os dois lados.",
-          s="Decreto 9.175/2017, art. 52", img="cihdott.jpg")
+photo("um-ano-f.jpg", "Sem diálise.", kicker="Um ano depois",
+      sub="A família que disse sim nunca vai ver esta cena. Ele nunca vai saber o nome dela. A lei guarda os dois lados.",
+      extra='<p class="sub" style="font-size:34px;color:#E2C48F;margin-top:26px">E Ana e Paulo almoçam juntos todo domingo.</p>',
+      s="Decreto 9.175/2017, art. 52", pos="65% center")
 photo("maos.jpg", "O rim do Sr. J. passou por mais de vinte mãos.", sub="A maior parte delas está nesta sala.", soft=True)
 S.append(f'''<section class="slide dark">{bg("um-ano.jpg")}
   <div class="center" style="align-items:center;text-align:center">
