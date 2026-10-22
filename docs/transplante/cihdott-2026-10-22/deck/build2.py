@@ -137,10 +137,10 @@ chapter("ubs-rua.jpg", "1", "Antes do telefone", "a rede básica · a nefrologia
 photo("ubs-f.jpg", "A história de um transplante começa na UBS.", kicker="Catorze anos antes",
       sub="Sr. J., 38 anos. Diabetes descoberto numa consulta de rotina.", pos="65% center")
 light("Três marcos quando o rim começa a falhar",
-      '<div class="marks"><div><b>&lt; 30</b><span>TFG: encaminhar ao nefrologista</span></div>'
+      '<div class="marks"><div><b>&lt; 60</b><span>TFG: encaminhar ao nefrologista</span></div>'
       '<div><b>&lt; 20</b><span>TFG: conversar sobre transplante</span></div>'
       '<div><b>90 dias</b><span>do início da diálise: oferecer a inscrição na lista</span></div></div>',
-      s="TFG: taxa de filtração glomerular, mL/min/1,73 m². MS 2014 e 2015 · KDIGO 2020 · Portaria GM/MS 8.041/2025")
+      s="TFG: taxa de filtração glomerular, mL/min/1,73 m². Prática do serviço · KDIGO 2020 · Portaria GM/MS 8.041/2025 · MS 2014")
 photo("dialise.jpg", "Ele chegou tarde.", kicker="O que aconteceu",
       sub="TFG 12. Diálise de urgência, por cateter.<br>Quatro anos de máquina, três vezes por semana.", pos="65% center")
 photo("irmaos-f.jpg", "Ana tem 34 anos.<br>O doador é o irmão.", kicker="Ao mesmo tempo, outra história",
@@ -150,18 +150,18 @@ S.append(f'''<section class="slide dark">
     <p class="statement" style="font-size:80px">Dois caminhos.</p>
     <div class="vs">
       <div><p class="who">Doador falecido · Sr. J.</p>
-        <div class="r"><span>dos transplantes</span><b>87%</b></div>
-        <div class="r"><span>isquemia fria</span><b>horas</b></div>
-        <div class="r"><span>função tardia do enxerto</span><b>54%</b></div>
-        <div class="r"><span>enxerto em 5 anos</span><b>70%</b></div></div>
+        <div class="r"><span>transplantes renais no Brasil, 2025</span><b>87%</b></div>
+        <div class="r"><span>isquemia fria</span><b>20 a 24 h</b></div>
+        <div class="r"><span>função tardia do enxerto (Brasil)</span><b>54%</b></div>
+        <div class="r"><span>rim funcionando em 5 anos</span><b>70%</b></div></div>
       <div class="alt"><p class="who">Doador vivo · Ana e Paulo</p>
-        <div class="r"><span>dos transplantes</span><b>13%</b></div>
-        <div class="r"><span>isquemia fria</span><b>minutos</b></div>
-        <div class="r"><span>função tardia do enxerto</span><b>3,6%</b></div>
-        <div class="r"><span>enxerto em 5 anos</span><b>85%</b></div></div>
+        <div class="r"><span>transplantes renais no Brasil, 2025</span><b>13%</b></div>
+        <div class="r"><span>isquemia fria</span><b>~1 h</b></div>
+        <div class="r"><span>função tardia do enxerto (EUA)</span><b>3,6%</b></div>
+        <div class="r"><span>rim funcionando em 5 anos</span><b>85%</b></div></div>
     </div>
   </div>
-  {src("RBT 2025, ABTO · Sandes-Freitas, Transpl Int 2021 · Redfield, Transpl Int 2016")}{pg()}
+  {src("RBT 2025, ABTO · Sandes-Freitas, Transpl Int 2021 · Redfield, Transpl Int 2016 · isquemia fria: prática do serviço")}{pg()}
 </section>''')
 photo("equipe.jpg", "Ninguém entra na fila sozinho.", kicker="Avaliação pré-transplante",
       sub="Nefrologia, cirurgia, cardiologia, odontologia, enfermagem, psicologia, serviço social, nutrição e farmácia.",
@@ -184,7 +184,7 @@ number("54%", "dos rins de doador falecido no Brasil demoram a funcionar.",
 number("30% → 17%", "de função tardia quando as metas de manutenção do doador são cumpridas.",
        s="Malinoski DJ et al. Am J Transplant 2013")
 photo("caixa.jpg", "Cada hora conta.", kicker="Isquemia fria",
-      sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.<br>No doador vivo, as salas são vizinhas: minutos.",
+      sub="Cada hora a mais aumenta em cerca de 4% a chance de o rim demorar a funcionar.<br>No doador vivo, as salas são vizinhas: cerca de uma hora.",
       q="Somos guardiões de milagres que acontecem todos os dias.", s="Sandes-Freitas TV et al. Transpl Int 2021", pos="60% center")
 number("18 horas", "de isquemia fria até o rim do Sr. J. voltar a receber sangue.", img="caixa.jpg")
 

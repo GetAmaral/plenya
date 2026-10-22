@@ -247,3 +247,4 @@ body{font-family:var(--body);-webkit-font-smoothing:antialiased}
 .light.split .rows div{grid-template-columns:330px 1fr;gap:30px;padding:20px 0}
 .light.split .rows b{font-size:48px}
 .light.split .rows span{font-size:36px}
+.vs .r span{font-size:34px}

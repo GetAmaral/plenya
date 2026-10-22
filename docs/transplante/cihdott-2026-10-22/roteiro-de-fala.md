@@ -15,7 +15,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 ## 1 · Antes do telefone · 9 min
 8. **Capítulo 1.**
 9. **A UBS.** O Sr. J. tinha 38 anos e diabetes. O primeiro profissional do transplante dele foi o médico de família e o agente comunitário.
-10. **Quando o rim começa a falhar.** TFG < 30 encaminha ao nefrologista (MS 2014/2015). TFG < 20 é hora de falar de transplante (KDIGO: avaliar 6 a 12 meses antes da diálise; Portaria 8.041 § 1º). Em diálise, oferecer a inscrição em até 90 dias (MS 2014).
+10. **Três marcos.** TFG < 60 encaminha ao nefrologista (prática do serviço; o protocolo do MS/TelessaúdeRS usa < 30). TFG < 20 é hora de falar de transplante (KDIGO: avaliar 6 a 12 meses antes da diálise; Portaria 8.041 § 1º). Em diálise, oferecer a inscrição em até 90 dias (MS 2014).
 11. **Ele chegou tarde.** TFG 12, cateter de urgência. Não é exceção, é a regra no Brasil.
 12. **Ana e o irmão.** O contraponto que vai nos acompanhar. Encaminhada cedo, fístula programada, Paulo já em avaliação.
 13. **Dois caminhos.** Ler só a coluna do meio e a da direita, devagar: 54% contra 3,6%. 70% contra 85% em 5 anos. Quem pode doar em vida: cônjuge, companheiro, parente até 4º grau; não aparentado com autorização judicial e Comissão de Ética; o doador pode desistir até a cirurgia.
@@ -28,7 +28,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 18. **O cuidado com o doador é o primeiro cuidado com o receptor.** Deixar a frase na tela.
 19. **54%.** Estudo brasileiro, 18 centros, 3.992 transplantes: variação de 30% a 88% entre centros. Os autores dizem: encaminhamento tardio e manutenção inadequada do doador.
 20. **30% → 17%.** Metas de manutenção cumpridas no consentimento (Malinoski 2013). Pergunta à plateia: "o doador passou a noite com noradrenalina alta e a captação atrasou seis horas. O que muda para quem recebe?"
-21. **Cada hora conta.** +4% de chance de função tardia por hora. Máquina de perfusão reduz. No doador vivo, minutos.
+21. **Cada hora conta.** +4% de chance de função tardia por hora. Máquina de perfusão reduz. No doador vivo, cerca de uma hora.
 22. **18 horas.** Pausa.
 
 ## 3 · Dentro do hospital · 14 min
