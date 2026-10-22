@@ -76,7 +76,7 @@ No sétimo dia ele urina.
 
 - **OPO e CIHDOTT** (slide 9): "O doador passou a noite com noradrenalina em dose alta e a
   captação atrasou seis horas. O que isso muda para quem vai receber esse rim?"
-- **Hospital** (slide 15): "Dia 2, Sr. J. anúrico, PAM 95, estável. O que vocês fazem?"
+- **Hospital** (slide 15): "Dia 2, Sr. J. anúrico, PAM 95, estável. O que fazer?"
 - **Rede básica** (slide 19): "Sr. J., seis meses de transplante, chega à UBS com sinusite e
   recebe claritromicina. O que acontece com o tacrolimus?"
 

@@ -5,7 +5,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 
 ## Prólogo · 5 min
 1. **Capa.** Agradecer à OPO e às comissões. "Vou contar a história de um rim."
-2. **Uma família diz sim.** Silêncio de três segundos. "Vocês conhecem essa sala melhor do que eu."
+2. **Uma família diz sim.** Silêncio de três segundos. "Quem trabalha em comissão conhece essa sala melhor do que eu."
 3. **Um telefone toca.** "Duas horas depois, em Londrina, um homem que faz hemodiálise há quatro anos atende o telefone."
 4. **Entre essas duas cenas.** "Entre a família e o telefone há dezenas de pessoas. A maior parte está aqui."
 5. **38.925.** Recorde de 6.697 transplantes em 2025 e ainda assim metade da necessidade. Frase do ano passado.
@@ -41,13 +41,13 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 29. **Dia 2.** Deixar a pergunta da família no ar.
 30. **Não.** Função tardia: diálise na primeira semana. Esperada no doador falecido. +41% de risco de perda em 3 anos. A enfermagem muda isso.
 31. **Dia 7. Ele urina.** Dialisou no terceiro dia. Deixar a foto falar.
-32. **Esperado é estável. Súbito é urgência.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que vocês fazem?"
+32. **Esperado é estável. Súbito é urgência.** Queda súbita em quem urinava: trombose até prova em contrário. Doppler agora. Pergunta à plateia: "Dia 2, anúrico, PAM 95, estável. O que fazer?"
 33. **Cinco guardiões em volta de um rim.** A roda com o Sr. J. no centro. Enfermagem, a vigilância: diurese hora a hora, nível na janela, alta ensinada. Farmácia clínica, a prescrição: reconciliação, interações, remédio de alto custo pedido antes da alta (leva até 60 dias). Nutrição, o prato: da dieta da diálise à do transplantado, diabetes pós-transplante em 10% a 30% no 1º ano, nada cru ou não pasteurizado, toranja não. Psicologia, a adesão: medo, frustração, gratidão e culpa; Paulo e a relação entre os irmãos. Serviço social, o caminho: transporte, remédio, trabalho.
 34. **A alta é uma prova oral.** As perguntas que o paciente responde sem papel. Não-adesão é a causa evitável número um de perda tardia.
 
 ## 4 · De volta para casa · 7 min
 35. **Capítulo 4.**
-36. **Ele continua sendo paciente de vocês.** Dois círculos, o Sr. J. no meio. Ambulatório de transplante: o rim (enxerto, imunossupressão, níveis, complicações, pele, gestação e o doador vivo, revisto todo ano). UBS: a pressão, o açúcar, o resto da vida; muitas dessas doenças crônicas nascem do próprio imunossupressor (tacrolimus e corticoide), e o alvo se combina com o ambulatório. O que falha é a ponte: o telefone do ambulatório tem de estar no prontuário da UBS.
+36. **Um paciente, dois endereços de cuidado.** Dois círculos, o Sr. J. no meio. Ambulatório de transplante: o rim (enxerto, imunossupressão, níveis, complicações, pele, gestação e o doador vivo, revisto todo ano). UBS: a pressão, o açúcar, o resto da vida; muitas dessas doenças crônicas nascem do próprio imunossupressor (tacrolimus e corticoide), e o alvo se combina com o ambulatório. O que falha é a ponte: o telefone do ambulatório tem de estar no prontuário da UBS.
 37. **Isso mexe no tacrolimus?** Pergunta à plateia: "seis meses de transplante, sinusite, claritromicina. O que acontece?" Vacina viva nunca depois do transplante.
 38. **Quando ligar.** Diarreia persistente sobe o nível do tacrolimus e intoxica (Lemahieu 2005).
 39. **A conversa começa em casa.** 45% de recusa familiar em 2025. O agente comunitário é quem entra nas casas.
