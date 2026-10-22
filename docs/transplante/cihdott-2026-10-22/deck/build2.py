@@ -247,10 +247,15 @@ photo("alta-f.jpg", "A alta é uma prova oral.", kicker="Enfermaria e alta",
 
 # ------------------------------------------------------------------ 4 · DE VOLTA PARA CASA
 chapter("chegada.jpg", "4", "De volta para casa", "ambulatório · UBS · comunidade", pos="70% center")
-light("Quem cuida do quê",
-      '<div class="cols"><div><h3>Ambulatório de transplante</h3><p>O enxerto, a imunossupressão, as complicações.</p><p>E o doador vivo, todo ano, para sempre.</p></div>'
-      '<div><h3>UBS</h3><p>Hipertensão, diabetes, colesterol, muitas vezes causados pelo próprio remédio.</p><p>A porta de entrada para todo o resto.</p></div></div>',
-      s="KDIGO, doador vivo, 2017 · KDIGO, receptor, 2009")
+S.append(f'''<section class="slide photo ubscare">
+  <img class="bg" src="images/ubs-volta.jpg" style="object-position:100% center" alt="">
+  <div class="txt">
+    <p class="kicker">De volta à UBS</p>
+    <h1>Ele continua sendo paciente de vocês.</h1>
+    <svg viewBox="0 0 960 560" class="venn"><defs><clipPath id="vj"><circle cx="480" cy="280" r="96"/></clipPath></defs><circle cx="310" cy="280" r="270" fill="rgba(143,176,158,.25)" stroke="#8FB09E" stroke-width="3"/><circle cx="650" cy="280" r="270" fill="rgba(201,160,99,.25)" stroke="#C9A063" stroke-width="3"/><text x="185" y="228" text-anchor="middle" font-family="Jost, sans-serif" font-size="26" letter-spacing="3" fill="#B7D1C2">AMBULATÓRIO</text><text x="185" y="262" text-anchor="middle" font-family="Jost, sans-serif" font-size="26" letter-spacing="3" fill="#B7D1C2">DE TRANSPLANTE</text><text x="185" y="330" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="54" fill="#FFFFFF">o rim</text><text x="778" y="196" text-anchor="middle" font-family="Jost, sans-serif" font-size="26" letter-spacing="3" fill="#E2C48F">UBS</text><text x="778" y="256" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">a pressão,</text><text x="778" y="302" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">o açúcar,</text><text x="778" y="348" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">o resto</text><text x="778" y="394" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="38" fill="#FFFFFF">da vida</text><image href="images/sr-j-rosto.jpg" x="384" y="184" width="192" height="192" clip-path="url(#vj)" preserveAspectRatio="xMidYMid slice"/><circle cx="480" cy="280" r="96" fill="none" stroke="#FFFFFF" stroke-width="4"/><text x="480" y="414" text-anchor="middle" font-family="Jost, sans-serif" font-size="30" fill="#FFFFFF">Sr. J.</text></svg>
+    <p class="sub" style="font-size:34px;margin-top:6px">O que liga os dois círculos: <b style="color:#E2C48F;font-weight:500">o telefone do ambulatório no prontuário da UBS.</b></p>
+  </div>{pg()}
+</section>''')
 S.append(f'''<section class="slide dark dsplit">
   <div class="ph"><img src="images/prescricao.jpg" alt=""></div>
   <div class="center">

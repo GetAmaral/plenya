@@ -262,3 +262,10 @@ i.ok{border:4px solid var(--gold);background:transparent}
 .icons-key span{display:flex;align-items:center;gap:16px}
 .icons-key i{display:inline-block;width:28px;height:28px;border-radius:50%}
 .anat .quote{position:absolute;z-index:4;left:var(--px);bottom:96px;max-width:760px}
+.ubscare .txt{width:900px;justify-content:center}
+.ubscare h1{font-size:76px}
+.ubscare .venn{display:block;width:860px;height:auto;margin-top:16px}
+.ubscare::after{background:linear-gradient(90deg,rgba(6,22,28,.94) 0%,rgba(6,22,28,.86) 42%,rgba(6,22,28,.3) 62%,rgba(6,22,28,0) 78%)}
+.ubscare .txt{width:960px}
+.ubscare .venn{width:940px}
+.ubscare::after{background:linear-gradient(90deg,rgba(6,22,28,.92) 0%,rgba(6,22,28,.85) 45%,rgba(6,22,28,.25) 60%,rgba(6,22,28,0) 70%)}

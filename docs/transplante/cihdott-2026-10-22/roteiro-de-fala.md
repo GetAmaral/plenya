@@ -47,7 +47,7 @@ Tempo-alvo: 45 min. Os slides escuros e de foto passam em 15 a 40 segundos; os c
 
 ## 4 · De volta para casa · 7 min
 35. **Capítulo 4.**
-36. **Quem cuida do quê.** Ambulatório: enxerto, imunossupressão, complicações, pele, gestação e o doador vivo (pressão, creatinina e albuminúria pelo menos uma vez por ano, para sempre; KDIGO 2017). UBS: as crônicas, muitas nascidas do próprio remédio; a porta de entrada.
+36. **Ele continua sendo paciente de vocês.** Dois círculos, o Sr. J. no meio. Ambulatório de transplante: o rim (enxerto, imunossupressão, níveis, complicações, pele, gestação e o doador vivo, revisto todo ano). UBS: a pressão, o açúcar, o resto da vida; muitas dessas doenças crônicas nascem do próprio imunossupressor (tacrolimus e corticoide), e o alvo se combina com o ambulatório. O que falha é a ponte: o telefone do ambulatório tem de estar no prontuário da UBS.
 37. **Isso mexe no tacrolimus?** Pergunta à plateia: "seis meses de transplante, sinusite, claritromicina. O que acontece?" Vacina viva nunca depois do transplante.
 38. **Quando ligar.** Diarreia persistente sobe o nível do tacrolimus e intoxica (Lemahieu 2005).
 39. **A conversa começa em casa.** 45% de recusa familiar em 2025. O agente comunitário é quem entra nas casas.
