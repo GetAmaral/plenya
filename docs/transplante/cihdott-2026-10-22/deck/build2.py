@@ -184,7 +184,7 @@ S.append(f'''<section class="slide dark">{bg("captacao.jpg")}
     <p class="statement" style="font-size:76px">No Brasil, <em>1 em cada 2</em> rins de doador falecido demora a funcionar.</p>
     <div class="icons"><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="bad"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i><i class="ok"></i></div>
     <div class="icons-key"><span><i class="bad"></i>precisa de diálise na primeira semana</span><span><i class="ok"></i>funciona logo</span></div>
-    <p class="sub" style="font-size:44px;color:#fff;margin-top:54px">A manutenção do doador é a parte dessa conta que está <em style="color:#E2C48F;font-style:italic">nas mãos desta sala.</em></p>
+    <p class="sub" style="font-size:44px;color:#fff;margin-top:54px">A manutenção do <b style="color:#E2C48F;font-weight:500;letter-spacing:.06em">DOADOR</b> é a parte dessa conta que está <em style="color:#E2C48F;font-style:italic">nas mãos desta sala.</em></p>
     <p class="small">Pressão, diurese e vasopressor dentro das metas no consentimento reduziram esse risco quase pela metade.</p>
   </div>
   {src("Sandes-Freitas, Transpl Int 2021 (Brasil, 18 centros) · Malinoski, Am J Transplant 2013 (EUA)")}{pg()}
