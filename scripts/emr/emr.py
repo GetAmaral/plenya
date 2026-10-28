@@ -45,7 +45,7 @@ UPDATE/DELETE/TRUNCATE de `audit_logs` justamente para que essa linha não possa
     emr.py nota     --paciente <uuid> --historia historia.md [--conduta conduta.md]
     emr.py vitais   --paciente <uuid> --pa 128/82 --peso 71,4 --altura 1,62
     emr.py exame    --paciente <uuid> --lote lote.json
-    emr.py pedido   --paciente <uuid> --exames pedido.txt [--notas "indicação"] [--data 2026-10-28]
+    emr.py pedido   --paciente <uuid> --exames pedido.txt [--notas "indicação"] [--data 2026-10-28] [--pedido <id>]
     emr.py glosa   --codigo PLN3FC5EDA6 --texto "média do açúcar em 3 meses"
 
 O helper HTTP está duplicado do `scripts/plano/plano.py` de propósito: os dois precisam rodar como
@@ -284,17 +284,32 @@ def pedido(a):
     exames = open(a.exames, encoding="utf-8").read().strip()
     if not exames:
         sys.exit(f"{a.exames} está vazio")
-    # `LabRequestService.CreateLabRequest` recusa sem paciente selecionado e recusa patientId
-    # diferente do selecionado.
-    antes = seleciona(a.paciente)
-    corpo = {"date": a.data or datetime.now().strftime("%Y-%m-%d"), "exams": exames}
+    n = sum(1 for ln in exames.splitlines() if ln.strip() and not ln.strip().startswith("#"))
+    corpo = {"exams": exames}
     if a.notas:
         corpo["notes"] = a.notas
+    if a.data:
+        corpo["date"] = a.data
+
+    if a.pedido:
+        # Troca o texto de um pedido existente. O PUT não olha o paciente selecionado, então o dono
+        # é conferido ANTES de escrever; e o servidor recusa (403) se o PDF já foi gerado.
+        atual = chama("GET", f"/api/v1/lab-requests/{a.pedido}")
+        if atual.get("patientId") != a.paciente:
+            sys.exit(f'ABORTA: o pedido {a.pedido} é do paciente {atual.get("patientId")}, não de {a.paciente}')
+        chama("PUT", f"/api/v1/lab-requests/{a.pedido}", corpo)
+        print(f"pedido atualizado: {a.pedido} · {n} exames")
+        print("o PDF não é gerado aqui: gerar e assinar é na tela do médico")
+        return
+
+    # `LabRequestService.CreateLabRequest` recusa sem paciente selecionado e recusa patientId
+    # diferente do selecionado.
+    corpo.setdefault("date", datetime.now().strftime("%Y-%m-%d"))
+    antes = seleciona(a.paciente)
     r = chama("POST", "/api/v1/lab-requests", corpo)
     restaura(antes)
     if r.get("patientId") and r["patientId"] != a.paciente:
         sys.exit(f'ABORTA: o pedido {r.get("id")} caiu no paciente {r["patientId"]}, não em {a.paciente}')
-    n = sum(1 for ln in exames.splitlines() if ln.strip() and not ln.strip().startswith("#"))
     print(f'pedido criado: {r.get("id")} · {n} exames em {corpo["date"]}')
     print("o PDF não é gerado aqui: gerar e assinar é na tela do médico")
 
@@ -362,6 +377,7 @@ def main():
     s.add_argument("--exames", required=True, help='arquivo: um exame por linha; "#" = justificativa do de cima')
     s.add_argument("--notas", help='indicação clínica; SAI IMPRESSA no PDF ("Indicação clínica")')
     s.add_argument("--data", help="AAAA-MM-DD; default hoje")
+    s.add_argument("--pedido", help="id de um pedido existente: troca o texto em vez de criar outro")
     s.set_defaults(fn=pedido)
 
     s = sub.add_parser("glosa", help="cura a glosa do exame no catálogo")
