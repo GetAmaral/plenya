@@ -45,7 +45,8 @@ UPDATE/DELETE/TRUNCATE de `audit_logs` justamente para que essa linha não possa
     emr.py nota     --paciente <uuid> --historia historia.md [--conduta conduta.md]
     emr.py vitais   --paciente <uuid> --pa 128/82 --peso 71,4 --altura 1,62
     emr.py exame    --paciente <uuid> --lote lote.json
-    emr.py glosa    --codigo PLN3FC5EDA6 --texto "média do açúcar em 3 meses"
+    emr.py pedido   --paciente <uuid> --exames pedido.txt [--notas "indicação"] [--data 2026-10-28]
+    emr.py glosa   --codigo PLN3FC5EDA6 --texto "média do açúcar em 3 meses"
 
 O helper HTTP está duplicado do `scripts/plano/plano.py` de propósito: os dois precisam rodar como
 arquivo único copiado para dentro do container, e um import quebraria isso.
@@ -274,6 +275,30 @@ def exame(a):
     print("rode `recalc-scores` se quiser o escore refeito antes de remontar o plano")
 
 
+def pedido(a):
+    """Pedido de exames, no formato da caixa de texto da tela: um exame por linha, linha iniciada
+    por "#" é a justificativa do exame de cima (sai impressa), linha em branco abre outra página.
+
+    `notes` SAI IMPRESSO no PDF, como "Indicação clínica": escrever para o laboratório ler.
+    """
+    exames = open(a.exames, encoding="utf-8").read().strip()
+    if not exames:
+        sys.exit(f"{a.exames} está vazio")
+    # `LabRequestService.CreateLabRequest` recusa sem paciente selecionado e recusa patientId
+    # diferente do selecionado.
+    antes = seleciona(a.paciente)
+    corpo = {"date": a.data or datetime.now().strftime("%Y-%m-%d"), "exams": exames}
+    if a.notas:
+        corpo["notes"] = a.notas
+    r = chama("POST", "/api/v1/lab-requests", corpo)
+    restaura(antes)
+    if r.get("patientId") and r["patientId"] != a.paciente:
+        sys.exit(f'ABORTA: o pedido {r.get("id")} caiu no paciente {r["patientId"]}, não em {a.paciente}')
+    n = sum(1 for ln in exames.splitlines() if ln.strip() and not ln.strip().startswith("#"))
+    print(f'pedido criado: {r.get("id")} · {n} exames em {corpo["date"]}')
+    print("o PDF não é gerado aqui: gerar e assinar é na tela do médico")
+
+
 def glosa(a):
     """Cura a glosa do exame: o que ele MEDE, em até cinco palavras, para o paciente ler na régua.
 
@@ -331,6 +356,13 @@ def main():
     s.add_argument("--paciente", required=True)
     s.add_argument("--lote", required=True, help='JSON: {"laboratorio","coleta","resultados":[{"codigo","valor","unidade"}]}')
     s.set_defaults(fn=exame)
+
+    s = sub.add_parser("pedido", help="cria um pedido de exames (texto livre, um por linha)")
+    s.add_argument("--paciente", required=True)
+    s.add_argument("--exames", required=True, help='arquivo: um exame por linha; "#" = justificativa do de cima')
+    s.add_argument("--notas", help='indicação clínica; SAI IMPRESSA no PDF ("Indicação clínica")')
+    s.add_argument("--data", help="AAAA-MM-DD; default hoje")
+    s.set_defaults(fn=pedido)
 
     s = sub.add_parser("glosa", help="cura a glosa do exame no catálogo")
     s.add_argument("--codigo", required=True)
