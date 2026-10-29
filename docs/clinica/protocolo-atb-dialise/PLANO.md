@@ -108,6 +108,9 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Item 7, FAV/prótese (decidido):** FAV nativa 2 semanas + Doppler inicial. Prótese 4 semanas + Doppler
   semanal; **infecção extensa, abscesso, prótese exposta ou sangramento -> cirurgia vascular para retirada**
   (KDOQI 2019). Bacteremia por S. aureus -> regra de duração do S. aureus + eco.
+- **Item 8, pneumonia (decidido):** esquema e 5 dias mantidos (batem com ATS/IDSA 2019 e ATS 2025).
+  **RX de rotina inviável na unidade** -> mantém "RX para casos arrastados ou graves". No texto teórico,
+  registrar que as diretrizes pedem imagem para confirmar (RX ou US pulmonar) e o motivo da adaptação.
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -138,7 +141,7 @@ Casos mais graves: vancomicina, 14 dias corridos
    usa ceftazidima isolada (não cobre estafilococo, principal agente).
 7. ~~**FAV/prótese:**~~ DECIDIDO. KDOQI 2019 não fixa duração; prótese com infecção extensa = excisão cirúrgica.
    Proposta não menciona cirurgia.
-8. **Pneumonia:** ATS/IDSA 2019 exige imagem para o diagnóstico. Proposta: RX só em caso arrastado/grave.
+8. ~~**Pneumonia:**~~ DECIDIDO (RX inviável; mantido). ATS/IDSA 2019 exige imagem para o diagnóstico. Proposta: RX só em caso arrastado/grave.
 9. **Doses orais ajustadas à HD** não estão escritas (cipro, amox-clav, levo, cefalexina, SMX-TMP).
 10. **Celulite:** IDSA 2014 = 5 dias, estender se não melhora. Proposta 7 dias (aceitável, só registrar).
 
