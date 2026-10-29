@@ -331,6 +331,19 @@ de HD) para os demais.
 - **Clindamicina** (Germed, texto Dalacin C): 600-1.800 mg/dia em 2-4 doses; "Não é necessário o ajuste de dose
   em pacientes com insuficiência renal".
 
+### Decisão das 72 h (estudo 2026-10-29)
+- **IDSA 2009 rec. 33 (B-II):** salvamento tentado -> colher HC; **retirar o cateter se as HC continuam positivas
+  72 h após antibiótico adequado** (qualquer germe).
+- **IDSA 2009 rec. 32 (A-II):** cateter de longa permanência deve ser retirado se sepse grave, tromboflebite
+  supurativa, endocardite, **bacteremia que continua > 72 h** com antibiótico adequado, S. aureus, P. aeruginosa,
+  fungos ou micobactérias.
+- **IDSA 2009 rec. 59 (B-II, HD):** **sintomas persistentes** ou infecção metastática -> retirar; sintomas resolvidos
+  em 2-3 dias -> pode trocar por fio-guia. **Rec. 66 (B-III):** paciente assintomático pode trocar por fio-guia
+  sem esperar HC negativa. **Rec. 57:** sem sítio alternativo -> fio-guia.
+- Leitura: HC de 72 h positiva = lock falhou em qualquer germe (não só S. aureus). Assintomático -> fio-guia
+  (preserva a veia). Febre persistente/instável/metástase -> retirar pela IDSA; a equipe decidira fio-guia na
+  febre do S. aureus (conservador). **Decisão pendente.**
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
