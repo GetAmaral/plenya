@@ -87,6 +87,22 @@ Casos mais graves: vancomicina, 14 dias corridos
   sessão**, 3x/semana. MRSA/SCN resistente: manter vanco, suspender ceftazidima. Gram-negativo: suspender vanco
   e ajustar pelo antibiograma. (IDSA rec. 62-63; bula; Sowinski 2001; Duke 2024.)
 - **Celulite MRSA: sulfametoxazol-trimetoprima FORA** (decidido); fica clindamicina.
+- **Amicacina fica como alternativa** na ITU sem adesão ao oral (decidido): 5-7,5 mg/kg após cada sessão
+  (UC Davis 2017: q48-72h após HD).
+
+### Tabela de doses proposta (2026-10-29, aguardando aprovação)
+| Droga | Dose em HD | Quando | Fonte |
+|---|---|---|---|
+| Vancomicina | ataque 35 mg/kg (2-3 g) em 90 min; manutenção 15 mg/kg (1-1,5 g) em 60 min; 10 mg/ml | 90 min finais, toda sessão | Rybak 2020; bula; El Nekidy 2022 |
+| Ceftazidima | 1 g (dias de semana) / 2 g (antes do intervalo de 72 h), 100 ml em 30 min | fim da sessão | proposta da equipe; IDSA 2009 |
+| Cefazolina | 20 mg/kg (1-2 g) em SF, bolus 3-5 min | fim da sessão, toda sessão | IDSA 2009; bula; Sowinski 2001 |
+| Amicacina | 5-7,5 mg/kg | após a sessão, toda sessão | UC Davis 2017 |
+| Ciprofloxacino VO | 500 mg 1x/dia | após a sessão nos dias de HD | bula FDA (250-500 mg/24 h) |
+| Amoxicilina-clavulanato VO | 500/125 mg 1x/dia + dose extra ao fim da sessão nos dias de HD | | bula (amoxicilina) |
+| Azitromicina VO | sem ajuste | | UC Davis 2017; Northern Health |
+| Levofloxacino VO ou EV | 750 mg D0, 500 mg D2, 500 mg D4 (3 doses) | qualquer horário (não dialisa) | bula FDA |
+| Cefalexina VO | 250 mg 12/12 h, uma dose após a sessão | | Northern Health 2018 (bula: ClCr 5-14 -> 250 mg/24 h) |
+| Clindamicina VO | sem ajuste renal | | UC Davis 2017; Northern Health |
 - **Item 4, duração no S. aureus (decidido):**
   - Cateter trocado por fio-guia ou retirado + hemocultura negativa em 48-72 h + eco sem endocardite + sem foco
     à distância: **14 dias** a partir da hemocultura negativa ou da troca, o que vier depois (IDSA/ESCMID 2026).
