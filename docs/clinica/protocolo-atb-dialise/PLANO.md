@@ -124,6 +124,22 @@ sessão** (não há como infundir após a diálise, por logística).
 - Velocidades da proposta: 2 g/90 min = 22 mg/min; 3 g/90 min = 33 mg/min; 1-1,5 g/60 min = 17-25 mg/min
   (bula: <= 10 mg/min).
 
+### Item 2 (retirada): restrição da equipe e literatura para salvar o cateter
+Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe quer ser conservadora na retirada.
+- **KDOQI 2019, statement 25.2 (Expert Opinion):** abordagem individualizada; opções incluem troca por
+  fio-guia, retirada e reinserção, salvamento do cateter e lock concomitante, "particularly if the CVC is
+  deemed to be the patient's final access".
+- **IDSA 2009 rec. 57 (B-II):** sem sítio alternativo -> troca do cateter infectado por fio-guia.
+- **Aslam S et al. JASN 2014;25(12):2927-41** (meta-análise, 28 estudos, 1.596 pacientes): lock e troca por
+  fio-guia têm cura semelhante, ambos superiores a só antibiótico sistêmico (OR 2,08 e 2,88). Cura maior em
+  SCN > gram-negativos > S. aureus. **No S. aureus, troca por fio-guia > lock (OR 4,72).**
+- **Poole CV et al. NDT 2004;19(5):1237-44:** cura com lock 87% gram-negativo, 75% S. epidermidis,
+  40% S. aureus. Sobrevida do cateter sem infecção maior que com troca rotineira (154 vs 71 dias).
+- **Maya ID et al. AJKD 2007;50(2):289-95** (113 S. aureus, lock 3 semanas): cura 41%; complicação grave
+  em 25% dos com febre persistente vs 1,4% dos demais -> **febre persistente é o sinal de parar de tentar.**
+- **Guía Española de Acceso Vascular (2017):** recomenda (fraca) retirada em S. aureus, Pseudomonas e
+  Candida; não há estudo de lock em Candida.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
