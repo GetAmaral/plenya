@@ -1,0 +1,68 @@
+# Biópsia renal no serviço de urologia parceiro: ofício + anexo + card do paciente
+
+Documento para a Secretaria Municipal de Saúde com as orientações que a nefrologia sugere ao
+serviço de urologia do hospital parceiro, que passa a realizar a biópsia renal. Plano vivo:
+decisões tomadas na conversa entram aqui na hora.
+
+## Decisões tomadas
+
+- **Escopo:** só rim nativo (enxerto fora).
+- **Fluxo:** nefrologia encaminha ao município, que agenda no hospital. Paciente não vai direto,
+  então **a urologia providencia os exames pré-operatórios** (o ofício sugere a lista).
+- **Tom:** o que a nefrologia se compromete a mandar + "sugerimos, respeitando os protocolos do
+  serviço". Referências numeradas no fim, nunca no corpo.
+- **Laboratório de patologia:** desconhecido. Tabela com ideal + alternativa e uma frase sugerindo
+  que o serviço confirme com o laboratório antes da primeira biópsia (precisa fazer IF).
+- **Fragmentos:** 4 fragmentos, inteiros por estudo, sem dividir (prática da equipe, com respaldo):
+  - 2 em formol tamponado 10% (MO);
+  - 1 em meio de Michel; na falta, gaze umedecida em SF, entrega no mesmo dia (IF; nunca formol);
+  - 1 em glutaraldeído 2-3% refrigerado; na falta, formol em frasco separado e identificado (ME).
+  - Inspeção visual de cada fragmento para confirmar cortical.
+- **Desmopressina:** fora das sugestões (evidência mista; único ECR positivo em TFG preservada).
+- **Card do paciente:** visual. gpt-image-2.5 só para ilustração; texto e dias em HTML -> PDF/PNG
+  (padrão `scripts/deck-builder/hamstring-guia/`), porque número dentro de imagem de IA sai errado.
+  Só nome genérico de medicamento. Aviso em destaque: não parar nada por conta própria, falar com
+  o médico que receitou.
+- **Ordem no card:** os mais comuns primeiro. Grupo de 5 dias inclui AAS e prasugrel (decisão
+  da equipe; ver divergência abaixo).
+
+## Prazos de suspensão no card
+
+| Grupo | Medicamentos | SIR 2019 (alto risco) |
+|---|---|---|
+| 5 dias antes | AAS, clopidogrel, ticagrelor, prasugrel, varfarina | AAS 3-5 d · clopidogrel 5 d · ticagrelor 5 d · **prasugrel 7 d** · varfarina 5 d (INR ≤ 1,8) |
+| 2 dias antes | rivaroxabana, apixabana, dabigatrana, edoxabana | apixabana/dabigatrana 4 doses (ClCr ≥ 50), mais se menor; rivaroxabana/edoxabana 2 doses |
+| 1 dia antes | enoxaparina | dose plena 24 h (2 doses); profilática 1 dose |
+| semana anterior | anti-inflamatórios | SIR sem recomendação; sugestão nossa (paciente renal) |
+
+**Divergência registrada:** prasugrel no grupo de 5 dias é decisão da equipe; a SIR 2019 diz 7 dias.
+Ver pendência abaixo.
+
+Fonte: Patel IJ et al. SIR Consensus Guidelines Part II. J Vasc Interv Radiol 2019;30(8):1168-1184,
+Tabela 6 (https://www.jvir.org/article/S1051-0443(19)30407-5/pdf). Lida por extração de PDF com
+linhas desalinhadas; **conferir visualmente a página antes de fechar o card.**
+Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
+
+## Pendências (uma por vez)
+
+1. Remetente/assinatura/destinatário/município (define cabeçalho e identidade do card).
+2. Prasugrel 5 d vs 7 d da SIR (confirmar com a equipe).
+3. Lista de exames pré-op: hemograma, TP/INR, TTPa, creatinina, ABO/Rh, urina tipo 1, US renal
+   recente, beta-hCG em mulher em idade fértil.
+4. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
+5. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
+6. Retorno do laudo ao nefrologista solicitante.
+7. Formato final: ofício 1 página + anexo técnico + card.
+
+## Referências
+
+- Patel IJ et al. SIR Part II. JVIR 2019;30(8):1168-1184.
+- Walker PD et al. (Renal Pathology Society). Practice guidelines for the renal biopsy. Mod Pathol 2004;17:1555-63.
+- Mayo Clinic Laboratories. Renal Biopsy Preparation Instructions (MC1235-44): 3 fragmentos, 2 formol (MO+ME), 1 Michel/Zeus (IF, ≥ 0,6 cm, ~5 glomérulos).
+- Corapi KM et al. Bleeding complications of native kidney biopsy. AJKD 2012 (nº de passagens não prediz sangramento).
+- Poggio ED et al. Native kidney biopsy complications. CJASN 2020;15(11):1595-1602.
+- Whittier WL, Korbet SM. Timing of complications in percutaneous renal biopsy. JASN 2004;15(1):142-7.
+- Hogan JJ, Mocanu M, Berns JS. The Native Kidney Biopsy. CJASN 2016;11(2):354-62.
+- Luciano RL, Moeckel GW. Update on the Native Kidney Biopsy: Core Curriculum 2019. AJKD 2019;73(3):404-415.
+- Manno C et al. Desmopressin in kidney biopsy. AJKD 2011;57(6):850-5 (motivo de não sugerir DDAVP: evidência mista).
+- Nasr SH et al. Paraffin IF com pronase, técnica de resgate. Kidney Int 2006.
