@@ -68,7 +68,12 @@ Casos mais graves: vancomicina, 14 dias corridos
 
 ## Decisões tomadas
 
-(nenhuma ainda)
+- **Item 1, vancomicina (decidido):** ataque 35 mg/kg (2-3 g) e manutenção 15 mg/kg (1-1,5 g), **a 10 mg/ml**
+  (bula FDA, restrição de volume), **nos 90 min finais da sessão** (ataque em 90 min, manutenção em 60 min),
+  pela linha da diálise (El Nekidy 2022).
+  - **Nível pré-HD 15-20 mg/l:** a unidade não tem a dosagem. Entra **só no texto teórico**, como sugestão
+    "quando disponível". **Fora do card.**
+  - **Pré-medicação H1 + H2** (Renz 1998, Wallace 1991): **só no texto teórico**, como sugestão. **Fora do card.**
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -86,7 +91,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Mupirocina no óstio** (IDSA rec. 46, infecção de saída não complicada).
 
 ### Divergências a decidir (uma por vez)
-1. **Velocidade e diluição da vanco.** ASHP 2020: ≤ 5 mg/ml e ≥ 60 min por 1 g (10-15 mg/min);
+1. ~~**Velocidade e diluição da vanco.**~~ DECIDIDO (ver acima). ASHP 2020: ≤ 5 mg/ml e ≥ 60 min por 1 g (10-15 mg/min);
    ataque de 25-35 mg/kg exige 2-3 h. Proposta: 2-3 g em 90 min a 10 mg/ml. 35 mg/kg só vale se
    intradialítico em alto fluxo. Faltam no protocolo: **nível pré-diálise 15-20 mg/l, semanal** (ASHP).
 2. **Retirada obrigatória** do cateter em *S. aureus*, *Pseudomonas* e *Candida* (IDSA rec. 57, A-II).
