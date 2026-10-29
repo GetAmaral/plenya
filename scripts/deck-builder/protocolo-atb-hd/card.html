@@ -125,6 +125,11 @@ table.fx{table-layout:fixed}
 .al.alarm b{display:block;margin-top:.6mm;font-size:9.6pt}
 .al.strip{flex-direction:row;justify-content:flex-start;min-height:9mm;margin:-1mm 0 4mm;padding:1.8mm 4mm;font-weight:400;font-size:10pt;border-width:.6mm}
 .al.strip b{font-weight:700}
+.durband .dg2{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:4mm}
+.durband .drow{display:flex;flex-direction:column;align-items:center;gap:1.6mm;text-align:center}
+.durband .drow .du{align-self:center;width:42mm;flex:none;min-height:9mm;padding:1.2mm 3.4mm}
+.durband .who2{font-size:9.4pt;font-weight:700;color:var(--pet);line-height:1.25}
+.durband .who2 .m{font-weight:400;color:var(--mut)}
 </style>
 </head>
 <body>
@@ -133,11 +138,11 @@ table.fx{table-layout:fixed}
 <section class="page">
   <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 3</span></div>
 
-  <div class="n al strip"><span class="tx"><b>A qualquer momento:</b> instável, sepse ou infecção à distância → <b>retirar o cateter</b></span></div>
   <div style="display:grid;grid-template-columns:1fr 58mm;gap:6mm">
     <div>
     <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:5.6mm;font-size:9.6pt">
-      <div class="n st w" id="a"  style="grid-row:1;grid-column:1/6">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
+      <div class="n al alv" id="z" style="grid-row:1;grid-column:6;align-self:center"><span class="tx">Retirar o cateter<small>se instável, sepse ou infecção à distância</small></span></div>
+      <div class="n st w" id="a"  style="grid-row:1;grid-column:1/6;align-self:center">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
       <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>cateter + linha venosa · lock após cada sessão</small></div>
       <div class="n dc w" id="d0" style="grid-row:3;grid-column:1/6">Hemocultura positiva?</div>
       <div class="n dc w" id="d"  style="grid-row:4;grid-column:1/6">Qual germe?</div>
@@ -153,13 +158,11 @@ table.fx{table-layout:fixed}
     </div>
 
     <div class="durband">
-      <div class="dh"><b>Duração</b><span>conta sempre da 1ª hemocultura negativa, com ou sem troca do cateter</span></div>
-      <div class="dg">
-        <div class="dcell"><span class="who">Hemocultura negativa</span><span class="n du"><span class="tx">14 dias<small>do início</small></span></span></div>
-        <div class="dcell"><span class="who">Outros germes</span><span class="n du"><span class="tx">14 dias</span></span></div>
-        <div class="dcell"><span class="who"><i>S. aureus</i></span><span class="n du"><span class="tx">3 semanas</span></span></div>
-        <div class="dcell"><span class="who"><i>Candida</i></span><span class="n du"><span class="tx">14 dias</span></span></div>
-        <div class="dcell"><span class="who">Endocardite</span><span class="n du"><span class="tx">4 semanas<small>valva protética: 6</small></span></span></div>
+      <div class="dh"><b>Duração</b><span>conta da 1ª hemocultura negativa, com ou sem troca do cateter</span></div>
+      <div class="dg2">
+        <div class="drow"><span class="n du"><span class="tx">14 dias</span></span><span class="who2">Outros germes · <i>Candida</i><br>Hemocultura negativa <span class="m">(do início)</span></span></div>
+        <div class="drow"><span class="n du"><span class="tx">3 semanas</span></span><span class="who2"><i>S. aureus</i></span></div>
+        <div class="drow"><span class="n du"><span class="tx">4 semanas</span></span><span class="who2">Endocardite <span class="m">(valva protética: 6)</span></span></div>
       </div>
     </div>
     </div>
@@ -334,7 +337,7 @@ document.querySelectorAll(".al").forEach(e => e.insertAdjacentHTML("afterbegin",
 
 // [origem, destino, rótulo]
 const EDGES = {
-  f1: [["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
+  f1: [["a","z","A qualquer momento","h"],["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["oa","ob","Óstio"],["oa","oc","Túnel"],["ob","od"],["oc","od"]],
@@ -348,24 +351,35 @@ function draw(){
   for (const [fid, edges] of Object.entries(EDGES)) {
     const f = document.getElementById(fid), R = f.getBoundingClientRect();
     const svg = document.createElementNS(NS, "svg"); svg.setAttribute("class", "wires");
-    svg.innerHTML = `<defs><marker id="ar-${fid}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6F969E"/></marker></defs>`;
+    svg.innerHTML = `<defs><marker id="ar-${fid}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6F969E"/></marker><marker id="ar-${fid}-c" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#D7684B"/></marker></defs>`;
     f.prepend(svg);
     const outN = {}, inN = {};
-    edges.forEach(([a, b]) => { outN[a] = (outN[a] || 0) + 1; inN[b] = (inN[b] || 0) + 1; });
+    edges.forEach(([a, b, , k]) => { if (k === 'h') return; outN[a] = (outN[a] || 0) + 1; inN[b] = (inN[b] || 0) + 1; });
     const GAP = 13;                                              // px: distância do barramento à caixa
     const box = id => document.getElementById(id).getBoundingClientRect();
     // uma barra só por origem (abre ramos) e por destino (junta ramos), na menor folga do grupo
     const busOut = {}, busIn = {};
-    for (const [a, b] of edges) {
+    for (const [a, b, , k] of edges) {
+      if (k === 'h') continue;
       const half = (box(b).top - box(a).bottom) / 2;
       busOut[a] = Math.min(busOut[a] ?? Infinity, Math.min(GAP, half));
       busIn[b]  = Math.min(busIn[b]  ?? Infinity, Math.min(GAP, half));
     }
-    for (const [a, b, label] of edges) {
+    for (const [a, b, label, kind] of edges) {
       const A = box(a), B = box(b);
       const x1 = A.left + A.width / 2 - R.left, y1 = A.bottom - R.top;
       const x2 = B.left + B.width / 2 - R.left, y2 = B.top - R.top;
       const bus = outN[a] > 1 ? y1 + busOut[a] : inN[b] > 1 ? y2 - busIn[b] : y1 + (y2 - y1) / 2;
+      if (kind === "h") {
+        const hx1 = A.right - R.left, hy = A.top + A.height / 2 - R.top, hx2 = B.left - R.left;
+        const p = document.createElementNS(NS, "path");
+        p.setAttribute("d", `M${hx1} ${hy}H${hx2}`); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#D7684B");
+        p.setAttribute("stroke-width", "1.6"); p.setAttribute("stroke-dasharray", "4 3"); p.setAttribute("marker-end", `url(#ar-${fid}-c)`);
+        svg.appendChild(p);
+        const l = document.createElement("div"); l.className = "lbl"; l.style.color = "#8E3B26"; l.textContent = label;
+        l.style.left = (hx1 + hx2) / 2 + "px"; l.style.top = (hy - 8) + "px"; f.appendChild(l);
+        continue;
+      }
       const d = Math.abs(x1 - x2) < 0.5 ? `M${x1} ${y1}V${y2}` : `M${x1} ${y1}V${bus}H${x2}V${y2}`;
       const p = document.createElementNS(NS, "path");
       p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#6F969E");

@@ -34,19 +34,17 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | Enterococo: regra da IDSA só no texto teórico |
 | *Candida* | **Antifúngico pela cultura; suspender vanco e cefta** (decidido 2026-10-29) | **Retirar o cateter**. Candida + bactéria = ramo "outro germe ou polimicrobiana" |
 
-### Duração (depende só do germe; conta SEMPRE da 1ª hemocultura negativa, nunca da troca)
-| Situação | Duração |
+### Duração (agrupada por prazo; conta da 1ª hemocultura negativa, nunca da troca)
+| Prazo | Para quem |
 |---|---|
-| Hemocultura negativa (empírico) | 14 dias do início do antibiótico |
-| Outros germes | 14 dias após hemocultura negativa |
-| *S. aureus* (com lock ou após troca) | **3 semanas** após hemocultura negativa |
-| *Candida* | 14 dias após hemocultura negativa (IDSA candidíase 2016, Pappas) · confirmado pela equipe |
-| Endocardite | 4 semanas (valva protética: 6) |
+| **14 dias** | Outros germes · *Candida* (IDSA 2016, confirmado) · Hemocultura negativa (do início do antibiótico) |
+| **3 semanas** | *S. aureus*, com lock ou após troca |
+| **4 semanas** | Endocardite (valva protética: 6) |
 
 Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
 
 ### Manter, trocar ou retirar o cateter
-- **A qualquer momento** (alarme, fora do fluxo): **instável, sepse ou infecção à distância → retirar o
+- **A qualquer momento** (alarme ligado à caixa de entrada, à direita): **instável, sepse ou infecção à distância → retirar o
   cateter**. (IDSA 2009 rec. 32, 59.) Proposto em 2026-10-29: o alarme não espera as 72 h.
 - **Em 72 h** (qualquer germe e também hemocultura negativa): **febre persistente ou hemocultura positiva?**
   Sim → **trocar por fio-guia** (regra conservadora da equipe; IDSA rec. 33, 57, 66). Não → **manter com lock**.
