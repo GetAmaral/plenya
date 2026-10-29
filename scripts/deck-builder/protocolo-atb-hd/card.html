@@ -119,6 +119,12 @@ table.fx{table-layout:fixed}
 .al.alv{flex-direction:column;gap:.8mm;padding:1.6mm 2mm}
 .al.alv .tx{text-align:center}
 .al.alv small{line-height:1.15}
+.al.alarm{flex-direction:column;align-items:flex-start;gap:1mm;padding:2.4mm 2.6mm;border-width:.7mm;align-self:stretch}
+.al.alarm .tx{text-align:left}
+.al.alarm small{font-size:8.2pt;color:var(--cor-t)}
+.al.alarm b{display:block;margin-top:.6mm;font-size:9.6pt}
+.al.strip{flex-direction:row;justify-content:flex-start;min-height:9mm;margin:-1mm 0 4mm;padding:1.8mm 4mm;font-weight:400;font-size:10pt;border-width:.6mm}
+.al.strip b{font-weight:700}
 </style>
 </head>
 <body>
@@ -127,6 +133,7 @@ table.fx{table-layout:fixed}
 <section class="page">
   <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 3</span></div>
 
+  <div class="n al strip"><span class="tx"><b>A qualquer momento:</b> instável, sepse ou infecção à distância → <b>retirar o cateter</b></span></div>
   <div style="display:grid;grid-template-columns:1fr 58mm;gap:6mm">
     <div>
     <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:5.6mm;font-size:9.6pt">
@@ -140,11 +147,9 @@ table.fx{table-layout:fixed}
       <div class="n ac" id="e3" style="grid-row:5;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
       <div class="n ac" id="e5" style="grid-row:5;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
       <div class="n al alv" id="e4" style="grid-row:5;grid-column:5"><span class="tx">Retirar cateter<small>antifúngico pela cultura · suspender vanco e cefta</small></span></div>
-      <div class="n dc w" id="g1" style="grid-row:6;grid-column:1/6;width:72%">Em 72 h: instável, sepse ou infecção à distância?</div>
-      <div class="n dc w" id="g2" style="grid-row:7;grid-column:1/5;width:86%">Febre persistente ou hemocultura de 72 h positiva?</div>
-      <div class="n al" id="i3" style="grid-row:7;grid-column:5"><span class="tx">Retirar cateter</span></div>
-      <div class="n ac" id="i1" style="grid-row:8;grid-column:1/3;justify-self:center;width:80%">Manter o cateter com lock</div>
-      <div class="n al" id="i2" style="grid-row:8;grid-column:3/5;justify-self:center;width:80%"><span class="tx">Trocar por fio-guia</span></div>
+      <div class="n dc w" id="g2" style="grid-row:6;grid-column:1/6;width:72%">Em 72 h: febre persistente ou hemocultura positiva?</div>
+      <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3;justify-self:center;width:80%">Manter o cateter com lock</div>
+      <div class="n al" id="i2" style="grid-row:7;grid-column:4/6;justify-self:center;width:80%"><span class="tx">Trocar por fio-guia</span></div>
     </div>
 
     <div class="durband">
@@ -331,7 +336,7 @@ document.querySelectorAll(".al").forEach(e => e.insertAdjacentHTML("afterbegin",
 const EDGES = {
   f1: [["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
-       ["e1","g1"],["e2","g1"],["e3","g1"],["e5","g1"],["n1","g1"],["g1","g2","Não"],["g1","i3","Sim"],["g2","i1","Não"],["g2","i2","Sim"]],
+       ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["oa","ob","Óstio"],["oa","oc","Túnel"],["ob","od"],["oc","od"]],
   fv: [["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fe"]],
   fu: [["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],

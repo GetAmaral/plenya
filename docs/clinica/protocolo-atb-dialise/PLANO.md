@@ -344,6 +344,8 @@ de HD) para os demais.
   (preserva a veia). Febre persistente/instável/metástase -> retirar pela IDSA; a equipe decidira fio-guia na
   febre do S. aureus (conservador). **Decidido: conservador** -> febre persistente ou HC 72 h positiva = fio-guia
   em qualquer germe; instável/sepse/metástase = retirar.
+  Revisto: instabilidade/sepse/metástase vira alarme **a qualquer momento** (não espera 72 h); nas 72 h fica
+  uma pergunta só (febre ou HC positiva -> fio-guia). Proposto por Claude, a confirmar.
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
