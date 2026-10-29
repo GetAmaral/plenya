@@ -31,6 +31,10 @@ decisões tomadas na conversa entram aqui na hora.
   (`node render.js --png --pdf`); PDF em `docs/clinica/biopsia-renal/card-paciente-biopsia-renal.pdf`.
   Anti-inflamatório = "Evite sempre" (não prazo).
 
+- **Exames pré-op sugeridos à urologia (decidido):** hemograma, TP/INR, TTPa, creatinina, ureia,
+  urina tipo 1 e ultrassom renal **sem exigência de data** (para não travar o agendamento).
+  Fora: beta-hCG e tipagem ABO/Rh.
+
 ## Prazos de suspensão no card
 
 | Grupo | Medicamentos | SIR 2019 (alto risco) |
@@ -59,12 +63,10 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
    - **Destinatário:** Diretoria de Regulação da Atenção à Saúde (DRAS), Autarquia Municipal de
      Saúde (AMS) de Londrina. Em Londrina a saúde é autarquia, não "Secretaria". Dirigir ao cargo;
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
-2. Lista de exames pré-op: hemograma, TP/INR, TTPa, creatinina, ABO/Rh, urina tipo 1, US renal
-   recente, beta-hCG em mulher em idade fértil.
-3. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
-4. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
-5. Retorno do laudo ao nefrologista solicitante.
-6. Formato final: ofício 1 página + anexo técnico + card.
+2. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
+3. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
+4. Retorno do laudo ao nefrologista solicitante.
+5. Formato final: ofício 1 página + anexo técnico + card.
 
 ## Referências
 
