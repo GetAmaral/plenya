@@ -148,6 +148,20 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
 - **Guía Española de Acceso Vascular (2017):** recomenda (fraca) retirada em S. aureus, Pseudomonas e
   Candida; não há estudo de lock em Candida.
 
+### Item 3 (ajuste pela cultura) e cefazolina
+- **IDSA 2009 rec. 62-63 (A-II):** MSSA -> trocar vanco por cefazolina, **20 mg/kg (peso real), arredondado
+  para 500 mg, após a diálise**. Equipe aprovou a regra de ajuste (2026-10-29); pediu estudo de concentração/velocidade.
+- **Bula (cefazolina, Hikma, rev. 2020):** "Direct (bolus) injection: ... further dilute vials with
+  approximately 5 mL Sterile Water for Injection. Inject the solution slowly over 3 to 5 minutes, directly or
+  through tubing". Infusão intermitente: 50-100 ml. -> **cerca de 100 mg/ml (1 g em ~10 ml), em 3-5 min.**
+- **Remoção pela diálise:** Sowinski KM et al. AJKD 2001;37(4):766-76: razão de redução 62% (alto fluxo) e
+  50% (alta eficiência) numa sessão; 15-20 mg/kg após cada sessão mantêm nível adequado em intervalos de 2-3 dias.
+  -> **dar no fim da sessão** (últimos minutos, pela linha venosa) para não ser dialisada.
+- **Dose fixa:** Duke C et al. J Antimicrob Chemother 2024;79(11):2980-9: **2 g 3x/semana pós-diálise**
+  sustentado para MSSA (alto fluxo, pacientes infectados). Esquema 2 g / 2 g / 3 g (3 g antes do intervalo
+  longo) aparece em guias institucionais (UCSF IDMP), sem estudo próprio localizado.
+- Estudo em andamento: CEFAZODIAL (NCT06093269), 20 mg/kg no circuito ao fim da sessão de 4 h.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
