@@ -47,7 +47,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
 
 ### Manter, trocar ou retirar o cateter
-- **A qualquer momento** (alarme ligado à caixa de entrada, à direita): **instável, sepse ou infecção à distância → retirar o
+- **A qualquer momento** (alarme ligado à caixa de entrada, à direita; texto na ordem "Se instável, sepse ou infecção à distância" → "Retirar o cateter" → "a qualquer momento", decidido 2026-10-29): **instável, sepse ou infecção à distância → retirar o
   cateter**. (IDSA 2009 rec. 32, 59.) Proposto em 2026-10-29: o alarme não espera as 72 h.
 - **Em 72 h** (qualquer germe e também hemocultura negativa): **febre persistente ou hemocultura positiva?**
   Sim → **trocar por fio-guia** (regra conservadora da equipe; IDSA rec. 33, 57, 66). Não → **manter com lock**.
