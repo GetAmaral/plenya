@@ -342,7 +342,8 @@ de HD) para os demais.
   sem esperar HC negativa. **Rec. 57:** sem sítio alternativo -> fio-guia.
 - Leitura: HC de 72 h positiva = lock falhou em qualquer germe (não só S. aureus). Assintomático -> fio-guia
   (preserva a veia). Febre persistente/instável/metástase -> retirar pela IDSA; a equipe decidira fio-guia na
-  febre do S. aureus (conservador). **Decisão pendente.**
+  febre do S. aureus (conservador). **Decidido: conservador** -> febre persistente ou HC 72 h positiva = fio-guia
+  em qualquer germe; instável/sepse/metástase = retirar.
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.

@@ -37,7 +37,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 ### Duração (depende só do germe; conta SEMPRE da 1ª hemocultura negativa, nunca da troca)
 | Situação | Duração |
 |---|---|
-| Hemocultura negativa (empírico) | 14 dias |
+| Hemocultura negativa (empírico) | 14 dias do início do antibiótico |
 | Outros germes | 14 dias após hemocultura negativa |
 | *S. aureus* (com lock ou após troca) | **3 semanas** após hemocultura negativa |
 | *Candida* | 14 dias após hemocultura negativa (IDSA candidíase 2016, Pappas) · confirmado pela equipe |
@@ -45,10 +45,13 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 
 Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
 
-### Manter ou retirar o cateter
-- **Regra:** manter com lock.
-- ***S. aureus*:** tentar lock. **Febre após 48-72 h ou hemocultura de 72 h positiva → trocar por fio-guia.**
-- **Retirar sempre:** *Candida*; febre persistente > 72 h; instabilidade; infecção à distância.
+### Manter, trocar ou retirar o cateter (avaliação em 72 h, qualquer germe)
+1. **Instável, sepse ou infecção à distância?** Sim → **retirar o cateter**. (IDSA 2009 rec. 32, 59)
+2. Se não: **febre persistente ou hemocultura de 72 h positiva?** Sim → **trocar por fio-guia** (regra
+   conservadora da equipe, 2026-10-29; IDSA rec. 33, 57, 66 apoiam o fio-guia no assintomático; na febre a IDSA
+   retiraria). Não → **manter com lock**.
+- *Candida*: retirar sempre (no ramo da cultura).
+- A troca não muda a duração (ver Duração).
 
 ### Hemoculturas
 - 2 amostras: cateter + linha venosa.
