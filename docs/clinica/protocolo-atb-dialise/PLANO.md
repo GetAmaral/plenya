@@ -86,6 +86,7 @@ Casos mais graves: vancomicina, 14 dias corridos
   máximo 2 g**, diluída em **SF 0,9%** (~10 ml por grama), **bolus de 3-5 min pela linha venosa no fim da
   sessão**, 3x/semana. MRSA/SCN resistente: manter vanco, suspender ceftazidima. Gram-negativo: suspender vanco
   e ajustar pelo antibiograma. (IDSA rec. 62-63; bula; Sowinski 2001; Duke 2024.)
+- **Celulite MRSA: sulfametoxazol-trimetoprima FORA** (decidido); fica clindamicina.
 - **Item 4, duração no S. aureus (decidido):**
   - Cateter trocado por fio-guia ou retirado + hemocultura negativa em 48-72 h + eco sem endocardite + sem foco
     à distância: **14 dias** a partir da hemocultura negativa ou da troca, o que vier depois (IDSA/ESCMID 2026).
@@ -250,6 +251,19 @@ de HD) para os demais.
 - **SMX-TMP: "não recomendado" em HD** (bula: ClCr < 15; hipercalemia) -> propor trocar por doxiciclina
   ou clindamicina no MRSA da celulite.
 - **Amicacina: "não usar"** na tabela de HD (ototoxicidade; equipe já marcou) -> propor manter só ceftazidima.
+
+### Item 9, revisão após questionamento da equipe (2026-10-29)
+- **Ciprofloxacino (bula FDA, DailyMed):** "Patients on hemodialysis or Peritoneal dialysis, 250 to 500 mg every
+  24 hours (after dialysis)". 500 mg/dia da equipe = teto da bula.
+- **Amoxicilina-clavulanato (bula; texto confirmado na bula da amoxicilina, mesmo esquema na do Augmentin a
+  conferir):** HD = 500 ou 250 mg a cada 24 h conforme gravidade + **dose adicional durante e ao fim da diálise**;
+  comprimido de 875 mg não usar com ClCr < 30. A tabela canadense (Northern Health) simplificou demais.
+- **Levofloxacino (bula FDA, tabela 3):** regime 750 mg -> HD: 750 mg inicial, depois 500 mg a cada 48 h;
+  regime 500 mg -> HD: 500 mg inicial, depois 250 mg a cada 48 h. Não é removido pela HD (sem dose suplementar).
+  Bula: PAC 750 mg x 5 dias. -> Em HD, 5 dias = 3 doses (D0 750, D2 500, D4 500) **VO ou EV, igual**.
+- **Amicacina (UC Davis P&T 12/2017, tabela por TRS):** HD 5-7,5 mg/kg a cada 48-72 h, após a diálise.
+  Northern Health 2018: "do not use" em HD. Ototóxica e nefrotóxica (função residual).
+- **SMX-TMP: FORA do protocolo** (decidido pela equipe).
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
