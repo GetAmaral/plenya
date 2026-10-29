@@ -102,9 +102,12 @@ Casos mais graves: vancomicina, 14 dias corridos
   - Com bacteremia/sepse: vanco + ceftazidima (empírico da bacteremia).
   - Sempre cultura da secreção + hemocultura, ajuste pelo resultado. Lock não trata o túnel.
   - Cateter: troca por fio-guia com túnel novo (Beathard 1999); sepse/instabilidade -> retirar e recolocar
-    após defervescência. (Pendente: quem faz a troca na unidade.)
+    após defervescência. **Quem troca:** cateter comum (não tunelizado) = nefrologista; permcath = cirurgia vascular.
   - Base: ISPD 2017/2023 (cefalosporina de 1ª geração = 1ª linha em óstio/túnel); S. aureus 34-47% dos
     isolados em séries brasileiras; IDSA rec. 44.
+- **Item 7, FAV/prótese (decidido):** FAV nativa 2 semanas + Doppler inicial. Prótese 4 semanas + Doppler
+  semanal; **infecção extensa, abscesso, prótese exposta ou sangramento -> cirurgia vascular para retirada**
+  (KDOQI 2019). Bacteremia por S. aureus -> regra de duração do S. aureus + eco.
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -133,7 +136,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 5. ~~**Endocardite:**~~ DECIDIDO. proposta 4 semanas; IDSA 4-6 semanas (S. aureus em valva nativa = 6, AHA 2015).
 6. ~~**Tunelite:**~~ DECIDIDO (cefazolina escalonada). IDSA rec. 44 = retirar o cateter + 7-10 dias. Proposta mantém se hemocultura negativa e
    usa ceftazidima isolada (não cobre estafilococo, principal agente).
-7. **FAV/prótese:** KDOQI 2019 não fixa duração; prótese com infecção extensa = excisão cirúrgica.
+7. ~~**FAV/prótese:**~~ DECIDIDO. KDOQI 2019 não fixa duração; prótese com infecção extensa = excisão cirúrgica.
    Proposta não menciona cirurgia.
 8. **Pneumonia:** ATS/IDSA 2019 exige imagem para o diagnóstico. Proposta: RX só em caso arrastado/grave.
 9. **Doses orais ajustadas à HD** não estão escritas (cipro, amox-clav, levo, cefalexina, SMX-TMP).
