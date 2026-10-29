@@ -13,7 +13,8 @@ decisões tomadas na conversa entram aqui na hora.
   serviço". Referências numeradas no fim, nunca no corpo.
 - **Laboratório de patologia:** desconhecido. Tabela com ideal + alternativa e uma frase sugerindo
   que o serviço confirme com o laboratório antes da primeira biópsia (precisa fazer IF).
-- **Fragmentos:** 4 fragmentos, inteiros por estudo, sem dividir (prática da equipe, com respaldo):
+- **Fragmentos:** MO é rotina; IF e ME são necessárias em casos selecionados, mas coleta-se material
+  para ambas em TODAS as biópsias, para evitar novo procedimento. 4 fragmentos, inteiros por estudo, sem dividir (prática da equipe, com respaldo):
   - 2 em formol tamponado 10% (MO);
   - 1 em meio de Michel; na falta, gaze umedecida em SF, entrega no mesmo dia (IF; nunca formol);
   - 1 em glutaraldeído 2-3% refrigerado; na falta, formol em frasco separado e identificado (ME).
@@ -68,7 +69,7 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
    - Dr. Getúlio Amaral Filho · CRM-PR 21.876 · RQE 16.038
    - Dr. Michel Lima Moro Alves · CRM-PR 36.888 · RQE 32.897
    Fontes: nefroclinica.com (Danilo, Getúlio) e apps/site/content/doctors/*.mdx (os três).
-   - **Cabeçalho do ofício:** só "AREM" em texto, sem logo, endereço nem CNPJ (decidido).
+   - **Cabeçalho do ofício:** sem AREM e sem cabeçalho institucional (decidido, revisto).
    - **Destinatário:** Diretoria de Regulação da Atenção à Saúde (DRAS), Autarquia Municipal de
      Saúde (AMS) de Londrina. Em Londrina a saúde é autarquia, não "Secretaria". Dirigir ao cargo;
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
