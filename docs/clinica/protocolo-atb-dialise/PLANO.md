@@ -281,6 +281,35 @@ de HD) para os demais.
   Northern Health 2018: "do not use" em HD. Ototóxica e nefrotóxica (função residual).
 - **SMX-TMP: FORA do protocolo** (decidido pela equipe).
 
+### Bulas brasileiras (2026-10-29, 3 buscas em paralelo; citações literais)
+- **Vancomicina** (ABL, Bula Padrão Anvisa 15/12/2025; Fresenius Novamicin): máx. 5 mg/ml; "Pacientes com
+  restrição de líquidos: ... no máximo 10 mg/mL e a uma velocidade de infusão de no máximo 10 mg/minuto";
+  "sempre ... em pelo menos 60 minutos"; não IV direta. Anéfricos (ABL): ataque 15 mg/kg, manutenção 1,9 mg/kg/dia.
+  "hemodiálise de alto fluxo ... remove 17%". Sem dose pós-HD.
+  **-> 3 g em 90 min (33 mg/min) e 2 g em 90 min (22 mg/min) ficam acima do limite da bula; registrar no
+  texto como uso fora da bula, sustentado por ASHP 2020 + Renz/Wallace.**
+- **Cefazolina** (ABL, 15/12/2025): IV direta "durante 3 a 5 minutos" (permitido); infusão 30-60 min em
+  50-100 ml SF/SG5%; ClCr <= 10: "Metade da dose usual a cada 18 ou 24 horas". Sem HD.
+- **Ceftazidima** (Blau Ceftazidon, texto 2014): ClCr < 5: 0,5 g/48 h; grave: +50%; "A dose de manutenção
+  ... deverá ser repetida após cada sessão"; infusão 15-30 min; dose inicial 1 g. 2 g antes do intervalo longo
+  não está na bula.
+- **Amicacina** (Fresenius Kabi): diluir "em 100 ou 200 mL" de SF 0,9%, SG 5% ou Ringer lactato; adulto
+  "durante um período de 30 a 60 minutos". Sem esquema de HD na bula -> UC Davis (5-7,5 mg/kg pós-HD).
+- **Ciprofloxacino** (Medley): "<30 mL/min: máximo 500 mg/dia oral"; "Hemodiálise: mesma dose acima após cada
+  sessão". Biosintética: metade da dose diária, dose única após a diálise. -> 500 mg/dia confirmado.
+- **Levofloxacino** (Cristália Levotac IV; Apsen Levoxin VO): HD "750 mg [inicial] 500 mg cada 48 horas" ou
+  "500 mg [inicial] 250 mg cada 48 horas"; não removido por HD; IV em bolsa pronta 500 mg/100 ml (5 mg/ml),
+  infusão 60-90 min. **Nenhuma bula/fonte sustenta dose única repetida (500 ou 750 a cada 48 h) em HD.**
+  Único indício: estudo PK em idosos sugere 500 mg/48 h para ClCr < 20 (PMC5328580, não conferido).
+- **Amoxicilina-clavulanato** (Clavulin GSK, aprovada Anvisa 01/10/2025): "clearance de creatinina <10 mL/min:
+  Os comprimidos de 500 mg + 125 mg não são recomendados"; Clavulin BD 875: não recomendado com TFG < 30.
+  **-> em HD a bula brasileira não recomenda o comprimido. Precisa de decisão.**
+- **Azitromicina** (Eurofarma; Zitromax): 500 mg/dia por 3 dias (ou 500 + 250 x 4 dias); TFG < 10: "com cautela".
+- **Cefalexina** (Eurofarma VPS, 10/11/2025): adulto 250 mg 6/6 h; pele 500 mg-1 g 12/12 h; renal grave só
+  "cuidado". Tabela por ClCr é da bula FDA (ClCr 5-14: 250 mg/24 h), não da brasileira.
+- **Clindamicina** (Germed, texto Dalacin C): 600-1.800 mg/dia em 2-4 doses; "Não é necessário o ajuste de dose
+  em pacientes com insuficiência renal".
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
