@@ -100,6 +100,10 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Item 10, celulite:** mantidos 7 dias (IDSA 2014 = 5 dias; registrar no texto). SMX-TMP fora.
 - **Tunelite: 14 dias** (decidido 2026-10-29).
 - **Todas as divergências 1-10 resolvidas -> próximo passo: card.**
+- **Algoritmo furado (2026-10-29):** faltavam ramos. Corrigido: hemocultura **negativa** -> manter vanco + cefta
+  14 dias (já estava na discussão original e não foi transposto); estafilococo sensível/resistente; **outro germe**
+  -> antibiograma. Recuperados também "tentar 72 h sem acesso" e "dias corridos" da celulite, perdidos no card.
+- **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
   `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.
 

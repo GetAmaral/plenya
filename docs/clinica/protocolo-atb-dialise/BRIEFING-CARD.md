@@ -23,15 +23,17 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 |---|---|---|---|
 | Bacteremia por cateter | Vancomicina + ceftazidima | 14 dias após hemocultura negativa | Lock se o cateter fica |
 
-### Ajuste pela cultura
-| Germe | Antibiótico | Duração | Atenção |
+### Ajuste pela cultura (toda resposta tem ramo)
+| Resultado da hemocultura | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| MSSA | Cefazolina (suspender vanco) | ver *S. aureus* | |
-| MRSA ou estafilococo coagulase-negativo resistente | Vancomicina (suspender cefta) | 14 dias | |
+| **Negativa** | Manter vancomicina + ceftazidima (empírico) | 14 dias | Discussão original: "Vanco / ceftazidima empírica - 14 dias" |
+| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | Cefazolina (suspender vanco) | ver *S. aureus*; demais 14 dias | IDSA 2009: cefazolina preferida para estafilococo sensível. **Extensão ao coagulase-negativo: confirmar com a equipe** |
+| Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | 14 dias | |
 | Gram-negativo | Pelo antibiograma (suspender vanco) | 14 dias | |
+| **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | 14 dias | Enterococo: regra da IDSA só no texto teórico |
+| *Candida* | Pela cultura | | **Retirar o cateter** |
 | *S. aureus*, cateter trocado ou retirado | Pela sensibilidade | 14 dias, da hemocultura negativa ou da troca (o que vier depois) | Ecocardiograma |
 | *S. aureus*, cateter mantido com lock | Pela sensibilidade | 3 semanas | Ecocardiograma |
-| *Candida* | Pela cultura | | **Retirar o cateter** |
 | Endocardite | Pela cultura | 4 semanas (valva protética: 6) | Cardiologia |
 
 ### Manter ou retirar o cateter
@@ -89,9 +91,9 @@ Raio-X nos casos arrastados ou graves.
 ## 5. Celulite
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| Em geral | Cefalexina VO ou cefazolina EV | 7 dias | |
-| MRSA | Clindamicina VO | 7 dias | |
-| Grave | Vancomicina | 14 dias | |
+| Em geral | Cefalexina VO ou cefazolina EV | 7 dias corridos | |
+| MRSA | Clindamicina VO | 7 dias corridos | |
+| Grave | Vancomicina | 14 dias corridos | |
 
 ---
 
@@ -128,5 +130,10 @@ Raio-X nos casos arrastados ou graves.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 
+## Regras de processo (pedidas pela equipe)
+- **Briefing primeiro, card depois.** Toda mudança de conteúdo entra aqui antes de mexer no card.
+- **Conferir contra a discussão original** (`PLANO.md`, seção "Proposta da equipe") antes de cada versão:
+  nada da discussão pode sumir do card sem decisão registrada.
+
 ## Pendências de conteúdo
-- Nenhuma. (Tunelite: 14 dias, decidido em 2026-10-29.)
+- Estafilococo coagulase-negativo **sensível** à oxacilina → cefazolina? (IDSA 2009 apoia; equipe não decidiu.)
