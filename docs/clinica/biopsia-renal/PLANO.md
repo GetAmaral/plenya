@@ -37,7 +37,13 @@ decisões tomadas na conversa entram aqui na hora.
 
 - **Critérios para adiar: NÃO entram no ofício** (decidido). Avaliação fica com o serviço.
 
-- **Observação pós-biópsia: NÃO entra no ofício** (decidido). O serviço escolhe.
+- **Observação/repouso pós-biópsia (decidido, revisto):** entra como "a definição cabe ao serviço;
+  a título de contribuição..." citando Whittier & Korbet 2004 (até 24 h) e Lin 2021 (alta no mesmo dia
+  com sangramento semelhante em selecionados). Sugestão: **pelo menos 8 h, estendida até 24 h nos de
+  maior risco** (internados, LRA, PA de difícil controle, anemia).
+- **Laudo (decidido):** "Solicitamos, se possível, que o laudo anatomopatológico seja entregue ao
+  paciente ou encaminhado ao nefrologista solicitante, para a continuidade do tratamento."
+- **Critérios para adiar** continuam fora.
 
 ## Prazos de suspensão no card
 
@@ -66,8 +72,7 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
    - **Destinatário:** Diretoria de Regulação da Atenção à Saúde (DRAS), Autarquia Municipal de
      Saúde (AMS) de Londrina. Em Londrina a saúde é autarquia, não "Secretaria". Dirigir ao cargo;
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
-2. Retorno do laudo ao nefrologista solicitante.
-3. Formato final: ofício 1 página + anexo técnico + card.
+2. Formato final: ofício (AREM -> DRAS) + card anexo.
 
 ## Referências
 
@@ -79,5 +84,6 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
 - Whittier WL, Korbet SM. Timing of complications in percutaneous renal biopsy. JASN 2004;15(1):142-7.
 - Hogan JJ, Mocanu M, Berns JS. The Native Kidney Biopsy. CJASN 2016;11(2):354-62.
 - Luciano RL, Moeckel GW. Update on the Native Kidney Biopsy: Core Curriculum 2019. AJKD 2019;73(3):404-415.
+- Lin SY et al. Complications of Outpatient and Inpatient Renal Biopsy: SR/MA. Diagnostics 2021;11(4):651.
 - Manno C et al. Desmopressin in kidney biopsy. AJKD 2011;57(6):850-5 (motivo de não sugerir DDAVP: evidência mista).
 - Nasr SH et al. Paraffin IF com pronase, técnica de resgate. Kidney Int 2006.
