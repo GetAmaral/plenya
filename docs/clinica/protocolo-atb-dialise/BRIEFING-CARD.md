@@ -47,7 +47,6 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 - Troca por falha: só após 72 h de antibiótico.
 - Novo permcath: 72 h após hemocultura negativa.
 - Retirado por hemocultura positiva: tentar ficar 72 h sem acesso.
-- Quem troca: cateter comum = nefrologista; permcath = cirurgia vascular.
 - Procurar focos: acessos antigos, stent venoso, marcapasso, prótese ortopédica.
 
 ### Lock (sempre que o cateter fica, após cada sessão, todo o tratamento)
