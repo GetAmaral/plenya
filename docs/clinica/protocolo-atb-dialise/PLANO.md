@@ -190,6 +190,12 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
   **3 semanas** de sistêmico + lock no S. aureus.
 - Edren/ERBP: 14 dias se cateter retirado e bacteremia resolvida em 72 h, sem prótese/complicação.
 
+### Item 5 (endocardite)
+- **ESC 2023** (Delgado V et al., Eur Heart J 2023, doi 10.1093/eurheartj/ehad193), lido por resumos
+  (ACC, Rev Esp Cardiol, Rev Prat): valva nativa por MSSA: oxacilina **ou cefazolina, 4-6 semanas**;
+  valva protética >= 6 semanas; aminoglicosídeo não recomendado em estafilococo de valva nativa.
+  -> **4 semanas da equipe está dentro da faixa da ESC para valva nativa.**
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
