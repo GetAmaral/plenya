@@ -27,6 +27,10 @@ decisões tomadas na conversa entram aqui na hora.
 - **Ordem no card:** os mais comuns primeiro. Grupo de 5 dias: AAS, clopidogrel, ticagrelor,
   varfarina e, por último, **prasugrel com a marca "(7 dias)"**, coerente com a SIR.
 
+- **Card APROVADO (2026-10-29), commit b86d210e.** Fonte: `scripts/deck-builder/biopsia-renal/card.html`
+  (`node render.js --png --pdf`); PDF em `docs/clinica/biopsia-renal/card-paciente-biopsia-renal.pdf`.
+  Anti-inflamatório = "Evite sempre" (não prazo).
+
 ## Prazos de suspensão no card
 
 | Grupo | Medicamentos | SIR 2019 (alto risco) |
@@ -34,7 +38,7 @@ decisões tomadas na conversa entram aqui na hora.
 | 5 dias antes | AAS, clopidogrel, ticagrelor, varfarina, prasugrel **(7 dias)** | AAS 3-5 d · clopidogrel 5 d · ticagrelor 5 d · **prasugrel 7 d** · varfarina 5 d (INR ≤ 1,8) |
 | 2 dias antes | rivaroxabana, apixabana, dabigatrana, edoxabana | apixabana/dabigatrana 4 doses (ClCr ≥ 50), mais se menor; rivaroxabana/edoxabana 2 doses |
 | 1 dia antes | enoxaparina | dose plena 24 h (2 doses); profilática 1 dose |
-| semana anterior | anti-inflamatórios | SIR sem recomendação; sugestão nossa (paciente renal) |
+| evite sempre | anti-inflamatórios | SIR sem recomendação; decisão da equipe (paciente renal) |
 
 Prasugrel fica no bloco de 5 dias (card simples), por último e marcado "(7 dias)" (SIR 2019).
 
