@@ -76,7 +76,7 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
 2. **Ofício v1 em revisão** (commit 1bffcabd): `scripts/deck-builder/biopsia-renal/oficio.html`,
    `node render.js --png` -> `docs/clinica/biopsia-renal/oficio-biopsia-renal.pdf` (2 pág. + card).
-   Número do ofício e data ficam em branco para preencher.
+   Ofício nº 01/2026, Londrina, 29 de outubro de 2026.
 
 ## Referências
 
