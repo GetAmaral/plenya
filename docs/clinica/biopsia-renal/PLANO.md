@@ -23,20 +23,19 @@ decisões tomadas na conversa entram aqui na hora.
   (padrão `scripts/deck-builder/hamstring-guia/`), porque número dentro de imagem de IA sai errado.
   Só nome genérico de medicamento. Aviso em destaque: não parar nada por conta própria, falar com
   o médico que receitou.
-- **Ordem no card:** os mais comuns primeiro. Grupo de 5 dias inclui AAS e prasugrel (decisão
-  da equipe; ver divergência abaixo).
+- **Ordem no card:** os mais comuns primeiro. Grupo de 5 dias: AAS, clopidogrel, ticagrelor,
+  varfarina e, por último, **prasugrel com a marca "(7 dias)"**, coerente com a SIR.
 
 ## Prazos de suspensão no card
 
 | Grupo | Medicamentos | SIR 2019 (alto risco) |
 |---|---|---|
-| 5 dias antes | AAS, clopidogrel, ticagrelor, prasugrel, varfarina | AAS 3-5 d · clopidogrel 5 d · ticagrelor 5 d · **prasugrel 7 d** · varfarina 5 d (INR ≤ 1,8) |
+| 5 dias antes | AAS, clopidogrel, ticagrelor, varfarina, prasugrel **(7 dias)** | AAS 3-5 d · clopidogrel 5 d · ticagrelor 5 d · **prasugrel 7 d** · varfarina 5 d (INR ≤ 1,8) |
 | 2 dias antes | rivaroxabana, apixabana, dabigatrana, edoxabana | apixabana/dabigatrana 4 doses (ClCr ≥ 50), mais se menor; rivaroxabana/edoxabana 2 doses |
 | 1 dia antes | enoxaparina | dose plena 24 h (2 doses); profilática 1 dose |
 | semana anterior | anti-inflamatórios | SIR sem recomendação; sugestão nossa (paciente renal) |
 
-**Divergência registrada:** prasugrel no grupo de 5 dias é decisão da equipe; a SIR 2019 diz 7 dias.
-Ver pendência abaixo.
+Prasugrel fica no bloco de 5 dias (card simples), por último e marcado "(7 dias)" (SIR 2019).
 
 Fonte: Patel IJ et al. SIR Consensus Guidelines Part II. J Vasc Interv Radiol 2019;30(8):1168-1184,
 Tabela 6 (https://www.jvir.org/article/S1051-0443(19)30407-5/pdf). Lida por extração de PDF com
@@ -46,13 +45,12 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
 ## Pendências (uma por vez)
 
 1. Remetente/assinatura/destinatário/município (define cabeçalho e identidade do card).
-2. Prasugrel 5 d vs 7 d da SIR (confirmar com a equipe).
-3. Lista de exames pré-op: hemograma, TP/INR, TTPa, creatinina, ABO/Rh, urina tipo 1, US renal
+2. Lista de exames pré-op: hemograma, TP/INR, TTPa, creatinina, ABO/Rh, urina tipo 1, US renal
    recente, beta-hCG em mulher em idade fértil.
-4. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
-5. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
-6. Retorno do laudo ao nefrologista solicitante.
-7. Formato final: ofício 1 página + anexo técnico + card.
+3. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
+4. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
+5. Retorno do laudo ao nefrologista solicitante.
+6. Formato final: ofício 1 página + anexo técnico + card.
 
 ## Referências
 
