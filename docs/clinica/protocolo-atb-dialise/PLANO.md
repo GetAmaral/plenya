@@ -103,8 +103,26 @@ Casos mais graves: vancomicina, 14 dias corridos
 9. **Doses orais ajustadas à HD** não estão escritas (cipro, amox-clav, levo, cefalexina, SMX-TMP).
 10. **Celulite:** IDSA 2014 = 5 dias, estender se não melhora. Proposta 7 dias (aceitável, só registrar).
 
+### Item 1 (vanco): restrições da equipe e literatura de apoio
+Restrições da equipe (2026-10-29): **volume mínimo** e **tempo máximo de 90 min, nos 90 min finais da
+sessão** (não há como infundir após a diálise, por logística).
+- **10 mg/ml:** bula FDA (Pfizer, vancomycin HCl): "In selected patients in need of fluid restriction,
+  a concentration up to 10 mg/mL may be used; use of such higher concentrations may increase the risk
+  of infusion-related events." Paciente em HD é restrito de volume por definição.
+- **Última hora pela linha da diálise:** El Nekidy WS, Cha R, Ghazi IM. Clin Nephrol 2022;97(2):111-20
+  (revisão do farmacêutico de nefrologia): ataque 18-23 mg/kg e manutenção 8-13 mg/kg na última hora de
+  HD de alto fluxo, nível pré-HD >= 13 e bons desfechos em bacteremia e pele/partes moles.
+- **Velocidade maior com pré-medicação:** Renz CL et al. Anesth Analg 1998;87(3):681-5 (ECR duplo-cego):
+  1 g em 10 min; difenidramina <= 1 mg/kg + cimetidina <= 4 mg/kg VO 1 h antes -> hipotensão 0% vs 50%
+  no placebo; infusão interrompida 5% vs 50%. Wallace MR et al. J Infect Dis 1991;164(6):1180-5 (ECR):
+  1 g/60 min, difenidramina 50 mg -> síndrome do homem vermelho 0/16 vs 8/17 no placebo.
+- Velocidades da proposta: 2 g/90 min = 22 mg/min; 3 g/90 min = 33 mg/min; 1-1,5 g/60 min = 17-25 mg/min
+  (bula: <= 10 mg/min).
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
 - Maya ID. Antibiotic lock for tunneled HD catheter bacteremia. Semin Dial 2008;21(6):539-41.
 - KDOQI Vascular Access 2019, Supplement 2 (AV access infections).
+- Bula FDA vancomicina (Pfizer), Dosage and Administration.
+- El Nekidy 2022, Renz 1998, Wallace 1991 (acima).
