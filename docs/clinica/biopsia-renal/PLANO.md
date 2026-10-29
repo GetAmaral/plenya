@@ -21,7 +21,8 @@ decisões tomadas na conversa entram aqui na hora.
 - **Desmopressina:** fora das sugestões (evidência mista; único ECR positivo em TFG preservada).
 - **Card do paciente:** visual. gpt-image-2.5 só para ilustração; texto e dias em HTML -> PDF/PNG
   (padrão `scripts/deck-builder/hamstring-guia/`), porque número dentro de imagem de IA sai errado.
-  Só nome genérico de medicamento. Aviso em destaque: não parar nada por conta própria, falar com
+  Só nome genérico de medicamento. **Sem AREM no card** (cabeçalho e rodapé neutros): o card
+  passa a ser documento do DRAS, que põe a identidade que quiser. Aviso em destaque: não parar nada por conta própria, falar com
   o médico que receitou.
 - **Ordem no card:** os mais comuns primeiro. Grupo de 5 dias: AAS, clopidogrel, ticagrelor,
   varfarina e, por último, **prasugrel com a marca "(7 dias)"**, coerente com a SIR.
