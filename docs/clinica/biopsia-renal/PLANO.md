@@ -58,8 +58,7 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
    - Dr. Getúlio Amaral Filho · CRM-PR 21.876 · RQE 16.038
    - Dr. Michel Lima Moro Alves · CRM-PR 36.888 · RQE 32.897
    Fontes: nefroclinica.com (Danilo, Getúlio) e apps/site/content/doctors/*.mdx (os três).
-   - **Cabeçalho:** AREM · Assistência Renal Médica (decidido). Falta: logo/papel timbrado,
-     endereço, CNPJ (não achei fonte pública confiável; vem do usuário).
+   - **Cabeçalho do ofício:** só "AREM" em texto, sem logo, endereço nem CNPJ (decidido).
    - **Destinatário:** Diretoria de Regulação da Atenção à Saúde (DRAS), Autarquia Municipal de
      Saúde (AMS) de Londrina. Em Londrina a saúde é autarquia, não "Secretaria". Dirigir ao cargo;
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
