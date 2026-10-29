@@ -93,6 +93,8 @@ Casos mais graves: vancomicina, 14 dias corridos
   - Bacteremia persistente, endocardite, osteomielite ou foco profundo: prolongar conforme o foco.
   - **Ecocardiograma em todo S. aureus** (transtorácico; transesofágico se indicado).
   - Hemocultura de controle segue em **72 h** (coincide com a sessão); diretriz pede 48 h -> só no texto teórico.
+- **Item 5, endocardite (decidido):** 4 semanas em valva nativa (ESC 2023: 4-6); **valva protética 6 semanas**;
+  avaliação com cardiologia.
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -118,7 +120,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 3. ~~**Descalonamento pela cultura:**~~ DECIDIDO. MSSA -> cefazolina 20 mg/kg pós-HD (IDSA rec. 62-63). Ausente.
 4. ~~***S. aureus*: 4-6 semanas**~~ DECIDIDO (14 dias / 3 semanas). (IDSA rec. 78, 64), 14 dias só com critérios (rec. 80: não diabético,
    sem prótese, sem endocardite, bacteremia resolvida em 72 h...). Proposta: 14 dias após cultura negativa.
-5. **Endocardite:** proposta 4 semanas; IDSA 4-6 semanas (S. aureus em valva nativa = 6, AHA 2015).
+5. ~~**Endocardite:**~~ DECIDIDO. proposta 4 semanas; IDSA 4-6 semanas (S. aureus em valva nativa = 6, AHA 2015).
 6. **Tunelite:** IDSA rec. 44 = retirar o cateter + 7-10 dias. Proposta mantém se hemocultura negativa e
    usa ceftazidima isolada (não cobre estafilococo, principal agente).
 7. **FAV/prótese:** KDOQI 2019 não fixa duração; prótese com infecção extensa = excisão cirúrgica.
@@ -195,6 +197,14 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
   (ACC, Rev Esp Cardiol, Rev Prat): valva nativa por MSSA: oxacilina **ou cefazolina, 4-6 semanas**;
   valva protética >= 6 semanas; aminoglicosídeo não recomendado em estafilococo de valva nativa.
   -> **4 semanas da equipe está dentro da faixa da ESC para valva nativa.**
+
+### Item 6 (tunelite)
+- IDSA 2009 rec. 44 (A-II): tunelite -> retirar o cateter, drenar se preciso, 7-10 dias (sem bacteremia).
+- **Beathard GA. JASN 1999;10(5):1045-9** (114 episódios de bacteremia por permcath): com tunelite ou infecção
+  de óstio e poucos sintomas, **troca por fio-guia com criação de novo túnel** curou 75%; troca simples (túnel
+  normal) 87,8%; retirada com reposição após defervescência 86,5%. Todos com 3 semanas de antibiótico.
+  -> opção que preserva a veia mesmo na tunelite.
+- Agente principal = estafilococo: ceftazidima isolada não cobre.
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
