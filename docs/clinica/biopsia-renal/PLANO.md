@@ -64,7 +64,8 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
 
 ## Pendências (uma por vez)
 
-1. Remetente: assinam os três nefrologistas, sócios da Nefroclínica Londrina (decidido):
+1. Remetente: assinam **Danilo e Getúlio** (Michel removido, decidido). Assinaturas escaneadas em
+   `scripts/deck-builder/biopsia-renal/assinaturas/` (fora do git, via .gitignore). Dados de registro:
    - Dr. Danilo Ramos Cunha · CRM-PR 21.875 · RQE 16.035
    - Dr. Getúlio Amaral Filho · CRM-PR 21.876 · RQE 16.038
    - Dr. Michel Lima Moro Alves · CRM-PR 36.888 · RQE 32.897
