@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Biópsia de rim · Card do paciente</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
+:root{
+  --deep:#0E4F5C;--teal:#2C7A86;--soft:#7FB7BE;--aqua:#DCEFF1;--aqua2:#EEF7F8;
+  --coral:#E07A5F;--coral-bg:#FBE9E3;--ink:#16323A;--muted:#4F6B72;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#8a8a8a}
+.page{width:210mm;height:297mm;margin:0 auto;background:#fff;color:var(--ink);position:relative;overflow:hidden;
+  font-family:'Atkinson Hyperlegible',Arial,sans-serif;font-size:11pt;line-height:1.26;padding:10mm 13mm 10mm}
+.top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:.5mm solid var(--deep);padding-bottom:2mm}
+.top .org{font-weight:700;letter-spacing:.12em;font-size:10pt;color:var(--deep)}
+.top .tag{font-size:9pt;color:var(--muted)}
+h1{font-size:24pt;line-height:1.05;margin:3mm 0 .6mm;color:var(--deep)}
+.sub{font-size:12pt;color:var(--teal);margin:0 0 2.4mm}
+.hero{display:grid;grid-template-columns:32mm 1fr;gap:4mm;align-items:center;background:var(--coral-bg);
+  border:.6mm solid var(--coral);border-radius:4mm;padding:2mm 4mm 2mm 2mm}
+.hero img{width:32mm;height:32mm;object-fit:contain;mix-blend-mode:multiply}
+.hero .big{font-size:15pt;font-weight:700;line-height:1.15;color:#8E3B26;margin-bottom:1.6mm}
+.hero p{margin:0;font-size:11pt}
+h2{font-size:13pt;color:var(--deep);margin:3mm 0 1.6mm;display:flex;align-items:center;gap:2.5mm}
+h2 .n{display:inline-flex;width:7mm;height:7mm;border-radius:50%;background:var(--deep);color:#fff;
+  align-items:center;justify-content:center;font-size:11pt}
+.meds{display:grid;grid-template-columns:repeat(4,1fr);gap:2.6mm}
+.grp{border-radius:3mm;background:var(--aqua2);border:.35mm solid var(--soft);padding:2mm 3mm 2mm;display:flex;flex-direction:column}
+.grp.main{background:var(--aqua);border-color:var(--teal)}
+.grp .d{font-size:24pt;font-weight:700;line-height:.95;color:var(--deep)}
+.grp .u{font-size:10.5pt;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:1mm}
+.grp ul{margin:0;padding:0;list-style:none}
+.grp li{font-size:11pt;padding:.35mm 0;border-top:.25mm solid rgba(14,79,92,.15)}
+.grp li:first-child{border-top:0}
+.grp li small{color:var(--coral);font-weight:700;font-size:10.5pt}
+.grp .obs{font-size:9.2pt;color:var(--muted);margin-top:auto;padding-top:1.5mm;line-height:1.22}
+.strip{display:flex;align-items:center;gap:4mm;margin-top:2mm;background:var(--aqua2);border-radius:3mm;padding:1.2mm 3mm}
+.strip img{width:16mm;height:16mm;object-fit:contain;mix-blend-mode:multiply}
+.strip p{margin:0;font-size:10.5pt}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.box{border:.35mm solid var(--soft);border-radius:3mm;padding:2.2mm 3mm;display:grid;grid-template-columns:1fr 21mm;gap:2mm;align-items:end}
+.box img{width:21mm;height:21mm;object-fit:contain;mix-blend-mode:multiply}
+.box ul{margin:0;padding-left:4.2mm}
+.box li{margin:.3mm 0;font-size:10.6pt}
+.box.alert{border-color:var(--coral);background:var(--coral-bg)}
+.box.alert h3{color:#8E3B26}
+h3{font-size:11.8pt;margin:0 0 .8mm;color:var(--deep)}
+.fill{margin-top:2.6mm;border:.4mm dashed var(--teal);border-radius:3mm;padding:2mm 4mm 2.4mm}
+.fill h3{margin-bottom:1mm}
+.fill .row{display:grid;grid-template-columns:1fr 1fr;gap:1.6mm 7mm}
+.fill .f{display:flex;gap:2mm;align-items:flex-end;font-size:11pt}
+.fill .f span{white-space:nowrap}
+.fill .f i{flex:1;border-bottom:.3mm solid var(--muted);height:5.5mm}
+.fill .f.w{grid-column:1/-1}
+.foot{position:absolute;bottom:7mm;left:13mm;right:13mm;font-size:8.4pt;color:var(--muted);display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<section class="page">
+  <div class="top"><span class="org">AREM · ASSISTÊNCIA RENAL MÉDICA</span><span class="tag">Orientações ao paciente</span></div>
+
+  <h1>Sua biópsia de rim</h1>
+  <p class="sub">O que fazer antes e depois do exame</p>
+
+  <div class="hero">
+    <img src="assets/conversa.jpg" alt="">
+    <div>
+      <div class="big">Não pare nenhum remédio por conta própria.</div>
+      <p>Se você usa algum remédio da lista abaixo, <b>converse antes com o médico que receitou</b>.
+      Quem tem stent no coração, válvula cardíaca, arritmia ou já teve trombose pode precisar de um plano especial.</p>
+    </div>
+  </div>
+
+  <h2><span class="n">1</span>Remédios que afinam o sangue: quando parar</h2>
+  <div class="meds">
+    <div class="grp main">
+      <div class="d">5</div><div class="u">dias antes</div>
+      <ul>
+        <li>AAS</li>
+        <li>Clopidogrel</li>
+        <li>Ticagrelor</li>
+        <li>Varfarina</li>
+        <li>Prasugrel <small>(7 dias)</small></li>
+      </ul>
+      <div class="obs">Quem usa varfarina pode precisar de um exame de sangue (INR) antes.</div>
+    </div>
+    <div class="grp">
+      <div class="d">2</div><div class="u">dias antes</div>
+      <ul>
+        <li>Rivaroxabana</li>
+        <li>Apixabana</li>
+        <li>Dabigatrana</li>
+        <li>Edoxabana</li>
+      </ul>
+      <div class="obs">Pode ser mais tempo se o rim funcionar pouco. O médico define.</div>
+    </div>
+    <div class="grp">
+      <div class="d">1</div><div class="u">dia antes</div>
+      <ul>
+        <li>Enoxaparina (injeção)</li>
+      </ul>
+      <div class="obs">Em dose de prevenção, o prazo pode ser menor. O médico define.</div>
+    </div>
+    <div class="grp">
+      <div class="d">7</div><div class="u">dias antes</div>
+      <ul>
+        <li>Anti-inflamatórios: ibuprofeno, diclofenaco, nimesulida e outros</li>
+      </ul>
+      <div class="obs">Para dor, prefira dipirona ou paracetamol.</div>
+    </div>
+  </div>
+  <div class="strip">
+    <img src="assets/remedios.jpg" alt="">
+    <p><b>Os outros remédios continuam normalmente</b>, inclusive os de pressão, no dia da biópsia também,
+    a não ser que a equipe oriente diferente. Pressão alta no dia pode adiar o exame.</p>
+  </div>
+
+  <h2><span class="n">2</span>No dia e depois</h2>
+  <div class="two">
+    <div class="box">
+      <div>
+        <h3>Leve com você</h3>
+        <ul>
+          <li>Todos os exames que tiver, principalmente o <b>ultrassom dos rins</b></li>
+          <li>A lista de <b>todos</b> os remédios que usa</li>
+          <li>Documento com foto e cartão do SUS</li>
+        </ul>
+        <h3 style="margin-top:1.4mm">Avise a equipe se tiver</h3>
+        <ul>
+          <li>Febre ou infecção urinária</li>
+          <li>Gravidez ou suspeita</li>
+          <li>Alergia a remédio ou anestésico</li>
+        </ul>
+      </div>
+      <img src="assets/levar.jpg" alt="">
+    </div>
+    <div class="box alert">
+      <div>
+        <h3>Depois da biópsia, procure o pronto-socorro se tiver</h3>
+        <ul>
+          <li>Urina com sangue vivo ou coágulos</li>
+          <li>Dor forte nas costas ou na barriga</li>
+          <li>Tontura, fraqueza ou desmaio</li>
+          <li>Febre</li>
+          <li>Dificuldade para urinar</li>
+        </ul>
+        <p style="margin:1.4mm 0 0;font-size:10pt">Evite esforço físico e carregar peso pelo tempo que a equipe orientar.</p>
+      </div>
+      <img src="assets/alerta.jpg" alt="">
+    </div>
+  </div>
+
+  <div class="fill">
+    <h3>Preenchido pelo hospital</h3>
+    <div class="row">
+      <div class="f"><span>Data</span><i></i></div>
+      <div class="f"><span>Horário de chegada</span><i></i></div>
+      <div class="f"><span>Jejum a partir de</span><i></i></div>
+      <div class="f"><span>Local</span><i></i></div>
+      <div class="f w"><span>Telefone para dúvidas</span><i></i></div>
+    </div>
+  </div>
+
+  <div class="foot"><span>Prazos baseados na diretriz da Society of Interventional Radiology (2019) para procedimentos de alto risco de sangramento.</span><span>AREM</span></div>
+</section>
+</body>
+</html>
