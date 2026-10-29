@@ -225,6 +225,15 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
     cateter, 12 delas por Pseudomonas -> justifica **incluir** cobertura anti-Pseudomonas, não usá-la sozinha.
   - Única base possível: antibiograma local com predomínio de Pseudomonas (perguntar à equipe).
 
+### Item 8 (pneumonia)
+- **ATS/IDSA 2019** (Metlay JP et al. Am J Respir Crit Care Med 2019;200(7):e45-67): ambulatorial com
+  comorbidade (inclui doença renal crônica) -> beta-lactâmico (amoxicilina-clavulanato) + macrolídeo, ou
+  fluoroquinolona respiratória (levofloxacino) isolada. **Esquema da equipe bate.**
+- **ATS 2025** (Am J Respir Crit Care Med, 18/07/2025; lido por resumo do ACP I.M. Matters): **5 dias, mínimo 3**;
+  3-4 dias em estáveis sem doença pulmonar. Imagem para diagnóstico: RX, ou **ultrassom pulmonar como
+  alternativa aceitável** onde houver experiência (sensibilidade 95% vs 70% do RX). -> 5 dias da equipe bate;
+  RX só em caso arrastado diverge (diretriz pede imagem para confirmar).
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
