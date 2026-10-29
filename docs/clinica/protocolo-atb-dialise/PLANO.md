@@ -107,6 +107,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Duração revista pela equipe (2026-10-29), substitui o item 4:** conta sempre da hemocultura negativa,
   nunca da troca. Outros germes 14 dias; **S. aureus 3 semanas** com lock ou após troca. Candida: 14 dias
   após HC negativa (IDSA 2016), confirmado. Troca do cateter não altera o prazo.
+- **Folha 1 APROVADA (2026-10-29), A4 vertical, commit f3c3f81a.**
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
   `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.
@@ -345,7 +346,7 @@ de HD) para os demais.
   febre do S. aureus (conservador). **Decidido: conservador** -> febre persistente ou HC 72 h positiva = fio-guia
   em qualquer germe; instável/sepse/metástase = retirar.
   Revisto: instabilidade/sepse/metástase vira alarme **a qualquer momento** (não espera 72 h); nas 72 h fica
-  uma pergunta só (febre ou HC positiva -> fio-guia). Proposto por Claude, a confirmar.
+  uma pergunta só (febre ou HC positiva -> fio-guia). Confirmado pela equipe.
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
