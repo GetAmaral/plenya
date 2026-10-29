@@ -166,6 +166,23 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
   longo) aparece em guias institucionais (UCSF IDMP), sem estudo próprio localizado.
 - Estudo em andamento: CEFAZODIAL (NCT06093269), 20 mg/kg no circuito ao fim da sessão de 4 h.
 
+### Item 4 (duração S. aureus): equipe acha 4-6 semanas longo; pediu base para 2-3 semanas
+- **IDSA/ESCMID 2026 SAB Consensus Statements** (substitui complicado/não complicado por estratificação
+  de risco). Lido por resumos (Medscape 27/10/2026, Contagion Live 29/10/2026), **texto primário não acessado**:
+  - Risco aumentado: início comunitário; hemocultura positiva >= 48 h após a primeira; dispositivo
+    intracardíaco; valvopatia predisponente; droga injetável; enxerto endovascular; SAB nos 90 dias prévios;
+    sinais de foco profundo/metastático; embolia; >1 foco não contíguo; foco desconhecido.
+    **Diabetes e hemodiálise não estão na lista.**
+  - **14 dias** tanto no baixo risco quanto no risco aumentado **sem foco profundo/metastático** após
+    investigação; contar **da negativação da hemocultura ou do controle do foco, o que vier depois**.
+    Estender seletivamente se bacteremia prolongada ou investigação incompleta.
+  - Hemocultura de controle **48 h** após a primeira positiva, depois a cada 24-48 h até negativar.
+    **Ecocardiograma transtorácico para todo adulto**; transesofágico se dispositivo intracardíaco,
+    valvopatia, hemocultura positiva >= 48 h, embolia ou >1 foco.
+- **Cateter mantido com lock (sem controle do foco):** protocolo de Maya 2007/2008 (UAB, HD) usou
+  **3 semanas** de sistêmico + lock no S. aureus.
+- Edren/ERBP: 14 dias se cateter retirado e bacteremia resolvida em 72 h, sem prótese/complicação.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
