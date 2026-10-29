@@ -32,7 +32,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | |
 | Gram-negativo | Pelo antibiograma (suspender vanco) | |
 | **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | Enterococo: regra da IDSA só no texto teórico |
-| *Candida* | Pela cultura | **Retirar o cateter** |
+| *Candida* | **Antifúngico pela cultura; suspender vanco e cefta** (decidido 2026-10-29) | **Retirar o cateter**. Candida + bactéria = ramo "outro germe ou polimicrobiana" |
 
 ### Duração (depende só do germe; conta SEMPRE da 1ª hemocultura negativa, nunca da troca)
 | Situação | Duração |
