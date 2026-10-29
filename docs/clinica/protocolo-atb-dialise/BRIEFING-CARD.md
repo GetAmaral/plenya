@@ -28,7 +28,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | Resultado da hemocultura | Antibiótico | Atenção |
 |---|---|---|
 | **Negativa** | Manter vancomicina + ceftazidima (empírico) | Discussão original: "Vanco / ceftazidima empírica - 14 dias" |
-| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | Cefazolina (suspender vanco) | IDSA 2009; extensão ao coagulase-negativo aprovada |
+| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | **Só cefazolina** (suspender vanco e cefta; decidido 2026-10-29) | IDSA 2009; extensão ao coagulase-negativo aprovada |
 | Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | |
 | Gram-negativo | Pelo antibiograma (suspender vanco) | |
 | **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | Enterococo: regra da IDSA só no texto teórico |
