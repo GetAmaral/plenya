@@ -95,6 +95,16 @@ Casos mais graves: vancomicina, 14 dias corridos
   - Hemocultura de controle segue em **72 h** (coincide com a sessão); diretriz pede 48 h -> só no texto teórico.
 - **Item 5, endocardite (decidido):** 4 semanas em valva nativa (ESC 2023: 4-6); **valva protética 6 semanas**;
   avaliação com cardiologia.
+- **Item 6, tunelite (decidido):** empírico escalonado, **começando pela cefazolina**:
+  - Sem bacteremia/sepse e sem MRSA prévio: **cefazolina** 20 mg/kg (1-2 g) no fim da sessão.
+  - MRSA prévio: vancomicina.
+  - Secreção esverdeada, Pseudomonas prévia ou falha da cefazolina: + ceftazidima.
+  - Com bacteremia/sepse: vanco + ceftazidima (empírico da bacteremia).
+  - Sempre cultura da secreção + hemocultura, ajuste pelo resultado. Lock não trata o túnel.
+  - Cateter: troca por fio-guia com túnel novo (Beathard 1999); sepse/instabilidade -> retirar e recolocar
+    após defervescência. (Pendente: quem faz a troca na unidade.)
+  - Base: ISPD 2017/2023 (cefalosporina de 1ª geração = 1ª linha em óstio/túnel); S. aureus 34-47% dos
+    isolados em séries brasileiras; IDSA rec. 44.
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -121,7 +131,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 4. ~~***S. aureus*: 4-6 semanas**~~ DECIDIDO (14 dias / 3 semanas). (IDSA rec. 78, 64), 14 dias só com critérios (rec. 80: não diabético,
    sem prótese, sem endocardite, bacteremia resolvida em 72 h...). Proposta: 14 dias após cultura negativa.
 5. ~~**Endocardite:**~~ DECIDIDO. proposta 4 semanas; IDSA 4-6 semanas (S. aureus em valva nativa = 6, AHA 2015).
-6. **Tunelite:** IDSA rec. 44 = retirar o cateter + 7-10 dias. Proposta mantém se hemocultura negativa e
+6. ~~**Tunelite:**~~ DECIDIDO (cefazolina escalonada). IDSA rec. 44 = retirar o cateter + 7-10 dias. Proposta mantém se hemocultura negativa e
    usa ceftazidima isolada (não cobre estafilococo, principal agente).
 7. **FAV/prótese:** KDOQI 2019 não fixa duração; prótese com infecção extensa = excisão cirúrgica.
    Proposta não menciona cirurgia.
