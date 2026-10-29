@@ -205,6 +205,12 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
   normal) 87,8%; retirada com reposição após defervescência 86,5%. Todos com 3 semanas de antibiótico.
   -> opção que preserva a veia mesmo na tunelite.
 - Agente principal = estafilococo: ceftazidima isolada não cobre.
+- **Busca de embasamento para ceftazidima isolada (2026-10-29): nada encontrado em HD.**
+  - Diálise peritoneal (ISPD 2017/2023): empírico de 1ª linha para infecção de óstio/túnel é cefalosporina de
+    1ª geração (anti-estafilocócica); ceftazidima só se acrescenta em Pseudomonas lenta/recorrente.
+  - Série prospectiva antiga de CVC (MSKCC, oncologia, não HD): 15 de 20 tunelites precisaram retirar o
+    cateter, 12 delas por Pseudomonas -> justifica **incluir** cobertura anti-Pseudomonas, não usá-la sozinha.
+  - Única base possível: antibiograma local com predomínio de Pseudomonas (perguntar à equipe).
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
