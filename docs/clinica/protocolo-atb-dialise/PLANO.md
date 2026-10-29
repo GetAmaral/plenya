@@ -86,6 +86,13 @@ Casos mais graves: vancomicina, 14 dias corridos
   máximo 2 g**, diluída em **SF 0,9%** (~10 ml por grama), **bolus de 3-5 min pela linha venosa no fim da
   sessão**, 3x/semana. MRSA/SCN resistente: manter vanco, suspender ceftazidima. Gram-negativo: suspender vanco
   e ajustar pelo antibiograma. (IDSA rec. 62-63; bula; Sowinski 2001; Duke 2024.)
+- **Item 4, duração no S. aureus (decidido):**
+  - Cateter trocado por fio-guia ou retirado + hemocultura negativa em 48-72 h + eco sem endocardite + sem foco
+    à distância: **14 dias** a partir da hemocultura negativa ou da troca, o que vier depois (IDSA/ESCMID 2026).
+  - Cateter mantido com lock: **3 semanas** (Maya 2007/2008).
+  - Bacteremia persistente, endocardite, osteomielite ou foco profundo: prolongar conforme o foco.
+  - **Ecocardiograma em todo S. aureus** (transtorácico; transesofágico se indicado).
+  - Hemocultura de controle segue em **72 h** (coincide com a sessão); diretriz pede 48 h -> só no texto teórico.
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -109,7 +116,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 2. ~~**Retirada obrigatória**~~ DECIDIDO (conservador, ver acima). do cateter em *S. aureus*, *Pseudomonas* e *Candida* (IDSA rec. 57, A-II).
    Proposta só retira com 2 hemoculturas positivas.
 3. ~~**Descalonamento pela cultura:**~~ DECIDIDO. MSSA -> cefazolina 20 mg/kg pós-HD (IDSA rec. 62-63). Ausente.
-4. ***S. aureus*: 4-6 semanas** (IDSA rec. 78, 64), 14 dias só com critérios (rec. 80: não diabético,
+4. ~~***S. aureus*: 4-6 semanas**~~ DECIDIDO (14 dias / 3 semanas). (IDSA rec. 78, 64), 14 dias só com critérios (rec. 80: não diabético,
    sem prótese, sem endocardite, bacteremia resolvida em 72 h...). Proposta: 14 dias após cultura negativa.
 5. **Endocardite:** proposta 4 semanas; IDSA 4-6 semanas (S. aureus em valva nativa = 6, AHA 2015).
 6. **Tunelite:** IDSA rec. 44 = retirar o cateter + 7-10 dias. Proposta mantém se hemocultura negativa e
