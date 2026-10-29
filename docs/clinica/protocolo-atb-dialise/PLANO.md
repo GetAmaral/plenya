@@ -90,7 +90,17 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Amicacina fica como alternativa** na ITU sem adesão ao oral (decidido): 5-7,5 mg/kg após cada sessão
   (UC Davis 2017: q48-72h após HD).
 
-### Tabela de doses proposta (2026-10-29, aguardando aprovação)
+- **Doses, decisões finais (2026-10-29):**
+  1. **Amoxicilina-clavulanato mantida, conforme bula americana** (500/125 mg 1x/dia + dose extra durante e ao fim
+     da diálise; não usar 875 mg). A bula brasileira não recomenda o comprimido com ClCr < 10 -> só no texto.
+  2. **Levofloxacino: 750 mg na 1ª dose, depois 500 mg a cada 48 h** (bula BR e FDA). Dose única não tem fonte.
+  3. **Vancomicina: mantém o discutido.** No texto, **só citar as fontes** (ASHP 2020, bula FDA 10 mg/ml,
+     El Nekidy 2022, Renz 1998, Wallace 1991), **sem marcar como fora da bula**.
+  4. **Cefalexina: 500 mg 1x/dia**, após a sessão nos dias de HD.
+- **Item 10, celulite:** mantidos 7 dias (IDSA 2014 = 5 dias; registrar no texto). SMX-TMP fora.
+- **Todas as divergências 1-10 resolvidas -> próximo passo: card.**
+
+### Tabela de doses proposta (2026-10-29; ver decisões finais acima)
 | Droga | Dose em HD | Quando | Fonte |
 |---|---|---|---|
 | Vancomicina | ataque 35 mg/kg (2-3 g) em 90 min; manutenção 15 mg/kg (1-1,5 g) em 60 min; 10 mg/ml | 90 min finais, toda sessão | Rybak 2020; bula; El Nekidy 2022 |
