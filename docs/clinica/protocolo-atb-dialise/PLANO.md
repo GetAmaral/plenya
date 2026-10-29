@@ -74,6 +74,14 @@ Casos mais graves: vancomicina, 14 dias corridos
   - **Nível pré-HD 15-20 mg/l:** a unidade não tem a dosagem. Entra **só no texto teórico**, como sugestão
     "quando disponível". **Fora do card.**
   - **Pré-medicação H1 + H2** (Renz 1998, Wallace 1991): **só no texto teórico**, como sugestão. **Fora do card.**
+- **Item 2, retirada do cateter (decidido, conservador):**
+  - Germe que não seja S. aureus nem Candida: manter o cateter com lock (regra da discussão).
+  - **S. aureus:** tentar lock se acesso precioso e paciente estável. **Parar e trocar por fio-guia** se
+    febre após 48-72 h de antibiótico ou hemocultura de controle (72 h) positiva. (Maya 2007: cura 41%;
+    complicação grave 25% com febre persistente vs 1,4%. Aslam 2014: fio-guia > lock no S. aureus.)
+  - **Candida:** retirar sempre (sem estudo de lock; IDSA rec. 57).
+  - **Qualquer germe:** retirar/trocar se febre persistente > 72 h, instabilidade ou infecção metastática.
+  - Base para ser conservador: KDOQI 2019 st. 25.2 e IDSA rec. 57 (fio-guia sem sítio alternativo).
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -94,7 +102,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 1. ~~**Velocidade e diluição da vanco.**~~ DECIDIDO (ver acima). ASHP 2020: ≤ 5 mg/ml e ≥ 60 min por 1 g (10-15 mg/min);
    ataque de 25-35 mg/kg exige 2-3 h. Proposta: 2-3 g em 90 min a 10 mg/ml. 35 mg/kg só vale se
    intradialítico em alto fluxo. Faltam no protocolo: **nível pré-diálise 15-20 mg/l, semanal** (ASHP).
-2. **Retirada obrigatória** do cateter em *S. aureus*, *Pseudomonas* e *Candida* (IDSA rec. 57, A-II).
+2. ~~**Retirada obrigatória**~~ DECIDIDO (conservador, ver acima). do cateter em *S. aureus*, *Pseudomonas* e *Candida* (IDSA rec. 57, A-II).
    Proposta só retira com 2 hemoculturas positivas.
 3. **Descalonamento pela cultura:** MSSA -> cefazolina 20 mg/kg pós-HD (IDSA rec. 62-63). Ausente.
 4. ***S. aureus*: 4-6 semanas** (IDSA rec. 78, 64), 14 dias só com critérios (rec. 80: não diabético,
