@@ -1,4 +1,4 @@
-// Card do protocolo de antibióticos na hemodiálise · A4 retrato, 2 páginas fixas.
+// Card do protocolo de antibióticos na hemodiálise · A4 paisagem, 3 folhas fixas (algoritmo).
 // Uso: node render.js [--png] [--check]
 //   sempre gera docs/clinica/protocolo-atb-dialise/card-protocolo-atb-hd.pdf (docs/**/*.pdf não é versionado)
 //   --png    PNG por página em previews/ (aprovação), a partir do PDF (pdftoppm)
@@ -12,7 +12,7 @@ const PDF = `${PDF_DIR}/card-protocolo-atb-hd.pdf`;
 (async () => {
   fs.mkdirSync(PDF_DIR, { recursive: true }); fs.mkdirSync(PREV, { recursive: true });
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
+  const page = await browser.newPage({ viewport: { width: 1123, height: 794 } });
   await page.goto(`file://${path.resolve(__dirname, "card.html")}`, { waitUntil: "networkidle" });
   await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(600);
   if (has("check")) {
@@ -21,9 +21,9 @@ const PDF = `${PDF_DIR}/card-protocolo-atb-hd.pdf`;
       p.querySelectorAll("*:not(.foot):not(.foot *)").forEach(e => { const b = e.getBoundingClientRect().bottom - top; if (b > max) max = b; });
       return { n: i + 1, mm: +(max * 25.4 / 96).toFixed(1) };
     }));
-    res.forEach(r => console.log(`p${r.n} fim do conteudo ${r.mm} mm${r.mm > 286 ? "  ** TRANSBORDA (rodapé em 288)" : ""}`));
+    res.forEach(r => console.log(`p${r.n} fim do conteudo ${r.mm} mm${r.mm > 200 ? "  ** TRANSBORDA (rodapé em 203)" : ""}`));
   }
-  await page.pdf({ path: PDF, format: "A4", printBackground: true, preferCSSPageSize: true });
+  await page.pdf({ path: PDF, printBackground: true, preferCSSPageSize: true });
   await browser.close();
   if (has("png")) {
     execFileSync("pdftoppm", ["-png", "-r", "150", PDF, path.join(PREV, "card")]);

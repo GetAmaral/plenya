@@ -2,155 +2,285 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Protocolo de antibióticos na hemodiálise · Card</title>
+<title>Protocolo de antibióticos na hemodiálise · Algoritmo</title>
+<!-- Conteúdo: docs/clinica/protocolo-atb-dialise/BRIEFING-CARD.md · Forma: DESIGN-CARD.md
+     Gramática fixa: .st estado (arredondado) · .dc decisão (hexágono âmbar) · .ac ação (petróleo)
+     · .du duração (pílula verde) · .al alerta (coral). Setas: array EDGES no fim, desenhadas no load. -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 :root{
-  --deep:#0E4F5C;--teal:#2C7A86;--soft:#7FB7BE;--aqua:#DCEFF1;--aqua2:#F2F8F9;
-  --coral:#E07A5F;--coral-bg:#FBE9E3;--coral-deep:#8E3B26;--ink:#16323A;--muted:#5A7279;
+  --pet:#0E4F5C;--pet2:#2C7A86;--line:#7FA3AA;
+  --amb:#FBEBC8;--amb-t:#6B4A0E;--amb-b:#D9A441;
+  --dur:#DDF1EC;--dur-b:#2E8B74;--dur-t:#185447;
+  --cor:#FBE6DF;--cor-b:#D7684B;--cor-t:#8E3B26;
+  --ink:#17323A;--mut:#5C7379;--bg:#F6F9F9;
 }
-@page{size:A4;margin:0}
+@page{size:A4 landscape;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#8a8a8a}
-.page{width:210mm;height:297mm;margin:0 auto 6mm;background:#fff;color:var(--ink);position:relative;overflow:hidden;
-  break-after:page;page-break-after:always;font-family:'Atkinson Hyperlegible',Arial,sans-serif;font-size:9.6pt;line-height:1.22;
-  padding:9mm 10mm}
-.top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:.5mm solid var(--deep);padding-bottom:1.6mm;margin-bottom:3mm}
-.top .t{font-weight:700;letter-spacing:.1em;font-size:9.4pt;color:var(--deep);text-transform:uppercase}
-.top .p{font-size:9pt;color:var(--teal);font-weight:700}
-h2{font-size:11pt;margin:0 0 1.4mm;color:var(--deep);text-transform:uppercase;letter-spacing:.05em}
+.page{width:297mm;height:210mm;margin:0 auto 6mm;background:#fff;position:relative;overflow:hidden;break-after:page;page-break-after:always;
+  font-family:'Atkinson Hyperlegible',Arial,sans-serif;color:var(--ink);font-size:9.6pt;line-height:1.22;padding:8mm 10mm 7mm}
+.hd{display:flex;align-items:center;gap:4mm;margin-bottom:4mm}
+.hd img{height:13mm}
+.hd h1{font-size:19pt;margin:0;color:var(--pet);line-height:1}
+.hd .k{font-size:9pt;color:var(--mut);margin-top:1mm}
+.hd .tag{margin-left:auto;font-size:8.6pt;color:var(--pet2);font-weight:700;border:.35mm solid var(--line);border-radius:5mm;padding:1mm 3mm}
+.foot{position:absolute;left:10mm;right:10mm;bottom:4.5mm;font-size:7.4pt;color:var(--mut);display:flex;justify-content:space-between}
+/* ---------- gramática ---------- */
+.n{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.st{border:.45mm solid var(--pet);border-radius:4mm;background:#fff;padding:2mm 3mm;font-weight:700;color:var(--pet)}
+.ac{background:var(--pet);color:#fff;border-radius:1.6mm;padding:2mm 3mm;font-weight:700}
+.ac small,.st small{display:block;font-weight:400;font-size:8.2pt;opacity:.9;margin-top:.4mm}
+.dc{background:var(--amb);color:var(--amb-t);font-weight:700;padding:2.4mm 8mm;
+  clip-path:polygon(6mm 0,calc(100% - 6mm) 0,100% 50%,calc(100% - 6mm) 100%,6mm 100%,0 50%)}
+.du{background:var(--dur);border:.45mm solid var(--dur-b);color:var(--dur-t);border-radius:10mm;padding:1.4mm 3.5mm;font-weight:700;flex-direction:row;gap:1.6mm}
+.du svg{width:3.6mm;height:3.6mm;flex:none}
+.du small,.al small{display:block;font-weight:400;font-size:8pt;margin-top:.3mm}
+.du{align-self:center}
+.du span,.al span{text-align:left}
+.al{background:var(--cor);border:.5mm solid var(--cor-b);color:var(--cor-t);border-radius:1.6mm;padding:1.8mm 3mm;font-weight:700;flex-direction:row;gap:1.6mm}
+.al svg{width:4mm;height:4mm;flex:none}
+.lbl{position:absolute;z-index:3;font-size:7.8pt;font-weight:700;color:var(--pet2);background:#fff;padding:0 .8mm;line-height:1.1;white-space:nowrap;transform:translate(-50%,-50%)}
+svg.wires{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.note{font-size:8.2pt;color:var(--mut);text-align:left}
+/* ---------- grades ---------- */
+.flow{position:relative;display:grid}
+.rail{border-left:.35mm solid #D5E3E5;padding-left:5mm}
+.rail h3{font-size:11pt;color:var(--pet);margin:0 0 2mm}
+.tl{list-style:none;margin:0 0 5mm;padding:0;position:relative}
+.tl:before{content:"";position:absolute;left:2.2mm;top:1.5mm;bottom:4mm;width:.5mm;background:var(--line)}
+.tl li{position:relative;padding:0 0 3mm 8mm}
+.tl li:before{content:"";position:absolute;left:0;top:-.3mm;width:4.4mm;height:4.4mm;border-radius:50%;background:#fff;border:.6mm solid var(--pet)}
+.tl b{color:var(--pet)}
+.rules{margin:0 0 5mm;padding:0;list-style:none}
+.rules li{padding:1.2mm 0;border-bottom:.25mm solid #E3ECED}
+.rules li b{color:var(--pet)}
+.mini{border:.35mm solid #D5E3E5;border-radius:3mm;padding:3mm;background:#fff;display:flex;flex-direction:column}
+.mini .mh{display:flex;align-items:center;gap:2.4mm;margin-bottom:3mm}
+.mini .mh img{height:10mm}
+.mini .mh h2{font-size:12.5pt;margin:0;color:var(--pet)}
+/* ---------- ficha ---------- */
 table{width:100%;border-collapse:collapse}
-th{font-size:7.8pt;text-transform:uppercase;letter-spacing:.05em;color:var(--teal);text-align:left;padding:1.2mm 1.8mm;border-bottom:.45mm solid var(--teal)}
-td{padding:1.15mm 1.8mm;border-bottom:.25mm solid rgba(14,79,92,.16);vertical-align:top}
-tr.grp td{background:var(--deep);color:#fff;font-weight:700;font-size:10pt;letter-spacing:.03em;padding:1.1mm 1.8mm;border:0}
-tr.grp img{height:7mm;vertical-align:middle;margin-right:2mm;background:#fff;border-radius:1.4mm;padding:.4mm}
-tr.alt td{background:var(--aqua2)}
-td.s{font-weight:700;color:var(--deep);width:34mm}
-td.d{width:36mm}
-td.a{color:var(--muted);font-size:8.8pt}
-.drug{font-weight:700}
-.warn{color:var(--coral-deep);font-weight:700}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2.4mm;margin-top:3mm}
-.card{border:.35mm solid var(--soft);border-radius:2.4mm;padding:2.2mm 2.8mm}
-.card.alert{background:var(--coral-bg);border-color:var(--coral)}
-.card.alert h2{color:var(--coral-deep)}
-.card ul{margin:0;padding-left:3.6mm}
-.card li{margin:.5mm 0}
-.dose td{font-size:9.6pt}
-.dose td.n{font-weight:700;color:var(--deep);white-space:nowrap}
-.dose td.v{font-weight:700}
-.dose td.nw{white-space:nowrap}
-.sub{font-size:8pt;color:var(--muted);font-weight:400}
-.foot{position:absolute;bottom:5mm;left:10mm;right:10mm;font-size:7.6pt;color:var(--muted);display:flex;justify-content:space-between}
-.mt{margin-top:4mm}
+th{font-size:8pt;color:var(--pet2);text-align:left;padding:1.3mm 2mm;border-bottom:.45mm solid var(--pet2);font-weight:700}
+td{padding:1.5mm 2mm;border-bottom:.25mm solid #DCE7E9;vertical-align:top;font-size:9.4pt}
+tr:nth-child(odd) td{background:var(--bg)}
+td.dn{font-weight:700;color:var(--pet);white-space:nowrap}
+td.dv{font-weight:700}
+td.dv small,td small{display:block;font-weight:400;color:var(--mut);font-size:8pt}
+.sec{font-size:11.5pt;color:var(--pet);margin:0 0 1.6mm;display:flex;align-items:center;gap:2mm}
+.pill{font-size:7.6pt;font-weight:700;border-radius:3mm;padding:.4mm 2mm;color:#fff;background:var(--pet2)}
 </style>
 </head>
 <body>
 
-<!-- ============ PÁGINA 1 · QUEM RECEBE O QUÊ ============ -->
-<section class="page">
-  <div class="top"><span class="t">Protocolo de antibióticos na hemodiálise</span><span class="p">1 · Quem recebe o quê</span></div>
+<!-- ======================= FOLHA 1 · BACTEREMIA POR CATETER ======================= -->
+<section class="page" id="p1">
+  <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 3</span></div>
 
-  <table>
-    <tr><th>Situação</th><th>Antibiótico</th><th>Duração</th><th>Atenção</th></tr>
+  <div style="display:grid;grid-template-columns:1fr 66mm;gap:6mm">
+    <div class="flow" id="f1" style="grid-template-columns:repeat(4,1fr);column-gap:4mm;row-gap:10.5mm;font-size:10.4pt">
+      <div class="n st" id="a" style="grid-row:1;grid-column:2/4">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
+      <div class="n ac" id="b" style="grid-row:2;grid-column:2/4">Colher 2 hemoculturas<small>cateter + linha venosa</small></div>
+      <div class="n ac" id="c" style="grid-row:3;grid-column:2/4">Iniciar vancomicina + ceftazidima<small>lock após cada sessão</small></div>
+      <div class="n dc" id="d" style="grid-row:4;grid-column:2/4">Resultado da cultura?</div>
 
-    <tr class="grp"><td colspan="4"><img src="assets/cateter.png" alt="">Cateter</td></tr>
-    <tr><td class="s">Bacteremia, empírico</td><td><span class="drug">Vancomicina + ceftazidima</span></td><td class="d">14 dias após HC negativa</td><td class="a">Lock se o cateter fica</td></tr>
-    <tr class="alt"><td class="s">MSSA</td><td><span class="drug">Cefazolina</span> (suspender vanco)</td><td class="d">14 dias</td><td class="a">Ver regra do <i>S. aureus</i></td></tr>
-    <tr><td class="s">MRSA ou SCN resistente</td><td><span class="drug">Vancomicina</span> (suspender cefta)</td><td class="d">14 dias</td><td class="a"></td></tr>
-    <tr class="alt"><td class="s">Gram-negativo</td><td>Pelo antibiograma (suspender vanco)</td><td class="d">14 dias</td><td class="a"></td></tr>
-    <tr><td class="s"><i>S. aureus</i></td><td>Pela sensibilidade (acima)</td><td class="d">Trocado: 14 dias<br>Com lock: 3 semanas</td><td class="a"><b>Eco em todos.</b> <span class="warn">Febre após 48-72 h ou HC de 72 h positiva: trocar por fio-guia</span></td></tr>
-    <tr class="alt"><td class="s"><i>Candida</i></td><td>Pela cultura</td><td class="d"></td><td class="a"><span class="warn">Retirar o cateter sempre</span></td></tr>
-    <tr><td class="s">Endocardite</td><td>Pela cultura</td><td class="d">4 semanas<br><span class="sub">valva protética: 6</span></td><td class="a">Avaliar com cardiologia</td></tr>
-    <tr class="alt"><td class="s">Óstio</td><td><span class="drug">Mupirocina</span> tópica<br><span class="sub">sem mupirocina: cefazolina</span></td><td class="d">14 dias</td><td class="a">Gaze + fita, sem filme transparente. Com secreção: cultura + HC</td></tr>
-    <tr><td class="s">Tunelite</td><td><span class="drug">Cefazolina</span><br><span class="sub">MRSA prévio: vanco · <i>Pseudomonas</i> ou falha: + cefta · bacteremia: vanco + cefta</span></td><td class="d">Pela cultura</td><td class="a">Lock não trata o túnel: trocar por fio-guia com túnel novo</td></tr>
+      <div class="n ac" id="e1" style="grid-row:5;grid-column:1">Trocar vanco por cefazolina</div>
+      <div class="n ac" id="e2" style="grid-row:5;grid-column:2">Manter só vancomicina</div>
+      <div class="n ac" id="e3" style="grid-row:5;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
+      <div class="n al" id="e4" style="grid-row:5;grid-column:4"><svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2z" fill="#D7684B"/><rect x="11" y="9" width="2" height="6" fill="#fff"/><rect x="11" y="17" width="2" height="2" fill="#fff"/></svg>Retirar o cateter</div>
 
-    <tr class="grp"><td colspan="4"><img src="assets/fistula.png" alt="">FAV e prótese</td></tr>
-    <tr><td class="s">FAV nativa</td><td>Pela cultura</td><td class="d">2 semanas</td><td class="a">Doppler inicial</td></tr>
-    <tr class="alt"><td class="s">Prótese</td><td>Pela cultura</td><td class="d">4 semanas</td><td class="a">Doppler semanal. <span class="warn">Extensa, abscesso, exposta ou sangrando: cirurgia vascular</span></td></tr>
+      <div class="n dc" id="g" style="grid-row:6;grid-column:1/4">Em 72 h: febre, hemocultura positiva ou instável?</div>
+      <div class="n du" id="h4" style="grid-row:6;grid-column:4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#2E8B74" stroke-width="2.4"/><path d="M12 6v6l4 2" stroke="#2E8B74" stroke-width="2.4" fill="none"/></svg>Pela cultura</div>
 
-    <tr class="grp"><td colspan="4"><img src="assets/urina.png" alt="">Infecção urinária <span style="font-weight:400">· urocultura + antibiograma para todos, sem urocultura de controle</span></td></tr>
-    <tr><td class="s">Adere ao oral</td><td><span class="drug">Ciprofloxacino</span> VO</td><td class="d">7 dias</td><td class="a"></td></tr>
-    <tr class="alt"><td class="s">Não adere ao oral</td><td><span class="drug">Ceftazidima</span> EV<br><span class="sub">alternativa: amicacina EV (ototóxica)</span></td><td class="d">7 dias</td><td class="a"></td></tr>
+      <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3">Manter cateter com lock</div>
+      <div class="n al" id="i2" style="grid-row:7;grid-column:3/5"><svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2z" fill="#D7684B"/><rect x="11" y="9" width="2" height="6" fill="#fff"/><rect x="11" y="17" width="2" height="2" fill="#fff"/></svg><span>Trocar por fio-guia<small>ou retirar se instável ou infecção à distância</small></span></div>
 
-    <tr class="grp"><td colspan="4"><img src="assets/pulmao.png" alt="">Pneumonia <span style="font-weight:400">· raio-X nos casos arrastados ou graves</span></td></tr>
-    <tr><td class="s">Em geral</td><td><span class="drug">Amoxicilina-clavulanato + azitromicina</span> VO</td><td class="d">5 dias<br><span class="sub">azitro: 3 dias</span></td><td class="a"></td></tr>
-    <tr class="alt"><td class="s">Doença pulmonar prévia</td><td><span class="drug">Levofloxacino</span> VO</td><td class="d">3 doses</td><td class="a"></td></tr>
-    <tr><td class="s">Sem condição social</td><td><span class="drug">Levofloxacino</span> EV ou VO na sessão</td><td class="d">3 doses</td><td class="a">Mesma dose por qualquer via</td></tr>
-
-    <tr class="grp"><td colspan="4"><img src="assets/pele.png" alt="">Celulite</td></tr>
-    <tr><td class="s">Em geral</td><td><span class="drug">Cefalexina</span> VO ou <span class="drug">cefazolina</span> EV</td><td class="d">7 dias</td><td class="a"></td></tr>
-    <tr class="alt"><td class="s">MRSA</td><td><span class="drug">Clindamicina</span> VO</td><td class="d">7 dias</td><td class="a"></td></tr>
-    <tr><td class="s">Grave</td><td><span class="drug">Vancomicina</span></td><td class="d">14 dias</td><td class="a"></td></tr>
-  </table>
-
-  <div class="foot"><span>HC: hemocultura · SCN: estafilococo coagulase-negativo · Doses na página 2 · Referências no documento teórico</span><span>1/2</span></div>
-</section>
-
-<!-- ============ PÁGINA 2 · DOSES ============ -->
-<section class="page">
-  <div class="top"><span class="t">Protocolo de antibióticos na hemodiálise</span><span class="p">2 · Doses e manejo do cateter</span></div>
-
-  <h2>Endovenosos</h2>
-  <table class="dose">
-    <tr><th>Antibiótico</th><th>Dose</th><th>Diluição</th><th>Via</th><th>Tempo</th><th>Quando</th></tr>
-    <tr><td class="n">Vancomicina · ataque</td><td class="v">35 mg/kg<br><span class="sub">mín. 2 g · máx. 3 g</span></td><td>10 mg/ml em SF</td><td class="nw">Linha da HD</td><td>90 min</td><td>90 min finais da sessão</td></tr>
-    <tr class="alt"><td class="n">Vancomicina · manutenção</td><td class="v">15 mg/kg<br><span class="sub">mín. 1 g · máx. 1,5 g</span></td><td>10 mg/ml em SF</td><td class="nw">Linha da HD</td><td>60 min</td><td>Final de toda sessão</td></tr>
-    <tr><td class="n">Ceftazidima</td><td class="v">1 g<br><span class="sub">2 g antes do intervalo de 72 h</span></td><td>100 ml de SF</td><td class="nw">Linha da HD</td><td>30 min</td><td>Fim da sessão</td></tr>
-    <tr class="alt"><td class="n">Cefazolina</td><td class="v">20 mg/kg<br><span class="sub">mín. 1 g · máx. 2 g</span></td><td>SF, ~10 ml por grama</td><td class="nw">Linha venosa</td><td>Bolus 3-5 min</td><td>Fim da sessão</td></tr>
-    <tr><td class="n">Amicacina</td><td class="v">5-7,5 mg/kg</td><td>100-200 ml de SF</td><td>EV</td><td>30-60 min</td><td>Após a sessão</td></tr>
-    <tr class="alt"><td class="n">Levofloxacino EV</td><td class="v">750 mg, depois 500 mg<br><span class="sub">a cada 48 h · 3 doses</span></td><td>Bolsa pronta (5 mg/ml)</td><td>EV</td><td>60-90 min</td><td>Qualquer horário</td></tr>
-  </table>
-
-  <h2 class="mt">Orais</h2>
-  <table class="dose">
-    <tr><th>Antibiótico</th><th>Dose</th><th>Frequência</th><th>Nos dias de hemodiálise</th></tr>
-    <tr><td class="n">Ciprofloxacino</td><td class="v">500 mg</td><td>1x/dia</td><td>Tomar após a sessão</td></tr>
-    <tr class="alt"><td class="n">Amoxicilina-clavulanato</td><td class="v">500/125 mg</td><td>1x/dia</td><td>+ 1 durante e + 1 ao fim da sessão. Não usar 875 mg</td></tr>
-    <tr><td class="n">Azitromicina</td><td class="v">500 mg</td><td>1x/dia, 3 dias</td><td>Sem ajuste</td></tr>
-    <tr class="alt"><td class="n">Levofloxacino VO</td><td class="v">750 mg, depois 500&nbsp;mg</td><td>A cada 48&nbsp;h · 3&nbsp;doses</td><td>Qualquer horário (não dialisa)</td></tr>
-    <tr><td class="n">Cefalexina</td><td class="v">500 mg</td><td>1x/dia</td><td>Tomar após a sessão</td></tr>
-    <tr class="alt"><td class="n">Clindamicina</td><td class="v">300 mg</td><td>8/8 h</td><td>Sem ajuste</td></tr>
-  </table>
-
-  <h2 class="mt">Lock <span class="sub" style="text-transform:none;letter-spacing:0;font-size:9pt">· após cada sessão, todo o tratamento, se o cateter fica</span></h2>
-  <table class="dose">
-    <tr><th>Componente</th><th>Concentração</th><th>Volume</th></tr>
-    <tr><td class="n">Vancomicina</td><td>5 mg/ml</td><td class="v">1 ml</td></tr>
-    <tr class="alt"><td class="n">Ceftazidima</td><td>5 mg/ml</td><td class="v">0,5 ml</td></tr>
-    <tr><td class="n">Heparina</td><td>5.000 UI/ml</td><td class="v">0,5 ml</td></tr>
-    <tr class="alt"><td class="n">SF</td><td></td><td class="v">Até o volume de cada via <span class="sub">(impresso no ramo do cateter)</span></td></tr>
-  </table>
-
-  <h2 class="mt">Cateter: manejo</h2>
-  <div class="row3" style="margin-top:0">
-    <div class="card">
-      <h2>Hemoculturas</h2>
-      <ul>
-        <li>2 amostras: cateter + linha venosa</li>
-        <li><b>D0</b>, antes do antibiótico</li>
-        <li><b>72 h</b>, sempre. Positiva: a cada 72 h até negativar</li>
-        <li><b>Fim</b> do tratamento</li>
-      </ul>
+      <div class="n du" id="j1" style="grid-row:8;grid-column:1"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#2E8B74" stroke-width="2.4"/><path d="M12 6v6l4 2" stroke="#2E8B74" stroke-width="2.4" fill="none"/></svg><span>14 dias<small>após HC negativa</small></span></div>
+      <div class="n du" id="j2" style="grid-row:8;grid-column:2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#2E8B74" stroke-width="2.4"/><path d="M12 6v6l4 2" stroke="#2E8B74" stroke-width="2.4" fill="none"/></svg><span>3 semanas<small><i>S. aureus</i> com lock</small></span></div>
+      <div class="n du" id="j3" style="grid-row:8;grid-column:3/5"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#2E8B74" stroke-width="2.4"/><path d="M12 6v6l4 2" stroke="#2E8B74" stroke-width="2.4" fill="none"/></svg><span>14 dias<small>da HC negativa ou da troca, o que vier depois</small></span></div>
     </div>
-    <div class="card alert">
-      <h2>Manter ou retirar</h2>
-      <ul>
-        <li>Regra: manter com lock</li>
-        <li>Retirar: <i>Candida</i>, febre &gt; 72 h, instabilidade, infecção à distância</li>
+
+    <div class="rail">
+      <h3>Hemoculturas</h3>
+      <ul class="tl">
+        <li><b>D0</b> · antes do antibiótico</li>
+        <li><b>72 h</b> · sempre, qualquer resultado</li>
+        <li><b>A cada 72 h</b> · se positiva, até negativar</li>
+        <li><b>Fim</b> · ao terminar o tratamento</li>
       </ul>
-    </div>
-    <div class="card">
-      <h2>Troca e novo acesso</h2>
-      <ul>
-        <li>Troca por falha: após 72 h de antibiótico</li>
-        <li>Novo permcath: 72 h após HC negativa</li>
-        <li>Cateter comum: nefrologista. Permcath: vascular</li>
+      <h3>Sempre</h3>
+      <ul class="rules">
+        <li><b>Ecocardiograma</b> em todo <i>S. aureus</i></li>
+        <li><b>Endocardite:</b> 4 semanas <span class="note">(valva protética: 6)</span></li>
+        <li><b>Procurar focos:</b> acessos antigos, stent venoso, marcapasso, prótese ortopédica</li>
+      </ul>
+      <h3>Novo Acesso</h3>
+      <ul class="rules">
+        <li>Trocar por falha só após <b>72 h</b> de antibiótico</li>
+        <li>Novo permcath <b>72 h</b> após HC negativa</li>
+        <li>Cateter comum: <b>nefrologista</b>. Permcath: <b>vascular</b></li>
       </ul>
     </div>
   </div>
-
-  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Referências no documento teórico</span><span>2/2</span></div>
+  <div class="foot"><span>HC: hemocultura · SCN: estafilococo coagulase-negativo · Doses e lock na folha 3 · Referências no documento teórico</span><span>1/3</span></div>
 </section>
+
+<!-- ======================= FOLHA 2 · OUTRAS INFECÇÕES ======================= -->
+<section class="page" id="p2">
+  <div class="hd"><div><h1>Outras Infecções</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 2 de 3</span></div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;grid-template-rows:auto auto">
+
+    <div class="mini"><div class="mh"><img src="assets/cateter.png" alt=""><h2>Óstio e Túnel</h2></div>
+      <div class="flow" id="f2a" style="grid-template-columns:1fr 1fr;column-gap:3mm;row-gap:5mm">
+        <div class="n dc" id="oa" style="grid-column:1/3">Onde está a infecção?</div>
+        <div class="n ac" id="ob">Mupirocina<small>sem mupirocina: cefazolina</small></div>
+        <div class="n ac" id="oc">Cefazolina<small>MRSA prévio: vanco</small></div>
+        <div class="n st" id="od" style="font-size:8.4pt">Gaze + fita<small>sem filme transparente</small></div>
+        <div class="n al" id="oe" style="font-size:8.4pt">Trocar por fio-guia, túnel novo</div>
+        <div class="n du" id="of" style="grid-column:1/3">14 dias</div>
+      </div>
+      <p class="note" style="margin-top:2.4mm">Secreção: cultura + HC. Túnel com <i>Pseudomonas</i> ou falha: + ceftazidima. Com bacteremia: vanco + cefta.</p>
+    </div>
+
+    <div class="mini"><div class="mh"><img src="assets/fistula.png" alt=""><h2>FAV e Prótese</h2></div>
+      <div class="flow" id="f2b" style="grid-template-columns:1fr 1fr;column-gap:3mm;row-gap:5mm">
+        <div class="n dc" id="fa" style="grid-column:1/3">Qual acesso?</div>
+        <div class="n ac" id="fb">Antibiótico pela cultura<small>Doppler inicial</small></div>
+        <div class="n ac" id="fc">Antibiótico pela cultura<small>Doppler semanal</small></div>
+        <div class="n du" id="fd">2 semanas</div>
+        <div class="n du" id="fe">4 semanas</div>
+        <div class="n al" id="ff" style="grid-column:1/3;font-size:8.6pt">Extensa, abscesso, exposta ou sangrando: cirurgia vascular</div>
+      </div>
+    </div>
+
+    <div class="mini"><div class="mh"><img src="assets/urina.png" alt=""><h2>Infecção Urinária</h2></div>
+      <div class="flow" id="f2c" style="grid-template-columns:1fr 1fr;column-gap:3mm;row-gap:5mm">
+        <div class="n ac" id="ua" style="grid-column:1/3">Colher urocultura + antibiograma</div>
+        <div class="n dc" id="ub" style="grid-column:1/3">Adere ao oral?</div>
+        <div class="n ac" id="uc">Ciprofloxacino VO</div>
+        <div class="n ac" id="ud">Ceftazidima EV<small>alternativa: amicacina</small></div>
+        <div class="n du" id="ue" style="grid-column:1/3">7 dias</div>
+      </div>
+      <p class="note" style="margin-top:2.4mm">Sem urocultura de controle. Amicacina é ototóxica.</p>
+    </div>
+
+    <div class="mini" style="grid-column:1/3"><div class="mh"><img src="assets/pulmao.png" alt=""><h2>Pneumonia</h2><span class="note" style="margin-left:auto">Raio-X nos casos arrastados ou graves</span></div>
+      <div class="flow" id="f2d" style="grid-template-columns:repeat(3,1fr);column-gap:4mm;row-gap:5mm">
+        <div class="n dc" id="pa" style="grid-column:1/4">Tem condição social para o oral?</div>
+        <div class="n dc" id="pb" style="grid-column:1/3">Doença pulmonar prévia?</div>
+        <div class="n ac" id="pc">Levofloxacino EV<small>ou VO tomado na sessão</small></div>
+        <div class="n ac" id="pd">Levofloxacino VO</div>
+        <div class="n ac" id="pe">Amoxicilina-clavulanato + azitromicina VO</div>
+        <div class="n du" id="pf">3 doses</div>
+        <div class="n du" id="pg">3 doses</div>
+        <div class="n du" id="ph"><span>5 dias<small>azitromicina: 3 dias</small></span></div>
+      </div>
+    </div>
+
+    <div class="mini"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
+      <div class="flow" id="f2e" style="grid-template-columns:1fr 1fr 1fr;column-gap:2.4mm;row-gap:5mm;font-size:9pt">
+        <div class="n dc" id="ca" style="grid-row:1;grid-column:1/4">Grave?</div>
+        <div class="n dc" id="cb" style="grid-row:2;grid-column:1/3">MRSA?</div>
+        <div class="n ac" id="cc" style="grid-row:2;grid-column:3">Vancomicina</div>
+        <div class="n ac" id="ce" style="grid-row:3;grid-column:1">Clindamicina VO</div>
+        <div class="n ac" id="cd" style="grid-row:3;grid-column:2">Cefalexina VO<small>ou cefazolina EV</small></div>
+        <div class="n du" id="cf" style="grid-row:3;grid-column:3">14 dias</div>
+        <div class="n du" id="cg" style="grid-row:4;grid-column:1/3">7 dias</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HC: hemocultura · Doses na folha 3 · Referências no documento teórico</span><span>2/3</span></div>
+</section>
+
+<!-- ======================= FOLHA 3 · FICHA DE DROGAS ======================= -->
+<section class="page" id="p3">
+  <div class="hd"><div><h1>Ficha de Drogas</h1><div class="k">Doses na hemodiálise · mesma ordem em todas: dose, diluição, via, tempo, momento</div></div><span class="tag">Folha 3 de 3</span></div>
+
+  <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:6mm">
+    <div>
+      <div class="sec">Endovenosas <span class="pill">EV</span></div>
+      <table>
+        <tr><th>Droga</th><th>Dose</th><th>Diluição</th><th>Via</th><th>Tempo</th><th>Momento</th></tr>
+        <tr><td class="dn">Vancomicina, ataque</td><td class="dv">35 mg/kg<small>mín. 2 g · máx. 3 g</small></td><td>10 mg/ml em SF</td><td style="white-space:nowrap">Linha da HD</td><td style="white-space:nowrap">90 min</td><td>90 min finais</td></tr>
+        <tr><td class="dn">Vancomicina, manutenção</td><td class="dv">15 mg/kg<small>mín. 1 g · máx. 1,5 g</small></td><td>10 mg/ml em SF</td><td style="white-space:nowrap">Linha da HD</td><td style="white-space:nowrap">60 min</td><td>Fim de toda sessão</td></tr>
+        <tr><td class="dn">Ceftazidima</td><td class="dv">1 g<small>2 g antes de 72 h</small></td><td>100 ml de SF</td><td style="white-space:nowrap">Linha da HD</td><td style="white-space:nowrap">30 min</td><td>Fim da sessão</td></tr>
+        <tr><td class="dn">Cefazolina</td><td class="dv">20 mg/kg<small>mín. 1 g · máx. 2 g</small></td><td>SF, 10 ml por g</td><td style="white-space:nowrap">Linha venosa</td><td style="white-space:nowrap">Bolus 3-5 min</td><td>Fim de toda sessão</td></tr>
+        <tr><td class="dn">Amicacina</td><td class="dv">5-7,5 mg/kg</td><td>100-200 ml de SF</td><td>EV</td><td style="white-space:nowrap">30-60 min</td><td>Após toda sessão</td></tr>
+        <tr><td class="dn">Levofloxacino</td><td class="dv">750 mg, depois 500 mg<small>a cada 48 h · 3 doses</small></td><td>Bolsa pronta</td><td>EV</td><td style="white-space:nowrap">60-90 min</td><td>Qualquer horário</td></tr>
+      </table>
+
+      <div class="sec" style="margin-top:5mm">Orais <span class="pill">VO</span></div>
+      <table>
+        <tr><th>Droga</th><th>Dose</th><th>Frequência</th><th>Dias de hemodiálise</th></tr>
+        <tr><td class="dn">Ciprofloxacino</td><td class="dv">500 mg</td><td>1x/dia</td><td>Após a sessão</td></tr>
+        <tr><td class="dn">Amoxicilina-clavulanato</td><td class="dv">500/125 mg</td><td>1x/dia</td><td>+1 durante e +1 ao fim. Não usar 875 mg</td></tr>
+        <tr><td class="dn">Azitromicina</td><td class="dv">500 mg</td><td>1x/dia, 3 dias</td><td>Sem ajuste</td></tr>
+        <tr><td class="dn">Levofloxacino</td><td class="dv">750 mg, depois 500 mg</td><td>A cada 48 h, 3 doses</td><td>Qualquer horário</td></tr>
+        <tr><td class="dn">Cefalexina</td><td class="dv">500 mg</td><td>1x/dia</td><td>Após a sessão</td></tr>
+        <tr><td class="dn">Clindamicina</td><td class="dv">300 mg</td><td>8/8 h</td><td>Sem ajuste</td></tr>
+      </table>
+    </div>
+
+    <div>
+      <div class="sec">Lock <span class="pill">se o cateter fica</span></div>
+      <p class="note" style="margin:0 0 2mm">Após cada sessão, durante todo o tratamento.</p>
+      <table>
+        <tr><th>Componente</th><th>Concentração</th><th>Volume</th></tr>
+        <tr><td class="dn">Vancomicina</td><td>5 mg/ml</td><td class="dv">1 ml</td></tr>
+        <tr><td class="dn">Ceftazidima</td><td>5 mg/ml</td><td class="dv">0,5 ml</td></tr>
+        <tr><td class="dn">Heparina</td><td>5.000 UI/ml</td><td class="dv">0,5 ml</td></tr>
+        <tr><td class="dn">SF 0,9%</td><td></td><td class="dv">Até o volume da via<small>impresso no ramo do cateter</small></td></tr>
+      </table>
+
+      <div class="sec" style="margin-top:6mm">Legenda</div>
+      <div style="display:grid;grid-template-columns:24mm 1fr;gap:2.4mm 3mm;align-items:center">
+        <div class="n st" style="font-size:8pt;padding:1mm 2mm">Situação</div><span class="note">Ponto de partida</span>
+        <div class="n dc" style="font-size:8pt;padding:1.4mm 5mm">Pergunta?</div><span class="note">Decisão: siga a seta da resposta</span>
+        <div class="n ac" style="font-size:8pt;padding:1mm 2mm">Fazer</div><span class="note">Ação ou antibiótico</span>
+        <div class="n du" style="font-size:8pt;padding:.8mm 2mm">Tempo</div><span class="note">Duração do tratamento</span>
+        <div class="n al" style="font-size:8pt;padding:1mm 2mm">Atenção</div><span class="note">Retirar, trocar ou cirurgia</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Referências no documento teórico</span><span>3/3</span></div>
+</section>
+
+<script>
+// [de, para, rótulo]. Seta ortogonal: sai do centro de baixo de "de", entra no centro de cima de "para".
+const EDGES = {
+  f1: [["a","b"],["b","c"],["c","d"],["d","e1","MSSA"],["d","e2","MRSA ou SCN"],["d","e3","Gram-negativo"],["d","e4","Candida"],
+       ["e1","g"],["e2","g"],["e3","g"],["e4","h4"],["g","i1","Não"],["g","i2","Sim"],["i1","j1"],["i1","j2"],["i2","j3"]],
+  f2a:[["oa","ob","Óstio"],["oa","oc","Túnel"],["ob","od"],["oc","oe"],["od","of"],["oe","of"]],
+  f2b:[["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fe"],["fe","ff"]],
+  f2c:[["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
+  f2d:[["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
+  f2e:[["ca","cb","Não"],["ca","cc","Sim"],["cb","ce","Sim"],["cb","cd","Não"],["cc","cf"],["ce","cg"],["cd","cg"]],
+};
+function draw(){
+  for (const [fid, edges] of Object.entries(EDGES)) {
+    const f = document.getElementById(fid), R = f.getBoundingClientRect();
+    const NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg"); svg.setAttribute("class","wires");
+    svg.innerHTML = `<defs><marker id="ar-${fid}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7FA3AA"/></marker></defs>`;
+    f.prepend(svg);
+    for (const [a, b, label] of edges) {
+      const A = document.getElementById(a).getBoundingClientRect(), B = document.getElementById(b).getBoundingClientRect();
+      let x1 = A.left + A.width/2 - R.left, y1 = A.bottom - R.top, x2 = B.left + B.width/2 - R.left, y2 = B.top - R.top;
+      // ramos para vários filhos: sair do ponto mais próximo da borda inferior do pai
+      x1 = Math.min(Math.max(x2, A.left - R.left + 10), A.right - R.left - 10);
+      const ym = y1 + Math.max(6, (y2 - y1) / 2);
+      const p = document.createElementNS(NS, "path");
+      p.setAttribute("d", Math.abs(x1 - x2) < 1 ? `M${x1} ${y1}V${y2 - 1}` : `M${x1} ${y1}V${ym}H${x2}V${y2 - 1}`);
+      p.setAttribute("fill","none"); p.setAttribute("stroke","#7FA3AA"); p.setAttribute("stroke-width","1.6");
+      p.setAttribute("marker-end", `url(#ar-${fid})`); svg.appendChild(p);
+      if (label) {
+        const l = document.createElement("div"); l.className = "lbl"; l.textContent = label;
+        l.style.left = x2 + "px"; l.style.top = (ym + (y2 - ym) / 2) + "px"; f.appendChild(l);
+      }
+    }
+  }
+}
+document.fonts.ready.then(() => requestAnimationFrame(draw));
+</script>
 </body>
 </html>

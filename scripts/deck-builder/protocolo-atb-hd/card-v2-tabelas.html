@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Protocolo de antibióticos na hemodiálise · Card</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap');
+:root{
+  --deep:#0E4F5C;--teal:#2C7A86;--soft:#7FB7BE;--aqua:#DCEFF1;--aqua2:#F2F8F9;
+  --coral:#E07A5F;--coral-bg:#FBE9E3;--coral-deep:#8E3B26;--ink:#16323A;--muted:#5A7279;
+}
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#8a8a8a}
+.page{width:210mm;height:297mm;margin:0 auto 6mm;background:#fff;color:var(--ink);position:relative;overflow:hidden;
+  break-after:page;page-break-after:always;font-family:'Atkinson Hyperlegible',Arial,sans-serif;font-size:9.6pt;line-height:1.22;
+  padding:9mm 10mm}
+.top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:.5mm solid var(--deep);padding-bottom:1.6mm;margin-bottom:3mm}
+.top .t{font-weight:700;letter-spacing:.1em;font-size:9.4pt;color:var(--deep);text-transform:uppercase}
+.top .p{font-size:9pt;color:var(--teal);font-weight:700}
+h2{font-size:11pt;margin:0 0 1.4mm;color:var(--deep);text-transform:uppercase;letter-spacing:.05em}
+table{width:100%;border-collapse:collapse}
+th{font-size:7.8pt;text-transform:uppercase;letter-spacing:.05em;color:var(--teal);text-align:left;padding:1.2mm 1.8mm;border-bottom:.45mm solid var(--teal)}
+td{padding:1.15mm 1.8mm;border-bottom:.25mm solid rgba(14,79,92,.16);vertical-align:top}
+tr.grp td{background:var(--deep);color:#fff;font-weight:700;font-size:10pt;letter-spacing:.03em;padding:1.1mm 1.8mm;border:0}
+tr.grp img{height:7mm;vertical-align:middle;margin-right:2mm;background:#fff;border-radius:1.4mm;padding:.4mm}
+tr.alt td{background:var(--aqua2)}
+td.s{font-weight:700;color:var(--deep);width:34mm}
+td.d{width:36mm}
+td.a{color:var(--muted);font-size:8.8pt}
+.drug{font-weight:700}
+.warn{color:var(--coral-deep);font-weight:700}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2.4mm;margin-top:3mm}
+.card{border:.35mm solid var(--soft);border-radius:2.4mm;padding:2.2mm 2.8mm}
+.card.alert{background:var(--coral-bg);border-color:var(--coral)}
+.card.alert h2{color:var(--coral-deep)}
+.card ul{margin:0;padding-left:3.6mm}
+.card li{margin:.5mm 0}
+.dose td{font-size:9.6pt}
+.dose td.n{font-weight:700;color:var(--deep);white-space:nowrap}
+.dose td.v{font-weight:700}
+.dose td.nw{white-space:nowrap}
+.sub{font-size:8pt;color:var(--muted);font-weight:400}
+.foot{position:absolute;bottom:5mm;left:10mm;right:10mm;font-size:7.6pt;color:var(--muted);display:flex;justify-content:space-between}
+.mt{margin-top:4mm}
+</style>
+</head>
+<body>
+
+<!-- ============ PÁGINA 1 · QUEM RECEBE O QUÊ ============ -->
+<section class="page">
+  <div class="top"><span class="t">Protocolo de antibióticos na hemodiálise</span><span class="p">1 · Quem recebe o quê</span></div>
+
+  <table>
+    <tr><th>Situação</th><th>Antibiótico</th><th>Duração</th><th>Atenção</th></tr>
+
+    <tr class="grp"><td colspan="4"><img src="assets/cateter.png" alt="">Cateter</td></tr>
+    <tr><td class="s">Bacteremia, empírico</td><td><span class="drug">Vancomicina + ceftazidima</span></td><td class="d">14 dias após HC negativa</td><td class="a">Lock se o cateter fica</td></tr>
+    <tr class="alt"><td class="s">MSSA</td><td><span class="drug">Cefazolina</span> (suspender vanco)</td><td class="d">14 dias</td><td class="a">Ver regra do <i>S. aureus</i></td></tr>
+    <tr><td class="s">MRSA ou SCN resistente</td><td><span class="drug">Vancomicina</span> (suspender cefta)</td><td class="d">14 dias</td><td class="a"></td></tr>
+    <tr class="alt"><td class="s">Gram-negativo</td><td>Pelo antibiograma (suspender vanco)</td><td class="d">14 dias</td><td class="a"></td></tr>
+    <tr><td class="s"><i>S. aureus</i></td><td>Pela sensibilidade (acima)</td><td class="d">Trocado: 14 dias<br>Com lock: 3 semanas</td><td class="a"><b>Eco em todos.</b> <span class="warn">Febre após 48-72 h ou HC de 72 h positiva: trocar por fio-guia</span></td></tr>
+    <tr class="alt"><td class="s"><i>Candida</i></td><td>Pela cultura</td><td class="d"></td><td class="a"><span class="warn">Retirar o cateter sempre</span></td></tr>
+    <tr><td class="s">Endocardite</td><td>Pela cultura</td><td class="d">4 semanas<br><span class="sub">valva protética: 6</span></td><td class="a">Avaliar com cardiologia</td></tr>
+    <tr class="alt"><td class="s">Óstio</td><td><span class="drug">Mupirocina</span> tópica<br><span class="sub">sem mupirocina: cefazolina</span></td><td class="d">14 dias</td><td class="a">Gaze + fita, sem filme transparente. Com secreção: cultura + HC</td></tr>
+    <tr><td class="s">Tunelite</td><td><span class="drug">Cefazolina</span><br><span class="sub">MRSA prévio: vanco · <i>Pseudomonas</i> ou falha: + cefta · bacteremia: vanco + cefta</span></td><td class="d">Pela cultura</td><td class="a">Lock não trata o túnel: trocar por fio-guia com túnel novo</td></tr>
+
+    <tr class="grp"><td colspan="4"><img src="assets/fistula.png" alt="">FAV e prótese</td></tr>
+    <tr><td class="s">FAV nativa</td><td>Pela cultura</td><td class="d">2 semanas</td><td class="a">Doppler inicial</td></tr>
+    <tr class="alt"><td class="s">Prótese</td><td>Pela cultura</td><td class="d">4 semanas</td><td class="a">Doppler semanal. <span class="warn">Extensa, abscesso, exposta ou sangrando: cirurgia vascular</span></td></tr>
+
+    <tr class="grp"><td colspan="4"><img src="assets/urina.png" alt="">Infecção urinária <span style="font-weight:400">· urocultura + antibiograma para todos, sem urocultura de controle</span></td></tr>
+    <tr><td class="s">Adere ao oral</td><td><span class="drug">Ciprofloxacino</span> VO</td><td class="d">7 dias</td><td class="a"></td></tr>
+    <tr class="alt"><td class="s">Não adere ao oral</td><td><span class="drug">Ceftazidima</span> EV<br><span class="sub">alternativa: amicacina EV (ototóxica)</span></td><td class="d">7 dias</td><td class="a"></td></tr>
+
+    <tr class="grp"><td colspan="4"><img src="assets/pulmao.png" alt="">Pneumonia <span style="font-weight:400">· raio-X nos casos arrastados ou graves</span></td></tr>
+    <tr><td class="s">Em geral</td><td><span class="drug">Amoxicilina-clavulanato + azitromicina</span> VO</td><td class="d">5 dias<br><span class="sub">azitro: 3 dias</span></td><td class="a"></td></tr>
+    <tr class="alt"><td class="s">Doença pulmonar prévia</td><td><span class="drug">Levofloxacino</span> VO</td><td class="d">3 doses</td><td class="a"></td></tr>
+    <tr><td class="s">Sem condição social</td><td><span class="drug">Levofloxacino</span> EV ou VO na sessão</td><td class="d">3 doses</td><td class="a">Mesma dose por qualquer via</td></tr>
+
+    <tr class="grp"><td colspan="4"><img src="assets/pele.png" alt="">Celulite</td></tr>
+    <tr><td class="s">Em geral</td><td><span class="drug">Cefalexina</span> VO ou <span class="drug">cefazolina</span> EV</td><td class="d">7 dias</td><td class="a"></td></tr>
+    <tr class="alt"><td class="s">MRSA</td><td><span class="drug">Clindamicina</span> VO</td><td class="d">7 dias</td><td class="a"></td></tr>
+    <tr><td class="s">Grave</td><td><span class="drug">Vancomicina</span></td><td class="d">14 dias</td><td class="a"></td></tr>
+  </table>
+
+  <div class="foot"><span>HC: hemocultura · SCN: estafilococo coagulase-negativo · Doses na página 2 · Referências no documento teórico</span><span>1/2</span></div>
+</section>
+
+<!-- ============ PÁGINA 2 · DOSES ============ -->
+<section class="page">
+  <div class="top"><span class="t">Protocolo de antibióticos na hemodiálise</span><span class="p">2 · Doses e manejo do cateter</span></div>
+
+  <h2>Endovenosos</h2>
+  <table class="dose">
+    <tr><th>Antibiótico</th><th>Dose</th><th>Diluição</th><th>Via</th><th>Tempo</th><th>Quando</th></tr>
+    <tr><td class="n">Vancomicina · ataque</td><td class="v">35 mg/kg<br><span class="sub">mín. 2 g · máx. 3 g</span></td><td>10 mg/ml em SF</td><td class="nw">Linha da HD</td><td>90 min</td><td>90 min finais da sessão</td></tr>
+    <tr class="alt"><td class="n">Vancomicina · manutenção</td><td class="v">15 mg/kg<br><span class="sub">mín. 1 g · máx. 1,5 g</span></td><td>10 mg/ml em SF</td><td class="nw">Linha da HD</td><td>60 min</td><td>Final de toda sessão</td></tr>
+    <tr><td class="n">Ceftazidima</td><td class="v">1 g<br><span class="sub">2 g antes do intervalo de 72 h</span></td><td>100 ml de SF</td><td class="nw">Linha da HD</td><td>30 min</td><td>Fim da sessão</td></tr>
+    <tr class="alt"><td class="n">Cefazolina</td><td class="v">20 mg/kg<br><span class="sub">mín. 1 g · máx. 2 g</span></td><td>SF, ~10 ml por grama</td><td class="nw">Linha venosa</td><td>Bolus 3-5 min</td><td>Fim da sessão</td></tr>
+    <tr><td class="n">Amicacina</td><td class="v">5-7,5 mg/kg</td><td>100-200 ml de SF</td><td>EV</td><td>30-60 min</td><td>Após a sessão</td></tr>
+    <tr class="alt"><td class="n">Levofloxacino EV</td><td class="v">750 mg, depois 500 mg<br><span class="sub">a cada 48 h · 3 doses</span></td><td>Bolsa pronta (5 mg/ml)</td><td>EV</td><td>60-90 min</td><td>Qualquer horário</td></tr>
+  </table>
+
+  <h2 class="mt">Orais</h2>
+  <table class="dose">
+    <tr><th>Antibiótico</th><th>Dose</th><th>Frequência</th><th>Nos dias de hemodiálise</th></tr>
+    <tr><td class="n">Ciprofloxacino</td><td class="v">500 mg</td><td>1x/dia</td><td>Tomar após a sessão</td></tr>
+    <tr class="alt"><td class="n">Amoxicilina-clavulanato</td><td class="v">500/125 mg</td><td>1x/dia</td><td>+ 1 durante e + 1 ao fim da sessão. Não usar 875 mg</td></tr>
+    <tr><td class="n">Azitromicina</td><td class="v">500 mg</td><td>1x/dia, 3 dias</td><td>Sem ajuste</td></tr>
+    <tr class="alt"><td class="n">Levofloxacino VO</td><td class="v">750 mg, depois 500&nbsp;mg</td><td>A cada 48&nbsp;h · 3&nbsp;doses</td><td>Qualquer horário (não dialisa)</td></tr>
+    <tr><td class="n">Cefalexina</td><td class="v">500 mg</td><td>1x/dia</td><td>Tomar após a sessão</td></tr>
+    <tr class="alt"><td class="n">Clindamicina</td><td class="v">300 mg</td><td>8/8 h</td><td>Sem ajuste</td></tr>
+  </table>
+
+  <h2 class="mt">Lock <span class="sub" style="text-transform:none;letter-spacing:0;font-size:9pt">· após cada sessão, todo o tratamento, se o cateter fica</span></h2>
+  <table class="dose">
+    <tr><th>Componente</th><th>Concentração</th><th>Volume</th></tr>
+    <tr><td class="n">Vancomicina</td><td>5 mg/ml</td><td class="v">1 ml</td></tr>
+    <tr class="alt"><td class="n">Ceftazidima</td><td>5 mg/ml</td><td class="v">0,5 ml</td></tr>
+    <tr><td class="n">Heparina</td><td>5.000 UI/ml</td><td class="v">0,5 ml</td></tr>
+    <tr class="alt"><td class="n">SF</td><td></td><td class="v">Até o volume de cada via <span class="sub">(impresso no ramo do cateter)</span></td></tr>
+  </table>
+
+  <h2 class="mt">Cateter: manejo</h2>
+  <div class="row3" style="margin-top:0">
+    <div class="card">
+      <h2>Hemoculturas</h2>
+      <ul>
+        <li>2 amostras: cateter + linha venosa</li>
+        <li><b>D0</b>, antes do antibiótico</li>
+        <li><b>72 h</b>, sempre. Positiva: a cada 72 h até negativar</li>
+        <li><b>Fim</b> do tratamento</li>
+      </ul>
+    </div>
+    <div class="card alert">
+      <h2>Manter ou retirar</h2>
+      <ul>
+        <li>Regra: manter com lock</li>
+        <li>Retirar: <i>Candida</i>, febre &gt; 72 h, instabilidade, infecção à distância</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Troca e novo acesso</h2>
+      <ul>
+        <li>Troca por falha: após 72 h de antibiótico</li>
+        <li>Novo permcath: 72 h após HC negativa</li>
+        <li>Cateter comum: nefrologista. Permcath: vascular</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Referências no documento teórico</span><span>2/2</span></div>
+</section>
+</body>
+</html>
