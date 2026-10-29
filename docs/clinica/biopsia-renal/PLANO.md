@@ -44,9 +44,12 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
 
 ## Pendências (uma por vez)
 
-1. Remetente: **assinam Dr. Danilo, Dr. Getúlio Amaral Filho (CRM-PR 21.876 · RQE 16.038) e Dr. Michel Moro**
-   (decidido). Faltam: nome completo e CRM/RQE do Danilo, CRM/RQE do Michel, instituição do cabeçalho,
-   destinatário e município.
+1. Remetente: assinam os três nefrologistas, sócios da Nefroclínica Londrina (decidido):
+   - Dr. Danilo Ramos Cunha · CRM-PR 21.875 · RQE 16.035
+   - Dr. Getúlio Amaral Filho · CRM-PR 21.876 · RQE 16.038
+   - Dr. Michel Lima Moro Alves · CRM-PR 36.888 · RQE 32.897
+   Fontes: nefroclinica.com (Danilo, Getúlio) e apps/site/content/doctors/*.mdx (os três).
+   Faltam: cabeçalho institucional, destinatário e município.
 2. Lista de exames pré-op: hemograma, TP/INR, TTPa, creatinina, ABO/Rh, urina tipo 1, US renal
    recente, beta-hCG em mulher em idade fértil.
 3. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
