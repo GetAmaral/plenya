@@ -82,6 +82,10 @@ Casos mais graves: vancomicina, 14 dias corridos
   - **Candida:** retirar sempre (sem estudo de lock; IDSA rec. 57).
   - **Qualquer germe:** retirar/trocar se febre persistente > 72 h, instabilidade ou infecção metastática.
   - Base para ser conservador: KDOQI 2019 st. 25.2 e IDSA rec. 57 (fio-guia sem sítio alternativo).
+- **Item 3, ajuste pela cultura (decidido):** MSSA -> trocar vanco por **cefazolina 20 mg/kg, mínimo 1 g,
+  máximo 2 g**, diluída em **SF 0,9%** (~10 ml por grama), **bolus de 3-5 min pela linha venosa no fim da
+  sessão**, 3x/semana. MRSA/SCN resistente: manter vanco, suspender ceftazidima. Gram-negativo: suspender vanco
+  e ajustar pelo antibiograma. (IDSA rec. 62-63; bula; Sowinski 2001; Duke 2024.)
 
 ## Conferência com a literatura (2026-10-29)
 
@@ -104,7 +108,7 @@ Casos mais graves: vancomicina, 14 dias corridos
    intradialítico em alto fluxo. Faltam no protocolo: **nível pré-diálise 15-20 mg/l, semanal** (ASHP).
 2. ~~**Retirada obrigatória**~~ DECIDIDO (conservador, ver acima). do cateter em *S. aureus*, *Pseudomonas* e *Candida* (IDSA rec. 57, A-II).
    Proposta só retira com 2 hemoculturas positivas.
-3. **Descalonamento pela cultura:** MSSA -> cefazolina 20 mg/kg pós-HD (IDSA rec. 62-63). Ausente.
+3. ~~**Descalonamento pela cultura:**~~ DECIDIDO. MSSA -> cefazolina 20 mg/kg pós-HD (IDSA rec. 62-63). Ausente.
 4. ***S. aureus*: 4-6 semanas** (IDSA rec. 78, 64), 14 dias só com critérios (rec. 80: não diabético,
    sem prótese, sem endocardite, bacteremia resolvida em 72 h...). Proposta: 14 dias após cultura negativa.
 5. **Endocardite:** proposta 4 semanas; IDSA 4-6 semanas (S. aureus em valva nativa = 6, AHA 2015).
