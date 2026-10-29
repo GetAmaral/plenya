@@ -35,6 +35,8 @@ decisões tomadas na conversa entram aqui na hora.
   urina tipo 1 e ultrassom renal **sem exigência de data** (para não travar o agendamento).
   Fora: beta-hCG e tipagem ABO/Rh.
 
+- **Critérios para adiar: NÃO entram no ofício** (decidido). Avaliação fica com o serviço.
+
 ## Prazos de suspensão no card
 
 | Grupo | Medicamentos | SIR 2019 (alto risco) |
@@ -62,10 +64,9 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
    - **Destinatário:** Diretoria de Regulação da Atenção à Saúde (DRAS), Autarquia Municipal de
      Saúde (AMS) de Londrina. Em Londrina a saúde é autarquia, não "Secretaria". Dirigir ao cargo;
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
-2. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
-3. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
-4. Retorno do laudo ao nefrologista solicitante.
-5. Formato final: ofício 1 página + anexo técnico + card.
+2. Observação pós: sugerir até 24 h (Whittier & Korbet 2004), internação a critério do hospital.
+3. Retorno do laudo ao nefrologista solicitante.
+4. Formato final: ofício 1 página + anexo técnico + card.
 
 ## Referências
 
