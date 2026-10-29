@@ -81,10 +81,10 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 ## 2. FAV e prótese
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| FAV nativa | Pela cultura | 2 semanas | Doppler inicial |
-| Prótese | Pela cultura | 4 semanas | Doppler semanal. Extensa, abscesso, exposta ou sangrando → cirurgia vascular |
+| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 2 semanas | Doppler inicial |
+| Prótese | Vanco + cefta empírico → ajustar pela cultura | 4 semanas | Doppler semanal. Extensa, abscesso, exposta ou sangrando → cirurgia vascular |
 
-Com bacteremia por *S. aureus*: vale a regra do *S. aureus* (3 semanas + ecocardiograma). (Decidido no item 7 do PLANO; tinha ficado fora do briefing.)
+Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%). Com bacteremia por *S. aureus*: vale a regra do *S. aureus* (3 semanas + ecocardiograma). (Decidido no item 7 do PLANO; tinha ficado fora do briefing.)
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
