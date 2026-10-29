@@ -72,7 +72,9 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
    - **Destinatário:** Diretoria de Regulação da Atenção à Saúde (DRAS), Autarquia Municipal de
      Saúde (AMS) de Londrina. Em Londrina a saúde é autarquia, não "Secretaria". Dirigir ao cargo;
      a diretora citada no Planejamento Estratégico 2025 (Evilin Santos Silva Gorckis) pode ter mudado.
-2. Formato final: ofício (AREM -> DRAS) + card anexo.
+2. **Ofício v1 em revisão** (commit 1bffcabd): `scripts/deck-builder/biopsia-renal/oficio.html`,
+   `node render.js --png` -> `docs/clinica/biopsia-renal/oficio-biopsia-renal.pdf` (2 pág. + card).
+   Número do ofício e data ficam em branco para preencher.
 
 ## Referências
 
