@@ -40,7 +40,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | Hemocultura negativa (empírico) | 14 dias |
 | Outros germes | 14 dias após hemocultura negativa |
 | *S. aureus* (com lock ou após troca) | **3 semanas** após hemocultura negativa |
-| *Candida* | 14 dias após hemocultura negativa (IDSA candidíase 2016, Pappas) · **confirmar com a equipe** |
+| *Candida* | 14 dias após hemocultura negativa (IDSA candidíase 2016, Pappas) · confirmado pela equipe |
 | Endocardite | 4 semanas (valva protética: 6) |
 
 Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
