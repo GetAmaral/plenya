@@ -20,7 +20,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#8a8a8a}
 .page{width:297mm;height:210mm;margin:0 auto 6mm;background:#fff;position:relative;overflow:hidden;break-after:page;page-break-after:always;
-  font-family:'Atkinson Hyperlegible',Arial,sans-serif;color:var(--ink);font-size:9.6pt;line-height:1.22;padding:7mm 11mm 8mm}
+  font-family:'Atkinson Hyperlegible',Arial,sans-serif;color:var(--ink);font-size:9.6pt;line-height:1.22;padding:6mm 11mm 8mm}
 .hd{display:flex;align-items:center;gap:4mm;margin-bottom:3.4mm;padding-bottom:2mm;border-bottom:.35mm solid var(--rule)}
 .hd img{height:12mm}
 .hd h1{font-size:18pt;margin:0;color:var(--pet);line-height:1}
@@ -104,8 +104,8 @@ td.nw{white-space:nowrap}
 .legend .dc{padding:1mm 5.5mm}
 .legend .du{width:auto;min-height:7mm;padding:.6mm 3mm}
 table.fx{table-layout:fixed}
-.durband{margin-top:4.4mm;border:.4mm solid var(--dur-b);border-radius:3mm;background:#F4FBF9;padding:2.2mm 3.4mm 2.6mm}
-.durband .dh{display:flex;align-items:baseline;gap:3mm;margin-bottom:1.8mm}
+.durband{margin-top:3.4mm;border:.4mm solid var(--dur-b);border-radius:3mm;background:#F4FBF9;padding:1.8mm 3.4mm 2.2mm}
+.durband .dh{display:flex;align-items:baseline;gap:3mm;margin-bottom:1.2mm}
 .durband .dh b{color:var(--dur-t);font-size:11pt}
 .durband .dh span{font-size:8.6pt;color:var(--mut)}
 .durband .dg{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm}
@@ -125,11 +125,12 @@ table.fx{table-layout:fixed}
 .al.alarm b{display:block;margin-top:.6mm;font-size:9.6pt}
 .al.strip{flex-direction:row;justify-content:flex-start;min-height:9mm;margin:-1mm 0 4mm;padding:1.8mm 4mm;font-weight:400;font-size:10pt;border-width:.6mm}
 .al.strip b{font-weight:700}
-.durband .dg2{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:4mm}
+.durband .dg2{display:grid;grid-template-columns:1.9fr 1fr 1fr;gap:4mm}
 .durband .drow{display:flex;flex-direction:column;align-items:center;gap:1.6mm;text-align:center}
-.durband .drow .du{align-self:center;width:42mm;flex:none;min-height:9mm;padding:1.2mm 3.4mm}
-.durband .who2{font-size:9.4pt;font-weight:700;color:var(--pet);line-height:1.25}
+.durband .drow .du{align-self:center;width:42mm;flex:none;min-height:7.6mm;padding:.8mm 3.4mm}
+.durband .who2{font-size:8.8pt;font-weight:700;color:var(--pet);line-height:1.25}
 .durband .who2 .m{font-weight:400;color:var(--mut)}
+.al .kk{display:block;font-size:7.4pt;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-bottom:.6mm;opacity:.85}
 </style>
 </head>
 <body>
@@ -140,8 +141,8 @@ table.fx{table-layout:fixed}
 
   <div style="display:grid;grid-template-columns:1fr 58mm;gap:6mm">
     <div>
-    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:5.6mm;font-size:9.6pt">
-      <div class="n al alv" id="z" style="grid-row:1;grid-column:6;align-self:center"><span class="tx">Retirar o cateter<small>se instável, sepse ou infecção à distância</small></span></div>
+    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:6.4mm;font-size:9.6pt">
+      <div class="n al alv" id="z" style="grid-row:1;grid-column:6;align-self:center"><span class="tx"><span class="kk">A qualquer momento</span>Retirar o cateter<small>se instável, sepse ou infecção à distância</small></span></div>
       <div class="n st w" id="a"  style="grid-row:1;grid-column:1/6;align-self:center">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
       <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>cateter + linha venosa · lock após cada sessão</small></div>
       <div class="n dc w" id="d0" style="grid-row:3;grid-column:1/6">Hemocultura positiva?</div>
@@ -160,7 +161,7 @@ table.fx{table-layout:fixed}
     <div class="durband">
       <div class="dh"><b>Duração</b><span>conta da 1ª hemocultura negativa, com ou sem troca do cateter</span></div>
       <div class="dg2">
-        <div class="drow"><span class="n du"><span class="tx">14 dias</span></span><span class="who2">Outros germes · <i>Candida</i><br>Hemocultura negativa <span class="m">(do início)</span></span></div>
+        <div class="drow"><span class="n du"><span class="tx">14 dias</span></span><span class="who2">Hemocultura negativa <span class="m">(do início)</span><br>Coagulase-negativo · Gram-negativo<br><i>Candida</i> · demais germes</span></div>
         <div class="drow"><span class="n du"><span class="tx">3 semanas</span></span><span class="who2"><i>S. aureus</i></span></div>
         <div class="drow"><span class="n du"><span class="tx">4 semanas</span></span><span class="who2">Endocardite <span class="m">(valva protética: 6)</span></span></div>
       </div>
@@ -337,7 +338,7 @@ document.querySelectorAll(".al").forEach(e => e.insertAdjacentHTML("afterbegin",
 
 // [origem, destino, rótulo]
 const EDGES = {
-  f1: [["a","z","A qualquer momento","h"],["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
+  f1: [["a","z","","h"],["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["oa","ob","Óstio"],["oa","oc","Túnel"],["ob","od"],["oc","od"]],
@@ -376,6 +377,7 @@ function draw(){
         p.setAttribute("d", `M${hx1} ${hy}H${hx2}`); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#D7684B");
         p.setAttribute("stroke-width", "1.6"); p.setAttribute("stroke-dasharray", "4 3"); p.setAttribute("marker-end", `url(#ar-${fid}-c)`);
         svg.appendChild(p);
+        if (!label) continue;
         const l = document.createElement("div"); l.className = "lbl"; l.style.color = "#8E3B26"; l.textContent = label;
         l.style.left = (hx1 + hx2) / 2 + "px"; l.style.top = (hy - 8) + "px"; f.appendChild(l);
         continue;

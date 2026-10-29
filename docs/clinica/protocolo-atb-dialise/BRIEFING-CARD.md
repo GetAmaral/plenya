@@ -14,6 +14,8 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 - Sem marca comercial, sem travessão, sem fonte no card (fontes ficam no documento teórico).
 - Ilustração só como ícone de seção (gpt-image-2.5); número e texto sempre no HTML.
 - **Sem legenda** das formas (decidido 2026-10-29).
+- **Listas nunca começam por "outros/demais"**: primeiro os nomeados, o genérico por último.
+- **Rótulo nunca encosta em caixa ou seta** (conferir com imagem ampliada).
 
 ---
 
@@ -37,7 +39,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 ### Duração (agrupada por prazo; conta da 1ª hemocultura negativa, nunca da troca)
 | Prazo | Para quem |
 |---|---|
-| **14 dias** | Outros germes · *Candida* (IDSA 2016, confirmado) · Hemocultura negativa (do início do antibiótico) |
+| **14 dias** | Hemocultura negativa (do início do antibiótico) · Coagulase-negativo · Gram-negativo · *Candida* (IDSA 2016, confirmado) · Demais germes |
 | **3 semanas** | *S. aureus*, com lock ou após troca |
 | **4 semanas** | Endocardite (valva protética: 6) |
 
