@@ -98,7 +98,10 @@ Casos mais graves: vancomicina, 14 dias corridos
      El Nekidy 2022, Renz 1998, Wallace 1991), **sem marcar como fora da bula**.
   4. **Cefalexina: 500 mg 1x/dia**, após a sessão nos dias de HD.
 - **Item 10, celulite:** mantidos 7 dias (IDSA 2014 = 5 dias; registrar no texto). SMX-TMP fora.
+- **Tunelite: 14 dias** (decidido 2026-10-29).
 - **Todas as divergências 1-10 resolvidas -> próximo passo: card.**
+- **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
+  `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.
 
 ### Tabela de doses proposta (2026-10-29; ver decisões finais acima)
 | Droga | Dose em HD | Quando | Fonte |
