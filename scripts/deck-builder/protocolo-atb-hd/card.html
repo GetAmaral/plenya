@@ -16,7 +16,7 @@
   --cor:#FBE6DF;--cor-b:#D7684B;--cor-t:#8E3B26;
   --ink:#17323A;--mut:#5C7379;--bg:#F5F9F9;--rule:#DCE7E9;
 }
-@page{size:A4 landscape;margin:0}
+@page{margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#8a8a8a}
 .page{width:297mm;height:210mm;margin:0 auto 6mm;background:#fff;position:relative;overflow:hidden;break-after:page;page-break-after:always;
@@ -131,18 +131,25 @@ table.fx{table-layout:fixed}
 .durband .who2{font-size:8.8pt;font-weight:700;color:var(--pet);line-height:1.25}
 .durband .who2 .m{font-weight:400;color:var(--mut)}
 .al .kk{display:block;font-size:7.4pt;letter-spacing:.06em;text-transform:uppercase;font-weight:700;margin-bottom:.6mm;opacity:.85}
+.page.portrait{width:210mm;height:297mm;padding:9mm 10mm 9mm}
+.p1body{display:flex;flex-direction:column;gap:6mm}
+.p1info{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:5mm;border-top:.35mm solid var(--rule);padding-top:4mm}
+.p1info h3{font-size:11pt;color:var(--pet);margin:0 0 1.8mm}
+@media print{html,body{background:#fff}.page{margin:0}}
+.flow .dc{align-self:center}
 </style>
 </head>
 <body>
 
 <!-- ======================= FOLHA 1 · BACTEREMIA POR CATETER ======================= -->
-<section class="page">
+<section class="page portrait" data-size="portrait">
   <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 3</span></div>
 
-  <div style="display:grid;grid-template-columns:1fr 58mm;gap:6mm">
+  <div class="p1body">
+
     <div>
-    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:6.4mm;font-size:9.6pt">
-      <div class="n al alv" id="z" style="grid-row:1;grid-column:6;align-self:center"><span class="tx"><span class="kk">A qualquer momento</span>Retirar o cateter<small>se instável, sepse ou infecção à distância</small></span></div>
+    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:10mm;font-size:10pt">
+      <div class="n al alv" id="z" style="grid-row:1/3;grid-column:6;align-self:center"><span class="tx"><span class="kk">A qualquer momento</span>Retirar o cateter<small>se instável, sepse ou infecção à distância</small></span></div>
       <div class="n st w" id="a"  style="grid-row:1;grid-column:1/6;align-self:center">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
       <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>cateter + linha venosa · lock após cada sessão</small></div>
       <div class="n dc w" id="d0" style="grid-row:3;grid-column:1/6">Hemocultura positiva?</div>
@@ -154,8 +161,8 @@ table.fx{table-layout:fixed}
       <div class="n ac" id="e5" style="grid-row:5;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
       <div class="n al alv" id="e4" style="grid-row:5;grid-column:5"><span class="tx">Retirar cateter<small>antifúngico pela cultura · suspender vanco e cefta</small></span></div>
       <div class="n dc w" id="g2" style="grid-row:6;grid-column:1/6;width:72%">Em 72 h: febre persistente ou hemocultura positiva?</div>
-      <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3;justify-self:center;width:80%">Manter o cateter com lock</div>
-      <div class="n al" id="i2" style="grid-row:7;grid-column:4/6;justify-self:center;width:80%"><span class="tx">Trocar por fio-guia</span></div>
+      <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3;justify-self:center;width:92%">Manter o cateter com lock</div>
+      <div class="n al" id="i2" style="grid-row:7;grid-column:4/6;justify-self:center;width:92%"><span class="tx">Trocar por fio-guia</span></div>
     </div>
 
     <div class="durband">
@@ -168,7 +175,7 @@ table.fx{table-layout:fixed}
     </div>
     </div>
 
-    <div class="rail">
+    <div class="p1info">
       <div>
         <h3>Hemoculturas</h3>
         <div class="tl">
@@ -199,7 +206,7 @@ table.fx{table-layout:fixed}
 </section>
 
 <!-- ======================= FOLHA 2 · OUTRAS INFECÇÕES ======================= -->
-<section class="page">
+<section class="page" data-size="landscape">
   <div class="hd"><div><h1>Outras Infecções</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 2 de 3</span></div>
 
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4mm">
@@ -282,7 +289,7 @@ table.fx{table-layout:fixed}
 </section>
 
 <!-- ======================= FOLHA 3 · FICHA DE DROGAS ======================= -->
-<section class="page">
+<section class="page" data-size="landscape">
   <div class="hd"><div><h1>Ficha de Drogas</h1><div class="k">Doses na hemodiálise</div></div><span class="tag">Folha 3 de 3</span></div>
 
   <div class="sec">Endovenosas <span class="note">dose · diluição · via · tempo · momento</span></div>

@@ -42,7 +42,7 @@ Conteúdo: `BRIEFING-CARD.md` (fonte única). Este arquivo define a forma. Estud
    de caixa por coluna.
 10. **Testar:** mostrar a quem prescreve e a quem administra (enfermagem) antes de fechar.
 
-## Estrutura proposta (A4 paisagem)
+## Estrutura proposta (A4 vertical desde 2026-10-29; antes paisagem)
 
 - **Folha 1, Bacteremia por cateter:** gatilho (febre/calafrio na sessão) → colher HC D0 → iniciar
   vanco + cefta + lock → decisão "Cultura?" com ramos MSSA / MRSA-SCN / gram-negativo / *Candida* →
