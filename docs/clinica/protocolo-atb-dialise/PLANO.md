@@ -104,6 +104,9 @@ Casos mais graves: vancomicina, 14 dias corridos
   14 dias (já estava na discussão original e não foi transposto); estafilococo sensível/resistente; **outro germe**
   -> antibiograma. Recuperados também "tentar 72 h sem acesso" e "dias corridos" da celulite, perdidos no card.
 - **Estafilococo coagulase-negativo sensível à oxacilina -> cefazolina** (aprovado 2026-10-29; IDSA 2009).
+- **Duração revista pela equipe (2026-10-29), substitui o item 4:** conta sempre da hemocultura negativa,
+  nunca da troca. Outros germes 14 dias; **S. aureus 3 semanas** com lock ou após troca. Candida: proposta
+  14 dias após HC negativa (IDSA 2016), aguardando confirmação. Troca do cateter não altera o prazo.
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
   `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.

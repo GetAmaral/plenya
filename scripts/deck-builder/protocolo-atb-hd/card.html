@@ -46,17 +46,17 @@ html,body{margin:0;padding:0;background:#8a8a8a}
 svg.wires{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
 
 /* ---------- lateral da folha 1 ---------- */
-.rail{border-left:.35mm solid var(--rule);padding-left:6mm;display:flex;flex-direction:column;gap:5mm}
-.rail h3{font-size:11.5pt;color:var(--pet);margin:0 0 2.2mm}
+.rail{border-left:.35mm solid var(--rule);padding-left:6mm;display:flex;flex-direction:column;gap:3.4mm}
+.rail h3{font-size:11pt;color:var(--pet);margin:0 0 1.6mm}
 .tl{display:grid;grid-template-columns:5mm 1fr;column-gap:3mm;row-gap:0}
 .tl .dot{position:relative;display:flex;justify-content:center}
 .tl .dot i{width:4mm;height:4mm;border-radius:50%;border:.7mm solid var(--pet);background:#fff;margin-top:.2mm;position:relative;z-index:1}
 .tl .dot:not(.last):after{content:"";position:absolute;top:4mm;bottom:0;left:50%;width:.5mm;margin-left:-.25mm;background:var(--wire)}
-.tl .tx{padding-bottom:3.4mm}
+.tl .tx{padding-bottom:2mm}
 .tl .tx b{color:var(--pet)}
 .tl .tx small{display:block;color:var(--mut);font-size:8.6pt}
 .kv{margin:0;padding:0;list-style:none}
-.kv li{padding:1.4mm 0;border-bottom:.25mm solid var(--rule)}
+.kv li{padding:1mm 0;border-bottom:.25mm solid var(--rule)}
 .kv li:last-child{border-bottom:0}
 .kv b{color:var(--pet)}
 .kv small{color:var(--mut)}
@@ -104,6 +104,18 @@ td.nw{white-space:nowrap}
 .legend .dc{padding:1mm 5.5mm}
 .legend .du{width:auto;min-height:7mm;padding:.6mm 3mm}
 table.fx{table-layout:fixed}
+.durband{margin-top:6mm;border:.4mm solid var(--dur-b);border-radius:3mm;background:#F4FBF9;padding:2.6mm 3.4mm 3mm}
+.durband .dh{display:flex;align-items:baseline;gap:3mm;margin-bottom:2.4mm}
+.durband .dh b{color:var(--dur-t);font-size:11pt}
+.durband .dh span{font-size:8.6pt;color:var(--mut)}
+.durband .dg{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm}
+.durband .dcell{display:flex;flex-direction:column;align-items:center;gap:1.4mm}
+.durband .who{font-size:8.8pt;font-weight:700;color:var(--pet)}
+.durband .du{width:100%;min-height:8mm}
+.vleg{display:grid;grid-template-columns:22mm 1fr;gap:1.3mm 2.6mm;align-items:center;font-size:8.4pt;color:var(--mut)}
+.vleg .n{min-height:6mm;font-size:7.8pt;padding:.8mm 2mm;width:100%;justify-self:stretch}
+.vleg .dc{padding:.8mm 4mm}
+.durband .du{min-height:11mm}
 </style>
 </head>
 <body>
@@ -113,7 +125,8 @@ table.fx{table-layout:fixed}
   <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 3</span></div>
 
   <div style="display:grid;grid-template-columns:1fr 58mm;gap:6mm">
-    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:8mm;font-size:9.6pt">
+    <div>
+    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:7mm;font-size:9.6pt">
       <div class="n st w" id="a"  style="grid-row:1;grid-column:1/6">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
       <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>cateter + linha venosa · lock após cada sessão</small></div>
       <div class="n dc w" id="d0" style="grid-row:3;grid-column:1/6">Hemocultura positiva?</div>
@@ -127,10 +140,18 @@ table.fx{table-layout:fixed}
       <div class="n dc w" id="g"  style="grid-row:6;grid-column:1/5;width:86%">Em 72 h: febre, hemocultura positiva ou instável?</div>
       <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3;justify-self:center;width:80%">Manter o cateter<small>lock após cada sessão</small></div>
       <div class="n al" id="i2" style="grid-row:7;grid-column:3/5;justify-self:center;width:90%"><span class="tx">Trocar por fio-guia<small>retirar se instável ou infecção à distância</small></span></div>
-      <div class="n du" id="j1" style="grid-row:8;grid-column:1;width:100%;padding:1.2mm 2.4mm"><span class="tx">14 dias<small>da HC negativa</small></span></div>
-      <div class="n du" id="j2" style="grid-row:8;grid-column:2;width:100%;padding:1.2mm 2.4mm"><span class="tx">3 semanas<small>com lock</small></span></div>
-      <div class="n du" id="j3" style="grid-row:8;grid-column:3/5;width:80%"><span class="tx">14 dias<small>da HC negativa ou da troca</small></span></div>
-      <div class="n du" id="n2" style="grid-row:8;grid-column:6;width:100%"><span class="tx">14 dias<small>empírico</small></span></div>
+    </div>
+
+    <div class="durband">
+      <div class="dh"><b>Duração</b><span>conta sempre da 1ª hemocultura negativa, com ou sem troca do cateter</span></div>
+      <div class="dg">
+        <div class="dcell"><span class="who">Hemocultura negativa</span><span class="n du"><span class="tx">14 dias</span></span></div>
+        <div class="dcell"><span class="who">Outros germes</span><span class="n du"><span class="tx">14 dias</span></span></div>
+        <div class="dcell"><span class="who"><i>S. aureus</i></span><span class="n du"><span class="tx">3 semanas</span></span></div>
+        <div class="dcell"><span class="who"><i>Candida</i></span><span class="n du"><span class="tx">14 dias</span></span></div>
+        <div class="dcell"><span class="who">Endocardite</span><span class="n du"><span class="tx">4 semanas<small>valva protética: 6</small></span></span></div>
+      </div>
+    </div>
     </div>
 
     <div class="rail">
@@ -147,7 +168,6 @@ table.fx{table-layout:fixed}
         <h3>Sempre</h3>
         <ul class="kv">
           <li><b>Ecocardiograma</b> em todo <i>S. aureus</i></li>
-          <li><b>Endocardite:</b> 4 semanas<br><small>valva protética: 6 semanas</small></li>
           <li><b>Procurar focos</b><br><small>acessos antigos, stent venoso, marcapasso, prótese ortopédica</small></li>
         </ul>
       </div>
@@ -159,14 +179,17 @@ table.fx{table-layout:fixed}
           <li>Retirado por HC positiva: tentar <b>72 h</b> sem acesso</li>
         </ul>
       </div>
+      <div>
+        <h3>Como Ler</h3>
+        <div class="vleg">
+          <span class="n st">Situação</span><span>ponto de partida</span>
+          <span class="n dc">Pergunta?</span><span>siga a resposta</span>
+          <span class="n ac">Fazer</span><span>ação ou antibiótico</span>
+          <span class="n al"><span class="tx">Atenção</span></span><span>retirar ou trocar</span>
+          <span class="n du"><span class="tx">Tempo</span></span><span>duração</span>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="legend"><span class="t">Como ler</span>
-    <span class="it"><span class="n st">Situação</span>ponto de partida</span>
-    <span class="it"><span class="n dc">Pergunta?</span>siga a seta da resposta</span>
-    <span class="it"><span class="n ac">Fazer</span>ação ou antibiótico</span>
-    <span class="it"><span class="n du"><span class="tx">Tempo</span></span>duração</span>
-    <span class="it"><span class="n al"><span class="tx">Atenção</span></span>retirar, trocar, cirurgia</span>
   </div>
   <div class="foot"><span>HC: hemocultura · Doses e lock na folha 3 · Referências no documento teórico</span><span>1/3</span></div>
 </section>
@@ -313,8 +336,7 @@ document.querySelectorAll(".al").forEach(e => e.insertAdjacentHTML("afterbegin",
 const EDGES = {
   f1: [["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
-       ["e1","g"],["e2","g"],["e3","g"],["e5","g"],["g","i1","Não"],["g","i2","Sim"],
-       ["i1","j1","Outros germes"],["i1","j2","S. aureus"],["i2","j3"],["n1","n2"]],
+       ["e1","g"],["e2","g"],["e3","g"],["e5","g"],["g","i1","Não"],["g","i2","Sim"]],
   fo: [["oa","ob","Óstio"],["oa","oc","Túnel"],["ob","od"],["oc","od"]],
   fv: [["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fe"]],
   fu: [["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],

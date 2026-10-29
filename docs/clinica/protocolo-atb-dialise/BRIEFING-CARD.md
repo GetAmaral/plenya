@@ -24,17 +24,25 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | Bacteremia por cateter | Vancomicina + ceftazidima | 14 dias após hemocultura negativa | Lock se o cateter fica |
 
 ### Ajuste pela cultura (toda resposta tem ramo)
-| Resultado da hemocultura | Antibiótico | Duração | Atenção |
-|---|---|---|---|
-| **Negativa** | Manter vancomicina + ceftazidima (empírico) | 14 dias | Discussão original: "Vanco / ceftazidima empírica - 14 dias" |
-| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | Cefazolina (suspender vanco) | ver *S. aureus*; demais 14 dias | IDSA 2009: cefazolina preferida para estafilococo sensível. Extensão ao coagulase-negativo aprovada (2026-10-29) |
-| Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | 14 dias | |
-| Gram-negativo | Pelo antibiograma (suspender vanco) | 14 dias | |
-| **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | 14 dias | Enterococo: regra da IDSA só no texto teórico |
-| *Candida* | Pela cultura | | **Retirar o cateter** |
-| *S. aureus*, cateter trocado ou retirado | Pela sensibilidade | 14 dias, da hemocultura negativa ou da troca (o que vier depois) | Ecocardiograma |
-| *S. aureus*, cateter mantido com lock | Pela sensibilidade | 3 semanas | Ecocardiograma |
-| Endocardite | Pela cultura | 4 semanas (valva protética: 6) | Cardiologia |
+| Resultado da hemocultura | Antibiótico | Atenção |
+|---|---|---|
+| **Negativa** | Manter vancomicina + ceftazidima (empírico) | Discussão original: "Vanco / ceftazidima empírica - 14 dias" |
+| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | Cefazolina (suspender vanco) | IDSA 2009; extensão ao coagulase-negativo aprovada |
+| Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | |
+| Gram-negativo | Pelo antibiograma (suspender vanco) | |
+| **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | Enterococo: regra da IDSA só no texto teórico |
+| *Candida* | Pela cultura | **Retirar o cateter** |
+
+### Duração (depende só do germe; conta SEMPRE da 1ª hemocultura negativa, nunca da troca)
+| Situação | Duração |
+|---|---|
+| Hemocultura negativa (empírico) | 14 dias |
+| Outros germes | 14 dias após hemocultura negativa |
+| *S. aureus* (com lock ou após troca) | **3 semanas** após hemocultura negativa |
+| *Candida* | 14 dias após hemocultura negativa (IDSA candidíase 2016, Pappas) · **confirmar com a equipe** |
+| Endocardite | 4 semanas (valva protética: 6) |
+
+Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
 
 ### Manter ou retirar o cateter
 - **Regra:** manter com lock.
