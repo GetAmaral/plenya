@@ -13,6 +13,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 - Doses ficam só na ficha de drogas; nas infecções aparece só o nome da droga.
 - Sem marca comercial, sem travessão, sem fonte no card (fontes ficam no documento teórico).
 - Ilustração só como ícone de seção (gpt-image-2.5); número e texto sempre no HTML.
+- **Sem legenda** das formas (decidido 2026-10-29).
 
 ---
 
