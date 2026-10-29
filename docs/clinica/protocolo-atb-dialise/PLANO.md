@@ -237,6 +237,20 @@ Restrição (2026-10-29): falência de veias torna o acesso precioso; equipe que
   alternativa aceitável** onde houver experiência (sensibilidade 95% vs 70% do RX). -> 5 dias da equipe bate;
   RX só em caso arrastado diverge (diretriz pede imagem para confirmar).
 
+### Item 9 (doses orais em HD), proposta
+Fontes: bula FDA levofloxacino (tabela 2.3: HD/CAPD 750 mg inicial, depois 500 mg a cada 48 h; 500 mg ->
+250 mg a cada 48 h; sem dose suplementar após HD); Northern Health AMS Adult Dosing Guidelines 2018 (tabela
+de HD) para os demais.
+- Ciprofloxacino VO 500 mg 1x/dia, após a diálise nos dias de HD (= proposta da equipe).
+- Amoxicilina-clavulanato VO 500/125 mg 1x/dia, após a diálise nos dias de HD.
+- Azitromicina: sem ajuste.
+- Levofloxacino VO/EV 750 mg dose inicial, depois 500 mg a cada 48 h (as "3 doses EV" = D0, D2, D4).
+- Cefalexina VO 250 mg 12/12 h, uma das doses após a diálise.
+- Clindamicina: sem ajuste.
+- **SMX-TMP: "não recomendado" em HD** (bula: ClCr < 15; hipercalemia) -> propor trocar por doxiciclina
+  ou clindamicina no MRSA da celulite.
+- **Amicacina: "não usar"** na tabela de HD (ototoxicidade; equipe já marcou) -> propor manter só ceftazidima.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
