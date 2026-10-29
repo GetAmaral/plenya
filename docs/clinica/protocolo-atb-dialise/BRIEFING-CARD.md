@@ -27,7 +27,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | Resultado da hemocultura | Antibiótico | Duração | Atenção |
 |---|---|---|---|
 | **Negativa** | Manter vancomicina + ceftazidima (empírico) | 14 dias | Discussão original: "Vanco / ceftazidima empírica - 14 dias" |
-| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | Cefazolina (suspender vanco) | ver *S. aureus*; demais 14 dias | IDSA 2009: cefazolina preferida para estafilococo sensível. **Extensão ao coagulase-negativo: confirmar com a equipe** |
+| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | Cefazolina (suspender vanco) | ver *S. aureus*; demais 14 dias | IDSA 2009: cefazolina preferida para estafilococo sensível. Extensão ao coagulase-negativo aprovada (2026-10-29) |
 | Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | 14 dias | |
 | Gram-negativo | Pelo antibiograma (suspender vanco) | 14 dias | |
 | **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | 14 dias | Enterococo: regra da IDSA só no texto teórico |
@@ -136,4 +136,4 @@ Raio-X nos casos arrastados ou graves.
   nada da discussão pode sumir do card sem decisão registrada.
 
 ## Pendências de conteúdo
-- Estafilococo coagulase-negativo **sensível** à oxacilina → cefazolina? (IDSA 2009 apoia; equipe não decidiu.)
+- Nenhuma.

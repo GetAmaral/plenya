@@ -103,6 +103,7 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Algoritmo furado (2026-10-29):** faltavam ramos. Corrigido: hemocultura **negativa** -> manter vanco + cefta
   14 dias (já estava na discussão original e não foi transposto); estafilococo sensível/resistente; **outro germe**
   -> antibiograma. Recuperados também "tentar 72 h sem acesso" e "dias corridos" da celulite, perdidos no card.
+- **Estafilococo coagulase-negativo sensível à oxacilina -> cefazolina** (aprovado 2026-10-29; IDSA 2009).
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
   `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.
