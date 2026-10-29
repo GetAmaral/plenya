@@ -44,7 +44,9 @@ Limites laboratoriais (mesma diretriz): INR ≤ 1,5-1,8; plaquetas > 50 mil.
 
 ## Pendências (uma por vez)
 
-1. Remetente/assinatura/destinatário/município (define cabeçalho e identidade do card).
+1. Remetente: **assinam Dr. Danilo, Dr. Getúlio Amaral Filho (CRM-PR 21.876 · RQE 16.038) e Dr. Michel Moro**
+   (decidido). Faltam: nome completo e CRM/RQE do Danilo, CRM/RQE do Michel, instituição do cabeçalho,
+   destinatário e município.
 2. Lista de exames pré-op: hemograma, TP/INR, TTPa, creatinina, ABO/Rh, urina tipo 1, US renal
    recente, beta-hCG em mulher em idade fértil.
 3. Critérios para adiar: PA > 160/90, INR/plaquetas fora do limite, ITU, rins pequenos/hidronefrose.
