@@ -139,7 +139,7 @@ table.fx{table-layout:fixed}
 .flow .dc{align-self:center}
 .al.alv .lead{margin:0 0 .8mm;font-size:8.4pt}
 .al.alv .kk{margin:.8mm 0 0}
-.p2grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3.6mm}
+.p2grid{display:grid;grid-template-columns:repeat(20,1fr);gap:3.6mm}
 .p2grid .flow{font-size:9pt}
 .p2grid .du{width:auto;min-width:72%;padding:1mm 3mm;min-height:7.6mm}
 .p2grid .n{min-height:8.4mm}
@@ -220,7 +220,7 @@ table.fx{table-layout:fixed}
 
   <div class="p2grid">
 
-    <div class="mini" style="grid-column:1/4"><div class="mh"><img src="assets/cateter.png" alt=""><h2>Óstio e Túnel</h2></div>
+    <div class="mini" style="grid-column:1/10"><div class="mh"><img src="assets/cateter.png" alt=""><h2>Óstio e Túnel</h2></div>
       <div class="flow" id="fo" style="grid-template-columns:repeat(2,1fr);column-gap:3mm;row-gap:5.2mm">
         <div class="n st" id="o1" style="grid-row:1;grid-column:1">Óstio</div>
         <div class="n st" id="t1" style="grid-row:1;grid-column:2">Túnel</div>
@@ -237,21 +237,21 @@ table.fx{table-layout:fixed}
       </ul>
     </div>
 
-    <div class="mini" style="grid-column:4/7"><div class="mh"><img src="assets/fistula.png" alt=""><h2>FAV e Prótese</h2></div>
-      <div class="flow" id="fv" style="grid-template-columns:29.5mm 1fr 1fr;column-gap:2.4mm;row-gap:5.2mm">
+    <div class="mini" style="grid-column:10/21"><div class="mh"><img src="assets/fistula.png" alt=""><h2>FAV e Prótese</h2></div>
+      <div class="flow" id="fv" style="grid-template-columns:29.5mm 27mm 1fr;column-gap:2.4mm;row-gap:5.2mm">
         <div class="n ac w" id="f0" style="grid-row:1;grid-column:1/4;width:80%">Vancomicina + ceftazidima<small>ajustar pela cultura</small></div>
         <div class="n dc w" id="fa" style="grid-row:2;grid-column:1/4;width:80%">Qual acesso?</div>
         <div class="n ac" id="fb" style="grid-row:3;grid-column:1;padding:2mm 1.6mm">Doppler inicial</div>
         <div class="n ac" id="fc" style="grid-row:3;grid-column:2/4">Doppler semanal</div>
-        <div class="n du" id="fd" style="grid-row:4;grid-column:1"><span class="tx">2 semanas</span></div>
         <div class="n dc w" id="fg" style="grid-row:4;grid-column:2/4;width:100%;padding:1.6mm 4.6mm">Infecção extensa, abscesso,<br>exposta ou sangrando?</div>
-        <div class="n du" id="fe" style="grid-row:5;grid-column:2;min-width:0;width:100%;padding:1mm 2mm"><span class="tx">4 semanas</span></div>
-        <div class="n al" id="fx" style="grid-row:5;grid-column:3;font-size:8.6pt;padding:1.4mm 2mm;gap:1.4mm"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+        <div class="n al" id="fx" style="grid-row:5;grid-column:3;margin-left:5mm;font-size:8.6pt;padding:1.4mm 2mm;gap:1.4mm"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+        <div class="n du" id="fd" style="grid-row:5;grid-column:1;align-self:center"><span class="tx">2 semanas</span></div>
+        <div class="n du" id="fe" style="grid-row:5;grid-column:2;min-width:0;width:100%;padding:1mm 2mm;align-self:center"><span class="tx">4 semanas</span></div>
       </div>
-      <ul class="notes"><li><b>Bacteremia por <i>S. aureus</i>:</b> 3 semanas + ecocardiograma (folha 1)</li></ul>
+      <ul class="notes"><li><b>FAV nativa com <i>S. aureus</i>:</b> 3 semanas · <b><i>S. aureus</i>:</b> ecocardiograma</li></ul>
     </div>
 
-    <div class="mini" style="grid-column:1/4"><div class="mh"><img src="assets/urina.png" alt=""><h2>Infecção Urinária</h2></div>
+    <div class="mini" style="grid-column:1/11"><div class="mh"><img src="assets/urina.png" alt=""><h2>Infecção Urinária</h2></div>
       <div class="flow" id="fu" style="grid-template-columns:1fr 1fr;column-gap:2.4mm;row-gap:5.2mm;font-size:9pt">
         <div class="n ac w" id="ua" style="grid-row:1;grid-column:1/3;width:100%">Colher urocultura</div>
         <div class="n dc w" id="ub" style="grid-row:2;grid-column:1/3;width:100%">Adere ao oral?</div>
@@ -262,7 +262,7 @@ table.fx{table-layout:fixed}
       <ul class="notes"><li><b>Ajustar</b> pelo antibiograma · <b>sem</b> urocultura de controle</li><li><b>Amicacina</b> é ototóxica</li></ul>
     </div>
 
-    <div class="mini" style="grid-column:4/7"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
+    <div class="mini" style="grid-column:11/21"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
       <div class="flow" id="fc2" style="grid-template-columns:repeat(3,1fr);column-gap:2.4mm;row-gap:5.2mm">
         <div class="n dc w" id="ca" style="grid-row:1;grid-column:1/4;width:80%">Grave?</div>
         <div class="n dc w" id="cb" style="grid-row:2;grid-column:1/3;width:100%">MRSA prévio?</div>
@@ -274,7 +274,7 @@ table.fx{table-layout:fixed}
       </div>
       <ul class="notes"><li><b>Dias corridos</b></li></ul>
     </div>
-    <div class="mini" style="grid-column:1/7"><div class="mh"><img src="assets/pulmao.png" alt=""><h2>Pneumonia</h2></div>
+    <div class="mini" style="grid-column:1/21"><div class="mh"><img src="assets/pulmao.png" alt=""><h2>Pneumonia</h2></div>
       <div class="flow" id="fp" style="grid-template-columns:repeat(3,1fr);column-gap:3mm;row-gap:5.2mm;font-size:9pt">
         <div class="n dc w" id="pa" style="grid-row:1;grid-column:1/4;width:88%">Adere ao oral?</div>
         <div class="n dc w" id="pb" style="grid-row:2;grid-column:1/3;width:92%">Doença pulmonar prévia?</div>
@@ -353,7 +353,7 @@ const EDGES = {
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t2"],["t2","of"]],
-  fv: [["f0","fa"],["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fg"],["fg","fe","Não"],["fg","fx","Sim"]],
+  fv: [["f0","fa"],["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fg"],["fg","fe","Não"],["fg","fx","Sim"],["fx","fe","","l"]],
   fu: [["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
   fp: [["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
   fc2:[["ca","cb","Não"],["ca","cc","Sim"],["cb","cd","Não"],["cb","ce","Sim"],["cd","cg"],["ce","cg"],["cc","cf"]],
@@ -366,13 +366,13 @@ function draw(){
     svg.innerHTML = `<defs><marker id="ar-${fid}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6F969E"/></marker><marker id="ar-${fid}-c" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#D7684B"/></marker></defs>`;
     f.prepend(svg);
     const outN = {}, inN = {};
-    edges.forEach(([a, b, , k]) => { if (k === 'h') return; outN[a] = (outN[a] || 0) + 1; inN[b] = (inN[b] || 0) + 1; });
+    edges.forEach(([a, b, , k]) => { if (k === 'h' || k === 'l') return; outN[a] = (outN[a] || 0) + 1; inN[b] = (inN[b] || 0) + 1; });
     const GAP = 13;                                              // px: distância do barramento à caixa
     const box = id => document.getElementById(id).getBoundingClientRect();
     // uma barra só por origem (abre ramos) e por destino (junta ramos), na menor folga do grupo
     const busOut = {}, busIn = {};
     for (const [a, b, , k] of edges) {
-      if (k === 'h') continue;
+      if (k === 'h' || k === 'l') continue;
       const half = (box(b).top - box(a).bottom) / 2;
       busOut[a] = Math.min(busOut[a] ?? Infinity, Math.min(GAP, half));
       busIn[b]  = Math.min(busIn[b]  ?? Infinity, Math.min(GAP, half));
@@ -382,6 +382,13 @@ function draw(){
       const x1 = A.left + A.width / 2 - R.left, y1 = A.bottom - R.top;
       const x2 = B.left + B.width / 2 - R.left, y2 = B.top - R.top;
       const bus = outN[a] > 1 ? y1 + busOut[a] : inN[b] > 1 ? y2 - busIn[b] : y1 + (y2 - y1) / 2;
+      if (kind === "l") {
+        const lx1 = A.left - R.left, ly = B.top + B.height / 2 - R.top, lx2 = B.right - R.left;
+        const p = document.createElementNS(NS, "path");
+        p.setAttribute("d", `M${lx1} ${ly}H${lx2}`); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#6F969E");
+        p.setAttribute("stroke-width", "1.5"); p.setAttribute("marker-end", `url(#ar-${fid})`); svg.appendChild(p);
+        continue;
+      }
       if (kind === "h") {
         const hx1 = A.right - R.left, hy = A.top + A.height / 2 - R.top, hx2 = B.left - R.left;
         const p = document.createElementNS(NS, "path");

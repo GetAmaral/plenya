@@ -81,10 +81,14 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 ## 2. FAV e prótese
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 2 semanas | Doppler inicial |
-| Prótese | Vanco + cefta empírico → ajustar pela cultura | 4 semanas | Doppler semanal. **Pergunta no ramo da prótese: "Infecção extensa, abscesso, exposta ou sangrando?"** Sim → **cirurgia vascular para retirada** (alerta ligado só ao ramo da prótese); Não → 4 semanas. Texto do item 7 do PLANO; forma (pergunta + alerta ligado) proposta minha, aprovada 2026-10-29 ("faça assim depois avalio") |
+| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 2 semanas; **bacteremia por *S. aureus*: 3 semanas** | Doppler inicial |
+| Prótese | Vanco + cefta empírico → ajustar pela cultura | **4 semanas em qualquer infecção** (inclusive *S. aureus* e após cirurgia) | Doppler semanal. Pergunta no ramo: "Infecção extensa, abscesso, exposta ou sangrando?" Sim → **cirurgia vascular para retirada** → 4 semanas; Não → 4 semanas. **Todo ramo termina em duração** |
 
-Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%). Com bacteremia por *S. aureus*: vale a regra do *S. aureus* (3 semanas + ecocardiograma). (Decidido no item 7 do PLANO; tinha ficado fora do briefing.)
+Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%).
+Regra da equipe (2026-10-29): **3 semanas no *S. aureus* só na FAV nativa; na prótese qualquer infecção é 4 semanas.**
+Ecocardiograma em todo *S. aureus* (regra da seção 1).
+Texto do alerta: item 7 do PLANO. Forma (pergunta + alerta ligado ao ramo): proposta minha, aprovada 2026-10-29.
+Correção 2026-10-29: a primeira versão deixou o ramo da cirurgia sem duração; a equipe apontou.
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
@@ -152,9 +156,8 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 - **Folha 1 (bacteremia por cateter): APROVADA.** Não reabrir.
 - **Folha 2 (outras infecções), A4 vertical:** quadro 1 **Óstio e Túnel discutido e corrigido** (cateter fica
   na tunelite; sem fio-guia com novo túnel; sem cultura de secreção; Hipafix/Tegaderm; hemocultura no túnel).
-  **Quadro 2, FAV e Prótese, em revisão:** item 1 (alerta da prótese como pergunta ligada ao ramo, "cirurgia
-  vascular para retirada") feito, aguardando avaliação. Abertos, um por vez: (2) *S. aureus* 3 semanas × prótese
-  4 semanas, qual vale; (3) colher hemocultura antes do antibiótico? (não está na discussão); (4) "Doppler
+  **Quadro 2, FAV e Prótese, em revisão:** (1) alerta da prótese ligado ao ramo, com duração também no ramo da
+  cirurgia; (2) *S. aureus* 3 semanas só na FAV nativa, prótese sempre 4 semanas: decididos. Abertos, um por vez: (3) colher hemocultura antes do antibiótico? (não está na discussão); (4) "Doppler
   inicial" perdeu o "pelo menos" da discussão; (5) "2 semanas" × "14 dias" (só forma).
   Depois: Infecção Urinária, Celulite, Pneumonia.
 - **Folha 3 (ficha de drogas + lock):** ainda em A4 paisagem; converter para vertical e revisar.
