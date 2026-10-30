@@ -114,6 +114,11 @@ cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No car
 folha 1** (leque "Qual germe?" com os ramos lado a lado). Não cabe com as outras infecções: **FAV e Prótese vira a
 folha 2 própria**; Urina, Celulite e Pneumonia vão para a folha 3 (revisão depois); drogas + lock viram folha 4.
 Sem caixa de gatilho no topo (não há gatilho definido para FAV/prótese): o fluxo começa na coleta.
+**Ordem corrigida (2026-10-29, erro meu apontado pela equipe):** coleta + vanco/cefta → "Qual acesso?" → Doppler
+(e, na prótese, a pergunta de gravidade com alerta de cirurgia) → "Hemocultura positiva?" → germes → faixa de
+Duração (FAV nativa 2 semanas, *S. aureus* 3; prótese 4 semanas, qualquer germe, também após a cirurgia). Antes o
+Doppler e a gravidade vinham depois da cultura e a *Candida* mandava retirar a prótese e depois seguia para o
+Doppler semanal dela.
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.

@@ -250,23 +250,31 @@ table.fx{table-layout:fixed}
   <div class="hd"><img src="assets/fistula.png" alt=""><div><h1>Infecção de FAV e Prótese</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 2 de 4</span></div>
 
   <div class="p1body">
+    <div>
     <div class="flow" id="fv" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:10mm;font-size:10pt">
       <div class="n ac w" id="v0" style="grid-row:1;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>linha venosa + acesso periférico</small></div>
-      <div class="n dc w" id="v1" style="grid-row:2;grid-column:1/6">Hemocultura positiva?</div>
-      <div class="n dc w" id="v2" style="grid-row:3;grid-column:1/6">Qual germe?</div>
-      <div class="n ac" id="vn" style="grid-row:3;grid-column:6">Manter vanco + cefta</div>
-      <div class="n ac" id="ve1" style="grid-row:4;grid-column:1">Só cefazolina<small>suspender vanco e cefta</small></div>
-      <div class="n ac" id="ve2" style="grid-row:4;grid-column:2">Manter vanco<small>suspender cefta</small></div>
-      <div class="n ac" id="ve3" style="grid-row:4;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
-      <div class="n ac" id="ve5" style="grid-row:4;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
-      <div class="n al alv" id="ve4" style="grid-row:4;grid-column:5"><span class="tx">Antifúngico<small>pela cultura<br>suspender<br>vanco e cefta</small><b class="kp">Prótese: retirar</b></span></div>
-      <div class="n dc w" id="va" style="grid-row:5;grid-column:1/6">Qual acesso?</div>
-      <div class="n ac" id="vb" style="grid-row:6;grid-column:1/3;justify-self:center;width:80%">Doppler inicial</div>
-      <div class="n ac" id="vc" style="grid-row:6;grid-column:4/6;justify-self:center;width:92%">Doppler semanal</div>
-      <div class="n du" id="vd" style="grid-row:7;grid-column:1/3;justify-self:center;width:62%"><span class="tx">2 semanas<small><i>S. aureus</i>: 3 semanas</small></span></div>
-      <div class="n dc w" id="vg" style="grid-row:7;grid-column:4/6;width:100%;padding:2mm 5mm">Infecção extensa, abscesso,<br>exposta ou sangrando?</div>
-      <div class="n du" id="ve" style="grid-row:8;grid-column:4/6;justify-self:center;width:62%"><span class="tx">4 semanas</span></div>
-      <div class="n al alv" id="vx" style="grid-row:8;grid-column:6"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+      <div class="n dc w" id="va" style="grid-row:2;grid-column:1/6">Qual acesso?</div>
+      <div class="n ac" id="vb" style="grid-row:3;grid-column:1/3;justify-self:center;width:80%">Doppler inicial</div>
+      <div class="n ac" id="vc" style="grid-row:3;grid-column:3/6;justify-self:center;width:52%">Doppler semanal</div>
+      <div class="n dc w" id="vg" style="grid-row:4;grid-column:3/6;width:86%;padding:2mm 6mm">Infecção extensa, abscesso,<br>exposta ou sangrando?</div>
+      <div class="n al alv" id="vx" style="grid-row:4;grid-column:6"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+      <div class="n dc w" id="v1" style="grid-row:5;grid-column:1/6">Hemocultura positiva?</div>
+      <div class="n dc w" id="v2" style="grid-row:6;grid-column:1/6">Qual germe?</div>
+      <div class="n ac" id="vn" style="grid-row:6;grid-column:6">Manter vanco + cefta</div>
+      <div class="n ac" id="ve1" style="grid-row:7;grid-column:1">Só cefazolina<small>suspender vanco e cefta</small></div>
+      <div class="n ac" id="ve2" style="grid-row:7;grid-column:2">Manter vanco<small>suspender cefta</small></div>
+      <div class="n ac" id="ve3" style="grid-row:7;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
+      <div class="n ac" id="ve5" style="grid-row:7;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
+      <div class="n al alv" id="ve4" style="grid-row:7;grid-column:5"><span class="tx">Antifúngico<small>pela cultura<br>suspender<br>vanco e cefta</small><b class="kp">Prótese: retirar</b></span></div>
+    </div>
+
+    <div class="durband">
+      <div class="dh"><b>Duração</b></div>
+      <div class="dg2" style="grid-template-columns:1fr 1fr">
+        <div class="drow"><span class="n du"><span class="tx">2 semanas</span></span><span class="who2">FAV nativa<br><i>S. aureus</i>: <b>3 semanas</b></span></div>
+        <div class="drow"><span class="n du"><span class="tx">4 semanas</span></span><span class="who2">Prótese<br><span class="m">qualquer germe, também após a cirurgia</span></span></div>
+      </div>
+    </div>
     </div>
 
     <div class="p1info p1rail" style="display:grid;grid-template-columns:1.2fr 1fr">
@@ -398,10 +406,9 @@ const EDGES = {
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t3"],["t3","t2"],["t2","of"]],
-  fv: [["v0","v1"],["v1","v2","Sim"],["v1","vn","Não"],
-       ["v2","ve1","Estafilo sensível"],["v2","ve2","Estafilo resistente"],["v2","ve3","Gram-negativo"],["v2","ve5","Outro germe"],["v2","ve4","Candida"],
-       ["ve1","va"],["ve2","va"],["ve3","va"],["ve5","va"],["ve4","va"],["vn","va"],
-       ["va","vb","FAV nativa"],["va","vc","Prótese"],["vb","vd"],["vc","vg"],["vg","ve","Não"],["vg","vx","Sim"],["vx","ve","","l"]],
+  fv: [["v0","va"],["va","vb","FAV nativa"],["va","vc","Prótese"],["vc","vg"],["vg","vx","Sim","h"],
+       ["vb","v1"],["vg","v1","Não"],["v1","v2","Sim"],["v1","vn","Não"],
+       ["v2","ve1","Estafilo sensível"],["v2","ve2","Estafilo resistente"],["v2","ve3","Gram-negativo"],["v2","ve5","Outro germe"],["v2","ve4","Candida"]],
   fu: [["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
   fp: [["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
   fc2:[["ca","cb","Não"],["ca","cc","Sim"],["cb","cd","Não"],["cb","ce","Sim"],["cd","cg"],["ce","cg"],["cc","cf"]],
@@ -456,7 +463,9 @@ function draw(){
       if (label) {                                             // rótulo no trecho vertical final, longe da ponta
         const l = document.createElement("div"); l.className = "lbl";
         l.innerHTML = label === "S. aureus" ? "<i>S. aureus</i>" : label;
-        l.style.left = x2 + "px"; l.style.top = (y2 - bus > 22 ? bus + (y2 - bus) / 2 : bus) + "px"; f.appendChild(l);
+        if (inN[b] > 1 && outN[a] === 1) { l.style.left = x1 + "px"; l.style.top = (y1 + (bus - y1) / 2) + "px"; }
+        else { l.style.left = x2 + "px"; l.style.top = (y2 - bus > 22 ? bus + (y2 - bus) / 2 : bus) + "px"; }
+        f.appendChild(l);
       }
     }
   }
