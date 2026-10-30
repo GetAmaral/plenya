@@ -103,7 +103,8 @@ Prótese na coluna esquerda inteira da folha 2; "*S. aureus*: 3 semanas" dentro 
 antibiótico, 72 h sempre, a cada 72 h se positiva até negativar, fim do tratamento. No card: a caixa inicial
 passa a "Colher 2 hemoculturas e iniciar vancomicina + ceftazidima" (mesma frase da folha 1) e a linha do tempo
 das hemoculturas entra na coluna da FAV. "Ajustar pelo germe (folha 1)" como subtítulo: **proposta minha**.
-Pendente: **de onde saem as 2 amostras** na FAV/prótese (não há cateter).
+**Amostras na FAV/prótese (decidido 2026-10-29): linha venosa + acesso periférico.** No card, subtítulo da caixa
+inicial: "linha venosa + acesso periférico · ajustar pelo germe (folha 1)", no mesmo formato da folha 1.
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
