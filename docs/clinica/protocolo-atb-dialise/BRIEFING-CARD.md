@@ -93,10 +93,13 @@ Pedido da equipe (2026-10-29): **"*S. aureus*: 3 semanas" dentro da própria pí
 (subtítulo de "2 semanas"), não em nota. Quadro atual reprovado ("horrível"): verticalmente espremido e
 "ajustar pela cultura" sem dizer quando colher e quando repetir. **Em estudo:** a FAV/prótese usa o mesmo tronco
 da folha 1 (hemoculturas, vanco + cefta, ajuste pelo germe); na discussão original ela está dentro do bloco
-"Infecção de cateter". **Decidido 2026-10-29 (opção A): FAV e prótese entram na folha 1**, que passa a ser
-"Infecção do Acesso Vascular": tronco único (hemoculturas, vanco + cefta, ajuste pelo germe) e "Qual acesso?"
-no fim (cateter / FAV nativa / prótese). A folha 1 é reaberta só para isso, por decisão da equipe. Sai da folha 2.
-Pendente antes de redesenhar, um por vez: esquema de hemocultura na FAV/prótese.
+"Infecção de cateter". A opção A (juntar na folha 1) foi escolhida e **revertida pela equipe no mesmo dia: "melhor deixar separado"**.
+**Estrutura decidida 2026-10-29:** **Óstio e Túnel vai para a folha 1** (é infecção do cateter); **FAV e Prótese
+ocupa uma coluna inteira da folha 2** (altura toda), com Urina, Celulite e Pneumonia na outra coluna.
+Feito no card (2026-10-29): Óstio e Túnel embaixo do fluxo da folha 1, ao lado de Hemoculturas / Novo Acesso /
+Sempre; nota do túnel passou de "seguir a folha 1" para "seguir o fluxo acima" (só a referência mudou). FAV e
+Prótese na coluna esquerda inteira da folha 2; "*S. aureus*: 3 semanas" dentro da pílula de 2 semanas.
+Pendente, um por vez: esquema de hemocultura na FAV/prótese (quando colher, quando repetir, de onde).
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
@@ -161,7 +164,8 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 
 ## Status do card (2026-10-29)
-- **Folha 1 (bacteremia por cateter): APROVADA.** Não reabrir.
+- **Folha 1 (bacteremia por cateter): APROVADA.** Reaberta só para receber o quadro Óstio e Túnel (pedido da
+  equipe 2026-10-29); o resto da folha não muda.
 - **Folha 2 (outras infecções), A4 vertical:** quadro 1 **Óstio e Túnel discutido e corrigido** (cateter fica
   na tunelite; sem fio-guia com novo túnel; sem cultura de secreção; Hipafix/Tegaderm; hemocultura no túnel).
   **Quadro 2, FAV e Prótese, em revisão:** (1) alerta da prótese ligado ao ramo, com duração também no ramo da
