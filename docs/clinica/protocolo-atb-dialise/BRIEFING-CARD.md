@@ -193,6 +193,8 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 ---
 
 ## Referências no card (decidido 2026-10-30, opção "a": número elevado junto do item)
+**Regra da equipe (2026-10-30): toda decisão do card tem pelo menos uma referência.** Se a fonte diverge, a referência
+entra assim mesmo e o texto teórico registra a divergência. Item sem fonte encontrada: dizer isso à equipe, nunca inventar.
 Numeração = `TEORICO.md` aprovado. Só leva número o item que o texto sustenta com aquela fonte; decisão da equipe sem
 fonte fica sem número. Rodapés: "Números: referências do documento teórico".
 - **Folha 1:** coleta + vanco/cefta 1 · retirar a qualquer momento 1 · só cefazolina 1 · suspender vanco 1 · ajustar 1 ·
