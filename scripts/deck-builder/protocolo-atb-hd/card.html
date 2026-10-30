@@ -152,6 +152,10 @@ table.fx{table-layout:fixed}
 .p2grid .mini .mh{margin-bottom:1.8mm}
 .p2grid .notes{margin-top:1.8mm;padding-top:1.4mm}
 .p2grid .mini{padding:2.4mm 3mm}
+.germs{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:2.2mm 2.4mm;border:.35mm solid var(--rule);border-radius:2.4mm;padding:2mm 2.4mm;background:#F8FBFB}
+.germs .gc{display:flex;flex-direction:column;gap:.8mm}
+.germs .gl{font-size:7.6pt;font-weight:700;color:var(--pet2);text-align:center}
+.germs .n{min-height:0;flex:1;padding:1.4mm 2mm}
 </style>
 </head>
 <body>
@@ -247,15 +251,24 @@ table.fx{table-layout:fixed}
   <div class="p2grid">
 
     <div class="mini" style="grid-column:1;grid-row:1/4"><div class="mh"><img src="assets/fistula.png" alt=""><h2>FAV e Prótese</h2></div>
-      <div class="flow" id="fv" style="grid-template-columns:34mm 26mm 1fr;column-gap:2.4mm;row-gap:9mm">
-        <div class="n ac w" id="f0" style="grid-row:1;grid-column:1/4;width:92%">Colher 2 hemoculturas e iniciar<br>vancomicina + ceftazidima<small>linha venosa + acesso periférico · ajustar pelo germe (folha 1)</small></div>
-        <div class="n dc w" id="fa" style="grid-row:2;grid-column:1/4;width:80%">Qual acesso?</div>
-        <div class="n ac" id="fb" style="grid-row:3;grid-column:1;padding:2mm 1.6mm">Doppler inicial</div>
-        <div class="n ac" id="fc" style="grid-row:3;grid-column:2/4">Doppler semanal</div>
-        <div class="n dc w" id="fg" style="grid-row:4;grid-column:2/4;width:100%;padding:1.6mm 4.6mm">Infecção extensa,<br>abscesso, exposta<br>ou sangrando?</div>
-        <div class="n al alv" id="fx" style="grid-row:5;grid-column:3;font-size:8.6pt"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
-        <div class="n du" id="fd" style="grid-row:6;grid-column:1;min-width:0;width:100%;padding:1mm 1.6mm"><span class="tx">2 semanas<small><i>S. aureus</i>: 3 semanas</small></span></div>
-        <div class="n du" id="fe" style="grid-row:6;grid-column:2;min-width:0;width:100%;padding:1mm 1.4mm;align-self:center"><span class="tx">4 semanas</span></div>
+      <div class="flow" id="fv" style="grid-template-columns:34mm 26mm 1fr;column-gap:2.4mm;row-gap:7mm">
+        <div class="n ac w" id="f0" style="grid-row:1;grid-column:1/4;width:92%">Colher 2 hemoculturas e iniciar<br>vancomicina + ceftazidima<small>linha venosa + acesso periférico</small></div>
+        <div class="n dc w" id="fh" style="grid-row:2;grid-column:1/4;width:80%">Resultado da hemocultura?</div>
+        <div class="germs" id="fgr" style="grid-row:3;grid-column:1/4">
+          <div class="gc"><span class="gl">Negativa</span><div class="n ac">Manter vanco + cefta</div></div>
+          <div class="gc"><span class="gl">Estafilo sensível</span><div class="n ac">Só cefazolina<small>suspender vanco e cefta</small></div></div>
+          <div class="gc"><span class="gl">Estafilo resistente</span><div class="n ac">Manter vanco<small>suspender cefta</small></div></div>
+          <div class="gc"><span class="gl">Gram-negativo</span><div class="n ac">Suspender vanco<small>seguir antibiograma</small></div></div>
+          <div class="gc"><span class="gl">Outro germe</span><div class="n ac">Ajustar<small>pelo antibiograma</small></div></div>
+          <div class="gc"><span class="gl"><i>Candida</i></span><div class="n ac">Antifúngico<small>pela cultura<br>suspender vanco e cefta</small></div></div>
+        </div>
+        <div class="n dc w" id="fa" style="grid-row:4;grid-column:1/4;width:80%">Qual acesso?</div>
+        <div class="n ac" id="fb" style="grid-row:5;grid-column:1;padding:2mm 1.6mm">Doppler inicial</div>
+        <div class="n ac" id="fc" style="grid-row:5;grid-column:2/4">Doppler semanal</div>
+        <div class="n dc w" id="fg" style="grid-row:6;grid-column:2/4;width:100%;padding:1.6mm 4.6mm">Infecção extensa,<br>abscesso, exposta<br>ou sangrando?</div>
+        <div class="n al alv" id="fx" style="grid-row:7;grid-column:3;font-size:8.6pt"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+        <div class="n du" id="fd" style="grid-row:8;grid-column:1;min-width:0;width:100%;padding:1mm 1.6mm"><span class="tx">2 semanas<small><i>S. aureus</i>: 3 semanas</small></span></div>
+        <div class="n du" id="fe" style="grid-row:8;grid-column:2;min-width:0;width:100%;padding:1mm 1.4mm;align-self:center"><span class="tx">4 semanas</span></div>
       </div>
       <ul class="notes"><li><b><i>S. aureus</i>:</b> ecocardiograma (folha 1)</li></ul>
       <div class="p1rail" style="margin-top:6mm;padding-top:4mm;border-top:.35mm solid var(--rule)">
@@ -373,7 +386,7 @@ const EDGES = {
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t2"],["t2","of"]],
-  fv: [["f0","fa"],["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fg"],["fg","fe","Não"],["fg","fx","Sim"],["fx","fe"]],
+  fv: [["f0","fh"],["fh","fgr"],["fgr","fa"],["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fg"],["fg","fe","Não"],["fg","fx","Sim"],["fx","fe"]],
   fu: [["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
   fp: [["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
   fc2:[["ca","cb","Não"],["ca","cc","Sim"],["cb","cd","Não"],["cb","ce","Sim"],["cd","cg"],["ce","cg"],["cc","cf"]],

@@ -103,8 +103,12 @@ Prótese na coluna esquerda inteira da folha 2; "*S. aureus*: 3 semanas" dentro 
 antibiótico, 72 h sempre, a cada 72 h se positiva até negativar, fim do tratamento. No card: a caixa inicial
 passa a "Colher 2 hemoculturas e iniciar vancomicina + ceftazidima" (mesma frase da folha 1) e a linha do tempo
 das hemoculturas entra na coluna da FAV. "Ajustar pelo germe (folha 1)" como subtítulo: **proposta minha**.
-**Amostras na FAV/prótese (decidido 2026-10-29): linha venosa + acesso periférico.** No card, subtítulo da caixa
-inicial: "linha venosa + acesso periférico · ajustar pelo germe (folha 1)", no mesmo formato da folha 1.
+**Amostras na FAV/prótese (decidido 2026-10-29): linha venosa + acesso periférico** (subtítulo da caixa inicial).
+**Ajuste pela hemocultura repetido no próprio quadro** (equipe 2026-10-29: "ajustar pelo germe é preguiçoso"),
+mesmos ramos da folha 1: Negativa → manter vanco + cefta · Estafilo sensível → só cefazolina (suspender vanco e
+cefta) · Estafilo resistente → manter vanco (suspender cefta) · Gram-negativo → suspender vanco, seguir
+antibiograma · Outro germe → ajustar pelo antibiograma · *Candida* → antifúngico pela cultura, suspender vanco e
+cefta. **Proposta minha, a confirmar:** na *Candida* da FAV/prótese sai o "Retirar cateter" (não há cateter).
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
