@@ -132,7 +132,7 @@ No card, a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não 
 |---|---|---|---|
 | Ciprofloxacino | 500 mg | 1x/dia | Tomar após a sessão |
 | Amoxicilina-clavulanato | 500/125 mg | 1x/dia | + 1 durante e + 1 ao fim da sessão. Não usar 875 mg |
-| Azitromicina | 500 mg | 1x/dia, 3 dias | Sem ajuste |
+| Azitromicina | 500 mg | 1x/dia, 3 dias | Sem ajuste (confirmado pela equipe 2026-10-29) |
 | Levofloxacino VO | 750 mg, depois 500 mg | A cada 48 h, 3 doses | Qualquer horário (não dialisa) |
 | Cefalexina | 500 mg | 1x/dia | Tomar após a sessão |
 | Clindamicina | 300 mg | 8/8 h | Sem ajuste (dose confirmada pela equipe 2026-10-29) |
