@@ -192,6 +192,15 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 
 ---
 
+## Divergências da busca de 2026-10-30 (decisões, uma por vez)
+1. **Hemocultura negativa: MANTER vanco + cefta 14 dias** (equipe: "vamos manter"). IDSA 2009 rec 55 e KDOQI Fig. 25.1
+   mandam suspender; registrar como divergência no texto.
+2. Hemocultura de vigilância 1 semana após o fim (IDSA rec 67) × no fim: **pendente**.
+3. Coagulase-negativo com cateter retirado 5-7 dias (IDSA rec 75) × 14: **pendente**.
+4. Tunelite: retirar (IDSA, Miller) / empírico gram+ e gram- (KDOQI) × cateter fica e cefazolina: **pendente**.
+5. Celulite grave: 5 dias e vanco + pip-tazo/carbapenêmico (IDSA 2014) × vanco 14 dias: **pendente**.
+6. ITU: homem 14 dias (EAU), amicacina não preferida e evitar FQ se uso em 12 meses (IDSA 2025): **pendente**.
+
 ## Referências no card (decidido 2026-10-30, opção "a": número elevado junto do item)
 **Regra da equipe (2026-10-30): toda decisão do card tem pelo menos uma referência.** Se a fonte diverge, a referência
 entra assim mesmo e o texto teórico registra a divergência. Item sem fonte encontrada: dizer isso à equipe, nunca inventar.
