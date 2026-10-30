@@ -82,7 +82,7 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
 | FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 2 semanas | Doppler inicial |
-| Prótese | Vanco + cefta empírico → ajustar pela cultura | 4 semanas | Doppler semanal. Extensa, abscesso, exposta ou sangrando → cirurgia vascular |
+| Prótese | Vanco + cefta empírico → ajustar pela cultura | 4 semanas | Doppler semanal. **Pergunta no ramo da prótese: "Infecção extensa, abscesso, exposta ou sangrando?"** Sim → **cirurgia vascular para retirada** (alerta ligado só ao ramo da prótese); Não → 4 semanas. Texto do item 7 do PLANO; forma (pergunta + alerta ligado) proposta minha, aprovada 2026-10-29 ("faça assim depois avalio") |
 
 Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%). Com bacteremia por *S. aureus*: vale a regra do *S. aureus* (3 semanas + ecocardiograma). (Decidido no item 7 do PLANO; tinha ficado fora do briefing.)
 
@@ -152,7 +152,11 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 - **Folha 1 (bacteremia por cateter): APROVADA.** Não reabrir.
 - **Folha 2 (outras infecções), A4 vertical:** quadro 1 **Óstio e Túnel discutido e corrigido** (cateter fica
   na tunelite; sem fio-guia com novo túnel; sem cultura de secreção; Hipafix/Tegaderm; hemocultura no túnel).
-  **Próximo: quadro 2, FAV e Prótese.** Depois: Infecção Urinária, Celulite, Pneumonia.
+  **Quadro 2, FAV e Prótese, em revisão:** item 1 (alerta da prótese como pergunta ligada ao ramo, "cirurgia
+  vascular para retirada") feito, aguardando avaliação. Abertos, um por vez: (2) *S. aureus* 3 semanas × prótese
+  4 semanas, qual vale; (3) colher hemocultura antes do antibiótico? (não está na discussão); (4) "Doppler
+  inicial" perdeu o "pelo menos" da discussão; (5) "2 semanas" × "14 dias" (só forma).
+  Depois: Infecção Urinária, Celulite, Pneumonia.
 - **Folha 3 (ficha de drogas + lock):** ainda em A4 paisagem; converter para vertical e revisar.
   Pendente lá: nota do lock "(impresso no ramo do cateter)", proposta minha.
 
