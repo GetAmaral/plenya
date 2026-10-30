@@ -99,7 +99,11 @@ ocupa uma coluna inteira da folha 2** (altura toda), com Urina, Celulite e Pneum
 Feito no card (2026-10-29): Óstio e Túnel embaixo do fluxo da folha 1, ao lado de Hemoculturas / Novo Acesso /
 Sempre; nota do túnel passou de "seguir a folha 1" para "seguir o fluxo acima" (só a referência mudou). FAV e
 Prótese na coluna esquerda inteira da folha 2; "*S. aureus*: 3 semanas" dentro da pílula de 2 semanas.
-Pendente, um por vez: esquema de hemocultura na FAV/prótese (quando colher, quando repetir, de onde).
+**Hemoculturas na FAV/prótese (decidido 2026-10-29, "seguem"):** mesmo esquema do cateter: D0 antes do
+antibiótico, 72 h sempre, a cada 72 h se positiva até negativar, fim do tratamento. No card: a caixa inicial
+passa a "Colher 2 hemoculturas e iniciar vancomicina + ceftazidima" (mesma frase da folha 1) e a linha do tempo
+das hemoculturas entra na coluna da FAV. "Ajustar pelo germe (folha 1)" como subtítulo: **proposta minha**.
+Pendente: **de onde saem as 2 amostras** na FAV/prótese (não há cateter).
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
