@@ -157,14 +157,14 @@ table.fx{table-layout:fixed}
 .germs .gl{font-size:7.6pt;font-weight:700;color:var(--pet2);text-align:center}
 .germs .n{min-height:0;flex:1;padding:1.4mm 2mm}
 .germs .al.alv{gap:.6mm}
-.germs .kp{display:block;margin-top:.6mm}
+.germs .kp,#fv .kp{display:block;margin-top:.6mm}
 </style>
 </head>
 <body>
 
 <!-- ======================= FOLHA 1 · BACTEREMIA POR CATETER ======================= -->
 <section class="page portrait" data-size="portrait">
-  <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 3</span></div>
+  <div class="hd"><img src="assets/cateter.png" alt=""><div><h1>Bacteremia por Cateter</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 1 de 4</span></div>
 
   <div class="p1body">
 
@@ -242,50 +242,61 @@ table.fx{table-layout:fixed}
       </div>
     </div>
   </div>
-  <div class="foot"><span>HC: hemocultura · Doses e lock na folha 3 · Referências no documento teórico</span><span>1/3</span></div>
+  <div class="foot"><span>HC: hemocultura · Doses e lock na folha 4 · Referências no documento teórico</span><span>1/4</span></div>
 </section>
 
-<!-- ======================= FOLHA 2 · OUTRAS INFECÇÕES ======================= -->
+<!-- ======================= FOLHA 2 · FAV E PRÓTESE ======================= -->
 <section class="page portrait" data-size="portrait">
-  <div class="hd"><div><h1>Outras Infecções</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 2 de 3</span></div>
+  <div class="hd"><img src="assets/fistula.png" alt=""><div><h1>Infecção de FAV e Prótese</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 2 de 4</span></div>
+
+  <div class="p1body">
+    <div class="flow" id="fv" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:10mm;font-size:10pt">
+      <div class="n ac w" id="v0" style="grid-row:1;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>linha venosa + acesso periférico</small></div>
+      <div class="n dc w" id="v1" style="grid-row:2;grid-column:1/6">Hemocultura positiva?</div>
+      <div class="n dc w" id="v2" style="grid-row:3;grid-column:1/6">Qual germe?</div>
+      <div class="n ac" id="vn" style="grid-row:3;grid-column:6">Manter vanco + cefta</div>
+      <div class="n ac" id="ve1" style="grid-row:4;grid-column:1">Só cefazolina<small>suspender vanco e cefta</small></div>
+      <div class="n ac" id="ve2" style="grid-row:4;grid-column:2">Manter vanco<small>suspender cefta</small></div>
+      <div class="n ac" id="ve3" style="grid-row:4;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
+      <div class="n ac" id="ve5" style="grid-row:4;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
+      <div class="n al alv" id="ve4" style="grid-row:4;grid-column:5"><span class="tx">Antifúngico<small>pela cultura<br>suspender<br>vanco e cefta</small><b class="kp">Prótese: retirar</b></span></div>
+      <div class="n dc w" id="va" style="grid-row:5;grid-column:1/6">Qual acesso?</div>
+      <div class="n ac" id="vb" style="grid-row:6;grid-column:1/3;justify-self:center;width:80%">Doppler inicial</div>
+      <div class="n ac" id="vc" style="grid-row:6;grid-column:4/6;justify-self:center;width:92%">Doppler semanal</div>
+      <div class="n du" id="vd" style="grid-row:7;grid-column:1/3;justify-self:center;width:62%"><span class="tx">2 semanas<small><i>S. aureus</i>: 3 semanas</small></span></div>
+      <div class="n dc w" id="vg" style="grid-row:7;grid-column:4/6;width:100%;padding:2mm 5mm">Infecção extensa, abscesso,<br>exposta ou sangrando?</div>
+      <div class="n du" id="ve" style="grid-row:8;grid-column:4/6;justify-self:center;width:62%"><span class="tx">4 semanas</span></div>
+      <div class="n al alv" id="vx" style="grid-row:8;grid-column:6"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+    </div>
+
+    <div class="p1info p1rail" style="display:grid;grid-template-columns:1.2fr 1fr">
+      <div>
+        <h3>Hemoculturas</h3>
+        <div class="tl">
+          <div class="dot"><i></i></div><div class="tx"><b>D0</b><small>antes do antibiótico</small></div>
+          <div class="dot"><i></i></div><div class="tx"><b>72 h</b><small>sempre, qualquer resultado</small></div>
+          <div class="dot"><i></i></div><div class="tx"><b>A cada 72 h</b><small>se positiva, até negativar</small></div>
+          <div class="dot last"><i></i></div><div class="tx" style="padding-bottom:0"><b>Fim do tratamento</b><small>repetir sempre</small></div>
+        </div>
+      </div>
+      <div>
+        <h3>Sempre</h3>
+        <ul class="kv">
+          <li><b>Ecocardiograma:</b> todo <i>S.&nbsp;aureus</i></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Doses na folha 4 · Referências no documento teórico</span><span>2/4</span></div>
+</section>
+
+<!-- ======================= FOLHA 3 · OUTRAS INFECÇÕES ======================= -->
+<section class="page portrait" data-size="portrait">
+  <div class="hd"><div><h1>Outras Infecções</h1><div class="k">Protocolo de antibióticos na hemodiálise</div></div><span class="tag">Folha 3 de 4</span></div>
 
   <div class="p2grid">
 
-    <div class="mini" style="grid-column:1;grid-row:1/4"><div class="mh"><img src="assets/fistula.png" alt=""><h2>FAV e Prótese</h2></div>
-      <div class="flow" id="fv" style="grid-template-columns:34mm 26mm 1fr;column-gap:2.4mm;row-gap:7mm">
-        <div class="n ac w" id="f0" style="grid-row:1;grid-column:1/4;width:92%">Colher 2 hemoculturas e iniciar<br>vancomicina + ceftazidima<small>linha venosa + acesso periférico</small></div>
-        <div class="n dc w" id="fh" style="grid-row:2;grid-column:1/4;width:80%">Resultado da hemocultura?</div>
-        <div class="germs" id="fgr" style="grid-row:3;grid-column:1/4">
-          <div class="gc"><span class="gl">Negativa</span><div class="n ac">Manter vanco + cefta</div></div>
-          <div class="gc"><span class="gl">Estafilo sensível</span><div class="n ac">Só cefazolina<small>suspender vanco e cefta</small></div></div>
-          <div class="gc"><span class="gl">Estafilo resistente</span><div class="n ac">Manter vanco<small>suspender cefta</small></div></div>
-          <div class="gc"><span class="gl">Gram-negativo</span><div class="n ac">Suspender vanco<small>seguir antibiograma</small></div></div>
-          <div class="gc"><span class="gl">Outro germe</span><div class="n ac">Ajustar<small>pelo antibiograma</small></div></div>
-          <div class="gc"><span class="gl"><i>Candida</i></span><div class="n al alv"><span class="tx">Antifúngico<small>pela cultura<br>suspender vanco e cefta</small><b class="kp">Prótese: retirar</b></span></div></div>
-        </div>
-        <div class="n dc w" id="fa" style="grid-row:4;grid-column:1/4;width:80%">Qual acesso?</div>
-        <div class="n ac" id="fb" style="grid-row:5;grid-column:1;padding:2mm 1.6mm">Doppler inicial</div>
-        <div class="n ac" id="fc" style="grid-row:5;grid-column:2/4">Doppler semanal</div>
-        <div class="n dc w" id="fg" style="grid-row:6;grid-column:2/4;width:100%;padding:1.6mm 4.6mm">Infecção extensa,<br>abscesso, exposta<br>ou sangrando?</div>
-        <div class="n al alv" id="fx" style="grid-row:7;grid-column:3;font-size:8.6pt"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
-        <div class="n du" id="fd" style="grid-row:8;grid-column:1;min-width:0;width:100%;padding:1mm 1.6mm"><span class="tx">2 semanas<small><i>S. aureus</i>: 3 semanas</small></span></div>
-        <div class="n du" id="fe" style="grid-row:8;grid-column:2;min-width:0;width:100%;padding:1mm 1.4mm;align-self:center"><span class="tx">4 semanas</span></div>
-      </div>
-      <ul class="notes"><li><b><i>S. aureus</i>:</b> ecocardiograma (folha 1)</li></ul>
-      <div class="p1rail" style="margin-top:6mm;padding-top:4mm;border-top:.35mm solid var(--rule)">
-        <div>
-          <h3>Hemoculturas</h3>
-          <div class="tl">
-            <div class="dot"><i></i></div><div class="tx"><b>D0</b><small>antes do antibiótico</small></div>
-            <div class="dot"><i></i></div><div class="tx"><b>72 h</b><small>sempre, qualquer resultado</small></div>
-            <div class="dot"><i></i></div><div class="tx"><b>A cada 72 h</b><small>se positiva, até negativar</small></div>
-            <div class="dot last"><i></i></div><div class="tx" style="padding-bottom:0"><b>Fim do tratamento</b><small>repetir sempre</small></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mini" style="grid-column:2;grid-row:1"><div class="mh"><img src="assets/urina.png" alt=""><h2>Infecção Urinária</h2></div>
+    <div class="mini" style="grid-column:1;grid-row:1"><div class="mh"><img src="assets/urina.png" alt=""><h2>Infecção Urinária</h2></div>
       <div class="flow" id="fu" style="grid-template-columns:1fr 1fr;column-gap:2.4mm;row-gap:5.2mm;font-size:9pt">
         <div class="n ac w" id="ua" style="grid-row:1;grid-column:1/3;width:100%">Colher urocultura</div>
         <div class="n dc w" id="ub" style="grid-row:2;grid-column:1/3;width:100%">Adere ao oral?</div>
@@ -296,7 +307,7 @@ table.fx{table-layout:fixed}
       <ul class="notes"><li><b>Ajustar</b> pelo antibiograma · <b>sem</b> urocultura de controle</li><li><b>Amicacina</b> é ototóxica</li></ul>
     </div>
 
-    <div class="mini" style="grid-column:2;grid-row:2"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
+    <div class="mini" style="grid-column:2;grid-row:1"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
       <div class="flow" id="fc2" style="grid-template-columns:repeat(3,1fr);column-gap:2.4mm;row-gap:5.2mm">
         <div class="n dc w" id="ca" style="grid-row:1;grid-column:1/4;width:80%">Grave?</div>
         <div class="n dc w" id="cb" style="grid-row:2;grid-column:1/3;width:100%">MRSA prévio?</div>
@@ -308,7 +319,7 @@ table.fx{table-layout:fixed}
       </div>
       <ul class="notes"><li><b>Dias corridos</b></li></ul>
     </div>
-    <div class="mini" style="grid-column:2;grid-row:3"><div class="mh"><img src="assets/pulmao.png" alt=""><h2>Pneumonia</h2></div>
+    <div class="mini" style="grid-column:1/3;grid-row:2"><div class="mh"><img src="assets/pulmao.png" alt=""><h2>Pneumonia</h2></div>
       <div class="flow" id="fp" style="grid-template-columns:1fr 1.42fr 1fr;column-gap:2mm;row-gap:5.2mm;font-size:9pt">
         <div class="n dc w" id="pa" style="grid-row:1;grid-column:1/4;width:88%">Adere ao oral?</div>
         <div class="n dc w" id="pb" style="grid-row:2;grid-column:1/3;width:100%;padding:2mm 6mm">Doença pulmonar prévia?</div>
@@ -323,12 +334,12 @@ table.fx{table-layout:fixed}
     </div>
 
   </div>
-  <div class="foot"><span>Doses na folha 3 · Referências no documento teórico</span><span>2/3</span></div>
+  <div class="foot"><span>Doses na folha 4 · Referências no documento teórico</span><span>3/4</span></div>
 </section>
 
 <!-- ======================= FOLHA 3 · FICHA DE DROGAS ======================= -->
 <section class="page" data-size="landscape">
-  <div class="hd"><div><h1>Ficha de Drogas</h1><div class="k">Doses na hemodiálise</div></div><span class="tag">Folha 3 de 3</span></div>
+  <div class="hd"><div><h1>Ficha de Drogas</h1><div class="k">Doses na hemodiálise</div></div><span class="tag">Folha 4 de 4</span></div>
 
   <div class="sec">Endovenosas <span class="note">dose · diluição · via · tempo · momento</span></div>
   <table class="fx"><colgroup><col style="width:21%"><col style="width:19%"><col style="width:18%"><col style="width:14%"><col style="width:13%"><col style="width:15%"></colgroup>
@@ -372,7 +383,7 @@ table.fx{table-layout:fixed}
       <p class="note" style="margin:2.4mm 0 0">Manter durante todo o tratamento.</p>
     </div>
   </div>
-  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Referências no documento teórico</span><span>3/3</span></div>
+  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Referências no documento teórico</span><span>4/4</span></div>
 </section>
 
 <script>
@@ -387,7 +398,10 @@ const EDGES = {
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t3"],["t3","t2"],["t2","of"]],
-  fv: [["f0","fh"],["fh","fgr"],["fgr","fa"],["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fg"],["fg","fe","Não"],["fg","fx","Sim"],["fx","fe"]],
+  fv: [["v0","v1"],["v1","v2","Sim"],["v1","vn","Não"],
+       ["v2","ve1","Estafilo sensível"],["v2","ve2","Estafilo resistente"],["v2","ve3","Gram-negativo"],["v2","ve5","Outro germe"],["v2","ve4","Candida"],
+       ["ve1","va"],["ve2","va"],["ve3","va"],["ve5","va"],["ve4","va"],["vn","va"],
+       ["va","vb","FAV nativa"],["va","vc","Prótese"],["vb","vd"],["vc","vg"],["vg","ve","Não"],["vg","vx","Sim"],["vx","ve","","l"]],
   fu: [["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
   fp: [["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
   fc2:[["ca","cb","Não"],["ca","cc","Sim"],["cb","cd","Não"],["cb","ce","Sim"],["cd","cg"],["ce","cg"],["cc","cf"]],
