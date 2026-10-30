@@ -159,26 +159,36 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 ---
 
 ## 6. Ficha de drogas
+Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição sempre "SF: …"; momento "Fim de toda sessão"
+/ "Após toda sessão"; intervalo "48/48 h"; duração só nos fluxos (sai da ficha); "Sem ajuste" para o que não muda na HD.
 
 ### Endovenosas
 | Droga | Dose | Diluição | Via | Tempo | Momento |
 |---|---|---|---|---|---|
-| Vancomicina, ataque | 35 mg/kg (mín. 2 g, máx. 3 g) | 10 mg/ml em SF | Linha da HD | 90 min | 90 min finais |
-| Vancomicina, manutenção | 15 mg/kg (mín. 1 g, máx. 1,5 g) | 10 mg/ml em SF | Linha da HD | 60 min | Final de toda sessão |
-| Ceftazidima | 1 g; 2 g antes do intervalo de 72 h | 100 ml de SF | Linha da HD | 30 min | Fim da sessão |
-| Cefazolina | 20 mg/kg (mín. 1 g, máx. 2 g) | SF, ~10 ml por grama | Linha venosa | Bolus 3-5 min | Fim da sessão, toda sessão |
-| Amicacina | 5-7,5 mg/kg | 100-200 ml de SF | EV | 30-60 min | Após a sessão, toda sessão |
-| Levofloxacino EV | 750 mg, depois 500 mg a cada 48 h (3 doses) | Bolsa pronta 5 mg/ml | EV | 60-90 min | Qualquer horário |
+| Vancomicina, ataque | 35 mg/kg (mín. 2 g · máx. 3 g) | SF: 10 mg/ml | Linha da HD | 90 min | 90 min finais da sessão |
+| Vancomicina, manutenção | 15 mg/kg (mín. 1 g · máx. 1,5 g) | SF: 10 mg/ml | Linha da HD | 60 min | Fim de toda sessão |
+| Ceftazidima | 1 g (2 g antes do intervalo de 72 h) | SF: 100 ml | Linha da HD | 30 min | Fim de toda sessão |
+| Cefazolina | 20 mg/kg (mín. 1 g · máx. 2 g) | SF: 10 ml por g | Linha venosa | 3-5 min (bolus) | Fim de toda sessão |
+| Amicacina | 5-7,5 mg/kg | SF: 100-200 ml | EV | 30-60 min | Após toda sessão |
+| Levofloxacino | 750 mg → 500 mg (48/48 h · 3 doses) | Bolsa pronta: 5 mg/ml | EV | 60-90 min | Qualquer horário |
 
 ### Orais
 | Droga | Dose | Frequência | Dias de hemodiálise |
 |---|---|---|---|
-| Ciprofloxacino | 500 mg | 1x/dia | Tomar após a sessão |
-| Amoxicilina-clavulanato | 500/125 mg | 1x/dia | + 1 durante e + 1 ao fim da sessão. Não usar 875 mg |
-| Azitromicina | 500 mg | 1x/dia, 3 dias | Sem ajuste (confirmado pela equipe 2026-10-29) |
-| Levofloxacino VO | **750 mg** | **1x/dia, 5 dias** | Qualquer horário (não dialisa). **Dose cheia, sem ajuste** (equipe 2026-10-30: "dose normal no oral", 750 mg 1x/dia por 5 dias confirmado). Diverge da bula (HD: 750 mg → 500 mg 48/48 h): registrar no texto teórico |
-| Cefalexina | 500 mg | 1x/dia | Tomar após a sessão |
-| Clindamicina | 300 mg | 8/8 h | Sem ajuste (dose confirmada pela equipe 2026-10-29) |
+| Ciprofloxacino | 500 mg | 1x/dia | Após a sessão |
+| Amoxicilina-clavulanato | 500/125 mg (não usar 875 mg) | 1x/dia | +1 durante a sessão · +1 ao fim da sessão |
+| Azitromicina | 500 mg | 1x/dia | Sem ajuste (duração 3 dias no fluxo) |
+| Levofloxacino | 750 mg | 1x/dia | Sem ajuste (dose cheia; duração 5 dias no fluxo; decisão da equipe 2026-10-30) |
+| Cefalexina | 500 mg | 1x/dia | Após a sessão |
+| Clindamicina | 300 mg | 8/8 h | Sem ajuste |
+
+### Lock (na folha 4)
+| Componente | Concentração | Volume |
+|---|---|---|
+| Vancomicina | 5 mg/ml | 1 ml |
+| Ceftazidima | 5 mg/ml | 0,5 ml |
+| Heparina | 5.000 UI/ml | 0,5 ml |
+| SF | 0,9% | Até completar a via |
 
 ---
 
