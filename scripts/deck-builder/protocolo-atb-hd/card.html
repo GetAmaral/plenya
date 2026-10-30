@@ -152,12 +152,14 @@ table.fx{table-layout:fixed}
 .p2grid .mini .mh{margin-bottom:1.8mm}
 .p2grid .notes{margin-top:1.8mm;padding-top:1.4mm}
 .p2grid .mini{padding:2.4mm 3mm}
-.p3stack{display:flex;flex-direction:column;gap:9mm}
+.p3stack{display:flex;flex-direction:column;gap:6mm}
 .p3stack .mini{height:auto;padding:1.6mm 4mm 2.6mm}
-.p3stack .mini .mh{margin-bottom:0}
+.p3stack .mini .mh{margin-bottom:1.8mm}
 .p3stack .mini .mh img{height:6.4mm}
 .p3stack .flow{font-size:10pt}
-.p3stack .du{min-width:0;padding:1.2mm 4mm}
+.p3stack .du{min-width:0;padding:1.2mm 3mm;justify-self:center;width:84%}
+.p3f{grid-template-columns:repeat(3,1fr);column-gap:9mm;row-gap:7mm}
+.p3f .ac{min-height:12mm}
 .p3stack .notes{font-size:8.8pt}
 .germs{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:2.2mm 2.4mm;border:.35mm solid var(--rule);border-radius:2.4mm;padding:2mm 2.4mm;background:#F8FBFB}
 .germs .gc{display:flex;flex-direction:column;gap:.8mm}
@@ -316,38 +318,38 @@ table.fx{table-layout:fixed}
   <div class="p3stack">
 
     <div class="mini"><div class="mh"><img src="assets/urina.png" alt=""><h2>Infecção Urinária</h2></div>
-      <div class="flow" id="fu" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:7mm">
-        <div class="n ac w" id="ua" style="grid-row:1;grid-column:1/7;width:60%">Colher urocultura</div>
-        <div class="n dc w" id="ub" style="grid-row:2;grid-column:1/7;width:60%">Adere ao oral?</div>
-        <div class="n ac" id="uc" style="grid-row:3;grid-column:1/4;justify-self:center;width:70%">Ciprofloxacino VO</div>
-        <div class="n ac" id="ud" style="grid-row:3;grid-column:4/7;justify-self:center;width:70%">Ceftazidima EV<small>ou amicacina</small></div>
-        <div class="n du" id="ue" style="grid-row:4;grid-column:1/7;justify-self:center;width:30%"><span class="tx">7 dias</span></div>
+      <div class="flow p3f" id="fu">
+        <div class="n ac w" id="ua" style="grid-row:1;grid-column:1/4;width:56%">Colher urocultura</div>
+        <div class="n dc w" id="ub" style="grid-row:2;grid-column:1/4;width:56%">Adere ao oral?</div>
+        <div class="n ac" id="uc" style="grid-row:3;grid-column:1">Ciprofloxacino VO</div>
+        <div class="n ac" id="ud" style="grid-row:3;grid-column:3">Ceftazidima EV<small>ou amicacina</small></div>
+        <div class="n du" id="ue" style="grid-row:4;grid-column:2"><span class="tx">7 dias</span></div>
       </div>
       <ul class="notes"><li><b>Ajustar</b> pelo antibiograma · <b>sem</b> urocultura de controle · <b>Amicacina</b> é ototóxica</li></ul>
     </div>
 
     <div class="mini"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
-      <div class="flow" id="fc2" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:7mm">
-        <div class="n dc w" id="ca" style="grid-row:1;grid-column:1/7;width:60%">Grave?</div>
-        <div class="n dc w" id="cb" style="grid-row:2;grid-column:1/5;width:80%">MRSA prévio?</div>
-        <div class="n ac" id="cc" style="grid-row:2;grid-column:5/7;justify-self:center;width:80%">Vancomicina</div>
-        <div class="n ac" id="cd" style="grid-row:3;grid-column:1/3;justify-self:center;width:92%">Cefalexina VO<small>ou cefazolina EV se não adere</small></div>
-        <div class="n ac" id="ce" style="grid-row:3;grid-column:3/5;justify-self:center;width:92%">Clindamicina VO</div>
-        <div class="n du" id="cg" style="grid-row:4;grid-column:1/5;justify-self:center;width:48%"><span class="tx">7 dias corridos</span></div>
-        <div class="n du" id="cf" style="grid-row:4;grid-column:5/7;justify-self:center;width:92%"><span class="tx">14 dias corridos</span></div>
+      <div class="flow p3f" id="fc2">
+        <div class="n dc w" id="ca" style="grid-row:1;grid-column:1/4;width:56%">Grave?</div>
+        <div class="n dc w" id="cb" style="grid-row:2;grid-column:1/3;width:84%">MRSA prévio?</div>
+        <div class="n ac" id="cd" style="grid-row:3;grid-column:1">Cefalexina VO<small>ou cefazolina EV se não adere</small></div>
+        <div class="n ac" id="ce" style="grid-row:3;grid-column:2">Clindamicina VO</div>
+        <div class="n ac" id="cc" style="grid-row:3;grid-column:3">Vancomicina</div>
+        <div class="n du" id="cg" style="grid-row:4;grid-column:1/3;width:40%"><span class="tx">7 dias corridos</span></div>
+        <div class="n du" id="cf" style="grid-row:4;grid-column:3"><span class="tx">14 dias corridos</span></div>
       </div>
     </div>
 
     <div class="mini"><div class="mh"><img src="assets/pulmao.png" alt=""><h2>Pneumonia</h2></div>
-      <div class="flow" id="fp" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:7mm">
-        <div class="n dc w" id="pa" style="grid-row:1;grid-column:1/7;width:60%">Adere ao oral?</div>
-        <div class="n dc w" id="pb" style="grid-row:2;grid-column:1/5;width:80%">Doença pulmonar prévia?</div>
-        <div class="n ac" id="pd" style="grid-row:3;grid-column:1/3;justify-self:center;width:92%">Levofloxacino VO</div>
-        <div class="n ac" id="pe" style="grid-row:3;grid-column:3/5;justify-self:center;width:92%">Amoxicilina-clavulanato<small>+ azitromicina VO</small></div>
-        <div class="n ac" id="pc" style="grid-row:3;grid-column:5/7;justify-self:center;width:80%">Levofloxacino EV</div>
-        <div class="n du" id="pg" style="grid-row:4;grid-column:1/3;justify-self:center;width:70%"><span class="tx">5 dias</span></div>
-        <div class="n du" id="ph" style="grid-row:4;grid-column:3/5;justify-self:center;width:80%"><span class="tx">5 dias<small>azitromicina: 3 dias</small></span></div>
-        <div class="n du" id="pf" style="grid-row:4;grid-column:5/7;justify-self:center;width:70%"><span class="tx">3 doses</span></div>
+      <div class="flow p3f" id="fp">
+        <div class="n dc w" id="pa" style="grid-row:1;grid-column:1/4;width:56%">Adere ao oral?</div>
+        <div class="n dc w" id="pb" style="grid-row:2;grid-column:1/3;width:84%">Doença pulmonar prévia?</div>
+        <div class="n ac" id="pd" style="grid-row:3;grid-column:1">Levofloxacino VO</div>
+        <div class="n ac" id="pe" style="grid-row:3;grid-column:2">Amoxicilina-clavulanato<small>+ azitromicina VO</small></div>
+        <div class="n ac" id="pc" style="grid-row:3;grid-column:3">Levofloxacino EV</div>
+        <div class="n du" id="pg" style="grid-row:4;grid-column:1"><span class="tx">5 dias</span></div>
+        <div class="n du" id="ph" style="grid-row:4;grid-column:2"><span class="tx">5 dias<small>azitromicina: 3 dias</small></span></div>
+        <div class="n du" id="pf" style="grid-row:4;grid-column:3"><span class="tx">3 doses</span></div>
       </div>
       <ul class="notes"><li><b>Raio-X</b> nos casos arrastados ou graves</li></ul>
     </div>
