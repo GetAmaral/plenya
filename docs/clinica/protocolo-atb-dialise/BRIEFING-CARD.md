@@ -109,8 +109,8 @@ passa a "Colher 2 hemoculturas e iniciar vancomicina + ceftazidima" (mesma frase
 das hemoculturas entra na coluna da FAV. "Ajustar pelo germe (folha 1)" como subtítulo: **proposta minha**.
 **Amostras na FAV/prótese (decidido 2026-10-29): linha venosa + acesso periférico** (subtítulo da caixa inicial).
 **Ajuste pela hemocultura repetido no próprio quadro** (equipe 2026-10-29: "ajustar pelo germe é preguiçoso"),
-mesmos ramos da folha 1: Negativa → manter vanco + cefta · Estafilo sensível → só cefazolina (suspender vanco e
-cefta) · Estafilo resistente → manter vanco (suspender cefta) · Gram-negativo → suspender vanco, seguir
+mesmos ramos da folha 1: Negativa → manter vanco + cefta · Estafilo oxa-sensível → só cefazolina (suspender vanco e
+cefta) · Estafilo oxa-resistente → manter vanco (suspender cefta) · Gram-negativo → suspender vanco, seguir
 antibiograma · Outro germe → ajustar pelo antibiograma · *Candida* → antifúngico pela cultura, suspender vanco e
 cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No card: caixa de alerta (coral) como na folha 1,
 "Antifúngico / pela cultura · suspender vanco e cefta / Prótese: retirar". *Candida* na FAV nativa: **sem conduta extra** (só antifúngico e suspender vanco e cefta; decidido 2026-10-29).
@@ -232,6 +232,10 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 - Pneumonia: ATS 2025 sugere menos de 5 dias (mínimo 3) no não grave; unidade usa 5, como a ATS/IDSA 2019 (mínimo 5). **Mantidos 5 dias** (equipe 2026-10-30: "mantém os 5").
 - IDSA/ESCMID 2026, ESC 2023 e ATS 2025 conferidas no texto primário em 2026-10-30 (PLANO).
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
+
+## Feedback da equipe de 2026-10-30 (8 sugestões, decididas uma por vez)
+1. **Rótulos "Estafilo oxa-sensível" e "Estafilo oxa-resistente"** (sugestão da equipe; aprovado 2026-10-30). Só nome,
+   conduta igual (oxa-sensível → cefazolina). Vale nas setas das folhas 1 e 2.
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

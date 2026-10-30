@@ -42,7 +42,7 @@ html,body{margin:0;padding:0;background:#8a8a8a}
 .du .tx,.al .tx{text-align:left}
 .du{align-self:start}
 .ico{width:4mm;height:4mm;flex:none}
-.lbl{position:absolute;z-index:3;font-size:7.4pt;font-weight:700;color:var(--pet2);background:#fff;padding:.2mm 1.2mm;border-radius:1mm;line-height:1.1;white-space:nowrap;transform:translate(-50%,-50%)}
+.lbl{position:absolute;z-index:3;font-size:7.4pt;font-weight:700;color:var(--pet2);background:#fff;padding:.2mm 1.2mm;border-radius:1mm;line-height:1.1;white-space:nowrap;text-align:center;transform:translate(-50%,-50%)}
 svg.wires{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
 
 /* ---------- lateral da folha 1 ---------- */
@@ -417,12 +417,12 @@ document.querySelectorAll(".al").forEach(e => e.insertAdjacentHTML("afterbegin",
 // [origem, destino, rótulo]
 const EDGES = {
   f1: [["a","z","","h"],["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
-       ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
+       ["d","e1","Estafilo<br>oxa-sensível"],["d","e2","Estafilo<br>oxa-resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
   fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t3"],["t3","t2"],["t2","of"]],
   fv: [["vs","v0"],["v0","vf"],["v0","vp"],["vf","vb"],["vp","vc"],["vc","vg"],["vg","vx","Sim","h"],
        ["vb","v1"],["vg","v1","Não"],["v1","v2","Sim"],["v1","vn","Não"],
-       ["v2","ve1","Estafilo sensível"],["v2","ve2","Estafilo resistente"],["v2","ve3","Gram-negativo"],["v2","ve5","Outro germe"],["v2","ve4","Candida"]],
+       ["v2","ve1","Estafilo<br>oxa-sensível"],["v2","ve2","Estafilo<br>oxa-resistente"],["v2","ve3","Gram-negativo"],["v2","ve5","Outro germe"],["v2","ve4","Candida"]],
   fu: [["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
   fp: [["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
   fc2:[["ca","cb","Não"],["ca","cc","Sim"],["cb","cd","Não"],["cb","ce","Sim"],["cd","cg"],["ce","cg"],["cc","cf"]],
