@@ -132,7 +132,7 @@ Urocultura + antibiograma para todos. Sem urocultura de controle.
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
 | Adere ao oral | Ciprofloxacino VO | 7 dias | |
-| Não adere ao oral | Ceftazidima EV (alternativa: amicacina EV) | 7 dias | Amicacina é ototóxica |
+| Não adere ao oral | Ceftazidima EV (alternativa: amicacina EV) | 7 dias | Amicacina é ototóxica. **Card mantido como está** ("Ceftazidima EV / ou amicacina" + nota ototóxica; equipe 2026-10-30: "mantém como está") |
 
 ## 4. Pneumonia
 Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; confirmado pela equipe 2026-10-29).

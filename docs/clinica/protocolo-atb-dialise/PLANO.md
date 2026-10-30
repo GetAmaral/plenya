@@ -293,7 +293,7 @@ de HD) para os demais.
 - Clindamicina: sem ajuste.
 - **SMX-TMP: "não recomendado" em HD** (bula: ClCr < 15; hipercalemia) -> propor trocar por doxiciclina
   ou clindamicina no MRSA da celulite.
-- **Amicacina: "não usar"** na tabela de HD (ototoxicidade; equipe já marcou) -> propor manter só ceftazidima.
+- **Amicacina: "não usar"** na tabela de HD (ototoxicidade; equipe já marcou) -> propor manter só ceftazidima. **Superado:** decidido manter como alternativa (ver Decisões); card mantido como está em 2026-10-30.
 
 ### Item 9, revisão após questionamento da equipe (2026-10-29)
 - **Ciprofloxacino (bula FDA, DailyMed):** "Patients on hemodialysis or Peritoneal dialysis, 250 to 500 mg every
