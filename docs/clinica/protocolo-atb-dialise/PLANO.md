@@ -404,6 +404,27 @@ febre sem foco = suspeitar.
   doi 10.1164/rccm.202507-1692ST; IDSA/ESCMID SAB 2026 publicado 09/09/2026 (idsociety.org); Guía Española 2017,
   Nefrología 37(Supl 1), doi 10.1016/j.nefro.2017.11.004.
 
+### Referências antes lidas só por resumo, conferidas no texto primário (2026-10-30)
+- **IDSA/ESCMID 2026 SAB** (manuscritos no idsociety.org; Statement 1 de Kaasch AJ, Strnad L, et al.): fatores-chave =
+  início comunitário, hemocultura positiva >= 48 h após a primeira, dispositivo intracardíaco; outros = valvopatia
+  predisponente, droga injetável, enxerto endovascular, SAB nos 90 dias, foco profundo/metastático, embolia, > 1 foco,
+  foco desconhecido. **Diabetes não aparece.** "Chronic renal failure requiring renal replacement therapy" associou-se
+  a recidiva em 3 estudos (sem distinguir de reinfecção) e não a foco profundo/endocardite. Statements 6 e 7: **14 dias**;
+  "The day of blood culture clearance should be used as the start date… In cases where source control occurs after
+  blood culture clearance, the date of focus removal may be counted as the start date." Statement 2: hemocultura de
+  controle em 48 h e depois a cada 24-48 h. Statement 3: ecocardiograma transtorácico em todo adulto. -> confere.
+- **ESC 2023** (Eur Heart J 2023;44(39):3948-4042), Recommendation Table 8 (I-B): valva nativa por estafilococo sensível,
+  oxacilina ou cefazolina **4-6 semanas**; resistente, vancomicina 4-6 semanas; valva protética **>= 6 semanas** (+ rifampicina,
+  gentamicina 2 semanas). -> confere.
+- **ATS 2025** (Jones BE et al., Am J Respir Crit Care Med 2026;212(1):24-44): ambulatorial e internado não grave,
+  "we suggest **less than 5 days** of antibiotics (minimum of 3-d duration)" (condicional, evidência baixa); grave,
+  5 dias ou mais (forte, evidência baixa); doença pulmonar subjacente só como fator para individualizar; ultrassom
+  pulmonar "acceptable diagnostic alternative to chest radiography" onde houver experiência. **CORRIGE o item 8 e a
+  nota da ATS 2025 acima (lidos por resumo): os 5 dias da unidade NÃO batem com a ATS 2025; batem com a ATS/IDSA 2019.**
+- **ATS/IDSA 2019** (PMC6812437, texto primário): "antibiotic therapy should be continued until the patient achieves
+  stability and for no less than a total of 5 days"; comorbidades incluem "chronic … renal disease"; ambulatorial com
+  comorbidade = amoxicilina-clavulanato ou cefalosporina + macrolídeo ou doxiciclina, ou fluoroquinolona respiratória.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.

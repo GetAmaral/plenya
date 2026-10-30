@@ -106,7 +106,7 @@ com lock ou após a troca. Com lock, é o prazo usado no protocolo de lock em *S
 foco não foi removido. Após a troca, as 3 semanas são decisão da equipe.
 
 A endocardite é tratada por 4 semanas na valva nativa e 6 na protética. A diretriz europeia indica 4 a 6 semanas na
-valva nativa por *S. aureus* sensível e no mínimo 6 semanas na protética [5]. Todo paciente com *S. aureus* faz
+valva nativa por estafilococo, sensível ou resistente, e no mínimo 6 semanas na protética [5]. Todo paciente com *S. aureus* faz
 ecocardiograma [4].
 
 ### 1.7 Troca e novo acesso
@@ -194,13 +194,14 @@ recomenda com depuração de creatinina abaixo de 15 ml/min [22].
 O esquema segue a diretriz ATS/IDSA para o paciente ambulatorial com comorbidade, categoria em que a doença renal
 crônica está incluída: betalactâmico associado a macrolídeo, ou fluoroquinolona respiratória isolada [7]. Sem doença
 pulmonar prévia, a unidade usa amoxicilina-clavulanato com azitromicina por 5 dias (azitromicina por 3); com doença
-pulmonar prévia, levofloxacino oral em 3 doses, nos dias de diálise. A diretriz da ATS de 2025 sustenta 5 dias, com mínimo de 3, e
-admite 3 a 4 dias no paciente estável sem doença pulmonar [8]. Quando o paciente não adere ao oral, recebe o
+pulmonar prévia, levofloxacino oral em 3 doses, nos dias de diálise. A diretriz ATS/IDSA de 2019 pede tratamento até a estabilidade clínica e por
+no mínimo 5 dias [7]; a da ATS de 2025 sugere menos de 5 dias, com mínimo de 3, no paciente ambulatorial e no internado
+não grave, e 5 dias ou mais na pneumonia grave [8]. A unidade usa 5 dias. Quando o paciente não adere ao oral, recebe o
 mesmo esquema de levofloxacino por via endovenosa. Nas duas vias são 3 doses (750 mg e depois 500 mg e 500 mg), dadas nos
 dias de diálise; a droga não é removida pela diálise [23].
 
-As diretrizes pedem imagem para confirmar o diagnóstico, com radiografia ou, onde houver experiência, ultrassom pulmonar
-[7, 8]. A radiografia de rotina não é viável na unidade, e o protocolo a reserva para os casos arrastados ou graves.
+As diretrizes lembram a imprecisão do diagnóstico só pelos sinais clínicos [7] e aceitam o ultrassom pulmonar como
+alternativa à radiografia onde houver experiência [8]. A radiografia de rotina não é viável na unidade, e o protocolo a reserva para os casos arrastados ou graves.
 
 ## 6. Doses na hemodiálise
 
@@ -273,7 +274,7 @@ IDSA [1].
 
 As demais são decisões clínicas da equipe: 3 semanas no *S. aureus*, entre os 14 dias do consenso de 2026 e as 4 a 6
 semanas da IDSA 2009 [1, 4]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite, contra os 5 da IDSA
-[6]; ceftazidima 2 g antes do intervalo longo, que não está na bula [32];
+[6]; 5 dias na pneumonia não grave, contra menos de 5 da ATS 2025 [8]; ceftazidima 2 g antes do intervalo longo, que não está na bula [32];
 amoxicilina-clavulanato sem a dose extra da bula americana [33]; e cefalexina 500 mg ao dia, o dobro da tabela da bula
 americana [37].
 
@@ -287,18 +288,18 @@ americana [37].
 3. Pappas PG, Kauffman CA, Andes DR, et al. Clinical practice guideline for the management of candidiasis: 2016
    update by the Infectious Diseases Society of America. Clin Infect Dis. 2016;62(4):e1-e50.
 4. IDSA/ESCMID. Consensus statements on *Staphylococcus aureus* bacteremia: risk stratification, diagnostic
-   evaluation, and management of adults and children. 2026 (idsociety.org, 09/09/2026). *Lido por resumos; texto
-   primário não acessado.*
+   evaluation, and management of adults and children. 2026 (idsociety.org, 09/2026; Statements 1 a 7, manuscritos; Statement 1: Kaasch AJ,
+   Strnad L, et al.).
 5. Delgado V, Ajmone Marsan N, de Waha S, et al. 2023 ESC Guidelines for the management of endocarditis.
-   Eur Heart J. 2023. doi:10.1093/eurheartj/ehad193. *Lido por resumos.*
+   Eur Heart J. 2023;44(39):3948-4042. doi:10.1093/eurheartj/ehad193.
 6. Stevens DL, Bisno AL, Chambers HF, et al. Practice guidelines for the diagnosis and management of skin and
    soft tissue infections: 2014 update by the Infectious Diseases Society of America. Clin Infect Dis.
    2014;59(2):e10-52.
 7. Metlay JP, Waterer GW, Long AC, et al. Diagnosis and treatment of adults with community-acquired pneumonia:
    an official clinical practice guideline of the ATS and IDSA. Am J Respir Crit Care Med. 2019;200(7):e45-67.
 8. Jones BE, Ramirez JA, Oren E, et al. Diagnosis and management of community-acquired pneumonia: an official
-   American Thoracic Society clinical practice guideline. Am J Respir Crit Care Med. 2025.
-   doi:10.1164/rccm.202507-1692ST. *Lido por resumos.*
+   American Thoracic Society clinical practice guideline. Am J Respir Crit Care Med. 2026;212(1):24-44.
+   doi:10.1164/rccm.202507-1692ST.
 9. Rybak MJ, Le J, Lodise TP, et al. Therapeutic monitoring of vancomycin for serious methicillin-resistant
    *Staphylococcus aureus* infections: a revised consensus guideline. Am J Health Syst Pharm.
    2020;77(11):835-64.

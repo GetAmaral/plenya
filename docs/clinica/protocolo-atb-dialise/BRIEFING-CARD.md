@@ -201,7 +201,7 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 - **Folha 2:** sinais no acesso 2,17 · coleta + vanco/cefta 2 · Doppler 2 · cirurgia vascular 2 · germes 1 (Candida 1,3) ·
   sinal local basta 17 · prótese antiga 2,17 · eco 4.
 - **Folha 3:** ciprofloxacino 19 · amicacina ototóxica 20,21 · levofloxacino VO 7,23 · amoxicilina-clavulanato 7 ·
-  levofloxacino EV 23 · 5 dias 8 · raio-X 7,8.
+  levofloxacino EV 23 · 5 dias 7 (corrigido 2026-10-30: ATS 2025 sugere < 5 dias) · raio-X 7,8.
 - **Folha 4:** vanco 35 e 15 mg/kg 9 · 10 mg/ml 24 · 90 min finais 25 · ceftazidima 1,32 · cefazolina 1,29,30 ·
   amicacina 20 · levofloxacino 23 · ciprofloxacino 19 · azitromicina 21,35 · clindamicina 36 · lock 14.
 
@@ -213,6 +213,8 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 - Amoxicilina-clavulanato: card simplificado para 500/125 mg 1x/dia após a sessão (equipe 2026-10-30). Bula americana pede
   dose extra durante e ao fim da diálise; bula brasileira não recomenda o comprimido com ClCr < 10; não usar 875 mg.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
+- Pneumonia: ATS 2025 sugere menos de 5 dias (mínimo 3) no não grave; unidade usa 5, como a ATS/IDSA 2019 (mínimo 5).
+- IDSA/ESCMID 2026, ESC 2023 e ATS 2025 conferidas no texto primário em 2026-10-30 (PLANO).
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 
 ## Status do card (2026-10-29)
