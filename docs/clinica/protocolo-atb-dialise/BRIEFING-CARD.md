@@ -204,7 +204,8 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
    KDOQI (empírico gram+ e gram-). Divergências a registrar: IDSA rec 44 e Miller 2016 (retirar o cateter); ISPD 2023
    (cefalosporina de 1ª geração); ceftazidima menos potente contra S. aureus in vitro (J Antimicrob Chemother 1981).
    Substitui a "tunelite revisada" de 2026-10-29 (cefazolina escalonada). **Card e texto a atualizar.**
-5. Celulite grave: 5 dias e vanco + pip-tazo/carbapenêmico (IDSA 2014) × vanco 14 dias: **pendente**.
+5. **Celulite grave: MANTER vancomicina isolada 14 dias** (equipe: "mantém"). IDSA 2014: grave = vanco + pip-tazo ou
+   carbapenêmico, 5 dias (estender se não melhora); registrar como divergência.
 6. ITU: homem 14 dias (EAU), amicacina não preferida e evitar FQ se uso em 12 meses (IDSA 2025): **pendente**.
 
 ## Referências no card (decidido 2026-10-30, opção "a": número elevado junto do item)
