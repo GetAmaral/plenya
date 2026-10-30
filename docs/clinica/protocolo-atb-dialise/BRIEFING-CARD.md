@@ -194,7 +194,7 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 ## Status do card (2026-10-29)
 - **Folha 2 (FAV e Prótese, folha própria): APROVADA 2026-10-30** ("ok, 2 aprovada"), incluindo quadro "Atenção", faixa
   "qualquer germe, também após a cirurgia" e título "Infecção de FAV e Prótese". Não reabrir.
-- **Folha 3 (Urina, Celulite, Pneumonia): em revisão desde 2026-10-30.** Sem caixa de sintomas (decidido 2026-10-30:
+- **Folha 3 (Urina, Celulite, Pneumonia): APROVADA 2026-10-30** ("Aprovado 3"). Não reabrir. Histórico: Sem caixa de sintomas (decidido 2026-10-30:
   "não precisa de sintomas aqui"). "Grave?" da celulite fica sem critério (decidido 2026-10-30: "não precisa"). Forma: largura inteira, 10 pt
   (proposta minha, em execução).
 - **Folha 1 (bacteremia por cateter): APROVADA.** Reaberta só para receber o quadro Óstio e Túnel (pedido da
