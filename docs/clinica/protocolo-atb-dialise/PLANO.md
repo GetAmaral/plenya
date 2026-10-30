@@ -426,6 +426,53 @@ febre sem foco = suspeitar.
   stability and for no less than a total of 5 days"; comorbidades incluem "chronic … renal disease"; ambulatorial com
   comorbidade = amoxicilina-clavulanato ou cefalosporina + macrolídeo ou doxiciclina, ou fluoroquinolona respiratória.
 
+### Busca "uma referência por decisão" (2026-10-30), citações conferidas no texto primário
+- **IDSA 2009 (PMC4039170):** rec 11 (A-I) hemoculturas antes do antibiótico; rec 15 (A-II) pareadas cateter + veia
+  periférica; **rec 53** (A-III) periférica de veia que não será usada para fístula; **rec 54** (B-II) sem periférica,
+  "blood samples may be drawn during hemodialysis from bloodlines connected to the CVC"; **rec 55** (B-II) "antibiotic
+  therapy can be discontinued if both sets of blood cultures have negative results and no other source of infection is
+  identified" (DIVERGE: unidade mantém 14 dias); rec 22 (C-III) dia 1 = 1ª hemocultura negativa; rec 23/61 vancomicina
+  empírica + gram-negativo; rec 62 MSSA -> cefazolina; rec 99 descalonar; **rec 75** coagulase-negativo: 5-7 dias se
+  retirado, 10-14 dias com lock se mantido; rec 93 enterococo 7-14 dias; rec 100 gram-negativo 7-14 dias; rec 64 4-6
+  semanas se bacteremia > 72 h após retirada, endocardite ou tromboflebite; rec 33 (B-II) hemocultura em 72 h;
+  **rec 67** (B-III) "Surveillance blood cultures should be obtained 1 week after completion of an antibiotic course for
+  CRBSI if the catheter has been retained" (unidade colhe no fim, não 1 semana depois); rec 21 (C-III) não há evidência
+  para hemocultura de rotina após o fim (geral); rec 44 tunelite: retirar + 7-10 dias; rec 45 cultura de secreção e
+  hemocultura; rec 46 (B-III) óstio não complicado: tópico conforme cultura (ex.: mupirocina); rec 47 sistêmico se falha;
+  rec 57-60, 63, 66 (HD); rec 58 novo cateter após hemocultura negativa (sem prazo em horas); rec 101/57/71 Candida:
+  retirar. Febre/calafrio aparecem na rec 59 como sintomas que motivam o tratamento.
+- **KDOQI 2019, Figura 25.1** (algoritmo, p. S128, lido na imagem): "Blood cultures x 2: 1 is obtained from the CVC hub
+  and 1 is obtained from the circuit" (= coleta da unidade); "Negative blood cultures -> Stop antibiotics" (DIVERGE);
+  coagulase-negativo e gram-negativo "Antibiotics x 14 days"; S. aureus: retirar + 4 semanas; Candida: retirar +
+  antifúngico 14 dias; bacteremia/febre persistente -> retirada urgente ou troca por fio-guia. Texto p. S127: óstio
+  "typically range between 7 and 14 days"; "This typically does not require removal"; tunelite "10 to 14 days in the
+  absence of concurrent bacteremia", empírico "both Gram-positive and Gram-negative"; se não responde, troca com novo
+  túnel ou retirada; p. S128: tunelite entre as indicações de retirada imediata na bacteremia. Statement 11.14: sem
+  diferença entre filme transparente e curativo não transparente, "choice … based on the clinician's discretion";
+  pomadas estudadas incluem mupirocina e povidona. Guideline 16: duração da infecção de acesso AV não fixada; infecção
+  extensa artéria + veia "≥6 weeks".
+- **Miller LM et al.** Can J Kidney Health Dis 2016;3:2054358116669129 (PMC5332080): óstio 7-14 dias; tunelite 10-14
+  dias, "The catheter should always be removed, without exchange over a wire" (DIVERGE); "Either sterile gauze or sterile,
+  transparent, semipermeable dressing can be used".
+- **ISPD 2017** (Szeto, PDI 37:141-54): óstio "at least 2 weeks", Pseudomonas e tunelite "at least 3 weeks" (diálise
+  peritoneal). **ISPD 2023** (Chow, PDI 43:201-19): óstio empírico com cefalosporina de 1ª geração; 2 semanas, pode
+  encurtar para 7-10 dias; tunelite >= 3 semanas; mupirocina/gentamicina no óstio como profilaxia.
+- **IDSA 2025 ITU complicada** (Trautner BW et al., Clin Infect Dis 2025; página idsociety.org): "5-7 days of a
+  fluoroquinolone … or 7 days of a non-fluoroquinolone antibiotic … rather than a longer course (10-14 days)";
+  empírico sem sepse "third- or fourth-generation cephalosporins, piperacillin-tazobactam, or fluoroquinolones, rather
+  than … older aminoglycosides"; evitar fluoroquinolona se exposição nos últimos 12 meses.
+- **EAU Guidelines on Urological Infections 2026** (uroweb.org): urocultura com antibiograma em toda ITU sistêmica
+  (3.7.2.b); "Post-treatment urinalysis or urine cultures in asymptomatic patients post-therapy are not indicated"
+  (3.6.4); duração 5-10 dias; em homens com ITU sistêmica, 7 dias é inferior a 14.
+- **Stevens 2014 IDSA SSTI** (lido via extrator, não conferido no PDF; OUP bloqueou o download): celulite leve,
+  agente ativo contra estreptococo; cefalexina 500 mg 6/6 h VO, cefazolina 1 g 8/8 h EV; MRSA: agente ativo contra MRSA
+  e estreptococo (clindamicina na tabela); grave: vancomicina + piperacilina-tazobactam ou carbapenêmico; 5 dias.
+- **Cefalexina:** bula FDA (DailyMed) "insufficient information to make dose adjustment recommendations in patients on
+  hemodialysis"; Northern Health 2018: HD "250 mg PO BID with 1 dose given AD on dialysis days" (mesma dose diária da
+  unidade, dividida).
+- **Sem fonte primária encontrada:** os "72 h" para novo permcath após hemocultura negativa e o "tentar 72 h sem
+  acesso"; durações numéricas da FAV e da prótese; Doppler seriado no seguimento. CDC 2011 (curativos) não acessível.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
