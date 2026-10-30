@@ -193,11 +193,11 @@ recomenda com depuração de creatinina abaixo de 15 ml/min [22].
 
 O esquema segue a diretriz ATS/IDSA para o paciente ambulatorial com comorbidade, categoria em que a doença renal
 crônica está incluída: betalactâmico associado a macrolídeo, ou fluoroquinolona respiratória isolada [7]. Sem doença
-pulmonar prévia, a unidade usa amoxicilina-clavulanato com azitromicina; com doença pulmonar prévia, levofloxacino. Os
-dois esquemas orais duram 5 dias, com azitromicina por 3. A diretriz da ATS de 2025 sustenta 5 dias, com mínimo de 3, e
-admite 3 a 4 dias no paciente estável sem doença pulmonar [8]. Quando o paciente não adere ao oral, recebe
-levofloxacino endovenoso em 3 doses (750 mg e depois 500 mg a cada 48 horas), que cobrem os mesmos 5 dias; a droga não é
-removida pela diálise [23].
+pulmonar prévia, a unidade usa amoxicilina-clavulanato com azitromicina por 5 dias (azitromicina por 3); com doença
+pulmonar prévia, levofloxacino oral em 3 doses, nos dias de diálise. A diretriz da ATS de 2025 sustenta 5 dias, com mínimo de 3, e
+admite 3 a 4 dias no paciente estável sem doença pulmonar [8]. Quando o paciente não adere ao oral, recebe o
+mesmo esquema de levofloxacino por via endovenosa. Nas duas vias são 3 doses (750 mg e depois 500 mg e 500 mg), dadas nos
+dias de diálise; a droga não é removida pela diálise [23].
 
 As diretrizes pedem imagem para confirmar o diagnóstico, com radiografia ou, onde houver experiência, ultrassom pulmonar
 [7, 8]. A radiografia de rotina não é viável na unidade, e o protocolo a reserva para os casos arrastados ou graves.
@@ -240,9 +240,9 @@ ceftazidima na infecção urinária, pela toxicidade descrita na seção 3.
 
 ### 6.5 Levofloxacino
 
-Na via endovenosa, o esquema é o da bula para hemodiálise: 750 mg e depois 500 mg a cada 48 horas, em 3 doses, a partir
-de bolsa pronta de 5 mg/ml infundida em 60 a 90 minutos [23]. Na via oral, a equipe optou pela dose cheia, 750 mg uma
-vez ao dia por 5 dias. A bula pede o mesmo ajuste da via endovenosa [23].
+O esquema é o mesmo nas duas vias: 750 mg e depois 500 mg e 500 mg, uma dose por dia de diálise, 3 doses. A bula para
+hemodiálise indica 750 mg e depois 500 mg a cada 48 horas [23]; dar as doses nos dias de diálise aproxima esse intervalo
+(48 a 72 horas). Na via endovenosa, a bolsa pronta de 5 mg/ml é infundida em 60 a 90 minutos [23].
 
 ### 6.6 Drogas orais
 
@@ -273,7 +273,7 @@ IDSA [1].
 
 As demais são decisões clínicas da equipe: 3 semanas no *S. aureus*, entre os 14 dias do consenso de 2026 e as 4 a 6
 semanas da IDSA 2009 [1, 4]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite, contra os 5 da IDSA
-[6]; ceftazidima 2 g antes do intervalo longo, que não está na bula [32]; levofloxacino oral em dose cheia [23];
+[6]; ceftazidima 2 g antes do intervalo longo, que não está na bula [32];
 amoxicilina-clavulanato sem a dose extra da bula americana [33]; e cefalexina 500 mg ao dia, o dobro da tabela da bula
 americana [37].
 

@@ -114,8 +114,8 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Amoxicilina-clavulanato (2026-10-30), substitui o item 1 das doses finais:** 500/125 mg 1x/dia, após a sessão nos
   dias de HD, **sem dose extra** (equipe escolheu simplificar; a linha "+1 durante +1 ao fim" estava confusa). Divergência
   da bula americana e "não usar 875 mg" vão para o texto teórico.
-- **Levofloxacino VO (2026-10-30):** dose cheia, 750 mg 1x/dia por 5 dias (equipe: "dose normal no oral"). O EV segue
-  750 mg → 500 mg a cada 48 h, 3 doses. Diverge da bula no oral; vai para o texto teórico.
+- **Levofloxacino VO (2026-10-30, revisto no mesmo dia):** igual ao EV, 750 mg → 500 mg → 500 mg nos dias de diálise,
+  3 doses (equipe: "deixa levo 750 + 500 + 500 nos dias de diálise mesmo, mesmo oral"). Substitui a dose cheia 750 mg/dia.
 - **Estrutura do card revista (2026-10-29):** a equipe chegou a escolher juntar FAV/prótese na folha 1 e reverteu
   ("melhor deixar separado"). Ficou: **Óstio e Túnel na folha 1**; **FAV e Prótese numa coluna inteira da folha 2**.
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.

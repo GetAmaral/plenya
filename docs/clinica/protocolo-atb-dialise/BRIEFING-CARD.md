@@ -141,7 +141,7 @@ Proposta de pergunta única ("Doença pulmonar prévia ou não adere ao oral?") 
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
 | Em geral | Amoxicilina-clavulanato + azitromicina VO | 5 dias (azitro 3 dias) | |
-| Doença pulmonar prévia | Levofloxacino VO | **5 dias** | Equipe 2026-10-30: "oral = 5 dias, na diálise 3 doses" (como na discussão original). A ficha da folha 4 (VO "48/48 h, 3 doses") precisa ser revista contra isso |
+| Doença pulmonar prévia | Levofloxacino VO | **3 doses** | Equipe 2026-10-30 (revisto): "levo 750 + 500 + 500 nos dias de diálise mesmo, mesmo oral". Substitui "oral = 5 dias" e a dose cheia 750 mg/dia |
 | Não adere ao oral | Levofloxacino EV | 3 doses | Discussão original: "levofloxacino EV por 3 doses". O "ou VO na sessão" foi acréscimo meu na consolidação, sem decisão da equipe; removido 2026-10-30 (equipe: "não adere ao oral - VO??") |
 
 ## 5. Celulite
@@ -170,7 +170,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 | Ceftazidima | 1 g (2 g antes do intervalo de 72 h) | SF: 100 ml | Linha da HD | 30 min | Fim de toda sessão |
 | Cefazolina | 20 mg/kg (mín. 1 g · máx. 2 g) | SF: 10 ml por g | Linha venosa | 3-5 min (bolus) | Fim de toda sessão |
 | Amicacina | 5-7,5 mg/kg | SF: 100-200 ml | EV | 30-60 min | Após toda sessão |
-| Levofloxacino | 750 mg → 500 mg (48/48 h · 3 doses) | Bolsa pronta: 5 mg/ml | EV | 60-90 min | Qualquer horário |
+| Levofloxacino | 750 mg → 500 mg → 500 mg (3 doses, nos dias de HD) | Bolsa pronta: 5 mg/ml | EV | 60-90 min | Qualquer horário |
 
 ### Orais
 | Droga | Dose | Frequência | Dias de hemodiálise |
@@ -178,7 +178,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 | Ciprofloxacino | 500 mg | 1x/dia | Após a sessão |
 | Amoxicilina-clavulanato | 500/125 mg | 1x/dia | Após a sessão (equipe 2026-10-30, opção "a": sem dose extra; substitui a bula americana) |
 | Azitromicina | 500 mg | 1x/dia | Sem ajuste (duração 3 dias no fluxo) |
-| Levofloxacino | 750 mg | 1x/dia | Sem ajuste (dose cheia; duração 5 dias no fluxo; decisão da equipe 2026-10-30) |
+| Levofloxacino | 750 mg → 500 mg → 500 mg | 3 doses | Uma dose por dia de HD (igual ao EV; equipe 2026-10-30) |
 | Cefalexina | 500 mg | 1x/dia | Após a sessão |
 | Clindamicina | 300 mg | 8/8 h | Sem ajuste |
 
@@ -201,8 +201,6 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
   dose extra durante e ao fim da diálise; bula brasileira não recomenda o comprimido com ClCr < 10; não usar 875 mg.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
-- Levofloxacino VO em dose cheia (750 mg/dia, 5 dias) na pneumonia com doença pulmonar prévia: decisão da equipe; bula
-  pede 750 mg → 500 mg a cada 48 h em HD (registrar a divergência e o racional).
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,
