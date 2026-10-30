@@ -1,7 +1,8 @@
-# Antibioticoterapia na hemodiálise: fundamentação do protocolo da unidade
+# Fundamentação científica do protocolo de antibióticos na hemodiálise
 
-Este texto acompanha o card do protocolo (4 folhas) e explica por que cada conduta foi escolhida. Os números entre
-colchetes remetem às referências no fim. Onde a unidade se afasta da diretriz ou da bula, o texto diz isso; a seção 8
+Protocolo das unidades DaVita Londrina, Bandeirantes, Lago Parque e Rolândia. Este texto acompanha o card do protocolo
+(4 folhas) e explica por que cada conduta foi escolhida. Os números entre
+colchetes remetem às referências no fim. Onde as unidades se afastam da diretriz ou da bula, o texto diz isso; a seção 8
 reúne esses pontos.
 
 ## Introdução
@@ -16,7 +17,7 @@ de o paciente tomar em casa.
 O protocolo foi montado a partir da prática da equipe e conferido, item por item, contra as diretrizes de infecção
 relacionada a cateter [1], de acesso vascular [2], de candidíase [3], de *Staphylococcus aureus* [4], de endocardite
 [5], de pele e partes moles [6] e de pneumonia [7, 8], contra o consenso de monitorização da vancomicina [9] e
-contra as bulas de cada droga. Quando a evidência e a realidade da unidade não coincidem, a escolha foi registrada como
+contra as bulas de cada droga. Quando a evidência e a realidade das unidades não coincidem, a escolha foi registrada como
 decisão da equipe, com a fonte ao lado, para que possa ser revista.
 
 ## 1. Bacteremia relacionada ao cateter
@@ -55,17 +56,17 @@ A *Candida* tem conduta própria. O cateter é retirado sempre, o antibacteriano
 cultura [1, 2, 3]. Não há estudo que sustente tentar salvar o cateter com lock na candidemia [10]. Quando a *Candida* cresce
 junto com bactéria, o caso segue o ramo da cultura polimicrobiana.
 
-Na hemocultura negativa, a unidade mantém vancomicina e ceftazidima pelo tempo do tratamento e reavalia em 72 horas,
+Na hemocultura negativa, as unidades mantêm vancomicina e ceftazidima pelo tempo do tratamento e reavaliam em 72 horas,
 como nos demais ramos bacterianos. As diretrizes dizem o contrário: a IDSA admite suspender o antibiótico quando as duas
 hemoculturas vêm negativas e não há outro foco, e o algoritmo do KDOQI manda suspender [1, 2]. A equipe decidiu manter.
 
 ### 1.3 Manter, trocar ou retirar o cateter
 
-A diretriz da IDSA é mais agressiva que a prática da unidade. Ela recomenda retirar o cateter de longa permanência na
+A diretriz da IDSA é mais agressiva que a prática das unidades. Ela recomenda retirar o cateter de longa permanência na
 bacteremia por *S. aureus*, *Pseudomonas* e fungos, e em qualquer germe quando a bacteremia persiste por mais de 72 horas
 com antibiótico adequado [1]. Mas a mesma diretriz admite a troca por fio-guia quando não há outro sítio para o acesso
 [1], e o KDOQI 2019 pede abordagem individualizada, citando a troca por fio-guia, o salvamento com lock e a retirada como
-opções, sobretudo quando o cateter é o último acesso do paciente [2]. É o cenário dos pacientes da unidade com veias
+opções, sobretudo quando o cateter é o último acesso do paciente [2]. É o cenário dos pacientes das unidades com veias
 esgotadas.
 
 A evidência permite ser conservador sem ser imprudente. Uma meta-análise com 28 estudos e 1.596 pacientes mostrou que o
@@ -83,10 +84,10 @@ o lock continua. A troca não reinicia a contagem do tratamento.
 ### 1.4 Lock de antibiótico
 
 Quando o cateter fica, o lúmen precisa ser tratado, porque o biofilme protege as bactérias do antibiótico sistêmico. O
-lock da unidade (vancomicina 5 mg/ml, 1 ml; ceftazidima 5 mg/ml, 0,5 ml; heparina 5.000 UI/ml, 0,5 ml; soro fisiológico
+lock das unidades (vancomicina 5 mg/ml, 1 ml; ceftazidima 5 mg/ml, 0,5 ml; heparina 5.000 UI/ml, 0,5 ml; soro fisiológico
 até completar o volume da via) reproduz o protocolo publicado pelo grupo de Birmingham, de onde vêm os dados de Maya
-citados acima [14]. Ele é instilado ao fim de cada sessão, como recomenda a IDSA [1]. A IDSA fala em 10 a 14 dias; a
-unidade mantém o lock durante todo o tratamento, inclusive nas 3 semanas do *S. aureus*.
+citados acima [14]. Ele é instilado ao fim de cada sessão, como recomenda a IDSA [1]. A IDSA fala em 10 a 14 dias; as
+unidades mantêm o lock durante todo o tratamento, inclusive nas 3 semanas do *S. aureus*.
 
 ### 1.5 Hemoculturas de controle
 
@@ -109,7 +110,7 @@ O *S. aureus* é o ponto de maior divergência entre as fontes. A IDSA 2009 pedi
 critérios estritos [1]. O consenso IDSA/ESCMID de 2026 mudou a lógica: em vez de classificar a bacteremia em complicada
 ou não complicada, estratifica o risco e propõe 14 dias tanto no baixo risco quanto no risco aumentado, sempre que a
 investigação não encontra foco profundo ou metastático, contados da negativação da cultura ou do controle do foco, o que
-vier depois; diabetes e hemodiálise não estão na lista de fatores de risco aumentado [4]. A unidade adotou 3 semanas,
+vier depois; diabetes e hemodiálise não estão na lista de fatores de risco aumentado [4]. As unidades adotaram 3 semanas,
 com lock ou após a troca. Com lock, é o prazo usado no protocolo de lock em *S. aureus* na hemodiálise [13, 14], no qual o
 foco não foi removido. Após a troca, as 3 semanas são decisão da equipe.
 
@@ -120,9 +121,9 @@ ecocardiograma [4].
 ### 1.7 Troca e novo acesso
 
 A troca por falha só é feita depois de pelo menos 72 horas de antibiótico. Na falha com sintomas persistentes, a IDSA
-manda retirar o cateter; a troca por fio-guia é admitida quando os sintomas se resolvem em 2 a 3 dias [1]. A unidade
-troca por fio-guia também na falha (seção 1.3). Um novo cateter de longa permanência só é implantado depois de
-hemocultura negativa [1]; a unidade espera 72 horas. Quando o cateter foi retirado por hemocultura positiva, a equipe
+manda retirar o cateter; a troca por fio-guia é admitida quando os sintomas se resolvem em 2 a 3 dias [1]. As unidades
+trocam por fio-guia também na falha (seção 1.3). Um novo cateter de longa permanência só é implantado depois de
+hemocultura negativa [1]; as unidades esperam 72 horas. Quando o cateter foi retirado por hemocultura positiva, a equipe
 tenta manter o paciente 72 horas sem acesso antes de implantar outro. O KDOQI lista o período sem cateter como opção
 [2], mas nenhuma das diretrizes lidas fixa prazo em horas; os 72 horas são da equipe. Sempre se procuram outros focos:
 acessos antigos, stents venosos, marcapasso e próteses ortopédicas. O dispositivo intracardíaco e o enxerto endovascular
@@ -145,7 +146,7 @@ preferem a cefalosporina de primeira geração para o estafilococo, que é o age
 menos potente contra ele; a equipe optou por uma droga que cobre os dois grupos. O tratamento dura 14 dias, dentro dos
 10 a 14 dias do KDOQI e da série canadense [2, 16]. O KDOQI admite tentar o antibiótico com o cateter no lugar quando
 não há bacteremia, e só trocar ou retirar se não houver resposta [2]; a IDSA e a série canadense mandam retirar o cateter
-na tunelite [1, 16]. A unidade mantém o cateter enquanto não há bacteremia. Se a hemocultura vier positiva, vale o fluxo
+na tunelite [1, 16]. As unidades mantêm o cateter enquanto não há bacteremia. Se a hemocultura vier positiva, vale o fluxo
 da bacteremia.
 
 ## 2. Infecção de fístula arteriovenosa e de prótese
@@ -186,7 +187,7 @@ mantém a prótese com antibiótico e Doppler semanal, exceto na *Candida*, em q
 
 O KDOQI não fixa prazo: a duração ideal depende das circunstâncias do paciente e da extensão da infecção, e a infecção
 extensa, que envolve artéria e veia, deve ser tratada por 6 semanas ou mais, como a endocardite [2]. A fístula nativa
-resolve com antibiótico isolado com mais frequência [20], e a unidade trata por 2 semanas, ou 3 semanas no *S. aureus*.
+resolve com antibiótico isolado com mais frequência [20], e as unidades tratam por 2 semanas, ou 3 semanas no *S. aureus*.
 Na prótese, qualquer infecção é tratada por 4 semanas, também depois da cirurgia. Esses prazos são da equipe; nenhuma
 das fontes lidas fixa número de semanas para a fístula ou para a prótese. Todo *S. aureus* faz
 ecocardiograma [4].
@@ -211,39 +212,39 @@ A primeira pergunta é a gravidade. A celulite grave recebe vancomicina por 14 d
 celulite com risco de MRSA ou resposta sistêmica, e, na infecção grave, vancomicina associada a piperacilina-tazobactam
 ou carbapenêmico [6]. A não grave recebe cefalexina oral, ou cefazolina endovenosa na sessão se o paciente não adere ao
 oral, que são as opções da IDSA contra estreptococo e *S. aureus* sensível [6]; com MRSA em cultura prévia, recebe
-clindamicina oral, opção da IDSA para MRSA [6]. O tratamento dura 7 dias. A IDSA recomenda 5 dias na celulite não complicada, estendendo se não houver melhora [6]; a
-unidade usa 7. O sulfametoxazol-trimetoprima foi excluído do protocolo pelo risco de hipercalemia e porque a bula não o
+clindamicina oral, opção da IDSA para MRSA [6]. O tratamento dura 7 dias. A IDSA recomenda 5 dias na celulite não complicada, estendendo se não houver melhora [6]; as
+unidades usam 7. O sulfametoxazol-trimetoprima foi excluído do protocolo pelo risco de hipercalemia e porque a bula não o
 recomenda com depuração de creatinina abaixo de 15 ml/min [26].
 
 ## 5. Pneumonia
 
 O esquema segue a diretriz ATS/IDSA para o paciente ambulatorial com comorbidade, categoria em que a doença renal
 crônica está incluída: betalactâmico associado a macrolídeo, ou fluoroquinolona respiratória isolada [7]. Sem doença
-pulmonar prévia, a unidade usa amoxicilina-clavulanato com azitromicina por 5 dias (azitromicina por 3); com doença
+pulmonar prévia, as unidades usam amoxicilina-clavulanato com azitromicina por 5 dias (azitromicina por 3); com doença
 pulmonar prévia, levofloxacino oral em 3 doses, nos dias de diálise. A diretriz ATS/IDSA de 2019 pede tratamento até a estabilidade clínica e por
 no mínimo 5 dias [7]; a da ATS de 2025 sugere menos de 5 dias, com mínimo de 3, no paciente ambulatorial e no internado
-não grave, e 5 dias ou mais na pneumonia grave [8]. A unidade usa 5 dias. Quando o paciente não adere ao oral, recebe o
+não grave, e 5 dias ou mais na pneumonia grave [8]. As unidades usam 5 dias. Quando o paciente não adere ao oral, recebe o
 mesmo esquema de levofloxacino por via endovenosa. Nas duas vias são 3 doses (750 mg e depois 500 mg e 500 mg), dadas nos
 dias de diálise; a droga não é removida pela diálise [27].
 
 As diretrizes lembram a imprecisão do diagnóstico só pelos sinais clínicos [7] e aceitam o ultrassom pulmonar como
-alternativa à radiografia onde houver experiência [8]. A radiografia de rotina não é viável na unidade, e o protocolo a reserva para os casos arrastados ou graves.
+alternativa à radiografia onde houver experiência [8]. A radiografia de rotina não é viável nas unidades, e o protocolo a reserva para os casos arrastados ou graves.
 
 ## 6. Doses na hemodiálise
 
 ### 6.1 Vancomicina
 
 O consenso de monitorização indica, para a administração durante a sessão com dialisador de alta permeabilidade, ataque
-de 35 mg/kg com teto de 3 g e manutenção de 10 a 15 mg/kg; dadas após a diálise, as doses seriam menores [9]. A unidade
-usa o ataque de 35 mg/kg (mínimo 2 g, máximo 3 g) e a manutenção no topo da faixa, 15 mg/kg (mínimo 1 g, máximo 1,5 g);
+de 35 mg/kg com teto de 3 g e manutenção de 10 a 15 mg/kg; dadas após a diálise, as doses seriam menores [9]. As unidades
+usam o ataque de 35 mg/kg (mínimo 2 g, máximo 3 g) e a manutenção no topo da faixa, 15 mg/kg (mínimo 1 g, máximo 1,5 g);
 os mínimos e o máximo da manutenção são da equipe. A vancomicina é infundida pela linha da hemodiálise nos 90 minutos
 finais da sessão: o ataque em 90 minutos, a manutenção em 60, a 10 mg/ml. A concentração de 10 mg/ml é a que a bula
 admite no paciente com restrição de volume [28], e o paciente em hemodiálise é restrito de volume por definição. Uma
-revisão sobre a administração na última hora da sessão de alto fluxo, com doses menores que as da unidade (ataque de 18
+revisão sobre a administração na última hora da sessão de alto fluxo, com doses menores que as das unidades (ataque de 18
 a 23 mg/kg, manutenção de 8 a 13 mg/kg), relatou nível pré-diálise adequado e bons desfechos [29].
 
 O principal risco da infusão rápida é a síndrome do homem vermelho e a hipotensão. Dois ensaios mostraram que o
-anti-histamínico antes da infusão as reduz de forma acentuada [30, 31]. Quando a unidade tiver a dosagem, o nível
+anti-histamínico antes da infusão as reduz de forma acentuada [30, 31]. Quando as unidades tiverem a dosagem, o nível
 pré-diálise deve ficar entre 15 e 20 mg/l [9]. As bulas brasileiras trazem os limites de concentração e de velocidade
 de infusão [32].
 
@@ -284,7 +285,7 @@ bula americana não traz dose para hemodiálise e indica 250 mg a cada 24 horas 
 
 ## 7. O que ficou fora do card
 
-Quatro recomendações ficam só neste texto: a dosagem do nível pré-diálise de vancomicina, quando a unidade tiver o exame
+Quatro recomendações ficam só neste texto: a dosagem do nível pré-diálise de vancomicina, quando as unidades tiverem o exame
 [9]; a pré-medicação com anti-histamínico antes da vancomicina, como sugestão [30, 31]; a hemocultura de controle em 48
 horas [4]; e a imagem para confirmar a pneumonia [7, 8].
 
@@ -296,7 +297,7 @@ retirar na bacteremia persistente [1], mantém o cateter na tunelite, que a IDSA
 quando não há infecção extensa, embora o KDOQI lembre que a prótese raramente se cura só com antibiótico [2]. No cateter
 e na tunelite, o motivo é preservar o acesso do paciente com veias esgotadas; na prótese, é decisão da equipe.
 
-Outras divergências são decisões de rotina da unidade: a hemocultura de controle em 72 horas, e não em 48 [4]; a
+Outras divergências são decisões de rotina das unidades: a hemocultura de controle em 72 horas, e não em 48 [4]; a
 hemocultura de vigilância no fim do tratamento, e não 1 semana depois [1]; a radiografia que não é de rotina na pneumonia [7, 8]; e o lock mantido por todo o tratamento, além dos 10 a 14 dias da
 IDSA [1].
 

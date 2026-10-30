@@ -5,6 +5,10 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 
 ## Diretrizes de forma (o que a equipe pediu)
 
+- **Unidades (equipe 2026-10-30):** DaVita Londrina | Bandeirantes | Lago Parque | Rolândia, no cabeçalho de cada folha
+  e na abertura do texto. O texto que acompanha o card se chama **"Fundamentação científica"** (não "documento teórico";
+  o arquivo continua `TEORICO.md`).
+
 - **Prático, não slide de aula.** Pouco texto, nada de parágrafo. Consulta em segundos, na beira da cadeira.
 - **Mesma lógica sempre.** Toda infecção segue o mesmo molde; toda droga segue o mesmo molde.
 - **Molde da infecção:** Situação → Antibiótico → Duração → Atenção (no máximo uma linha).

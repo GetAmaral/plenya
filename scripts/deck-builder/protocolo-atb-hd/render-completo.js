@@ -1,4 +1,4 @@
-// PDF único do protocolo: as 4 folhas do card + o documento teórico (TEORICO.md) no mesmo visual.
+// PDF único do protocolo: as 4 folhas do card + a fundamentação científica (TEORICO.md) no mesmo visual.
 // Uso: node render.js && node render-completo.js [--png]
 //   gera docs/clinica/protocolo-atb-dialise/protocolo-atb-hd-completo.pdf (docs/**/*.pdf não é versionado)
 //   --png    PNG das páginas do texto em previews/texto-N.png (conferência)
@@ -37,7 +37,7 @@ code{font-family:inherit}
 .refs p{margin:0}
 </style></head><body>
 <div class="hd"><h1>${titleLine.replace(/^#\s*/, "")}</h1>
-<div class="k">Protocolo de antibióticos na hemodiálise · Documento teórico que acompanha o card (folhas 1 a 4)</div></div>
+<div class="k">DaVita Londrina | Bandeirantes | Lago Parque | Rolândia · Acompanha o card do protocolo (folhas 1 a 4)</div></div>
 ${body.slice(0, refsAt)}<div class="refs">${body.slice(refsAt)}</div>
 </body></html>`;
 
@@ -53,7 +53,7 @@ ${body.slice(0, refsAt)}<div class="refs">${body.slice(refsAt)}</div>
     path: textPdf, format: "A4", printBackground: true, displayHeaderFooter: true,
     headerTemplate: "<span></span>",
     footerTemplate: `<div style="width:100%;font-family:Arial,sans-serif;font-size:7.5pt;color:#5C7379;padding:0 18mm;display:flex;justify-content:space-between">
-      <span>Antibioticoterapia na hemodiálise · Documento teórico</span><span><span class="pageNumber"></span>/<span class="totalPages"></span></span></div>`,
+      <span>Protocolo de antibióticos na hemodiálise · Fundamentação científica</span><span><span class="pageNumber"></span>/<span class="totalPages"></span></span></div>`,
     margin: { top: "16mm", bottom: "18mm", left: "18mm", right: "18mm" },
   });
   await browser.close();
