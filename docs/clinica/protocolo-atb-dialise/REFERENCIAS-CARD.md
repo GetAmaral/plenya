@@ -5,98 +5,99 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 
 ## Folha 1
 
-- Retirar o cateter → [1] Mermel LA, Allon M, Bouza E, et al
-- Febre ou calafrio na sessão → [1] Mermel LA, Allon M, Bouza E, et al
-- Colher 2 hemoculturas e iniciar vancomicina + ceftazidima → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
+- 21 dias · após HC negativa → [13,14] Maya ID, et al ; Maya ID
+- 14 dias · após HC negativa → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
+- 14 dias · após HC negativa → [3] Pappas PG, Kauffman CA, Andes DR, et al
+- Se instável, sepse ou infecção à distânciaRetirar o cateter a qualquer momento → [1] Mermel LA, Allon M, Bouza E, et al
+- Febre ou calafrio na sessão · paciente com cateter → [1] Mermel LA, Allon M, Bouza E, et al
+- Colher 2 hemoculturas e iniciar vancomicina + ceftazidima · cateter + linha venosa · lock  → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
 - Manter vanco + cefta → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
-- Só cefazolina → [1] Mermel LA, Allon M, Bouza E, et al
-- Manter vanco → [1] Mermel LA, Allon M, Bouza E, et al
-- Suspender vanco → [1] Mermel LA, Allon M, Bouza E, et al
-- Ajustar → [1] Mermel LA, Allon M, Bouza E, et al
-- antifúngico pela cultura · suspender vanco e cefta → [1,3] Mermel LA, Allon M, Bouza E, et al ; Pappas PG, Kauffman CA, Andes DR, et al
+- Só cefazolina · suspender vanco e cefta → [1] Mermel LA, Allon M, Bouza E, et al
+- Manter vanco · suspender cefta → [1] Mermel LA, Allon M, Bouza E, et al
+- Cefazolina ou vanco · pela oxacilina · suspender cefta → [1] Mermel LA, Allon M, Bouza E, et al
+- Suspender vanco · seguir antibiograma → [1] Mermel LA, Allon M, Bouza E, et al
+- Ajustar · pelo antibiograma → [1] Mermel LA, Allon M, Bouza E, et al
+- Retirar cateter · antifúngico pela cultura · suspender vanco e cefta → [1,3] Mermel LA, Allon M, Bouza E, et al ; Pappas PG, Kauffman CA, Andes DR, et al
+- Trocar por fio‑guia → [1,2,11] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al ; Aslam S, et al
+- Retirar cateter → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
 - Manter o cateter com lock → [11,12] Aslam S, et al ; Poole CV, et al
 - Trocar por fio-guia → [1,2,11] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al ; Aslam S, et al
-- Hemocultura negativa → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
-- Coagulase-negativo · Gram-negativo → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
-- Candida → [3] Pappas PG, Kauffman CA, Andes DR, et al
-- S. aureus → [13,14] Maya ID, et al ; Maya ID
-- Endocardite → [5] Delgado V, Ajmone Marsan N, de Waha S, e
-- Mupirocina tópica → [1] Mermel LA, Allon M, Bouza E, et al
-- Colher hemocultura → [1] Mermel LA, Allon M, Bouza E, et al
-- Ceftazidima → [2,17] Lok CE, Huber TS, Lee T, et al ; Ceftazidima: bula brasileira (Blau, Ceft
-- não usar Tegaderm → [2,16] Lok CE, Huber TS, Lee T, et al ; Miller LM, Clark E, Dipchand C, et al
+- Mupirocina tópica · sem mupirocina: cefazolina → [1] Mermel LA, Allon M, Bouza E, et al
+- Colher hemocultura · cateter + periférica · antes do antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
+- Ceftazidima · MRSA prévio: + vancomicina → [2,17] Lok CE, Huber TS, Lee T, et al ; Ceftazidima: bula brasileira (Blau, Ceftazidon) e bula FDA (
+- Curativo com gaze e Hipafix · não usar Tegaderm → [2,16] Lok CE, Huber TS, Lee T, et al ; Miller LM, Clark E, Dipchand C, et al
 - 14 dias → [2,16] Lok CE, Huber TS, Lee T, et al ; Miller LM, Clark E, Dipchand C, et al
 - 14 dias → [2,16] Lok CE, Huber TS, Lee T, et al ; Miller LM, Clark E, Dipchand C, et al
-- seguir o fluxo acima → [1] Mermel LA, Allon M, Bouza E, et al
-- D0 → [1] Mermel LA, Allon M, Bouza E, et al
-- 72 h → [1] Mermel LA, Allon M, Bouza E, et al
-- A cada 72 h → [1] Mermel LA, Allon M, Bouza E, et al
-- Fim do tratamento → [1] Mermel LA, Allon M, Bouza E, et al
-- de antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
-- após HC negativa → [1] Mermel LA, Allon M, Bouza E, et al
-- sem acesso → [2] Lok CE, Huber TS, Lee T, et al
-- S. aureus → [4] IDSA/ESCMID
-- Procurar focos → [4] IDSA/ESCMID
+- Hemocultura positiva ou bacteremia: seguir o fluxo acima → [1] Mermel LA, Allon M, Bouza E, et al
+- D0 · antes do antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
+- 72 h · sempre, qualquer resultado → [1] Mermel LA, Allon M, Bouza E, et al
+- A cada 72 h · se positiva, até negativar → [1] Mermel LA, Allon M, Bouza E, et al
+- Fim do tratamento · repetir sempre → [1] Mermel LA, Allon M, Bouza E, et al
+- Trocar por falha só após 72 h de antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
+- Novo permcath 72 h após HC negativa → [1] Mermel LA, Allon M, Bouza E, et al
+- Retirado por HC positiva: tentar 72 h sem acesso → [2] Lok CE, Huber TS, Lee T, et al
+- Ecocardiograma: todo S. aureus → [4] IDSA/ESCMID
+- Endocardite: 28 dias · valva protética: 42 dias → [5] Delgado V, Ajmone Marsan N, de Waha S, et al
+- Procurar focos · acessos antigos, stent venoso, marcapasso, prótese ortopédica → [4] IDSA/ESCMID
 
 ## Folha 2
 
-- Febre ou sinais no acesso → [2,19] Lok CE, Huber TS, Lee T, et al ; MacRae JM, Dipchand C, Oliver M, et al
-- Colher 2 hemoculturas e iniciar vancomicina + ceftazidima → [2] Lok CE, Huber TS, Lee T, et al
+- Febre ou sinais no acesso · vermelhidão · dor · secreção · pele rompida ou prótese exposta → [2,19] Lok CE, Huber TS, Lee T, et al ; MacRae JM, Dipchand C, Oliver M, et al
+- Colher 2 hemoculturas e iniciar vancomicina + ceftazidima · linha venosa + acesso periféri → [2] Lok CE, Huber TS, Lee T, et al
 - Doppler inicial → [2] Lok CE, Huber TS, Lee T, et al
 - Doppler semanal → [2] Lok CE, Huber TS, Lee T, et al
-- Cirurgia vascular → [2] Lok CE, Huber TS, Lee T, et al
+- Cirurgia vascular · para retirada → [2] Lok CE, Huber TS, Lee T, et al
 - Manter vanco + cefta → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
-- Só cefazolina → [1] Mermel LA, Allon M, Bouza E, et al
-- Manter vanco → [1] Mermel LA, Allon M, Bouza E, et al
-- Suspender vanco → [1] Mermel LA, Allon M, Bouza E, et al
-- Ajustar → [1] Mermel LA, Allon M, Bouza E, et al
-- Antifúngico → [1,3] Mermel LA, Allon M, Bouza E, et al ; Pappas PG, Kauffman CA, Andes DR, et al
-- FAV nativa → [2] Lok CE, Huber TS, Lee T, et al
-- Prótese → [2] Lok CE, Huber TS, Lee T, et al
-- D0 → [1] Mermel LA, Allon M, Bouza E, et al
-- 72 h → [1] Mermel LA, Allon M, Bouza E, et al
-- A cada 72 h → [1] Mermel LA, Allon M, Bouza E, et al
-- Fim do tratamento → [1] Mermel LA, Allon M, Bouza E, et al
-- mesmo sem febre → [19] MacRae JM, Dipchand C, Oliver M, et al
-- com febre sem foco: suspeitar → [2,19] Lok CE, Huber TS, Lee T, et al ; MacRae JM, Dipchand C, Oliver M, et al
-- S. aureus → [4] IDSA/ESCMID
+- Só cefazolina · suspender vanco e cefta → [1] Mermel LA, Allon M, Bouza E, et al
+- Manter vanco · suspender cefta → [1] Mermel LA, Allon M, Bouza E, et al
+- Suspender vanco · seguir antibiograma → [1] Mermel LA, Allon M, Bouza E, et al
+- Ajustar · pelo antibiograma → [1] Mermel LA, Allon M, Bouza E, et al
+- Antifúngico · pela cultura · suspender · vanco e ceftaPrótese: retirar → [1,3] Mermel LA, Allon M, Bouza E, et al ; Pappas PG, Kauffman CA, Andes DR, et al
+- 14 dias FAV nativa · S. aureus: 21 dias → [2] Lok CE, Huber TS, Lee T, et al
+- 28 dias Prótese · qualquer germe, também após a cirurgia → [2] Lok CE, Huber TS, Lee T, et al
+- D0 · antes do antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
+- 72 h · sempre, qualquer resultado → [1] Mermel LA, Allon M, Bouza E, et al
+- A cada 72 h · se positiva, até negativar → [1] Mermel LA, Allon M, Bouza E, et al
+- Fim do tratamento · repetir sempre → [1] Mermel LA, Allon M, Bouza E, et al
+- Sinal local basta, mesmo sem febre → [19] MacRae JM, Dipchand C, Oliver M, et al
+- Prótese antiga ou trombosada · com febre sem foco: suspeitar → [2,19] Lok CE, Huber TS, Lee T, et al ; MacRae JM, Dipchand C, Oliver M, et al
+- Ecocardiograma: todo S. aureus → [4] IDSA/ESCMID
 
 ## Folha 3
 
 - Colher urocultura → [21] European Association of Urology
-- Ciprofloxacino VO → [22] Ciprofloxacino: bula FDA (DailyMed) e bu
-- Ceftazidima EV → [23] Trautner BW, Cortes-Penfield NW, Gupta K
-- 7 dias → [23] Trautner BW, Cortes-Penfield NW, Gupta K
-- pelo antibiograma → [21] European Association of Urology
-- urocultura de controle → [21] European Association of Urology
-- é ototóxica → [24,25] Amicacina: bula brasileira (Fresenius Ka ; Northern Health Antimicrobial Stewardshi
-- Cefalexina VO → [6] Stevens DL, Bisno AL, Chambers HF, et al
+- Ciprofloxacino VO → [22] Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medle
+- Ceftazidima EV · ou amicacina → [23] Trautner BW, Cortes-Penfield NW, Gupta K, et al
+- 7 dias → [23] Trautner BW, Cortes-Penfield NW, Gupta K, et al
+- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [21] European Association of Urology
+- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [21] European Association of Urology
+- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [24,25] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health ; Northern Health Antimicrobial Stewardship
+- Cefalexina VO · ou cefazolina EV se não adere → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - Clindamicina VO → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - Vancomicina → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - 7 dias → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - 14 dias → [6] Stevens DL, Bisno AL, Chambers HF, et al
-- Levofloxacino VO → [7,27] Metlay JP, Waterer GW, Long AC, et al ; Levofloxacino: bula FDA (tabela de ajust
-- Amoxicilina-clavulanato → [7] Metlay JP, Waterer GW, Long AC, et al
-- Levofloxacino EV → [27] Levofloxacino: bula FDA (tabela de ajust
-- 5 dias → [7] Metlay JP, Waterer GW, Long AC, et al
-- nos casos arrastados ou graves → [7,8] Metlay JP, Waterer GW, Long AC, et al ; Jones BE, Ramirez JA, Oren E, et al
+- Levofloxacino VO → [7,27] Metlay JP, Waterer GW, Long AC, et al ; Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Amoxicilina-clavulanato · + azitromicina VO → [7] Metlay JP, Waterer GW, Long AC, et al
+- Levofloxacino EV → [27] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- 5 dias · azitromicina: 3 dias → [7] Metlay JP, Waterer GW, Long AC, et al
+- Raio-X nos casos arrastados ou graves → [7,8] Metlay JP, Waterer GW, Long AC, et al ; Jones BE, Ramirez JA, Oren E, et al
 
 ## Folha 4
 
-- 35 mg/kg → [9] Rybak MJ, Le J, Lodise TP, et al
-- SF: 10 mg/ml → [28] Vancomicina: bula FDA (Pfizer), Dosage a
-- da sessão → [29] El Nekidy WS, Cha R, Ghazi IM
-- 15 mg/kg → [9] Rybak MJ, Le J, Lodise TP, et al
-- SF: 10 mg/ml → [28] Vancomicina: bula FDA (Pfizer), Dosage a
-- 1 g → [1,17] Mermel LA, Allon M, Bouza E, et al ; Ceftazidima: bula brasileira (Blau, Ceft
-- 20 mg/kg → [1,33,34] Mermel LA, Allon M, Bouza E, et al ; Cefazolina: bula FDA (Hikma, 2020) e bul ; Sowinski KM, et al
-- 5-7,5 mg/kg → [24] Amicacina: bula brasileira (Fresenius Ka
-- 750 mg → 500 mg → [27] Levofloxacino: bula FDA (tabela de ajust
-- 500 mg → [22] Ciprofloxacino: bula FDA (DailyMed) e bu
-- 500/125 mg → [25] Northern Health Antimicrobial Stewardshi
-- Sem ajuste → [25,38] Northern Health Antimicrobial Stewardshi ; Azitromicina: bulas brasileiras (Eurofar
-- 750 mg → 500 mg → [27] Levofloxacino: bula FDA (tabela de ajust
-- 500 mg → [25] Northern Health Antimicrobial Stewardshi
-- Sem ajuste → [39] Clindamicina: bula brasileira (Germed, t
+- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF: 10 mg/ml Linha da HD90 min90 min fin → [9] Rybak MJ, Le J, Lodise TP, et al
+- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF: 10 mg/ml Linha da HD90 min90 min fin → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF: 10 mg/ml Linha da HD90 min90 min fin → [29] El Nekidy WS, Cha R, Ghazi IM
+- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF: 10 mg/ml Linha da HD60 minFim  → [9] Rybak MJ, Le J, Lodise TP, et al
+- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF: 10 mg/ml Linha da HD60 minFim  → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Ceftazidima1 g · 2 g antes do intervalo · de 72 hSF: 100 mlLinha da HD30 minFim de toda se → [1,17] Mermel LA, Allon M, Bouza E, et al ; Ceftazidima: bula brasileira (Blau, Ceftazidon) e bula FDA (
+- Cefazolina20 mg/kg · mín. 1 g · máx. 2 gSF: 10 ml por gLinha venosa3-5 min · (bolus)Fim de → [1,33,34] Mermel LA, Allon M, Bouza E, et al ; Cefazolina: bula FDA (Hikma, 2020) e bula brasileira (ABL, 1 ; Sowinski KM, et al
+- Amicacina5-7,5 mg/kg SF: 100-200 mlEV30-60 minApós toda sessão → [24] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health
+- Levofloxacino750 mg → 500 mg · 3 doses, nos dias de HDBolsa pronta: · 5 mg/mlEV60-90 minQu → [27] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Ciprofloxacino500 mg 1x/diaApós a sessão → [22] Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medle
+- Amoxicilina-clavulanato500/125 mg1x/diaApós a sessão → [25] Northern Health Antimicrobial Stewardship
+- Azitromicina500 mg1x/diaSem ajuste → [25,38] Northern Health Antimicrobial Stewardship ; Azitromicina: bulas brasileiras (Eurofarma; Zitromax)
+- Levofloxacino750 mg → 500 mg 3 dosesUma dose por dia de HD → [27] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Cefalexina500 mg1x/diaApós a sessão → [25] Northern Health Antimicrobial Stewardship
+- Clindamicina300 mg8/8 hSem ajuste → [39] Clindamicina: bula brasileira (Germed, texto Dalacin C)
 - Lock → [14] Maya ID
-

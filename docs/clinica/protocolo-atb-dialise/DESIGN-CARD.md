@@ -44,10 +44,15 @@ Conteúdo: `BRIEFING-CARD.md` (fonte única). Este arquivo define a forma. Estud
 
 ## Estrutura final (aprovada 2026-10-30, A4 vertical, 4 folhas)
 
-- **Folha 1, Bacteremia por cateter:** fluxo da bacteremia + faixa de duração; embaixo, Óstio e Túnel ao lado de
-  Hemoculturas / Novo Acesso / Sempre.
+- **Folha 1, Bacteremia por cateter (refeita 2026-10-30, feedback da equipe item 2):** febre → coleta + vanco/cefta
+  → 7 caixas de situação (*S. aureus* oxa-sensível, *S. aureus* oxa-resistente, Coagulase-negativo, Gram-negativo, Outro
+  germe, Hemocultura negativa, *Candida*) → conduta de cada uma. *S. aureus* em faixa própria à esquerda (fundo coral):
+  72 h → Não: trocar por fio-guia; Sim: retirar. Demais: 72 h → Não: lock; Sim: fio-guia. Duração em caixa no pé do
+  fluxo, ligada à conduta final (21 / 14 / 14 dias após HC negativa). Sem hexágono "Qual germe"; "Sim"/"Não" em caixinha
+  com borda (todas as folhas); fio-guia é ação comum, não alerta. Embaixo, Óstio e Túnel ao lado de Hemoculturas / Novo
+  Acesso / Sempre (endocardite 28 dias, valva protética 42, em "Sempre").
 - **Folha 2, Infecção de FAV e Prótese:** sintomas → coleta + vanco/cefta → FAV nativa | Prótese (Doppler; gravidade
-  com alerta de cirurgia) → hemocultura → germes → faixa de duração; Hemoculturas + Atenção.
+  com alerta de cirurgia) → hemocultura → germes → faixa de duração (14 / 21 / 28 dias); Hemoculturas + Atenção.
 - **Folha 3, Outras infecções:** Urina, Celulite e Pneumonia em largura inteira, mesma grade de 3 colunas; rótulos
   Sim/Não ao lado do trecho vertical.
 - **Folha 4, Ficha de drogas + lock:** endovenosas, orais e lock em tabelas, textos padronizados.

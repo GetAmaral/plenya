@@ -21,6 +21,11 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 - **Formato: A4 vertical** (decidido 2026-10-29; começando pela folha 1).
 - **Listas nunca começam por "outros/demais"**: primeiro os nomeados, o genérico por último.
 - **Rótulo nunca encosta em caixa ou seta** (conferir com imagem ampliada).
+- **Toda resposta tem caixa (equipe 2026-10-30: "as respostas soltas ficam muito ruins, tudo tem que ter box").** Padrão de
+  algoritmo clínico (Society for Medical Decision Making 1992: situação clínica, decisão, ação, fluxo): o resultado da
+  hemocultura vira caixa de situação (branca, borda arredondada), "Sim"/"Não" ficam em caixinha com borda sobre a seta.
+- **Durações sempre em dias (equipe 2026-10-30: "tudo dias")**: 14, 21, 28, 42 dias, nunca semanas.
+- **Trocar por fio-guia não é alerta** (equipe 2026-10-30): caixa de ação comum; alerta (coral) só para retirar o cateter.
 
 ---
 
@@ -29,32 +34,42 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 ### Empírico
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| Bacteremia por cateter | Vancomicina + ceftazidima | 14 dias após hemocultura negativa | Lock se o cateter fica |
+| Bacteremia por cateter | Vancomicina + ceftazidima | 14 dias após hemocultura negativa | Lock após cada sessão |
 
 ### Ajuste pela cultura (toda resposta tem ramo)
 | Resultado da hemocultura | Antibiótico | Atenção |
 |---|---|---|
 | **Negativa** | Manter vancomicina + ceftazidima (empírico) | Discussão original: "Vanco / ceftazidima empírica - 14 dias". **Também passa pela avaliação de 72 h** (decidido 2026-10-29) |
-| Estafilococo **sensível** à oxacilina (*S. aureus* ou coagulase-negativo) | **Só cefazolina** (suspender vanco e cefta; decidido 2026-10-29) | IDSA 2009; extensão ao coagulase-negativo aprovada |
-| Estafilococo **resistente** à oxacilina (MRSA ou coagulase-negativo) | Vancomicina (suspender cefta) | |
+| ***S. aureus* oxa-sensível** | **Só cefazolina** (suspender vanco e cefta; decidido 2026-10-29) | IDSA 2009. Segue a faixa própria do *S. aureus* (abaixo) |
+| ***S. aureus* oxa-resistente** | Manter vancomicina (suspender cefta) | Segue a faixa própria do *S. aureus* (abaixo) |
+| **Coagulase-negativo** | Cefazolina ou vanco pela oxacilina (suspender cefta) | Oxa-sensível → cefazolina; oxa-resistente → vanco. Uma caixa só (equipe 2026-10-30) |
 | Gram-negativo | Pelo antibiograma (suspender vanco) | |
 | **Outro germe ou polimicrobiana** | Ajustar pelo antibiograma | Enterococo: regra da IDSA só no texto teórico |
 | *Candida* | **Antifúngico pela cultura; suspender vanco e cefta** (decidido 2026-10-29) | **Retirar o cateter**. Candida + bactéria = ramo "outro germe ou polimicrobiana" |
 
-### Duração (agrupada por prazo; conta da 1ª hemocultura negativa, nunca da troca)
+### Duração (sempre em dias, "após HC negativa"; conta da 1ª hemocultura negativa, nunca da troca)
 | Prazo | Para quem |
 |---|---|
-| **14 dias** | Hemocultura negativa (do início do antibiótico) · Coagulase-negativo · Gram-negativo · *Candida* (IDSA 2016, confirmado) · Demais germes |
-| **3 semanas** | *S. aureus*, com lock ou após troca |
-| **4 semanas** | Endocardite (valva protética: 6) |
+| **14 dias após HC negativa** | Coagulase-negativo · Gram-negativo · Outro germe · Hemocultura negativa (a 1ª negativa é a do início) · *Candida* (IDSA 2016, confirmado) |
+| **21 dias após HC negativa** | *S. aureus* (após troca por fio-guia ou retirada). Item 4 do feedback da equipe ainda em discussão |
+| **28 dias** | Endocardite (valva protética: 42 dias). No card fica em "Sempre", abaixo do ecocardiograma |
 
 Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
+No card (equipe 2026-10-30): a duração é caixa no pé do fluxo, ligada por seta à conduta final de cada caminho
+(*S. aureus* → 21 dias; lock ou fio-guia → 14 dias; *Candida* → 14 dias). A faixa "Duração" saiu; com ela saiu o
+subtítulo "com ou sem troca do cateter".
 
 ### Manter, trocar ou retirar o cateter
 - **A qualquer momento** (alarme ligado à caixa de entrada, à direita; texto na ordem "Se instável, sepse ou infecção à distância" → "Retirar o cateter" → "a qualquer momento", decidido 2026-10-29): **instável, sepse ou infecção à distância → retirar o
   cateter**. (IDSA 2009 rec. 32, 59.) O alarme não espera as 72 h (confirmado pela equipe 2026-10-29).
-- **Em 72 h** (qualquer germe e também hemocultura negativa): **febre persistente ou hemocultura positiva?**
-  Sim → **trocar por fio-guia** (regra conservadora da equipe; IDSA rec. 33, 57, 66). Não → **manter com lock**.
+- **Em 72 h, demais germes** (coagulase-negativo, gram-negativo, outro germe, hemocultura negativa): **febre persistente ou
+  hemocultura positiva?** Sim → **trocar por fio-guia** (regra conservadora da equipe; IDSA rec. 33, 57, 66). Não → **manter com lock**.
+- **Em 72 h, *S. aureus*** (equipe 2026-10-30, feedback item 2; faixa própria no card, à esquerda, fundo coral):
+  **febre ou HC positiva?** Não → **trocar por fio-guia** (sem tentar manter com lock). Sim → **retirar o cateter**.
+  Base: KDOQI 2019 Fig. 25.1 (no *S. aureus*, fio-guia abaixo de "resolução em 2-3 dias"); IDSA 2009 rec. 59 (B-II: sintomas
+  resolvidos em 2-3 dias → fio-guia; persistentes → retirar); Aslam 2014 (fio-guia cura mais que lock no *S. aureus*, OR 4,72).
+  **Divergência:** IDSA 2009 rec. 57 (A-II) manda retirar sempre no *S. aureus*; a única referência da rec. 57 é Maya 2007,
+  que mostra a falha do lock e não compara retirar com fio-guia.
 - *Candida*: retirar sempre (no ramo da cultura).
 - A troca não muda a duração (ver Duração).
 
@@ -85,8 +100,8 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 ## 2. FAV e prótese
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 2 semanas; **bacteremia por *S. aureus*: 3 semanas** | Doppler inicial |
-| Prótese | Vanco + cefta empírico → ajustar pela cultura | **4 semanas em qualquer infecção** (inclusive *S. aureus* e após cirurgia) | Doppler semanal. Pergunta no ramo: "Infecção extensa, abscesso, exposta ou sangrando?" Sim → **cirurgia vascular para retirada** → 4 semanas; Não → 4 semanas. **Todo ramo termina em duração** |
+| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 14 dias; **bacteremia por *S. aureus*: 21 dias** (em dias desde 2026-10-30) | Doppler inicial |
+| Prótese | Vanco + cefta empírico → ajustar pela cultura | **28 dias em qualquer infecção** (inclusive *S. aureus* e após cirurgia) | Doppler semanal. Pergunta no ramo: "Infecção extensa, abscesso, exposta ou sangrando?" Sim → **cirurgia vascular para retirada** → 28 dias; Não → 28 dias. **Todo ramo termina em duração** |
 
 Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%).
 Regra da equipe (2026-10-29): **3 semanas no *S. aureus* só na FAV nativa; na prótese qualquer infecção é 4 semanas.**
@@ -235,7 +250,15 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 
 ## Feedback da equipe de 2026-10-30 (8 sugestões, decididas uma por vez)
 1. **Rótulos "Estafilo oxa-sensível" e "Estafilo oxa-resistente"** (sugestão da equipe; aprovado 2026-10-30). Só nome,
-   conduta igual (oxa-sensível → cefazolina). Vale nas setas das folhas 1 e 2.
+   conduta igual (oxa-sensível → cefazolina). Vale nas setas das folhas 1 e 2. Na folha 1 o leque foi refeito no item 2.
+2. **Retirar cateter em *S. aureus*, *Pseudomonas* e *Candida*.** Decidido germe a germe.
+   - ***S. aureus* (aprovado 2026-10-30, "gostei"):** conservador. Faixa própria; em 72 h, melhorou → trocar por fio-guia;
+     não melhorou → retirar. Ver "Manter, trocar ou retirar o cateter".
+   - ***Pseudomonas*:** pendente (discutir separado).
+   - *Candida*: já retirava.
+   Folha 1 refeita (equipe 2026-10-30): sem hexágono "Qual germe/Resultado da hemocultura"; do "Colher 2 hemoculturas"
+   saem 7 caixas de situação: *S. aureus* oxa-sensível, *S. aureus* oxa-resistente, Coagulase-negativo, Gram-negativo,
+   Outro germe, Hemocultura negativa (penúltimo), *Candida* (último).
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

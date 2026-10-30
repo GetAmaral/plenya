@@ -43,10 +43,12 @@ qualquer momento do fluxo.
 
 O resultado da hemocultura muda o tratamento em quase todos os casos, e cada resposta possível tem seu ramo.
 
-Quando cresce estafilococo sensível à oxacilina, a vancomicina é trocada por cefazolina e a ceftazidima é suspensa. A
-IDSA recomenda essa troca no *S. aureus* sensível, com a cefazolina dada após a diálise [1]. A equipe estendeu a regra ao
-estafilococo coagulase-negativo sensível. Quando o estafilococo é resistente, a vancomicina continua e a ceftazidima sai,
-como no empírico recomendado e no descalonamento pela cultura [1]. No gram-negativo, a vancomicina sai e o antibiótico segue o antibiograma [1].
+O *S. aureus* tem caminho próprio no card, porque a conduta com o cateter é diferente da dos demais germes (seção 1.3).
+Quando ele é sensível à oxacilina, a vancomicina é trocada por cefazolina e a ceftazidima é suspensa; a IDSA recomenda
+essa troca no *S. aureus* sensível, com a cefazolina dada após a diálise [1]. Quando é resistente, a vancomicina continua
+e a ceftazidima sai, como no empírico recomendado e no descalonamento pela cultura [1]. No estafilococo
+coagulase-negativo vale a mesma regra pela oxacilina: cefazolina se sensível, vancomicina se resistente; a extensão da
+cefazolina ao coagulase-negativo é decisão da equipe. No gram-negativo, a vancomicina sai e o antibiótico segue o antibiograma [1].
 
 Germes fora desses grupos, ou culturas polimicrobianas, são ajustados pelo antibiograma. É o caso do enterococo, para o
 qual a IDSA recomenda ampicilina quando sensível e vancomicina quando resistente à ampicilina, por 7 a 14 dias na
@@ -77,9 +79,18 @@ tratadas com lock por três semanas, a cura foi de 41%, e a complicação grave 
 persistente contra 1,4% dos demais [13]. A febre que não cede é, portanto, o sinal de que o lock falhou, e o algoritmo
 do KDOQI indica a retirada ou a troca por fio-guia na bacteremia ou febre persistentes [2].
 
-Daí a regra do card. Em 72 horas, se o paciente ainda tem febre ou a hemocultura de controle continua positiva, o
-cateter é trocado por fio-guia, qualquer que seja o germe. Se a febre cedeu e a hemocultura negativou, o cateter fica e
-o lock continua. A troca não reinicia a contagem do tratamento.
+Daí as duas regras do card, decididas em 72 horas. Nos demais germes, e também na hemocultura negativa, se o paciente
+ainda tem febre ou a hemocultura de controle continua positiva, o cateter é trocado por fio-guia; se a febre cedeu e a
+hemocultura negativou, o cateter fica e o lock continua.
+
+No *S. aureus*, o cateter não é mantido. Se em 72 horas a febre cedeu e a hemocultura negativou, o cateter é trocado por
+fio-guia; se a febre ou a bacteremia persistem, o cateter é retirado. É o desenho do algoritmo do KDOQI, que no *S. aureus*
+põe a retirada ou a troca por fio-guia depois da resolução da febre e da bacteremia em 2 a 3 dias [2], e da IDSA, que
+admite o fio-guia quando os sintomas se resolvem em 2 a 3 dias e manda retirar quando persistem [1]. A troca por
+fio-guia é também a estratégia que mais curou o *S. aureus* na meta-análise [11]. A IDSA vai além e manda retirar sempre
+o cateter infectado por *S. aureus*, deixando o fio-guia para quem não tem outro sítio [1]; essa recomendação tem a nota
+A-II, mas a única referência que a sustenta é o estudo do lock citado acima [13], que mostra a falha de manter o cateter
+e não compara a retirada com a troca por fio-guia. A troca, em qualquer germe, não reinicia a contagem do tratamento.
 
 ### 1.4 Lock de antibiótico
 
@@ -87,7 +98,7 @@ Quando o cateter fica, o lúmen precisa ser tratado, porque o biofilme protege a
 lock das unidades (vancomicina 5 mg/ml, 1 ml; ceftazidima 5 mg/ml, 0,5 ml; heparina 5.000 UI/ml, 0,5 ml; soro fisiológico
 até completar o volume da via) reproduz o protocolo publicado pelo grupo de Birmingham, de onde vêm os dados de Maya
 citados acima [14]. Ele é instilado ao fim de cada sessão, como recomenda a IDSA [1]. A IDSA fala em 10 a 14 dias; as
-unidades mantêm o lock durante todo o tratamento, inclusive nas 3 semanas do *S. aureus*.
+unidades mantêm o lock durante todo o tratamento, inclusive nos 21 dias do *S. aureus*.
 
 ### 1.5 Hemoculturas de controle
 
@@ -100,8 +111,8 @@ tratamento, e não no último dia [1]; a equipe decidiu colher no fim.
 ### 1.6 Duração do tratamento
 
 O prazo conta da primeira hemocultura negativa, e não da troca do cateter, como define a IDSA [1]. Para gram-negativos,
-estafilococo coagulase-negativo e demais germes, e quando a hemocultura vem negativa desde o início, o tratamento é de
-14 dias, o prazo do algoritmo do KDOQI para o coagulase-negativo e o gram-negativo [2]. A IDSA dá 7 a 14 dias no
+estafilococo coagulase-negativo e demais germes, e quando a hemocultura vem negativa desde o início (a primeira
+negativa é a do início), o tratamento é de 14 dias após a hemocultura negativa, o prazo do algoritmo do KDOQI para o coagulase-negativo e o gram-negativo [2]. A IDSA dá 7 a 14 dias no
 gram-negativo, 10 a 14 dias no coagulase-negativo com cateter mantido e lock, e 5 a 7 dias no coagulase-negativo com
 cateter retirado [1]; neste último caso, a equipe manteve 14 dias. Na *Candida* também são 14 dias após a primeira hemocultura negativa, como recomenda a
 IDSA [3].
@@ -110,19 +121,19 @@ O *S. aureus* é o ponto de maior divergência entre as fontes. A IDSA 2009 pedi
 critérios estritos [1]. O consenso IDSA/ESCMID de 2026 mudou a lógica: em vez de classificar a bacteremia em complicada
 ou não complicada, estratifica o risco e propõe 14 dias tanto no baixo risco quanto no risco aumentado, sempre que a
 investigação não encontra foco profundo ou metastático, contados da negativação da cultura ou do controle do foco, o que
-vier depois; diabetes e hemodiálise não estão na lista de fatores de risco aumentado [4]. As unidades adotaram 3 semanas,
-com lock ou após a troca. Com lock, é o prazo usado no protocolo de lock em *S. aureus* na hemodiálise [13, 14], no qual o
-foco não foi removido. Após a troca, as 3 semanas são decisão da equipe.
+vier depois; diabetes e hemodiálise não estão na lista de fatores de risco aumentado [4]. As unidades adotaram 21 dias
+após a hemocultura negativa, depois da troca por fio-guia ou da retirada. É o prazo do protocolo de lock em *S. aureus* na
+hemodiálise [13, 14], no qual o foco não foi removido; aplicado depois da troca ou da retirada, é decisão da equipe.
 
-A endocardite é tratada por 4 semanas na valva nativa e 6 na protética. A diretriz europeia indica 4 a 6 semanas na
+A endocardite é tratada por 28 dias na valva nativa e 42 na protética. A diretriz europeia indica 4 a 6 semanas na
 valva nativa por estafilococo, sensível ou resistente, e no mínimo 6 semanas na protética [5]. Todo paciente com *S. aureus* faz
 ecocardiograma [4].
 
 ### 1.7 Troca e novo acesso
 
 A troca por falha só é feita depois de pelo menos 72 horas de antibiótico. Na falha com sintomas persistentes, a IDSA
-manda retirar o cateter; a troca por fio-guia é admitida quando os sintomas se resolvem em 2 a 3 dias [1]. As unidades
-trocam por fio-guia também na falha (seção 1.3). Um novo cateter de longa permanência só é implantado depois de
+manda retirar o cateter; a troca por fio-guia é admitida quando os sintomas se resolvem em 2 a 3 dias [1]. Nos germes
+que não o *S. aureus*, as unidades trocam por fio-guia também na falha (seção 1.3); no *S. aureus*, a falha leva à retirada. Um novo cateter de longa permanência só é implantado depois de
 hemocultura negativa [1]; as unidades esperam 72 horas. Quando o cateter foi retirado por hemocultura positiva, a equipe
 tenta manter o paciente 72 horas sem acesso antes de implantar outro. O KDOQI lista o período sem cateter como opção
 [2], mas nenhuma das diretrizes lidas fixa prazo em horas; os 72 horas são da equipe. Sempre se procuram outros focos:
@@ -187,9 +198,9 @@ mantém a prótese com antibiótico e Doppler semanal, exceto na *Candida*, em q
 
 O KDOQI não fixa prazo: a duração ideal depende das circunstâncias do paciente e da extensão da infecção, e a infecção
 extensa, que envolve artéria e veia, deve ser tratada por 6 semanas ou mais, como a endocardite [2]. A fístula nativa
-resolve com antibiótico isolado com mais frequência [20], e as unidades tratam por 2 semanas, ou 3 semanas no *S. aureus*.
-Na prótese, qualquer infecção é tratada por 4 semanas, também depois da cirurgia. Esses prazos são da equipe; nenhuma
-das fontes lidas fixa número de semanas para a fístula ou para a prótese. Todo *S. aureus* faz
+resolve com antibiótico isolado com mais frequência [20], e as unidades tratam por 14 dias, ou 21 dias no *S. aureus*.
+Na prótese, qualquer infecção é tratada por 28 dias, também depois da cirurgia. Esses prazos são da equipe; nenhuma
+das fontes lidas fixa prazo para a fístula ou para a prótese. Todo *S. aureus* faz
 ecocardiograma [4].
 
 ## 3. Infecção urinária
@@ -292,7 +303,8 @@ horas [4]; e a imagem para confirmar a pneumonia [7, 8].
 ## 8. Onde o protocolo se afasta da diretriz ou da bula
 
 O protocolo é deliberadamente conservador com o acesso vascular. Troca por fio-guia o cateter que a IDSA mandaria
-retirar na bacteremia persistente [1], mantém o cateter na tunelite, que a IDSA e a série canadense mandariam retirar
+retirar na bacteremia persistente [1]; no *S. aureus*, troca por fio-guia o cateter do paciente que melhorou em 72 horas,
+onde a IDSA manda retirar sempre (recomendação A-II apoiada num único estudo de lock) [1, 13], e retira só na falha; mantém o cateter na tunelite, que a IDSA e a série canadense mandariam retirar
 [1, 16], e mantém a prótese infectada por *S. aureus*
 quando não há infecção extensa, embora o KDOQI lembre que a prótese raramente se cura só com antibiótico [2]. No cateter
 e na tunelite, o motivo é preservar o acesso do paciente com veias esgotadas; na prótese, é decisão da equipe.
@@ -304,7 +316,7 @@ IDSA [1].
 As demais são decisões clínicas da equipe: vancomicina e ceftazidima mantidas com hemocultura negativa, que a IDSA e o
 KDOQI suspenderiam [1, 2]; 14 dias no coagulase-negativo com cateter retirado, contra 5 a 7 da IDSA [1]; ceftazidima
 como empírico da tunelite, em vez da cefalosporina de primeira geração das diretrizes de diálise peritoneal [15, 18];
-prazos da fístula e da prótese sem número fixado nas fontes [2]; 3 semanas no *S. aureus*, entre os 14 dias do consenso de 2026 e as 4 a 6
+prazos da fístula e da prótese sem número fixado nas fontes [2]; 21 dias no *S. aureus*, entre os 14 dias do consenso de 2026 e as 4 a 6
 semanas da IDSA 2009 [1, 4]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite e vancomicina isolada por 14 dias na celulite grave, contra os 5 dias e a associação da IDSA [6];
 7 dias na infecção urinária também no homem, contra os 14 da diretriz europeia [21], e amicacina como alternativa, que a
 IDSA 2025 não prefere [23]; 5 dias na pneumonia não grave, contra menos de 5 da ATS 2025 [8]; ceftazidima 2 g antes do intervalo longo, que não está na bula [17];

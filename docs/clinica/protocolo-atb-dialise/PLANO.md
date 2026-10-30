@@ -476,6 +476,45 @@ febre sem foco = suspeitar.
 - **Sem fonte primária encontrada:** os "72 h" para novo permcath após hemocultura negativa e o "tentar 72 h sem
   acesso"; durações numéricas da FAV e da prótese; Doppler seriado no seguimento. CDC 2011 (curativos) não acessível.
 
+### Feedback da equipe 2026-10-30, item 2: retirar o cateter no *S. aureus* (leituras e decisão)
+
+**Decisão (equipe 2026-10-30, "quero ser conservador, trocar por guia e retirar só se quadro mais grave"; mock aprovado
+"gostei"):** o *S. aureus* sai do leque comum e tem faixa própria. Em 72 h: melhorou → **trocar por fio-guia** (sem tentar
+manter com lock); febre ou HC positiva → **retirar o cateter**. Instável, sepse ou infecção à distância → retirar a qualquer
+momento (alarme já existente). *Pseudomonas*: discutir separado (pendente). Substitui, só para o *S. aureus*, o "tentar lock"
+de 2026-10-29.
+
+Fontes lidas (resumo no PubMed, salvo indicação; Aslam e Funalleras sem acesso ao texto completo):
+- **IDSA 2009 rec. 57 (A-II), texto primário PMC4039170:** "The infected catheter should always be removed for patients with
+  hemodialysis CRBSI due to S. aureus, Pseudomonas species, or Candida species... If absolutely no alternative sites are
+  available for catheter insertion, then exchange the infected catheter over a guidewire B-II". **A única referência do A-II
+  é a 115 = Maya 2007** (estudo do lock). Escala da IDSA: A boa evidência; II coorte/caso-controle/não randomizado.
+- **IDSA 2009 rec. 59 (B-II):** sintomas resolvidos em 2-3 dias → fio-guia; persistentes ou infecção metastática → retirar.
+- **KDOQI 2019, Fig. 25.1 e texto (S127-S128):** no *S. aureus*, abaixo de "resolution of bacteremia/fungemia and fever in
+  2-3 days": "Remove CVC · Antibiotics x 4 weeks · Guidewire exchange*" (*se sem pus/sinais no óstio ou túnel). Texto:
+  retirada imediata com recolocação tardia em (a) instável, (b-c) febre ou bacteremia persistente 48-72 h, (d) metástase,
+  (e) *S. aureus*, *P. aeruginosa*, fungos, micobactérias, (f) túnel. Afirmação 25.2: abordagem individualizada (opinião de
+  especialista). Lock "se o cateter precisa ser salvo".
+- **KDIGO:** não tem diretriz de acesso vascular nem de infecção de cateter (lista oficial de 18 diretrizes). AKI 2012, seção
+  5.4, trata só de inserção e prevenção do cateter agudo. Controversies Conference 2019 (Chan, Kidney Int) só resumo.
+- **Maya 2007 (AJKD 50:289), 113 casos *S. aureus* com lock:** cura 41%; complicação grave 25% com febre persistente vs 1,4%;
+  "routine antibiotic lock therapy is not appropriate".
+- **Poole 2004 (NDT 19:1237):** cura com lock 87% gram-negativo, 75% *S. epidermidis*, 40% *S. aureus*.
+- **Aslam 2014 (JASN 25:2927), meta-análise, 28 estudos, 1.596 pacientes:** no *S. aureus*, fio-guia > antibiótico sistêmico
+  (OR 3,33) e > lock (OR 4,72).
+- **Fowler 2005 (CID 40:695), 324 bacteremias por *S. aureus* associadas a cateter:** não retirar o cateter → complicação
+  hematogênica (RR 2,28); dependência de hemodiálise (RR 3,84).
+- **Sychev 2011 (Semin Dial 24:239):** *S. aureus* com infecção de óstio → "prompt catheter removal is indicated".
+- **Tanriover 2000 (Kidney Int 57:2151), 69 cateteres, todos os germes:** sobrevida livre de infecção do cateter novo igual
+  com fio-guia ou retirada com recolocação tardia.
+- **Mandolfo 2020 (J Vasc Access 21:336), 40 *S. aureus*, protocolo de salvamento:** 85% salvos; decisão no 3º dia; lock
+  ≥ 4 semanas. Único estudo a favor de manter.
+- Para *Pseudomonas* (pendente): Capdevila 1993 (NDT 8:231, 13 episódios, todos curados sem retirar); Funalleras 2011
+  (CID 53:e129, 46 gram-negativos, 15 *Pseudomonas*, cura 95% com lock; população não confirmada como HD); Phillips 2023
+  (Nephrology 28:249). Nenhum estudo mostrando pior evolução mantendo o cateter.
+- **Padrão de algoritmo clínico:** Society for Medical Decision Making, "Proposal for clinical algorithm standards", Med
+  Decis Making 1992;12:149-154 (citado por MIE 1996; texto completo não acessado): situação clínica, decisão, ação, fluxo.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
