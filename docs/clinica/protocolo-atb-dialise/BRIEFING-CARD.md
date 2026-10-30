@@ -175,7 +175,7 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
   na tunelite; sem fio-guia com novo túnel; sem cultura de secreção; Hipafix/Tegaderm; hemocultura no túnel).
   **Quadro 2, FAV e Prótese, em revisão:** (1) alerta da prótese ligado ao ramo, com duração também no ramo da
   cirurgia; (2) *S. aureus* 3 semanas só na FAV nativa, prótese sempre 4 semanas: decididos. Abertos, um por vez: (3) colher hemocultura antes do antibiótico? (não está na discussão); (4) "Doppler
-  inicial" perdeu o "pelo menos" da discussão; (5) "2 semanas" × "14 dias" (só forma).
+  inicial" fica **só "Doppler inicial"**, sem "pelo menos" (decidido 2026-10-29); (5) "2 semanas" × "14 dias" (só forma).
   Depois: Infecção Urinária, Celulite, Pneumonia.
 - **Folha 3 (ficha de drogas + lock):** ainda em A4 paisagem; converter para vertical e revisar.
   Pendente lá: nota do lock "(impresso no ramo do cateter)", proposta minha.
