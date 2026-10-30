@@ -110,6 +110,7 @@ cefta) · Estafilo resistente → manter vanco (suspender cefta) · Gram-negativ
 antibiograma · Outro germe → ajustar pelo antibiograma · *Candida* → antifúngico pela cultura, suspender vanco e
 cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No card: caixa de alerta (coral) como na folha 1,
 "Antifúngico / pela cultura · suspender vanco e cefta / Prótese: retirar". *Candida* na FAV nativa: **sem conduta extra** (só antifúngico e suspender vanco e cefta; decidido 2026-10-29).
+***S. aureus* na prótese sem infecção extensa: deixa como está** (só antibiótico; retirada só pelo ramo de gravidade). Decidido pela equipe 2026-10-30 após ver KDOQI 2019 G16 ("AVG infections can rarely be treated with antibiotics alone"); registrar a divergência no texto teórico.
 **Forma (equipe 2026-10-29):** a grade de germes "ficou confusa"; **FAV e Prótese em largura inteira, no molde da
 folha 1** (leque "Qual germe?" com os ramos lado a lado). Não cabe com as outras infecções: **FAV e Prótese vira a
 folha 2 própria**; Urina, Celulite e Pneumonia vão para a folha 3 (revisão depois); drogas + lock viram folha 4.
