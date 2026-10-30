@@ -152,7 +152,7 @@ Proposta de pergunta única ("Doença pulmonar prévia ou não adere ao oral?") 
 | MRSA prévio (cultura anterior com MRSA; decidido 2026-10-29) | Clindamicina VO | 7 dias corridos | |
 | Grave | Vancomicina | 14 dias corridos | |
 
-**Proposta minha (2026-10-30), aguardando "sim":** "dias corridos" dentro das pílulas ("7 dias corridos", "14 dias corridos"), sem nota.
+**"Dias corridos" sai do card** (equipe 2026-10-30: "não precisa dias corridos"): pílulas "7 dias" e "14 dias", sem nota.
 
 No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não adere"), não como pergunta (aprovado 2026-10-29).
 
