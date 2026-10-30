@@ -75,8 +75,8 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 ### Óstio e túnel
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| Óstio | Mupirocina tópica (sem mupirocina: cefazolina) | 14 dias | Gaze + fita, sem filme transparente. Com secreção: cultura + hemocultura |
-| Tunelite | Cefazolina → MRSA prévio: vanco → *Pseudomonas* ou falha: associar ceftazidima | 14 dias | **Cateter fica** (discussão original). Hemocultura positiva ou bacteremia: seguir a folha 1. **Sem troca por fio-guia com novo túnel** (não se faz mais no serviço; removido 2026-10-29) |
+| Óstio | Mupirocina tópica (sem mupirocina: cefazolina) | 14 dias | Gaze + fita, sem filme transparente. **Sem cultura de secreção** (não se usa no serviço; removido 2026-10-29) |
+| Tunelite | Cefazolina → MRSA prévio: vanco → *Pseudomonas* ou falha: associar ceftazidima | 14 dias | **Colher hemocultura antes do antibiótico** (discussão original). **Cateter fica** (discussão original). Hemocultura positiva ou bacteremia: seguir a folha 1. **Sem troca por fio-guia com novo túnel** (não se faz mais no serviço; removido 2026-10-29) |
 
 ## 2. FAV e prótese
 | Situação | Antibiótico | Duração | Atenção |
