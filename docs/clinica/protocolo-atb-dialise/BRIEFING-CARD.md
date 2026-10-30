@@ -95,7 +95,7 @@ Urocultura + antibiograma para todos. Sem urocultura de controle.
 | Não adere ao oral | Ceftazidima EV (alternativa: amicacina EV) | 7 dias | Amicacina é ototóxica |
 
 ## 4. Pneumonia
-Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; discussão original: "sem condições sociais").
+Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; confirmado pela equipe 2026-10-29).
 
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
@@ -108,6 +108,8 @@ Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma
 |---|---|---|---|
 | Em geral, adere ao oral | Cefalexina VO | 7 dias corridos | |
 | Em geral, não adere ao oral | Cefazolina EV na sessão (decidido 2026-10-29) | 7 dias corridos | |
+
+No card, a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não adere"), não como pergunta (aprovado 2026-10-29).
 | MRSA prévio (cultura anterior com MRSA; decidido 2026-10-29) | Clindamicina VO | 7 dias corridos | |
 | Grave | Vancomicina | 14 dias corridos | |
 
