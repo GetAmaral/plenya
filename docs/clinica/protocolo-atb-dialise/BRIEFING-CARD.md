@@ -206,7 +206,8 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
    Substitui a "tunelite revisada" de 2026-10-29 (cefazolina escalonada). **Card e texto a atualizar.**
 5. **Celulite grave: MANTER vancomicina isolada 14 dias** (equipe: "mantém"). IDSA 2014: grave = vanco + pip-tazo ou
    carbapenêmico, 5 dias (estender se não melhora); registrar como divergência.
-6. ITU: homem 14 dias (EAU), amicacina não preferida e evitar FQ se uso em 12 meses (IDSA 2025): **pendente**.
+6. **ITU: MANTER como está** (equipe: "mantém assim"). Registrar divergências: homem 14 dias (EAU 2026), amicacina não
+   preferida e evitar FQ com uso nos últimos 12 meses (IDSA 2025).
 
 ## Referências no card (decidido 2026-10-30, opção "a": número elevado junto do item)
 **Regra da equipe (2026-10-30): toda decisão do card tem pelo menos uma referência.** Se a fonte diverge, a referência
