@@ -109,7 +109,7 @@ mesmos ramos da folha 1: Negativa → manter vanco + cefta · Estafilo sensível
 cefta) · Estafilo resistente → manter vanco (suspender cefta) · Gram-negativo → suspender vanco, seguir
 antibiograma · Outro germe → ajustar pelo antibiograma · *Candida* → antifúngico pela cultura, suspender vanco e
 cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No card: caixa de alerta (coral) como na folha 1,
-"Antifúngico / pela cultura · suspender vanco e cefta / Prótese: retirar". Pendente: *Candida* na FAV nativa.
+"Antifúngico / pela cultura · suspender vanco e cefta / Prótese: retirar". *Candida* na FAV nativa: **sem conduta extra** (só antifúngico e suspender vanco e cefta; decidido 2026-10-29).
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
