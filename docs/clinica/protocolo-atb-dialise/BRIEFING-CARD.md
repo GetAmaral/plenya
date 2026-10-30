@@ -11,7 +11,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 - **Molde da droga EV:** Dose → Diluição → Via → Tempo → Momento na sessão.
 - **Molde da droga VO:** Dose → Frequência → Dias de hemodiálise.
 - Doses ficam só na ficha de drogas; nas infecções aparece só o nome da droga.
-- Sem marca comercial, sem travessão, sem fonte no card (fontes ficam no documento teórico).
+- **Nomes comerciais de material são mantidos** quando a equipe usa (Hipafix, Tegaderm): é protocolo interno, não conteúdo público. Sem travessão, sem fonte no card (fontes ficam no documento teórico).
 - Ilustração só como ícone de seção (gpt-image-2.5); número e texto sempre no HTML.
 - **Sem legenda** das formas (decidido 2026-10-29).
 - **Formato: A4 vertical** (decidido 2026-10-29; começando pela folha 1).
@@ -75,7 +75,7 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 ### Óstio e túnel
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| Óstio | Mupirocina tópica (sem mupirocina: cefazolina) | 14 dias | Gaze + fita, sem filme transparente. **Sem cultura de secreção** (não se usa no serviço; removido 2026-10-29) |
+| Óstio | Mupirocina tópica (sem mupirocina: cefazolina) | 14 dias | Curativo com gaze e Hipafix (não Tegaderm), como na discussão original. **Sem cultura de secreção** (não se usa no serviço; removido 2026-10-29) |
 | Tunelite | Cefazolina → MRSA prévio: vanco → *Pseudomonas* ou falha: associar ceftazidima | 14 dias | **Colher hemocultura antes do antibiótico** (discussão original). **Cateter fica** (discussão original). Hemocultura positiva ou bacteremia: seguir a folha 1. **Sem troca por fio-guia com novo túnel** (não se faz mais no serviço; removido 2026-10-29) |
 
 ## 2. FAV e prótese
