@@ -106,7 +106,8 @@ Raio-X nos casos arrastados ou graves.
 ## 5. Celulite
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| Em geral | Cefalexina VO ou cefazolina EV | 7 dias corridos | |
+| Em geral, adere ao oral | Cefalexina VO | 7 dias corridos | |
+| Em geral, não adere ao oral | Cefazolina EV na sessão (decidido 2026-10-29) | 7 dias corridos | |
 | MRSA prévio (cultura anterior com MRSA; decidido 2026-10-29) | Clindamicina VO | 7 dias corridos | |
 | Grave | Vancomicina | 14 dias corridos | |
 
