@@ -95,7 +95,7 @@ Urocultura + antibiograma para todos. Sem urocultura de controle.
 | Não adere ao oral | Ceftazidima EV (alternativa: amicacina EV) | 7 dias | Amicacina é ototóxica |
 
 ## 4. Pneumonia
-Raio-X nos casos arrastados ou graves.
+Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; discussão original: "sem condições sociais").
 
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
