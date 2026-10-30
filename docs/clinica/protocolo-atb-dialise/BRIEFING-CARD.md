@@ -197,7 +197,8 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
    mandam suspender; registrar como divergência no texto.
 2. **Hemocultura de vigilância: MANTER no fim do tratamento** (equipe: "mantém no fim"). IDSA rec 67 pede 1 semana após o
    fim com cateter mantido; registrar como divergência.
-3. Coagulase-negativo com cateter retirado 5-7 dias (IDSA rec 75) × 14: **pendente**.
+3. **Coagulase-negativo com cateter retirado: MANTER 14 dias** (equipe: "mantém 14"). IDSA rec 75 pede 5-7 dias se retirado;
+   KDOQI Fig. 25.1 dá 14 dias; registrar como divergência da IDSA.
 4. Tunelite: retirar (IDSA, Miller) / empírico gram+ e gram- (KDOQI) × cateter fica e cefazolina: **pendente**.
 5. Celulite grave: 5 dias e vanco + pip-tazo/carbapenêmico (IDSA 2014) × vanco 14 dias: **pendente**.
 6. ITU: homem 14 dias (EAU), amicacina não preferida e evitar FQ se uso em 12 meses (IDSA 2025): **pendente**.
