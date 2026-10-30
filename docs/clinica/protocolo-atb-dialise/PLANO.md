@@ -111,6 +111,8 @@ Casos mais graves: vancomicina, 14 dias corridos
   apresentada como decidida sem confirmação explícita; a equipe informou que não se faz mais. Removida; volta a
   conduta original (cateter fica; HC positiva/bacteremia -> folha 1).
 - **Folha 1 APROVADA (2026-10-29), A4 vertical, commit f3c3f81a.**
+- **FAV/prótese vão para a folha 1 (2026-10-29, opção A da equipe):** folha 1 vira "Infecção do Acesso Vascular",
+  tronco comum e "Qual acesso?" no fim. Motivo: na discussão original FAV/prótese estão no bloco do cateter.
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
   `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.

@@ -93,7 +93,10 @@ Pedido da equipe (2026-10-29): **"*S. aureus*: 3 semanas" dentro da própria pí
 (subtítulo de "2 semanas"), não em nota. Quadro atual reprovado ("horrível"): verticalmente espremido e
 "ajustar pela cultura" sem dizer quando colher e quando repetir. **Em estudo:** a FAV/prótese usa o mesmo tronco
 da folha 1 (hemoculturas, vanco + cefta, ajuste pelo germe); na discussão original ela está dentro do bloco
-"Infecção de cateter". Decidir a estrutura antes de redesenhar.
+"Infecção de cateter". **Decidido 2026-10-29 (opção A): FAV e prótese entram na folha 1**, que passa a ser
+"Infecção do Acesso Vascular": tronco único (hemoculturas, vanco + cefta, ajuste pelo germe) e "Qual acesso?"
+no fim (cateter / FAV nativa / prótese). A folha 1 é reaberta só para isso, por decisão da equipe. Sai da folha 2.
+Pendente antes de redesenhar, um por vez: esquema de hemocultura na FAV/prótese.
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
