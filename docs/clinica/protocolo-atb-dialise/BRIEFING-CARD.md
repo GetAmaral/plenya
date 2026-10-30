@@ -176,7 +176,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 | Droga | Dose | Frequência | Dias de hemodiálise |
 |---|---|---|---|
 | Ciprofloxacino | 500 mg | 1x/dia | Após a sessão |
-| Amoxicilina-clavulanato | 500/125 mg (não usar 875 mg) | 1x/dia | +1 durante a sessão · +1 ao fim da sessão |
+| Amoxicilina-clavulanato | 500/125 mg | 1x/dia | Após a sessão (equipe 2026-10-30, opção "a": sem dose extra; substitui a bula americana) |
 | Azitromicina | 500 mg | 1x/dia | Sem ajuste (duração 3 dias no fluxo) |
 | Levofloxacino | 750 mg | 1x/dia | Sem ajuste (dose cheia; duração 5 dias no fluxo; decisão da equipe 2026-10-30) |
 | Cefalexina | 500 mg | 1x/dia | Após a sessão |
@@ -197,7 +197,8 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 - Pré-medicação com anti-histamínico antes da vancomicina.
 - Hemocultura de controle em 48 h (diretriz) vs 72 h (unidade).
 - Diretrizes pedem imagem para confirmar pneumonia (RX inviável na unidade).
-- Amoxicilina-clavulanato: bula brasileira não recomenda com ClCr < 10; dose da bula americana.
+- Amoxicilina-clavulanato: card simplificado para 500/125 mg 1x/dia após a sessão (equipe 2026-10-30). Bula americana pede
+  dose extra durante e ao fim da diálise; bula brasileira não recomenda o comprimido com ClCr < 10; não usar 875 mg.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 - Levofloxacino VO em dose cheia (750 mg/dia, 5 dias) na pneumonia com doença pulmonar prévia: decisão da equipe; bula

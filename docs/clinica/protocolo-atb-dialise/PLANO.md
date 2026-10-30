@@ -111,6 +111,9 @@ Casos mais graves: vancomicina, 14 dias corridos
   apresentada como decidida sem confirmação explícita; a equipe informou que não se faz mais. Removida; volta a
   conduta original (cateter fica; HC positiva/bacteremia -> folha 1).
 - **Folha 1 APROVADA (2026-10-29), A4 vertical, commit f3c3f81a.**
+- **Amoxicilina-clavulanato (2026-10-30), substitui o item 1 das doses finais:** 500/125 mg 1x/dia, após a sessão nos
+  dias de HD, **sem dose extra** (equipe escolheu simplificar; a linha "+1 durante +1 ao fim" estava confusa). Divergência
+  da bula americana e "não usar 875 mg" vão para o texto teórico.
 - **Levofloxacino VO (2026-10-30):** dose cheia, 750 mg 1x/dia por 5 dias (equipe: "dose normal no oral"). O EV segue
   750 mg → 500 mg a cada 48 h, 3 doses. Diverge da bula no oral; vai para o texto teórico.
 - **Estrutura do card revista (2026-10-29):** a equipe chegou a escolher juntar FAV/prótese na folha 1 e reverteu
