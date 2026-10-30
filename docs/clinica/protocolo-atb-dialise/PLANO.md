@@ -107,6 +107,9 @@ Casos mais graves: vancomicina, 14 dias corridos
 - **Duração revista pela equipe (2026-10-29), substitui o item 4:** conta sempre da hemocultura negativa,
   nunca da troca. Outros germes 14 dias; **S. aureus 3 semanas** com lock ou após troca. Candida: 14 dias
   após HC negativa (IDSA 2016), confirmado. Troca do cateter não altera o prazo.
+- **Tunelite revisada (2026-10-29):** a troca por fio-guia com novo túnel (Beathard 1999) foi proposta minha e
+  apresentada como decidida sem confirmação explícita; a equipe informou que não se faz mais. Removida; volta a
+  conduta original (cateter fica; HC positiva/bacteremia -> folha 1).
 - **Folha 1 APROVADA (2026-10-29), A4 vertical, commit f3c3f81a.**
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
