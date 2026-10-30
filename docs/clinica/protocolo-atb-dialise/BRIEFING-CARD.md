@@ -70,7 +70,7 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 | Vancomicina | 5 mg/ml | 1 ml |
 | Ceftazidima | 5 mg/ml | 0,5 ml |
 | Heparina | 5.000 UI/ml | 0,5 ml |
-| SF 0,9% | | até o volume de cada via. Nota "(impresso no ramo do cateter)": **proposta minha, a confirmar** |
+| SF 0,9% | | até o volume de cada via. Nota "(impresso no ramo do cateter)" **removida** (equipe 2026-10-30: "tira") |
 
 ### Óstio e túnel
 | Situação | Antibiótico | Duração | Atenção |
@@ -208,7 +208,7 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
   inicial" fica **só "Doppler inicial"**, sem "pelo menos" (decidido 2026-10-29); (5) "2 semanas" × "14 dias" (só forma).
   Depois: Infecção Urinária, Celulite, Pneumonia.
 - **Folha 3 (ficha de drogas + lock):** ainda em A4 paisagem; converter para vertical e revisar.
-  Pendente lá: nota do lock "(impresso no ramo do cateter)", proposta minha.
+  Nota do lock "(impresso no ramo do cateter)" removida 2026-10-30.
 
 ## Regras de processo (pedidas pela equipe)
 - **Nada entra sem "sim" explícito da equipe para aquele item.** Resposta sobre outro assunto não é aprovação.
