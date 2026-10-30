@@ -378,6 +378,32 @@ Síntese: o gatilho tem dois braços, **sistêmico** (febre, calafrio) e **local
 pele rompida ou prótese exposta, sangramento); sinal local basta, mesmo sem febre; prótese antiga/trombosada com
 febre sem foco = suspeitar.
 
+### Leituras complementares para o texto teórico (2026-10-30)
+- **KDOQI 2019, Guideline 16, rationale (texto original, p. S100-S101), literal:**
+  - "Skin organisms S aureus and Staphylococcus epidermidis account for 70% to 90% of AV access infections in the upper
+    extremity, with a higher incidence of Gram-negative organisms in lower-extremity AV accesses."
+  - "Duplex ultrasound can be used to confirm patency, interrogate the integrity of the AV access wall, confirm the
+    presence of any aneurysms/pseudoaneurysms, document the presence of fluid around the vein/nonautogenous access, and
+    help determine the extent of the infection."
+  - "Notably, AVG infections can rarely be treated with antibiotics alone because once the prosthetic material becomes
+    infected, it is almost impossible to clear the infection."
+  - "The optimal duration of antibiotic therapy depends on the patient's circumstances and extent of infection."
+  - "If the infected segment is limited, graft replacement through an uninfected field with excision of the involved
+    segment, may be possible." "Extensive AV access infections, especially AVG, require total graft excision."
+  - 16.5: "obtain cultures and sensitivities of the blood and any available infected AV access vessel/material,
+    surrounding tissue, or drainage prior to initiating antibiotic therapy" (a unidade colhe só hemoculturas; cultura de
+    secreção não aprovada).
+- **KDOQI 2019, suplemento de infecções de acesso AV** (o PDF se intitula "Supplement 2"; o guideline o lista como
+  "Supplement 4"): "AVF infections are more likely to resolve with antibiotics alone."
+- **IDSA 2009 (Mermel), texto primário PMC4039170:** enterococo: rec. 91 (A-III) ampicilina se sensível, vancomicina se
+  resistente à ampicilina; rec. 92 (C-II) papel da associação com aminoglicosídeo não resolvido; rec. 93 (C-III) 7-14 dias
+  na bacteremia não complicada; rec. 95 retirar se bacteremia > 72 h. Rec. 60 (B-II): lock após cada sessão por
+  **10-14 dias**. Rec. 44 (A-II): tunelite -> retirar o cateter, drenar se indicado, **7-10 dias** (sem bacteremia).
+- **Dados bibliográficos conferidos por busca (2026-10-30):** Pappas 2016 CID 62(4):e1-e50; Stevens 2014 CID
+  59(2):e10-e52; Szeto 2017 PDI 37:141-54; Chow 2023 PDI 43(3):201-19; ATS 2025 Jones BE et al., AJRCCM 18/07/2025,
+  doi 10.1164/rccm.202507-1692ST; IDSA/ESCMID SAB 2026 publicado 09/09/2026 (idsociety.org); Guía Española 2017,
+  Nefrología 37(Supl 1), doi 10.1016/j.nefro.2017.11.004.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.

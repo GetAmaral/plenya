@@ -209,7 +209,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
   pneumonia; 4 ficha de drogas + lock, A4 vertical). Próximo: documento teórico com referências e as divergências
   da lista "Fica fora do card".
 - **Documento teórico: `TEORICO.md` (rascunho 1, 2026-10-30)**, 38 referências numeradas. Próximo: revisão da equipe;
-  depois, números de referência no card. Refs 9, 10 e 22 lidas só por resumo.
+  depois, números de referência no card. Refs lidas só por resumo: IDSA/ESCMID 2026, ESC 2023, ATS 2025 (marcadas na lista).
 - **Folha 2 (FAV e Prótese, folha própria): APROVADA 2026-10-30** ("ok, 2 aprovada"), incluindo quadro "Atenção", faixa
   "qualquer germe, também após a cirurgia" e título "Infecção de FAV e Prótese". Não reabrir.
 - **Folha 3 (Urina, Celulite, Pneumonia): APROVADA 2026-10-30** ("Aprovado 3"). Não reabrir. Histórico: Sem caixa de sintomas (decidido 2026-10-30:
