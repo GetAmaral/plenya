@@ -192,6 +192,19 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 
 ---
 
+## Referências no card (decidido 2026-10-30, opção "a": número elevado junto do item)
+Numeração = `TEORICO.md` aprovado. Só leva número o item que o texto sustenta com aquela fonte; decisão da equipe sem
+fonte fica sem número. Rodapés: "Números: referências do documento teórico".
+- **Folha 1:** coleta + vanco/cefta 1 · retirar a qualquer momento 1 · só cefazolina 1 · suspender vanco 1 · ajustar 1 ·
+  Candida 1,3 · manter com lock 11,12 · fio-guia 1,2,11 · Candida 14 dias 3 · S. aureus 3 semanas 13,14 · endocardite 5 ·
+  troca só após 72 h 1 · novo permcath 1 · eco 4 · mupirocina 1 · cefazolina no túnel 15,16.
+- **Folha 2:** sinais no acesso 2,17 · coleta + vanco/cefta 2 · Doppler 2 · cirurgia vascular 2 · germes 1 (Candida 1,3) ·
+  sinal local basta 17 · prótese antiga 2,17 · eco 4.
+- **Folha 3:** ciprofloxacino 19 · amicacina ototóxica 20,21 · levofloxacino VO 7,23 · amoxicilina-clavulanato 7 ·
+  levofloxacino EV 23 · 5 dias 8 · raio-X 7,8.
+- **Folha 4:** vanco 35 e 15 mg/kg 9 · 10 mg/ml 24 · 90 min finais 25 · ceftazidima 1,32 · cefazolina 1,29,30 ·
+  amicacina 20 · levofloxacino 23 · ciprofloxacino 19 · azitromicina 21,35 · clindamicina 36 · lock 14.
+
 ## Fica fora do card (vai só no documento teórico)
 - Nível de vancomicina pré-diálise (15-20 mg/l), quando a unidade tiver.
 - Pré-medicação com anti-histamínico antes da vancomicina.

@@ -125,7 +125,7 @@ table.fx{table-layout:fixed}
 .al.alarm b{display:block;margin-top:.6mm;font-size:9.6pt}
 .al.strip{flex-direction:row;justify-content:flex-start;min-height:9mm;margin:-1mm 0 4mm;padding:1.8mm 4mm;font-weight:400;font-size:10pt;border-width:.6mm}
 .al.strip b{font-weight:700}
-.durband .dg2{display:grid;grid-template-columns:1.9fr 1fr 1fr;gap:4mm}
+.durband .dg2{display:grid;grid-template-columns:1.7fr 1fr 1.25fr;gap:4mm}
 .durband .drow{display:flex;flex-direction:column;align-items:center;gap:1.6mm;text-align:center}
 .durband .drow .du{align-self:center;width:42mm;flex:none;min-height:7.6mm;padding:.8mm 3.4mm}
 .durband .who2{font-size:8.8pt;font-weight:700;color:var(--pet);line-height:1.25}
@@ -162,6 +162,8 @@ table.fx{table-layout:fixed}
 .p3f .lb{margin-top:5mm}
 .p3f .ac{min-height:12mm}
 .p3stack .notes{font-size:8.8pt}
+.tt{display:inline}
+sup.rf{font-size:.6em;font-weight:700;vertical-align:super;line-height:0;margin-left:.5mm;opacity:.85;letter-spacing:.02em}
 table.p4 td{font-size:10pt;padding:2.6mm 1.5mm}
 table.p4 th{padding:1.3mm 1.5mm}
 table.p4 td.dn small{display:block;font-weight:400;color:var(--mut);font-size:8pt}
@@ -184,28 +186,28 @@ table.p4 td.dv small{white-space:normal}
 
     <div>
     <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:5.5mm;font-size:10pt">
-      <div class="n al alv" id="z" style="grid-row:1/3;grid-column:6;align-self:center"><span class="tx"><small class="lead">Se instável, sepse ou infecção à distância</small>Retirar o cateter<span class="kk">a qualquer momento</span></span></div>
+      <div class="n al alv" id="z" style="grid-row:1/3;grid-column:6;align-self:center"><span class="tx"><small class="lead">Se instável, sepse ou infecção à distância</small><span class="tt">Retirar o cateter<sup class="rf">1</sup></span><span class="kk">a qualquer momento</span></span></div>
       <div class="n st w" id="a"  style="grid-row:1;grid-column:1/6;align-self:center">Febre ou calafrio na sessão<small>paciente com cateter</small></div>
-      <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>cateter + linha venosa · lock após cada sessão</small></div>
+      <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/6"><span class="tt">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<sup class="rf">1</sup></span><small>cateter + linha venosa · lock após cada sessão</small></div>
       <div class="n dc w" id="d0" style="grid-row:3;grid-column:1/6">Hemocultura positiva?</div>
       <div class="n dc w" id="d"  style="grid-row:4;grid-column:1/6">Qual germe?</div>
       <div class="n ac" id="n1" style="grid-row:4;grid-column:6">Manter vanco + cefta</div>
-      <div class="n ac" id="e1" style="grid-row:5;grid-column:1">Só cefazolina<small>suspender vanco e cefta</small></div>
+      <div class="n ac" id="e1" style="grid-row:5;grid-column:1"><span class="tt">Só cefazolina<sup class="rf">1</sup></span><small>suspender vanco e cefta</small></div>
       <div class="n ac" id="e2" style="grid-row:5;grid-column:2">Manter vanco<small>suspender cefta</small></div>
-      <div class="n ac" id="e3" style="grid-row:5;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
-      <div class="n ac" id="e5" style="grid-row:5;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
-      <div class="n al alv" id="e4" style="grid-row:5;grid-column:5"><span class="tx">Retirar cateter<small>antifúngico pela cultura · suspender vanco e cefta</small></span></div>
+      <div class="n ac" id="e3" style="grid-row:5;grid-column:3"><span class="tt">Suspender vanco<sup class="rf">1</sup></span><small>seguir antibiograma</small></div>
+      <div class="n ac" id="e5" style="grid-row:5;grid-column:4"><span class="tt">Ajustar<sup class="rf">1</sup></span><small>pelo antibiograma</small></div>
+      <div class="n al alv" id="e4" style="grid-row:5;grid-column:5"><span class="tx">Retirar cateter<small>antifúngico pela cultura · suspender vanco e cefta<sup class="rf">1,3</sup></small></span></div>
       <div class="n dc w" id="g2" style="grid-row:6;grid-column:1/6;width:72%">Em 72 h: febre persistente ou hemocultura positiva?</div>
-      <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3;justify-self:center;width:92%">Manter o cateter com lock</div>
-      <div class="n al" id="i2" style="grid-row:7;grid-column:4/6;justify-self:center;width:92%"><span class="tx">Trocar por fio-guia</span></div>
+      <div class="n ac" id="i1" style="grid-row:7;grid-column:1/3;justify-self:center;width:92%"><span class="tt">Manter o cateter com lock<sup class="rf">11,12</sup></span></div>
+      <div class="n al" id="i2" style="grid-row:7;grid-column:4/6;justify-self:center;width:92%"><span class="tx"><span class="tt">Trocar por fio-guia<sup class="rf">1,2,11</sup></span></span></div>
     </div>
 
     <div class="durband">
       <div class="dh"><b>Duração</b><span>conta da 1ª hemocultura negativa, com ou sem troca do cateter</span></div>
       <div class="dg2">
-        <div class="drow"><span class="n du"><span class="tx">14 dias</span></span><span class="who2">Hemocultura negativa <span class="m">(do início)</span><br>Coagulase-negativo · Gram-negativo<br><i>Candida</i> · demais germes</span></div>
-        <div class="drow"><span class="n du"><span class="tx">3 semanas</span></span><span class="who2"><i>S. aureus</i></span></div>
-        <div class="drow"><span class="n du"><span class="tx">4 semanas</span></span><span class="who2">Endocardite <span class="m">(valva protética: 6)</span></span></div>
+        <div class="drow"><span class="n du"><span class="tx">14 dias</span></span><span class="who2">Hemocultura negativa <span class="m">(do início)</span><br>Coagulase-negativo · Gram-negativo<br><i>Candida</i><sup class="rf">3</sup> · demais germes</span></div>
+        <div class="drow"><span class="n du"><span class="tx">3 semanas</span></span><span class="who2"><i>S. aureus</i><sup class="rf">13,14</sup></span></div>
+        <div class="drow"><span class="n du"><span class="tx">4 semanas</span></span><span class="who2"><span class="tt">Endocardite<sup class="rf">5</sup></span> <span class="m">(valva protética: 6)</span></span></div>
       </div>
     </div>
     </div>
@@ -216,9 +218,9 @@ table.p4 td.dv small{white-space:normal}
           <div class="flow" id="fo" style="grid-template-columns:1.12fr 1fr;column-gap:3mm;row-gap:5.2mm">
             <div class="n st" id="o1" style="grid-row:1;grid-column:1">Óstio</div>
             <div class="n st" id="t1" style="grid-row:1;grid-column:2">Túnel</div>
-            <div class="n ac" id="ob" style="grid-row:2;grid-column:1">Mupirocina tópica<small>sem mupirocina: cefazolina</small></div>
+            <div class="n ac" id="ob" style="grid-row:2;grid-column:1"><span class="tt">Mupirocina tópica<sup class="rf">1</sup></span><small>sem mupirocina: cefazolina</small></div>
             <div class="n ac" id="t3" style="grid-row:2;grid-column:2">Colher hemocultura<small>cateter + periférica<br>antes do antibiótico</small></div>
-            <div class="n ac" id="t2" style="grid-row:3;grid-column:2">Cefazolina<small>MRSA prévio: vanco<br><i>Pseudomonas</i> ou falha:<br>associar ceftazidima</small></div>
+            <div class="n ac" id="t2" style="grid-row:3;grid-column:2"><span class="tt">Cefazolina<sup class="rf">15,16</sup></span><small>MRSA prévio: vanco<br><i>Pseudomonas</i> ou falha:<br>associar ceftazidima</small></div>
             <div class="n ac" id="oc2" style="grid-row:3;grid-column:1">Curativo com gaze e Hipafix<small>não usar Tegaderm</small></div>
             <div class="n du" id="od" style="grid-row:4;grid-column:1"><span class="tx">14 dias</span></div>
             <div class="n du" id="of" style="grid-row:4;grid-column:2"><span class="tx">14 dias</span></div>
@@ -241,22 +243,22 @@ table.p4 td.dv small{white-space:normal}
       <div>
         <h3>Novo Acesso</h3>
         <ul class="kv">
-          <li>Trocar por falha só após <b>72 h</b> de antibiótico</li>
-          <li>Novo permcath <b>72 h</b> após HC negativa</li>
+          <li>Trocar por falha só após <b>72 h</b><span class="tt"> de antibiótico<sup class="rf">1</sup></span></li>
+          <li>Novo permcath <b>72 h</b><span class="tt"> após HC negativa<sup class="rf">1</sup></span></li>
           <li>Retirado por HC positiva: tentar <b>72 h</b> sem acesso</li>
         </ul>
       </div>
       <div>
         <h3>Sempre</h3>
         <ul class="kv">
-          <li><b>Ecocardiograma:</b> todo <i>S.&nbsp;aureus</i></li>
+          <li><b>Ecocardiograma:</b> todo <i>S.&nbsp;aureus</i><sup class="rf">4</sup></li>
           <li><b>Procurar focos</b><br><small>acessos antigos, stent venoso, marcapasso, prótese ortopédica</small></li>
         </ul>
       </div>
       </div>
     </div>
   </div>
-  <div class="foot"><span>HC: hemocultura · Doses e lock na folha 4 · Referências no documento teórico</span><span>1/4</span></div>
+  <div class="foot"><span>HC: hemocultura · Doses e lock na folha 4 · Números: referências do documento teórico</span><span>1/4</span></div>
 </section>
 
 <!-- ======================= FOLHA 2 · FAV E PRÓTESE ======================= -->
@@ -266,22 +268,22 @@ table.p4 td.dv small{white-space:normal}
   <div class="p1body">
     <div>
     <div class="flow" id="fv" style="grid-template-columns:repeat(6,1fr);column-gap:3mm;row-gap:10mm;font-size:10pt">
-      <div class="n st w" id="vs" style="grid-row:1;grid-column:1/6">Febre ou sinais no acesso<small>vermelhidão · dor · secreção · pele rompida ou prótese exposta</small></div>
-      <div class="n ac w" id="v0" style="grid-row:2;grid-column:1/6">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<small>linha venosa + acesso periférico</small></div>
+      <div class="n st w" id="vs" style="grid-row:1;grid-column:1/6"><span class="tt">Febre ou sinais no acesso<sup class="rf">2,17</sup></span><small>vermelhidão · dor · secreção · pele rompida ou prótese exposta</small></div>
+      <div class="n ac w" id="v0" style="grid-row:2;grid-column:1/6"><span class="tt">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<sup class="rf">2</sup></span><small>linha venosa + acesso periférico</small></div>
       <div class="n st" id="vf" style="grid-row:3;grid-column:1/3;justify-self:center;width:80%">FAV nativa</div>
       <div class="n st" id="vp" style="grid-row:3;grid-column:3/6;justify-self:center;width:52%">Prótese</div>
-      <div class="n ac" id="vb" style="grid-row:4;grid-column:1/3;justify-self:center;width:80%">Doppler inicial</div>
-      <div class="n ac" id="vc" style="grid-row:4;grid-column:3/6;justify-self:center;width:52%">Doppler semanal</div>
+      <div class="n ac" id="vb" style="grid-row:4;grid-column:1/3;justify-self:center;width:80%"><span class="tt">Doppler inicial<sup class="rf">2</sup></span></div>
+      <div class="n ac" id="vc" style="grid-row:4;grid-column:3/6;justify-self:center;width:52%"><span class="tt">Doppler semanal<sup class="rf">2</sup></span></div>
       <div class="n dc w" id="vg" style="grid-row:5;grid-column:3/6;width:86%;padding:2mm 6mm">Infecção extensa, abscesso,<br>exposta ou sangrando?</div>
-      <div class="n al alv" id="vx" style="grid-row:5;grid-column:6"><span class="tx">Cirurgia vascular<small>para retirada</small></span></div>
+      <div class="n al alv" id="vx" style="grid-row:5;grid-column:6"><span class="tx"><span class="tt">Cirurgia vascular<sup class="rf">2</sup></span><small>para retirada</small></span></div>
       <div class="n dc w" id="v1" style="grid-row:6;grid-column:1/6">Hemocultura positiva?</div>
       <div class="n dc w" id="v2" style="grid-row:7;grid-column:1/6">Qual germe?</div>
       <div class="n ac" id="vn" style="grid-row:7;grid-column:6">Manter vanco + cefta</div>
-      <div class="n ac" id="ve1" style="grid-row:8;grid-column:1">Só cefazolina<small>suspender vanco e cefta</small></div>
+      <div class="n ac" id="ve1" style="grid-row:8;grid-column:1"><span class="tt">Só cefazolina<sup class="rf">1</sup></span><small>suspender vanco e cefta</small></div>
       <div class="n ac" id="ve2" style="grid-row:8;grid-column:2">Manter vanco<small>suspender cefta</small></div>
-      <div class="n ac" id="ve3" style="grid-row:8;grid-column:3">Suspender vanco<small>seguir antibiograma</small></div>
-      <div class="n ac" id="ve5" style="grid-row:8;grid-column:4">Ajustar<small>pelo antibiograma</small></div>
-      <div class="n al alv" id="ve4" style="grid-row:8;grid-column:5"><span class="tx">Antifúngico<small>pela cultura<br>suspender<br>vanco e cefta</small><b class="kp">Prótese: retirar</b></span></div>
+      <div class="n ac" id="ve3" style="grid-row:8;grid-column:3"><span class="tt">Suspender vanco<sup class="rf">1</sup></span><small>seguir antibiograma</small></div>
+      <div class="n ac" id="ve5" style="grid-row:8;grid-column:4"><span class="tt">Ajustar<sup class="rf">1</sup></span><small>pelo antibiograma</small></div>
+      <div class="n al alv" id="ve4" style="grid-row:8;grid-column:5"><span class="tx"><span class="tt">Antifúngico<sup class="rf">1,3</sup></span><small>pela cultura<br>suspender<br>vanco e cefta</small><b class="kp">Prótese: retirar</b></span></div>
     </div>
 
     <div class="durband">
@@ -306,14 +308,14 @@ table.p4 td.dv small{white-space:normal}
       <div>
         <h3>Atenção</h3>
         <ul class="kv">
-          <li><b>Sinal local basta,</b> mesmo sem febre</li>
-          <li><b>Prótese antiga ou trombosada</b><br>com febre sem foco: suspeitar</li>
-          <li><b>Ecocardiograma:</b> todo <i>S.&nbsp;aureus</i></li>
+          <li><b>Sinal local basta,</b><span class="tt"> mesmo sem febre<sup class="rf">17</sup></span></li>
+          <li><b>Prótese antiga ou trombosada</b><br><span class="tt">com febre sem foco: suspeitar<sup class="rf">2,17</sup></span></li>
+          <li><b>Ecocardiograma:</b> todo <i>S.&nbsp;aureus</i><sup class="rf">4</sup></li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="foot"><span>Doses na folha 4 · Referências no documento teórico</span><span>2/4</span></div>
+  <div class="foot"><span>Doses na folha 4 · Números: referências do documento teórico</span><span>2/4</span></div>
 </section>
 
 <!-- ======================= FOLHA 3 · OUTRAS INFECÇÕES ======================= -->
@@ -326,11 +328,11 @@ table.p4 td.dv small{white-space:normal}
       <div class="flow p3f" id="fu">
         <div class="n ac w" id="ua" style="grid-row:1;grid-column:1/4;width:56%">Colher urocultura</div>
         <div class="n dc w" id="ub" style="grid-row:2;grid-column:1/4;width:56%">Adere ao oral?</div>
-        <div class="n ac lb" id="uc" style="grid-row:3;grid-column:1">Ciprofloxacino VO</div>
+        <div class="n ac lb" id="uc" style="grid-row:3;grid-column:1"><span class="tt">Ciprofloxacino VO<sup class="rf">19</sup></span></div>
         <div class="n ac lb" id="ud" style="grid-row:3;grid-column:3">Ceftazidima EV<small>ou amicacina</small></div>
         <div class="n du" id="ue" style="grid-row:4;grid-column:2"><span class="tx">7 dias</span></div>
       </div>
-      <ul class="notes"><li><b>Ajustar</b> pelo antibiograma · <b>sem</b> urocultura de controle · <b>Amicacina</b> é ototóxica</li></ul>
+      <ul class="notes"><li><b>Ajustar</b> pelo antibiograma · <b>sem</b> urocultura de controle · <b>Amicacina</b><span class="tt"> é ototóxica<sup class="rf">20,21</sup></span></li></ul>
     </div>
 
     <div class="mini"><div class="mh"><img src="assets/pele.png" alt=""><h2>Celulite</h2></div>
@@ -349,18 +351,18 @@ table.p4 td.dv small{white-space:normal}
       <div class="flow p3f" id="fp">
         <div class="n dc w" id="pa" style="grid-row:1;grid-column:1/4;width:56%">Adere ao oral?</div>
         <div class="n dc w lb" id="pb" style="grid-row:2;grid-column:1/3;width:84%">Doença pulmonar prévia?</div>
-        <div class="n ac lb" id="pd" style="grid-row:3;grid-column:1">Levofloxacino VO</div>
-        <div class="n ac lb" id="pe" style="grid-row:3;grid-column:2">Amoxicilina-clavulanato<small>+ azitromicina VO</small></div>
-        <div class="n ac lb" id="pc" style="grid-row:3;grid-column:3">Levofloxacino EV</div>
+        <div class="n ac lb" id="pd" style="grid-row:3;grid-column:1"><span class="tt">Levofloxacino VO<sup class="rf">7,23</sup></span></div>
+        <div class="n ac lb" id="pe" style="grid-row:3;grid-column:2"><span class="tt">Amoxicilina-clavulanato<sup class="rf">7</sup></span><small>+ azitromicina VO</small></div>
+        <div class="n ac lb" id="pc" style="grid-row:3;grid-column:3"><span class="tt">Levofloxacino EV<sup class="rf">23</sup></span></div>
         <div class="n du" id="pg" style="grid-row:4;grid-column:1"><span class="tx">3 doses</span></div>
-        <div class="n du" id="ph" style="grid-row:4;grid-column:2"><span class="tx">5 dias<small>azitromicina: 3 dias</small></span></div>
+        <div class="n du" id="ph" style="grid-row:4;grid-column:2"><span class="tx"><span class="tt">5 dias<sup class="rf">8</sup></span><small>azitromicina: 3 dias</small></span></div>
         <div class="n du" id="pf" style="grid-row:4;grid-column:3"><span class="tx">3 doses</span></div>
       </div>
-      <ul class="notes"><li><b>Raio-X</b> nos casos arrastados ou graves</li></ul>
+      <ul class="notes"><li><b>Raio-X</b><span class="tt"> nos casos arrastados ou graves<sup class="rf">7,8</sup></span></li></ul>
     </div>
 
   </div>
-  <div class="foot"><span>Doses na folha 4 · Referências no documento teórico</span><span>3/4</span></div>
+  <div class="foot"><span>Doses na folha 4 · Números: referências do documento teórico</span><span>3/4</span></div>
 </section>
 
 <!-- ======================= FOLHA 4 · FICHA DE DROGAS ======================= -->
@@ -371,12 +373,12 @@ table.p4 td.dv small{white-space:normal}
   <table class="fx p4"><colgroup><col style="width:17%"><col style="width:21%"><col style="width:18%"><col style="width:13%"><col style="width:11%"><col style="width:20%"></colgroup>
     <thead><tr><th>Droga</th><th>Dose</th><th>Diluição</th><th>Via</th><th>Tempo</th><th>Momento</th></tr></thead>
     <tbody>
-    <tr><td class="dn">Vancomicina<small>ataque</small></td><td class="dv">35 mg/kg<small>mín. 2 g · máx. 3 g</small></td><td>SF: 10 mg/ml</td><td>Linha da HD</td><td>90 min</td><td>90 min finais<br>da sessão</td></tr>
-    <tr><td class="dn">Vancomicina<small>manutenção</small></td><td class="dv">15 mg/kg<small>mín. 1 g · máx. 1,5 g</small></td><td>SF: 10 mg/ml</td><td>Linha da HD</td><td>60 min</td><td>Fim de toda sessão</td></tr>
-    <tr><td class="dn">Ceftazidima</td><td class="dv">1 g<small>2 g antes do intervalo<br>de 72 h</small></td><td>SF: 100 ml</td><td>Linha da HD</td><td>30 min</td><td>Fim de toda sessão</td></tr>
-    <tr><td class="dn">Cefazolina</td><td class="dv">20 mg/kg<small>mín. 1 g · máx. 2 g</small></td><td>SF: 10 ml por g</td><td>Linha venosa</td><td>3-5 min<br>(bolus)</td><td>Fim de toda sessão</td></tr>
-    <tr><td class="dn">Amicacina</td><td class="dv">5-7,5 mg/kg</td><td>SF: 100-200 ml</td><td>EV</td><td>30-60 min</td><td>Após toda sessão</td></tr>
-    <tr><td class="dn">Levofloxacino</td><td class="dv">750 mg → 500 mg<small>3 doses, nos dias de HD</small></td><td>Bolsa pronta:<br>5 mg/ml</td><td>EV</td><td>60-90 min</td><td>Qualquer horário</td></tr>
+    <tr><td class="dn">Vancomicina<small>ataque</small></td><td class="dv"><span class="tt">35 mg/kg<sup class="rf">9</sup></span><small>mín. 2 g · máx. 3 g</small></td><td><span class="tt">SF: 10 mg/ml<sup class="rf">24</sup></span></td><td>Linha da HD</td><td>90 min</td><td>90 min finais<br><span class="tt">da sessão<sup class="rf">25</sup></span></td></tr>
+    <tr><td class="dn">Vancomicina<small>manutenção</small></td><td class="dv"><span class="tt">15 mg/kg<sup class="rf">9</sup></span><small>mín. 1 g · máx. 1,5 g</small></td><td><span class="tt">SF: 10 mg/ml<sup class="rf">24</sup></span></td><td>Linha da HD</td><td>60 min</td><td>Fim de toda sessão</td></tr>
+    <tr><td class="dn">Ceftazidima</td><td class="dv"><span class="tt">1 g<sup class="rf">1,32</sup></span><small>2 g antes do intervalo<br>de 72 h</small></td><td>SF: 100 ml</td><td>Linha da HD</td><td>30 min</td><td>Fim de toda sessão</td></tr>
+    <tr><td class="dn">Cefazolina</td><td class="dv"><span class="tt">20 mg/kg<sup class="rf">1,29,30</sup></span><small>mín. 1 g · máx. 2 g</small></td><td>SF: 10 ml por g</td><td>Linha venosa</td><td>3-5 min<br>(bolus)</td><td>Fim de toda sessão</td></tr>
+    <tr><td class="dn">Amicacina</td><td class="dv"><span class="tt">5-7,5 mg/kg<sup class="rf">20</sup></span></td><td>SF: 100-200 ml</td><td>EV</td><td>30-60 min</td><td>Após toda sessão</td></tr>
+    <tr><td class="dn">Levofloxacino</td><td class="dv"><span class="tt">750 mg → 500 mg<sup class="rf">23</sup></span><small>3 doses, nos dias de HD</small></td><td>Bolsa pronta:<br>5 mg/ml</td><td>EV</td><td>60-90 min</td><td>Qualquer horário</td></tr>
     </tbody>
   </table>
 
@@ -384,16 +386,16 @@ table.p4 td.dv small{white-space:normal}
   <table class="fx p4"><colgroup><col style="width:30%"><col style="width:22%"><col style="width:22%"><col style="width:26%"></colgroup>
     <thead><tr><th>Droga</th><th>Dose</th><th>Frequência</th><th>Dias de HD</th></tr></thead>
     <tbody>
-    <tr><td class="dn">Ciprofloxacino</td><td class="dv">500 mg</td><td>1x/dia</td><td>Após a sessão</td></tr>
+    <tr><td class="dn">Ciprofloxacino</td><td class="dv"><span class="tt">500 mg<sup class="rf">19</sup></span></td><td>1x/dia</td><td>Após a sessão</td></tr>
     <tr><td class="dn">Amoxicilina-clavulanato</td><td class="dv">500/125 mg</td><td>1x/dia</td><td>Após a sessão</td></tr>
-    <tr><td class="dn">Azitromicina</td><td class="dv">500 mg</td><td>1x/dia</td><td>Sem ajuste</td></tr>
-    <tr><td class="dn">Levofloxacino</td><td class="dv">750 mg → 500 mg</td><td>3 doses</td><td>Uma dose por dia de HD</td></tr>
+    <tr><td class="dn">Azitromicina</td><td class="dv">500 mg</td><td>1x/dia</td><td><span class="tt">Sem ajuste<sup class="rf">21,35</sup></span></td></tr>
+    <tr><td class="dn">Levofloxacino</td><td class="dv"><span class="tt">750 mg → 500 mg<sup class="rf">23</sup></span></td><td>3 doses</td><td>Uma dose por dia de HD</td></tr>
     <tr><td class="dn">Cefalexina</td><td class="dv">500 mg</td><td>1x/dia</td><td>Após a sessão</td></tr>
-    <tr><td class="dn">Clindamicina</td><td class="dv">300 mg</td><td>8/8 h</td><td>Sem ajuste</td></tr>
+    <tr><td class="dn">Clindamicina</td><td class="dv">300 mg</td><td>8/8 h</td><td><span class="tt">Sem ajuste<sup class="rf">36</sup></span></td></tr>
     </tbody>
   </table>
 
-  <div class="sec" style="margin-top:7mm">Lock <span class="note">se o cateter fica · após cada sessão · durante todo o tratamento</span></div>
+  <div class="sec" style="margin-top:7mm"><span class="tt">Lock<sup class="rf">14</sup></span> <span class="note">se o cateter fica · após cada sessão · durante todo o tratamento</span></div>
   <table class="fx p4" style="width:70%"><colgroup><col style="width:36%"><col style="width:32%"><col style="width:32%"></colgroup>
     <thead><tr><th>Componente</th><th>Concentração</th><th>Volume</th></tr></thead>
     <tbody>
@@ -403,7 +405,7 @@ table.p4 td.dv small{white-space:normal}
     <tr><td class="dn">SF</td><td>0,9%</td><td class="dv">Até completar a via</td></tr>
     </tbody>
   </table>
-  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Referências no documento teórico</span><span>4/4</span></div>
+  <div class="foot"><span>SF: soro fisiológico 0,9% · HD: hemodiálise · Números: referências do documento teórico</span><span>4/4</span></div>
 </section>
 
 <script>
