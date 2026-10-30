@@ -199,7 +199,11 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
    fim com cateter mantido; registrar como divergência.
 3. **Coagulase-negativo com cateter retirado: MANTER 14 dias** (equipe: "mantém 14"). IDSA rec 75 pede 5-7 dias se retirado;
    KDOQI Fig. 25.1 dá 14 dias; registrar como divergência da IDSA.
-4. Tunelite: retirar (IDSA, Miller) / empírico gram+ e gram- (KDOQI) × cateter fica e cefazolina: **pendente**.
+4. **Tunelite (equipe 2026-10-30, "confirma"): empírico = CEFTAZIDIMA; MRSA prévio = vancomicina + ceftazidima; 14 dias;
+   cateter fica; cefazolina SAI da tunelite.** Base: bula FDA ceftazidima (pele/partes moles por MSSA e gram-negativos) e
+   KDOQI (empírico gram+ e gram-). Divergências a registrar: IDSA rec 44 e Miller 2016 (retirar o cateter); ISPD 2023
+   (cefalosporina de 1ª geração); ceftazidima menos potente contra S. aureus in vitro (J Antimicrob Chemother 1981).
+   Substitui a "tunelite revisada" de 2026-10-29 (cefazolina escalonada). **Card e texto a atualizar.**
 5. Celulite grave: 5 dias e vanco + pip-tazo/carbapenêmico (IDSA 2014) × vanco 14 dias: **pendente**.
 6. ITU: homem 14 dias (EAU), amicacina não preferida e evitar FQ se uso em 12 meses (IDSA 2025): **pendente**.
 

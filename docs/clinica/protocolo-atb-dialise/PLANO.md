@@ -116,6 +116,9 @@ Casos mais graves: vancomicina, 14 dias corridos
   da bula americana e "não usar 875 mg" vão para o texto teórico.
 - **Levofloxacino VO (2026-10-30, revisto no mesmo dia):** igual ao EV, 750 mg → 500 mg → 500 mg nos dias de diálise,
   3 doses (equipe: "deixa levo 750 + 500 + 500 nos dias de diálise mesmo, mesmo oral"). Substitui a dose cheia 750 mg/dia.
+- **Tunelite revista (2026-10-30):** empírico ceftazidima (MRSA prévio: vanco + ceftazidima), 14 dias, cateter fica. Substitui a
+  cefazolina escalonada. Bula FDA (Tazicef) indica ceftazidima em pele/partes moles por S. aureus sensível; MIC ~8 mg/L
+  (J Antimicrob Chemother 1981;8 Suppl B:23) registrado como ressalva.
 - **Estrutura do card revista (2026-10-29):** a equipe chegou a escolher juntar FAV/prótese na folha 1 e reverteu
   ("melhor deixar separado"). Ficou: **Óstio e Túnel na folha 1**; **FAV e Prótese numa coluna inteira da folha 2**.
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
