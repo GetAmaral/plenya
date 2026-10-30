@@ -113,7 +113,10 @@ cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No car
 **Forma (equipe 2026-10-29):** a grade de germes "ficou confusa"; **FAV e Prótese em largura inteira, no molde da
 folha 1** (leque "Qual germe?" com os ramos lado a lado). Não cabe com as outras infecções: **FAV e Prótese vira a
 folha 2 própria**; Urina, Celulite e Pneumonia vão para a folha 3 (revisão depois); drogas + lock viram folha 4.
-Sem caixa de gatilho no topo (não há gatilho definido para FAV/prótese): o fluxo começa na coleta.
+**Gatilho (equipe 2026-10-30: "iniciar com sintomas"):** caixa de situação no topo, mesmos sintomas da folha 1:
+"Febre ou calafrio na sessão / paciente com FAV ou prótese". Sinais locais (hiperemia, secreção, dor) **não** entram
+sem a equipe dizer quais.
+**FAV nativa e Prótese viram caixas de situação** (equipe 2026-10-30: "tá só um textinho pequeno"), como Óstio/Túnel.
 **Ordem corrigida (2026-10-29, erro meu apontado pela equipe):** coleta + vanco/cefta → "Qual acesso?" → Doppler
 (e, na prótese, a pergunta de gravidade com alerta de cirurgia) → "Hemocultura positiva?" → germes → faixa de
 Duração (FAV nativa 2 semanas, *S. aureus* 3; prótese 4 semanas, qualquer germe, também após a cirurgia). Antes o
