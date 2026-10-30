@@ -141,7 +141,7 @@ Proposta de pergunta única ("Doença pulmonar prévia ou não adere ao oral?") 
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
 | Em geral | Amoxicilina-clavulanato + azitromicina VO | 5 dias (azitro 3 dias) | |
-| Doença pulmonar prévia | Levofloxacino VO | 3 doses | |
+| Doença pulmonar prévia | Levofloxacino VO | **5 dias** | Equipe 2026-10-30: "oral = 5 dias, na diálise 3 doses" (como na discussão original). A ficha da folha 4 (VO "48/48 h, 3 doses") precisa ser revista contra isso |
 | Não adere ao oral | Levofloxacino EV | 3 doses | Discussão original: "levofloxacino EV por 3 doses". O "ou VO na sessão" foi acréscimo meu na consolidação, sem decisão da equipe; removido 2026-10-30 (equipe: "não adere ao oral - VO??") |
 
 ## 5. Celulite
