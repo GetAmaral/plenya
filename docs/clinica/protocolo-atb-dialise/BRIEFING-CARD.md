@@ -108,7 +108,8 @@ das hemoculturas entra na coluna da FAV. "Ajustar pelo germe (folha 1)" como sub
 mesmos ramos da folha 1: Negativa → manter vanco + cefta · Estafilo sensível → só cefazolina (suspender vanco e
 cefta) · Estafilo resistente → manter vanco (suspender cefta) · Gram-negativo → suspender vanco, seguir
 antibiograma · Outro germe → ajustar pelo antibiograma · *Candida* → antifúngico pela cultura, suspender vanco e
-cefta. **Proposta minha, a confirmar:** na *Candida* da FAV/prótese sai o "Retirar cateter" (não há cateter).
+cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No card: caixa de alerta (coral) como na folha 1,
+"Antifúngico / pela cultura · suspender vanco e cefta / Prótese: retirar". Pendente: *Candida* na FAV nativa.
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
