@@ -136,9 +136,7 @@ Urocultura + antibiograma para todos. Sem urocultura de controle.
 
 ## 4. Pneumonia
 Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; confirmado pela equipe 2026-10-29).
-**Proposta minha (2026-10-30, equipe: "pn não está bom"), aguardando "sim":** uma pergunta só, "Doença pulmonar prévia ou
-não adere ao oral?". Sim → Levofloxacino (VO · EV ou VO na sessão se não adere), 3 doses. Não → amoxicilina-
-clavulanato + azitromicina VO, 5 dias (azitro 3). Mesmo conteúdo; antes o levofloxacino aparecia em duas caixas.
+Proposta de pergunta única ("Doença pulmonar prévia ou não adere ao oral?") **reprovada** 2026-10-30 ("ficou mais confuso"); volta às duas perguntas.
 
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
