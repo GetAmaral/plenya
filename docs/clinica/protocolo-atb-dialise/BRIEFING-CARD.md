@@ -254,7 +254,8 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 2. **Retirar cateter em *S. aureus*, *Pseudomonas* e *Candida*.** Decidido germe a germe.
    - ***S. aureus* (aprovado 2026-10-30, "gostei"):** conservador. Faixa própria; em 72 h, melhorou → trocar por fio-guia;
      não melhorou → retirar. Ver "Manter, trocar ou retirar o cateter".
-   - ***Pseudomonas*:** pendente (discutir separado).
+   - ***Pseudomonas* (decidido 2026-10-30, "mantém como está"):** segue o fluxo dos gram-negativos (72 h: lock ou fio-guia).
+     Divergência com IDSA rec. 57 e KDOQI (texto, item e); apoio: Poole 2004 [12], lock cura 87% dos gram-negativos.
    - *Candida*: já retirava.
    Folha 1 refeita (equipe 2026-10-30): sem hexágono "Qual germe/Resultado da hemocultura"; do "Colher 2 hemoculturas"
    saem 7 caixas de situação: *S. aureus* oxa-sensível, *S. aureus* oxa-resistente, Coagulase-negativo, Gram-negativo,

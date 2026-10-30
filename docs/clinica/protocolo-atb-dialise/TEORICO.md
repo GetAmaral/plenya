@@ -90,7 +90,8 @@ admite o fio-guia quando os sintomas se resolvem em 2 a 3 dias e manda retirar q
 fio-guia é também a estratégia que mais curou o *S. aureus* na meta-análise [11]. A IDSA vai além e manda retirar sempre
 o cateter infectado por *S. aureus*, deixando o fio-guia para quem não tem outro sítio [1]; essa recomendação tem a nota
 A-II, mas a única referência que a sustenta é o estudo do lock citado acima [13], que mostra a falha de manter o cateter
-e não compara a retirada com a troca por fio-guia. A troca, em qualquer germe, não reinicia a contagem do tratamento.
+e não compara a retirada com a troca por fio-guia. Na *Pseudomonas*, que a IDSA e o KDOQI também mandam retirar [1, 2], as unidades seguem a regra dos
+demais gram-negativos, o grupo em que o lock mais curou [12]. A troca, em qualquer germe, não reinicia a contagem do tratamento.
 
 ### 1.4 Lock de antibiótico
 
@@ -304,7 +305,7 @@ horas [4]; e a imagem para confirmar a pneumonia [7, 8].
 
 O protocolo é deliberadamente conservador com o acesso vascular. Troca por fio-guia o cateter que a IDSA mandaria
 retirar na bacteremia persistente [1]; no *S. aureus*, troca por fio-guia o cateter do paciente que melhorou em 72 horas,
-onde a IDSA manda retirar sempre (recomendação A-II apoiada num único estudo de lock) [1, 13], e retira só na falha; mantém o cateter na tunelite, que a IDSA e a série canadense mandariam retirar
+onde a IDSA manda retirar sempre (recomendação A-II apoiada num único estudo de lock) [1, 13], e retira só na falha; mantém com lock o cateter na bacteremia por *Pseudomonas*, que a IDSA e o KDOQI mandam retirar [1, 2]; mantém o cateter na tunelite, que a IDSA e a série canadense mandariam retirar
 [1, 16], e mantém a prótese infectada por *S. aureus*
 quando não há infecção extensa, embora o KDOQI lembre que a prótese raramente se cura só com antibiótico [2]. No cateter
 e na tunelite, o motivo é preservar o acesso do paciente com veias esgotadas; na prótese, é decisão da equipe.

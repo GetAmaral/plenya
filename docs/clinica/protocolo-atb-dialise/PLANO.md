@@ -509,7 +509,7 @@ Fontes lidas (resumo no PubMed, salvo indicação; Aslam e Funalleras sem acesso
   com fio-guia ou retirada com recolocação tardia.
 - **Mandolfo 2020 (J Vasc Access 21:336), 40 *S. aureus*, protocolo de salvamento:** 85% salvos; decisão no 3º dia; lock
   ≥ 4 semanas. Único estudo a favor de manter.
-- Para *Pseudomonas* (pendente): Capdevila 1993 (NDT 8:231, 13 episódios, todos curados sem retirar); Funalleras 2011
+- Para *Pseudomonas* (**decidido 2026-10-30: mantém como está**, fluxo dos gram-negativos): Capdevila 1993 (NDT 8:231, 13 episódios, todos curados sem retirar); Funalleras 2011
   (CID 53:e129, 46 gram-negativos, 15 *Pseudomonas*, cura 95% com lock; população não confirmada como HD); Phillips 2023
   (Nephrology 28:249). Nenhum estudo mostrando pior evolução mantendo o cateter.
 - **Padrão de algoritmo clínico:** Society for Medical Decision Making, "Proposal for clinical algorithm standards", Med
