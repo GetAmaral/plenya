@@ -136,6 +136,9 @@ Urocultura + antibiograma para todos. Sem urocultura de controle.
 
 ## 4. Pneumonia
 Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; confirmado pela equipe 2026-10-29).
+**Proposta minha (2026-10-30, equipe: "pn não está bom"), aguardando "sim":** uma pergunta só, "Doença pulmonar prévia ou
+não adere ao oral?". Sim → Levofloxacino (VO · EV ou VO na sessão se não adere), 3 doses. Não → amoxicilina-
+clavulanato + azitromicina VO, 5 dias (azitro 3). Mesmo conteúdo; antes o levofloxacino aparecia em duas caixas.
 
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
@@ -150,6 +153,8 @@ Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma
 | Em geral, não adere ao oral | Cefazolina EV na sessão (decidido 2026-10-29) | 7 dias corridos | |
 | MRSA prévio (cultura anterior com MRSA; decidido 2026-10-29) | Clindamicina VO | 7 dias corridos | |
 | Grave | Vancomicina | 14 dias corridos | |
+
+**Proposta minha (2026-10-30), aguardando "sim":** "dias corridos" dentro das pílulas ("7 dias corridos", "14 dias corridos"), sem nota.
 
 No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não adere"), não como pergunta (aprovado 2026-10-29).
 
