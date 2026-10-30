@@ -111,6 +111,8 @@ Casos mais graves: vancomicina, 14 dias corridos
   apresentada como decidida sem confirmação explícita; a equipe informou que não se faz mais. Removida; volta a
   conduta original (cateter fica; HC positiva/bacteremia -> folha 1).
 - **Folha 1 APROVADA (2026-10-29), A4 vertical, commit f3c3f81a.**
+- **Levofloxacino VO (2026-10-30):** dose cheia, 750 mg 1x/dia por 5 dias (equipe: "dose normal no oral"). O EV segue
+  750 mg → 500 mg a cada 48 h, 3 doses. Diverge da bula no oral; vai para o texto teórico.
 - **Estrutura do card revista (2026-10-29):** a equipe chegou a escolher juntar FAV/prótese na folha 1 e reverteu
   ("melhor deixar separado"). Ficou: **Óstio e Túnel na folha 1**; **FAV e Prótese numa coluna inteira da folha 2**.
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.

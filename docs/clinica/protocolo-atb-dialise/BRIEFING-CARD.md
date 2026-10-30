@@ -176,7 +176,7 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 | Ciprofloxacino | 500 mg | 1x/dia | Tomar após a sessão |
 | Amoxicilina-clavulanato | 500/125 mg | 1x/dia | + 1 durante e + 1 ao fim da sessão. Não usar 875 mg |
 | Azitromicina | 500 mg | 1x/dia, 3 dias | Sem ajuste (confirmado pela equipe 2026-10-29) |
-| Levofloxacino VO | 750 mg, depois 500 mg | A cada 48 h, 3 doses | Qualquer horário (não dialisa) |
+| Levofloxacino VO | **750 mg** | **1x/dia, 5 dias** | Qualquer horário (não dialisa). **Dose cheia, sem ajuste** (equipe 2026-10-30: "dose normal no oral", 750 mg 1x/dia por 5 dias confirmado). Diverge da bula (HD: 750 mg → 500 mg 48/48 h): registrar no texto teórico |
 | Cefalexina | 500 mg | 1x/dia | Tomar após a sessão |
 | Clindamicina | 300 mg | 8/8 h | Sem ajuste (dose confirmada pela equipe 2026-10-29) |
 
@@ -190,6 +190,8 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 - Amoxicilina-clavulanato: bula brasileira não recomenda com ClCr < 10; dose da bula americana.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
+- Levofloxacino VO em dose cheia (750 mg/dia, 5 dias) na pneumonia com doença pulmonar prévia: decisão da equipe; bula
+  pede 750 mg → 500 mg a cada 48 h em HD (registrar a divergência e o racional).
 
 ## Status do card (2026-10-29)
 - **Folha 2 (FAV e Prótese, folha própria): APROVADA 2026-10-30** ("ok, 2 aprovada"), incluindo quadro "Atenção", faixa
