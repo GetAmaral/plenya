@@ -48,7 +48,7 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 
 ### Manter, trocar ou retirar o cateter
 - **A qualquer momento** (alarme ligado à caixa de entrada, à direita; texto na ordem "Se instável, sepse ou infecção à distância" → "Retirar o cateter" → "a qualquer momento", decidido 2026-10-29): **instável, sepse ou infecção à distância → retirar o
-  cateter**. (IDSA 2009 rec. 32, 59.) Proposto em 2026-10-29: o alarme não espera as 72 h.
+  cateter**. (IDSA 2009 rec. 32, 59.) O alarme não espera as 72 h (confirmado pela equipe 2026-10-29).
 - **Em 72 h** (qualquer germe e também hemocultura negativa): **febre persistente ou hemocultura positiva?**
   Sim → **trocar por fio-guia** (regra conservadora da equipe; IDSA rec. 33, 57, 66). Não → **manter com lock**.
 - *Candida*: retirar sempre (no ramo da cultura).
@@ -70,7 +70,7 @@ Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (aba
 | Vancomicina | 5 mg/ml | 1 ml |
 | Ceftazidima | 5 mg/ml | 0,5 ml |
 | Heparina | 5.000 UI/ml | 0,5 ml |
-| SF 0,9% | | até o volume de cada via (impresso no ramo do cateter) |
+| SF 0,9% | | até o volume de cada via. Nota "(impresso no ramo do cateter)": **proposta minha, a confirmar** |
 
 ### Óstio e túnel
 | Situação | Antibiótico | Duração | Atenção |
@@ -101,17 +101,17 @@ Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma
 |---|---|---|---|
 | Em geral | Amoxicilina-clavulanato + azitromicina VO | 5 dias (azitro 3 dias) | |
 | Doença pulmonar prévia | Levofloxacino VO | 3 doses | |
-| Sem condição social | Levofloxacino EV ou VO na sessão | 3 doses | Mesma dose por qualquer via |
+| Não adere ao oral | Levofloxacino EV ou VO na sessão | 3 doses | Mesma dose por qualquer via |
 
 ## 5. Celulite
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
 | Em geral, adere ao oral | Cefalexina VO | 7 dias corridos | |
 | Em geral, não adere ao oral | Cefazolina EV na sessão (decidido 2026-10-29) | 7 dias corridos | |
-
-No card, a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não adere"), não como pergunta (aprovado 2026-10-29).
 | MRSA prévio (cultura anterior com MRSA; decidido 2026-10-29) | Clindamicina VO | 7 dias corridos | |
 | Grave | Vancomicina | 14 dias corridos | |
+
+No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não adere"), não como pergunta (aprovado 2026-10-29).
 
 ---
 
@@ -148,7 +148,17 @@ No card, a adesão vai como subtítulo da cefalexina ("ou cefazolina EV se não 
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 
+## Status do card (2026-10-29)
+- **Folha 1 (bacteremia por cateter): APROVADA.** Não reabrir.
+- **Folha 2 (outras infecções), A4 vertical:** quadro 1 **Óstio e Túnel discutido e corrigido** (cateter fica
+  na tunelite; sem fio-guia com novo túnel; sem cultura de secreção; Hipafix/Tegaderm; hemocultura no túnel).
+  **Próximo: quadro 2, FAV e Prótese.** Depois: Infecção Urinária, Celulite, Pneumonia.
+- **Folha 3 (ficha de drogas + lock):** ainda em A4 paisagem; converter para vertical e revisar.
+  Pendente lá: nota do lock "(impresso no ramo do cateter)", proposta minha.
+
 ## Regras de processo (pedidas pela equipe)
+- **Nada entra sem "sim" explícito da equipe para aquele item.** Resposta sobre outro assunto não é aprovação.
+  Ao propor, dizer de onde veio (fonte ou "proposta minha").
 - **Briefing primeiro, card depois.** Toda mudança de conteúdo entra aqui antes de mexer no card.
 - **Conferir contra a discussão original** (`PLANO.md`, seção "Proposta da equipe") antes de cada versão:
   nada da discussão pode sumir do card sem decisão registrada.
