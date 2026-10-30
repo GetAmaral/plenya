@@ -199,18 +199,17 @@ table.fx{table-layout:fixed}
     <div class="p1low">
       <div class="p2grid" style="grid-template-columns:1fr">
         <div class="mini"><div class="mh"><img src="assets/cateter.png" alt=""><h2>Óstio e Túnel</h2></div>
-          <div class="flow" id="fo" style="grid-template-columns:1.3fr 1fr;column-gap:3mm;row-gap:5.2mm">
+          <div class="flow" id="fo" style="grid-template-columns:1.12fr 1fr;column-gap:3mm;row-gap:5.2mm">
             <div class="n st" id="o1" style="grid-row:1;grid-column:1">Óstio</div>
             <div class="n st" id="t1" style="grid-row:1;grid-column:2">Túnel</div>
             <div class="n ac" id="ob" style="grid-row:2;grid-column:1">Mupirocina tópica<small>sem mupirocina: cefazolina</small></div>
-            <div class="n ac" id="t2" style="grid-row:2;grid-column:2">Cefazolina<small>MRSA prévio: vanco</small></div>
+            <div class="n ac" id="t3" style="grid-row:2;grid-column:2">Colher hemocultura<small>cateter + periférica<br>antes do antibiótico</small></div>
+            <div class="n ac" id="t2" style="grid-row:3;grid-column:2">Cefazolina<small>MRSA prévio: vanco<br><i>Pseudomonas</i> ou falha:<br>associar ceftazidima</small></div>
             <div class="n ac" id="oc2" style="grid-row:3;grid-column:1">Curativo com gaze e Hipafix<small>não usar Tegaderm</small></div>
             <div class="n du" id="od" style="grid-row:4;grid-column:1"><span class="tx">14 dias</span></div>
             <div class="n du" id="of" style="grid-row:4;grid-column:2"><span class="tx">14 dias</span></div>
           </div>
           <ul class="notes">
-            <li><b>Túnel:</b> colher hemocultura antes do antibiótico</li>
-            <li><b>Túnel com <i>Pseudomonas</i> ou falha:</b> associar ceftazidima</li>
             <li><b>Hemocultura positiva ou bacteremia:</b> seguir o fluxo acima</li>
           </ul>
         </div>
@@ -387,7 +386,7 @@ const EDGES = {
   f1: [["a","z","","h"],["a","b"],["b","d0"],["d0","d","Sim"],["d0","n1","Não"],
        ["d","e1","Estafilo sensível"],["d","e2","Estafilo resistente"],["d","e3","Gram-negativo"],["d","e5","Outro germe"],["d","e4","Candida"],
        ["e1","g2"],["e2","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"]],
-  fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t2"],["t2","of"]],
+  fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t3"],["t3","t2"],["t2","of"]],
   fv: [["f0","fh"],["fh","fgr"],["fgr","fa"],["fa","fb","FAV nativa"],["fa","fc","Prótese"],["fb","fd"],["fc","fg"],["fg","fe","Não"],["fg","fx","Sim"],["fx","fe"]],
   fu: [["ua","ub"],["ub","uc","Sim"],["ub","ud","Não"],["uc","ue"],["ud","ue"]],
   fp: [["pa","pb","Sim"],["pa","pc","Não"],["pb","pd","Sim"],["pb","pe","Não"],["pc","pf"],["pd","pg"],["pe","ph"]],
