@@ -111,8 +111,8 @@ Casos mais graves: vancomicina, 14 dias corridos
   apresentada como decidida sem confirmação explícita; a equipe informou que não se faz mais. Removida; volta a
   conduta original (cateter fica; HC positiva/bacteremia -> folha 1).
 - **Folha 1 APROVADA (2026-10-29), A4 vertical, commit f3c3f81a.**
-- **FAV/prótese vão para a folha 1 (2026-10-29, opção A da equipe):** folha 1 vira "Infecção do Acesso Vascular",
-  tronco comum e "Qual acesso?" no fim. Motivo: na discussão original FAV/prótese estão no bloco do cateter.
+- **Estrutura do card revista (2026-10-29):** a equipe chegou a escolher juntar FAV/prótese na folha 1 e reverteu
+  ("melhor deixar separado"). Ficou: **Óstio e Túnel na folha 1**; **FAV e Prótese numa coluna inteira da folha 2**.
 - **Processo:** briefing antes do card; conferir a discussão original a cada versão.
 - **Card v2 reprovado ("muito feio", "parece slide de aula").** Conteúdo consolidado em
   `BRIEFING-CARD.md` (fonte única do card) antes de redesenhar.
@@ -352,6 +352,26 @@ de HD) para os demais.
   em qualquer germe; instável/sepse/metástase = retirar.
   Revisto: instabilidade/sepse/metástase vira alarme **a qualquer momento** (não espera 72 h); nas 72 h fica
   uma pergunta só (febre ou HC positiva -> fio-guia). Confirmado pela equipe.
+
+### Sintomas de infecção de FAV e prótese (estudo 2026-10-30)
+Pedido da equipe: o gatilho da folha 2 copiava o do cateter ("febre ou calafrio"). Fontes lidas no texto original:
+- **KDOQI 2019, Guideline 16** (AJKD 2020;75(4 Suppl 2):S1-S164, p. S30 e S100-S101), nota da 16.3, literal:
+  "Signs of infection include erythema, skin breakdown, purulent discharge, and presence of exposed graft."
+  Rationale: "Presenting signs and symptoms range from mild cellulitis around the cannulation site to bacteremia and
+  overwhelming sepsis." "The physical examination and routine laboratory studies are usually sufficient to establish
+  the diagnosis." "Both AVF and AVG infections can lead to erosion of the skin and life-threatening hemorrhage."
+  "PET and nuclear medicine scans may help exclude an occult infection in a thrombosed, nonfunctional AVG."
+  16.2: checar o acesso e a pele ao redor antes de toda punção.
+- **KDOQI 2019, Supplement 4 (AV access infections):** na FAV a infecção se associa a aneurisma/pseudoaneurisma nos
+  pontos de punção, hematoma infectado e úlcera com ruptura da pele (punção em botoeira).
+- **MacRae JM et al., CSN Vascular Access Work Group.** Can J Kidney Health Dis 2016;3:2054358116669127 (PMC5332082):
+  sintomas "Fever, chills, rigors, malaise"; "localized cellulitis or erythema at the access site"; "Signs of graft
+  tenderness or exudate, even in the absence of fever, could indicate an underlying access infection"; apresentação
+  mais comum da prótese infectada = trajeto fistuloso drenando (45%), depois secreção purulenta (12%); considerar
+  infecção oculta da prótese (mesmo abandonada) na febre sem foco.
+Síntese: o gatilho tem dois braços, **sistêmico** (febre, calafrio) e **local** (vermelhidão, dor, secreção,
+pele rompida ou prótese exposta, sangramento); sinal local basta, mesmo sem febre; prótese antiga/trombosada com
+febre sem foco = suspeitar.
 
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.

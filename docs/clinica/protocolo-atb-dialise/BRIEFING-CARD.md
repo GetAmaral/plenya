@@ -114,8 +114,10 @@ cefta. ***Candida* na prótese: retirar a prótese** (equipe 2026-10-29). No car
 folha 1** (leque "Qual germe?" com os ramos lado a lado). Não cabe com as outras infecções: **FAV e Prótese vira a
 folha 2 própria**; Urina, Celulite e Pneumonia vão para a folha 3 (revisão depois); drogas + lock viram folha 4.
 **Gatilho (equipe 2026-10-30: "iniciar com sintomas"):** caixa de situação no topo, mesmos sintomas da folha 1:
-"Febre ou calafrio na sessão / paciente com FAV ou prótese". Sinais locais (hiperemia, secreção, dor) **não** entram
-sem a equipe dizer quais.
+"Febre ou calafrio na sessão / paciente com FAV ou prótese" (cópia da folha 1, **reprovado**: "você só copiou de
+cateter"). **Proposta minha a partir do estudo (PLANO, 2026-10-30), aguardando "sim":** gatilho "Febre ou sinais no
+acesso", com subtítulo "vermelhidão · dor · secreção · pele rompida ou prótese exposta"; nota "Sinal local basta,
+mesmo sem febre · prótese antiga ou trombosada com febre sem foco: suspeitar".
 **FAV nativa e Prótese viram caixas de situação** (equipe 2026-10-30: "tá só um textinho pequeno"), como Óstio/Túnel.
 **Ordem corrigida (2026-10-29, erro meu apontado pela equipe):** coleta + vanco/cefta → "Qual acesso?" → Doppler
 (e, na prótese, a pergunta de gravidade com alerta de cirurgia) → "Hemocultura positiva?" → germes → faixa de
