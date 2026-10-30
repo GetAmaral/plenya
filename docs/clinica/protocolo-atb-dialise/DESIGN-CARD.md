@@ -42,12 +42,12 @@ Conteúdo: `BRIEFING-CARD.md` (fonte única). Este arquivo define a forma. Estud
    de caixa por coluna.
 10. **Testar:** mostrar a quem prescreve e a quem administra (enfermagem) antes de fechar.
 
-## Estrutura proposta (A4 vertical desde 2026-10-29; antes paisagem)
+## Estrutura final (aprovada 2026-10-30, A4 vertical, 4 folhas)
 
-- **Folha 1, Bacteremia por cateter:** gatilho (febre/calafrio na sessão) → colher HC D0 → iniciar
-  vanco + cefta + lock → decisão "Cultura?" com ramos MSSA / MRSA-SCN / gram-negativo / *Candida* →
-  decisão "72 h: febre ou HC positiva?" → manter com lock ou trocar por fio-guia → pílulas de duração.
-  Faixa lateral: hemoculturas (linha do tempo D0 / 72 h / fim) e regras de troca e novo acesso.
-- **Folha 2, Outras infecções:** cinco mini-algoritmos lado a lado, mesmo molde (óstio/túnel,
-  FAV/prótese, urina, pneumonia, celulite): gatilho → 1 decisão → droga → duração.
-- **Folha 3, Ficha de drogas + lock:** tabelas no molde fixo, chips nas mesmas cores do fluxo.
+- **Folha 1, Bacteremia por cateter:** fluxo da bacteremia + faixa de duração; embaixo, Óstio e Túnel ao lado de
+  Hemoculturas / Novo Acesso / Sempre.
+- **Folha 2, Infecção de FAV e Prótese:** sintomas → coleta + vanco/cefta → FAV nativa | Prótese (Doppler; gravidade
+  com alerta de cirurgia) → hemocultura → germes → faixa de duração; Hemoculturas + Atenção.
+- **Folha 3, Outras infecções:** Urina, Celulite e Pneumonia em largura inteira, mesma grade de 3 colunas; rótulos
+  Sim/Não ao lado do trecho vertical.
+- **Folha 4, Ficha de drogas + lock:** endovenosas, orais e lock em tabelas, textos padronizados.

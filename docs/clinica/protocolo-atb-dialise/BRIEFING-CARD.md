@@ -205,6 +205,9 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
   pede 750 mg → 500 mg a cada 48 h em HD (registrar a divergência e o racional).
 
 ## Status do card (2026-10-29)
+- **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,
+  pneumonia; 4 ficha de drogas + lock, A4 vertical). Próximo: documento teórico com referências e as divergências
+  da lista "Fica fora do card".
 - **Folha 2 (FAV e Prótese, folha própria): APROVADA 2026-10-30** ("ok, 2 aprovada"), incluindo quadro "Atenção", faixa
   "qualquer germe, também após a cirurgia" e título "Infecção de FAV e Prótese". Não reabrir.
 - **Folha 3 (Urina, Celulite, Pneumonia): APROVADA 2026-10-30** ("Aprovado 3"). Não reabrir. Histórico: Sem caixa de sintomas (decidido 2026-10-30:
@@ -218,7 +221,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
   cirurgia; (2) *S. aureus* 3 semanas só na FAV nativa, prótese sempre 4 semanas: decididos. Abertos, um por vez: (3) colher hemocultura antes do antibiótico? (não está na discussão); (4) "Doppler
   inicial" fica **só "Doppler inicial"**, sem "pelo menos" (decidido 2026-10-29); (5) "2 semanas" × "14 dias" (só forma).
   Depois: Infecção Urinária, Celulite, Pneumonia.
-- **Folha 3 (ficha de drogas + lock):** ainda em A4 paisagem; converter para vertical e revisar.
+- **Folha 4 (ficha de drogas + lock): APROVADA 2026-10-30** ("Aprovada 4"), A4 vertical.
   Nota do lock "(impresso no ramo do cateter)" removida 2026-10-30.
 
 ## Regras de processo (pedidas pela equipe)
