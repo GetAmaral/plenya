@@ -421,6 +421,7 @@ febre sem foco = suspeitar.
   5 dias ou mais (forte, evidência baixa); doença pulmonar subjacente só como fator para individualizar; ultrassom
   pulmonar "acceptable diagnostic alternative to chest radiography" onde houver experiência. **CORRIGE o item 8 e a
   nota da ATS 2025 acima (lidos por resumo): os 5 dias da unidade NÃO batem com a ATS 2025; batem com a ATS/IDSA 2019.**
+  **Decisão 2026-10-30: mantidos 5 dias** ("mantém os 5"); divergência da ATS 2025 registrada no texto teórico.
 - **ATS/IDSA 2019** (PMC6812437, texto primário): "antibiotic therapy should be continued until the patient achieves
   stability and for no less than a total of 5 days"; comorbidades incluem "chronic … renal disease"; ambulatorial com
   comorbidade = amoxicilina-clavulanato ou cefalosporina + macrolídeo ou doxiciclina, ou fluoroquinolona respiratória.

@@ -213,7 +213,7 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 - Amoxicilina-clavulanato: card simplificado para 500/125 mg 1x/dia após a sessão (equipe 2026-10-30). Bula americana pede
   dose extra durante e ao fim da diálise; bula brasileira não recomenda o comprimido com ClCr < 10; não usar 875 mg.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.
-- Pneumonia: ATS 2025 sugere menos de 5 dias (mínimo 3) no não grave; unidade usa 5, como a ATS/IDSA 2019 (mínimo 5).
+- Pneumonia: ATS 2025 sugere menos de 5 dias (mínimo 3) no não grave; unidade usa 5, como a ATS/IDSA 2019 (mínimo 5). **Mantidos 5 dias** (equipe 2026-10-30: "mantém os 5").
 - IDSA/ESCMID 2026, ESC 2023 e ATS 2025 conferidas no texto primário em 2026-10-30 (PLANO).
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 
