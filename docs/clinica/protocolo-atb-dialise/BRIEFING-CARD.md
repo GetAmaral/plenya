@@ -189,6 +189,9 @@ No card: perguntas "Grave?" e depois "MRSA prévio?"; a adesão vai como subtít
 - Sulfametoxazol-trimetoprima excluído (hipercalemia; bula: ClCr < 15 não recomendado).
 
 ## Status do card (2026-10-29)
+- **Folha 2 (FAV e Prótese, folha própria): APROVADA 2026-10-30** ("ok, 2 aprovada"), incluindo quadro "Atenção", faixa
+  "qualquer germe, também após a cirurgia" e título "Infecção de FAV e Prótese". Não reabrir.
+- **Folha 3 (Urina, Celulite, Pneumonia): em revisão desde 2026-10-30.**
 - **Folha 1 (bacteremia por cateter): APROVADA.** Reaberta só para receber o quadro Óstio e Túnel (pedido da
   equipe 2026-10-29); o resto da folha não muda.
 - **Folha 2 (outras infecções), A4 vertical:** quadro 1 **Óstio e Túnel discutido e corrigido** (cateter fica
