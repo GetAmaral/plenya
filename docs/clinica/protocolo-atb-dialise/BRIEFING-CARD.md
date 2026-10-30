@@ -89,6 +89,11 @@ Regra da equipe (2026-10-29): **3 semanas no *S. aureus* só na FAV nativa; na p
 Ecocardiograma em todo *S. aureus* (regra da seção 1).
 Texto do alerta: item 7 do PLANO. Forma (pergunta + alerta ligado ao ramo): proposta minha, aprovada 2026-10-29.
 Correção 2026-10-29: a primeira versão deixou o ramo da cirurgia sem duração; a equipe apontou.
+Pedido da equipe (2026-10-29): **"*S. aureus*: 3 semanas" dentro da própria pílula de duração da FAV nativa**
+(subtítulo de "2 semanas"), não em nota. Quadro atual reprovado ("horrível"): verticalmente espremido e
+"ajustar pela cultura" sem dizer quando colher e quando repetir. **Em estudo:** a FAV/prótese usa o mesmo tronco
+da folha 1 (hemoculturas, vanco + cefta, ajuste pelo germe); na discussão original ela está dentro do bloco
+"Infecção de cateter". Decidir a estrutura antes de redesenhar.
 
 ## 3. Infecção urinária
 Urocultura + antibiograma para todos. Sem urocultura de controle.
