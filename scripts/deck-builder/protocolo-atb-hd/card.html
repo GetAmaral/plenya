@@ -136,9 +136,10 @@ table.fx{table-layout:fixed}
 .p1info{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:5mm;border-top:.35mm solid var(--rule);padding-top:4mm}
 .p1info h3{font-size:11pt;color:var(--pet);margin:0 0 1.8mm}
 .p1low{display:grid;grid-template-columns:1.32fr 1fr;align-items:start;gap:5mm;border-top:.35mm solid var(--rule);padding-top:4mm}
-.p1rail{display:flex;flex-direction:column;gap:3.2mm}
+.p1rail{display:flex;flex-direction:column;gap:1.6mm}
 .p1rail h3{font-size:11pt;color:var(--pet);margin:0 0 1.4mm}
-.p1rail .tl .tx{padding-bottom:2.1mm}
+.p1rail .tl .tx{padding-bottom:1.6mm}
+.p1rail .kv li{padding:.75mm 0}
 .p1rail .tl .tx small{display:inline;margin-left:1.2mm}
 .p1rail .tl .dot:not(.last):after{top:4.2mm}
 @media print{html,body{background:#fff}.page{margin:0}}
@@ -175,7 +176,8 @@ table.p4 td.dv small{white-space:normal}
 .germs .al.alv{gap:.6mm}
 .germs .kp,#fv .kp{display:block;margin-top:.6mm}
 .lane{background:#FCEFEA;border-radius:2.5mm;margin:-2mm -1.3mm;z-index:0}.sq{font-size:.86em;line-height:1.15;padding:1.3mm 1.5mm;min-height:0;border-radius:3mm}
-.lbl{border:.35mm solid #2C7A86;padding:.3mm 1.6mm;border-radius:1.3mm}.dq{padding:1.1mm 1.4mm;min-height:0;border-radius:3mm;gap:.9mm}.dq .tx{text-align:center}.dq small{display:block;font-weight:400;font-size:.8em;color:var(--mut)}</style>
+.lbl{border:.35mm solid #2C7A86;padding:.3mm 1.6mm;border-radius:1.3mm}.dq{padding:1.1mm 1.4mm;min-height:0;border-radius:3mm;gap:.9mm}.dq .tx{text-align:center}.dq small{display:block;font-weight:400;font-size:.8em;color:var(--mut)}#fo .n{padding:1.3mm 2.4mm;min-height:0}#fo .st{padding:1mm 2.4mm}.mini .mh{margin-bottom:1.2mm}.mini .mh img{height:6mm}
+.p1rail{font-size:.94em}.p1rail h3{margin-bottom:.8mm}</style>
 </head>
 <body>
 
@@ -186,7 +188,7 @@ table.p4 td.dv small{white-space:normal}
   <div class="p1body">
 
     <div>
-    <div class="flow" id="f1" style="grid-template-columns:repeat(6,1fr) 1.25fr;column-gap:2.4mm;row-gap:5mm;font-size:10pt">
+    <div class="flow" id="f1" style="grid-template-columns:1.36fr 1.36fr 1.12fr 1fr 0.9fr 1fr 1.4fr;column-gap:2.4mm;row-gap:5.8mm;font-size:10pt">
       <div class="n st sq" id="q1" style="grid-row:3;grid-column:1"><span><i>S. aureus</i><br>oxa-sensível</span></div>
       <div class="n st sq" id="q2" style="grid-row:3;grid-column:2"><span><i>S. aureus</i><br>oxa-resistente</span></div>
       <div class="n st sq" id="q3" style="grid-row:3;grid-column:3"><span>Coagulase-<br>negativo</span></div>
@@ -194,10 +196,10 @@ table.p4 td.dv small{white-space:normal}
       <div class="n st sq" id="q5" style="grid-row:3;grid-column:5"><span>Outro<br>germe</span></div>
       <div class="n st sq" id="q6" style="grid-row:3;grid-column:6"><span>Hemocultura<br>negativa</span></div>
       <div class="n st sq" id="q7" style="grid-row:3;grid-column:7"><span><i>Candida</i></span></div>
-      <div class="n du dq" id="u1" style="grid-row:7;grid-column:1/3;justify-self:center;width:72%"><span class="tx"><span class="tt">21 dias<sup class="rf">13,14</sup></span><small>após HC negativa</small></span></div>
-      <div class="n du dq" id="u2" style="grid-row:7;grid-column:3/7;justify-self:center;width:36%"><span class="tx"><span class="tt">14 dias<sup class="rf">1,2</sup></span><small>após HC negativa</small></span></div>
-      <div class="n du dq" id="u3" style="grid-row:7;grid-column:7;width:100%"><span class="tx"><span class="tt">14 dias<sup class="rf">3</sup></span><small>após HC negativa</small></span></div>
-      <div class="lane" style="grid-row:3/8;grid-column:1/3;margin-top:.4mm"></div>
+      <div class="n du dq" id="u1" style="grid-row:8;grid-column:1/3;justify-self:center;width:72%"><span class="tx"><span class="tt">21 dias<sup class="rf">13,14</sup></span><small>após HC negativa</small></span></div>
+      <div class="n du dq" id="u2" style="grid-row:8;grid-column:3/7;justify-self:center;width:36%"><span class="tx"><span class="tt">14 dias<sup class="rf">1,2</sup></span><small>após HC negativa</small></span></div>
+      <div class="n du dq" id="u3" style="grid-row:8;grid-column:7;width:100%;padding:1.1mm .6mm;gap:.5mm;font-size:.92em"><span class="tx"><span class="tt">14 dias<sup class="rf">3</sup></span><small>após HC negativa</small></span></div>
+      <div class="lane" style="grid-row:3/9;grid-column:1/3;margin-top:.4mm"></div>
       <div class="n al alv" id="z" style="grid-row:1/3;grid-column:7;align-self:center"><span class="tx"><small class="lead">Se instável, sepse ou infecção à distância</small><span class="tt">Retirar o cateter<sup class="rf">1</sup></span><span class="kk">a qualquer momento</span></span></div>
       <div class="n st w" id="a"  style="grid-row:1;grid-column:1/7;align-self:center"><span class="tt">Febre ou calafrio na sessão<sup class="rf">1</sup></span><small>paciente com cateter</small></div>
       <div class="n ac w" id="b"  style="grid-row:2;grid-column:1/7"><span class="tt">Colher 2 hemoculturas e iniciar vancomicina + ceftazidima<sup class="rf">1,2</sup></span><small>cateter + linha venosa · lock após cada sessão</small></div>
@@ -211,9 +213,12 @@ table.p4 td.dv small{white-space:normal}
       <div class="n dc w" id="gs" style="grid-row:5;grid-column:1/3;padding:2mm 5.5mm">Em 72 h:<br>febre ou HC positiva?</div>
       <div class="n dc w" id="g2" style="grid-row:5;grid-column:3/7;width:100%;padding:2mm 6.5mm">Em 72 h: febre persistente ou hemocultura positiva?</div>
       <div class="n ac" id="sn" style="grid-row:6;grid-column:1"><span>Trocar por</span><span class="tt" style="white-space:nowrap">fio‑guia<sup class="rf">1,2,11</sup></span></div>
-      <div class="n al alv" id="sy" style="grid-row:6;grid-column:2"><span class="tx"><span class="tt">Retirar cateter<sup class="rf">1,2</sup></span></span></div>
-      <div class="n ac" id="i1" style="grid-row:6;grid-column:3/5;justify-self:center;width:94%"><span class="tt">Manter o cateter com lock<sup class="rf">11,12</sup></span></div>
-      <div class="n ac" id="i2" style="grid-row:6;grid-column:5/7;justify-self:center;width:94%"><span class="tt">Trocar por fio-guia<sup class="rf">1,2,11</sup></span></div>
+      <div class="n dc" id="ha" style="grid-row:6;grid-column:2;padding:1.8mm 3.6mm;justify-self:end;width:80%">Acesso difícil?</div>
+      <div class="n al alv" id="sy" style="grid-row:7;grid-column:2"><span class="tx"><span class="tt">Retirar cateter<sup class="rf">1,2</sup></span></span></div>
+      <div class="n ac" id="i1" style="grid-row:7;grid-column:3/5;justify-self:center;width:94%"><span class="tt">Manter o cateter com lock<sup class="rf">11,12</sup></span></div>
+      <div class="n dc w" id="hb" style="grid-row:6;grid-column:5/7;width:100%;padding:1.6mm 5mm">Acesso difícil?</div>
+      <div class="n ac" id="i2" style="grid-row:7;grid-column:5"><span>Trocar por</span><span class="tt" style="white-space:nowrap">fio‑guia<sup class="rf">1,2,11</sup></span></div>
+      <div class="n al alv" id="ir" style="grid-row:7;grid-column:6"><span class="tx"><span class="tt">Retirar cateter<sup class="rf">1,2</sup></span></span></div>
     </div>
 
     </div>
@@ -221,7 +226,7 @@ table.p4 td.dv small{white-space:normal}
     <div class="p1low">
       <div class="p2grid" style="grid-template-columns:1fr">
         <div class="mini"><div class="mh"><img src="assets/cateter.png" alt=""><h2>Óstio e Túnel</h2></div>
-          <div class="flow" id="fo" style="grid-template-columns:1.12fr 1fr;column-gap:3mm;row-gap:5.2mm">
+          <div class="flow" id="fo" style="grid-template-columns:1.12fr 1fr;column-gap:3mm;row-gap:3.4mm">
             <div class="n st" id="o1" style="grid-row:1;grid-column:1">Óstio</div>
             <div class="n st" id="t1" style="grid-row:1;grid-column:2">Túnel</div>
             <div class="n ac" id="ob" style="grid-row:2;grid-column:1"><span class="tt">Mupirocina tópica<sup class="rf">1</sup></span><small>sem mupirocina: cefazolina</small></div>
@@ -252,6 +257,7 @@ table.p4 td.dv small{white-space:normal}
           <li>Trocar por falha só após <b>72 h</b><span class="tt"> de antibiótico<sup class="rf">1</sup></span></li>
           <li>Novo permcath <b>72 h</b><span class="tt"> após HC negativa<sup class="rf">1</sup></span></li>
           <li>Retirado por HC positiva: tentar <b>72 h</b> sem acesso<sup class="rf">2</sup></li>
+          <li><b>Acesso difícil:</b> jugulares internas e femorais estenosadas ou ocluídas<sup class="rf">2</sup></li>
         </ul>
       </div>
       <div>
@@ -425,8 +431,8 @@ document.querySelectorAll(".al").forEach(e => e.insertAdjacentHTML("afterbegin",
 const EDGES = {
   f1: [["a","z","","h"],["a","b"],["b","q1"],["b","q2"],["b","q3"],["b","q4"],["b","q5"],["b","q6"],["b","q7"],["q1","s1"],["q2","s2"],["q3","e1"],["q4","e3"],["q5","e5"],["q6","n1"],["q7","e4"],
        
-       ["s1","gs"],["s2","gs"],["gs","sn","Não"],["gs","sy","Sim"],
-       ["e1","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","i2","Sim"],["sn","u1"],["sy","u1"],["i1","u2"],["i2","u2"],["e4","u3"]],
+       ["s1","gs"],["s2","gs"],["gs","sn","Não"],["gs","ha","Sim"],["ha","sn","Sim","l"],["ha","sy","Não"],
+       ["e1","g2"],["e3","g2"],["e5","g2"],["n1","g2"],["g2","i1","Não"],["g2","hb","Sim"],["hb","i2","Sim"],["hb","ir","Não"],["sn","u1"],["sy","u1"],["i1","u2"],["i2","u2"],["ir","u2"],["e4","u3"]],
   fo: [["o1","ob"],["ob","oc2"],["oc2","od"],["t1","t3"],["t3","t2"],["t2","of"]],
   fv: [["vs","v0"],["v0","vf"],["v0","vp"],["vf","vb"],["vp","vc"],["vc","vg"],["vg","vx","Sim","h"],
        ["vb","v1"],["vg","v1","Não"],["v1","v2","Sim"],["v1","vn","Não"],
@@ -464,6 +470,8 @@ function draw(){
         const p = document.createElementNS(NS, "path");
         p.setAttribute("d", `M${lx1} ${ly}H${lx2}`); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#6F969E");
         p.setAttribute("stroke-width", "1.5"); p.setAttribute("marker-end", `url(#ar-${fid})`); svg.appendChild(p);
+        if (label) { const l = document.createElement("div"); l.className = "lbl"; l.textContent = label;
+          l.style.left = (lx1 + lx2) / 2 + "px"; l.style.top = (ly - 15) + "px"; f.appendChild(l); }
         continue;
       }
       if (kind === "h") {

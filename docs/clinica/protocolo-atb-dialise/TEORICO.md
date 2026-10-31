@@ -79,18 +79,25 @@ tratadas com lock por três semanas, a cura foi de 41%, e a complicação grave 
 persistente contra 1,4% dos demais [13]. A febre que não cede é, portanto, o sinal de que o lock falhou, e o algoritmo
 do KDOQI indica a retirada ou a troca por fio-guia na bacteremia ou febre persistentes [2].
 
-Daí as duas regras do card, decididas em 72 horas. Nos demais germes, e também na hemocultura negativa, se o paciente
-ainda tem febre ou a hemocultura de controle continua positiva, o cateter é trocado por fio-guia; se a febre cedeu e a
-hemocultura negativou, o cateter fica e o lock continua.
+Daí as duas regras do card, decididas em 72 horas. Nos demais germes, e também na hemocultura negativa, se a febre cedeu
+e a hemocultura negativou, o cateter fica e o lock continua. Se o paciente ainda tem febre ou a hemocultura de controle
+continua positiva, o cateter é retirado, como mandam a IDSA e o KDOQI na bacteremia persistente [1, 2]; a troca por
+fio-guia fica para o paciente com acesso difícil, que a IDSA admite quando não há outro sítio para o cateter [1].
 
 No *S. aureus*, o cateter não é mantido. Se em 72 horas a febre cedeu e a hemocultura negativou, o cateter é trocado por
-fio-guia; se a febre ou a bacteremia persistem, o cateter é retirado. É o desenho do algoritmo do KDOQI, que no *S. aureus*
+fio-guia; se a febre ou a bacteremia persistem, o cateter é retirado, salvo no acesso difícil, em que também é trocado
+por fio-guia. É o desenho do algoritmo do KDOQI, que no *S. aureus*
 põe a retirada ou a troca por fio-guia depois da resolução da febre e da bacteremia em 2 a 3 dias [2], e da IDSA, que
 admite o fio-guia quando os sintomas se resolvem em 2 a 3 dias e manda retirar quando persistem [1]. A troca por
 fio-guia é também a estratégia que mais curou o *S. aureus* na meta-análise [11]. A IDSA vai além e manda retirar sempre
 o cateter infectado por *S. aureus*, deixando o fio-guia para quem não tem outro sítio [1]; essa recomendação tem a nota
 A-II, mas a única referência que a sustenta é o estudo do lock citado acima [13], que mostra a falha de manter o cateter
-e não compara a retirada com a troca por fio-guia. Na *Pseudomonas*, que a IDSA e o KDOQI também mandam retirar [1, 2], as unidades seguem a regra dos
+e não compara a retirada com a troca por fio-guia. O acesso difícil é definido de forma concreta: jugulares internas e femorais estenosadas ou ocluídas. São os sítios
+preferidos do cateter na ordem do KDOQI, que lembra que eles podem ficar inacessíveis por estenose ou oclusão crônica no
+paciente com longa história de diálise e de problemas de acesso [2]. Nenhuma fonte lida fixa um número de cateteres
+prévios para essa definição.
+
+Na *Pseudomonas*, que a IDSA e o KDOQI também mandam retirar [1, 2], as unidades seguem a regra dos
 demais gram-negativos, o grupo em que o lock mais curou [12]. A troca, em qualquer germe, não reinicia a contagem do tratamento.
 
 ### 1.4 Lock de antibiótico
@@ -133,8 +140,8 @@ ecocardiograma [4].
 ### 1.7 Troca e novo acesso
 
 A troca por falha só é feita depois de pelo menos 72 horas de antibiótico. Na falha com sintomas persistentes, a IDSA
-manda retirar o cateter; a troca por fio-guia é admitida quando os sintomas se resolvem em 2 a 3 dias [1]. Nos germes
-que não o *S. aureus*, as unidades trocam por fio-guia também na falha (seção 1.3); no *S. aureus*, a falha leva à retirada. Um novo cateter de longa permanência só é implantado depois de
+manda retirar o cateter; a troca por fio-guia é admitida quando os sintomas se resolvem em 2 a 3 dias [1]. Na falha,
+as unidades retiram o cateter e só trocam por fio-guia no acesso difícil (seção 1.3). Um novo cateter de longa permanência só é implantado depois de
 hemocultura negativa [1]; as unidades esperam 72 horas. Quando o cateter foi retirado por hemocultura positiva, a equipe
 tenta manter o paciente 72 horas sem acesso antes de implantar outro. O KDOQI lista o período sem cateter como opção
 [2], mas nenhuma das diretrizes lidas fixa prazo em horas; os 72 horas são da equipe. Sempre se procuram outros focos:
@@ -303,8 +310,7 @@ horas [4]; e a imagem para confirmar a pneumonia [7, 8].
 
 ## 8. Onde o protocolo se afasta da diretriz ou da bula
 
-O protocolo é deliberadamente conservador com o acesso vascular. Troca por fio-guia o cateter que a IDSA mandaria
-retirar na bacteremia persistente [1]; no *S. aureus*, troca por fio-guia o cateter do paciente que melhorou em 72 horas,
+O protocolo é deliberadamente conservador com o acesso vascular. No *S. aureus*, troca por fio-guia o cateter do paciente que melhorou em 72 horas,
 onde a IDSA manda retirar sempre (recomendação A-II apoiada num único estudo de lock) [1, 13], e retira só na falha; mantém com lock o cateter na bacteremia por *Pseudomonas*, que a IDSA e o KDOQI mandam retirar [1, 2]; mantém o cateter na tunelite, que a IDSA e a série canadense mandariam retirar
 [1, 16], e mantém a prótese infectada por *S. aureus*
 quando não há infecção extensa, embora o KDOQI lembre que a prótese raramente se cura só com antibiótico [2]. No cateter

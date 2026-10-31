@@ -63,9 +63,11 @@ subtítulo "com ou sem troca do cateter".
 - **A qualquer momento** (alarme ligado à caixa de entrada, à direita; texto na ordem "Se instável, sepse ou infecção à distância" → "Retirar o cateter" → "a qualquer momento", decidido 2026-10-29): **instável, sepse ou infecção à distância → retirar o
   cateter**. (IDSA 2009 rec. 32, 59.) O alarme não espera as 72 h (confirmado pela equipe 2026-10-29).
 - **Em 72 h, demais germes** (coagulase-negativo, gram-negativo, outro germe, hemocultura negativa): **febre persistente ou
-  hemocultura positiva?** Sim → **trocar por fio-guia** (regra conservadora da equipe; IDSA rec. 33, 57, 66). Não → **manter com lock**.
+  hemocultura positiva?** Não → **manter com lock**. Sim → **Acesso difícil?** Sim → **trocar por fio-guia**; Não → **retirar
+  o cateter** (equipe 2026-10-30, feedback item 3; IDSA rec. 32, 33, 57, 59; KDOQI texto b-c).
 - **Em 72 h, *S. aureus*** (equipe 2026-10-30, feedback item 2; faixa própria no card, à esquerda, fundo coral):
-  **febre ou HC positiva?** Não → **trocar por fio-guia** (sem tentar manter com lock). Sim → **retirar o cateter**.
+  **febre ou HC positiva?** Não → **trocar por fio-guia** (sem tentar manter com lock). Sim → **Acesso difícil?** Sim →
+  trocar por fio-guia (mesma caixa, seta lateral); Não → **retirar o cateter** (feedback item 3).
   Base: KDOQI 2019 Fig. 25.1 (no *S. aureus*, fio-guia abaixo de "resolução em 2-3 dias"); IDSA 2009 rec. 59 (B-II: sintomas
   resolvidos em 2-3 dias → fio-guia; persistentes → retirar); Aslam 2014 (fio-guia cura mais que lock no *S. aureus*, OR 4,72).
   **Divergência:** IDSA 2009 rec. 57 (A-II) manda retirar sempre no *S. aureus*; a única referência da rec. 57 é Maya 2007,
@@ -81,6 +83,10 @@ subtítulo "com ou sem troca do cateter".
 - Troca por falha: só após 72 h de antibiótico.
 - Novo permcath: 72 h após hemocultura negativa.
 - Retirado por hemocultura positiva: tentar ficar 72 h sem acesso.
+- **Acesso difícil (equipe 2026-10-30, "mais concreto"):** jugulares internas e femorais estenosadas ou ocluídas. Base: KDOQI
+  2019 (ordem de sítios: jugular interna → jugular externa → femoral → subclávia → lombar; "the internal jugular and femoral
+  veins may become inaccessible, either due to stenosis or chronic total occlusion"); IDSA rec. 57 (fio-guia só sem sítio
+  alternativo). Sem número de cateteres prévios (nenhuma fonte fixa).
 - Procurar focos: acessos antigos, stent venoso, marcapasso, prótese ortopédica.
 
 ### Lock (sempre que o cateter fica, após cada sessão, todo o tratamento)
@@ -260,6 +266,10 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    Folha 1 refeita (equipe 2026-10-30): sem hexágono "Qual germe/Resultado da hemocultura"; do "Colher 2 hemoculturas"
    saem 7 caixas de situação: *S. aureus* oxa-sensível, *S. aureus* oxa-resistente, Coagulase-negativo, Gram-negativo,
    Outro germe, Hemocultura negativa (penúltimo), *Candida* (último).
+3. **Falha em 72 h → retirar; fio-guia só com acesso difícil** (sugestão da equipe; aprovado 2026-10-30, mock 3 "aprovado").
+   Vale nas duas faixas. Hexágono "Acesso difícil?" depois do "Sim" das 72 h. Definição em "Novo Acesso" (acima).
+   Forma: faixa do *S. aureus* mais larga; Óstio e Túnel e a coluna da direita compactados para dar espaço ao fluxo;
+   endocardite continua em "Sempre" (equipe: "pode continuar ali no sempre").
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

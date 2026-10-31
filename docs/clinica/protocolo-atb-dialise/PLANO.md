@@ -515,6 +515,19 @@ Fontes lidas (resumo no PubMed, salvo indicação; Aslam e Funalleras sem acesso
 - **Padrão de algoritmo clínico:** Society for Medical Decision Making, "Proposal for clinical algorithm standards", Med
   Decis Making 1992;12:149-154 (citado por MIE 1996; texto completo não acessado): situação clínica, decisão, ação, fluxo.
 
+### Feedback da equipe 2026-10-30, item 3: falha em 72 h e acesso difícil
+
+**Decisão (aprovada 2026-10-30):** falha em 72 h (febre ou HC positiva) → "Acesso difícil?" → Sim: fio-guia; Não: retirar.
+Vale para *S. aureus* e demais germes. Equipe pediu a variável "acesso difícil ou falha de acesso" para embasar a decisão, e
+definição concreta: **jugulares internas e femorais estenosadas ou ocluídas**.
+- IDSA 2009 rec. 32 (A-II), 33 (B-II), 59 (B-II): bacteremia ou sintomas persistentes → retirar; rec. 57 (B-II): fio-guia só
+  "if absolutely no alternative sites are available".
+- KDOQI 2019 texto S128 (b-c): febre ou bacteremia persistentes 48-72 h → retirada imediata com recolocação tardia; Fig. 25.1
+  mostra "urgent CVC removal" e "guidewire exchange" no ramo persistente. Guideline 3 (S45): ordem de sítios do cateter
+  jugular interna, jugular externa, femoral, subclávia, lombar. Guideline 22 (texto): "the internal jugular and femoral veins
+  may become inaccessible, either due to stenosis or chronic total occlusion. These patients can exhaust all of their
+  vascular access options". 25.2: cateter como "final access".
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.

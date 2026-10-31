@@ -21,7 +21,8 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Trocar por fio‑guia → [1,2,11] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al ; Aslam S, et al
 - Retirar cateter → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
 - Manter o cateter com lock → [11,12] Aslam S, et al ; Poole CV, et al
-- Trocar por fio-guia → [1,2,11] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al ; Aslam S, et al
+- Trocar por fio‑guia → [1,2,11] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al ; Aslam S, et al
+- Retirar cateter → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
 - Mupirocina tópica · sem mupirocina: cefazolina → [1] Mermel LA, Allon M, Bouza E, et al
 - Colher hemocultura · cateter + periférica · antes do antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
 - Ceftazidima · MRSA prévio: + vancomicina → [2,17] Lok CE, Huber TS, Lee T, et al ; Ceftazidima: bula brasileira (Blau, Ceftazidon) e bula FDA (
@@ -36,6 +37,7 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Trocar por falha só após 72 h de antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
 - Novo permcath 72 h após HC negativa → [1] Mermel LA, Allon M, Bouza E, et al
 - Retirado por HC positiva: tentar 72 h sem acesso → [2] Lok CE, Huber TS, Lee T, et al
+- Acesso difícil: jugulares internas e femorais estenosadas ou ocluídas → [2] Lok CE, Huber TS, Lee T, et al
 - Ecocardiograma: todo S. aureus → [4] IDSA/ESCMID
 - Endocardite: 28 dias · valva protética: 42 dias → [5] Delgado V, Ajmone Marsan N, de Waha S, et al
 - Procurar focos · acessos antigos, stent venoso, marcapasso, prótese ortopédica → [4] IDSA/ESCMID
