@@ -106,7 +106,7 @@ subtítulo "com ou sem troca do cateter".
 ## 2. FAV e prótese
 | Situação | Antibiótico | Duração | Atenção |
 |---|---|---|---|
-| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 14 dias; **bacteremia por *S. aureus*: 21 dias** (em dias desde 2026-10-30) | Doppler inicial |
+| FAV nativa | Vanco + cefta empírico → ajustar pela cultura | 14 dias; **bacteremia por *S. aureus*: 28 dias** (equipe 2026-10-30, feedback item 4) | Doppler inicial |
 | Prótese | Vanco + cefta empírico → ajustar pela cultura | **28 dias em qualquer infecção** (inclusive *S. aureus* e após cirurgia) | Doppler semanal. Pergunta no ramo: "Infecção extensa, abscesso, exposta ou sangrando?" Sim → **cirurgia vascular para retirada** → 28 dias; Não → 28 dias. **Todo ramo termina em duração** |
 
 Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%).
@@ -271,7 +271,7 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    Forma: faixa do *S. aureus* mais larga; Óstio e Túnel e a coluna da direita compactados para dar espaço ao fluxo;
    endocardite continua em "Sempre" (equipe: "pode continuar ali no sempre").
 4. ***S. aureus* 28 dias** (equipe 2026-10-30, "28", após tabela de força de evidência de 14/28/42 dias; nenhum ensaio
-   compara durações). Cateter: 21 → 28 dias. FAV nativa: pendente (o "sempre" da equipe vale para a FAV?).
+   compara durações). Cateter: 21 → 28 dias. FAV nativa: 21 → 28 dias (equipe: "28").
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

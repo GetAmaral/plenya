@@ -211,7 +211,7 @@ mantém a prótese com antibiótico e Doppler semanal, exceto na *Candida*, em q
 
 O KDOQI não fixa prazo: a duração ideal depende das circunstâncias do paciente e da extensão da infecção, e a infecção
 extensa, que envolve artéria e veia, deve ser tratada por 6 semanas ou mais, como a endocardite [2]. A fístula nativa
-resolve com antibiótico isolado com mais frequência [20], e as unidades tratam por 14 dias, ou 21 dias no *S. aureus*.
+resolve com antibiótico isolado com mais frequência [20], e as unidades tratam por 14 dias, ou 28 dias no *S. aureus*, o mesmo prazo do cateter.
 Na prótese, qualquer infecção é tratada por 28 dias, também depois da cirurgia. Esses prazos são da equipe; nenhuma
 das fontes lidas fixa prazo para a fístula ou para a prótese. Todo *S. aureus* faz
 ecocardiograma [4].

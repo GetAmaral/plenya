@@ -530,7 +530,7 @@ definição concreta: **jugulares internas e femorais estenosadas ou ocluídas**
 
 ### Feedback da equipe 2026-10-30, item 4: duração do *S. aureus*
 
-**Decisão:** 28 dias após HC negativa no cateter (equipe: "28"). FAV nativa pendente.
+**Decisão:** 28 dias após HC negativa no cateter e na FAV nativa (equipe: "28" e "28").
 - IDSA 2009 rec. 78 (B-II; refs Malanoski 1995, Fowler 2005): retirar e 4-6 semanas. Rec. 79 (B-II): ETE se for encurtar.
   Rec. 80 (A-II; ref Pigrau 2003): ≥ 14 dias só se não diabético, não imunossuprimido, **cateter retirado**, sem prótese
   intravascular, sem endocardite/tromboflebite, febre e bacteremia resolvidas em 72 h, sem metástase. Rec. 64 (B-II):

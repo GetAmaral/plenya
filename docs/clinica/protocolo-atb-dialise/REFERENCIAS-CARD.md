@@ -55,7 +55,7 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Suspender vanco · seguir antibiograma → [1] Mermel LA, Allon M, Bouza E, et al
 - Ajustar · pelo antibiograma → [1] Mermel LA, Allon M, Bouza E, et al
 - Antifúngico · pela cultura · suspender · vanco e ceftaPrótese: retirar → [1,3] Mermel LA, Allon M, Bouza E, et al ; Pappas PG, Kauffman CA, Andes DR, et al
-- 14 dias FAV nativa · S. aureus: 21 dias → [2] Lok CE, Huber TS, Lee T, et al
+- 14 dias FAV nativa · S. aureus: 28 dias → [2] Lok CE, Huber TS, Lee T, et al
 - 28 dias Prótese · qualquer germe, também após a cirurgia → [2] Lok CE, Huber TS, Lee T, et al
 - D0 · antes do antibiótico → [1] Mermel LA, Allon M, Bouza E, et al
 - 72 h · sempre, qualquer resultado → [1] Mermel LA, Allon M, Bouza E, et al
