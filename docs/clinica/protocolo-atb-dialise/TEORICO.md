@@ -106,7 +106,7 @@ Quando o cateter fica, o lúmen precisa ser tratado, porque o biofilme protege a
 lock das unidades (vancomicina 5 mg/ml, 1 ml; ceftazidima 5 mg/ml, 0,5 ml; heparina 5.000 UI/ml, 0,5 ml; soro fisiológico
 até completar o volume da via) reproduz o protocolo publicado pelo grupo de Birmingham, de onde vêm os dados de Maya
 citados acima [14]. Ele é instilado ao fim de cada sessão, como recomenda a IDSA [1]. A IDSA fala em 10 a 14 dias; as
-unidades mantêm o lock durante todo o tratamento, inclusive nos 21 dias do *S. aureus*.
+unidades mantêm o lock durante todo o tratamento em que o cateter é mantido.
 
 ### 1.5 Hemoculturas de controle
 
@@ -127,11 +127,16 @@ IDSA [3].
 
 O *S. aureus* é o ponto de maior divergência entre as fontes. A IDSA 2009 pedia 4 a 6 semanas e só admitia 14 dias com
 critérios estritos [1]. O consenso IDSA/ESCMID de 2026 mudou a lógica: em vez de classificar a bacteremia em complicada
-ou não complicada, estratifica o risco e propõe 14 dias tanto no baixo risco quanto no risco aumentado, sempre que a
-investigação não encontra foco profundo ou metastático, contados da negativação da cultura ou do controle do foco, o que
-vier depois; diabetes e hemodiálise não estão na lista de fatores de risco aumentado [4]. As unidades adotaram 21 dias
-após a hemocultura negativa, depois da troca por fio-guia ou da retirada. É o prazo do protocolo de lock em *S. aureus* na
-hemodiálise [13, 14], no qual o foco não foi removido; aplicado depois da troca ou da retirada, é decisão da equipe.
+ou não complicada, estratifica o risco e propõe 14 dias quando a investigação não encontra foco profundo ou metastático,
+contados da negativação da cultura ou do controle do foco, o que vier depois; diabetes e hemodiálise não estão na lista de
+fatores de risco aumentado [4]. Os próprios autores registram que nenhum estudo incluiu pacientes que cumprissem todos os
+critérios de baixo risco, e o mesmo consenso manda retirar o cateter venoso central no *S. aureus* e trata a hemocultura
+ainda positiva após 48 horas como fator de risco-chave [4]. Os 14 dias da IDSA 2009 também exigem o cateter retirado [1].
+
+As unidades adotaram 28 dias após a hemocultura negativa, depois da troca por fio-guia ou da retirada. É o prazo do
+algoritmo do KDOQI, a única diretriz específica de hemodiálise, e o limite inferior das 4 a 6 semanas da IDSA [1, 2]. A
+escolha leva em conta que, no ramo em que o paciente melhora, o cateter é trocado por fio-guia e não retirado, o que
+afasta o paciente das condições em que as fontes admitem 14 dias.
 
 A endocardite é tratada por 28 dias na valva nativa e 42 na protética. A diretriz europeia indica 4 a 6 semanas na
 valva nativa por estafilococo, sensível ou resistente, e no mínimo 6 semanas na protética [5]. Todo paciente com *S. aureus* faz
@@ -323,8 +328,7 @@ IDSA [1].
 As demais são decisões clínicas da equipe: vancomicina e ceftazidima mantidas com hemocultura negativa, que a IDSA e o
 KDOQI suspenderiam [1, 2]; 14 dias no coagulase-negativo com cateter retirado, contra 5 a 7 da IDSA [1]; ceftazidima
 como empírico da tunelite, em vez da cefalosporina de primeira geração das diretrizes de diálise peritoneal [15, 18];
-prazos da fístula e da prótese sem número fixado nas fontes [2]; 21 dias no *S. aureus*, entre os 14 dias do consenso de 2026 e as 4 a 6
-semanas da IDSA 2009 [1, 4]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite e vancomicina isolada por 14 dias na celulite grave, contra os 5 dias e a associação da IDSA [6];
+prazos da fístula e da prótese sem número fixado nas fontes [2]; 28 dias no *S. aureus*, e não os 14 dias do consenso de 2026 [4]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite e vancomicina isolada por 14 dias na celulite grave, contra os 5 dias e a associação da IDSA [6];
 7 dias na infecção urinária também no homem, contra os 14 da diretriz europeia [21], e amicacina como alternativa, que a
 IDSA 2025 não prefere [23]; 5 dias na pneumonia não grave, contra menos de 5 da ATS 2025 [8]; ceftazidima 2 g antes do intervalo longo, que não está na bula [17];
 e amoxicilina-clavulanato sem a dose extra da bula americana [36].

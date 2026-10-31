@@ -51,12 +51,12 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | Prazo | Para quem |
 |---|---|
 | **14 dias após HC negativa** | Coagulase-negativo · Gram-negativo · Outro germe · Hemocultura negativa (a 1ª negativa é a do início) · *Candida* (IDSA 2016, confirmado) |
-| **21 dias após HC negativa** | *S. aureus* (após troca por fio-guia ou retirada). Item 4 do feedback da equipe ainda em discussão |
+| **28 dias após HC negativa** | *S. aureus* (após troca por fio-guia ou retirada). Equipe 2026-10-30, feedback item 4 ("28"). Base: KDOQI Fig. 25.1 (4 semanas), IDSA rec. 78 (4-6 semanas, B-II). Divergência: consenso IDSA/ESCMID 2026 (14 dias no baixo risco) |
 | **28 dias** | Endocardite (valva protética: 42 dias). No card fica em "Sempre", abaixo do ecocardiograma |
 
 Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
 No card (equipe 2026-10-30): a duração é caixa no pé do fluxo, ligada por seta à conduta final de cada caminho
-(*S. aureus* → 21 dias; lock ou fio-guia → 14 dias; *Candida* → 14 dias). A faixa "Duração" saiu; com ela saiu o
+(*S. aureus* → 28 dias; lock ou fio-guia → 14 dias; *Candida* → 14 dias). A faixa "Duração" saiu; com ela saiu o
 subtítulo "com ou sem troca do cateter".
 
 ### Manter, trocar ou retirar o cateter
@@ -270,6 +270,8 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    Vale nas duas faixas. Hexágono "Acesso difícil?" depois do "Sim" das 72 h. Definição em "Novo Acesso" (acima).
    Forma: faixa do *S. aureus* mais larga; Óstio e Túnel e a coluna da direita compactados para dar espaço ao fluxo;
    endocardite continua em "Sempre" (equipe: "pode continuar ali no sempre").
+4. ***S. aureus* 28 dias** (equipe 2026-10-30, "28", após tabela de força de evidência de 14/28/42 dias; nenhum ensaio
+   compara durações). Cateter: 21 → 28 dias. FAV nativa: pendente (o "sempre" da equipe vale para a FAV?).
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

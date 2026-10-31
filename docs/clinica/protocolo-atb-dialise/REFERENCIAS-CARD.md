@@ -5,7 +5,7 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 
 ## Folha 1
 
-- 21 dias · após HC negativa → [13,14] Maya ID, et al ; Maya ID
+- 28 dias · após HC negativa → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
 - 14 dias · após HC negativa → [1,2] Mermel LA, Allon M, Bouza E, et al ; Lok CE, Huber TS, Lee T, et al
 - 14 dias · após HC negativa → [3] Pappas PG, Kauffman CA, Andes DR, et al
 - Se instável, sepse ou infecção à distânciaRetirar o cateter a qualquer momento → [1] Mermel LA, Allon M, Bouza E, et al

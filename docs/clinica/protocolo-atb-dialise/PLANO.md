@@ -528,6 +528,20 @@ definição concreta: **jugulares internas e femorais estenosadas ou ocluídas**
   may become inaccessible, either due to stenosis or chronic total occlusion. These patients can exhaust all of their
   vascular access options". 25.2: cateter como "final access".
 
+### Feedback da equipe 2026-10-30, item 4: duração do *S. aureus*
+
+**Decisão:** 28 dias após HC negativa no cateter (equipe: "28"). FAV nativa pendente.
+- IDSA 2009 rec. 78 (B-II; refs Malanoski 1995, Fowler 2005): retirar e 4-6 semanas. Rec. 79 (B-II): ETE se for encurtar.
+  Rec. 80 (A-II; ref Pigrau 2003): ≥ 14 dias só se não diabético, não imunossuprimido, **cateter retirado**, sem prótese
+  intravascular, sem endocardite/tromboflebite, febre e bacteremia resolvidas em 72 h, sem metástase. Rec. 64 (B-II):
+  4-6 semanas se bacteremia > 72 h após retirada, endocardite ou tromboflebite; osteomielite 6-8.
+- KDOQI 2019: Fig. 25.1 "Antibiotics x 4 weeks"; texto "4 to 6 weeks for uncomplicated S aureus" (opinião de especialista).
+- Consenso IDSA/ESCMID 2026, afirmação 6 (manuscrito lido): 14 dias no baixo risco sem foco profundo; "consenso" = > 75% do
+  painel, sem GRADE; 15 coortes retrospectivas + 3 revisões, "no study provided direct evidence"; SABATO (213) testou troca
+  para VO dentro de 14 dias. Afirmação 1: fatores-chave = início comunitário, HC positiva ≥ 48 h, dispositivo intracardíaco;
+  hemodiálise associada a recidiva em 3 estudos, não a foco metastático; SAB por cateter venoso central inversamente
+  associada a endocardite/metástase; "central venous catheters should be removed in patients with SAB".
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
