@@ -160,7 +160,7 @@ Urocultura + antibiograma para todos. Sem urocultura de controle.
 | Não adere ao oral | Ceftazidima EV (alternativa: amicacina EV) | 7 dias | Amicacina é ototóxica. **Card mantido como está** ("Ceftazidima EV / ou amicacina" + nota ototóxica; equipe 2026-10-30: "mantém como está") |
 
 ## 4. Pneumonia
-Raio-X nos casos arrastados ou graves. Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; confirmado pela equipe 2026-10-29).
+Raio-X: onde é de fácil acesso, para confirmar o diagnóstico; onde o acesso é difícil, se o quadro piorar (Getúlio, 2026-10-31). Pergunta no card: "Adere ao oral?" (mesma da urina e da celulite; confirmado pela equipe 2026-10-29).
 Proposta de pergunta única ("Doença pulmonar prévia ou não adere ao oral?") **reprovada** 2026-10-30 ("ficou mais confuso"); volta às duas perguntas.
 
 | Situação | Antibiótico | Duração | Atenção |
@@ -247,7 +247,7 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
 - Nível de vancomicina pré-diálise (15-20 mg/l), quando a unidade tiver.
 - Pré-medicação com anti-histamínico antes da vancomicina.
 - Hemocultura de controle em 48 h (diretriz) vs 72 h (unidade).
-- Diretrizes pedem imagem para confirmar pneumonia (RX inviável na unidade).
+- Diretrizes pedem imagem para confirmar pneumonia (RX conforme o acesso de cada unidade).
 - Amoxicilina-clavulanato: card simplificado para 500/125 mg 1x/dia após a sessão (equipe 2026-10-30). Bula americana pede
   dose extra durante e ao fim da diálise; bula brasileira não recomenda o comprimido com ClCr < 10; não usar 875 mg.
 - Celulite: IDSA 2014 sugere 5 dias; unidade usa 7.

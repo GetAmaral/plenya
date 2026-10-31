@@ -83,7 +83,7 @@ Fundamentação científica mostra, em cada parte, a base e as alternativas. Reg
 - Amoxicilina-clavulanato · + azitromicina VO → [7] Metlay JP, Waterer GW, Long AC, et al
 - Levofloxacino EV → [28] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
 - 5 dias · azitromicina: 3 dias → [7] Metlay JP, Waterer GW, Long AC, et al
-- Raio-X nos casos arrastados ou graves → [7,8] Metlay JP, Waterer GW, Long AC, et al ; Jones BE, Ramirez JA, Oren E, et al
+- Raio-X se de fácil acesso; se não, quando piorar → [7,8] Metlay JP, Waterer GW, Long AC, et al ; Jones BE, Ramirez JA, Oren E, et al
 
 ## Folha 4
 

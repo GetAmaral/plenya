@@ -1,8 +1,7 @@
 # Fundamentação científica do protocolo de antibióticos na hemodiálise
 
 Protocolo das unidades DaVita Londrina, Bandeirantes, Lago Parque e Rolândia. Este texto acompanha o card do protocolo
-(4 folhas) e mostra, para cada conduta, a base que a sustenta e as alternativas que as fontes oferecem. Os números entre
-colchetes remetem às referências no fim.
+(4 folhas). Os números entre colchetes remetem às referências no fim.
 
 ## Introdução
 
@@ -27,13 +26,13 @@ ceftazidima, que cobre os gram-negativos, incluindo *Pseudomonas*, enquanto a cu
 dadas na sessão, pela linha do circuito, o que dispensa acesso venoso extra e garante a dose. O lock de antibiótico
 começa já na primeira sessão (seção 1.4).
 
-Uma situação não espera nenhum resultado: o paciente instável, em sepse ou com infecção à distância (foco metastático,
-como a endocardite) tem o cateter retirado de imediato [1]. No card, isso aparece como um alarme que vale a qualquer
+O paciente instável, em sepse ou com infecção à distância (foco metastático, como a endocardite) tem o cateter
+retirado de imediato, sem esperar a cultura [1]. No card, isso aparece como um alarme que vale a qualquer
 momento do fluxo.
 
 ### 1.2 Ajuste pelo resultado da cultura
 
-O resultado da hemocultura muda o tratamento em quase todos os casos, e cada resposta possível tem sua caixa no card.
+Cada resultado possível da hemocultura tem sua caixa no card.
 
 O *S. aureus* tem caminho próprio, porque a conduta com o cateter é diferente da dos demais germes (seção 1.3). Quando
 ele é sensível à oxacilina, a vancomicina é trocada por cefazolina e a ceftazidima é suspensa; a IDSA recomenda essa
@@ -42,7 +41,7 @@ ceftazidima sai, como no descalonamento pela cultura [1].
 
 No estafilococo coagulase-negativo, a escolha também segue a oxacilina: cefazolina se sensível, vancomicina se
 resistente. A IDSA formula a troca para cefazolina no *S. aureus* [1]; o protocolo aplica o mesmo raciocínio ao
-coagulase-negativo sensível, que responde à mesma droga e dispensa a vancomicina. No gram-negativo, a vancomicina sai e o
+coagulase-negativo sensível à oxacilina. No gram-negativo, a vancomicina sai e o
 antibiótico segue o antibiograma [1].
 
 Germes fora desses grupos, e culturas polimicrobianas, são ajustados pelo antibiograma. É o caso do enterococo, para o
@@ -64,16 +63,14 @@ As fontes oferecem três caminhos: manter o cateter com lock, trocá-lo por fio-
 retirar o cateter de longa permanência na bacteremia por *S. aureus*, *Pseudomonas* e fungos, e em qualquer germe quando
 a bacteremia persiste por mais de 72 horas com antibiótico adequado, e admite a troca por fio-guia quando não há outro
 sítio para o acesso [1]. O KDOQI 2019 pede abordagem individualizada, citando a troca por fio-guia, o salvamento com
-lock e a retirada como opções, sobretudo quando o cateter é o último acesso do paciente [2]. Esse é o cenário de muitos
-pacientes das unidades.
+lock e a retirada como opções, sobretudo quando o cateter é o último acesso do paciente [2].
 
 A escolha entre os três caminhos depende do germe e da resposta em 72 horas. Uma meta-análise com 28 estudos e 1.596
 pacientes mostrou que o lock e a troca por fio-guia têm taxas de cura semelhantes entre si e superiores às do
 antibiótico sistêmico isolado; no *S. aureus*, a troca por fio-guia foi superior ao lock [11]. A cura com lock depende
 do germe: 87% nos gram-negativos, 75% no *S. epidermidis* e apenas 40% no *S. aureus* [12]. Num grupo de 113
 bacteremias por *S. aureus* tratadas com lock por três semanas, a cura foi de 41%, e a complicação grave ocorreu em 25%
-dos pacientes com febre persistente contra 1,4% dos demais [13]. A febre que não cede é o sinal de que o tratamento
-falhou, e o algoritmo do KDOQI indica a retirada ou a troca por fio-guia na bacteremia ou febre persistentes [2].
+dos pacientes com febre persistente contra 1,4% dos demais [13]. O algoritmo do KDOQI indica a retirada ou a troca por fio-guia na bacteremia ou febre persistentes [2].
 
 Daí as duas faixas do card. Nos germes que não o *S. aureus*, e também na hemocultura negativa, se em 72 horas a febre
 cedeu e a hemocultura negativou, o cateter fica e o lock continua; é o grupo em que o lock mais cura [12]. Se a febre
@@ -123,7 +120,7 @@ estafilococo coagulase-negativo e demais germes, e quando a hemocultura vem nega
 negativa é a do início), o tratamento é de 14 dias após a hemocultura negativa, o prazo do algoritmo do KDOQI para o
 coagulase-negativo e o gram-negativo [2]. A IDSA oferece faixas: 7 a 14 dias no gram-negativo, 10 a 14 dias no
 coagulase-negativo com cateter mantido e 5 a 7 dias no coagulase-negativo com cateter retirado [1]. O protocolo usa um
-prazo único de 14 dias, que fica dentro ou acima dessas faixas e simplifica a prescrição. Na *Candida* também são 14
+prazo único de 14 dias, que fica dentro ou acima dessas faixas. Na *Candida* também são 14
 dias após a primeira hemocultura negativa, como recomenda a IDSA [3].
 
 No *S. aureus*, o tratamento é de 28 dias após a hemocultura negativa. É o prazo do algoritmo do KDOQI, a única
@@ -142,8 +139,8 @@ O ecocardiograma é feito em três situações. No *S. aureus*, sempre: o consen
 transtorácico em todo adulto [4], e a diretriz europeia indica considerá-lo na bacteremia por *S. aureus* [5]. Na
 hemocultura ainda positiva em 72 horas, qualquer que seja o germe: a persistência é o fator de risco-chave de foco
 profundo no consenso de 2026, que pede investigação ampliada com imagem cardíaca [4], e o KDOQI manda procurar o foco na
-bacteremia persistente [2]. Na *Candida*, o algoritmo do KDOQI manda procurar infecções metastáticas [2], e o
-ecocardiograma faz parte dessa busca. A diretriz de candidíase propõe como exame de rotina o fundo de olho [3].
+bacteremia persistente [2]. Na *Candida*, o algoritmo do KDOQI manda procurar infecções metastáticas [2]; o
+protocolo inclui o ecocardiograma nessa busca. A diretriz de candidíase propõe como exame de rotina o fundo de olho [3].
 
 ### 1.7 Troca e novo acesso
 
@@ -164,7 +161,7 @@ ser retirado [2]. O curativo é de gaze com Hipafix, e não Tegaderm; as diretri
 filme transparente e deixam a escolha à equipe [2, 16]. O tratamento dura 14 dias, o limite superior da faixa de 7 a 14
 dias do KDOQI e da série canadense [2, 16].
 
-A tunelite é mais séria. Antes do antibiótico, colhem-se hemoculturas do cateter e periférica, como pede a IDSA [1].
+Na tunelite, antes do antibiótico, colhem-se hemoculturas do cateter e periférica, como pede a IDSA [1].
 O antibiótico inicial é a ceftazidima; com MRSA prévio, vancomicina associada à ceftazidima. O KDOQI pede que o empírico
 da tunelite cubra gram-positivos e gram-negativos [2], e a bula da ceftazidima inclui a infecção de pele e partes moles
 por *S. aureus* sensível e por gram-negativos, inclusive *Pseudomonas* [17]. A alternativa das diretrizes de diálise
@@ -187,7 +184,7 @@ prótese, dor ou secreção podem indicar infecção mesmo sem febre, e a aprese
 drenando (45% dos casos), seguido da secreção purulenta (12%) [19]. Por isso o card começa por "febre ou sinais no
 acesso", e não só pela febre.
 
-Duas situações enganam. A prótese antiga, trombosada ou abandonada pode abrigar infecção oculta, e deve ser lembrada no
+A prótese antiga, trombosada ou abandonada pode abrigar infecção oculta, e deve ser lembrada no
 paciente com febre sem foco [2, 19]. E na fístula nativa a infecção costuma se associar a aneurisma ou pseudoaneurisma nos
 pontos de punção, a hematoma infectado e a úlcera com ruptura da pele, sobretudo na punção em botoeira [20].
 
@@ -243,7 +240,7 @@ mulheres; a exceção que ela aponta é o homem com suspeita de prostatite aguda
 
 ## 4. Celulite
 
-A primeira pergunta é a gravidade. A celulite não grave recebe cefalexina oral, ou cefazolina endovenosa na sessão se o
+A celulite não grave recebe cefalexina oral, ou cefazolina endovenosa na sessão se o
 paciente não adere ao oral, que são as opções da IDSA contra estreptococo e *S. aureus* sensível [6]; com MRSA em cultura
 prévia, recebe clindamicina oral, opção da IDSA para MRSA [6]. O sulfametoxazol-trimetoprima, outra opção oral contra
 MRSA, não é usado pelo risco de hipercalemia e porque a bula não o recomenda com depuração de creatinina abaixo de 15
@@ -269,8 +266,8 @@ mínimo 5 dias [7]. A diretriz da ATS de 2025 propõe menos de 5 dias, com míni
 internado não grave [8]; o protocolo fica nos 5 dias, o mínimo da ATS/IDSA 2019 [7].
 
 As diretrizes usam a imagem para confirmar o diagnóstico, porque os sinais clínicos isolados são imprecisos [7], e
-aceitam o ultrassom pulmonar como alternativa à radiografia onde houver experiência [8]. Nas unidades, a radiografia de
-rotina não é viável, e o protocolo a reserva para os casos arrastados ou graves, em que ela muda a conduta.
+aceitam o ultrassom pulmonar como alternativa à radiografia onde houver experiência [8]. Onde a radiografia é de fácil
+acesso, o protocolo a faz para confirmar o diagnóstico; onde o acesso é difícil, ela é feita se o quadro piorar.
 
 ## 6. Doses na hemodiálise
 
@@ -286,8 +283,7 @@ consenso [9].
 
 A vancomicina é infundida pela linha da hemodiálise nos 90 minutos finais da sessão: o ataque em 90 minutos, diluído em
 250 ml de soro fisiológico (300 ml quando a dose é de 3 g), e a manutenção em 60 minutos, também em 250 ml. Assim a
-concentração nunca passa de 10 mg/ml, a que a bula admite no paciente com restrição de volume [29], e o paciente em
-hemodiálise é restrito de volume por definição. O tempo é garantido por bomba de infusão ou equipo de microgotas. Uma
+concentração nunca passa de 10 mg/ml, a que a bula admite no paciente com restrição de volume [29]. O tempo é garantido por bomba de infusão ou equipo de microgotas. Uma
 revisão sobre a administração na última hora da sessão de alto fluxo relatou nível pré-diálise adequado e bons
 desfechos [30], o que sustenta o momento escolhido.
 
@@ -296,14 +292,14 @@ Quando o ataque precisa ser feito fora da sessão, o protocolo usa 20 mg/kg (mí
 sessão [1]. O consenso de monitorização propõe 25 mg/kg para o ataque feito depois da diálise [9].
 
 A bula limita a velocidade a 10 mg por minuto [29], pelo risco de síndrome do homem vermelho e de
-hipotensão. Os tempos do protocolo são mais curtos, para caber na sessão. Dois ensaios mostraram que o anti-histamínico
+hipotensão. Os tempos do protocolo são mais curtos. Dois ensaios mostraram que o anti-histamínico
 antes da infusão reduz de forma acentuada essas reações [31, 32], e é a medida a usar se o paciente tiver reação durante
 a infusão. As bulas brasileiras trazem os mesmos limites de concentração e de velocidade [33].
 
 ### 6.2 Cefazolina
 
 A dose é de 20 mg/kg (mínimo 1 g, máximo 2 g), diluída em cerca de 10 ml de soro por grama e dada em bolus de 3 a 5
-minutos pela linha venosa ao fim de toda sessão [1, 34]. O momento importa: uma sessão remove 50 a 62% da cefazolina,
+minutos pela linha venosa ao fim de toda sessão [1, 34]. Uma sessão remove 50 a 62% da cefazolina,
 e a dose de 15 a 20 mg/kg dada ao fim mantém nível adequado durante o intervalo de 2 a 3 dias [35]. Um esquema fixo de
 2 g três vezes por semana após a diálise também foi sustentado para o *S. aureus* sensível, e o mesmo estudo mostrou
 que 2 g cobrem o intervalo de 72 horas [36]. Por isso o protocolo não usa a dose maior, de 3 g, que alguns serviços dão
@@ -312,8 +308,7 @@ antes do intervalo longo.
 ### 6.3 Ceftazidima
 
 A ceftazidima é dada ao fim da sessão, 1 g, ou 2 g antes do intervalo de 72 horas, em 100 ml de soro por 30 minutos
-[1]. A bula indica repetir a dose de manutenção após cada sessão [17]; a dose de 2 g antes do fim de semana compensa as
-24 horas a mais do intervalo longo.
+[1]. A bula indica repetir a dose de manutenção após cada sessão [17].
 
 ### 6.4 Amicacina
 
