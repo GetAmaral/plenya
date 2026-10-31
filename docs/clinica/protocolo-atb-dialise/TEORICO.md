@@ -263,9 +263,7 @@ na sessão seguinte.
 
 A celulite grave recebe vancomicina por 14 dias. A IDSA recomenda vancomicina na celulite com risco de MRSA ou resposta
 sistêmica, e, na infecção grave, propõe vancomicina associada a piperacilina-tazobactam ou carbapenêmico, por 5 dias com
-extensão conforme a resposta [6]. O protocolo usa a vancomicina, que é dada na própria sessão, e um prazo fixo de 14
-dias; a associação com cobertura de gram-negativos fica para o paciente internado, em que a decisão sai do protocolo da
-unidade.
+extensão conforme a resposta [6]. O protocolo usa a vancomicina isolada, que é dada na própria sessão, por 14 dias.
 
 ## 5. Pneumonia
 
