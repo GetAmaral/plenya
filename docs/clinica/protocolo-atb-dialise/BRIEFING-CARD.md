@@ -190,7 +190,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 ### Endovenosas
 | Droga | Dose | Diluição | Via | Tempo | Momento |
 |---|---|---|---|---|---|
-| Vancomicina, ataque | 35 mg/kg (mín. 2 g · máx. 3 g) | SF: 10 mg/ml | Linha da HD | 90 min | 90 min finais da sessão |
+| Vancomicina, ataque | 35 mg/kg (mín. 2 g · máx. 3 g) | **SF 250 ml; 3 g: 300 ml** (equipe 2026-10-30, feedback item 6, opção A: sempre ≤ 10 mg/ml) | Linha da HD | 90 min | 90 min finais da sessão |
 | Vancomicina, manutenção | 15 mg/kg (mín. 1 g · máx. 1,5 g) | SF: 10 mg/ml | Linha da HD | 60 min | Fim de toda sessão |
 | Ceftazidima | 1 g (2 g antes do intervalo de 72 h) | SF: 100 ml | Linha da HD | 30 min | Fim de toda sessão |
 | Cefazolina | 20 mg/kg (mín. 1 g · máx. 2 g) | SF: 10 ml por g | Linha venosa | 3-5 min (bolus) | Fim de toda sessão |
@@ -277,6 +277,8 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    persistente". *S. aureus*: consenso 2026 afirmação 3 [4], ESC 2023 IIa B [5]. HC positiva em 72 h: consenso 2026 afirmação 1
    (HC ≥ 48 h = fator-chave) [4], KDOQI Fig. 25.1 [2]. *Candida*: "eco pelo KDOQI - procurar metastáticas" [2]; Pappas 2016 não
    pede eco (só fundo de olho) [3] → divergência na seção 8. Folhas 1 e 2.
+6. **Vancomicina de ataque em SF 250 ml; 3 g em 300 ml** (aprovado 2026-10-31, opção A). 250 ml fixo daria 12 mg/ml com 3 g,
+   acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). Pendentes no item 6: bomba de infusão; HDF.
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

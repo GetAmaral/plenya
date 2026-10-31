@@ -557,6 +557,12 @@ definição concreta: **jugulares internas e femorais estenosadas ou ocluídas**
 - Consenso IDSA/ESCMID 2026 afirmação 1: HC positiva ≥ 48 h = fator de risco-chave; risco aumentado → investigação com imagem
   cardíaca adicional.
 
+### Feedback da equipe 2026-10-30, item 6: vancomicina de ataque
+
+**Decisão (2026-10-31, opção A):** ataque em SF 250 ml; 3 g em 300 ml (2 g = 8 mg/ml; 2,5 g = 10; 3 g/300 = 10). A equipe
+sugeriu 250 ml fixo; 3 g/250 = 12 mg/ml passa do teto de 10 mg/ml (bula FDA Pfizer e bula Anvisa ABL/Novamicin, restrição de
+líquidos). Velocidade (22-33 mg/min contra ≤ 10 mg/min das bulas) já era divergência registrada. HDF: sem fonte específica lida.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
