@@ -573,6 +573,21 @@ líquidos). Velocidade (22-33 mg/min contra ≤ 10 mg/min das bulas) já era div
   3 g dose for 72-h interdialytic period"; descreve Stryjewski 2007 (CID 44:190; 2/2/3 g rotina institucional; falha 13% vs
   31% vanco) e Renaud 2011 (Hemodial Int 15:63; 3 g 3x/sem; 2 Stevens-Johnson e 1 leucopenia, todos com 3 g).
 
+### Revisão das justificativas da Fundamentação (2026-10-31)
+
+- Prótese, prazo depois da cirurgia: nenhuma diretriz fixa. ESVS 2018 acesso vascular (Schmidli, EJVES 2018;55:757,
+  lida no original, p. 777): "no published evidence on the duration of antibiotic therapy, 6 weeks treatment has been
+  recommended by analogy to the treatment of endocarditis" (parágrafo da FAV nativa; refs KDOQI 2006 e Sarfati). Recs 58/59
+  (retirada total/parcial da prótese) sem prazo. Recidiva: total 1,6%, subtotal 19%, parcial 29%. Ryan 2004 (JVS, 51
+  próteses): resumo sem prazo; texto completo bloqueado (403). Delphi ESCMID 2025 (CMI 31:1828, próteses arteriais):
+  retirada + veia autóloga 6 semanas; material remanescente >= 4-6 semanas EV + oral até 12 semanas. UKKA 2025: nada.
+  **Decidido: mantém 28 dias**; o texto cita a ESVS (ref. 21) como alternativa.
+- Vancomicina: onde houver dosagem do nível sérico, a dose pode ser ajustada pelo pré-diálise na faixa do consenso
+  (pedido do Getúlio; só no texto, card sem mudança).
+- Motivos de autoria do Claude: removidos ou trocados por fonte, exceto os que o Getúlio adotou como da equipe
+  (72 h no ritmo das sessões; coleta antes do antibiótico permite descalonar; drogas na linha dispensam acesso extra e
+  garantem a dose; dose única da cefalexina facilita a adesão).
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.

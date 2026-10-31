@@ -1,7 +1,7 @@
-# Referências no card (gerado do card.html em 2026-10-30)
+# Referências no card (gerado do card.html em 2026-10-31)
 
-Numeração = `TEORICO.md` (40 referências). Regra: toda decisão do card tem pelo menos uma referência; quando
-a fonte diverge, a divergência está no texto teórico (seção 8). Regerar este arquivo ao mudar card ou referências.
+Numeração = `TEORICO.md` (41 referências). Regra: toda decisão do card tem pelo menos uma referência; a
+Fundamentação científica mostra, em cada parte, a base e as alternativas. Regerar este arquivo ao mudar card ou referências.
 
 ## Folha 1
 
@@ -67,41 +67,41 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 
 ## Folha 3
 
-- Colher urocultura → [21] European Association of Urology
-- Ciprofloxacino VO → [22] Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medle
-- Ceftazidima EV · ou amicacina → [23] Trautner BW, Cortes-Penfield NW, Gupta K, et al
-- 7 dias → [23] Trautner BW, Cortes-Penfield NW, Gupta K, et al
-- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [21] European Association of Urology
-- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [21] European Association of Urology
-- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [24,25] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health ; Northern Health Antimicrobial Stewardship
+- Colher urocultura → [22] European Association of Urology
+- Ciprofloxacino VO → [23] Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medle
+- Ceftazidima EV · ou amicacina → [24] Trautner BW, Cortes-Penfield NW, Gupta K, et al
+- 7 dias → [24] Trautner BW, Cortes-Penfield NW, Gupta K, et al
+- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [22] European Association of Urology
+- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [22] European Association of Urology
+- Ajustar pelo antibiograma · sem urocultura de controle · Amicacina é ototóxica → [25,26] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health ; Northern Health Antimicrobial Stewardship
 - Cefalexina VO · ou cefazolina EV se não adere → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - Clindamicina VO → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - Vancomicina → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - 7 dias → [6] Stevens DL, Bisno AL, Chambers HF, et al
 - 14 dias → [6] Stevens DL, Bisno AL, Chambers HF, et al
-- Levofloxacino VO → [7,27] Metlay JP, Waterer GW, Long AC, et al ; Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Levofloxacino VO → [7,28] Metlay JP, Waterer GW, Long AC, et al ; Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
 - Amoxicilina-clavulanato · + azitromicina VO → [7] Metlay JP, Waterer GW, Long AC, et al
-- Levofloxacino EV → [27] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Levofloxacino EV → [28] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
 - 5 dias · azitromicina: 3 dias → [7] Metlay JP, Waterer GW, Long AC, et al
 - Raio-X nos casos arrastados ou graves → [7,8] Metlay JP, Waterer GW, Long AC, et al ; Jones BE, Ramirez JA, Oren E, et al
 
 ## Folha 4
 
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [9] Rybak MJ, Le J, Lodise TP, et al
-- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
-- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [29] El Nekidy WS, Cha R, Ghazi IM
+- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [29] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [30] El Nekidy WS, Cha R, Ghazi IM
 - Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 min · BIC ou · → [1,9] Mermel LA, Allon M, Bouza E, et al ; Rybak MJ, Le J, Lodise TP, et al
-- Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 min · BIC ou · → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 min · BIC ou · → [29] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 min · BIC  → [9] Rybak MJ, Le J, Lodise TP, et al
-- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 min · BIC  → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 min · BIC  → [29] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Ceftazidima1 g · 2 g antes do intervalo · de 72 hSF: 100 mlLinha da HD30 minFim de toda se → [1,17] Mermel LA, Allon M, Bouza E, et al ; Ceftazidima: bula brasileira (Blau, Ceftazidon) e bula FDA (
-- Cefazolina20 mg/kg · mín. 1 g · máx. 2 gSF: 10 ml por gLinha venosa3-5 min · (bolus)Fim de → [1,33,34] Mermel LA, Allon M, Bouza E, et al ; Cefazolina: bula FDA (Hikma, 2020) e bula brasileira (ABL, 1 ; Sowinski KM, et al
-- Amicacina5-7,5 mg/kg SF: 100-200 mlEV30-60 minApós toda sessão → [24] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health
-- Levofloxacino750 mg → 500 mg · 3 doses, nos dias de HDBolsa pronta: · 5 mg/mlEV60-90 minQu → [27] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
-- Ciprofloxacino500 mg 1x/diaApós a sessão → [22] Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medle
-- Amoxicilina-clavulanato500/125 mg1x/diaApós a sessão → [25] Northern Health Antimicrobial Stewardship
-- Azitromicina500 mg1x/diaSem ajuste → [25,38] Northern Health Antimicrobial Stewardship ; Azitromicina: bulas brasileiras (Eurofarma; Zitromax)
-- Levofloxacino750 mg → 500 mg 3 dosesUma dose por dia de HD → [27] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
-- Cefalexina500 mg1x/diaApós a sessão → [25] Northern Health Antimicrobial Stewardship
-- Clindamicina300 mg8/8 hSem ajuste → [39] Clindamicina: bula brasileira (Germed, texto Dalacin C)
+- Cefazolina20 mg/kg · mín. 1 g · máx. 2 gSF: 10 ml por gLinha venosa3-5 min · (bolus)Fim de → [1,34,35] Mermel LA, Allon M, Bouza E, et al ; Cefazolina: bula FDA (Hikma, 2020) e bula brasileira (ABL, 1 ; Sowinski KM, et al
+- Amicacina5-7,5 mg/kg SF: 100-200 mlEV30-60 minApós toda sessão → [25] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health
+- Levofloxacino750 mg → 500 mg · 3 doses, nos dias de HDBolsa pronta: · 5 mg/mlEV60-90 minQu → [28] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Ciprofloxacino500 mg 1x/diaApós a sessão → [23] Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medle
+- Amoxicilina-clavulanato500/125 mg1x/diaApós a sessão → [26] Northern Health Antimicrobial Stewardship
+- Azitromicina500 mg1x/diaSem ajuste → [26,39] Northern Health Antimicrobial Stewardship ; Azitromicina: bulas brasileiras (Eurofarma; Zitromax)
+- Levofloxacino750 mg → 500 mg 3 dosesUma dose por dia de HD → [28] Levofloxacino: bula FDA (tabela de ajuste renal) e bulas bra
+- Cefalexina500 mg1x/diaApós a sessão → [26] Northern Health Antimicrobial Stewardship
+- Clindamicina300 mg8/8 hSem ajuste → [40] Clindamicina: bula brasileira (Germed, texto Dalacin C)
 - Lock → [14] Maya ID

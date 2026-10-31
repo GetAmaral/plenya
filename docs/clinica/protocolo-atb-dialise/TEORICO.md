@@ -27,7 +27,7 @@ Febre ou calafrio durante a sessão, em paciente com cateter, é tratado como ba
 em contrário; a IDSA trata febre e calafrio como os sintomas que motivam o tratamento [1]. Duas hemoculturas são
 colhidas antes do primeiro antibiótico, uma pelo cateter e outra pela linha do circuito, como no algoritmo do KDOQI [2].
 A IDSA prefere a segunda amostra de veia periférica que não será usada para fístula e aceita a linha do circuito quando
-não há veia periférica [1]; nas unidades, a linha do circuito poupa as veias do paciente. A coleta antes do antibiótico
+não há veia periférica [1]; o protocolo segue o KDOQI. A coleta antes do antibiótico
 é o que permite descalonar depois com segurança.
 
 O esquema empírico associa vancomicina, que cobre os estafilococos, inclusive os resistentes à oxacilina, e
@@ -63,9 +63,8 @@ cresce junto com bactéria, o caso segue o ramo da cultura polimicrobiana.
 
 Na hemocultura negativa, vancomicina e ceftazidima são mantidas pelo tempo do tratamento, com a mesma reavaliação de
 72 horas dos demais ramos. A alternativa que a IDSA admite, e que o algoritmo do KDOQI adota, é suspender o antibiótico
-quando as duas hemoculturas vêm negativas e não há outro foco [1, 2]. O protocolo mantém o tratamento porque o paciente
-chegou com febre ou calafrio na sessão e tem um cateter, e a hemocultura negativa nessa situação não afasta a infecção
-com segurança.
+quando as duas hemoculturas vêm negativas e não há outro foco [1, 2]. O protocolo mantém vancomicina e ceftazidima pelo tempo do
+tratamento.
 
 ### 1.3 Manter, trocar ou retirar o cateter
 
@@ -99,7 +98,8 @@ sintomas se resolvem em 2 a 3 dias e manda retirar quando persistem [1]. A troca
 que mais curou o *S. aureus* na meta-análise [11]. A alternativa mais radical é a da IDSA, que recomenda retirar sempre
 o cateter no *S. aureus* e deixar o fio-guia para quem não tem outro sítio [1]. Essa recomendação se apoia no estudo
 de lock citado acima [13], que mostra a falha de manter o cateter, mas não compara a retirada com a troca por fio-guia.
-O protocolo fica com a troca, que evita o lock e preserva o sítio do acesso.
+O protocolo fica com a troca, que o KDOQI e a IDSA admitem quando o quadro se resolve em 2 a 3 dias e que mais curou
+na meta-análise.
 
 Em qualquer faixa, quando o cateter deveria ser retirado e o paciente tem acesso difícil, a troca é feita por fio-guia,
 como admite a IDSA quando não há outro sítio [1]. O card define o acesso difícil de forma concreta: jugulares internas e
@@ -109,12 +109,11 @@ ficar inacessíveis por estenose ou oclusão crônica no paciente com longa hist
 
 ### 1.4 Lock de antibiótico
 
-Quando o cateter fica, o lúmen precisa ser tratado, porque o biofilme protege as bactérias do antibiótico sistêmico. O
+Quando o cateter fica, o lúmen é tratado com lock. O
 lock das unidades (vancomicina 5 mg/ml, 1 ml; ceftazidima 5 mg/ml, 0,5 ml; heparina 5.000 UI/ml, 0,5 ml; soro fisiológico
 até completar o volume da via) reproduz o protocolo publicado pelo grupo de Birmingham, de onde vêm os dados de Maya
 citados acima [14]. Ele é instilado ao fim de cada sessão, como recomenda a IDSA [1]. A IDSA fala em 10 a 14 dias de
-lock [1]; o protocolo mantém o lock durante todo o tratamento em que o cateter fica, para que o lúmen seja tratado pelo
-mesmo tempo que a corrente sanguínea.
+lock [1]; o protocolo mantém o lock durante todo o tratamento em que o cateter fica.
 
 ### 1.5 Hemoculturas de controle
 
@@ -122,9 +121,8 @@ As hemoculturas são repetidas em 72 horas, qualquer que seja o resultado da pri
 negativar; e ao fim do tratamento. As 72 horas são o momento em que a IDSA considera que a hemocultura ainda positiva
 indica falha [1], e coincidem com a decisão sobre o cateter (seção 1.3). O consenso de *S. aureus* propõe uma coleta
 mais precoce, 48 horas após a primeira e depois a cada 24 a 48 horas [4]; no protocolo, a coleta acompanha a sessão de
-diálise, e o intervalo de 72 horas permite colher sem punção extra. Para o cateter mantido, a IDSA propõe a hemocultura
-de vigilância 1 semana após o fim do tratamento [1]; o protocolo colhe no fim do tratamento, enquanto o paciente ainda
-está em acompanhamento ativo.
+diálise. Para o cateter mantido, a IDSA propõe a hemocultura de vigilância 1 semana após o fim do tratamento [1]; o
+protocolo colhe no fim do tratamento.
 
 ### 1.6 Duração do tratamento
 
@@ -153,8 +151,7 @@ transtorácico em todo adulto [4], e a diretriz europeia indica considerá-lo na
 hemocultura ainda positiva em 72 horas, qualquer que seja o germe: a persistência é o fator de risco-chave de foco
 profundo no consenso de 2026, que pede investigação ampliada com imagem cardíaca [4], e o KDOQI manda procurar o foco na
 bacteremia persistente [2]. Na *Candida*, o algoritmo do KDOQI manda procurar infecções metastáticas [2], e o
-ecocardiograma faz parte dessa busca. A diretriz de candidíase propõe outro exame de rotina, o fundo de olho [3]; o
-protocolo usa o ecocardiograma porque procura o foco que muda a duração do tratamento.
+ecocardiograma faz parte dessa busca. A diretriz de candidíase propõe como exame de rotina o fundo de olho [3].
 
 ### 1.7 Troca e novo acesso
 
@@ -214,15 +211,14 @@ estudo que sustente tentar salvar o material na candidemia [10].
 ### 2.3 Doppler e cirurgia
 
 O Doppler confirma a perviedade, avalia a parede, mostra aneurismas, pseudoaneurismas e coleção ao redor do acesso e
-ajuda a definir a extensão da infecção [2]. A fístula nativa faz Doppler inicial; a prótese, Doppler semanal, porque é
-nela que a infecção pode se estender e mudar a conduta.
+ajuda a definir a extensão da infecção [2]. A fístula nativa faz Doppler inicial; a prótese, Doppler semanal, porque a
+infecção extensa da prótese exige a retirada total [2].
 
-A infecção extensa da prótese exige a retirada total; quando o segmento infectado é limitado, a cirurgia pode
-substituí-lo por um campo limpo [2]. Fístula e prótese infectadas podem erodir a pele e sangrar com risco de vida [2].
+Quando o segmento infectado é limitado, a cirurgia pode substituí-lo por um campo limpo [2]. Fístula e prótese infectadas podem erodir a pele e sangrar com risco de vida [2].
 Por isso o card manda para a cirurgia vascular, para retirada, toda prótese com infecção extensa, abscesso, exposição ou
 sangramento; a técnica é decisão do cirurgião. Fora dessas situações, o KDOQI admite tentar preservar o acesso e lembra
 que a prótese raramente se cura só com antibiótico [2]. O protocolo mantém a prótese com antibiótico e Doppler semanal,
-inclusive no *S. aureus*, porque o Doppler semanal identifica a extensão que muda a conduta para a cirurgia.
+inclusive no *S. aureus*.
 
 ### 2.4 Duração
 
@@ -230,26 +226,28 @@ O KDOQI não fixa prazo: a duração depende das circunstâncias do paciente e d
 extensa, que envolve artéria e veia, deve ser tratada por 6 semanas ou mais, como a endocardite [2]. A fístula nativa
 resolve com antibiótico isolado com mais frequência [20], e o protocolo a trata por 14 dias, o mesmo prazo da
 bacteremia por cateter, ou 28 dias no *S. aureus*, como no cateter (seção 1.6). Na prótese, qualquer infecção é tratada
-por 28 dias, também depois da cirurgia, porque é o acesso em que a infecção mais persiste [2]. O ecocardiograma segue a
+por 28 dias, também depois da cirurgia. Nenhuma diretriz fixa o prazo depois da cirurgia; a ESVS registra que não
+há evidência publicada sobre a duração do antibiótico na infecção do acesso e que 6 semanas foram recomendadas por
+analogia com a endocardite [21]. O ecocardiograma segue a
 regra do cateter: *S. aureus*, *Candida* e hemocultura positiva em 72 horas [2, 4].
 
 ## 3. Infecção urinária
 
 Todo paciente tem urocultura com antibiograma, e o tratamento é ajustado pelo resultado, como pede a diretriz europeia
-para a infecção urinária sistêmica [21]. A urocultura de controle não é repetida; a mesma diretriz não indica urocultura
-após o tratamento no paciente sem sintomas [21]. A escolha da droga depende de o paciente aderir ao oral. Se adere,
+para a infecção urinária sistêmica [22]. A urocultura de controle não é repetida; a mesma diretriz não indica urocultura
+após o tratamento no paciente sem sintomas [22]. A escolha da droga depende de o paciente aderir ao oral. Se adere,
 recebe ciprofloxacino 500 mg uma vez ao dia, após a sessão nos dias de diálise, que é a dose máxima da bula em hemodiálise
-[22]; a IDSA 2025 inclui a fluoroquinolona entre os empíricos da infecção urinária complicada e sugere evitá-la quando o
-paciente usou uma nos últimos 12 meses [23]. Se não adere, recebe ceftazidima endovenosa na sessão, a cefalosporina de
-terceira geração que está entre os empíricos preferidos da IDSA 2025 [23]. A amicacina fica como alternativa, para
-quando a ceftazidima não serve; a IDSA 2025 coloca os aminoglicosídeos em segundo plano [23], e a amicacina é ototóxica,
-nefrotóxica e compromete a função renal residual [24], o que explica a nota de atenção no card. Há tabela de dose em
-hemodiálise que não a recomenda [25].
+[23]; a IDSA 2025 inclui a fluoroquinolona entre os empíricos da infecção urinária complicada e sugere evitá-la quando o
+paciente usou uma nos últimos 12 meses [24]. Se não adere, recebe ceftazidima endovenosa na sessão, a cefalosporina de
+terceira geração que está entre os empíricos preferidos da IDSA 2025 [24]. A amicacina fica como alternativa, para
+quando a ceftazidima não serve; a IDSA 2025 coloca os aminoglicosídeos em segundo plano [24], e a amicacina é ototóxica,
+nefrotóxica e compromete a função renal residual [25], o que explica a nota de atenção no card. Há tabela de dose em
+hemodiálise que não a recomenda [26].
 
 O tratamento dura 7 dias, como sugere a IDSA 2025 para o paciente que melhora (5 a 7 dias de fluoroquinolona ou 7 dias
-de outra classe) [23]. A diretriz europeia propõe 14 dias para o homem com infecção urinária sistêmica, com base num
-estudo em que 7 dias foram inferiores [21]; o protocolo segue a IDSA, que vale para os dois sexos, e reavalia o paciente
-que não melhora.
+de outra classe) [24]. A diretriz europeia propõe 14 dias para o homem com infecção urinária sistêmica, com base num
+estudo em que 7 dias foram inferiores [22]; o protocolo segue a IDSA 2025, que dá a mesma recomendação para homens e
+mulheres; a exceção que ela aponta é o homem com suspeita de prostatite aguda, que pode se beneficiar de 10 a 14 dias [24].
 
 ## 4. Celulite
 
@@ -257,9 +255,9 @@ A primeira pergunta é a gravidade. A celulite não grave recebe cefalexina oral
 paciente não adere ao oral, que são as opções da IDSA contra estreptococo e *S. aureus* sensível [6]; com MRSA em cultura
 prévia, recebe clindamicina oral, opção da IDSA para MRSA [6]. O sulfametoxazol-trimetoprima, outra opção oral contra
 MRSA, não é usado pelo risco de hipercalemia e porque a bula não o recomenda com depuração de creatinina abaixo de 15
-ml/min [26]. O tratamento dura 7 dias. A IDSA recomenda 5 dias na celulite não complicada, estendendo se não houver
-melhora [6]; o protocolo fixa 7 dias, porque o paciente em hemodiálise costuma ter resposta mais lenta e só é reavaliado
-na sessão seguinte.
+ml/min [27]. O tratamento dura 7 dias. A IDSA recomenda 5 dias na celulite não complicada, estendendo se não houver
+melhora [6]; o protocolo fixa 7 dias, porque o paciente só é reavaliado na sessão
+seguinte.
 
 A celulite grave recebe vancomicina por 14 dias. A IDSA recomenda vancomicina na celulite com risco de MRSA ou resposta
 sistêmica, e, na infecção grave, propõe vancomicina associada a piperacilina-tazobactam ou carbapenêmico, por 5 dias com
@@ -272,12 +270,11 @@ crônica está incluída: betalactâmico associado a macrolídeo, ou fluoroquino
 pulmonar prévia, o protocolo usa amoxicilina-clavulanato com azitromicina por 5 dias (azitromicina por 3); com doença
 pulmonar prévia, levofloxacino oral em 3 doses, nos dias de diálise. Quando o paciente não adere ao oral, recebe o mesmo
 esquema de levofloxacino por via endovenosa. Nas duas vias são 3 doses (750 mg e depois 500 mg e 500 mg), dadas nos dias
-de diálise; a droga não é removida pela diálise [27].
+de diálise; a droga não é removida pela diálise [28].
 
 A duração é de 5 dias. É o mínimo da diretriz ATS/IDSA de 2019, que pede tratamento até a estabilidade clínica e por no
 mínimo 5 dias [7]. A diretriz da ATS de 2025 propõe menos de 5 dias, com mínimo de 3, no paciente ambulatorial e no
-internado não grave [8]; o protocolo fica nos 5 dias, que cobrem também o paciente cuja estabilidade só é confirmada na
-sessão seguinte.
+internado não grave [8]; o protocolo fica nos 5 dias, o mínimo da ATS/IDSA 2019 [7].
 
 As diretrizes usam a imagem para confirmar o diagnóstico, porque os sinais clínicos isolados são imprecisos [7], e
 aceitam o ultrassom pulmonar como alternativa à radiografia onde houver experiência [8]. Nas unidades, a radiografia de
@@ -290,33 +287,34 @@ rotina não é viável, e o protocolo a reserva para os casos arrastados ou grav
 O consenso de monitorização indica, para a administração durante a sessão com dialisador de alta permeabilidade, ataque
 de 35 mg/kg com teto de 3 g e manutenção de 10 a 15 mg/kg [9]. O protocolo usa o ataque de 35 mg/kg (mínimo 2 g,
 máximo 3 g) e a manutenção no topo da faixa, 15 mg/kg (mínimo 1 g, máximo 1,5 g). O consenso orienta a dose pelo nível
-pré-diálise, entre 15 e 20 mg/l [9]; como as unidades não dosam o nível, o protocolo fixa a dose pelo peso no topo da
-faixa, com mínimo e máximo em gramas para não subdosar o paciente leve nem acumular no pesado.
+pré-diálise, entre 15 e 20 mg/l [9]. Onde o nível não é dosado, o protocolo fixa a dose pelo peso no topo da faixa,
+com mínimo e máximo em gramas. Nas unidades em que a dosagem
+do nível sérico de vancomicina estiver disponível, a dose pode ser ajustada pelo nível pré-diálise, na faixa do
+consenso [9].
 
 A vancomicina é infundida pela linha da hemodiálise nos 90 minutos finais da sessão: o ataque em 90 minutos, diluído em
 250 ml de soro fisiológico (300 ml quando a dose é de 3 g), e a manutenção em 60 minutos, também em 250 ml. Assim a
-concentração nunca passa de 10 mg/ml, a que a bula admite no paciente com restrição de volume [28], e o paciente em
+concentração nunca passa de 10 mg/ml, a que a bula admite no paciente com restrição de volume [29], e o paciente em
 hemodiálise é restrito de volume por definição. O tempo é garantido por bomba de infusão ou equipo de microgotas. Uma
 revisão sobre a administração na última hora da sessão de alto fluxo relatou nível pré-diálise adequado e bons
-desfechos [29], o que sustenta o momento escolhido.
+desfechos [30], o que sustenta o momento escolhido.
 
 Quando o ataque precisa ser feito fora da sessão, o protocolo usa 20 mg/kg (mínimo 1 g, máximo 2 g) em 60 minutos, em
-250 ml de soro fisiológico. É a dose de ataque que a IDSA indica para o paciente em hemodiálise [1]. O consenso de
-monitorização propõe 25 mg/kg para o ataque feito depois da diálise [9]; o protocolo usa a dose da IDSA, com teto de 2 g,
-porque fora da sessão a infusão é feita em acesso periférico e em menos tempo.
+250 ml de soro fisiológico. É a dose de ataque da IDSA para o paciente em hemodiálise, que a indica na última hora da
+sessão [1]. O consenso de monitorização propõe 25 mg/kg para o ataque feito depois da diálise [9].
 
-A bula limita a velocidade a 10 mg por minuto [28], pelo risco de síndrome do homem vermelho e de
+A bula limita a velocidade a 10 mg por minuto [29], pelo risco de síndrome do homem vermelho e de
 hipotensão. Os tempos do protocolo são mais curtos, para caber na sessão. Dois ensaios mostraram que o anti-histamínico
-antes da infusão reduz de forma acentuada essas reações [30, 31], e é a medida a usar se o paciente tiver reação durante
-a infusão. As bulas brasileiras trazem os mesmos limites de concentração e de velocidade [32].
+antes da infusão reduz de forma acentuada essas reações [31, 32], e é a medida a usar se o paciente tiver reação durante
+a infusão. As bulas brasileiras trazem os mesmos limites de concentração e de velocidade [33].
 
 ### 6.2 Cefazolina
 
 A dose é de 20 mg/kg (mínimo 1 g, máximo 2 g), diluída em cerca de 10 ml de soro por grama e dada em bolus de 3 a 5
-minutos pela linha venosa ao fim de toda sessão [1, 33]. O momento importa: uma sessão remove 50 a 62% da cefazolina,
-e a dose de 15 a 20 mg/kg dada ao fim mantém nível adequado durante o intervalo de 2 a 3 dias [34]. Um esquema fixo de
+minutos pela linha venosa ao fim de toda sessão [1, 34]. O momento importa: uma sessão remove 50 a 62% da cefazolina,
+e a dose de 15 a 20 mg/kg dada ao fim mantém nível adequado durante o intervalo de 2 a 3 dias [35]. Um esquema fixo de
 2 g três vezes por semana após a diálise também foi sustentado para o *S. aureus* sensível, e o mesmo estudo mostrou
-que 2 g cobrem o intervalo de 72 horas [35]. Por isso o protocolo não usa a dose maior, de 3 g, que alguns serviços dão
+que 2 g cobrem o intervalo de 72 horas [36]. Por isso o protocolo não usa a dose maior, de 3 g, que alguns serviços dão
 antes do intervalo longo.
 
 ### 6.3 Ceftazidima
@@ -327,26 +325,26 @@ A ceftazidima é dada ao fim da sessão, 1 g, ou 2 g antes do intervalo de 72 ho
 
 ### 6.4 Amicacina
 
-A dose é de 5 a 7,5 mg/kg após a sessão, em 100 a 200 ml de soro por 30 a 60 minutos [24]. Fica como alternativa à
+A dose é de 5 a 7,5 mg/kg após a sessão, em 100 a 200 ml de soro por 30 a 60 minutos [25]. Fica como alternativa à
 ceftazidima na infecção urinária, pela toxicidade descrita na seção 3.
 
 ### 6.5 Levofloxacino
 
 O esquema é o mesmo nas duas vias: 750 mg e depois 500 mg e 500 mg, uma dose por dia de diálise, 3 doses. A bula para
-hemodiálise indica 750 mg e depois 500 mg a cada 48 horas [27]; dar as doses nos dias de diálise aproxima esse intervalo
-(48 a 72 horas). Na via endovenosa, a bolsa pronta de 5 mg/ml é infundida em 60 a 90 minutos [27].
+hemodiálise indica 750 mg e depois 500 mg a cada 48 horas [28]; dar as doses nos dias de diálise aproxima esse intervalo
+(48 a 72 horas). Na via endovenosa, a bolsa pronta de 5 mg/ml é infundida em 60 a 90 minutos [28].
 
 ### 6.6 Drogas orais
 
-O ciprofloxacino é dado na dose de 500 mg uma vez ao dia, após a sessão [22]. A amoxicilina-clavulanato é dada na dose
-de 500/125 mg uma vez ao dia, após a sessão, como na tabela de hemodiálise da Northern Health [25]. A bula americana
-propõe uma dose adicional durante e ao fim da diálise [36], e a bula brasileira não recomenda o comprimido de 500/125 mg
-com depuração abaixo de 10 ml/min nem o de 875 mg abaixo de 30 [37]; o protocolo usa o esquema da tabela de hemodiálise,
-com a dose diária dada depois da sessão para não ser removida. A azitromicina, 500 mg por 3 dias, não tem ajuste
-definido, e a bula pede cautela com filtração abaixo de 10 ml/min [25, 38]. A clindamicina, 300 mg de 8 em 8 horas, não
-precisa de ajuste renal [39]. A cefalexina é dada na dose de 500 mg uma vez ao dia, após a sessão. A tabela de
+O ciprofloxacino é dado na dose de 500 mg uma vez ao dia, após a sessão [23]. A amoxicilina-clavulanato é dada na dose
+de 500/125 mg uma vez ao dia, após a sessão, como na tabela de hemodiálise da Northern Health [26]. A bula americana
+propõe uma dose adicional durante e ao fim da diálise [37], e a bula brasileira não recomenda o comprimido de 500/125 mg
+com depuração abaixo de 10 ml/min nem o de 875 mg abaixo de 30 [38]; o protocolo usa o esquema da tabela de hemodiálise,
+com a dose diária dada depois da sessão. A azitromicina, 500 mg por 3 dias, não tem ajuste
+definido, e a bula pede cautela com filtração abaixo de 10 ml/min [26, 39]. A clindamicina, 300 mg de 8 em 8 horas, não
+precisa de ajuste renal [40]. A cefalexina é dada na dose de 500 mg uma vez ao dia, após a sessão. A tabela de
 hemodiálise da Northern Health dá a mesma dose diária, dividida em 250 mg de 12 em 12 horas, com uma das doses após a
-sessão [25]; a bula americana indica 250 mg a cada 24 horas na depuração de 5 a 14 ml/min [40]. A dose única diária
+sessão [26]; a bula americana indica 250 mg a cada 24 horas na depuração de 5 a 14 ml/min [41]. A dose única diária
 após a sessão facilita a adesão.
 
 ## Referências
@@ -391,25 +389,27 @@ após a sessão facilita a adesão.
     Can J Kidney Health Dis. 2016;3:2054358116669127.
 20. KDOQI 2019. Supplement to AV access infections (listado como Supplement 4 no guideline). National Kidney
     Foundation; 2020.
-21. European Association of Urology. EAU Guidelines on Urological Infections. 2026 (uroweb.org).
-22. Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medley).
-23. Trautner BW, Cortes-Penfield NW, Gupta K, et al. IDSA 2025 guideline update on complicated urinary tract infections.
+21. Schmidli J, Widmer MK, Basile C, et al. Vascular access: 2018 clinical practice guidelines of the European
+    Society for Vascular Surgery (ESVS). Eur J Vasc Endovasc Surg. 2018;55(6):757-818. doi:10.1016/j.ejvs.2018.02.001.
+22. European Association of Urology. EAU Guidelines on Urological Infections. 2026 (uroweb.org).
+23. Ciprofloxacino: bula FDA (DailyMed) e bula brasileira (Medley).
+24. Trautner BW, Cortes-Penfield NW, Gupta K, et al. IDSA 2025 guideline update on complicated urinary tract infections.
     Clin Infect Dis. 2025 (idsociety.org).
-24. Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health, P&T, tabela de ajuste por terapia renal
+25. Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health, P&T, tabela de ajuste por terapia renal
     substitutiva, 2017 (5-7,5 mg/kg a cada 48-72 h, após a diálise).
-25. Northern Health Antimicrobial Stewardship. Adult Dosing Guidelines. 2018.
-26. Sulfametoxazol-trimetoprima: bula (ClCr < 15: não recomendado).
-27. Levofloxacino: bula FDA (tabela de ajuste renal) e bulas brasileiras (Levotac IV, Cristália; Levoxin VO, Apsen).
-28. Vancomicina: bula FDA (Pfizer), Dosage and Administration.
-29. El Nekidy WS, Cha R, Ghazi IM. Clin Nephrol. 2022;97(2):111-20.
-30. Renz CL, et al. Anesth Analg. 1998;87(3):681-5. (Ensaio duplo-cego; difenidramina + cimetidina antes de 1 g em 10 min.)
-31. Wallace MR, et al. J Infect Dis. 1991;164(6):1180-5. (Ensaio; difenidramina 50 mg antes de 1 g em 60 min.)
-32. Vancomicina: bulas brasileiras (ABL, Bula Padrão Anvisa 15/12/2025; Fresenius Novamicin).
-33. Cefazolina: bula FDA (Hikma, 2020) e bula brasileira (ABL, 15/12/2025).
-34. Sowinski KM, et al. Am J Kidney Dis. 2001;37(4):766-76.
-35. Duke C, et al. J Antimicrob Chemother. 2024;79(11):2980-9.
-36. Amoxicilina-clavulanato: bula FDA (amoxicilina; Augmentin).
-37. Amoxicilina-clavulanato: bula brasileira (Clavulin, GSK, aprovada Anvisa 01/10/2025).
-38. Azitromicina: bulas brasileiras (Eurofarma; Zitromax).
-39. Clindamicina: bula brasileira (Germed, texto Dalacin C).
-40. Cefalexina: bula brasileira (Eurofarma, 10/11/2025) e bula FDA (tabela por ClCr).
+26. Northern Health Antimicrobial Stewardship. Adult Dosing Guidelines. 2018.
+27. Sulfametoxazol-trimetoprima: bula (ClCr < 15: não recomendado).
+28. Levofloxacino: bula FDA (tabela de ajuste renal) e bulas brasileiras (Levotac IV, Cristália; Levoxin VO, Apsen).
+29. Vancomicina: bula FDA (Pfizer), Dosage and Administration.
+30. El Nekidy WS, Cha R, Ghazi IM. Clin Nephrol. 2022;97(2):111-20.
+31. Renz CL, et al. Anesth Analg. 1998;87(3):681-5. (Ensaio duplo-cego; difenidramina + cimetidina antes de 1 g em 10 min.)
+32. Wallace MR, et al. J Infect Dis. 1991;164(6):1180-5. (Ensaio; difenidramina 50 mg antes de 1 g em 60 min.)
+33. Vancomicina: bulas brasileiras (ABL, Bula Padrão Anvisa 15/12/2025; Fresenius Novamicin).
+34. Cefazolina: bula FDA (Hikma, 2020) e bula brasileira (ABL, 15/12/2025).
+35. Sowinski KM, et al. Am J Kidney Dis. 2001;37(4):766-76.
+36. Duke C, et al. J Antimicrob Chemother. 2024;79(11):2980-9.
+37. Amoxicilina-clavulanato: bula FDA (amoxicilina; Augmentin).
+38. Amoxicilina-clavulanato: bula brasileira (Clavulin, GSK, aprovada Anvisa 01/10/2025).
+39. Azitromicina: bulas brasileiras (Eurofarma; Zitromax).
+40. Clindamicina: bula brasileira (Germed, texto Dalacin C).
+41. Cefalexina: bula brasileira (Eurofarma, 10/11/2025) e bula FDA (tabela por ClCr).
