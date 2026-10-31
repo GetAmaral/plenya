@@ -542,6 +542,21 @@ definição concreta: **jugulares internas e femorais estenosadas ou ocluídas**
   hemodiálise associada a recidiva em 3 estudos, não a foco metastático; SAB por cateter venoso central inversamente
   associada a endocardite/metástase; "central venous catheters should be removed in patients with SAB".
 
+### Feedback da equipe 2026-10-30, item 5: ecocardiograma
+
+**Decisão:** eco em *S. aureus*, *Candida* ou HC positiva em 72 h (qualquer germe).
+- ESC 2023 (PDF original, Recommendation Table 5): "Performing an echocardiography should be considered in S. aureus,
+  E. faecalis, and some Streptococcus spp. bacteraemia" IIa B; "Repeating TTE and/or TOE is recommended as soon as a new
+  complication of IE is suspected (new murmur, embolism, persisting fever and bacteraemia...)" I B. Seção 5.4.1: incerteza
+  sobre eco sistemático em toda bacteremia; nº de frascos positivos + fatores cardíacos ajudam a indicar TTE+TOE. Table 10
+  (Duke): germe típico em 2 hemoculturas separadas, ou ≥ 2 positivas com > 12 h de intervalo.
+- Pappas 2016 (IDSA candidíase, texto completo na OUP): nenhuma menção a ecocardiografia; rec. 10 e 82: fundo de olho dilatado
+  em toda candidemia (forte, evidência baixa); rec. 13: retirar o cateter (forte, moderada).
+- KDOQI Fig. 25.1: *Candida* → "Look for metastatic infections"; persistente → "Look for metastatic infections";
+  *S. aureus* → "Strongly consider TEE and look for metastatic infections".
+- Consenso IDSA/ESCMID 2026 afirmação 1: HC positiva ≥ 48 h = fator de risco-chave; risco aumentado → investigação com imagem
+  cardíaca adicional.
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.

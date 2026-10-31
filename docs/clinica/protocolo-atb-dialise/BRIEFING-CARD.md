@@ -54,7 +54,7 @@ O card só pode conter o que está neste arquivo. Mudou aqui, muda no card.
 | **28 dias após HC negativa** | *S. aureus* (após troca por fio-guia ou retirada). Equipe 2026-10-30, feedback item 4 ("28"). Base: KDOQI Fig. 25.1 (4 semanas), IDSA rec. 78 (4-6 semanas, B-II). Divergência: consenso IDSA/ESCMID 2026 (14 dias no baixo risco) |
 | **28 dias** | Endocardite (valva protética: 42 dias). No card fica em "Sempre", abaixo do ecocardiograma |
 
-Ecocardiograma em todo *S. aureus*. A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
+Ecocardiograma: *S. aureus*, *Candida* ou HC positiva em 72 h (feedback item 5). A troca do cateter é decisão separada (abaixo) e **não muda o prazo**.
 No card (equipe 2026-10-30): a duração é caixa no pé do fluxo, ligada por seta à conduta final de cada caminho
 (*S. aureus* → 28 dias; lock ou fio-guia → 14 dias; *Candida* → 14 dias). A faixa "Duração" saiu; com ela saiu o
 subtítulo "com ou sem troca do cateter".
@@ -111,7 +111,7 @@ subtítulo "com ou sem troca do cateter".
 
 Empírico vanco + cefta decidido 2026-10-29 (KDOQI 2019: S. aureus/epidermidis 70-90%).
 Regra da equipe (2026-10-29): **3 semanas no *S. aureus* só na FAV nativa; na prótese qualquer infecção é 4 semanas.**
-Ecocardiograma em todo *S. aureus* (regra da seção 1).
+Ecocardiograma: *S. aureus*, *Candida* ou HC positiva em 72 h (regra da seção 1).
 Texto do alerta: item 7 do PLANO. Forma (pergunta + alerta ligado ao ramo): proposta minha, aprovada 2026-10-29.
 Correção 2026-10-29: a primeira versão deixou o ramo da cirurgia sem duração; a equipe apontou.
 Pedido da equipe (2026-10-29): **"*S. aureus*: 3 semanas" dentro da própria pílula de duração da FAV nativa**
@@ -272,6 +272,11 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    endocardite continua em "Sempre" (equipe: "pode continuar ali no sempre").
 4. ***S. aureus* 28 dias** (equipe 2026-10-30, "28", após tabela de força de evidência de 14/28/42 dias; nenhum ensaio
    compara durações). Cateter: 21 → 28 dias. FAV nativa: 21 → 28 dias (equipe: "28").
+5. **Ecocardiograma: *S. aureus*, *Candida* ou HC positiva em 72 h** (equipe 2026-10-30). "Mais de 2 amostras" = mais de duas
+   coletas com 72 h de intervalo; a equipe escolheu antecipar para a HC positiva em 72 h (opção A), que também cobre "bacteremia
+   persistente". *S. aureus*: consenso 2026 afirmação 3 [4], ESC 2023 IIa B [5]. HC positiva em 72 h: consenso 2026 afirmação 1
+   (HC ≥ 48 h = fator-chave) [4], KDOQI Fig. 25.1 [2]. *Candida*: "eco pelo KDOQI - procurar metastáticas" [2]; Pappas 2016 não
+   pede eco (só fundo de olho) [3] → divergência na seção 8. Folhas 1 e 2.
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

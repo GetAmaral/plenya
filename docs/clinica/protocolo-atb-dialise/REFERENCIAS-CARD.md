@@ -38,7 +38,7 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Novo permcath 72 h após HC negativa → [1] Mermel LA, Allon M, Bouza E, et al
 - Retirado por HC positiva: tentar 72 h sem acesso → [2] Lok CE, Huber TS, Lee T, et al
 - Acesso difícil: jugulares internas e femorais estenosadas ou ocluídas → [2] Lok CE, Huber TS, Lee T, et al
-- Ecocardiograma: todo S. aureus → [4] IDSA/ESCMID
+- Ecocardiograma: S. aureus, Candida ou HC positiva em 72 h → [2,4] Lok CE, Huber TS, Lee T, et al ; IDSA/ESCMID
 - Endocardite: 28 dias · valva protética: 42 dias → [5] Delgado V, Ajmone Marsan N, de Waha S, et al
 - Procurar focos · acessos antigos, stent venoso, marcapasso, prótese ortopédica → [4] IDSA/ESCMID
 
@@ -63,7 +63,7 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Fim do tratamento · repetir sempre → [1] Mermel LA, Allon M, Bouza E, et al
 - Sinal local basta, mesmo sem febre → [19] MacRae JM, Dipchand C, Oliver M, et al
 - Prótese antiga ou trombosada · com febre sem foco: suspeitar → [2,19] Lok CE, Huber TS, Lee T, et al ; MacRae JM, Dipchand C, Oliver M, et al
-- Ecocardiograma: todo S. aureus → [4] IDSA/ESCMID
+- Ecocardiograma: S. aureus, Candida ou HC positiva em 72 h → [2,4] Lok CE, Huber TS, Lee T, et al ; IDSA/ESCMID
 
 ## Folha 3
 

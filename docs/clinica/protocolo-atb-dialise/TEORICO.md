@@ -139,8 +139,14 @@ escolha leva em conta que, no ramo em que o paciente melhora, o cateter é troca
 afasta o paciente das condições em que as fontes admitem 14 dias.
 
 A endocardite é tratada por 28 dias na valva nativa e 42 na protética. A diretriz europeia indica 4 a 6 semanas na
-valva nativa por estafilococo, sensível ou resistente, e no mínimo 6 semanas na protética [5]. Todo paciente com *S. aureus* faz
-ecocardiograma [4].
+valva nativa por estafilococo, sensível ou resistente, e no mínimo 6 semanas na protética [5].
+
+O ecocardiograma é feito em três situações. No *S. aureus*, sempre: o consenso de 2026 pede ecocardiograma transtorácico
+em todo adulto [4], e a diretriz europeia indica considerá-lo na bacteremia por *S. aureus* [5]. Na hemocultura ainda
+positiva em 72 horas, qualquer que seja o germe: a persistência é o fator de risco-chave de foco profundo no consenso de
+2026, que pede investigação ampliada com imagem cardíaca [4], e o KDOQI manda procurar o foco na bacteremia persistente
+[2]. Na *Candida*, o algoritmo do KDOQI manda procurar infecções metastáticas [2], e as unidades incluem o
+ecocardiograma nessa busca; a diretriz de candidíase não recomenda ecocardiograma de rotina, só o fundo de olho [3].
 
 ### 1.7 Troca e novo acesso
 
@@ -213,8 +219,8 @@ O KDOQI não fixa prazo: a duração ideal depende das circunstâncias do pacien
 extensa, que envolve artéria e veia, deve ser tratada por 6 semanas ou mais, como a endocardite [2]. A fístula nativa
 resolve com antibiótico isolado com mais frequência [20], e as unidades tratam por 14 dias, ou 28 dias no *S. aureus*, o mesmo prazo do cateter.
 Na prótese, qualquer infecção é tratada por 28 dias, também depois da cirurgia. Esses prazos são da equipe; nenhuma
-das fontes lidas fixa prazo para a fístula ou para a prótese. Todo *S. aureus* faz
-ecocardiograma [4].
+das fontes lidas fixa prazo para a fístula ou para a prótese. O ecocardiograma segue a regra
+do cateter: *S. aureus*, *Candida* e hemocultura positiva em 72 horas [2, 4].
 
 ## 3. Infecção urinária
 
@@ -328,7 +334,8 @@ IDSA [1].
 As demais são decisões clínicas da equipe: vancomicina e ceftazidima mantidas com hemocultura negativa, que a IDSA e o
 KDOQI suspenderiam [1, 2]; 14 dias no coagulase-negativo com cateter retirado, contra 5 a 7 da IDSA [1]; ceftazidima
 como empírico da tunelite, em vez da cefalosporina de primeira geração das diretrizes de diálise peritoneal [15, 18];
-prazos da fístula e da prótese sem número fixado nas fontes [2]; 28 dias no *S. aureus*, e não os 14 dias do consenso de 2026 [4]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite e vancomicina isolada por 14 dias na celulite grave, contra os 5 dias e a associação da IDSA [6];
+prazos da fístula e da prótese sem número fixado nas fontes [2]; 28 dias no *S. aureus*, e não os 14 dias do consenso de 2026 [4]; ecocardiograma na *Candida*, que a diretriz de
+candidíase não pede [3]; 14 dias na tunelite, contra os 7 a 10 da IDSA [1]; 7 dias na celulite e vancomicina isolada por 14 dias na celulite grave, contra os 5 dias e a associação da IDSA [6];
 7 dias na infecção urinária também no homem, contra os 14 da diretriz europeia [21], e amicacina como alternativa, que a
 IDSA 2025 não prefere [23]; 5 dias na pneumonia não grave, contra menos de 5 da ATS 2025 [8]; ceftazidima 2 g antes do intervalo longo, que não está na bula [17];
 e amoxicilina-clavulanato sem a dose extra da bula americana [36].
