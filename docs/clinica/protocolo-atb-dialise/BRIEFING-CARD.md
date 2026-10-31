@@ -218,7 +218,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 
 ---
 
-## Divergências da busca de 2026-10-30 (decisões, uma por vez)
+## Divergências da busca de 2026-10-30 (decisões, uma por vez; desde 2026-10-31 cada uma aparece no texto como alternativa na própria seção, sem seção de divergências)
 1. **Hemocultura negativa: MANTER vanco + cefta 14 dias** (equipe: "vamos manter"). IDSA 2009 rec 55 e KDOQI Fig. 25.1
    mandam suspender; registrar como divergência no texto.
 2. **Hemocultura de vigilância: MANTER no fim do tratamento** (equipe: "mantém no fim"). IDSA rec 67 pede 1 semana após o
@@ -277,7 +277,7 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    coletas com 72 h de intervalo; a equipe escolheu antecipar para a HC positiva em 72 h (opção A), que também cobre "bacteremia
    persistente". *S. aureus*: consenso 2026 afirmação 3 [4], ESC 2023 IIa B [5]. HC positiva em 72 h: consenso 2026 afirmação 1
    (HC ≥ 48 h = fator-chave) [4], KDOQI Fig. 25.1 [2]. *Candida*: "eco pelo KDOQI - procurar metastáticas" [2]; Pappas 2016 não
-   pede eco (só fundo de olho) [3] → divergência na seção 8. Folhas 1 e 2.
+   pede eco (só fundo de olho) [3]; o texto mostra o fundo de olho como alternativa. Folhas 1 e 2.
 6. **Vancomicina de ataque em SF 250 ml; 3 g em 300 ml** (aprovado 2026-10-31, opção A). 250 ml fixo daria 12 mg/ml com 3 g,
    acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). HDF: não entra (equipe 2026-10-31, "não precisa mexer nada").
 8. **Cefazolina 3 g antes do intervalo de 72 h: NÃO** (equipe 2026-10-31, "mantém 2"). Fica 20 mg/kg (1-2 g) em toda sessão.
@@ -313,6 +313,10 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
   Nota do lock "(impresso no ramo do cateter)" removida 2026-10-30.
 
 ## Regras de processo (pedidas pela equipe)
+- **Fundamentação científica sem seção de divergências (equipe 2026-10-31: "uma sessão de divergência separada é
+  revoltante").** Cada parte do texto sustenta a decisão do card: o que o card faz, a base, e as alternativas das fontes com
+  o motivo da escolha. Nada de "a equipe diverge", "contra a diretriz" ou lista de desvios; nada no texto que o card não traga
+  (sem seção "fora do card").
 - **Nada entra sem "sim" explícito da equipe para aquele item.** Resposta sobre outro assunto não é aprovação.
   Ao propor, dizer de onde veio (fonte ou "proposta minha").
 - **Briefing primeiro, card depois.** Toda mudança de conteúdo entra aqui antes de mexer no card.
