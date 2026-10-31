@@ -90,10 +90,10 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [9] Rybak MJ, Le J, Lodise TP, et al
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [29] El Nekidy WS, Cha R, Ghazi IM
-- Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 minFora da ses → [1,9] Mermel LA, Allon M, Bouza E, et al ; Rybak MJ, Le J, Lodise TP, et al
-- Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 minFora da ses → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
-- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 minFim de  → [9] Rybak MJ, Le J, Lodise TP, et al
-- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 minFim de  → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 min · BIC ou · → [1,9] Mermel LA, Allon M, Bouza E, et al ; Rybak MJ, Le J, Lodise TP, et al
+- Vancomicina · ataque fora da HD20 mg/kg · mín. 1 g · máx. 2 gSF 250 ml EV60 min · BIC ou · → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
+- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 min · BIC  → [9] Rybak MJ, Le J, Lodise TP, et al
+- Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF 250 ml Linha da HD60 min · BIC  → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Ceftazidima1 g · 2 g antes do intervalo · de 72 hSF: 100 mlLinha da HD30 minFim de toda se → [1,17] Mermel LA, Allon M, Bouza E, et al ; Ceftazidima: bula brasileira (Blau, Ceftazidon) e bula FDA (
 - Cefazolina20 mg/kg · mín. 1 g · máx. 2 gSF: 10 ml por gLinha venosa3-5 min · (bolus)Fim de → [1,33,34] Mermel LA, Allon M, Bouza E, et al ; Cefazolina: bula FDA (Hikma, 2020) e bula brasileira (ABL, 1 ; Sowinski KM, et al
 - Amicacina5-7,5 mg/kg SF: 100-200 mlEV30-60 minApós toda sessão → [24] Amicacina: bula brasileira (Fresenius Kabi); UC Davis Health

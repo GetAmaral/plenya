@@ -279,11 +279,12 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    (HC ≥ 48 h = fator-chave) [4], KDOQI Fig. 25.1 [2]. *Candida*: "eco pelo KDOQI - procurar metastáticas" [2]; Pappas 2016 não
    pede eco (só fundo de olho) [3] → divergência na seção 8. Folhas 1 e 2.
 6. **Vancomicina de ataque em SF 250 ml; 3 g em 300 ml** (aprovado 2026-10-31, opção A). 250 ml fixo daria 12 mg/ml com 3 g,
-   acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). Pendentes no item 6: bomba de infusão; HDF.
+   acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). Pendente no item 6: HDF.
 7. **Vancomicina de ataque fora da HD: 20 mg/kg em 60 min** (equipe 2026-10-31, "adicione essa linha"). Divergências: consenso
    de vancomicina [9] dá 25 mg/kg após a diálise; IDSA 2009 tabela 7 [1] dá 20 mg/kg, mas na última hora da sessão; bula ≤ 10
    mg/min (20 mg/kg × 70 kg = 1,4 g em 60 min = 23 mg/min). Mín. 1 g, máx. 2 g, SF 250 ml (equipe). Manutenção também
    passa a SF 250 ml (equipe). Concentrações: 4-8 mg/ml fora da HD, 4-6 mg/ml na manutenção, dentro do teto da bula.
+   **BIC ou microgotas** no tempo de infusão das 3 linhas da vancomicina (equipe 2026-10-31; resolve a BIC do item 6).
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

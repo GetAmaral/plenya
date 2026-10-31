@@ -270,7 +270,7 @@ usam o ataque de 35 mg/kg (mínimo 2 g, máximo 3 g) e a manutenção no topo da
 os mínimos e o máximo da manutenção são da equipe. A vancomicina é infundida pela linha da hemodiálise nos 90 minutos
 finais da sessão: o ataque em 90 minutos, diluído em 250 ml de soro fisiológico (300 ml quando a dose é de 3 g), e a manutenção em
 60 minutos, também em 250 ml. Assim a concentração nunca passa de 10 mg/ml, a que a bula admite no paciente com
-restrição de volume [28], e o paciente em hemodiálise é restrito de volume por definição. Uma
+restrição de volume [28]; o tempo é garantido por bomba de infusão ou equipo de microgotas, e o paciente em hemodiálise é restrito de volume por definição. Uma
 revisão sobre a administração na última hora da sessão de alto fluxo, com doses menores que as das unidades (ataque de 18
 a 23 mg/kg, manutenção de 8 a 13 mg/kg), relatou nível pré-diálise adequado e bons desfechos [29].
 
