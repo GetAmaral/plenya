@@ -279,7 +279,11 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    (HC ≥ 48 h = fator-chave) [4], KDOQI Fig. 25.1 [2]. *Candida*: "eco pelo KDOQI - procurar metastáticas" [2]; Pappas 2016 não
    pede eco (só fundo de olho) [3] → divergência na seção 8. Folhas 1 e 2.
 6. **Vancomicina de ataque em SF 250 ml; 3 g em 300 ml** (aprovado 2026-10-31, opção A). 250 ml fixo daria 12 mg/ml com 3 g,
-   acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). Pendente no item 6: HDF.
+   acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). HDF: não entra (equipe 2026-10-31, "não precisa mexer nada").
+8. **Cefazolina 3 g antes do intervalo de 72 h: NÃO** (equipe 2026-10-31, "mantém 2"). Fica 20 mg/kg (1-2 g) em toda sessão.
+   Base: Duke 2024 [35] (2 g cobrem 72 h, PTA 99,7%); Sowinski 2001 [34]. 3 g só em prática institucional (Stryjewski 2007,
+   2/2/3 g) e sugestão de revisão (Cimino 2021); Renaud 2011: toxicidade com 3 g a cada sessão. Card não muda.
+**Feedback da equipe de 2026-10-30: os 8 itens decididos (2026-10-31).**
 7. **Vancomicina de ataque fora da HD: 20 mg/kg em 60 min** (equipe 2026-10-31, "adicione essa linha"). Divergências: consenso
    de vancomicina [9] dá 25 mg/kg após a diálise; IDSA 2009 tabela 7 [1] dá 20 mg/kg, mas na última hora da sessão; bula ≤ 10
    mg/min (20 mg/kg × 70 kg = 1,4 g em 60 min = 23 mg/min). Mín. 1 g, máx. 2 g, SF 250 ml (equipe). Manutenção também

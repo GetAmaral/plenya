@@ -288,7 +288,8 @@ de infusão [32].
 A dose é de 20 mg/kg (mínimo 1 g, máximo 2 g), diluída em cerca de 10 ml de soro por grama e dada em bolus de 3 a 5
 minutos pela linha venosa ao fim de toda sessão [1, 33]. O momento importa: uma sessão remove 50 a 62% da cefazolina,
 e a dose de 15 a 20 mg/kg dada ao fim mantém nível adequado durante o intervalo de 2 a 3 dias [34]. Um esquema fixo de
-2 g três vezes por semana após a diálise também foi sustentado para o *S. aureus* sensível [35].
+2 g três vezes por semana após a diálise também foi sustentado para o *S. aureus* sensível, e o mesmo estudo mostrou
+que 2 g cobrem o intervalo de 72 horas [35]; por isso as unidades não usam a dose maior, de 3 g, antes do intervalo longo.
 
 ### 6.3 Ceftazidima
 

@@ -563,6 +563,16 @@ definição concreta: **jugulares internas e femorais estenosadas ou ocluídas**
 sugeriu 250 ml fixo; 3 g/250 = 12 mg/ml passa do teto de 10 mg/ml (bula FDA Pfizer e bula Anvisa ABL/Novamicin, restrição de
 líquidos). Velocidade (22-33 mg/min contra ≤ 10 mg/min das bulas) já era divergência registrada. HDF: sem fonte específica lida.
 
+### Feedback da equipe 2026-10-30, itens 7 e 8
+
+- **Item 7 (2026-10-31):** vancomicina de ataque fora da HD 20 mg/kg (mín. 1 g, máx. 2 g), SF 250 ml, 60 min, BIC ou
+  microgotas; manutenção também em SF 250 ml. Fontes: IDSA 2009 tabela 7 (20 mg/kg, mas na última hora da sessão); consenso de
+  vancomicina (25 mg/kg após a diálise).
+- **Item 8 (2026-10-31, "mantém 2"):** sem 3 g antes do intervalo longo. Duke 2024 (PMC11531813, texto completo): 2 g 3x/sem,
+  PTA 99,7% para fT > 2 mg/l nas últimas 24 h do intervalo de 72 h; testou 3/2/2 g. Cimino 2021 (Drugs, PMC7884963): "Consider
+  3 g dose for 72-h interdialytic period"; descreve Stryjewski 2007 (CID 44:190; 2/2/3 g rotina institucional; falha 13% vs
+  31% vanco) e Renaud 2011 (Hemodial Int 15:63; 3 g 3x/sem; 2 Stevens-Johnson e 1 leucopenia, todos com 3 g).
+
 ### Fontes primárias lidas
 - Mermel LA et al. IDSA 2009 CRBSI. Clin Infect Dis 2009;49(1):1-45. PMC4039170.
 - Rybak MJ et al. Vancomycin TDM revised consensus. Am J Health Syst Pharm 2020;77(11):835-64.
