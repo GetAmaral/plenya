@@ -6,18 +6,10 @@ colchetes remetem às referências no fim.
 
 ## Introdução
 
-O paciente em hemodiálise trata infecção em condições que nenhuma diretriz geral contempla por inteiro. O acesso
-vascular é ao mesmo tempo a principal porta de entrada de bactérias e um recurso finito: cada cateter retirado e cada
-veia perdida encurtam a vida dialítica do paciente. A farmacocinética muda a cada sessão, porque o dialisador de alta
-permeabilidade remove parte das drogas hidrossolúveis e o intervalo entre as sessões não é regular. E a própria sessão
-impõe a logística: a droga endovenosa precisa caber no tempo em que o paciente está na cadeira, e a droga oral depende
-de o paciente tomar em casa.
-
 O protocolo foi montado a partir da prática da equipe e conferido, item por item, com as diretrizes de infecção
 relacionada a cateter [1], de acesso vascular [2], de candidíase [3], de *Staphylococcus aureus* [4], de endocardite
-[5], de pele e partes moles [6] e de pneumonia [7, 8], contra o consenso de monitorização da vancomicina [9] e
-com as bulas de cada droga. As diretrizes nem sempre concordam entre si, e poucas foram escritas pensando no paciente
-em hemodiálise. Em cada ponto, o texto mostra as opções que as fontes oferecem e por que o protocolo escolheu a sua.
+[5], de pele e partes moles [6] e de pneumonia [7, 8], com o consenso de monitorização da vancomicina [9] e com as bulas
+de cada droga. Em cada ponto, o texto mostra a base da conduta e as opções que as fontes oferecem.
 
 ## 1. Bacteremia relacionada ao cateter
 
