@@ -191,6 +191,7 @@ Textos padronizados em 2026-10-30 (equipe: "padronize os textos"): diluição se
 | Droga | Dose | Diluição | Via | Tempo | Momento |
 |---|---|---|---|---|---|
 | Vancomicina, ataque | 35 mg/kg (mín. 2 g · máx. 3 g) | **SF 250 ml; 3 g: 300 ml** (equipe 2026-10-30, feedback item 6, opção A: sempre ≤ 10 mg/ml) | Linha da HD | 90 min | 90 min finais da sessão |
+| Vancomicina, ataque fora da HD | 20 mg/kg (equipe 2026-10-31, feedback item 7) | SF: 10 mg/ml (proposta minha, mesma regra da manutenção) | EV | 60 min | Fora da sessão |
 | Vancomicina, manutenção | 15 mg/kg (mín. 1 g · máx. 1,5 g) | SF: 10 mg/ml | Linha da HD | 60 min | Fim de toda sessão |
 | Ceftazidima | 1 g (2 g antes do intervalo de 72 h) | SF: 100 ml | Linha da HD | 30 min | Fim de toda sessão |
 | Cefazolina | 20 mg/kg (mín. 1 g · máx. 2 g) | SF: 10 ml por g | Linha venosa | 3-5 min (bolus) | Fim de toda sessão |
@@ -279,6 +280,9 @@ fonte fica sem número. Rodapés: "Números: referências do documento teórico"
    pede eco (só fundo de olho) [3] → divergência na seção 8. Folhas 1 e 2.
 6. **Vancomicina de ataque em SF 250 ml; 3 g em 300 ml** (aprovado 2026-10-31, opção A). 250 ml fixo daria 12 mg/ml com 3 g,
    acima do teto de 10 mg/ml das bulas (FDA e brasileira, restrição de volume). Pendentes no item 6: bomba de infusão; HDF.
+7. **Vancomicina de ataque fora da HD: 20 mg/kg em 60 min** (equipe 2026-10-31, "adicione essa linha"). Divergências: consenso
+   de vancomicina [9] dá 25 mg/kg após a diálise; IDSA 2009 tabela 7 [1] dá 20 mg/kg, mas na última hora da sessão; bula ≤ 10
+   mg/min (20 mg/kg × 70 kg = 1,4 g em 60 min = 23 mg/min).
 
 ## Status do card (2026-10-29)
 - **CARD FECHADO 2026-10-30: as 4 folhas aprovadas** (1 cateter + óstio/túnel; 2 FAV e prótese; 3 urina, celulite,

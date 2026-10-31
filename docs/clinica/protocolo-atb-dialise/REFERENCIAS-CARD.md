@@ -90,6 +90,8 @@ a fonte diverge, a divergência está no texto teórico (seção 8). Regerar est
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [9] Rybak MJ, Le J, Lodise TP, et al
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Vancomicina · ataque35 mg/kg · mín. 2 g · máx. 3 gSF 250 ml · 3 g: 300 mlLinha da HD90 min → [29] El Nekidy WS, Cha R, Ghazi IM
+- Vancomicina · ataque fora da HD20 mg/kg SF: 10 mg/ml EV60 minFora da sessão → [1,9] Mermel LA, Allon M, Bouza E, et al ; Rybak MJ, Le J, Lodise TP, et al
+- Vancomicina · ataque fora da HD20 mg/kg SF: 10 mg/ml EV60 minFora da sessão → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF: 10 mg/ml Linha da HD60 minFim  → [9] Rybak MJ, Le J, Lodise TP, et al
 - Vancomicina · manutenção15 mg/kg · mín. 1 g · máx. 1,5 gSF: 10 mg/ml Linha da HD60 minFim  → [28] Vancomicina: bula FDA (Pfizer), Dosage and Administration
 - Ceftazidima1 g · 2 g antes do intervalo · de 72 hSF: 100 mlLinha da HD30 minFim de toda se → [1,17] Mermel LA, Allon M, Bouza E, et al ; Ceftazidima: bula brasileira (Blau, Ceftazidon) e bula FDA (

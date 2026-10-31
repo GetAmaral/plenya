@@ -274,6 +274,10 @@ volume [28], e o paciente em hemodiálise é restrito de volume por definição.
 revisão sobre a administração na última hora da sessão de alto fluxo, com doses menores que as das unidades (ataque de 18
 a 23 mg/kg, manutenção de 8 a 13 mg/kg), relatou nível pré-diálise adequado e bons desfechos [29].
 
+Quando o ataque precisa ser feito fora da sessão, as unidades usam 20 mg/kg em 60 minutos, a 10 mg/ml. É a dose de
+ataque que a IDSA indica para o paciente em hemodiálise, embora dada na última hora da sessão [1]; o consenso de
+monitorização indica 25 mg/kg quando o ataque é feito depois da diálise [9].
+
 O principal risco da infusão rápida é a síndrome do homem vermelho e a hipotensão. Dois ensaios mostraram que o
 anti-histamínico antes da infusão as reduz de forma acentuada [30, 31]. Quando as unidades tiverem a dosagem, o nível
 pré-diálise deve ficar entre 15 e 20 mg/l [9]. As bulas brasileiras trazem os limites de concentração e de velocidade
