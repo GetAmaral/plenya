@@ -12,7 +12,7 @@
 #   dr_api      = resposta postada via skill/Composio (drgetulioamaralfilho)
 #   page        = respondido pela Página FB "Clínica médica Dr Getulio" (id 1046561478538408)
 
-last_updated: '2026-10-11'
+last_updated: '2026-11-17'
 
 # ── DMs ─────────────────────────────────────────────────────────────────────
 dms:
@@ -86,7 +86,7 @@ conversas_inacessiveis:
 # lados IG e FB. RESULTADO: praticamente tudo já respondido pelo Dr até 20/05.
 # Registro só o que ficou PENDENTE nesta data (o resto = respondido, não re-flaggar
 # comentários com timestamp <= a data abaixo a menos que tenham reply nova do usuário).
-comments_baseline_swept_through: '2026-10-11'  # varredura COMPLETA 11/10: 70 posts orgânicos (todos com comments) + ads Ep1/Ep2/Ep7 IG+FB + 35 DMs + Messenger. GAPs: tags; DM grupo renalmentevivos+pedro.hoam (subcode 33). Anterior: varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
+comments_baseline_swept_through: '2026-11-17'  # varredura COMPLETA 17/11: 78 posts orgânicos (1 pág, curl em todos) + 10 ads IG+FB (só Ep1/Ep2 GLP-1 FB tinham novidade) + 28 DMs ativas desde 11/10 + Messenger (0 novo) + tags (9, nada a responder). Sem gaps. Anterior 11/10: 70 posts orgânicos (todos com comments) + ads Ep1/Ep2/Ep7 IG+FB + 35 DMs + Messenger. GAPs: tags; DM grupo renalmentevivos+pedro.hoam (subcode 33). Anterior: varredura COMPLETA 11/07: 46 posts orgânicos (TODOS, 2 pág) + ads IG+FB (Ep1/Ep2 novos + GLP1 ep1/ep2/ep7) + 50 DMs (~28 pós-23/06 checadas) + FB Messenger (0) + tags. Reconexão IG Composio necessária (todas EXPIRED → re-auth ca_ro8bpPO5Iv7h/ac_4blu49WjsnFV).
 
 # Varredura 2026-08-25 (16a iteracao): 60 posts organicos (3 paginas, TODOS com
 # comments_count>0), 4 ads (GLP1 Ep1/Ep2 ATIVOS + Ep1/Ep2 novos PAUSADOS) nos DOIS
@@ -1015,3 +1015,43 @@ answered_2026-10-11:
     - {who: 'Roseni Monteiro (28461392400219194)', conversation: t_1013430708440106, re: "Só 'Oi' em 20/09. Janela vencida, sem telefone. Não respondido."}
   descartes:
     - "FB Ep2 'Fabiana Fabbris Oliveira' (marcação de amiga)."
+
+# ---- Sessão 2026-11-17 (19ª iteração) ----
+answered_2026-11-17:
+  dms:   # fora da janela 24h a API recusa (2534022) -> Dr colou no app
+    - {who: '@cassinhacs2004', by: dr_app, re: "Albuminúria 70->99 mg/g em Forxiga; irmã da Cristina e do Paulo (pacientes); consulta marcada março. Variabilidade/KDIGO, manter Forxiga, medidas não medicamentosas, repetir 1ª urina e levar em março. Dr VETOU sugerir antecipar consulta (agenda lotada). Mandado em 3 mensagens (texto longo não colava)."}
+    - {who: '@elizangela_bernardino', by: dr_app, re: "Vesícula e caneta: não proíbe, cuidado; He 2022 JAMA IM RR 1,37."}
+    - {who: '@mari.nadia_', by: dr_app, re: "GLP-1 vs GLP-1+GIP: SURMOUNT-5 peso; semaglutida mais dados coração/rim; SURPASS-CVOT não-inferior."}
+    - {who: '@adrianaalmeida4078', by: dr_app, re: "Wegovy funciona: STEP-1 ~15%, SELECT; plano + avaliação médica."}
+  comments_ig:   # by: dr_api
+    - {who: 'anônimo (ad Ep1 IG)', comment_id: '18452653282121825', reply_id: '18135635648496785', re: "Semaglutida e visão: NAION muito raro (EMA/PRAC jun/2025, até 1/10 mil) + retinopatia DM."}
+    - {who: 'anônimo (ad Ep1 IG)', comment_id: '17944242246379658', reply_id: '18126293887901250', re: "2ª dose Ozivy sem efeito: 0,25 é adaptação, escalonamento."}
+    - {who: '@karina.goncalves.9028 (ad Ep2 IG)', comment_id: '18078510347420980', reply_id: '18116106626147499', re: "Semavy 0,25 balança travou: dose de adaptação, platô, conversar sobre subir."}
+    - {who: '@joceyrcarvalhoguilherme', comment_id: '18127714205487317', reply_id: '18121651850320824', re: "Gratidão família."}
+    - {who: '@lkueti', comment_id: '18132525676829994', reply_id: '17899244676413520', re: "DRC silenciosa."}
+    - {who: '@fatimabarusso', comment_id: '18016192835959497', reply_id: '18210564256325058', re: "Agradecimento sóbrio."}
+    - {who: '@juniceiaezequiel', comment_id: '18030591623687458', reply_id: '18022983824765206', re: "Carinho."}
+    - {who: '@cleveniceaparecida', comment_id: '18091098950304797', reply_id: '18093224822686795', re: "Ajudou."}
+    - {who: '@anaccorreamattos', comment_id: '17934270975145770', reply_id: '18133616776805542', re: "Obrigado."}
+    - {who: '@patricia.ribeiro.3158', comment_id: '18119608567984274', reply_id: '17943603975384450', re: "Obrigado."}
+    - {who: 'anônimo (ad Ep1 IG)', comment_id: '18113657360226981', reply_id: '18122138116991123', re: "Por nada."}
+  comments_fb_ads:   # by: page
+    - {ad: Ep1, comment_id: '2363483717737582', reply_id: '2363483717737582_1177163958588165', re: "Sem vesícula, azia + intestino preso: manejo GI, segurar escalonamento, sinais de alarme."}
+    - {ad: Ep2, comment_id: '1429660972472224', reply_id: '1429660972472224_1156319923753053', re: "Ozivy enjoo: manejo + dose + discutir troca p/ tirzepatida (SURMOUNT-5 menos abandono GI 2,7 vs 5,6%) — sugestão do Dr."}
+    - {ad: Ep2, comment_id: '907569692291740', reply_id: '907569692291740_2609130152883355', re: "Crohn + hipotireoidismo: sem contraindicação; CMT/MEN2; TSH; gastro decide."}
+    - {ad: Ep2, comment_id: '1108792618267794', reply_id: '1108792618267794_1698029568706033', re: "Fibromialgia: pode, não trata a doença, efeito indireto via peso."}
+    - {ad: Ep1, comment_id: '1472491804799972', reply_id: '1472491804799972_3065031603843674', re: "'Fala mais devagar': Dr aprovou 'Vou cuidar do ritmo nos próximos vídeos' (6º relato de ritmo nesse ad)."}
+  pulados_pelo_dr:   # [p] — não re-flaggar
+    - {who: '@malugarib', comment_id: '18033199718852395', re: "Espuma x glicose alta. Pulado."}
+    - {who: '@ostimarlene', comment_id: '18589983007068867', re: "Urina do pai com espuma. Pulado (resposta 'O', lida como P)."}
+  so_like:
+    - "@joceyrcarvalhoguilherme 17962096872217745; @lkueti 17970412812177631 e 18397621048161918; @fatimabarusso 18124525273941250; palmas de amaral_eng x5, mateusamaral10, lucienetine, maria_e_moises19, marciacoelhoprado; ad Ep2 IG 'Muito bom'."
+  sem_resposta:
+    - "ad Ep1 IG 'Quero ver os outros vídeos' (18103999148530887): não sei se a série está completa no perfil (3ª pergunta igual)."
+    - "ad Ep7 IG 'oi dr', ad Ep1 IG 'Up', '..m' marineitoalhas, FB Ep2 'Janaina Sallesse' (marcação), FB Ep1 'To usando a Tirzepatida'."
+  dms_com_o_dr:   # profissional/comercial — Dr decide pessoalmente
+    - {who: '@maisavalar', re: "09/11 dona de clínica, amiga do Dr. Pedro Favero, pergunta 'receita passiva com multipropriedade'; 13/11 bom dia."}
+    - {who: '@iscal.londrina', re: "14/10 'Podem enviar e nós avaliaremos' (colab dos cortes do evento)."}
+    - {who: '@daviirabelo', re: "Serviam, pitch SEO. Spam comercial."}
+    - {who: '@dracamilakill', re: "Prospecção."}
+    - {who: '@mara.abreu.14', re: "29/10 'Eu' solto, sem contexto."}

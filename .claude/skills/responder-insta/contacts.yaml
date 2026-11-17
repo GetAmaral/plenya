@@ -19,7 +19,8 @@
 # Adicionar novos contatos quando aparecerem com pista clara de relação.
 
 version: 1
-last_updated: '2026-10-11'  # 18ª iteração — varredura COMPLETA (70 posts orgânicos, 1 pág + 35 DMs ativas desde 17/09, 2 pág + ads GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAPs: tags (tool inexistente) e DM em grupo renalmentevivos+pedro.hoam (subcode 33). +patricia_piresdeoliveira, +fabiaveronica20, +marcinha_barreiros, +alessandra_limaodonto, +mardume
+last_updated: '2026-11-17'  # 19ª iteração — varredura COMPLETA (78 posts, 10 ads IG+FB, 28 DMs, Messenger, tags; sem gaps). +cassinhacs2004, +elizangela_bernardino, +mari.nadia_, +adrianaalmeida4078, +karina.goncalves.9028, +lkueti, +juniceiaezequiel, +cleveniceaparecida, +ostimarlene, +maisavalar
+# last_updated anterior: '2026-10-11'  # 18ª iteração — varredura COMPLETA (70 posts orgânicos, 1 pág + 35 DMs ativas desde 17/09, 2 pág + ads GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAPs: tags (tool inexistente) e DM em grupo renalmentevivos+pedro.hoam (subcode 33). +patricia_piresdeoliveira, +fabiaveronica20, +marcinha_barreiros, +alessandra_limaodonto, +mardume
 # last_updated anterior: '2026-09-17'  # 17ª iteração — varredura COMPLETA (64 posts orgânicos, 3 pág + 51 DMs, 2 pág + ads dark GLP-1 Ep1/Ep2/Ep7 nos DOIS lados + FB Messenger). GAP: tags/mentions (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build). +clovensamaral (PRIMO E COMPADRE), +cabrienelediane, +regina.garcia.777, +fabiomondek, +eloanabarbara
 # last_updated anterior: '2026-09-11'  # 16ª iteração — varredura COMPLETA (60 posts orgânicos + 4 ads IG/FB + 69 DMs + Messenger). GAP: tags/mentions não varridos (INSTAGRAM_GET_IG_USER_TAGS não existe nesta build do Composio). +josilenegnr, +andreacasinilucas, +silvia.helenaa64, +carmothais2022, +josemanoelamaral, +daianevieiraeleo, +edilenysilvaventura_ncs, +adriana.platz2, +elizabethveronezi, +prof.diego.fogaca, +vanessamathias304, +jussara.costa63, +silsime
 # last_updated anterior: '2026-08-25'  # 16a iteracao
@@ -502,7 +503,7 @@ contacts:
     notes: |
       Paciente do Dr. Agradece recorrentemente pelo atendimento "à mim e minha família"
       e relata resultados muito bons do tratamento (GLP-1). Trata o Dr por "meu irmão" às vezes.
-    last: "2026-10-11 — reply Reel Sono (agradecimento, fechamento)"
+    last: "2026-11-17 — reply agradecimento atendimento à família (reel 19/10)"
 
   '@monicabezerramarques':
     rel: seguidora
@@ -747,7 +748,7 @@ contacts:
     notes: |
       Amiga próxima. Usa "Get" no MTB. Engaja em conteúdos clínicos
       (comentou no Reel de Proteína em 18/05 agradecendo orientações).
-    last: "2026-05-18 - reply Reel Proteína ('Valeu, Malu! Beijo grande pra família. ❤️')"
+    last: "2026-11-17 - pergunta espuma x glicose no reel Espuma (14/10): Dr PULOU (talvez trate pessoalmente)"
 
   # ============================================
   # PARCEIROS DE PEDAL / COLEGAS DE TRABALHO
@@ -1475,3 +1476,68 @@ contacts:
     rel: seguidora
     tone: cordial
     last: "2026-10-11 — 'Muito obrigado' no Reel pessoal Dia das Mães"
+
+  '@cassinhacs2004':
+    rel: familiar de pacientes (irmã da Cristina e do Paulo, pacientes do Dr)
+    tone: clínico-caloroso
+    notes: |
+      Usa Forxiga desde mai/2026; albuminúria 70 (abr) -> 99 mg/g (nov). Histórico familiar.
+      Consulta marcada para março/2027. Nome dela NÃO confirmado.
+    avoid: ["sugerir antecipar consulta (agenda lotada, veto do Dr)"]
+    last: "2026-11-17 — DM albuminúria (Dr colou no app, 3 mensagens)"
+
+  '@elizangela_bernardino':
+    rel: seguidora
+    name: Elizângela
+    tone: clínico-respeitoso
+    last: "2026-11-17 — DM vesícula e GLP-1"
+
+  '@mari.nadia_':
+    rel: seguidora
+    tone: clínico-respeitoso
+    last: "2026-11-17 — DM GLP-1 vs GLP-1+GIP"
+
+  '@adrianaalmeida4078':
+    rel: seguidora
+    name: Adriana (pelo @, não confirmado)
+    tone: clínico-respeitoso
+    last: "2026-11-17 — DM Wegovy funciona?"
+
+  '@karina.goncalves.9028':
+    rel: seguidora nova (via ad GLP-1 Ep2)
+    name: Karina
+    tone: acolhedor
+    notes: |
+      Semavy 0,25, 4ª aplicação, frustrada com balança travada.
+    last: "2026-11-17 — reply ad Ep2 IG (dose de adaptação)"
+
+  '@lkueti':
+    rel: seguidor engajado
+    tone: cordial
+    notes: |
+      Elogios longos e frequentes, entusiasta (DRC, transplante, equipe cirúrgica).
+    last: "2026-11-17 — reply elogio post DRC/semaglutida-transplante"
+
+  '@juniceiaezequiel':
+    rel: seguidora
+    tone: cordial
+    last: "2026-11-17 — 'Doutor vc é incrível' (reel 12/10)"
+
+  '@cleveniceaparecida':
+    rel: seguidora
+    tone: cordial
+    last: "2026-11-17 — 'Ótima suas explicações' (reel retatrutida)"
+
+  '@ostimarlene':
+    rel: seguidora
+    tone: clínico-respeitoso
+    notes: |
+      Pai com espuma constante na urina (reel Espuma 18/10). Dr pulou a resposta.
+    last: "2026-11-17 — pulado"
+
+  '@maisavalar':
+    rel: colega (dona de clínica há 15+ anos), amiga do Dr. Pedro Favero
+    tone: profissional-cordial
+    notes: |
+      DM 09/11 perguntando sobre "receita passiva com multipropriedade". Dr trata pessoalmente.
+    last: "2026-11-17 — DM pendente com o Dr"
