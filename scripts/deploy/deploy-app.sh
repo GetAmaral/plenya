@@ -65,8 +65,16 @@ if [ "${DEPLOY_SKIP_RAM_CHECK:-0}" != "1" ] && [ "$AVAIL_MB" -lt "$MIN_MB" ]; th
 fi
 
 echo "==> dispara deploy de plenya-${APP} ($UUID)"
-curl -sS "https://coolify.plenyasaude.com.br/api/v1/deploy?uuid=${UUID}&force=true" \
-  -H "Authorization: Bearer $TOKEN"; echo
+# Coolify passou a exigir POST neste endpoint (GET devolve "This endpoint has changed to a
+# POST request." e NÃO dispara nada). Se a resposta não trouxer deployment_uuid, abortar:
+# senão o loop abaixo fica 13 min vendo o container velho com health 200.
+RESP=$(curl -sS -X POST "https://coolify.plenyasaude.com.br/api/v1/deploy?uuid=${UUID}&force=true" \
+  -H "Authorization: Bearer $TOKEN")
+echo "$RESP"
+if ! grep -q 'deployment_uuid' <<<"$RESP"; then
+  echo "ABORTADO: o Coolify não enfileirou o deploy (resposta acima)." >&2
+  exit 4
+fi
 
 echo "==> aguardando container novo + healthcheck (até ~13min)"
 # O status da API do Coolify costuma ficar em "running:unknown" mesmo no sucesso;
