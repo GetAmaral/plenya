@@ -75,7 +75,7 @@ export function MedicalClinicSchema({ locale = 'pt' }: { locale?: string } = {})
             '@type': 'MedicalProcedure',
             name: 'Continuum Plenya',
             description:
-              'Six-month or annual program with multidisciplinary team — physician, nutritionist, psychologist, and exercise physiologist.',
+              'Six-month or annual program led by a physician, online or in person in Londrina.',
           },
           {
             '@type': 'DiagnosticProcedure',
@@ -95,7 +95,7 @@ export function MedicalClinicSchema({ locale = 'pt' }: { locale?: string } = {})
             '@type': 'MedicalProcedure',
             name: 'Continuum Plenya',
             description:
-              'Programa semestral ou anual com equipe multidisciplinar — médico, nutricionista, psicólogo e educador físico.',
+              'Programa semestral ou anual conduzido por médico, online ou presencial em Londrina.',
           },
           {
             '@type': 'DiagnosticProcedure',

@@ -3,6 +3,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { FaqAccordion } from '@/components/marketing/faq-accordion';
 import { FaqSchema } from '@/components/seo/faq-schema';
+import { DoctorPortraits } from '@/components/team/doctor-portraits';
 import { TestimonialsInline } from '@/components/testimonials/testimonials-inline';
 
 type Params = Promise<{ locale: string }>;
@@ -66,7 +67,7 @@ export default async function ContinuumPage({ params }: { params: Params }) {
     },
   ];
 
-  const entra = [1, 2, 3, 4, 5, 6, 7].map((n) => t(`in${n}` as 'in1'));
+  const entra = [1, 2, 3, 4, 5, 6, 7, 8].map((n) => t(`in${n}` as 'in1'));
 
   const fwCards = [1, 2, 3, 4, 5, 6].map((n) => ({
     title: t(`fw${n}Title` as 'fw1Title'),
@@ -218,12 +219,13 @@ export default async function ContinuumPage({ params }: { params: Params }) {
               {t('teamTitle')}
             </h2>
             <p className="text-cream/80 text-lg leading-relaxed max-w-xl">{t('teamDesc')}</p>
+            <div className="pt-4">
+              <Link href="/equipe" className="btn-outline-dark border-cream/40 text-cream">
+                {t('teamCta')}
+              </Link>
+            </div>
           </div>
-          <div className="lg:pt-20">
-            <Link href="/equipe" className="btn-outline-dark border-cream/40 text-cream">
-              {t('teamCta')}
-            </Link>
-          </div>
+          <DoctorPortraits sizes="(min-width: 1024px) 280px, 50vw" />
         </div>
       </section>
 
@@ -309,15 +311,7 @@ export default async function ContinuumPage({ params }: { params: Params }) {
                 </li>
                 <li className="flex gap-4 text-petrol/75 leading-relaxed">
                   <span className="text-petrol/40 mt-1.5 leading-none">—</span>
-                  <span>
-                    {t('out2Part1')}
-                    <Link
-                      href="/consultas"
-                      className="underline decoration-gold/60 underline-offset-4 hover:text-petrol transition"
-                    >
-                      {t('out2Link')}
-                    </Link>
-                  </span>
+                  <span>{t('out2')}</span>
                 </li>
                 <li className="flex gap-4 text-petrol/75 leading-relaxed">
                   <span className="text-petrol/40 mt-1.5 leading-none">—</span>
