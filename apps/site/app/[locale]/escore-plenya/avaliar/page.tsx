@@ -6,9 +6,9 @@ import config from '@/content/data/score-triagem-config.json';
 import type { LightConfig } from '@/lib/score-light/types';
 
 export const metadata: Metadata = {
-  title: 'Faça sua avaliação — Escore Plenya Triagem',
+  title: 'Avaliação Inicial de Saúde Plenya',
   description:
-    'Versão pública e gratuita do Escore Plenya. Triagem rápida em ~35 perguntas e radar com sua pontuação por pilar AGIR. Anônimo, sem cadastro.',
+    'Versão pública e gratuita do Escore Plenya. Avaliação rápida em ~35 perguntas e radar com sua pontuação por pilar AGIR. Anônimo, sem cadastro.',
 };
 
 export default async function AvaliarPage({
@@ -27,7 +27,7 @@ export default async function AvaliarPage({
         <div className="site-container pt-32 pb-24 md:pt-40 md:pb-32 max-w-2xl space-y-8">
           <p className="label-upper text-gold">Em preparação</p>
           <h1 className="heading-section text-petrol text-3xl md:text-4xl">
-            A Triagem do Escore Plenya está sendo finalizada.
+            A Avaliação Inicial de Saúde Plenya está sendo finalizada.
           </h1>
           <p className="text-petrol/80 leading-relaxed">
             A equipe clínica está concluindo a curadoria das perguntas que comporão a
@@ -44,5 +44,5 @@ export default async function AvaliarPage({
     );
   }
 
-  return <EscoreLightForm config={cfg} locale={locale} tierLabel="Escore Plenya Triagem" />;
+  return <EscoreLightForm config={cfg} locale={locale} tierLabel="Avaliação Inicial de Saúde Plenya" />;
 }

@@ -47,7 +47,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <strong>{LEGAL_CONTACT.controllerName}</strong> (CNPJ {LEGAL_CONTACT.controllerCnpj}, {LEGAL_CONTACT.controllerAddress}) é a
               controladora dos dados pessoais tratados nos serviços online disponíveis em{' '}
               <a href="https://plenyasaude.com.br" className="text-gold underline underline-offset-4">plenyasaude.com.br</a>,
-              incluindo o <strong>Escore Plenya Light</strong> (autoavaliação anônima em
+              incluindo a <strong>Avaliação Inicial de Saúde Plenya</strong> (autoavaliação anônima em
               {' '}<a href="https://plenyasaude.com.br/escore-plenya" className="text-gold underline underline-offset-4">plenyasaude.com.br/escore-plenya</a>)
               {' '}e a <strong>área do paciente</strong> em{' '}
               <a href="https://minha.plenyasaude.com.br" className="text-gold underline underline-offset-4">minha.plenyasaude.com.br</a>
@@ -62,7 +62,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
               <li>Dados informados em formulários de contato (nome, email, mensagem) — apenas para responder.</li>
             </ul>
 
-            <p className="mt-6 mb-3"><strong>No Escore Plenya Light</strong> (autoavaliação anônima):</p>
+            <p className="mt-6 mb-3"><strong>Na Avaliação Inicial de Saúde Plenya</strong> (autoavaliação anônima):</p>
             <ul className="space-y-2 ml-5 list-disc marker:text-gold">
               <li><strong>Demográficos:</strong> idade, sexo biológico, peso e altura (opcionais).</li>
               <li><strong>Respostas sobre saúde:</strong> hábitos, sintomas, histórico de doenças pessoais e familiares, uso de medicamentos, valores de exames laboratoriais (todas opcionais — você responde só o que souber ou quiser).</li>

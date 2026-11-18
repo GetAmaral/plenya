@@ -29,7 +29,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
           <p className="label-upper text-gold mb-6">Legal</p>
           <h1 className="heading-hero text-[clamp(2.5rem,6vw,4rem)] text-cream">Termos de Uso</h1>
           <p className="text-cream/70 mt-6 max-w-2xl">
-            Condições para uso do site da Plenya, do Escore Plenya Light e demais serviços online.
+            Condições para uso do site da Plenya, da Avaliação Inicial de Saúde Plenya e demais serviços online.
           </p>
           <p className="text-cream/50 text-sm mt-4 font-mono">Versão {TERMS_VERSION}</p>
         </div>
@@ -40,7 +40,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
 
           <Section n="1" title="Aceitação">
             <p>
-              Ao acessar ou usar qualquer recurso do site da Plenya — incluindo o <strong>Escore Plenya Light</strong>, formulários de contato e o portal do paciente — você concorda com estes Termos. Se não concordar, não use o serviço.
+              Ao acessar ou usar qualquer recurso do site da Plenya — incluindo a <strong>Avaliação Inicial de Saúde Plenya</strong>, formulários de contato e o portal do paciente — você concorda com estes Termos. Se não concordar, não use o serviço.
             </p>
           </Section>
 
@@ -50,10 +50,10 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
             </p>
           </Section>
 
-          <Section n="3" title="O Escore Plenya Light não é diagnóstico médico">
+          <Section n="3" title="A Avaliação Inicial de Saúde Plenya não é diagnóstico médico">
             <div className="bg-paper border-l-2 border-gold pl-4 py-3">
               <p>
-                <strong>Importante:</strong> o Escore Plenya Light é uma <strong>autoavaliação informativa</strong>, baseada em respostas que você mesmo fornece. <strong>Não é diagnóstico, não substitui consulta médica</strong> e não deve ser usado para tomar decisões clínicas isoladamente.
+                <strong>Importante:</strong> a Avaliação Inicial de Saúde Plenya é uma <strong>autoavaliação informativa</strong>, baseada em respostas que você mesmo fornece. <strong>Não é diagnóstico, não substitui consulta médica</strong> e não deve ser usado para tomar decisões clínicas isoladamente.
               </p>
               <p className="mt-3">
                 Se você tem sintomas, dúvidas ou suspeitas sobre sua saúde, procure um profissional de saúde qualificado. Em emergências, busque pronto-atendimento ou ligue para o SAMU (192).

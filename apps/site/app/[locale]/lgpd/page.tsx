@@ -24,7 +24,7 @@ export default async function LGPDHubPage({ params }: { params: Promise<{ locale
     {
       href: '/termos',
       title: 'Termos de Uso',
-      description: 'Condições para uso do site e do Escore Plenya Light.',
+      description: 'Condições para uso do site e da Avaliação Inicial de Saúde Plenya.',
       meta: `Versão ${TERMS_VERSION}`,
     },
     {
