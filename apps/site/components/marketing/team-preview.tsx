@@ -1,10 +1,10 @@
-import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
+import { DoctorPortraits } from '@/components/team/doctor-portraits';
 
-export function TeamPreview() {
-  const t = useTranslations('home');
-  const tCta = useTranslations('cta');
+export async function TeamPreview() {
+  const t = await getTranslations('home');
+  const tCta = await getTranslations('cta');
   return (
     <section className="bg-cream">
       <div className="site-container section grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center">
@@ -25,15 +25,10 @@ export function TeamPreview() {
             </Link>
           </div>
         </div>
-        <div className="relative w-full max-w-md lg:w-[380px] lg:max-w-none aspect-1064/1891 overflow-hidden bg-petrol/5">
-          <Image
-            src="/images/team/equipe-formal.jpg"
-            alt={t('teamLabel')}
-            fill
-            className="object-cover object-top"
-            sizes="(min-width: 1024px) 380px, 100vw"
-          />
-        </div>
+        <DoctorPortraits
+          className="w-full max-w-md lg:w-[420px] lg:max-w-none text-petrol"
+          sizes="(min-width: 1024px) 210px, 50vw"
+        />
       </div>
     </section>
   );

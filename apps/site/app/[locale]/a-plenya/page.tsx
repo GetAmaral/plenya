@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/lib/i18n/navigation';
 import { getAgirPillars } from '@plenya/brand';
 import { PlenyaInfinity } from '@plenya/brand/logo';
+import { DoctorPortraits } from '@/components/team/doctor-portraits';
 import { BookReferenceBlock } from '@/components/marketing/book-reference';
 
 type Params = Promise<{ locale: string }>;
@@ -113,15 +114,11 @@ export default async function AboutPage({ params }: { params: Params }) {
       <section className="bg-cream">
         <div className="site-container pt-12 md:pt-16">
           <figure className="space-y-4">
-            <div className="relative aspect-3/2 overflow-hidden">
-              <Image
-                src="/images/team/equipe-candid.jpg"
-                alt={t('teamCaption')}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 1120px, 100vw"
-              />
-            </div>
+            <DoctorPortraits
+              columns={4}
+              className="text-petrol"
+              sizes="(min-width: 768px) 280px, 50vw"
+            />
             <figcaption className="flex items-baseline gap-3 text-petrol/60 text-sm">
               <span className="label-upper text-gold">{t('teamCaptionLabel')}</span>
               <span>{t('teamCaption')}</span>

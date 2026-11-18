@@ -5,6 +5,7 @@ import { isLocale, defaultLocale } from '@/lib/i18n/config';
 import { Link } from '@/lib/i18n/navigation';
 import { getAllDoctors, localizedShortBio } from '@/lib/team';
 import { DoctorCard } from '@/components/team/doctor-card';
+import { DoctorPortraits } from '@/components/team/doctor-portraits';
 
 type Params = Promise<{ locale: string }>;
 
@@ -51,16 +52,10 @@ export default async function TeamPage({ params }: { params: Params }) {
             <p className="text-cream/80 text-lg mt-6 leading-relaxed">{t('heroP1')}</p>
             <p className="text-cream/60 mt-4 leading-relaxed">{t('heroP2')}</p>
           </div>
-          <div className="relative w-full max-w-md lg:w-[360px] lg:max-w-none aspect-1064/1891 overflow-hidden bg-petrol/40">
-            <Image
-              src="/images/team/equipe-formal.jpg"
-              alt={t('heroAlt')}
-              fill
-              priority
-              className="object-cover object-top"
-              sizes="(min-width: 1024px) 360px, 100vw"
-            />
-          </div>
+          <DoctorPortraits
+            className="w-full max-w-md lg:w-[400px] lg:max-w-none"
+            sizes="(min-width: 1024px) 200px, 50vw"
+          />
         </div>
       </section>
 
