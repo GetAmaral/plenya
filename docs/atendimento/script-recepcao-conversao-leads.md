@@ -30,7 +30,7 @@ Continuum nem fala valor dele**. A recepção agenda a consulta e deixa a porta 
 | Campo | Valor |
 |---|---|
 | Nome | Plenya |
-| Endereço de atendimento | Av. Ayrton Senna da Silva, 500, Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460 |
+| Endereço de atendimento | Av. Duque de Caxias, 1371, DaVita Londrina, Jardim Petrópolis, Londrina/PR, 86015-000 |
 | Telefone / WhatsApp | (43) 99974-8899 |
 | E-mail | contato@plenyasaude.com.br |
 | Site | plenyasaude.com.br |
@@ -594,8 +594,8 @@ Use para reconhecer o momento da pessoa e devolver com as palavras dela.
 
 > Para deixar ao lado do telefone.
 
-**Clínica:** Plenya · (43) 99974-8899 · Av. Ayrton Senna da Silva, 500, Torre Pietra, sala 1402, Gleba
-Palhano, Londrina/PR · Seg a sex, 8h às 18h · plenyasaude.com.br · @plenyaSaude
+**Clínica:** Plenya · (43) 99974-8899 · Av. Duque de Caxias, 1371, DaVita Londrina,
+Jardim Petrópolis, Londrina/PR · Seg a sex, 8h às 18h · plenyasaude.com.br · @plenyaSaude
 
 **Consulta:** particular, R$ 800,00 (à vista/Pix/cartão, antecipado, não negociável) · cerca de 60 min · presencial (Londrina) ou online · sem convênio
 (dedutível no IR) · trazer exames + lista de medicamentos.

@@ -73,8 +73,8 @@ Ecocardiograma transtorácico com Doppler
 Densitometria óssea (coluna lombar e fêmur)
 Tomografia computadorizada de tórax de baixa dose"""
 
-FOOTER_NAP = ("Plenya Saúde · Av. Ayrton Senna da Silva, 500, Edifício Torre Pietra, sala 1402, "
-              "Gleba Palhano, Londrina/PR · (43) 99974-8899 · plenyasaude.com.br")
+FOOTER_NAP = ("Plenya Saúde · Av. Duque de Caxias, 1371, DaVita Londrina, "
+              "Jardim Petrópolis, Londrina/PR · (43) 99974-8899 · plenyasaude.com.br")
 
 # --- Dados da assinatura digital (carimbo ICP-Brasil, padrão PAdES) ---
 SIGNED_AT  = "10/06/2026, 14:32 (horário de Brasília)"
@@ -250,8 +250,8 @@ def footer_nap():
     return ('<div class="nap">'
             '<div class="napcol"><b>Plenya Saúde</b>Plenya Serviços de Saúde Ltda.<br>'
             'CNPJ 66.991.259/0001-50</div>'
-            '<div class="napcol c"><b>Atendimento</b>Av. Ayrton Senna da Silva, 500<br>'
-            'Torre Pietra, sala 1402 · Gleba Palhano · Londrina/PR</div>'
+            '<div class="napcol c"><b>Atendimento</b>Av. Duque de Caxias, 1371<br>'
+            'DaVita Londrina · Jardim Petrópolis · Londrina/PR</div>'
             '<div class="napcol r"><b>Contato</b>(43) 99974-8899<br>'
             'contato@plenyasaude.com.br · plenyasaude.com.br</div>'
             '</div>')

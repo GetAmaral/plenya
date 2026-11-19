@@ -37,8 +37,8 @@ GRUPOS = [
     ("Urinálise", ["Urina tipo I (EAS)"]),
 ]
 
-FOOTER_NAP = ("Plenya Saúde · Av. Ayrton Senna da Silva, 500, Edifício Torre Pietra, sala 1402, "
-              "Gleba Palhano, Londrina/PR · (43) 99974-8899 · plenyasaude.com.br")
+FOOTER_NAP = ("Plenya Saúde · Av. Duque de Caxias, 1371, DaVita Londrina, "
+              "Jardim Petrópolis, Londrina/PR · (43) 99974-8899 · plenyasaude.com.br")
 ICP = "Documento assinado digitalmente com certificado ICP-Brasil."
 
 FONT_FACE = f"""

@@ -27,12 +27,12 @@ const clinics: Clinic[] = [
     descriptionEn:
       'Integrative functional medicine clinic with a multidisciplinary team. Continuum Plenya program — preventive health and longevity. In-person in Londrina or online via telemedicine.',
     url: 'https://plenyasaude.com.br',
-    street: 'Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402',
-    neighborhood: 'Gleba Palhano',
-    postalCode: '86050-460',
+    street: 'Av. Duque de Caxias, 1371 (DaVita Londrina)',
+    neighborhood: 'Jardim Petrópolis',
+    postalCode: '86015-000',
     city: 'Londrina',
     state: 'PR',
-    geo: { latitude: -23.3296924, longitude: -51.1779253 },
+    geo: { latitude: -23.3295081, longitude: -51.153403 },
     role: 'medicalDirector',
   },
   {

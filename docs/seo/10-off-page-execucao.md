@@ -4,7 +4,7 @@
 > (`brand.ts`, schemas, footer, `/contato`, `legal.ts`, `clinics-schema.tsx` do Getúlio).
 > Fonte canônica dos dados: [`01-NAP-master.md`](01-NAP-master.md). Auditoria de consistência
 > 2026-06-04: telefone `+55 43 99974-8899` idêntico em todos os arquivos; CEP de atendimento
-> `86050-460` só em NAP/atendimento; CEP fiscal `86058-100` só em `legal.ts`. Sem divergência.
+> `86015-000` só em NAP/atendimento; CEP fiscal `86058-100` só em `legal.ts`. Sem divergência.
 
 O que falta é **off-page** (listings + verificação) — exige você logado nas contas. Abaixo,
 separado por **quem faz**. Ordem pensada pelo caminho crítico (o que destrava mais primeiro).
@@ -14,7 +14,7 @@ separado por **quem faz**. Ordem pensada pelo caminho crítico (o que destrava m
 ## Dados canônicos para copiar (de `01-NAP-master.md`)
 
 - **Nome:** Plenya Saúde · **Razão social:** Plenya Serviços de Saúde Ltda. · **CNPJ:** 66.991.259/0001-50
-- **Endereço de atendimento (NAP):** Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460
+- **Endereço de atendimento (NAP):** Av. Duque de Caxias, 1371, DaVita Londrina, Jardim Petrópolis, Londrina/PR, 86015-000
 - **Geo:** -23.3296924, -51.1779253
 - **Telefone/WhatsApp:** +55 43 99974-8899 · **Email:** contato@plenyasaude.com.br
 - **Horário:** Seg a sex, 8h às 18h · **Site:** https://plenyasaude.com.br · **IG:** @plenyaSaude

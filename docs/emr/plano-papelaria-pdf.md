@@ -95,7 +95,7 @@ própria RDC 1.000/2025** para fixar os campos por tipo (não chutar o detalhe f
 
 ## 8. NAP (rodapé) — dados reais
 - **Plenya Serviços de Saúde Ltda.** · CNPJ 66.991.259/0001-50
-- Atendimento: Av. Ayrton Senna da Silva, 500, Ed. Torre Pietra, sala 1402, Gleba Palhano,
+- Atendimento: Av. Duque de Caxias, 1371, DaVita Londrina, Jardim Petrópolis,
   Londrina/PR · (43) 99974-8899 · contato@plenyasaude.com.br · plenyasaude.com.br
 - Recibo usa o **endereço fiscal** (Av. Gil de Abreu e Souza, 2335 — Esperança).
 

@@ -21,7 +21,7 @@
 | **Categorias secundárias** | Nefrologia · Medicina preventiva · Longevidade |
 | **CNPJ** | 66.991.259/0001-50 |
 | **Endereço sede (CNPJ/fiscal)** | Av. Gil de Abreu e Souza, 2335, Casa 634 — Bairro Esperança, Londrina/PR, 86058-100. Uso APENAS legal (LGPD/termos, controlador). NUNCA em SEO local. |
-| **Endereço de atendimento (NAP)** | Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460 (Clínica Cronos). NAP canônico: IDÊNTICO em GBP, Doctoralia, schema `address`+`geo`, footer, /contato. **Geo:** -23.3296924, -51.1779253 (Nominatim/OSM, prédio Condomínio Torre Pietra). |
+| **Endereço de atendimento (NAP)** | Av. Duque de Caxias, 1371, DaVita Londrina, Jardim Petrópolis, Londrina/PR, 86015-000 (desde 2026-11). NAP canônico: IDÊNTICO em GBP, Doctoralia, schema `address`+`geo`, footer, /contato. **Geo:** -23.3295081, -51.153403 (Nominatim/OSM, nó da clínica DaVita). |
 | **Telefone fixo** | +55 43 99974-8899 (mesmo número do WhatsApp — fixo e WhatsApp juntos) |
 | **WhatsApp** | +55 43 99974-8899 |
 | **Email** | contato@plenyasaude.com.br |

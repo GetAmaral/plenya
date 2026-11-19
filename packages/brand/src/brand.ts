@@ -20,15 +20,15 @@ export const brand = {
    * (`apps/site/lib/legal.ts` → controllerAddress).
    */
   address: {
-    street: 'Av. Ayrton Senna da Silva, 500',
-    complement: 'Edifício Torre Pietra, sala 1402 (Clínica Cronos)',
-    neighborhood: 'Gleba Palhano',
+    street: 'Av. Duque de Caxias, 1371',
+    complement: 'DaVita Londrina',
+    neighborhood: 'Jardim Petrópolis',
     city: 'Londrina',
     state: 'PR',
-    postalCode: '86050-460',
+    postalCode: '86015-000',
     country: 'BR',
-    geo: { latitude: -23.3296924, longitude: -51.1779253 },
-    full: 'Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460',
+    geo: { latitude: -23.3295081, longitude: -51.153403 },
+    full: 'Av. Duque de Caxias, 1371, DaVita Londrina, Jardim Petrópolis, Londrina/PR, 86015-000',
   },
   social: {
     instagram: 'https://instagram.com/plenyaSaude',

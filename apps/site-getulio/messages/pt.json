@@ -20,7 +20,7 @@
     "contact": "Contato",
     "clinicLabel": "(clínica)",
     "whatsapp": "WhatsApp (43) 99974-8899",
-    "plenyaAddress": "Plenya · Av. Ayrton Senna da Silva, 500 — Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR",
+    "plenyaAddress": "Plenya · Av. Duque de Caxias, 1371, na DaVita Londrina, Jardim Petrópolis, Londrina/PR",
     "disclaimer": "© {year} · Conteúdo educativo. Não substitui consulta médica.",
     "menuAriaOpen": "Menu",
     "menuAriaClose": "Fechar menu"
@@ -217,7 +217,7 @@
     "faq": [
       {
         "q": "Onde o Dr. Getúlio atende?",
-        "a": "<p>Atendo em Londrina/PR em três frentes:</p><p><strong>Consulta ambulatorial:</strong> Plenya (medicina funcional integrativa, preventiva e longevidade — Av. Ayrton Senna da Silva, 500, Edifício Torre Pietra, sala 1402, Gleba Palhano) e Nefroclínica Londrina (nefrologia clínica, principais doenças renais e transplante renal — Av. Duque de Caxias, 1371, Jardim Petrópolis).</p><p><strong>Atendimento hospitalar de nefrologia:</strong> pareceres e seguimento de pacientes internados na Santa Casa de Londrina (Rua Espírito Santo, 523 — Centro), Hospital Araucária (Rua Campo Grande, 211 — Jardim Colina Verde) e Hospital Unimed Londrina (Av. dos Expedicionários, 750 — zona sul, próximo ao Jardim Botânico).</p><p><strong>Hemodiálise:</strong> responsável técnico da DaVita Intra Hospitalar Londrina (hemodiálise hospitalar) e médico nefrologista da DaVita Londrina (hemodiálise ambulatorial e diálise peritoneal — Av. Duque de Caxias, 1371).</p>"
+        "a": "<p>Atendo em Londrina/PR em três frentes:</p><p><strong>Consulta ambulatorial:</strong> Plenya (medicina funcional integrativa, preventiva e longevidade, na DaVita Londrina, Av. Duque de Caxias, 1371, Jardim Petrópolis) e Nefroclínica Londrina (nefrologia clínica, principais doenças renais e transplante renal — Av. Duque de Caxias, 1371, Jardim Petrópolis).</p><p><strong>Atendimento hospitalar de nefrologia:</strong> pareceres e seguimento de pacientes internados na Santa Casa de Londrina (Rua Espírito Santo, 523 — Centro), Hospital Araucária (Rua Campo Grande, 211 — Jardim Colina Verde) e Hospital Unimed Londrina (Av. dos Expedicionários, 750 — zona sul, próximo ao Jardim Botânico).</p><p><strong>Hemodiálise:</strong> responsável técnico da DaVita Intra Hospitalar Londrina (hemodiálise hospitalar) e médico nefrologista da DaVita Londrina (hemodiálise ambulatorial e diálise peritoneal — Av. Duque de Caxias, 1371).</p>"
       },
       {
         "q": "Qual a especialidade do Dr. Getúlio?",
@@ -347,8 +347,8 @@
         "role": "Direção clínica",
         "tagline": "Para longevidade, prevenção e medicina funcional · presencial ou online",
         "body": "Programa de saúde preventiva e longevidade. Medicina funcional integrativa com forte ênfase em nutrologia, suplementação inteligente, performance e leitura de biomarcadores avançados. Equipe multidisciplinar (médico, nutricionista, psicóloga, educador físico) trabalhando o mesmo paciente sob o mesmo plano. Atendimento presencial em Londrina ou online por telemedicina, com a mesma profundidade clínica. Aqui eu atuo como médico-gestor da sua saúde — articulando o cuidado entre a equipe Plenya e os profissionais que você já consulta fora da clínica.",
-        "address": "Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402 · Gleba Palhano · Londrina/PR · 86050-460 (Clínica Cronos)",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=-23.3296924,-51.1779253",
+        "address": "Av. Duque de Caxias, 1371 · DaVita Londrina · Jardim Petrópolis · Londrina/PR · 86015-000",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=-23.3295081,-51.153403",
         "whatsappUrl": "https://wa.me/5543999748899",
         "whatsappLabel": "+55 43 99974-8899",
         "siteUrl": "https://plenyasaude.com.br",
@@ -450,7 +450,7 @@
     "labelPlenya": "Plenya · longevidade",
     "labelNefroclinica": "Nefroclínica · nefrologia",
     "localKicker": "Atendimento Plenya",
-    "localValue": "Av. Ayrton Senna da Silva, 500 — Edifício Torre Pietra, sala 1402, Gleba Palhano, Londrina/PR, 86050-460 (Clínica Cronos)"
+    "localValue": "Av. Duque de Caxias, 1371, DaVita Londrina, Jardim Petrópolis, Londrina/PR, 86015-000"
   },
   "escritos": {
     "metaTitle": "Artigos",

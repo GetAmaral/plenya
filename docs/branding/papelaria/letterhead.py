@@ -35,8 +35,8 @@ SYM_H    = 44.0   # altura do símbolo P∞ = altura total do conjunto (medida e
 # ---- NAP real (fonte: render-final.py / docs de marca) ----
 NAP_JURIDICA = ("<b>Plenya Saúde</b>Plenya Serviços de Saúde Ltda.<br>"
                 "CNPJ 66.991.259/0001-50")
-NAP_ENDERECO = ("<b>Atendimento</b>Av. Ayrton Senna da Silva, 500<br>"
-                "Torre Pietra, sala 1402<br>Gleba Palhano · Londrina/PR")
+NAP_ENDERECO = ("<b>Atendimento</b>Av. Duque de Caxias, 1371<br>"
+                "DaVita Londrina<br>Jardim Petrópolis · Londrina/PR")
 NAP_CONTATO  = ("<b>Contato</b>(43) 99974-8899<br>"
                 "contato@plenyasaude.com.br<br>plenyasaude.com.br")
 

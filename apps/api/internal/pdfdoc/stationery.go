@@ -12,8 +12,8 @@ import (
 type Clinic struct {
 	LegalName   string // "Plenya Serviços de Saúde Ltda."
 	CNPJ        string // "66.991.259/0001-50"
-	AddressLine string // "Av. Ayrton Senna da Silva, 500"
-	AddressCont string // "Torre Pietra, sala 1402 · Gleba Palhano · Londrina/PR"
+	AddressLine string // "Av. Duque de Caxias, 1371"
+	AddressCont string // "DaVita Londrina · Jardim Petrópolis · Londrina/PR"
 	Phone       string // "(43) 99974-8899"
 	Email       string // "contato@plenyasaude.com.br"
 	Site        string // "plenyasaude.com.br"
@@ -24,8 +24,8 @@ func DefaultClinic() Clinic {
 	return Clinic{
 		LegalName:   "Plenya Serviços de Saúde Ltda.",
 		CNPJ:        "66.991.259/0001-50",
-		AddressLine: "Av. Ayrton Senna da Silva, 500",
-		AddressCont: "Torre Pietra, sala 1402 · Gleba Palhano · Londrina/PR",
+		AddressLine: "Av. Duque de Caxias, 1371",
+		AddressCont: "DaVita Londrina · Jardim Petrópolis · Londrina/PR",
 		Phone:       "(43) 99974-8899",
 		Email:       "contato@plenyasaude.com.br",
 		Site:        "plenyasaude.com.br",

@@ -29,7 +29,7 @@ export function MedicalClinicSchema({ locale = 'pt' }: { locale?: string } = {})
     medicalSpecialty: ['FunctionalMedicine', 'PreventiveMedicine', 'Nephrology', 'InternalMedicine'],
     address: {
       '@type': 'PostalAddress',
-      streetAddress: `${brand.address.street} — ${brand.address.complement}`,
+      streetAddress: `${brand.address.street}, ${brand.address.complement}`,
       addressLocality: brand.address.city,
       addressRegion: brand.address.state,
       postalCode: brand.address.postalCode,
